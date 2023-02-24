@@ -1,8 +1,8 @@
 import { Button } from '@nextui-org/react';
-import { MtvDb } from '@/lib/mtv-db';
+// import { MtvDb } from '@/lib/mtv-db';
 import { ethers } from 'ethers';
 import EthCrypto from 'eth-crypto';
-
+import * as ethUtil from 'ethereumjs-util';
 export default function Test() {
   const start = async () => {
     // const privateKey =
@@ -15,9 +15,23 @@ export default function Test() {
       ],
     );
     console.log(signHash);
-    const privateKey = '0x78831134a715e9a75a09d0066dc0ed69f0422a778f1acb28623c1398820f8c9b'
-    const signMessage = EthCrypto.sign(privateKey, signHash)
+    const privateKey =
+      '0x78831134a715e9a75a09d0066dc0ed69f0422a778f1acb28623c1398820f8c9b';
+    const signMessage = EthCrypto.sign(privateKey, signHash);
     console.log(signMessage);
+
+    var message = ethUtil.toBuffer(
+      '0x5c821001A235D51b09b73D5fB009e30A474C5388',
+    );
+    var msgHash = ethUtil.hashPersonalMessage(message);
+
+    var privateHexKey = new Buffer(
+      '78831134a715e9a75a09d0066dc0ed69f0422a778f1acb28623c1398820f8c9b',
+      'hex',
+    );
+    var sig = ethUtil.ecsign(msgHash, privateHexKey);
+    console.log(sig);
+    // const signer = new ethers.Singer()
     // const mtvdb = new MtvDb();
     // await mtvdb.createInstance(privateKey, '');
     // const value001 = {
