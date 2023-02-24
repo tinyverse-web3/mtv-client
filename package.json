@@ -62,7 +62,6 @@
     "vite-plugin-mkcert": "^1.13.2"
   },
   "browser": {
-    "fs": false,
-    "path": false
+    "fs": false
   }
 }
