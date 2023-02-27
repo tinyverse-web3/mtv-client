@@ -52,17 +52,16 @@ export default defineConfig({
   },
   optimizeDeps: {
     esbuildOptions: {
-      // Node.js global to browser globalThis
-      define: {
-        global: 'globalThis',
-      },
-      // Enable esbuild polyfill plugins
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-          process: false,
-        }),
-      ],
-    },
-  },
+        // Node.js global to browser globalThis
+        define: {
+            global: 'globalThis'
+        },
+        // Enable esbuild polyfill plugins
+        // plugins: [
+        //     NodeGlobalsPolyfillPlugin({
+        //         buffer: true
+        //     })
+        // ]
+    }
+}
 });

@@ -1,12 +1,12 @@
-//'import  { create } from 'ipfs-http-client'
+import * as ipfsHttp from 'ipfs-http-client'
 import OrbitDB from 'orbit-db';
 import axios from 'axios';
 import * as IPFS from 'ipfs';
 import { config } from './config'
 import { Logger } from 'tslog';
-import { keys, PrivateKey, PublicKey, aes } from 'libp2p-crypto'
+import { keys, PrivateKey, PublicKey, aes } from 'libp2p-crypto';
 import * as Name from 'w3name';
-import ipfsLog from 'ipfs-log';
+import ipfsLog, { } from 'ipfs-log';
 
 const logger = new Logger({ name: 'mtvDb' });
 
@@ -41,7 +41,7 @@ export class MtvDb {
         this.userPrivateKey = privKey;
         this.userPublicKey = privKey.public;
         this.userPublicKeyStr = Buffer.from(this.userPublicKey.bytes).toString('hex')
-        this.dbName = 'mtv' + '.kv'; // default db name, mtv is app name and kv is db type for keyvalue
+        this.dbName = 'mtv_kv'; // default db name, mtv is app name and kv is db type for keyvalue
         this.metadataKey = metadataKey;
         if(this.metadataKey != ''){
             this.isNew = false;
@@ -70,34 +70,39 @@ export class MtvDb {
 
     public async initKvDb(){
         await this.initIpfs(config.ipfs.create_option);
-        await this.initOrbitDB(this.userPublicKeyStr);
-        if(!this.isNew){
-            this.metadataCid = await this.getMetaCidByKey(this.metadataKey);
-            this.metadata = await this.downloadMetaData(this.metadataCid);
-            this.metadataRecord =  this.metadata[this.dbAddress];
-            this.dbAddress = this.metadataRecord.db_address;
-            this.dbSnapshortCid = this.metadataRecord.db_cid;
-        };
+        await this.initOrbitDB();
         if(!this.isNew && (this.dbAddress == '')){
-            logger.error('db address is null, please check')
-            throw new Error('db address is null, please check');
-            
+            logger.warn('db address is null, need to restore whole db data')
+            await this.getMetaData(this.metadataKey);
+            this.metadataRecord =  this.metadata[this.dbName];
+            this.dbSnapshortCid = this.metadataRecord.db_cid;
+            //this.dbAddress = this.metadataRecord.db_address;
+            this.kvdb = await this.getKvDb(this.dbAddress);
+            await this.mergeDbLog(this.kvdb, this.dbSnapshortCid);
+        }else{
+            this.kvdb = await this.getKvDb(this.dbAddress);
         }
-        this.kvdb = await this.getKvDb(this.dbAddress);
+        this.dbAddress = this.kvdb.id;
         await this.kvdb.load();
         if(!this.isNew && (this.dbAddress !=  this.kvdb.id)){
             throw new Error("The local db address is not equal to metadata's db address, please chekc!");
         }
-        this.dbAddress = this.kvdb.id;
-        if(!this.isNew && (this.kvdb._oplog.length <= 0)){
-            await this.mergeDbLog(this.dbSnapshortCid)
-        }
+        // if(!this.isNew && (this.kvdb._oplog.length <= 1)){ //data is loast need to restore db
+        //     await this.restoreWholeDb(this.kvdb, this.metadataKey, this.dbName);
+        // }
     }
+
+
+    public async getMetaData(metadataKey: string){
+        this.metadataCid = await this.getMetaCidByKey(this.metadataKey);
+        this.metadata = await this.downloadMetaData(this.metadataCid);
+    }
+
 
     public async put(key: string, value: string){
         // const encryptData = await this.crypt.encrypt(Buffer.from(value, 'utf-8'))
         // return this.kvdb.put(key, encryptData);
-        return await this.kvdb.put(key, value);
+        return await this.kvdb.put(key, value, { pin: true });
     } 
 
     public async get(key: string) {
@@ -136,27 +141,27 @@ export class MtvDb {
         }
     }
 
-    private async mergeDbLog(dbSnapshotCid: string){
+    private async mergeDbLog(newDbInstrance:any, dbSnapshotCid: string){
         const snapshotData = await this.downloadFileFromPinata(dbSnapshotCid);
-        const kvdbLog = await ipfsLog.fromJSON(this.ipfs, this.kvdb.identity, snapshotData, {
+        const kvdbLog = await ipfsLog.fromJSON(this.ipfs, this.orbitdb.identity, snapshotData, { 
             length: -1,
-            timeout: 100000
-          })
-        await this.kvdb._oplog.join(kvdbLog)
-        await this.kvdb._updateIndex()
-        await this.kvdb.load()
+            timeout: 1000
+        })
+        //const kvdbLog = await ipfsLog.fromEntry(this.ipfs, this.orbitdb.identity, snapshotData.heads)
+        await newDbInstrance._oplog.join(kvdbLog)
+        await newDbInstrance._updateIndex()
     }
 
     private async initIpfs(option = {}){
         logger.info('Init the ipfs instance');
         this.ipfs = await IPFS.create(option);
-        const identity = await this.ipfs.id();
-        logger.info("ipfs id: " + identity.string);
+        //this.ipfs = await ipfsHttp.create(config.ipfs.node_address);
+        // const identity = await this.ipfs.id();
+        // logger.info("ipfs id: " + identity.string);
     }
     
-    private async initOrbitDB(dbId: string) {
+    private async initOrbitDB() {
         logger.info('Init the OrbitDB instance');
-        config.orbitdb.peeerId = dbId;
         this.orbitdb = await OrbitDB.createInstance(this.ipfs, config.orbitdb)
     }
 
@@ -172,7 +177,7 @@ export class MtvDb {
         try{
             metadataContent = await this.downloadFileFromPinata(metadataCid);
         }catch(err){
-            setTimeout("pause for next download", 1000);
+            //setTimeout("pause for next download", 1000);
             //retry one time
             logger.warn('download again')
             metadataContent = await this.downloadFileFromPinata(metadataCid);
@@ -185,7 +190,11 @@ export class MtvDb {
         const name = new Name.WritableName(privateKey);
         this.w3name = name;
         const revision = await Name.v0(name, pubKeyStr);// inita the ipns key
+        try{
         await Name.publish(revision, name.key);
+        }catch (err){
+            logger.warn('inpns name init error: ' + (err as Error).message)
+        }
         this.metadataKey = name.toString()
         logger.info('created new name: ', name.toString())
     }
@@ -203,12 +212,21 @@ export class MtvDb {
             overwrite: false,
             type: 'keyvalue', //default for keyvalue db
             accessController: { write: [ '*' ] },
-            meta: { db_id: this.orbitdb.identity.id }
+            meta: { orbitdb_id: this.orbitdb.identity.id },
         }
-        if(this.isNew && this.dbAddress == ''){ // For new users who do not have a database at initialization time, a default database name will be set for to create operate
+        if(this.isNew || this.dbAddress == ''){ // For new users who do not have a database at initialization time, a default database name will be set for to create operate
             address = this.dbName;
         }
-        const db =  await this.orbitdb.open(address, dbOption);
+        let db;
+        try{
+            db =  await this.orbitdb.open(address, dbOption);
+        }catch(err){
+            logger.warn('open db again')
+            db =  await this.orbitdb.open(address, dbOption);
+        }
+        if(this.isNew){
+            db.put('k0', new Date().toString(), { pin: true });
+        }
         return db;
     }
 
@@ -227,7 +245,7 @@ export class MtvDb {
             'db_cid': dbSnapshotCid, //ipfs cid
             'status': 'update'
         }
-        metadata[ dbAddress ] =  updateRecord;
+        metadata[ dbName ] =  updateRecord;
         const newMetaCid = await this.uploadMetaFileToPinata(metadata);
         const newMetaDtaInof = {
             'cid': newMetaCid,
