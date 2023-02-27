@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import { router } from './router';
 import { lightTheme, darkTheme } from './layout';
 import { LoginModal } from '@/components/LoginModal';
-import { WalletCheck } from '@/components/LaunchCheck';
+
 import { useNostrStore } from './store';
 import { useEffect } from 'react';
 export default function App() {
@@ -50,13 +50,13 @@ export default function App() {
       }}>
       <NextUIProvider>
         <div className='max-w-md px-4 mx-auto h-screen md:h-800px max-h-800px overflow-y-auto'>
-          <LoginModal />
+        <LoginModal />
           <Toaster
             position='top-center'
             reverseOrder={false}
             toastOptions={{ duration: 2000 }}
           />
-          <WalletCheck />
+          
           <RouterProvider router={router}></RouterProvider>
         </div>
       </NextUIProvider>

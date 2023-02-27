@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import {NodeGlobalsPolyfillPlugin} from '@esbuild-plugins/node-globals-polyfill';
+// import GlobalPolyFill from "@esbuild-plugins/node-globals-polyfill";
 import react from '@vitejs/plugin-react-swc';
 import UnoCSS from '@unocss/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
@@ -8,6 +9,8 @@ import presetUno from '@unocss/preset-uno';
 import presetIcons from '@unocss/preset-icons';
 import path from 'path';
 import builtins from 'rollup-plugin-node-builtins';
+import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
+import inject from '@rollup/plugin-inject'
 
 const builtinsPlugin = builtins({ crypto: true });
 builtinsPlugin.name = 'builtins';
@@ -46,9 +49,9 @@ export default defineConfig({
     },
   },
   build: {
-    // rollupOptions: {
-    //   plugins: [builtinsPlugin],
-    // },
+    rollupOptions: {
+      plugins: [builtinsPlugin],
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -58,10 +61,7 @@ export default defineConfig({
       },
       // Enable esbuild polyfill plugins
       plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-          process: false,
-        }),
+        // NodeGlobalsPolyfillPlugin(),
       ],
     },
   },
