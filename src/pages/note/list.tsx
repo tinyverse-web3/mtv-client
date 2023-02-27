@@ -1,6 +1,7 @@
+import { useMemo} from 'react';
 import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useNoteStore } from '@/store';
+import { useNoteStore, useWalletStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
 
@@ -20,6 +21,7 @@ export default function NoteList() {
     e.stopPropagation();
     await remove(id);
   };
+  
   return (
     <Page title="记事本">
       <div className='py-6'>

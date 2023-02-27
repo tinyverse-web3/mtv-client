@@ -4,13 +4,22 @@ import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { ROUTE_PATH } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 import { useWalletStore } from '@/store';
+import { useMtvdbStore } from '@/store';
 
 const stay_path = ['home', 'note', 'account', 'chat', 'test'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();
   const setWallet = useWalletStore((state) => state.setWallet);
+  const initDb = useMtvdbStore((state) => state.init);
+  const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const [loading, setLoadng] = useState(false);
+  const launchWallet = async (wallet: any) => {
+    const { privateKey } = wallet?.wallet || {};
+    if (privateKey) {
+      await initDb(privateKey)
+    }
+  };
   const checkStatus = async () => {
     setLoadng(true);
     const status = await wallet?.check();
@@ -30,6 +39,7 @@ export const WalletCheck = () => {
       // redirect('/home');
       const { pathname } = location;
       setWallet(wallet);
+      await launchWallet(wallet);
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_PATH.HOME);
       }
@@ -38,6 +48,9 @@ export const WalletCheck = () => {
   useEffect(() => {
     checkStatus();
   }, []);
+  useEffect(() => {
+    // return mtvDb.closeDb();
+  }, [wallet]);
   return (
     <>
       {loading ? (
