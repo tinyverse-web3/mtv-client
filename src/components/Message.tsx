@@ -8,13 +8,14 @@ export const Message = ({ recipient }: any) => {
   const { publish } = useNostr();
   const preMssages = useRef<any[]>([]);
   const user = useGlobalStore((state) => state.userInfo);
+  const nostr = useGlobalStore((state) => state.nostr);
   const { messages, appendMsg, prependMsgs, resetList } = useMessages(
     preMssages.current,
   );
   const { events: sentByMe } = useNostrEvents({
     filter: {
       kinds: [4],
-      authors: [user?.nostr?.pk as string],
+      authors: [nostr?.pk as string],
       '#p': [recipient?.pk as string],
     },
   });
@@ -22,7 +23,7 @@ export const Message = ({ recipient }: any) => {
     filter: {
       kinds: [4],
       authors: [recipient?.pk as string],
-      '#p': [user?.nostr?.pk as string],
+      '#p': [nostr?.pk as string],
     },
   });
   const decryptMessmage = async (events: any[]) => {
@@ -32,7 +33,7 @@ export const Message = ({ recipient }: any) => {
       const event = events[i];
       // console.log(event);
       const text = await nip04.decrypt(
-        user?.nostr?.sk as string,
+        nostr?.sk as string,
         recipient.pk,
         event.content,
       );
@@ -80,20 +81,20 @@ export const Message = ({ recipient }: any) => {
   async function handleSend(type: string, val: string) {
     if (type === 'text' && val.trim()) {
       let ciphertext = await nip04.encrypt(
-        user?.nostr?.sk as string,
+        nostr?.sk as string,
         recipient.pk,
         val,
       );
 
       let event: any = {
         kind: 4,
-        pubkey: user?.nostr?.pk as string,
+        pubkey: nostr?.pk as string,
         created_at: dateToUnix(),
         tags: [['p', recipient.pk]],
         content: ciphertext,
       };
       event.id = getEventHash(event);
-      event.sig = signEvent(event, user?.nostr?.sk as string);
+      event.sig = signEvent(event, nostr?.sk as string);
       console.log(event);
       publish(event);
       // appendMsg({

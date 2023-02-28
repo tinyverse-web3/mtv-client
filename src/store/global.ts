@@ -4,28 +4,32 @@ import { generateKeys } from '@/lib/utils/generateKeys';
 
 interface UserInfo {
   email?: string;
-  nostr?: {
-    pk: string;
-    sk: string;
-  };
   mtvdb?: {
     dbAddress?: string;
     metadataKey?: string;
   };
 }
 
+interface NostrInfo {
+  pk: string;
+  sk: string;
+}
 interface GlobalState {
   isLogin: boolean;
   showLogin: boolean;
+  checkLoading: boolean;
   token: string;
   maintain: boolean;
   userInfo: UserInfo;
+  nostr?: NostrInfo;
   logout: () => void;
   setUserInfo: (UserInfo: UserInfo) => void;
   setToken: (token: string) => void;
   setShowLogin: (visibly: boolean) => void;
+  setCheckLoading: (visibly: boolean) => void;
   setMaintain: (status: boolean) => void;
-  generateUser: () => void;
+  setNostr: (n: NostrInfo) => void;
+  createNostr: () => NostrInfo;
   setMtvdbToUser: (dbAddress?: string, metadataKey?: string) => void;
 }
 
@@ -36,12 +40,12 @@ export const useGlobalStore = create<GlobalState>()(
         isLogin: false,
         showLogin: false,
         maintain: false,
+        checkLoading: true,
         userInfo: {
           mtvdb: {},
         },
         token: '',
         setUserInfo: (v) => {
-          console.log(v);
           const _user = get().userInfo;
           set(() => ({ userInfo: { ..._user, ...v } }));
         },
@@ -50,9 +54,15 @@ export const useGlobalStore = create<GlobalState>()(
           set(() => ({ token: '', isLogin: false, showLogin: true })),
         setToken: (v) => set({ token: v, isLogin: true, showLogin: false }),
         setMaintain: (v) => set(() => ({ maintain: v })),
-        generateUser: () => {
+        setCheckLoading: (v) => set(() => ({ checkLoading: v })),
+        createNostr: () => {
           const user = generateKeys();
-          set({ userInfo: { ...get().userInfo, nostr: user } });
+          set({ nostr: user });
+          return user;
+        },
+        setNostr: () => {
+          const user = generateKeys();
+          set({ nostr: user });
         },
         setMtvdbToUser: (dbAddress, metadataKey) => {
           set({
@@ -62,6 +72,10 @@ export const useGlobalStore = create<GlobalState>()(
       }),
       {
         name: 'global-store',
+        partialize: (state) =>
+          Object.fromEntries(
+            Object.entries(state).filter(([key]) => !['nostr'].includes(key)),
+          ),
       },
     ),
   ),

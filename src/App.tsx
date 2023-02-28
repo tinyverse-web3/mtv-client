@@ -7,11 +7,12 @@ import { Toaster } from 'react-hot-toast';
 import { router } from './router';
 import { lightTheme, darkTheme } from './layout';
 import { LoginModal } from '@/components/LoginModal';
-
-import { useNostrStore } from './store';
+import { WalletCheck } from '@/components/LaunchCheck';
+import { useNostrStore, useGlobalStore } from './store';
 import { useEffect } from 'react';
 export default function App() {
   const initRelayList = useNostrStore((state) => state.initRelayList);
+  const loading = useGlobalStore((state) => state.checkLoading);
   useEffect(() => {
     initRelayList([
       {
@@ -50,14 +51,15 @@ export default function App() {
       }}>
       <NextUIProvider>
         <div className='max-w-md px-4 mx-auto h-screen md:h-800px max-h-800px overflow-y-auto'>
-        <LoginModal />
+          <LoginModal />
+          <WalletCheck />
           <Toaster
             position='top-center'
             reverseOrder={false}
             toastOptions={{ duration: 2000 }}
           />
-          
-          <RouterProvider router={router}></RouterProvider>
+
+          {!loading && <RouterProvider router={router}></RouterProvider>}
         </div>
       </NextUIProvider>
     </NextThemesProvider>

@@ -9,10 +9,11 @@ export const MessageBox = ({ recipient }: any) => {
   const { publish } = useNostr();
   const [list, { push }] = useList<any[]>([]);
   const user = useGlobalStore((state) => state.userInfo);
+  const nostr = useGlobalStore((state) => state.nostr);
   const { events: sentByMe } = useNostrEvents({
     filter: {
       kinds: [4],
-      authors: [user?.nostr?.pk as string],
+      authors: [nostr?.pk as string],
       '#p': [recipient?.pk as string],
     },
   });
@@ -20,7 +21,7 @@ export const MessageBox = ({ recipient }: any) => {
     filter: {
       kinds: [4],
       authors: [recipient?.pk as string],
-      '#p': [user?.nostr?.pk as string],
+      '#p': [nostr?.pk as string],
     },
   });
   const decryptMessmage = async (events: any[]) => {
@@ -28,12 +29,12 @@ export const MessageBox = ({ recipient }: any) => {
     for (let i = 0; i < events.length; i++) {
       const event = events[i];
       const text = await nip04.decrypt(
-        user?.nostr?.sk as string,
+        nostr?.sk as string,
         recipient.pk,
         event.content,
       );
       if (list.find((v: any) => v?.id === event.id)) continue;
-      const meStatus = event.pubkey === user?.nostr?.pk;
+      const meStatus = event.pubkey === nostr?.pk;
       push({
         ...event,
         me: meStatus,
@@ -49,7 +50,7 @@ export const MessageBox = ({ recipient }: any) => {
     decryptMessmage(messages);
   }, [sentByMe, sentToMe]);
   const sendHandler = async (val: string) => {
-    const { sk, pk } = user?.nostr || {};
+    const { sk, pk } = nostr || {};
     if (val.trim()) {
       let ciphertext = await nip04.encrypt(sk as string, recipient.pk, val);
 
