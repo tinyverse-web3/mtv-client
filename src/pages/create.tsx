@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Text, Container, Row, Button, Input } from '@nextui-org/react';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { validPassword } from '@/lib/utils';
-import { useWalletStore } from '@/store';
+import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 
 import Page from '@/layout/page';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,9 @@ export default function About() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
+  const createMtvdb = useMtvdbStore((state) => state.create);
+  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const userInfo = useGlobalStore((state) => state.userInfo);
   const [confirmPwd, setPwdChange] = useState('');
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
@@ -22,6 +25,14 @@ export default function About() {
       return;
     }
     await wallet.createWallet(pwd);
+    const { privateKey } = wallet.wallet || {};
+    if (privateKey) {
+      const { dbAddress, metadataKey } = await createMtvdb(privateKey);
+      if (dbAddress && metadataKey) {
+        setMtvdbToUser(dbAddress, metadataKey);
+      }
+      console.log(userInfo);
+    }
     setWallet(wallet);
     nav('/home', { replace: true });
   };

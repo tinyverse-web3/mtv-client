@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { Button, Modal, Text, Card, Row, Input } from '@nextui-org/react';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useWalletStore } from '@/store';
 import { validEmail } from '@/lib/utils';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
@@ -9,33 +9,67 @@ export const LoginModal = () => {
   const showLogin = useGlobalStore((state) => state.showLogin);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const userInfo = useGlobalStore((state) => state.userInfo);
+  const wallet = useWalletStore((state) => state.wallet);
   const token = useGlobalStore((state) => state.token);
   const setToken = useGlobalStore((state) => state.setToken);
-  const [email, setEmail] = useState('ygz14835187@163.com');
-  const [verifyCode, setVerifyCode] = useState('652077');
+  const [email, setEmail] = useState('');
+  const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
+  const query = useMemo(() => {
+    return {
+      publicKey: wallet?.wallet?.publicKey,
+      address: wallet?.wallet?.address,
+      ipns: userInfo.mtvdb?.metadataKey,
+      dbAddress: userInfo.mtvdb?.dbAddress,
+    };
+  }, [wallet, userInfo]);
+  const { mutate: modifyuser } = useRequest({
+    url: '/user/modifyuser',
+    arg: {
+      method: 'post',
+      auth: true,
+      query,
+    },
+  });
+  const { mutate: getuserinfo } = useRequest(
+    {
+      url: '/user/getuserinfo',
+      arg: { method: 'get', auth: true },
+    },
+    {
+      onSuccess: (res) => {
+        setUserInfo({ mtvdb: { dbAddress: res.data.dbAddress } });
+      },
+    },
+  );
+
   const loginSucess = async (res: any) => {
     if (res.data) {
-      await setUserInfo({ email });
+      await setUserInfo({ email: res.data.email });
       await setToken(res.data);
-      console.log(res)
-      console.log(token)
-      console.log(123123);
+      console.log(query);
+      await modifyuser();
+      await getuserinfo();
     }
   };
-  const { trigger } = useRequest(
+  const { mutate } = useRequest(
     {
-      path: '/user/login',
-      method: 'post',
-      query: { email, confirmCode: verifyCode },
+      url: '/user/login',
+      arg: {
+        method: 'post',
+        query: { email, confirmCode: verifyCode },
+      },
     },
     { onSuccess: loginSucess },
   );
 
-  const { trigger: sendCode } = useRequest({
-    path: '/user/sendmail',
-    method: 'post',
-    query: { email },
+  const { mutate: sendCode } = useRequest({
+    url: '/user/sendmail',
+    arg: {
+      method: 'post',
+      query: { email },
+    },
   });
 
   const closeHandler = () => {
@@ -45,7 +79,7 @@ export const LoginModal = () => {
     if (!verifyCode) {
       console.log('没有验证码');
     }
-    await trigger();
+    await mutate();
   };
   const emailChange = (e: any) => {
     setEmail(e.target.value);
@@ -59,9 +93,7 @@ export const LoginModal = () => {
       await start();
     }
   };
-  const emailBlur = () => {
-    
-  }
+  const emailBlur = () => {};
   return (
     <Modal
       className='max-w-90% mx-auto'
@@ -80,7 +112,7 @@ export const LoginModal = () => {
           clearable
           bordered
           fullWidth
-          type="email"
+          type='email'
           aria-label='email'
           color='primary'
           size='lg'
@@ -95,7 +127,7 @@ export const LoginModal = () => {
             clearable
             bordered
             fullWidth
-            type="number"
+            type='number'
             maxLength={6}
             aria-label='验证码'
             className='flex-1'

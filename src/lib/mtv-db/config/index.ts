@@ -1,14 +1,23 @@
 export const config = {
     ipfs: {
-       node_url: "http://192.168.0.6:5001/api/v0",
-       create_option: {
-        repo: './mtv',
-        EXPERIMENTAL: { pubsub: true },
-       }
+        //node_url: "https://192.168.3.233:5001/api/v0",
+        //node_address: '/ip4/192.168.3.68/tcp/4001/p2p/12D3KooWCKvhKRhSGL8vbiTaYwdbpj3kRb5foMR2qfG2B4vvYHFb',
+        //node_address: '/ip4/192.168.3.233/tcp/5001/',
+        create_option: {
+            repo: './mtv',
+            // config: {
+            //     Addresses: {
+            //         Swarm: [
+            //         // '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star/',
+            //         // '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star/',
+            //         // '/dns4/webrtc-star.discovery.libp2p.io/tcp/443/wss/p2p-webrtc-star/'
+            //         ]
+            //     }
+            // }
+        }
     },
     orbitdb: {
-        directory: "./mtv",
-        peeerId: "mtv" //this is a default id, please use the public key of user
+        directory: "./mtv"
     },
     pinata: {
         "gateWayApi": "https://gateway.pinata.cloud/ipfs/",

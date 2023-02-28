@@ -1,4 +1,4 @@
-import {  Card, Button, Spacer, Text } from '@nextui-org/react';
+import { Card, Button, Spacer, Text } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNostrStore, useGlobalStore } from '@/store';
@@ -11,20 +11,24 @@ export default function ChatList() {
   const generateUser = useGlobalStore((state) => state.generateUser);
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const user = useGlobalStore((state) => state.userInfo);
-  const { data } = useRequest<any[]>(
+  const { data, mutate } = useRequest<any[]>(
     {
-      path: '/user/getimpubkeylist',
-      method: 'get',
-      auth: true,
+      url: '/user/getimpubkeylist',
+      arg: {
+        method: 'get',
+        auth: true,
+      },
     },
     { revalidateOnMount: true },
   );
-  const { trigger: sendPk } = useRequest({
-    path: '/user/modifyuser',
-    method: 'post',
-    auth: true,
-    query: {
-      nostrPublicKey: user?.nostr?.pk,
+  const { mutate: sendPk } = useRequest({
+    url: '/user/modifyuser',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: {
+        nostrPublicKey: user?.nostr?.pk,
+      },
     },
   });
   const createUser = async () => {
@@ -42,7 +46,8 @@ export default function ChatList() {
   };
   useEffect(() => {
     createUser();
-  }, [])
+    mutate();
+  }, []);
   return (
     <Page title='记事本'>
       <div className='py-6'>

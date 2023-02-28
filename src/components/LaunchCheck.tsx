@@ -3,25 +3,24 @@ import { useLayoutEffect, useEffect, useState } from 'react';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { ROUTE_PATH } from '@/router/index';
 import { Loading } from '@nextui-org/react';
-import { useMtvdbStore, useNoteStore, useWalletStore } from '@/store';
+import { useMtvdbStore, useNoteStore, useWalletStore, useGlobalStore } from '@/store';
 
 const stay_path = ['home', 'note', 'account', 'chat', 'test'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();
   const setWallet = useWalletStore((state) => state.setWallet);
+  const user = useGlobalStore((state) => state.userInfo);
   const initDb = useMtvdbStore((state) => state.init);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const initNote = useNoteStore((state) => state.init);
   const [loading, setLoadng] = useState(false);
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
-    if (privateKey) {
-      await initDb(privateKey)
-      console.log(mtvDb?.kvdb);
-      if (mtvDb?.kvdb) {
+    if (privateKey && user?.mtvdb?.dbAddress) {
+      await initDb(privateKey, user?.mtvdb?.dbAddress, user?.mtvdb?.metadataKey)
+      if (mtvDb?.kvdb && user?.mtvdb?.dbAddress) {
         try {
-          
           const localNote = await mtvDb?.get('note');
           const list = JSON.parse(localNote);
           if (list) {
@@ -35,23 +34,25 @@ export const WalletCheck = () => {
     }
   };
   const checkStatus = async () => {
-    // setLoadng(true);
+    const { pathname } = location;
+    if ((pathname.indexOf('test') > -1)) {
+      return;
+    }
+    setLoadng(true);
     const status = await wallet?.check();
-    // setLoadng(false);
+    setLoadng(false);
     console.log(wallet);
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
-      const { pathname } = location;
       if (pathname !== '/') {
         location.replace(ROUTE_PATH.INDEX);
       }
     } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
-      const { pathname } = location;
+      
       if (!(pathname.indexOf('unlock') > -1)) {
         location.replace(ROUTE_PATH.UNLOCK);
       }
     } else if (status == STATUS_CODE.SUCCESS) {
       // redirect('/home');
-      const { pathname } = location;
       setWallet(wallet);
       await launchWallet(wallet);
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { remove, cloneDeep } from 'lodash';
-import { useMtvdbStore } from './storage';
+import { useMtvdbStore } from './mtvdb';
 interface Note {
   id: string;
   title: string;
@@ -57,7 +57,6 @@ export const useNoteStore = create<GlobalState>()(
   ),
 );
 useNoteStore.subscribe(async (state) => {
-  console.log(state.list);
   const mtvDb = window.mtvDb;
   if (mtvDb) {
     await mtvDb.put('note', JSON.stringify(state.list));

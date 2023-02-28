@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
-// import useSWRMutation from 'swr/mutation';
+import useSWRMutation from 'swr/mutation';
 import type { SWRConfiguration } from 'swr';
 import { useGlobalStore } from '@/store';
 // import { ROUTE_PATH } from '@/router';
 
 interface RequestOption {
-  path: string;
-  method?: string;
-  auth?: boolean;
-  query?: Record<string, any>;
+  url: string;
+  arg?: { auth?: boolean; method?: string; query?: Record<string, any> };
 }
 
 const baseUrl = import.meta.env.VITE_API_HOST;
@@ -35,19 +33,19 @@ export const clearRetryList = () => {
 //   }
 // });
 export function useRequest<T>(
-  { path, method = 'get', auth = false, query }: RequestOption,
+  { url, arg = { method: 'get', auth: false } }: RequestOption,
   swrOptions?: SWRConfiguration,
 ) {
   const [res, setRes] = useState<T>();
   const logout = useGlobalStore((state) => state.logout);
-  const token = useGlobalStore((state) => state.token);
+  // const token = useGlobalStore((state) => state.token);
   const customSuccess = swrOptions?.onSuccess;
 
   const onSuccess = async (data: any, key: string, config: any) => {
     if (data.code === '400000') {
       await logout();
       // nav(ROUTE_PATH.HOME);
-      location.replace('/home')
+      location.replace('/home');
       // apiRetryList.push(trigger);
     } else if (customSuccess) {
       await customSuccess(data, key, config);
@@ -55,46 +53,30 @@ export function useRequest<T>(
   };
   const _swrConfig: any = { ...defaultSwrConfig, ...swrOptions };
   _swrConfig.onSuccess = onSuccess;
-  const _method = method.toUpperCase();
 
-  const headers: any = {};
-  if (auth) {
-    headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
-  }
-  const options = useRef<any>({
-    method: _method,
-    headers,
-  });
-
-  useEffect(() => {
-    if (['POST', 'PUT', 'UPDATE'].includes(_method)) {
-      options.current.body = JSON.stringify(query);
+  const fetcher = ({ url, arg }: any) => {
+    console.log(url, arg);
+    const headers: any = {};
+    const _method = arg?.method.toUpperCase();
+    if (arg?.auth) {
+      headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
     }
-  }, [query]);
-  useEffect(() => {
-    if (auth && token) {
-      options.current.headers.Authorization = `Bearer ${
-        useGlobalStore.getState().token
-      }`;
+    const options: any = {
+      method: _method,
+      headers,
+    };
+    if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
+      options.body = JSON.stringify(arg.query);
     }
-  }, [auth, token]);
-  const {
-    data,
-    error,
-    mutate: trigger,
-  } = useSWR(
-    path,
-    (url) => {
-      return fetch(`${baseUrl}/${apiVersion}${url}`, options.current).then(
-        (res) => res.json(),
-      );
-    },
-    _swrConfig,
-  );
+    return fetch(`${baseUrl}/${apiVersion}${url}`, options).then((res) =>
+      res.json(),
+    );
+  };
+  const { data, error, trigger } = useSWRMutation({ url, arg }, fetcher, _swrConfig);
   useEffect(() => {
     if (data?.code === '000000') {
       setRes(data?.data);
     }
   }, [data]);
-  return { data: res, error, trigger };
+  return { data: res, error, mutate: trigger, key: url };
 }

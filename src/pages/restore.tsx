@@ -12,8 +12,9 @@ import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { useNavigate } from 'react-router-dom';
 import { Shamir } from '@/lib/account';
 import { useCheckLogin } from '@/components/LoginModal';
-import { useWalletStore } from '@/store';
+import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import Page from '@/layout/page';
+import { useRequest } from '@/api';
 
 export default function Restore() {
   const nav = useNavigate();
@@ -21,8 +22,23 @@ export default function Restore() {
   const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
   const [shareC, setShareC] = useState('');
+  const initMtvdb = useMtvdbStore((state) => state.init);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
+  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const userInfo = useGlobalStore((state) => state.userInfo);
+  const { mutate: getuserinfo } = useRequest(
+    {
+      url: '/user/getuserinfo',
+      arg: { method: 'get', auth: true },
+    },
+    {
+      onSuccess: (res) => {
+        const { sssData } = res.data;
+        setShareA(sssData);
+      },
+    },
+  );
   const [pwd, setPwd] = useState('');
   const importHandler = async () => {
     if (status === 'whole') {
@@ -45,6 +61,15 @@ export default function Restore() {
         console.log(combineKey);
         const status = await wallet.restoreFromKey(combineKey, pwd);
         if (status === STATUS_CODE.SUCCESS) {
+          const { privateKey } = wallet.wallet || {};
+          if (privateKey) {
+            const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
+            if (dbAddress) {
+              setMtvdbToUser(dbAddress, metadataKey);
+              await initMtvdb(privateKey, dbAddress);
+            }
+          }
+          console.log(userInfo);
           nav('/home', { replace: true });
         }
       }
@@ -70,8 +95,9 @@ export default function Restore() {
   };
   const getSssFromServer = async () => {
     const loginStatus = await useCheckLogin();
+    console.log(loginStatus);
     if (loginStatus) {
-      setShareA('123132');
+      getuserinfo();
     }
   };
   const ShowSss = () => {

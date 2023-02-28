@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Button, Modal, Text, Card } from '@nextui-org/react';
 import { useCopyToClipboard } from 'react-use';
 import { Shamir } from '@/lib/account';
@@ -11,21 +11,22 @@ export const SharesCard = () => {
   const wallet = useWalletStore((state) => state.wallet);
   const [copied, setCopied] = useState(false);
   const [_, copyToClipboard] = useCopyToClipboard();
-  const modifySuccess = (res: any) => {
-    console.log(res);
-  };
-  const { trigger: modifyuser } = useRequest(
+  const query = useMemo(() => {
+    return {
+      sssData: shares[1],
+      publicKey: wallet?.wallet?.publicKey,
+      address: wallet?.wallet?.address,
+    };
+  }, [wallet, shares]);
+  const { mutate: modifyuser } = useRequest(
     {
-      path: '/user/modifyuser',
-      method: 'post',
-      auth: true,
-      query: {
-        sssData: shares[1],
-        publicKey: wallet?.wallet?.publicKey,
-        address: wallet?.wallet?.address,
+      url: '/user/modifyuser',
+      arg: {
+        method: 'post',
+        auth: true,
+        query,
       },
     },
-    { onSuccess: modifySuccess },
   );
 
   const splitKey = async () => {
@@ -33,16 +34,17 @@ export const SharesCard = () => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey) {
       const splitShares: any[] = await sss.split(privateKey, 2, 3);
-      const hexShares = splitShares.map((s) => s.toString('hex'))
+      const hexShares = splitShares.map((s) => s.toString('hex'));
       setShares(hexShares);
       console.log(hexShares[1].length);
     }
   };
   useEffect(() => {
     if (shares?.length) {
+      console.log(query);
       modifyuser();
     }
-  }, [shares])
+  }, [shares]);
   const hintMap: any = {
     0: '该片存本地，由用户保存，请复制。',
     1: '该片由MTV加密存储',
