@@ -78,7 +78,6 @@ export class MtvDb {
       
     }
 
-
     public async initAes(privateKeyStr: string){
         this.aesIv =  CryptoJS.enc.Utf8.parse(privateKeyStr.slice(-16));
         this.aesKey = CryptoJS.enc.Utf8.parse(privateKeyStr);
@@ -110,10 +109,20 @@ export class MtvDb {
             this.metadataRecord =  this.metadata[this.dbName];
             this.dbSnapshortCid = this.metadataRecord.db_cid;
             //this.dbAddress = this.metadataRecord.db_address;
+            if(this.kvdb){
+                logger.warn('db has been initialized')
+                await this.sleep(5)    
+                return;
+            }
             this.kvdb = await this.getKvDb(this.dbAddress);
             this.kvdb.load();
             await this.restoreDbData(this.kvdb, this.dbSnapshortCid);
         }else{
+            if(this.kvdb){
+                logger.warn('db has been initialized')
+                await this.sleep(5)    
+                return;
+            }
             this.kvdb = await this.getKvDb(this.dbAddress);
         }
         this.dbAddress = this.kvdb.id;
@@ -126,6 +135,8 @@ export class MtvDb {
         // }
     }
 
+    sleep = (waitTime: number) =>
+    new Promise((resolve) => setTimeout(() => resolve(true), waitTime));
 
     public async getMetaData(metadataKey: string){
         this.metadataCid = await this.getMetaCidByKey(this.metadataKey);
@@ -199,13 +210,23 @@ export class MtvDb {
     private async initIpfs(option = {}){
         logger.info('Init the ipfs instance');
         //this.ipfs = await IPFS.create(option);
-        this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
+        if(this.ipfs){
+            logger.warn('ipfs has been initialized')
+            await this.sleep(2)
+           return;
+        }
+        this.ipfs = await ipfsHttp.create(config.ipfs.http_node); 
         // const identity = await this.ipfs.id();
         // logger.info("ipfs id: " + identity.string);
     }
     
     private async initOrbitDB() {
         logger.info('Init the OrbitDB instance');
+        if(this.orbitdb){
+            await this.sleep(3)
+            logger.warn('orbitdb has been initialized')
+            return;
+        }
         this.orbitdb = await OrbitDB.createInstance(this.ipfs, config.orbitdb)
     }
 
@@ -231,6 +252,15 @@ export class MtvDb {
 
     async initMetaDataKey(privateKey:PrivateKey, pubKeyStr: string){
          //w3name
+        if(this.metadataKey){
+            logger.warn('metadataKey has been initialized');
+            return;
+        }
+        if(this.w3name){
+            logger.warn('w3name has been initialized');
+            this.sleep(2)
+            return;
+        }
         const name = new Name.WritableName(privateKey);
         this.w3name = name;
         const revision = await Name.v0(name, pubKeyStr);// inita the ipns key
@@ -261,6 +291,11 @@ export class MtvDb {
             address = this.dbName;
         }
         let db;
+        if(db){
+            logger.warn('db has been initialized')
+            await this.sleep(5)    
+            return;
+        }
         try{
             db =  await this.orbitdb.open(address, dbOption);
         }catch(err){

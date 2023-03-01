@@ -19,6 +19,8 @@ export default function Test() {
 
     //后续正常使用（）
     await mtvdb.createInstance(privateKey, dbAddress, metadataKey);
+    await mtvdb.createInstance(privateKey, dbAddress, metadataKey);
+    await mtvdb.createInstance(privateKey, dbAddress, metadataKey);
 
     //完全恢复（）
     //await mtvdb.createInstance(privateKey, '', metadataKey);
