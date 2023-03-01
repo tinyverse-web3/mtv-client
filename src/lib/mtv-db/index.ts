@@ -34,9 +34,22 @@ export class MtvDb {
     aesKey!: any;
 
 
-    //  constructor(privateKey: string, dbAddress:string = '', metadataKey: string = '') {
-    //     this.createInstance(privateKey, dbAddress, metadataKey);
-    // }
+    // Private instance, which cannot be directly accessed by the outside world
+    private static mtvDbInstance: MtvDb;
+
+    public count = 0;
+
+    private constructor() {
+        logger.info('MmtDb init...')
+    }
+
+    public static getInstance(){
+        if(this.mtvDbInstance){
+            return this.mtvDbInstance;
+        }
+        this.mtvDbInstance = new MtvDb();
+        return this.mtvDbInstance;
+    }
 
     public async createInstance(privateKey: string,  dbAddress:string = '', metadataKey: string = ''){
         const privKey = await keys.supportedKeys.secp256k1.unmarshalSecp256k1PrivateKey(Buffer.from(privateKey, 'hex'))
