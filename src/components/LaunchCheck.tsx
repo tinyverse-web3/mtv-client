@@ -20,29 +20,15 @@ export const WalletCheck = () => {
   const checkLoading = useGlobalStore((state) => state.checkLoading);
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
-  const mtvDb = useMtvdbStore((state) => state.mtvDb);
-  const initNote = useNoteStore((state) => state.init);
-  const [loading, setLoadng] = useState(false);
+  
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey && user?.mtvdb?.dbAddress) {
-      initDb(
+      await initDb(
         privateKey,
         user?.mtvdb?.dbAddress,
         user?.mtvdb?.metadataKey,
       );
-      // if (mtvDb?.kvdb && user?.mtvdb?.dbAddress) {
-      //   try {
-      //     const localNote = await mtvDb?.get('note');
-      //     const list = JSON.parse(localNote);
-      //     if (list) {
-      //       await initNote(list)
-      //     }
-      //   } catch (error) {
-
-      //   }
-
-      // }
     }
   };
   const checkStatus = async () => {
@@ -90,15 +76,11 @@ export const walletLoader = async (path: string) => {
   if (status == STATUS_CODE.EMPTY_KEYSTORE) {
     if (location.pathname === ROUTE_PATH.INDEX) {
       return true;
-    } else {
-      // return redirect('/');
     }
   } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
-    // return redirect('/unlock');
   } else if (status == STATUS_CODE.SUCCESS) {
     if (stay_path.some((p) => path?.indexOf(p) > -1)) {
       return true;
     }
-    // return redirect('/home');
   }
 };

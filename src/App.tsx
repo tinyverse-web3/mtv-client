@@ -50,7 +50,7 @@ export default function App() {
         dark: darkTheme.className,
       }}>
       <NextUIProvider>
-        <div className='md:mt-40 md:bg-coolGray-9 rounded-xl md:w-400px mx-auto h-screen md:h-800px overflow-y-auto'>
+        <div className='md:mt-30 md:bg-coolGray-9 rounded-xl md:w-400px mx-auto h-screen md:h-800px overflow-y-auto'>
           <LoginModal />
           <WalletCheck />
           <Toaster

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useNoteStore, useWalletStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
+
 import { useMtvdbStore } from '@/store';
 import { useEvent } from 'react-use';
 
@@ -11,6 +12,7 @@ export default function NoteList() {
   const nav = useNavigate();
   const list = useNoteStore((state) => state.list);
   const remove = useNoteStore((state) => state.remove);
+  const initNote = useNoteStore((state) => state.init);
   console.log(list);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const toAdd = () => {
@@ -24,11 +26,18 @@ export default function NoteList() {
     e.stopPropagation();
     await remove(id);
   };
-  // useEffect(() => {
-  //   if (mtvDb) {
-  //     mtvDb.get('note').then(console.log);
-  //   }
-  // }, [mtvDb]);
+  useEffect(() => {
+    if (mtvDb?.kvdb) {
+      mtvDb.get('note').then((res) => {
+        try {
+          const list = JSON.parse(res);
+          if (list) {
+            initNote(list);
+          }
+        } catch (error) {}
+      });
+    }
+  }, [mtvDb]);
   return (
     <Page title='记事本' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
