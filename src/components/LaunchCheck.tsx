@@ -26,7 +26,7 @@ export const WalletCheck = () => {
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey && user?.mtvdb?.dbAddress) {
-      await initDb(
+      initDb(
         privateKey,
         user?.mtvdb?.dbAddress,
         user?.mtvdb?.metadataKey,
