@@ -24,6 +24,7 @@ export const config = {
         "pinCidApi": "https://api.pinata.cloud/pinning/pinByHash",
         "pinJsonApi": "https://api.pinata.cloud/pinning/pinJSONToIPFS",
         "pintFileApi": "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        'unpinCidApi': "https://api.pinata.cloud/pinning/unpin",
         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwMDk4YjU2NC1mYjQ3LTQxOWItODFmMy0yOGI1ZGNlZjZjMTkiLCJlbWFpbCI6ImR1eW91eW91ODhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImQ3YTlhZmI5NGExZDg4MmZmY2NlIiwic2NvcGVkS2V5U2VjcmV0IjoiOWE3Y2RhOWRiYTRkNzhmNjI4NDJmNjliZjRhMDEzNWU1YWNjYjcwYjhjOWY0ZTFjNmQwOTk0Yjk5NmNjMWZiNyIsImlhdCI6MTY3NjM0MTIyOH0.DxCYtEw1id6zqfbWdR1TaQn71Rgt2RwyNB8ZQ95kujY"
     }
 }

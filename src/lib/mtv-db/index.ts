@@ -125,7 +125,7 @@ export class MtvDb {
       this.dbSnapshortCid = this.metadataRecord.db_cid;
       //this.dbAddress = this.metadataRecord.db_address;
       if (this.kvdb) {
-        logger.warn('db has been initialized');
+        logger.warn('kvdb has been initialized');
         await this.sleep(5);
         return;
       }
@@ -135,7 +135,7 @@ export class MtvDb {
       await this.restoreDbData(this.kvdb, this.dbSnapshortCid);
     } else {
       if (this.kvdb) {
-        logger.warn('db has been initialized');
+        logger.warn('kvdb has been initialized');
         await this.sleep(5);
         return;
       }
@@ -184,18 +184,30 @@ export class MtvDb {
 
   public async backupDb() {
     const snapshotData = this.kvdb.all;
-    const newCid = await this.uploadDbSnapshot(this.kvdb.id, snapshotData);
-    this.dbSnapshortCid = newCid;
+
+    await this.getMetaData(this.metadataKey);//get old metadataCid and old dbSnapshortCid for del process
+    const oldMetataCid = this.metadataCid;
+    const oldMetadataRecord = this.metadata[this.dbName];
+    const oldDbSnapshortCid = oldMetadataRecord.db_cid;
+
+    const newDbSnapshortCid = await this.uploadDbSnapshot(this.kvdb.id, snapshotData);
+    this.dbSnapshortCid = newDbSnapshortCid;
     const newMetaInfo = await this.updateMetaDataForUser(
-      this.metadata,
-      this.dbName,
-      this.dbAddress,
-      newCid,
+        this.metadata,
+        this.dbName,
+        this.dbAddress,
+        newDbSnapshortCid,
     );
     if (newMetaInfo) {
-      this.metadata = newMetaInfo.metatdata;
-      this.metadataCid = newMetaInfo.cid;
-      await this.updateMetaDataKeyMap(this.w3name, this.metadataCid);
+        this.metadata = newMetaInfo.metatdata;
+        this.metadataCid = newMetaInfo.cid;
+        await this.updateMetaDataKeyMap(this.w3name, this.metadataCid);
+        if(oldDbSnapshortCid && (oldDbSnapshortCid != newDbSnapshortCid)){
+            await this.delFileFromPinata(oldDbSnapshortCid); // Delete old backups to free up space
+        }
+        if(oldMetataCid && (oldMetataCid != this.metadataCid)){
+            await this.delFileFromPinata(oldMetataCid); // Delete old backups to free up space
+        }
     }
   }
 
@@ -272,11 +284,6 @@ export class MtvDb {
   }
 
   async initMetaDataKey(privateKey: PrivateKey, pubKeyStr: string) {
-    //w3name
-    if (this.metadataKey) {
-      logger.warn('metadataKey has been initialized');
-      return;
-    }
     if (this.w3name) {
       logger.warn('w3name has been initialized');
       this.sleep(2);
@@ -314,7 +321,7 @@ export class MtvDb {
     }
     // let db;
     if (this.kvdb) {
-      logger.warn('db has been initialized');
+      logger.warn('kvdb has been initialized');
       await this.sleep(5);
       return;
     }
@@ -322,6 +329,11 @@ export class MtvDb {
       this.kvdb = await this.orbitdb.open(address, dbOption);
     } catch (err) {
       logger.warn('open db again');
+      if(this.kvdb){
+        logger.warn('kvdb has been initialized');
+        await this.sleep(5);
+        return;
+      }
       this.kvdb = await this.orbitdb.open(address, dbOption);
     }
 
@@ -422,5 +434,23 @@ export class MtvDb {
         logger.error(err);
         throw err;
       });
-  }
+    }
+
+    async delFileFromPinata(fileCid: string) {
+        const httpConfig = {
+            headers: {
+              Authorization: 'Bearer ' + config.pinata.jwt
+            },
+        };
+        const fileUrl = config.pinata.unpinCidApi + "/" + fileCid;
+        return axios
+          .delete(fileUrl, httpConfig)
+          .then((res) => {
+            logger.info(res);
+        })
+          .catch((err) => {
+            logger.error(err);
+        });
+    }
+
 }
