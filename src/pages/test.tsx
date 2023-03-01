@@ -19,9 +19,7 @@ export default function Test() {
 
     //后续正常使用（）
     await mtvdb.createInstance(privateKey, dbAddress, metadataKey);
-    await mtvdb.createInstance(privateKey, dbAddress, metadataKey);
-    await mtvdb.createInstance(privateKey, dbAddress, metadataKey);
-
+  
     //完全恢复（）
     //await mtvdb.createInstance(privateKey, '', metadataKey);
 
@@ -35,8 +33,12 @@ export default function Test() {
     }
     await mtvdb.put('k001', JSON.stringify(value001));
     await mtvdb.put('k002', JSON.stringify(value002));
+    await mtvdb.put('k003', JSON.stringify(value002));
+    await mtvdb.put('k004', JSON.stringify(value002));
+    await mtvdb.put('k005', JSON.stringify(value002));
     const get1 = await mtvdb.get('k001');
     const get2 = await mtvdb.get('k002');
+    const get3 = await mtvdb.get('k002');
     await mtvdb.backupDb();
     //await mtvdb.closeDb();
     // const aesIv =  CryptoJS.enc.Utf8.parse(privateKey.slice(-16));
