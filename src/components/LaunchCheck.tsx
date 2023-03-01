@@ -48,6 +48,7 @@ export const WalletCheck = () => {
   const checkStatus = async () => {
     const { pathname } = location;
     if (pathname.indexOf('test') > -1) {
+      setCheckLoading(false);
       return;
     }
     setCheckLoading(true);
