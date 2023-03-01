@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import md5 from 'md5';
 import { Storage } from './storage';
+import keystoreIdb  from 'keystore-idb';
 
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
@@ -41,6 +42,13 @@ export class Wallet {
     const encryptPwd = md5(password);
     sessionStorage.setItem(LOCAL_PASSWORD_KEY, encryptPwd);
     if (this.wallet) {
+      await keystoreIdb.clear();
+
+      const ks1 = await keystoreIdb.init({
+        storeName: '_keystore',
+        symmLen: 256,
+        symmAlg: keystoreIdb.SymmAlg.AES_GCM,
+      });
       const keystore = await this.wallet.encrypt(encryptPwd);
       this.keystore = keystore;
       this.storage.keystore.set(keystore);
@@ -81,4 +89,4 @@ export class Wallet {
   }
 }
 
-export default new Wallet()
+export default new Wallet();

@@ -8,8 +8,6 @@ export class Shamir {
     this.sss = sss;
   }
   async split(key: string, threshold: number = 2, account: number = 3) {
-    // const secret = Buffer.from(key);
-    console.log(key);
     const shares = this.sss.split(key, { shares: account, threshold });
     return shares;
   }

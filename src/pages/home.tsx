@@ -1,9 +1,10 @@
-import { Text, Button, Container, Row, Col } from '@nextui-org/react';
+import { Text, Button, Avatar, Row, Col } from '@nextui-org/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
 import { useWalletStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
 import { ROUTE_PATH } from '@/router';
+import Page from '@/layout/page';
 import { useCheckLogin } from '@/components/LoginModal';
 
 export default function Home() {
@@ -28,27 +29,13 @@ export default function Home() {
     }
   };
   return (
-    <div className=''>
-      <Row className='h-12' align='center'>
-        <Col>
-          <Text className='text-4'>jzy</Text>
-        </Col>
-        <Col className='flex justify-end'>
-          <ThemeSwitch />
-          {/* <Button light size='sm' auto onPress={toAccount} className='px-1.5'>
-            <div className='i-material-symbols-settings'></div>
-          </Button> */}
-        </Col>
-      </Row>
-      <Row justify='center' className='mb-4'>
-        <Address address={wallet?.wallet?.address} />
-      </Row>
+    <Page showBack={false} title="MTV">
       <Button
         iconRight={<div className='i-mdi-account' />}
         size='xl'
         className='w-full mb-4'
         onPress={toAccount}
-        color='success'>
+        color='error'>
         账号维护
       </Button>
       <Button
@@ -68,6 +55,6 @@ export default function Home() {
         IM聊天
       </Button>
       {/* <Button onPress={showMen}>备份助记词</Button> */}
-    </div>
+    </Page>
   );
 }

@@ -12,7 +12,7 @@ export const ThemeSwitch = () => {
       light
       size='sm'
       auto
-      className="px-1.5 text-5"
+      className="px-0 text-5"
       onPress={themeChange}>
       {isDark ? '☀️' : '🌛'}
     </Button>

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@nextui-org/react';
+import { Button, Avatar } from '@nextui-org/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
 
 export default function Page({ children, path, title, showBack = true }: any) {
@@ -9,10 +9,10 @@ export default function Page({ children, path, title, showBack = true }: any) {
   };
   return (
     <main className='h-full flex flex-col'>
-      <header className='stacky h-12 '>
+      <header className='stacky h-14 px-4'>
         <div className='h-full justify-between flex items-center border-black border relative'>
           <div>
-            {showBack && (
+            {showBack ? (
               <Button
                 light
                 size='sm'
@@ -21,17 +21,17 @@ export default function Page({ children, path, title, showBack = true }: any) {
                 onPress={goBack}>
                 <div className='i-mdi-arrow-left w-6 h-6 z-2'></div>
               </Button>
-            )}
+            ): <Avatar src='/logo.png' size='xs' />}
           </div>
           {title && (
-            <div className='h-full w-full flex justify-center items-center absolute left-0 top-0'>
+            <div className='h-full w-full flex justify-center items-center absolute left-0 top-0 font-700'>
               {title}
             </div>
           )}
           <ThemeSwitch />
         </div>
       </header>
-      <section className='pt-4 flex-1'>{children}</section>
+      <section className='py-2 px-4 flex-1 overflow-y-auto'>{children}</section>
     </main>
   );
 }

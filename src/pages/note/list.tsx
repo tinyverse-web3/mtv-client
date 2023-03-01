@@ -30,7 +30,7 @@ export default function NoteList() {
   //   }
   // }, [mtvDb]);
   return (
-    <Page title='记事本'>
+    <Page title='记事本' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
         {list.map((item) => (
           <div key={item.id}>

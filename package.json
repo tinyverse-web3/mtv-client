@@ -20,6 +20,7 @@
     "ipfs": "^0.66.0",
     "ipfs-http-client": "^60.0.0",
     "ipfs-log": "^6.0.0",
+    "keystore-idb": "^0.15.5",
     "libp2p-crypto": "^0.21.2",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",

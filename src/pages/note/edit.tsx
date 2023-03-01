@@ -4,6 +4,7 @@ import { useNoteStore } from '@/store';
 import { v4 as uuidv4 } from 'uuid';
 import Page from '@/layout/page';
 import { Text, Container, Row, Button, Textarea } from '@nextui-org/react';
+import { ROUTE_PATH } from '@/router';
 
 export default function About() {
   const nav = useNavigate();
@@ -47,13 +48,14 @@ export default function About() {
     nav(-1);
   };
   return (
-    <Page title="记事本">
+    <Page title="记事本" path={ROUTE_PATH.NOTE}>
       <div className='py-8'>
         <Row className='mb-8' justify='center'>
           <Textarea
             fullWidth
             bordered
             value={note}
+            maxLength={800}
             onChange={noteChange}
             labelPlaceholder='记事本内容'
             initialValue=''

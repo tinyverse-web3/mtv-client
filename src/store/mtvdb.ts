@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { MtvDb } from '@/lib/mtv-db';
 
-const mtvDb = new MtvDb();
+const mtvDb = MtvDb.getInstance();
 window.mtvDb = mtvDb;
 interface MtvdbState {
   mtvDb?: MtvDb;

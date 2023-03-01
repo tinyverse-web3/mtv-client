@@ -3,6 +3,7 @@ import { NostrProvider } from 'nostr-react';
 import { useNostrStore } from '@/store';
 import { relayInit } from 'nostr-tools';
 import { MessageBox } from '@/components/MessageBox';
+import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
 
 export default function ChatMessage() {
@@ -48,9 +49,9 @@ export default function ChatMessage() {
     }
   }, [recipient]);
   return (
-    <Page className="h-full" title="聊天">
+    <Page className='h-full' title='聊天' path={ROUTE_PATH.CHAT_LIST}>
       <NostrProvider relayUrls={relayUrls.map((val) => val.wss)}>
-        <MessageBox recipient={recipient}/>
+        <MessageBox recipient={recipient} />
       </NostrProvider>
     </Page>
   );
