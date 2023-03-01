@@ -42,13 +42,13 @@ export class Wallet {
     const encryptPwd = md5(password);
     sessionStorage.setItem(LOCAL_PASSWORD_KEY, encryptPwd);
     if (this.wallet) {
-      await keystoreIdb.clear();
+      // await keystoreIdb.clear();
 
-      const ks1 = await keystoreIdb.init({
-        storeName: '_keystore',
-        symmLen: 256,
-        symmAlg: keystoreIdb.SymmAlg.AES_GCM,
-      });
+      // const ks1 = await keystoreIdb.init({
+      //   storeName: '_keystore',
+      //   symmLen: 256,
+      //   symmAlg: keystoreIdb.SymmAlg.AES_GCM,
+      // });
       const keystore = await this.wallet.encrypt(encryptPwd);
       this.keystore = keystore;
       this.storage.keystore.set(keystore);
