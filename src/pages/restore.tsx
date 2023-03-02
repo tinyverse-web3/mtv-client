@@ -16,6 +16,7 @@ import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import Page from '@/layout/page';
 import { useRequest } from '@/api';
 
+
 export default function Restore() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');

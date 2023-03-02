@@ -17,11 +17,11 @@ export default function Page({ children, path, title, showBack = true }: any) {
                 light
                 size='sm'
                 auto
-                className='px-1.5 text-5'
+                className='px-3 text-5'
                 onPress={goBack}>
                 <div className='i-mdi-arrow-left w-6 h-6 z-2'></div>
               </Button>
-            ): <Avatar src='/logo.png' size='xs' />}
+            ): <Avatar src='/logo.png' size='xs' className='ml-3' />}
           </div>
           {title && (
             <div className='h-full w-full flex justify-center items-center absolute left-0 top-0 font-700'>

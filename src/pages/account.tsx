@@ -4,7 +4,7 @@ import { useCopyToClipboard } from 'react-use';
 import { useWalletStore } from '@/store';
 import Page from '@/layout/page';
 import { SharesCard } from '@/components/SharesCard';
-
+import { Question } from '@/components/Question';
 export default function Setting() {
   const [pharseVisible, setPharseVisible] = useState(false);
   const wallet = useWalletStore((state) => state.wallet);
@@ -43,6 +43,7 @@ export default function Setting() {
         )}
       </div>
       <SharesCard />
+      <Question/>
     </Page>
   );
 }
