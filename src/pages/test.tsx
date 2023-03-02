@@ -6,6 +6,7 @@ import { Button } from '@nextui-org/react';
 // import EthCrypto from 'eth-crypto';
 export default function Test() {
   const start = async () => {
+    debugger;
     const privateKey = '5f39cceb470cbc0b9259a0099a5238f3cc069858f8275802c17b37bf545d6df2';
     const dbAddress = '/orbitdb/zdpuAmbXnVrBYvjhUCXG6hTzKHUiNug8KvvXzPnaoZYBV6bQT/mtv_kv';
     const metadataKey = 'kzwfwjn5ji4pupd2pb0qcfwlah3qc9ud9w2n1d3vgesiiidv1uk7t1wfx5ntb6w';
@@ -35,6 +36,7 @@ export default function Test() {
     await mtvdb.put('k003', JSON.stringify(value002));
     await mtvdb.put('k004', JSON.stringify(value002));
     await mtvdb.put('k005', JSON.stringify(value002));
+    await mtvdb.put('k006', JSON.stringify(value002));
     const get1 = await mtvdb.get('k001');
     const get2 = await mtvdb.get('k002');
     const get3 = await mtvdb.get('k002');

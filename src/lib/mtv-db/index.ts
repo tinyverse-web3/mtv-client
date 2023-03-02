@@ -31,6 +31,8 @@ export class MtvDb {
   w3name: any;
   aesIv!: any;
   aesKey!: any;
+  dbInitKeyName: string = 'k0';
+  dbRestoreKeyName: string = 'k1';
 
   // Private instance, which cannot be directly accessed by the outside world
   private static mtvDbInstance: MtvDb;
@@ -118,37 +120,50 @@ export class MtvDb {
   public async initKvDb() {
     await this.initIpfs();
     await this.initOrbitDB();
-    if (!this.isNew && this.dbAddress == '') {
-      logger.warn('db address is null, need to restore whole db data');
-      await this.getMetaData(this.metadataKey);
-      this.metadataRecord = this.metadata[this.dbName];
-      this.dbSnapshortCid = this.metadataRecord.db_cid;
-      //this.dbAddress = this.metadataRecord.db_address;
-      if (this.kvdb) {
-        logger.warn('kvdb has been initialized');
-        await this.sleep(5);
-        return;
+
+    if (this.kvdb) {
+      logger.warn('kvdb has been initialized');
+      await this.sleep(5);
+      return;
+    }
+    await this.getKvDb(this.dbAddress);
+    if (this.isNew) {
+      await this.kvdb.put(this.dbInitKeyName, new Date().toString(), {
+        pin: true,
+      });
+    }
+    if (!this.isNew && !this.isThereAkey(this.dbInitKeyName)) {
+      try {
+        await this.restoreDb();
+      } catch (err) {
+        logger.warn('orginal db data: ' + this.kvdb.all);
+        logger.error('data restore error:');
+        logger.error((err as Error).message);
+        //throw err;
       }
-      await this.getKvDb(this.dbAddress);
-      await this.restoreDbData(this.kvdb, this.dbSnapshortCid);
-    } else {
-      if (this.kvdb) {
-        logger.warn('kvdb has been initialized');
-        await this.sleep(5);
-        return;
-      }
-      await this.getKvDb(this.dbAddress);
     }
     this.dbAddress = this.kvdb.id;
-    if (this.isNew) {
-      await this.kvdb.put('k0', new Date().toString(), { pin: true });
-    }
+
     // if(!this.isNew && (this.dbAddress !=  this.kvdb.id)){
     //     throw new Error("The local db address is not equal to metadata's db address, please chekc!");
     // }
-    // if(!this.isNew && (this.kvdb._oplog.length <= 1)){ //data is loast need to restore db
-    //     await this.restoreWholeDb(this.kvdb, this.metadataKey, this.dbName);
-    // }
+  }
+
+  async restoreDb() {
+    logger.warn(
+      'db address is null or db Data is null, need to restore whole db data',
+    );
+    await this.getMetaData(this.metadataKey);
+    this.metadataRecord = this.metadata[this.dbName];
+    this.dbSnapshortCid = this.metadataRecord.db_cid;
+    await this.restoreDbData(this.dbSnapshortCid);
+  }
+
+  private isThereAkey(key: string): boolean {
+    if (this.kvdb.get(key)) {
+      return true;
+    }
+    return false;
   }
 
   sleep = (waitTime: number) =>
@@ -181,29 +196,32 @@ export class MtvDb {
   public async backupDb() {
     const snapshotData = this.kvdb.all;
 
-    await this.getMetaData(this.metadataKey);//get old metadataCid and old dbSnapshortCid for del process
+    await this.getMetaData(this.metadataKey); //get old metadataCid and old dbSnapshortCid for del process
     const oldMetataCid = this.metadataCid;
     const oldMetadataRecord = this.metadata[this.dbName];
     const oldDbSnapshortCid = oldMetadataRecord.db_cid;
 
-    const newDbSnapshortCid = await this.uploadDbSnapshot(this.kvdb.id, snapshotData);
+    const newDbSnapshortCid = await this.uploadDbSnapshot(
+      this.kvdb.id,
+      snapshotData,
+    );
     this.dbSnapshortCid = newDbSnapshortCid;
     const newMetaInfo = await this.updateMetaDataForUser(
-        this.metadata,
-        this.dbName,
-        this.dbAddress,
-        newDbSnapshortCid,
+      this.metadata,
+      this.dbName,
+      this.dbAddress,
+      newDbSnapshortCid,
     );
     if (newMetaInfo) {
-        this.metadata = newMetaInfo.metatdata;
-        this.metadataCid = newMetaInfo.cid;
-        await this.updateMetaDataKeyMap(this.w3name, this.metadataCid);
-        if(oldDbSnapshortCid && (oldDbSnapshortCid != newDbSnapshortCid)){
-            await this.delFileFromPinata(oldDbSnapshortCid); // Delete old backups to free up space
-        }
-        if(oldMetataCid && (oldMetataCid != this.metadataCid)){
-            await this.delFileFromPinata(oldMetataCid); // Delete old backups to free up space
-        }
+      this.metadata = newMetaInfo.metatdata;
+      this.metadataCid = newMetaInfo.cid;
+      await this.updateMetaDataKeyMap(this.w3name, this.metadataCid);
+      if (oldDbSnapshortCid && oldDbSnapshortCid != newDbSnapshortCid) {
+        await this.delFileFromPinata(oldDbSnapshortCid); // Delete old backups to free up space
+      }
+      if (oldMetataCid && oldMetataCid != this.metadataCid) {
+        await this.delFileFromPinata(oldMetataCid); // Delete old backups to free up space
+      }
     }
   }
 
@@ -216,24 +234,20 @@ export class MtvDb {
     // }
   }
 
-  // private async mergeDbData(newDbInstrance:any, dbSnapshotCid: string){
-  //     const snapshotData = await this.downloadFileFromPinata(dbSnapshotCid);
-  //     const kvdbLog = await ipfsLog.fromJSON(this.ipfs, this.orbitdb.identity, snapshotData, {
-  //         length: -1,
-  //         timeout: 1000
-  //     })
-  //     //const kvdbLog = await ipfsLog.fromEntry(this.ipfs, this.orbitdb.identity, snapshotData.heads)
-
-  //     await newDbInstrance._oplog.join(kvdbLog)
-  //     await newDbInstrance._updateIndex()
-  // }
-
-  private async restoreDbData(newDbInstrance: any, dbSnapshotCid: string) {
+  private async restoreDbData(dbSnapshotCid: string) {
     const snapshotData = await this.downloadFileFromPinata(dbSnapshotCid);
-    Object.entries(snapshotData).forEach(async ([k, v]) => {
+    await Object.entries(snapshotData).forEach(async ([k, v]) => {
       console.log(k, v);
-      await newDbInstrance.put(k, v, { pin: true });
+      await this.kvdb.put(k, v, { pin: true });
     });
+    await this.kvdb.put(this.dbRestoreKeyName, new Date().toString(), {
+      pin: true,
+    });
+    if (!this.isThereAkey(this.dbInitKeyName)) {
+      await this.kvdb.put(this.dbInitKeyName, new Date().toString(), {
+        pin: true,
+      });
+    }
   }
 
   private async initIpfs(option = {}) {
@@ -325,14 +339,14 @@ export class MtvDb {
       this.kvdb = await this.orbitdb.open(address, dbOption);
     } catch (err) {
       logger.warn('open db again');
-      if(this.kvdb){
+      if (this.kvdb) {
         logger.warn('kvdb has been initialized');
         await this.sleep(5);
         return;
       }
       this.kvdb = await this.orbitdb.open(address, dbOption);
-      await this.kvdb.load();
     }
+    await this.kvdb.load();
 
     return this.kvdb;
   }
@@ -431,23 +445,22 @@ export class MtvDb {
         logger.error(err);
         throw err;
       });
-    }
+  }
 
-    async delFileFromPinata(fileCid: string) {
-        const httpConfig = {
-            headers: {
-              Authorization: 'Bearer ' + config.pinata.jwt
-            },
-        };
-        const fileUrl = config.pinata.unpinCidApi + "/" + fileCid;
-        return axios
-          .delete(fileUrl, httpConfig)
-          .then((res) => {
-            logger.info(res);
-        })
-          .catch((err) => {
-            logger.error(err);
-        });
-    }
-
+  async delFileFromPinata(fileCid: string) {
+    const httpConfig = {
+      headers: {
+        Authorization: 'Bearer ' + config.pinata.jwt,
+      },
+    };
+    const fileUrl = config.pinata.unpinCidApi + '/' + fileCid;
+    return axios
+      .delete(fileUrl, httpConfig)
+      .then((res) => {
+        logger.info(res);
+      })
+      .catch((err) => {
+        logger.error(err);
+      });
+  }
 }
