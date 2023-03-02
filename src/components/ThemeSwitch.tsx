@@ -5,7 +5,6 @@ export const ThemeSwitch = () => {
   const { setTheme } = useNextTheme();
   const { isDark } = useTheme();
   const themeChange = () => {
-    console.log(isDark)
     setTheme(isDark ? 'light' : 'dark');
   };
   return (
@@ -13,7 +12,7 @@ export const ThemeSwitch = () => {
       light
       size='sm'
       auto
-      className="px-3 text-5"
+      className="px-1.5 text-5"
       onPress={themeChange}>
       {isDark ? '☀️' : '🌛'}
     </Button>

@@ -1,5 +1,5 @@
-import { NextUIProvider, useTheme } from '@nextui-org/react';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { NextUIProvider } from '@nextui-org/react';
+import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
 import { RouterProvider } from 'react-router-dom';
 import '@chatui/core/dist/index.css';
 import { Toaster } from 'react-hot-toast';
@@ -13,7 +13,8 @@ import { useEffect } from 'react';
 export default function App() {
   const initRelayList = useNostrStore((state) => state.initRelayList);
   const loading = useGlobalStore((state) => state.checkLoading);
-  const { isDark } = useTheme();
+  const { theme } = useTheme();
+  console.log(theme);
   useEffect(() => {
     initRelayList([
       {
@@ -51,7 +52,10 @@ export default function App() {
         dark: darkTheme.className,
       }}>
       <NextUIProvider>
-        <div className={`sm:mt-30 ${isDark ? 'sm:bg-coolGray-9': 'sm:bg-coolGray-1'} rounded-xl sm:w-400px mx-auto h-screen sm:h-800px overflow-y-auto`}>
+        <div
+          className={`sm:mt-30 ${
+            theme ? 'sm:bg-coolGray-9' : 'sm:bg-coolGray-1'
+          } rounded-xl sm:w-400px mx-auto h-screen sm:h-800px overflow-y-auto`}>
           <LoginModal />
           <WalletCheck />
           <Toaster

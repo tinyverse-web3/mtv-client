@@ -20,15 +20,19 @@ export const WalletCheck = () => {
   const checkLoading = useGlobalStore((state) => state.checkLoading);
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
-  
+
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey && user?.mtvdb?.dbAddress) {
-      await initDb(
-        privateKey,
-        user?.mtvdb?.dbAddress,
-        user?.mtvdb?.metadataKey,
-      );
+      try {
+        await initDb(
+          privateKey,
+          user?.mtvdb?.dbAddress,
+          user?.mtvdb?.metadataKey,
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   const checkStatus = async () => {
