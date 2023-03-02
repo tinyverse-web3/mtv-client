@@ -17,7 +17,8 @@ export const config = {
         //}
     },
     orbitdb: {
-        directory: "./mtv"
+        directory: "./mtv",
+        onoffline: false
     },
     pinata: {
         "gateWayApi": "https://gateway.pinata.cloud/ipfs/",

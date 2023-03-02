@@ -130,8 +130,6 @@ export class MtvDb {
         return;
       }
       await this.getKvDb(this.dbAddress);
-
-      this.kvdb.load();
       await this.restoreDbData(this.kvdb, this.dbSnapshortCid);
     } else {
       if (this.kvdb) {
@@ -141,9 +139,7 @@ export class MtvDb {
       }
       await this.getKvDb(this.dbAddress);
     }
-
     this.dbAddress = this.kvdb.id;
-    await this.kvdb.load();
     if (this.isNew) {
       await this.kvdb.put('k0', new Date().toString(), { pin: true });
     }
@@ -335,6 +331,7 @@ export class MtvDb {
         return;
       }
       this.kvdb = await this.orbitdb.open(address, dbOption);
+      await this.kvdb.load();
     }
 
     return this.kvdb;
