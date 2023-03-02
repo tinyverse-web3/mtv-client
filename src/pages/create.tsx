@@ -44,7 +44,7 @@ export default function About() {
   };
   return (
     <Page showBack={false} title='创建账号'>
-      <Row className='mb-12' justify='center'>
+      <Row className='mb-12 mt-10' justify='center'>
         <Input
           clearable
           bordered

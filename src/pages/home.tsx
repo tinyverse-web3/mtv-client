@@ -29,7 +29,10 @@ export default function Home() {
     }
   };
   return (
-    <Page showBack={false} title="MTV">
+    <Page showBack={false} title='MTV'>
+      <div className='mb-4'>
+        <Address address={wallet?.wallet?.address} />
+      </div>
       <Button
         iconRight={<div className='i-mdi-account' />}
         size='xl'

@@ -31,7 +31,10 @@ export const LoginModal = () => {
       auth: true,
       query,
     },
-  });
+    
+  }, { onSuccess() {
+    getuserinfo()
+  }});
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -43,14 +46,14 @@ export const LoginModal = () => {
       },
     },
   );
-
+163143
   const loginSucess = async (res: any) => {
     if (res.data) {
       await setUserInfo({ email: res.data.email });
       await setToken(res.data);
       console.log(query);
       await modifyuser();
-      await getuserinfo();
+      // await getuserinfo();
     }
   };
   const { mutate } = useRequest(

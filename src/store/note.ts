@@ -60,5 +60,7 @@ useNoteStore.subscribe(async (state) => {
   const mtvDb = window.mtvDb;
   if (mtvDb) {
     await mtvDb.put('note', JSON.stringify(state.list));
+    const test = await mtvDb.get('note');
+    console.log(test);
   }
 });

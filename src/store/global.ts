@@ -9,7 +9,7 @@ interface UserInfo {
     metadataKey?: string;
   };
 }
-
+const metadataKey = 'kzwfwjn5ji4pupd2pb0qcfwlah3qc9ud9w2n1d3vgesiiidv1uk7t1wfx5ntb6w';
 interface NostrInfo {
   pk: string;
   sk: string;
@@ -42,7 +42,9 @@ export const useGlobalStore = create<GlobalState>()(
         maintain: false,
         checkLoading: true,
         userInfo: {
-          mtvdb: {},
+          mtvdb: {
+            metadataKey,
+          },
         },
         token: '',
         setUserInfo: (v) => {
@@ -61,9 +63,7 @@ export const useGlobalStore = create<GlobalState>()(
           return user;
         },
         setNostr: (n) => {
-          console.log(n);
           set({ nostr: n });
-          console.log(get().nostr);
         },
         setMtvdbToUser: (dbAddress, metadataKey) => {
           set({
