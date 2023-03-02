@@ -22,17 +22,17 @@ export default function NoteList() {
     nav(`/note/${id}`);
   };
   const removeItem = async (e: any, id: string) => {
-    console.log(id);
     e.stopPropagation();
     await remove(id);
   };
   useEffect(() => {
     if (mtvDb?.kvdb) {
       mtvDb.get('note').then((res) => {
+        console.log(res);
         try {
           const list = JSON.parse(res);
           if (list) {
-            initNote(list);
+            initNote(list || []);
           }
         } catch (error) {}
       });

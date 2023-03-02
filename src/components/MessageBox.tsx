@@ -41,7 +41,6 @@ export const MessageBox = ({ recipient }: any) => {
         email: meStatus ? user.email : recipient.email,
         text,
       });
-      "/orbitdb/zdpuAmbXnVrBYvjhUCXG6hTzKHUiNug8KvvXzPnaoZYBV6bQT/mtv_kv"
     }
   };
   useEffect(() => {

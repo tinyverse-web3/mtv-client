@@ -60,9 +60,10 @@ export const useGlobalStore = create<GlobalState>()(
           set({ nostr: user });
           return user;
         },
-        setNostr: () => {
-          const user = generateKeys();
-          set({ nostr: user });
+        setNostr: (n) => {
+          console.log(n);
+          set({ nostr: n });
+          console.log(get().nostr);
         },
         setMtvdbToUser: (dbAddress, metadataKey) => {
           set({

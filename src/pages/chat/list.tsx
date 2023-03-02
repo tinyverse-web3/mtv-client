@@ -15,7 +15,6 @@ export default function ChatList() {
   const setNostr = useGlobalStore((state) => state.setNostr);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const setRecipient = useNostrStore((state) => state.setRecipient);
-  const user = useGlobalStore((state) => state.userInfo);
   const nostr = useGlobalStore((state) => state.nostr);
   const { data, mutate } = useRequest<any[]>(
     {
@@ -38,14 +37,8 @@ export default function ChatList() {
     },
   });
   const getLocalNostr = async () => {
-    console.log('本地获取nostr');
-    console.log(mtvDb?.kvdb);
-    if (mtvDb?.kvdb) {
-      // await mtvDb.put(NOSTR_KEY, '');
-      const _sk = await mtvDb.get(NOSTR_KEY);
-      // window.sessionStorage.setItem(NOSTR_KEY, sk);
-      console.log(_sk);
-    }
+    // console.log('本地获取nostr');
+    // console.log(mtvDb?.kvdb);
     if (mtvDb?.kvdb) {
       const localSk = await mtvDb.get(NOSTR_KEY);
       // const localSk = window.sessionStorage.getItem(NOSTR_KEY);
@@ -66,8 +59,8 @@ export default function ChatList() {
         await sendPk(pk);
       }
     }
+    console.log(nostr);
   };
-  ('kzwfwjn5ji4pukjmg30rioovkmni7d3yls8s21r0brjqaug2r1zads2942zf8qr');
   const toDetail = async (cur: any) => {
     await setRecipient({ pk: cur.nostrPublicKey, email: cur.email });
     nav(ROUTE_PATH.CHAT_MESSAGE);
@@ -79,10 +72,10 @@ export default function ChatList() {
     mutate();
   });
   useEffect(() => {
-    // getLocalNostr();
+    getLocalNostr();
   }, [mtvDb]);
   return (
-    <Page title='记事本' path={ROUTE_PATH.HOME}>
+    <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
         {data?.map((item) => (
           <div key={item.nostrPublicKey}>
@@ -97,7 +90,7 @@ export default function ChatList() {
             <Spacer y={1} />
           </div>
         ))}
-        <Button onPress={getLocalNostr}>创建</Button>
+        {/* <Button onPress={getLocalNostr}>创建</Button> */}
       </div>
     </Page>
   );
