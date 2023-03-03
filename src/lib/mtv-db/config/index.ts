@@ -1,6 +1,6 @@
 export const config = {
   ipfs: {
-    http_node: { url: 'https://192.168.3.68/ipfs/api/v0' },
+    http_node: { url: 'https://39.108.72.102:8099/ipfs/api/v0' },
     //node_address: '/ip4/192.168.3.68/tcp/4001/p2p/12D3KooWCKvhKRhSGL8vbiTaYwdbpj3kRb5foMR2qfG2B4vvYHFb',
     //node_address: '/ip4/192.168.3.233/tcp/5001/',
     //create_option: {
