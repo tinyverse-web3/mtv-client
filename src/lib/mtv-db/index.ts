@@ -81,8 +81,9 @@ export class MtvDb {
       await this.initKvDb();
       logger.info('db address: ' + this.dbAddress);
     } catch (err) {
+      logger.error((err as Error).message)
       this.closeDb();
-      // throw err;
+      throw err;
     }
   }
 
@@ -123,13 +124,12 @@ export class MtvDb {
 
     if (this.kvdb) {
       logger.warn('kvdb has been initialized');
-      // await this.sleep(5);
       return;
     }
     await this.getKvDb(this.dbAddress);
     console.log(this.isNew);
     if (this.isNew) {
-      await this.kvdb?.put(this.dbInitKeyName, new Date().toString(), {
+      await this.kvdb.put(this.dbInitKeyName, new Date().toString(), {
         pin: true,
       });
     }
@@ -140,7 +140,6 @@ export class MtvDb {
         logger.warn('orginal db data: ' + this.kvdb.all);
         logger.error('data restore error:');
         logger.error((err as Error).message);
-        //throw err;
       }
     }
     this.dbAddress = this.kvdb.id;
@@ -330,6 +329,7 @@ export class MtvDb {
       accessController: { write: ['*'] },
     };
     if (this.isNew || this.dbAddress == '') {
+      // For new users who do not have a database at initialization time, a default database name will be set for to create operate
       address = this.dbName;
     }
     if (this.kvdb) {
@@ -344,9 +344,6 @@ export class MtvDb {
       console.log(err);
       return;
     }
-    // await new Promise((resolve) =>
-    //   this.kvdb.events.on('ready', () => resolve(true)),
-    // );
     await this.kvdb.load();
     return this.kvdb;
   }
