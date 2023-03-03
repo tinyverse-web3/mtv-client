@@ -67,11 +67,21 @@ export const Question = () => {
   const answerChange = (i: number, { data }: any) => {
     updateAt(i, { q: data.q, a: data.a });
   };
+  const questionTemplate = useMemo(
+    () => data?.map((v) => ({ q: v.content, Id: v.Id })) || [],
+    [data],
+  );
   const unselsectList = useMemo(() => {
-    const questionTemplate = data?.map((v) => ({ q: v.content, Id: v.Id }));
+    const _list = [];
     const selectList = list.filter((v) => !!v.q);
-    return xorBy(selectList, questionTemplate, 'q');
-  }, [list, data]);
+    for (let i = 0; i < questionTemplate.length; i++) {
+      const item = questionTemplate[i];
+      if (!selectList.find((v) => v.q === item.q)) {
+        _list.push(item);
+      }
+    }
+    return _list;
+  }, [list, questionTemplate]);
   const isFull = useMemo(() => {
     return list.length === QUESTION_MAX || data?.length === list.length;
   }, [list, unselsectList]);
@@ -94,7 +104,6 @@ export const Question = () => {
     const validStatus = validList();
     if (validStatus) {
       setUserQuestion();
-      console.log(list);
     }
   };
   useEffect(() => {
@@ -119,6 +128,7 @@ export const Question = () => {
             </div>
             <QuestionSelect
               list={unselsectList}
+              templeteList={questionTemplate}
               key={i}
               select={val}
               className='mb-6'

@@ -22,7 +22,7 @@ export default function Setting() {
   };
   return (
     <Page title='账号维护'>
-      <div className='mb-6'>
+      <div className='mb-6 pb-2'>
         <Button
           flat
           className='w-full mb-6'
@@ -41,9 +41,9 @@ export default function Setting() {
         ) : (
           <></>
         )}
+        <SharesCard />
+        <Question />
       </div>
-      <SharesCard />
-      <Question/>
     </Page>
   );
 }

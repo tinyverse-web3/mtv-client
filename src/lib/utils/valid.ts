@@ -8,13 +8,13 @@ schema
   .is()
   .min(8) // Minimum length 8
   .is()
-  .max(20) // Maximum length 100
+  .max(16) // Maximum length 100
   .has()
   .uppercase() // Must have uppercase letters
   .has()
   .lowercase() // Must have lowercase letters
   .has()
-  .digits(2) // Must have at least 2 digits
+  .digits() // Must have at least 2 digits
   .has()
   .not()
   .spaces() // Should not have spaces

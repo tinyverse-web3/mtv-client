@@ -31,7 +31,6 @@ export default function About() {
       if (dbAddress && metadataKey) {
         setMtvdbToUser(dbAddress, metadataKey);
       }
-      console.log(userInfo);
     }
     setWallet(wallet);
     nav('/home', { replace: true });
@@ -53,7 +52,7 @@ export default function About() {
           value={pwd}
           helperColor={validStatus ? 'default' : 'error'}
           status={validStatus ? 'default' : 'error'}
-          helperText='8-20位长度密码, 最少一位大写字母, 最少2位数字'
+          helperText='8-16位，包含大小写和数字'
           onChange={pwdChange}
           labelPlaceholder='密码'
         />
