@@ -43,7 +43,7 @@ export const useGlobalStore = create<GlobalState>()(
         checkLoading: true,
         userInfo: {
           mtvdb: {
-            metadataKey,
+            // metadataKey,
           },
         },
         token: '',
@@ -54,7 +54,7 @@ export const useGlobalStore = create<GlobalState>()(
         setShowLogin: (v) => set(() => ({ showLogin: v })),
         logout: () =>
           set(() => ({ token: '', isLogin: false, showLogin: true })),
-        setToken: (v) => set({ token: v, isLogin: true, showLogin: false }),
+        setToken: (v) => set({ token: v, isLogin: true }),
         setMaintain: (v) => set(() => ({ maintain: v })),
         setCheckLoading: (v) => set(() => ({ checkLoading: v })),
         createNostr: () => {

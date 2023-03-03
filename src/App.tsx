@@ -52,16 +52,18 @@ export default function App() {
           dark: darkTheme.className,
         }}>
         <NextUIProvider>
-          <Container>
-            <LoginModal />
-            <WalletCheck />
-            <Toaster
-              position='top-center'
-              reverseOrder={false}
-              toastOptions={{ duration: 2000 }}
-            />
-            {!loading && <RouterProvider router={router}></RouterProvider>}
-          </Container>
+          <WalletCheck />
+          {!loading && (
+            <Container>
+              <LoginModal />
+              <Toaster
+                position='top-center'
+                reverseOrder={false}
+                toastOptions={{ duration: 2000 }}
+              />
+              <RouterProvider router={router}></RouterProvider>
+            </Container>
+          )}
         </NextUIProvider>
       </NextThemesProvider>
     </main>

@@ -44,11 +44,12 @@ export default function About() {
     } else if (id) {
       await update(newNote);
     }
-
-    nav(-1);
+    setTimeout(() => {
+      nav(-1);
+    }, 1000);
   };
   return (
-    <Page title="记事本" path={ROUTE_PATH.NOTE}>
+    <Page title='记事本' path={ROUTE_PATH.NOTE}>
       <div className='py-8'>
         <Row className='mb-8' justify='center'>
           <Textarea

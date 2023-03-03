@@ -24,7 +24,7 @@ export const useNoteStore = create<GlobalState>()(
       add: async (n) => {
         const list = get().list;
         list.push(n);
-        set({ list });
+        set({ list: [...list] });
       },
       init: async (n) => {
         set({ list: n });
@@ -61,6 +61,6 @@ useNoteStore.subscribe(async (state) => {
   if (mtvDb) {
     await mtvDb.put('note', JSON.stringify(state.list));
     const test = await mtvDb.get('note');
-    console.log(test);
+    await mtvDb.backupDb();
   }
 });

@@ -22,6 +22,7 @@ export const useMtvdbStore = create<MtvdbState>()(
       console.log(privateKey, dbAddress, metadataKey);
       const sk = privateKey.replace(/^0x/, '');
       await mtvDb.createInstance(sk, dbAddress, metadataKey);
+      window.mtvDb = mtvDb;
       set({ mtvDb });
       if (mtvDb.kvdb) {
         set({ loaded: true})
@@ -29,8 +30,13 @@ export const useMtvdbStore = create<MtvdbState>()(
     },
     create: async (privateKey) => {
       const sk = privateKey.replace(/^0x/, '');
-      await get().mtvDb?.createInstance(sk);
-      const { dbAddress, metadataKey } = get().mtvDb || {};
+      await mtvDb?.createInstance(sk);
+      window.mtvDb = mtvDb;
+      const { dbAddress, metadataKey } = mtvDb || {};
+      set({ mtvDb });
+      if (mtvDb.kvdb) {
+        set({ loaded: true})
+      }
       return { dbAddress, metadataKey };
     },
   })),

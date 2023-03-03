@@ -127,6 +127,7 @@ export class MtvDb {
       return;
     }
     await this.getKvDb(this.dbAddress);
+    console.log(this.isNew);
     if (this.isNew) {
       await this.kvdb?.put(this.dbInitKeyName, new Date().toString(), {
         pin: true,
@@ -195,11 +196,14 @@ export class MtvDb {
 
   public async backupDb() {
     const snapshotData = this.kvdb.all;
-
-    await this.getMetaData(this.metadataKey); //get old metadataCid and old dbSnapshortCid for del process
-    const oldMetataCid = this.metadataCid;
-    const oldMetadataRecord = this.metadata[this.dbName];
-    const oldDbSnapshortCid = oldMetadataRecord.db_cid;
+    let oldMetataCid, oldMetadataRecord, oldDbSnapshortCid;
+    try {
+      await this.getMetaData(this.metadataKey);
+      //get old metadataCid and old dbSnapshortCid for del process
+      oldMetataCid = this.metadataCid;
+      oldMetadataRecord = this.metadata[this.dbName];
+      oldDbSnapshortCid = oldMetadataRecord.db_cid;
+    } catch (error) {}
 
     const newDbSnapshortCid = await this.uploadDbSnapshot(
       this.kvdb.id,
@@ -328,15 +332,13 @@ export class MtvDb {
     if (this.isNew || this.dbAddress == '') {
       address = this.dbName;
     }
-    // let db;
-    console.log(this.kvdb);
     if (this.kvdb) {
       logger.warn('kvdb has been initialized');
       return;
     }
     try {
       this.kvdb = await this.orbitdb.open(address, dbOption);
-      console.log(this.kvdb)
+      console.log(this.kvdb);
     } catch (err) {
       logger.warn('open db again');
       console.log(err);

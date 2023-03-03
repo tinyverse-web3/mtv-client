@@ -43,9 +43,9 @@ export function useRequest<T>(
 
   const onSuccess = async (data: any, key: string, config: any) => {
     if (data.code === '400000') {
-      await logout();
+      // await logout();
       // nav(ROUTE_PATH.HOME);
-      location.replace('/home');
+      // location.replace('/home');
       // apiRetryList.push(trigger);
     } else if (customSuccess) {
       await customSuccess(data, key, config);
@@ -58,6 +58,7 @@ export function useRequest<T>(
     console.log(url, arg);
     const headers: any = {};
     const _method = arg?.method.toUpperCase();
+    console.log(useGlobalStore.getState().token);
     if (arg?.auth) {
       headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
     }
@@ -72,7 +73,11 @@ export function useRequest<T>(
       res.json(),
     );
   };
-  const { data, error, trigger } = useSWRMutation({ url, arg }, fetcher, _swrConfig);
+  const { data, error, trigger } = useSWRMutation(
+    { url, arg },
+    fetcher,
+    _swrConfig,
+  );
   useEffect(() => {
     if (data?.code === '000000') {
       setRes(data?.data);

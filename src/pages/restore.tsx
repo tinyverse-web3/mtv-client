@@ -16,7 +16,6 @@ import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import Page from '@/layout/page';
 import { useRequest } from '@/api';
 
-
 export default function Restore() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
@@ -37,6 +36,7 @@ export default function Restore() {
       onSuccess: (res) => {
         const { sssData } = res.data;
         setShareA(sssData);
+        setMtvdbToUser(res.data.dbAddress, res.data.ipns);
       },
     },
   );
@@ -48,8 +48,18 @@ export default function Restore() {
           const status = await wallet.restoreWallet(phrase, pwd);
           console.log(status);
           if (status === STATUS_CODE.SUCCESS) {
-            nav('/home', { replace: true });
             setWallet(wallet);
+            const { privateKey } = wallet.wallet || {};
+            if (privateKey) {
+              const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
+              if (dbAddress) {
+                // await setMtvdbToUser(dbAddress, metadataKey);
+                await initMtvdb(privateKey, dbAddress, metadataKey);
+              }
+            }
+            console.log(useMtvdbStore.getState())
+            console.log(useGlobalStore.getState())
+            // nav('/home', { replace: true });
           }
         } catch (error) {
           console.log(error);
@@ -62,6 +72,7 @@ export default function Restore() {
         console.log(combineKey);
         const status = await wallet.restoreFromKey(combineKey, pwd);
         if (status === STATUS_CODE.SUCCESS) {
+          setWallet(wallet);
           const { privateKey } = wallet.wallet || {};
           if (privateKey) {
             const { dbAddress, metadataKey } = userInfo?.mtvdb || {};

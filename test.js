@@ -2,13 +2,10 @@ import { ethers } from 'ethers';
 import EthCrypto from 'eth-crypto';
 
 export const signMessage = (
-  message: string,
+  message,
   {
     address,
     privateKey,
-  }: {
-    address: string;
-    privateKey: string;
   },
 ) => {
   const signHash = ethers.solidityPackedKeccak256(

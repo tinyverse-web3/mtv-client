@@ -4,7 +4,7 @@ import { useGlobalStore, useWalletStore } from '@/store';
 import { validEmail } from '@/lib/utils';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
-
+import { signMessage } from '@/lib/utils';
 export const LoginModal = () => {
   const showLogin = useGlobalStore((state) => state.showLogin);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
@@ -17,24 +17,35 @@ export const LoginModal = () => {
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
   const query = useMemo(() => {
+    const { publicKey, privateKey, address } = wallet?.wallet || {};
+    const { metadataKey, dbAddress } = userInfo.mtvdb || {};
+    let sign;
+    if (publicKey && privateKey && address && metadataKey && dbAddress) {
+      sign = signMessage(metadataKey, { address, privateKey });
+    }
     return {
       publicKey: wallet?.wallet?.publicKey,
       address: wallet?.wallet?.address,
-      ipns: userInfo.mtvdb?.metadataKey,
+      ipns: metadataKey,
       dbAddress: userInfo.mtvdb?.dbAddress,
+      sign,
     };
   }, [wallet, userInfo]);
-  const { mutate: modifyuser } = useRequest({
-    url: '/user/modifyuser',
-    arg: {
-      method: 'post',
-      auth: true,
-      query,
+  const { mutate: modifyuser } = useRequest(
+    {
+      url: '/user/modifyuser',
+      arg: {
+        method: 'post',
+        auth: true,
+        query,
+      },
     },
-    
-  }, { onSuccess() {
-    getuserinfo()
-  }});
+    {
+      onSuccess() {
+        getuserinfo();
+      },
+    },
+  );
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -42,18 +53,20 @@ export const LoginModal = () => {
     },
     {
       onSuccess: (res) => {
-        setUserInfo({ mtvdb: { dbAddress: res.data.dbAddress } });
+        setUserInfo({ mtvdb: { dbAddress: res.data.dbAddress, metadataKey: res.data.ipns } });
       },
     },
   );
-163143
   const loginSucess = async (res: any) => {
     if (res.data) {
       await setUserInfo({ email: res.data.email });
       await setToken(res.data);
-      console.log(query);
-      await modifyuser();
-      // await getuserinfo();
+      console.log(wallet);
+      console.log(userInfo);
+      if (wallet?.wallet?.publicKey) {
+        await modifyuser();
+      }
+      setShowLogin(false);
     }
   };
   const { mutate } = useRequest(
@@ -81,6 +94,7 @@ export const LoginModal = () => {
   const loginHandler = async () => {
     if (!verifyCode) {
       console.log('没有验证码');
+      return;
     }
     await mutate();
   };
