@@ -39,7 +39,7 @@ export class MtvDb {
 
   public count = 0;
 
-  constructor() {
+  private constructor() {
     logger.info('MmtDb init...');
   }
 
@@ -81,8 +81,9 @@ export class MtvDb {
       await this.initKvDb();
       logger.info('db address: ' + this.dbAddress);
     } catch (err) {
+      logger.error((err as Error).message)
       this.closeDb();
-      // throw err;
+      throw err;
     }
   }
 
@@ -123,12 +124,11 @@ export class MtvDb {
 
     if (this.kvdb) {
       logger.warn('kvdb has been initialized');
-      // await this.sleep(5);
       return;
     }
     await this.getKvDb(this.dbAddress);
     if (this.isNew) {
-      await this.kvdb?.put(this.dbInitKeyName, new Date().toString(), {
+      await this.kvdb.put(this.dbInitKeyName, new Date().toString(), {
         pin: true,
       });
     }
@@ -139,7 +139,6 @@ export class MtvDb {
         logger.warn('orginal db data: ' + this.kvdb.all);
         logger.error('data restore error:');
         logger.error((err as Error).message);
-        //throw err;
       }
     }
     this.dbAddress = this.kvdb.id;
@@ -326,25 +325,21 @@ export class MtvDb {
       accessController: { write: ['*'] },
     };
     if (this.isNew || this.dbAddress == '') {
+      // For new users who do not have a database at initialization time, a default database name will be set for to create operate
       address = this.dbName;
     }
     // let db;
-    console.log(this.kvdb);
     if (this.kvdb) {
       logger.warn('kvdb has been initialized');
       return;
     }
     try {
       this.kvdb = await this.orbitdb.open(address, dbOption);
-      console.log(this.kvdb)
     } catch (err) {
       logger.warn('open db again');
       console.log(err);
       return;
     }
-    // await new Promise((resolve) =>
-    //   this.kvdb.events.on('ready', () => resolve(true)),
-    // );
     await this.kvdb.load();
     return this.kvdb;
   }
