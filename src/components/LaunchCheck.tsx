@@ -30,6 +30,7 @@ export const WalletCheck = () => {
           user?.mtvdb?.dbAddress,
           user?.mtvdb?.metadataKey,
         );
+        console.log(123);
       } catch (error) {
         console.log(error);
       }

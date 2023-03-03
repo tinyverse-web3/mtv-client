@@ -1,11 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useNoteStore, useWalletStore } from '@/store';
+import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
 
-import { useMtvdbStore } from '@/store';
 import { useEvent } from 'react-use';
 
 export default function NoteList() {
@@ -13,6 +12,7 @@ export default function NoteList() {
   const list = useNoteStore((state) => state.list);
   const remove = useNoteStore((state) => state.remove);
   const initNote = useNoteStore((state) => state.init);
+  const mtvLoaded = useMtvdbStore((state) => state.loaded);
   console.log(list);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const toAdd = () => {
@@ -25,7 +25,23 @@ export default function NoteList() {
     e.stopPropagation();
     await remove(id);
   };
+  // setTimeout(() => {
+  //   if (mtvDb?.kvdb) {
+  //     mtvDb.get('note').then((res) => {
+  //       console.log(res);
+  //       try {
+  //         const list = JSON.parse(res);
+  //         if (list) {
+  //           initNote(list || []);
+  //         }
+  //       } catch (error) {}
+  //     });
+  //   }
+  // }, 2000);
   useEffect(() => {
+    console.log(mtvDb?.kvdb);
+    // setTimeout(() => {
+    //   console.log(mtvDb?.kvdb);
     if (mtvDb?.kvdb) {
       mtvDb.get('note').then((res) => {
         console.log(res);
@@ -37,7 +53,8 @@ export default function NoteList() {
         } catch (error) {}
       });
     }
-  }, [mtvDb]);
+    // }, 2000);
+  }, [mtvDb, mtvLoaded]);
   return (
     <Page title='记事本' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
