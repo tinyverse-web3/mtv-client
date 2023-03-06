@@ -28,10 +28,8 @@ export default function About() {
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
       const { dbAddress, metadataKey } = await createMtvdb(privateKey);
-      console.log(dbAddress)
-      console.log(metadataKey)
       if (dbAddress && metadataKey) {
-        setMtvdbToUser(dbAddress, metadataKey);
+        await setMtvdbToUser(dbAddress, metadataKey);
       }
     }
     setWallet(wallet);

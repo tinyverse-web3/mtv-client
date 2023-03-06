@@ -44,9 +44,7 @@ export default function About() {
     } else if (id) {
       await update(newNote);
     }
-    setTimeout(() => {
-      nav(-1);
-    }, 1000);
+    nav(-1);
   };
   return (
     <Page title='记事本' path={ROUTE_PATH.NOTE}>

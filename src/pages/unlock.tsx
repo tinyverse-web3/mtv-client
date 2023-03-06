@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Text, Row, Button, Input } from '@nextui-org/react';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore } from '@/store';
+import { useWalletStore, useMtvdbStore, useGlobalStore } from '@/store';
 import Page from '@/layout/page';
 
 export default function Unlock() {
@@ -10,12 +10,21 @@ export default function Unlock() {
   const [pwd, setPwd] = useState('');
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
+  const initMtvdb = useMtvdbStore((state) => state.init);
+  const userInfo = useGlobalStore((state) => state.userInfo);
   const unlock = async () => {
     const status = await wallet?.verify(pwd);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
       setWallet(wallet);
+      const { privateKey } = wallet.wallet || {};
+      if (privateKey) {
+        const { dbAddress } = userInfo?.mtvdb || {};
+        if (dbAddress) {
+          await initMtvdb(privateKey, dbAddress);
+        }
+      }
       nav('/home', { replace: true });
     }
   };

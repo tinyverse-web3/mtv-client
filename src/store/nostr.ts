@@ -44,6 +44,12 @@ export const useNostrStore = create<GlobalState>()(
       }),
       {
         name: 'nostr-store',
+        partialize: (state) =>
+          Object.fromEntries(
+            Object.entries(state).filter(
+              ([key]) => !['list', 'relayList'].includes(key),
+            ),
+          ),
       },
     ),
   ),

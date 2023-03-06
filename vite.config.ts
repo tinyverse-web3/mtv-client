@@ -21,7 +21,7 @@ export default defineConfig({
     https: true,
     proxy: {
       '/api': {
-        target: 'http://192.168.3.68:6060',
+        target: 'http://39.108.72.102:8088/mtv/api/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

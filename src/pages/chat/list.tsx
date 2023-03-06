@@ -51,6 +51,7 @@ export default function ChatList() {
         const { sk, pk } = await createNostr();
         console.log('create new nostr key');
         await mtvDb.put(NOSTR_KEY, sk);
+        await mtvDb.backupDb();
         await setNostr({ pk, sk });
         await sendPk(pk);
       }

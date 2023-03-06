@@ -53,13 +53,10 @@ export default function Restore() {
             if (privateKey) {
               const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
               if (dbAddress) {
-                // await setMtvdbToUser(dbAddress, metadataKey);
                 await initMtvdb(privateKey, dbAddress, metadataKey);
               }
             }
-            console.log(useMtvdbStore.getState())
-            console.log(useGlobalStore.getState())
-            // nav('/home', { replace: true });
+            nav('/home', { replace: true });
           }
         } catch (error) {
           console.log(error);
@@ -77,11 +74,9 @@ export default function Restore() {
           if (privateKey) {
             const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
             if (dbAddress) {
-              setMtvdbToUser(dbAddress, metadataKey);
               await initMtvdb(privateKey, dbAddress);
             }
           }
-          console.log(userInfo);
           nav('/home', { replace: true });
         }
       }
