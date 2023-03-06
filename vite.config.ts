@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import {NodeGlobalsPolyfillPlugin} from '@esbuild-plugins/node-globals-polyfill';
 // import GlobalPolyFill from "@esbuild-plugins/node-globals-polyfill";
 import react from '@vitejs/plugin-react-swc';
@@ -34,12 +34,14 @@ export default defineConfig({
     // rollupInputOptions({
     //   plugins: [builtinsPlugin],
     // }),
+    // splitVendorChunkPlugin(),
     UnoCSS({
       presets: [presetUno(), presetAttributify(), presetIcons()],
     }),
   ],
   define: {
-    'process.env': {},
+    // 'process': {},
+    'process.env': process.env,
     // global: 'window',
   },
   resolve: {

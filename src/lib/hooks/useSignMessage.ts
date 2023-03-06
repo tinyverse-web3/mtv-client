@@ -5,10 +5,10 @@ import { useMemo, useState } from 'react';
 export const useSignMessage = (message: string) => {
   const wallet = useWalletStore((state) => state.wallet);
   const sign = useMemo(() => {
-    const { publicKey, privateKey } = wallet?.wallet || {};
-    if (publicKey && privateKey && message) {
+    const { address, privateKey } = wallet?.wallet || {};
+    if (address && privateKey && message) {
       const _sign = signMessage(message, {
-        publicKey,
+        address,
         privateKey,
       });
       return _sign;

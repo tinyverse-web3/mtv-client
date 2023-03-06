@@ -43,9 +43,8 @@ export function useRequest<T>(
 
   const onSuccess = async (data: any, key: string, config: any) => {
     if (data.code === '400000') {
-      // await logout();
-      // nav(ROUTE_PATH.HOME);
-      // location.replace('/home');
+      await logout();
+      location.replace('/home');
       // apiRetryList.push(trigger);
     } else if (customSuccess) {
       await customSuccess(data, key, config);

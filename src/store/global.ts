@@ -53,7 +53,7 @@ export const useGlobalStore = create<GlobalState>()(
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
         logout: () =>
-          set(() => ({ token: '', isLogin: false, showLogin: true })),
+          set(() => ({ token: '', isLogin: false, showLogin: false })),
         setToken: (v) => set({ token: v, isLogin: true }),
         setMaintain: (v) => set(() => ({ maintain: v })),
         setCheckLoading: (v) => set(() => ({ checkLoading: v })),
