@@ -18,7 +18,7 @@ export const config = {
   },
   orbitdb: {
     directory: './mtv',
-    onoffline: false,
+    onoffline: false
   },
   pinata: {
     gate_way_api: import.meta.env.VITE_PINATA_GATE_WAY_API,

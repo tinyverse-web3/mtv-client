@@ -66,7 +66,7 @@ export class MtvDb {
     this.userPublicKeyStr = Buffer.from(this.userPublicKey.bytes).toString(
       'hex',
     );
-    this.dbName = 'mtv_kv'; // default db name, mtv is app name and kv is db type for keyvalue
+    this.dbName =  this.userPublicKeyStr + '_kv' ; // default db name, mtv is app name and kv is db type for keyvalue
     this.metadataKey = metadataKey;
     if (this.metadataKey != '') {
       this.isNew = false;
@@ -197,11 +197,13 @@ export class MtvDb {
     const snapshotData = this.kvdb.all;
     let oldMetataCid, oldMetadataRecord, oldDbSnapshortCid;
     try {
-      await this.getMetaData(this.metadataKey);
-      //get old metadataCid and old dbSnapshortCid for del process
-      oldMetataCid = this.metadataCid;
-      oldMetadataRecord = this.metadata[this.dbName];
-      oldDbSnapshortCid = oldMetadataRecord.db_cid;
+      if(!this.isNew){
+        await this.getMetaData(this.metadataKey);
+        //get old metadataCid and old dbSnapshortCid for del process
+        oldMetataCid = this.metadataCid;
+        oldMetadataRecord = this.metadata[this.dbName];
+        oldDbSnapshortCid = oldMetadataRecord.db_cid;
+      }
     } catch (error) {}
 
     const newDbSnapshortCid = await this.uploadDbSnapshot(
@@ -273,6 +275,7 @@ export class MtvDb {
       logger.warn('orbitdb has been initialized');
       return;
     }
+    //config.orbitdb.peerId = this.userPublicKeyStr;
     this.orbitdb = await OrbitDB.createInstance(this.ipfs, config.orbitdb);
   }
 
