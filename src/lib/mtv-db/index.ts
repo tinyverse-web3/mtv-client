@@ -404,7 +404,7 @@ export class MtvDb {
   async uploadJsonFileToPinata(pinataMetadata: object, jsonData: object) {
     const httpConfig = {
       headers: {
-        Authorization: 'Bearer ' + config.pinata.jwt,
+        Authorization: 'Bearer ' + config.pinata.jwt_key,
         'Content-Type': 'application/json',
       },
     };
@@ -414,7 +414,7 @@ export class MtvDb {
     };
     let result = {};
     return axios
-      .post(config.pinata.pinJsonApi, pinataJsonData, httpConfig)
+      .post(config.pinata.pin_json_api, pinataJsonData, httpConfig)
       .then((res) => {
         logger.info(res.data);
         return res.data;
@@ -431,7 +431,7 @@ export class MtvDb {
         Accept: 'text/plain',
       },
     };
-    const fileUrl = config.pinata.gateWayApi + fileCid;
+    const fileUrl = config.pinata.gate_way_api + fileCid;
     return axios
       .get(fileUrl, httpConfig)
       .then((res) => {
@@ -447,10 +447,10 @@ export class MtvDb {
   async delFileFromPinata(fileCid: string) {
     const httpConfig = {
       headers: {
-        Authorization: 'Bearer ' + config.pinata.jwt,
+        Authorization: 'Bearer ' + config.pinata.jwt_key,
       },
     };
-    const fileUrl = config.pinata.unpinCidApi + '/' + fileCid;
+    const fileUrl = config.pinata.unpin_cid_api + '/' + fileCid;
     return axios
       .delete(fileUrl, httpConfig)
       .then((res) => {

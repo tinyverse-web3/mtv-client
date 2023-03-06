@@ -43,12 +43,12 @@ export class KeySha {
     };
     const getKeyUrl =
       config.kv.key_server_url + config.kv.get_key_url + key;
+      logger.info("getKey key: " + key);
     return axios
       .get(getKeyUrl, httpConfig)
       .then((res) => {
         if(res.data.code  == '000000' ){
-          logger.info(res.data.data);
-          logger.info("get key:" + res.data.data);
+          logger.info("getKey value: " + res.data.data);
           return res.data.data;
         }
         throw new Error(res.data.msg);
@@ -71,11 +71,12 @@ export class KeySha {
       "key": key,
       "value": value
     }
+    logger.info("setkey key: " + key);
+    logger.info("setkey value: " + key);
     return axios
       .post(setKeyUrl, setData, httpConfig)
       .then((res) => {
         if(res.data.code  == '000000' ){
-          logger.info("set key:" + res.data.data);
           return res.data.data;
         }
         logger.error(res.data.msg);
