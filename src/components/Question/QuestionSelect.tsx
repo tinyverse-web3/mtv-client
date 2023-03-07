@@ -61,7 +61,7 @@ export const QuestionSelect = ({
       l: answerLen,
     };
     onChange && onChange(data);
-  }, [selectedValue, answer]);
+  }, [selectedValue, answer, customQuestion]);
 
   useEffect(() => {
     const isCustom = !templeteList?.find((v) => v.q === select.q);

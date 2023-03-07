@@ -39,14 +39,23 @@ export const QuestionMaintain = () => {
   const onSubmit = async (_list: any[]) => {
     // const { email = 'tset' } = userInfo;
     const email = 'test';
-    const keySha = new KeySha();
+
     setList(_list);
+    console.log(_list);
     const shareKeys = await splitKey(2, 3);
+    console.log(shareKeys);
     if (shareKeys && email) {
-      const kvMap = shareKeys?.map((s, i) =>
-        keySha.set(email, _list[i].q, _list[i].a as string, s),
-      );
+      const kvMap = shareKeys?.map((s, i) => {
+        const keySha = new KeySha();
+        return keySha.set(email, _list[i].q, _list[i].a as string, s);
+      });
       await Promise.all(kvMap);
+      const kvGetMap = _list?.map((s) => {
+        const keySha = new KeySha();
+        return keySha.get(email, s.q, s.a);
+      });
+      const shares = await Promise.all(kvGetMap);
+      console.log(shares);
       await setUserQuestion();
     }
   };

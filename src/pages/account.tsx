@@ -7,6 +7,7 @@ import { SharesCard } from '@/components/SharesCard';
 import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
 export default function Setting() {
   const [pharseVisible, setPharseVisible] = useState(false);
+  const [questionVisible, setQuestionVisible] = useState(false);
   const wallet = useWalletStore((state) => state.wallet);
   const { phrase } = wallet?.wallet?.mnemonic || {};
   const [_, copyToClipboard] = useCopyToClipboard();
@@ -19,6 +20,9 @@ export default function Setting() {
         setPharseVisible(false);
       }, 1000 * 5);
     }
+  };
+  const showQuestion = () => {
+    setQuestionVisible(!questionVisible);
   };
   return (
     <Page title='账号维护'>
@@ -42,7 +46,15 @@ export default function Setting() {
           <></>
         )}
         <SharesCard />
-        <QuestionMaintain />
+        <Button
+          flat
+          className='w-full mb-6'
+          size='xl'
+          color='error'
+          onPress={showQuestion}>
+          问答备份
+        </Button>
+        {questionVisible && <QuestionMaintain />}
       </div>
     </Page>
   );
