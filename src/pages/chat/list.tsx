@@ -46,15 +46,18 @@ export default function ChatList() {
       console.log(localSk);
       if (localSk) {
         const pk = getPublicKey(localSk);
+        console.log(pk);
         await setNostr({ pk, sk: localSk });
       } else {
         const { sk, pk } = await createNostr();
-        console.log('create new nostr key');
+        console.log('生成的sk')
+        console.log(sk)
+        console.log(pk)
         await mtvDb.put(NOSTR_KEY, sk);
         await mtvDb.backupDb();
         await setNostr({ pk, sk });
-        await sendPk(pk);
       }
+      await sendPk();
     }
   };
   const toDetail = async (cur: any) => {
@@ -68,10 +71,6 @@ export default function ChatList() {
     mutate();
   });
   useEffect(() => {
-    getLocalNostr();
-  }, [mtvDb]);
-  useEffect(() => {
-    console.log(mtvLoaded);
     if (mtvLoaded) {
       getLocalNostr();
     }

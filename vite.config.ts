@@ -1,16 +1,14 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
-import {NodeGlobalsPolyfillPlugin} from '@esbuild-plugins/node-globals-polyfill';
+// import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 // import GlobalPolyFill from "@esbuild-plugins/node-globals-polyfill";
 import react from '@vitejs/plugin-react-swc';
-import UnoCSS from '@unocss/vite';
+// import UnoCSS from '@unocss/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
-import presetAttributify from '@unocss/preset-attributify';
-import presetUno from '@unocss/preset-uno';
-import presetIcons from '@unocss/preset-icons';
+
 import path from 'path';
 import builtins from 'rollup-plugin-node-builtins';
-import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
-import inject from '@rollup/plugin-inject'
+// import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
+// import inject from '@rollup/plugin-inject';
 
 const builtinsPlugin = builtins({ crypto: true });
 builtinsPlugin.name = 'builtins';
@@ -19,13 +17,13 @@ builtinsPlugin.name = 'builtins';
 export default defineConfig({
   server: {
     https: true,
-    proxy: {
-      '/api': {
-        target: 'http://39.108.72.102:8088/mtv/api/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
+    // proxy: {
+    //   '/api': {
+    //     target: 'https://39.108.72.102:8099/mtv/api/',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ''),
+    //   },
+    // },
   },
   plugins: [
     basicSsl(),
@@ -35,9 +33,9 @@ export default defineConfig({
     //   plugins: [builtinsPlugin],
     // }),
     // splitVendorChunkPlugin(),
-    UnoCSS({
-      presets: [presetUno(), presetAttributify(), presetIcons()],
-    }),
+    // UnoCSS({
+    //   presets: [presetUno(), presetAttributify(), presetIcons()],
+    // }),
   ],
   define: {
     // 'process': {},

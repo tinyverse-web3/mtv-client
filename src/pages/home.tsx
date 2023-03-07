@@ -44,6 +44,8 @@ export default function Home() {
       <Button
         iconRight={<div className='i-mdi-sticker-text-outline' />}
         size='xl'
+        // fullWidth
+        auto
         className='w-full mb-4'
         onPress={toNote}
         color='success'>

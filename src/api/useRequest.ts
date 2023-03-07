@@ -66,6 +66,7 @@ export function useRequest<T>(
       headers,
     };
     if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
+      console.log(arg.query)
       options.body = JSON.stringify(arg.query);
     }
     return fetch(`${baseUrl}/${apiVersion}${url}`, options).then((res) =>

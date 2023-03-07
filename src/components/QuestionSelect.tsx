@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dropdown, Input } from '@nextui-org/react';
+import { Dropdown, Input, Text } from '@nextui-org/react';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -21,7 +21,7 @@ export const QuestionSelect = ({
 }: Props) => {
   const [selected, setSelected] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);
-  const [customQuestion, setCustomQuestion] = useState('');
+  const [customQuestion, setCustomQuestion] = useState(select.q);
   const [customStatus, setCustomStatus] = useState(false);
   const selectedValue = useMemo(
     () => Array.from(selected).join(', ').replaceAll('_', ' '),
@@ -30,8 +30,12 @@ export const QuestionSelect = ({
   const onSelectionChange = (data: any) => {
     setAnswer('');
     setSelected(data);
-    setCustomQuestion('');
-    setCustomStatus(data.has(CUSTOM_QUESTION));
+    if (data.has(CUSTOM_QUESTION)) {
+      setCustomQuestion('');
+    } else {
+      setCustomQuestion(Array.from(data).join(', ').replaceAll('_', ' '))
+    }
+    setCustomStatus(true);
   };
   const inputChange = (e: any) => {
     setAnswer(e.target.value);
@@ -50,23 +54,28 @@ export const QuestionSelect = ({
   }, [customStatus, customQuestion, selectedValue]);
   useEffect(() => {
     const data: any = {
-      q: selectedValue,
+      q: customQuestion,
       a: answer,
     };
-    if (customStatus) {
-      data.q = customQuestion;
-    }
+    // if (customStatus) {
+    //   data.q = customQuestion;
+    // }
     onChange && onChange(data);
   }, [selectedValue, answer]);
 
   useEffect(() => {
     const isCustom = !templeteList?.find((v) => v.q === select.q);
-    if (isCustom) {
-      setSelected(new Set([CUSTOM_QUESTION]));
-      setCustomQuestion(select.q);
-    }
-    setCustomStatus(isCustom);
+    // if (isCustom) {
+    //   setSelected(new Set([CUSTOM_QUESTION]));
+    //   setCustomQuestion(select.q);
+    // }
+    // setCustomStatus(isCustom);
+    // setCustomQuestion(select.q);
   }, [templeteList, select]);
+
+  const RendText = ({ num }: any) => {
+    return num && <Text className='break-keep text-12px'>{num}个字符</Text>;
+  };
   return (
     <div className={className}>
       <Dropdown isDisabled={disabled}>
@@ -86,7 +95,7 @@ export const QuestionSelect = ({
           ))}
         </Dropdown.Menu>
       </Dropdown>
-      {customStatus && (
+      {selectedValue && (
         <Input
           aria-label='text'
           fullWidth
@@ -95,6 +104,7 @@ export const QuestionSelect = ({
           className='mb-4'
           disabled={!selectedValue || disabled}
           placeholder='请输入问题'
+          labelRight={<RendText num={answer.length} />}
           bordered
           value={customQuestion}
           onChange={(e) => setCustomQuestion(e.target.value)}

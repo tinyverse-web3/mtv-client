@@ -66,7 +66,7 @@ export const SharesCard = () => {
 
       {!!shares.length && (
         <>
-          <div className='mb-4'>
+          <div className='w-full mb-4'>
             <Card>
               <Card.Body className='px-2 py-2 flex flex-row items-center'>
                 <Text className='flex-1 overflow-x-auto'>{shares[0]}</Text>
@@ -85,7 +85,7 @@ export const SharesCard = () => {
             <Card>
               <Card.Body className='px-2 py-2 flex flex-row items-center'>
                 <Text className='flex-1 overflow-x-auto'>{shares[1]}</Text>
-                <Button className='min-w-6 ml-4'>发送</Button>
+                <Button auto className='min-w-6 ml-4'>发送</Button>
               </Card.Body>
             </Card>
             <div className='text-center mt-1'>

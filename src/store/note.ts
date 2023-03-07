@@ -65,6 +65,6 @@ useNoteStore.subscribe(async (state, prevdata) => {
   console.log(prevdata.list);
   if (mtvDb && JSON.stringify(state.list) !== JSON.stringify(prevdata.list)) {
     console.log('备份数据');
-    await mtvDb.backupDb();
+    // await mtvDb.backupDb();
   }
 });

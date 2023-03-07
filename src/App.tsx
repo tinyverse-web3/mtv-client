@@ -11,6 +11,8 @@ import { WalletCheck } from '@/components/LaunchCheck';
 import Container from '@/layout/container';
 import { useNostrStore, useGlobalStore } from '@/store';
 import { useEffect } from 'react';
+
+
 export default function App() {
   const initRelayList = useNostrStore((state) => state.initRelayList);
   const loading = useGlobalStore((state) => state.checkLoading);
