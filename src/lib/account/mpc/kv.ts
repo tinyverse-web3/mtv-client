@@ -11,6 +11,7 @@ export class KeySha {
     const aesSupplyInfo = this.generateAesSupple(userId, question, answer);
     const dataKey = aesSupplyInfo.key;
     const encryptShareKey = await this.getKeyFromKvServer(dataKey);
+    console.log(dataKey);
     const shareKey = this.aesDecode(aesSupplyInfo.aes_key, aesSupplyInfo.aes_iv, encryptShareKey)
     return shareKey;
   }
@@ -110,6 +111,7 @@ export class KeySha {
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7,
     });
+    console.log(decrypt)
     let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
     return decryptedStr.toString();
   }

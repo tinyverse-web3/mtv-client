@@ -11,7 +11,6 @@ export const LoginModal = () => {
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
   const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
-  const token = useGlobalStore((state) => state.token);
   const setToken = useGlobalStore((state) => state.setToken);
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
@@ -59,7 +58,7 @@ export const LoginModal = () => {
   );
   const loginSucess = async (res: any) => {
     if (res.data) {
-      await setUserInfo({ email: res.data.email });
+      await setUserInfo({ email });
       await setToken(res.data);
       console.log(wallet);
       console.log(userInfo);

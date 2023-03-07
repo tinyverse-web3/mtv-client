@@ -15,6 +15,7 @@ import { useCheckLogin } from '@/components/LoginModal';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import Page from '@/layout/page';
 import { useRequest } from '@/api';
+import { QuestionRestore } from '@/components/Question/QuestionRestore';
 
 export default function Restore() {
   const nav = useNavigate();
@@ -110,6 +111,13 @@ export default function Restore() {
   const ShowSss = () => {
     setStatus('sss');
   };
+  const ShowQuestion = async () => {
+    const loginStatus = await useCheckLogin();
+    console.log(loginStatus);
+    if (loginStatus) {
+      setStatus('question');
+    }
+  };
   return (
     <Page showBack={false} title='账号恢复'>
       <div>
@@ -120,9 +128,12 @@ export default function Restore() {
           <Button auto className='flex-1 ml-2' onPress={ShowSss}>
             分片私钥恢复
           </Button>
+          <Button auto className='flex-1 ml-2' onPress={ShowQuestion}>
+            问答恢复
+          </Button>
         </Row>
 
-        {status === 'whole' ? (
+        {status === 'whole' && 
           <Row className='mb-8' justify='center'>
             <Textarea
               bordered
@@ -133,7 +144,8 @@ export default function Restore() {
               initialValue=''
             />
           </Row>
-        ) : (
+        }
+        { status === 'sss' &&
           <>
             {!shareA ? (
               <Row className='mb-8' justify='center'>
@@ -172,8 +184,10 @@ export default function Restore() {
               />
             </Row>
           </>
-        )}
-
+        }
+        {
+          status === 'question' && <QuestionRestore />
+        }
         <Row className='mb-8' justify='center'>
           <Input
             clearable

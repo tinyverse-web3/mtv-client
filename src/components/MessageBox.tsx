@@ -26,8 +26,6 @@ export const MessageBox = ({ recipient }: any) => {
   });
   const decryptMessmage = async (events: any[]) => {
     if (!events.length) return;
-    console.log(events);
-    console.log(list);
     for (let i = 0; i < events.length; i++) {
       const event = events[i];
       const text = await nip04.decrypt(

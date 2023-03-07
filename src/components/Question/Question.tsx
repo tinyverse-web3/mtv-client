@@ -1,20 +1,23 @@
 import { Button, Text } from '@nextui-org/react';
-import { QuestionSelect } from '@/components/QuestionSelect';
+import { QuestionSelect } from '@/components/Question/QuestionSelect';
 import { useList } from 'react-use';
 import { useEffect, useMemo } from 'react';
-import { xorBy } from 'lodash';
+import { Shamir, KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
+import { useWalletStore, useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 
 interface QuestionList {
   q: string;
   a?: string;
   Id?: string;
+  l?: number;
   error?: boolean;
 }
 
 const QUESTION_MAX = 4;
-export const Question = () => {
+export const Question = ({ onSubmit, disabled }: any) => {
+
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const { data, mutate } = useRequest<any[]>({
     url: '/question/tmplist',
@@ -33,26 +36,17 @@ export const Question = () => {
     },
     {
       onSuccess: (res) => {
-        const userList = res.data?.map((v: any) => ({
-          q: v.content,
-          a: '',
-          Id: '',
-        }));
+        const { data: qList = [] } = res || {};
+        const userList = qList.map((v: any) => {
+          const l = v.content.match(/\*\*(\d*)\*\*$/)?.[1] || 0;
+          const content = v.content.replace(/\*\*(\d*)\*\*$/, '');
+          return { q: content, a: '', Id: '', l: Number(l) };
+        });
         set(userList);
       },
     },
   );
-  const addQuestionQuery = useMemo(() => {
-    return list.map((val) => val.q);
-  }, [list]);
-  const { mutate: setUserQuestion } = useRequest<any[]>({
-    url: '/question/add',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: addQuestionQuery,
-    },
-  });
+
   const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
   const addQuestion = () => {
     if (list.length <= QUESTION_MAX) {
@@ -65,7 +59,7 @@ export const Question = () => {
     }
   };
   const answerChange = (i: number, { data }: any) => {
-    updateAt(i, { q: data.q, a: data.a });
+    updateAt(i, { q: data.q, a: data.a, l: data.l });
   };
   const questionTemplate = useMemo(
     () => data?.map((v) => ({ q: v.content, Id: v.Id })) || [],
@@ -98,12 +92,17 @@ export const Question = () => {
         break;
       }
     }
+    if (list.length < 3) {
+      toast.error(`最少回答三个问题`);
+      validStatus = false;
+    }
     return validStatus;
   };
-  const submitQuestion = () => {
+  const submitQuestion = async () => {
     const validStatus = validList();
+    console.log(validStatus)
     if (validStatus) {
-      setUserQuestion();
+      await onSubmit(list);
     }
   };
   useEffect(() => {
@@ -121,6 +120,7 @@ export const Question = () => {
                 light
                 size='sm'
                 auto
+                disabled={disabled}
                 className='px-3 text-4 ml-4'
                 onPress={() => removeQuestion(i)}>
                 <div className='i-mdi-close'></div>
@@ -128,6 +128,7 @@ export const Question = () => {
             </div>
             <QuestionSelect
               list={unselsectList}
+              disabled={disabled}
               templeteList={questionTemplate}
               key={i}
               select={val}

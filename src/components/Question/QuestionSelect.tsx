@@ -21,6 +21,7 @@ export const QuestionSelect = ({
 }: Props) => {
   const [selected, setSelected] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);
+  const [answerLen, setAnswerLen] = useState(select.l);
   const [customQuestion, setCustomQuestion] = useState(select.q);
   const [customStatus, setCustomStatus] = useState(false);
   const selectedValue = useMemo(
@@ -39,6 +40,7 @@ export const QuestionSelect = ({
   };
   const inputChange = (e: any) => {
     setAnswer(e.target.value);
+    setAnswerLen(e.target.value.length)
   };
   const qList = useMemo<any[]>(() => {
     return [...list, { q: CUSTOM_QUESTION, a: '' }];
@@ -56,10 +58,8 @@ export const QuestionSelect = ({
     const data: any = {
       q: customQuestion,
       a: answer,
+      l: answerLen,
     };
-    // if (customStatus) {
-    //   data.q = customQuestion;
-    // }
     onChange && onChange(data);
   }, [selectedValue, answer]);
 
@@ -99,12 +99,12 @@ export const QuestionSelect = ({
         <Input
           aria-label='text'
           fullWidth
-          clearable
+          clearable={!disabled}
           maxLength={30}
           className='mb-4'
           disabled={!selectedValue || disabled}
           placeholder='请输入问题'
-          labelRight={<RendText num={answer.length} />}
+          labelRight={<RendText num={answerLen} />}
           bordered
           value={customQuestion}
           onChange={(e) => setCustomQuestion(e.target.value)}
