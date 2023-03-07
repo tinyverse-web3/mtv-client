@@ -22,10 +22,10 @@ export const useNoteStore = create<GlobalState>()(
     (set, get) => ({
       list: [],
       add: async (n) => {
-        const list = get().list;
+        const list = cloneDeep(get().list);
         list.push(n);
         await window?.mtvDb.put('note', JSON.stringify(list));
-        set({ list: [...list] });
+        set({ list });
       },
       init: async (n) => {
         set({ list: n });
@@ -37,7 +37,7 @@ export const useNoteStore = create<GlobalState>()(
         set({ list });
       },
       update: async ({ id, ...res }) => {
-        const list = get().list;
+        const list = cloneDeep(get().list);
         let itemIndex = list.findIndex((i) => i.id === id);
         if (itemIndex >= 0) {
           list[itemIndex] = {
@@ -60,11 +60,8 @@ export const useNoteStore = create<GlobalState>()(
 );
 useNoteStore.subscribe(async (state, prevdata) => {
   const mtvDb = window.mtvDb;
-  console.log('note 数据监听');
-  console.log(state.list);
-  console.log(prevdata.list);
-  if (mtvDb && JSON.stringify(state.list) !== JSON.stringify(prevdata.list)) {
+  if (mtvDb && prevdata.list.length && JSON.stringify(state.list) !== JSON.stringify(prevdata.list)) {
     console.log('备份数据');
-    // await mtvDb.backupDb();
+    await mtvDb.backupDb();
   }
 });

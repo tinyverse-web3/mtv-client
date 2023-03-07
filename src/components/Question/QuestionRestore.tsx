@@ -8,39 +8,39 @@ import { useWalletStore, useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from './Question';
 
-export const QuestionRestore = () => {
-  const wallet = useWalletStore((state) => state.wallet);
-  const userInfo = useGlobalStore((state) => state.userInfo);
-  const [list, setList] = useState<any[]>([]);
-  const splitKey = async (threshold = 2, account = 3) => {
+interface Props {
+  onSubmit: (privateKey: string) => void;
+}
+export const QuestionRestore = ({ onSubmit }: Props) => {
+  const combine = async (shares: any[] = []) => {
     const sss = new Shamir();
-    const { privateKey } = wallet?.wallet || {};
-    if (privateKey) {
-      const splitShares: any[] = await sss.split(
-        privateKey,
-        threshold,
-        account,
-      );
-      const hexShares = splitShares.map((s) => s.toString('hex'));
-      return hexShares;
+    const sliceShares = shares.slice(0, 2);
+    if (sliceShares.length === 2) {
+      const combineKey = await sss.combine(sliceShares);
+      return combineKey;
     }
   };
 
-  const onSubmit = async (_list: any[]) => {
+  const submitHandler = async (_list: any[]) => {
     // const { email = 'tset' } = userInfo;
     const email = 'test';
     const keySha = new KeySha();
-    setList(_list);
-    console.log(_list);
-    console.log(email);
-    // const shareKeys = await splitKey(2, 3);
-    if (_list && email) {
-      const kvMap = _list?.map((s) =>
-        keySha.get(email, s.q, s.a),
-      );
+    const filterAnswer = _list.filter(
+      (v) => v.a !== undefined && v.a !== null && v.a !== '',
+    );
+    if (filterAnswer?.length && email) {
+      const kvMap = filterAnswer?.map((s) => keySha.get(email, s.q, s.a));
       const shares = await Promise.all(kvMap);
-      console.log(shares);
+      const privateKey = await combine(shares);
+      await onSubmit(privateKey);
     }
   };
-  return <Question onSubmit={onSubmit} disabled={true} />;
+  return (
+    <Question
+      onSubmit={submitHandler}
+      type='restore'
+      className='mb-8'
+      buttonText='获取问答私钥'
+    />
+  );
 };

@@ -2,7 +2,12 @@ import { useState, useMemo } from 'react';
 import { Text, Row, Button, Input } from '@nextui-org/react';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore, useMtvdbStore, useGlobalStore } from '@/store';
+import {
+  useWalletStore,
+  useMtvdbStore,
+  useGlobalStore,
+  useNostrStore,
+} from '@/store';
 import Page from '@/layout/page';
 
 export default function Unlock() {
@@ -10,8 +15,11 @@ export default function Unlock() {
   const [pwd, setPwd] = useState('');
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
+  const resetWallet = useWalletStore((state) => state.reset);
   const initMtvdb = useMtvdbStore((state) => state.init);
   const userInfo = useGlobalStore((state) => state.userInfo);
+  const resetGlobal = useGlobalStore((state) => state.reset);
+  const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
     const status = await wallet?.verify(pwd);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
@@ -43,6 +51,10 @@ export default function Unlock() {
     setErr(false);
     setPwd(e.target.value);
   };
+  const deleteUser = async (e: any) => {
+    await Promise.all([resetNostr(), resetWallet(), resetGlobal(), wallet?.deleteKeystore()]);
+    nav('/restore', { replace: true });
+  };
   return (
     <Page showBack={false}>
       <Text h4 className='mb-9 text-center text-6'>
@@ -65,8 +77,16 @@ export default function Unlock() {
           initialValue=''
         />
       </Row>
-      <Button className='mx-auto mt-4' onPress={unlock}>
-        unlock
+      <Button className='mx-auto mb-4' onPress={unlock}>
+        解锁
+      </Button>
+      <Button
+        light
+        color='error'
+        auto
+        className='text-12px mx-auto'
+        onPress={deleteUser}>
+        忘记密码，恢复账号
       </Button>
     </Page>
   );

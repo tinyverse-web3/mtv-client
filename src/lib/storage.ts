@@ -31,4 +31,7 @@ export class Storage {
       console.log(error);
     }
   }
+  async remove() {
+    await localForage.removeItem(this.name);
+  }
 }

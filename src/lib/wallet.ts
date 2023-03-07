@@ -76,6 +76,11 @@ export class Wallet {
     this.keystore = await this.storage.keystore.get();
   }
   async checkKeystore() {}
+  async deleteKeystore() {
+    sessionStorage.removeItem(LOCAL_PASSWORD_KEY);
+    console.log('删除keystore')
+    await this.storage.keystore.remove();
+  }
   async check() {
     await this.refresh();
     if (!this.keystore) {

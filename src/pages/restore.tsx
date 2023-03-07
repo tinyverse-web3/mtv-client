@@ -23,6 +23,7 @@ export default function Restore() {
   const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
   const [shareC, setShareC] = useState('');
+  const [questionSk, setQuestionSk] = useState('');
   const initMtvdb = useMtvdbStore((state) => state.init);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
@@ -44,44 +45,45 @@ export default function Restore() {
   const [pwd, setPwd] = useState('');
   const importHandler = async () => {
     if (status === 'whole') {
-      if (phrase && pwd) {
+      if (phrase) {
         try {
           const status = await wallet.restoreWallet(phrase, pwd);
           console.log(status);
           if (status === STATUS_CODE.SUCCESS) {
-            setWallet(wallet);
-            const { privateKey } = wallet.wallet || {};
-            if (privateKey) {
-              const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
-              if (dbAddress) {
-                await initMtvdb(privateKey, dbAddress, metadataKey);
-              }
-            }
-            nav('/home', { replace: true });
+            await walletSuccess();
           }
         } catch (error) {
           console.log(error);
         }
       }
-    } else {
+    } else if (status === 'sss'){
       if (shareA && shareB && pwd) {
         const sss = new Shamir();
         const combineKey = await sss.combine([shareA, shareB]);
-        console.log(combineKey);
         const status = await wallet.restoreFromKey(combineKey, pwd);
         if (status === STATUS_CODE.SUCCESS) {
-          setWallet(wallet);
-          const { privateKey } = wallet.wallet || {};
-          if (privateKey) {
-            const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
-            if (dbAddress) {
-              await initMtvdb(privateKey, dbAddress);
-            }
-          }
-          nav('/home', { replace: true });
+          await walletSuccess();
+        }
+      }
+    } else {
+      if (questionSk) {
+        const status = await wallet.restoreFromKey(questionSk, pwd);
+        if (status === STATUS_CODE.SUCCESS) {
+          await walletSuccess();
         }
       }
     }
+  };
+  const walletSuccess = async () => {
+    setWallet(wallet);
+    const { privateKey } = wallet.wallet || {};
+    if (privateKey) {
+      const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
+      if (dbAddress) {
+        await initMtvdb(privateKey, dbAddress);
+      }
+    }
+    nav('/home', { replace: true });
   };
   const phraseChange = (e: any) => {
     setPhrase(e.target.value);
@@ -96,7 +98,7 @@ export default function Restore() {
     setShareB(e.target.value);
   };
   const shareCChange = (e: any) => {
-    setShareB(e.target.value);
+    setShareC(e.target.value);
   };
   const showWhole = () => {
     setStatus('whole');
@@ -118,6 +120,9 @@ export default function Restore() {
       setStatus('question');
     }
   };
+  const questionSubmit = async (sk: string) => {
+    setQuestionSk(sk);
+  };
   return (
     <Page showBack={false} title='账号恢复'>
       <div>
@@ -125,7 +130,7 @@ export default function Restore() {
           <Button auto className='flex-1 mr-2' onPress={showWhole}>
             助记词恢复
           </Button>
-          <Button auto className='flex-1 ml-2' onPress={ShowSss}>
+          <Button auto className='flex-1 mx-2' onPress={ShowSss}>
             分片私钥恢复
           </Button>
           <Button auto className='flex-1 ml-2' onPress={ShowQuestion}>
@@ -133,7 +138,7 @@ export default function Restore() {
           </Button>
         </Row>
 
-        {status === 'whole' && 
+        {status === 'whole' && (
           <Row className='mb-8' justify='center'>
             <Textarea
               bordered
@@ -144,8 +149,8 @@ export default function Restore() {
               initialValue=''
             />
           </Row>
-        }
-        { status === 'sss' &&
+        )}
+        {status === 'sss' && (
           <>
             {!shareA ? (
               <Row className='mb-8' justify='center'>
@@ -184,10 +189,8 @@ export default function Restore() {
               />
             </Row>
           </>
-        }
-        {
-          status === 'question' && <QuestionRestore />
-        }
+        )}
+        {status === 'question' && <QuestionRestore onSubmit={questionSubmit} />}
         <Row className='mb-8' justify='center'>
           <Input
             clearable
@@ -200,7 +203,7 @@ export default function Restore() {
             onChange={pwdChange}
           />
         </Row>
-        <Button className='mx-auto mt-4' onPress={importHandler}>
+        <Button className='mx-auto mt-4' disabled={!pwd} onPress={importHandler}>
           恢复
         </Button>
       </div>

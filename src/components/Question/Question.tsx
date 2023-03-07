@@ -14,11 +14,16 @@ interface QuestionList {
   l?: number;
   error?: boolean;
 }
-
+interface Props {
+  onSubmit: (list: QuestionList[]) => void;
+  type: 'maintain' | 'restore';
+  className?: string;
+  buttonText?: string;
+}
 const QUESTION_MAX = 4;
-export const Question = ({ onSubmit, disabled }: any) => {
-
+export const Question = ({ onSubmit, type, className, buttonText = '提交' }: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
+  const disabled = useMemo(() => type === 'restore', [type]);
   const { data, mutate } = useRequest<any[]>({
     url: '/question/tmplist',
     arg: {
@@ -84,23 +89,34 @@ export const Question = ({ onSubmit, disabled }: any) => {
   };
   const validList = () => {
     let validStatus = true;
-    for (let i = 0; i < list.length; i++) {
-      const question = list[i];
-      if (!question.a) {
-        toast.error(`问题${chineseNumMap[i]}答案未输入`);
+    if (type == 'restore') {
+      const filterAnswer = list.filter(
+        (v) => v.a !== undefined && v.a !== null && v.a !== '',
+      );
+      if (filterAnswer.length < 2) {
+        toast.error(`最少回答两个问题`);
         validStatus = false;
-        break;
+      }
+    } else {
+      for (let i = 0; i < list.length; i++) {
+        const question = list[i];
+        if (!question.a) {
+          toast.error(`问题${chineseNumMap[i]}答案未输入`);
+          validStatus = false;
+          break;
+        }
+      }
+      if (list.length < 3) {
+        toast.error(`最少填写三个问题`);
+        validStatus = false;
       }
     }
-    if (list.length < 3) {
-      toast.error(`最少回答三个问题`);
-      validStatus = false;
-    }
+
     return validStatus;
   };
   const submitQuestion = async () => {
     const validStatus = validList();
-    console.log(validStatus)
+    console.log(validStatus);
     if (validStatus) {
       await onSubmit(list);
     }
@@ -110,7 +126,7 @@ export const Question = ({ onSubmit, disabled }: any) => {
     questionList();
   }, []);
   return (
-    <>
+    <div className={className}>
       <div className='mb-4'>
         {list.map((val, i) => (
           <div className='' key={i}>
@@ -141,7 +157,7 @@ export const Question = ({ onSubmit, disabled }: any) => {
       <div className='flex'>
         {list.length > 0 && (
           <Button className='flex-1' auto onPress={submitQuestion}>
-            提交
+            {buttonText}
           </Button>
         )}
         {!isFull && (
@@ -153,6 +169,6 @@ export const Question = ({ onSubmit, disabled }: any) => {
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 };

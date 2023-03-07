@@ -21,6 +21,7 @@ interface GlobalState {
   initRelayList: (list: Relay[]) => void;
   recipient?: Recipient;
   setRecipient: (r: Recipient) => void;
+  reset: () => void;
 }
 
 export const useNostrStore = create<GlobalState>()(
@@ -28,7 +29,7 @@ export const useNostrStore = create<GlobalState>()(
     persist(
       (set, get) => ({
         list: [],
-        Recipient: undefined,
+        recipient: undefined,
         relayList: [],
         initRelayList: async (list) => {
           set({ relayList: list });
@@ -40,6 +41,13 @@ export const useNostrStore = create<GlobalState>()(
         },
         setRecipient: async (n) => {
           set({ recipient: n });
+        },
+        reset: () => {
+          set({
+            list: [],
+            recipient: undefined,
+            relayList: [],
+          });
         },
       }),
       {

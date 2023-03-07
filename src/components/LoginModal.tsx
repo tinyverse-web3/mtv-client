@@ -162,7 +162,7 @@ export const LoginModal = () => {
             {text}
           </Button>
         </div>
-        {/* <Row justify="space-between">
+        {/* <Row justify="space-between" >
             <Checkbox>
               <Text size={14}>Remember me</Text>
             </Checkbox>
@@ -189,7 +189,9 @@ export async function useCheckLogin() {
     setShowLogin(true);
     loginStatus = await new Promise((resolve, reject) => {
       useGlobalStore.subscribe((state) => {
-        resolve(state.isLogin);
+        if (state.isLogin) {
+          resolve(state.isLogin);
+        }
       });
     });
   }

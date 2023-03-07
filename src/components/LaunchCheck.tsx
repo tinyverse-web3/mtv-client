@@ -44,6 +44,7 @@ export const WalletCheck = () => {
     }
     setCheckLoading(true);
     const status = await wallet?.check();
+    console.log(status);
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
         location.replace(ROUTE_PATH.INDEX);

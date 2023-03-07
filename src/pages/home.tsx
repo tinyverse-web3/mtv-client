@@ -24,6 +24,7 @@ export default function Home() {
   };
   const toChat = async () => {
     const loginStatus = await useCheckLogin();
+    console.log(loginStatus)
     if (loginStatus) {
       nav(ROUTE_PATH.CHAT_LIST);
     }

@@ -59,5 +59,5 @@ export const QuestionMaintain = () => {
       await setUserQuestion();
     }
   };
-  return <Question onSubmit={onSubmit} />;
+  return <Question type="maintain" onSubmit={onSubmit} />;
 };
