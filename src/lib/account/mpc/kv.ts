@@ -11,7 +11,6 @@ export class KeySha {
     const aesSupplyInfo = this.generateAesSupple(userId, question, answer);
     const dataKey = aesSupplyInfo.key;
     const encryptShareKey = await this.getKeyFromKvServer(dataKey);
-    console.log(dataKey);
     const shareKey = this.aesDecode(aesSupplyInfo.aes_key, aesSupplyInfo.aes_iv, encryptShareKey)
     return shareKey;
   }
@@ -26,8 +25,8 @@ export class KeySha {
   private generateAesSupple(userId:string, question:string, answer:string) :any {
     const concatStr = config.kv.qasks_api_key + userId + question + answer;
     const key = CryptoJS.SHA3(concatStr).toString();
-    const aesIv = CryptoJS.enc.Utf8.parse(answer);
-    const aesKey = CryptoJS.enc.Utf8.parse(answer);
+    const aesIv = CryptoJS.enc.Utf8.parse(key);
+    const aesKey = CryptoJS.enc.Utf8.parse(key);
     return {
       'key': key,
       'aes_iv': aesIv,
@@ -40,6 +39,7 @@ export class KeySha {
       headers: {
         qasks_api_key: config.kv.qasks_api_key,
         qasks_api_secret_key: config.kv.qasks_api_secret_key,
+        'Content-Type': 'application/json;charset=UTF-8'
       },
     };
     const getKeyUrl =
@@ -63,8 +63,9 @@ export class KeySha {
   private async setKeyToKvServer(key: string, value: string) {
     const httpConfig = {
       headers: {
-        'qasks_api_key': config.kv.qasks_api_key,
-        'qasks_api_secret_key': config.kv.qasks_api_secret_key
+        qasks_api_key: config.kv.qasks_api_key,
+        qasks_api_secret_key: config.kv.qasks_api_secret_key,
+        'Content-Type': 'application/json;charset=UTF-8'
       },
     };
     const setKeyUrl = config.kv.key_server_url + config.kv.set_key_url
@@ -97,7 +98,7 @@ export class KeySha {
       padding: CryptoJS.pad.Pkcs7,
     });
     let encryptedBase64Data = CryptoJS.enc.Base64.stringify(
-      encrypted.ciphertext,
+     encrypted.ciphertext,
     );
     return encodeURIComponent(encryptedBase64Data);
   }
@@ -111,7 +112,6 @@ export class KeySha {
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7,
     });
-    console.log(decrypt)
     let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
     return decryptedStr.toString();
   }
