@@ -8,9 +8,11 @@ const logger = new Logger({ name: 'KeySha' });
 export class KeySha {
   
   public async get(userId:string, question:string, answer:string){
-    console.log(userId)
-    console.log(question)
-    console.log(answer)
+    logger.debug('Input Parameters---------');
+    logger.debug('userId:' + userId);
+    logger.debug('question:' + question);
+    logger.debug('answer:' + answer);
+    logger.debug('Input Parameters---------');
     const aesSupplyInfo = this.generateAesSupple(userId, question, answer);
     const dataKey = aesSupplyInfo.key;
     const encryptShareKey = await this.getKeyFromKvServer(dataKey);
@@ -19,10 +21,12 @@ export class KeySha {
   }
 
   public async set(userId:string, question:string, answer:string, shareKey: string){
-    console.log(userId)
-    console.log(question)
-    console.log(answer)
-    console.log(shareKey)
+    logger.debug('Input Parameters---------');
+    logger.debug('userId:' + userId);
+    logger.debug('question:' + question);
+    logger.debug('answer:' + answer);
+    logger.debug('shareKey:' + shareKey);
+    logger.debug('Input Parameters---------');
     const aesSupplyInfo = this.generateAesSupple(userId, question, answer);
     const encryptShareKey = this.aesEncode(aesSupplyInfo.aes_key, aesSupplyInfo.aes_iv, shareKey);
     const dataKey = aesSupplyInfo.key;
