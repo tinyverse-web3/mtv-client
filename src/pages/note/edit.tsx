@@ -15,7 +15,8 @@ export default function About() {
   const add = useNoteStore((state) => state.add);
   const update = useNoteStore((state) => state.update);
   const noteChange = (e: any) => {
-    setNote(e.target.value);
+    console.log(e.target.value);
+    // setNote(e.target.value);
   };
   const generateNote = async () => {
     const title = note.substring(0, 10);

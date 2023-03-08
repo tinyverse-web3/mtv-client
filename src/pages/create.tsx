@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export default function About() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
+  const [loading, setLoading] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const createMtvdb = useMtvdbStore((state) => state.create);
   const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
@@ -24,6 +25,7 @@ export default function About() {
       setConfirmStatus(false);
       return;
     }
+    setLoading(true);
     await wallet.createWallet(pwd);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
@@ -72,7 +74,7 @@ export default function About() {
           initialValue=''
         />
       </Row>
-      <Button className='mx-auto mt-4' onPress={create}>
+      <Button disabled={loading} className='mx-auto mt-4' onPress={create}>
         创建
       </Button>
     </Page>

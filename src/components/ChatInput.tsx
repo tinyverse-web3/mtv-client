@@ -1,4 +1,5 @@
-import { Text, Input, Button } from '@nextui-org/react';
+import { Text, Button } from '@nextui-org/react';
+import { Input } from '@/components/form/Input';
 import { useState } from 'react';
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 export const ChatInput = ({ onSend }: Props) => {
   const [text, setText] = useState('');
   const textChange = (e: any) => {
-    setText(e.target.value);
+    setText(e);
   };
   const pressHandler = async (e: any) => {
     await onSend(text);
@@ -16,13 +17,7 @@ export const ChatInput = ({ onSend }: Props) => {
   return (
     <div className='flex'>
       <div className='flex-1'>
-        <Input
-          aria-label='text'
-          fullWidth
-          clearable
-          value={text}
-          onChange={textChange}
-        />
+        <Input value={text} onChange={textChange} />
       </div>
       <Button auto className='ml-4' onPress={pressHandler}>
         发送

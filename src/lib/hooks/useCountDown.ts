@@ -18,6 +18,7 @@ export function useCountDown(initCount = 10, initText = '获取验证码') {
       setText(initText);
     } else if (count === 0) {
       setFlag(true);
+      setCount(initCount)
       clearInterval(timeId.current.id);
       setText(initText);
     } else {
