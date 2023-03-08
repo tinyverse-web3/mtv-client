@@ -1,6 +1,3 @@
-import { Button, Text } from '@nextui-org/react';
-import { QuestionSelect } from '@/components/Question/QuestionSelect';
-import { useList } from 'react-use';
 import { useState, useMemo } from 'react';
 import { Shamir, KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
@@ -39,11 +36,8 @@ export const QuestionMaintain = () => {
   const onSubmit = async (_list: any[]) => {
     // const { email = 'tset' } = userInfo;
     const email = 'test';
-
     setList(_list);
-    console.log(_list);
     const shareKeys = await splitKey(2, 3);
-    console.log(shareKeys);
     if (shareKeys && email) {
       const kvMap = shareKeys?.map((s, i) => {
         const keySha = new KeySha();
@@ -59,5 +53,7 @@ export const QuestionMaintain = () => {
       await setUserQuestion();
     }
   };
-  return <Question type="maintain" onSubmit={onSubmit} />;
+  return <Question type='maintain' onSubmit={onSubmit}>
+    
+  </Question>;
 };

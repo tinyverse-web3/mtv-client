@@ -28,9 +28,9 @@ export default function Unlock() {
       setWallet(wallet);
       const { privateKey } = wallet.wallet || {};
       if (privateKey) {
-        const { dbAddress } = userInfo?.mtvdb || {};
-        if (dbAddress) {
-          await initMtvdb(privateKey, dbAddress);
+        const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
+        if (dbAddress && metadataKey) {
+          await initMtvdb(privateKey, dbAddress, metadataKey);
         }
       }
       nav('/home', { replace: true });

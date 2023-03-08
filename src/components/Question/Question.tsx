@@ -19,9 +19,16 @@ interface Props {
   type: 'maintain' | 'restore';
   className?: string;
   buttonText?: string;
+  children?: any;
 }
 const QUESTION_MAX = 4;
-export const Question = ({ onSubmit, type, className, buttonText = '提交' }: Props) => {
+export const Question = ({
+  onSubmit,
+  type,
+  className,
+  buttonText = '提交',
+  children,
+}: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const disabled = useMemo(() => type === 'restore', [type]);
   const { data, mutate } = useRequest<any[]>({
@@ -93,8 +100,8 @@ export const Question = ({ onSubmit, type, className, buttonText = '提交' }: P
       const filterAnswer = list.filter(
         (v) => v.a !== undefined && v.a !== null && v.a !== '',
       );
-      if (filterAnswer.length < 2) {
-        toast.error(`最少回答两个问题`);
+      if (filterAnswer.length < 1) {
+        toast.error(`最少回答一个问题`);
         validStatus = false;
       }
     } else {
@@ -106,8 +113,8 @@ export const Question = ({ onSubmit, type, className, buttonText = '提交' }: P
           break;
         }
       }
-      if (list.length < 3) {
-        toast.error(`最少填写三个问题`);
+      if (list.length < 1) {
+        toast.error(`最少填写一个问题`);
         validStatus = false;
       }
     }
@@ -160,6 +167,7 @@ export const Question = ({ onSubmit, type, className, buttonText = '提交' }: P
             {buttonText}
           </Button>
         )}
+        {children}
         {!isFull && (
           <Button
             auto

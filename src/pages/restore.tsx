@@ -79,8 +79,8 @@ export default function Restore() {
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
       const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
-      if (dbAddress) {
-        await initMtvdb(privateKey, dbAddress);
+      if (dbAddress && metadataKey) {
+        await initMtvdb(privateKey, dbAddress, metadataKey);
       }
     }
     nav('/home', { replace: true });
