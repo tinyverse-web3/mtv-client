@@ -73,7 +73,7 @@ export function useRequest<T>(
       res.json(),
     );
   };
-  const { data, error, trigger } = useSWRMutation(
+  const { data, error, trigger, isMutating } = useSWRMutation(
     { url, arg },
     fetcher,
     _swrConfig,
@@ -83,5 +83,5 @@ export function useRequest<T>(
       setRes(data?.data);
     }
   }, [data]);
-  return { data: res, error, mutate: trigger, key: url };
+  return { data: res, error, mutate: trigger, key: url, loading: isMutating };
 }

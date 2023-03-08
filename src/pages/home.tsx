@@ -30,7 +30,7 @@ export default function Home() {
     }
   };
   return (
-    <Page showBack={false} title='MTV'>
+    <Page showBack={false} title='我的芥子空间'>
       <div className='mb-4'>
         <Address address={wallet?.wallet?.address} />
       </div>
@@ -58,7 +58,6 @@ export default function Home() {
         size='xl'>
         IM聊天
       </Button>
-      {/* <Button onPress={showMen}>备份助记词</Button> */}
     </Page>
   );
 }

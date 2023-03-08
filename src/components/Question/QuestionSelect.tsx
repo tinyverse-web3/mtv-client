@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dropdown, Input, Text } from '@nextui-org/react';
+import { Dropdown, Text } from '@nextui-org/react';
 import toast from 'react-hot-toast';
+import { Input } from '@/components/form/Input';
 
 interface Props {
   list: any[];
@@ -39,8 +40,8 @@ export const QuestionSelect = ({
     setCustomStatus(true);
   };
   const inputChange = (e: any) => {
-    setAnswer(e.target.value);
-    setAnswerLen(e.target.value.length)
+    setAnswer(e);
+    setAnswerLen(e.length)
   };
   const qList = useMemo<any[]>(() => {
     return [...list, { q: CUSTOM_QUESTION, a: '' }];
@@ -97,27 +98,21 @@ export const QuestionSelect = ({
       </Dropdown>
       {selectedValue && (
         <Input
-          aria-label='text'
-          fullWidth
           clearable={!disabled}
           maxLength={30}
           className='mb-4'
           disabled={!selectedValue || disabled}
           placeholder='请输入问题'
           labelRight={<RendText num={answerLen} />}
-          bordered
           value={customQuestion}
-          onChange={(e) => setCustomQuestion(e.target.value)}
+          onChange={(e: any) => setCustomQuestion(e)}
         />
       )}
       <Input
-        aria-label='text'
-        fullWidth
         clearable
         maxLength={30}
         disabled={answerDisabled}
         placeholder='请输入答案'
-        bordered
         value={answer}
         onChange={inputChange}
       />

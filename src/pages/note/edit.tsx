@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useNoteStore } from '@/store';
+import { Textarea } from '@/components/form/Textarea'
 import { v4 as uuidv4 } from 'uuid';
 import Page from '@/layout/page';
-import { Text, Container, Row, Button, Textarea } from '@nextui-org/react';
+import { Text, Container, Row, Button } from '@nextui-org/react';
 import { ROUTE_PATH } from '@/router';
 
 export default function About() {
@@ -15,8 +16,7 @@ export default function About() {
   const add = useNoteStore((state) => state.add);
   const update = useNoteStore((state) => state.update);
   const noteChange = (e: any) => {
-    console.log(e.target.value);
-    // setNote(e.target.value);
+    setNote(e);
   };
   const generateNote = async () => {
     const title = note.substring(0, 10);
@@ -32,6 +32,7 @@ export default function About() {
   const getDetail = async (id?: string) => {
     if (id) {
       const detail = (await get(id)) as any;
+      console.log(detail);
       setNote(detail?.content);
     }
   };
@@ -49,21 +50,19 @@ export default function About() {
   };
   return (
     <Page title='记事本' path={ROUTE_PATH.NOTE}>
-      <div className='py-8'>
+      <div className=''>
         <Row className='mb-8' justify='center'>
           <Textarea
-            fullWidth
-            bordered
             value={note}
-            maxLength={800}
+            maxLength={300}
             onChange={noteChange}
-            labelPlaceholder='记事本内容'
-            initialValue=''
+            placeholder='记事本内容'
           />
         </Row>
         <Row className='' justify='center'>
           <Button
             color='secondary'
+            disabled={!note}
             className='m-auto mb-6'
             onPress={addNote}
             size='md'>

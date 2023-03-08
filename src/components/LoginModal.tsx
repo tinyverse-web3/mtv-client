@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react';
-import { Button, Modal, Text, Card, Row, Input } from '@nextui-org/react';
+import { Modal, Text, Card, Row, Input } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import { useGlobalStore, useWalletStore } from '@/store';
 import { validEmail } from '@/lib/utils';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import { signMessage } from '@/lib/utils';
 export const LoginModal = () => {
+  const [loginLoading, setLoginLoading] = useState(false);
   const showLogin = useGlobalStore((state) => state.showLogin);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
@@ -52,7 +54,9 @@ export const LoginModal = () => {
     },
     {
       onSuccess: (res) => {
-        setUserInfo({ mtvdb: { dbAddress: res.data.dbAddress, metadataKey: res.data.ipns } });
+        setUserInfo({
+          mtvdb: { dbAddress: res.data.dbAddress, metadataKey: res.data.ipns },
+        });
       },
     },
   );
@@ -65,6 +69,7 @@ export const LoginModal = () => {
       if (wallet?.wallet?.publicKey) {
         await modifyuser();
       }
+      setLoginLoading(false);
       setShowLogin(false);
     }
   };
@@ -76,10 +81,15 @@ export const LoginModal = () => {
         query: { email, confirmCode: verifyCode },
       },
     },
-    { onSuccess: loginSucess },
+    {
+      onSuccess: loginSucess,
+      onError() {
+        setLoginLoading(false);
+      },
+    },
   );
 
-  const { mutate: sendCode } = useRequest({
+  const { mutate: sendCode, loading: codeLoading } = useRequest({
     url: '/user/sendmail',
     arg: {
       method: 'post',
@@ -95,6 +105,7 @@ export const LoginModal = () => {
       console.log('没有验证码');
       return;
     }
+    setLoginLoading(true);
     await mutate();
   };
   const emailChange = (e: any) => {
@@ -158,6 +169,7 @@ export const LoginModal = () => {
             auto
             className='ml-4 min-w-20'
             color='secondary'
+            loading={codeLoading}
             onPress={sendVerify}>
             {text}
           </Button>
@@ -173,7 +185,7 @@ export const LoginModal = () => {
         <Button auto flat color='error' onPress={closeHandler}>
           关闭
         </Button>
-        <Button auto onPress={loginHandler}>
+        <Button auto onPress={loginHandler} loading={loginLoading}>
           登录
         </Button>
       </Modal.Footer>

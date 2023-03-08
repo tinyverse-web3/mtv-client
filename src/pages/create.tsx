@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Text, Container, Row, Button, Input } from '@nextui-org/react';
+import { useState } from 'react';
+import { Row, Input } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { validPassword } from '@/lib/utils';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
@@ -46,25 +47,23 @@ export default function About() {
   return (
     <Page showBack={false} title='创建账号'>
       <Row className='mb-12 mt-10' justify='center'>
-        <Input
+        <Input.Password
           clearable
           bordered
           fullWidth
-          type='password'
           value={pwd}
           helperColor={validStatus ? 'default' : 'error'}
           status={validStatus ? 'default' : 'error'}
-          helperText='8-16位，包含大小写和数字'
+          // helperText='8-16位，包含大小写和数字'
           onChange={pwdChange}
           labelPlaceholder='密码'
         />
       </Row>
       <Row className='mb-8' justify='center'>
-        <Input
+        <Input.Password
           clearable
           bordered
           fullWidth
-          type='password'
           value={confirmPwd}
           helperColor={confirmStatus ? 'default' : 'error'}
           status={confirmStatus ? 'default' : 'error'}
@@ -74,7 +73,11 @@ export default function About() {
           initialValue=''
         />
       </Row>
-      <Button disabled={loading} className='mx-auto mt-4' onPress={create}>
+      <Button
+        disabled={!(confirmPwd && pwd)}
+        loading={loading}
+        className='mx-auto mt-4'
+        onPress={create}>
         创建
       </Button>
     </Page>

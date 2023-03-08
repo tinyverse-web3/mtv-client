@@ -61,7 +61,7 @@ export default function Unlock() {
         解锁
       </Text>
       <Row className='mb-8' justify='center'>
-        <Input
+        <Input.Password
           clearable
           bordered
           fullWidth

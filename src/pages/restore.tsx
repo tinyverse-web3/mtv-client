@@ -192,7 +192,7 @@ export default function Restore() {
         )}
         {status === 'question' && <QuestionRestore onSubmit={questionSubmit} />}
         <Row className='mb-8' justify='center'>
-          <Input
+          <Input.Password
             clearable
             bordered
             labelPlaceholder='密码'
