@@ -57,7 +57,7 @@ export default function Test() {
     // console.log(decryptedStr.toString());
 
     const ks = new KeySha();
-    const userId = "jackcn2004@hotmail.com";
+    const userId = "jackcntest@hotmail.com";
     const question = "你的身份证号是多少？";
     const answeer = "430422198609231666";
     const shareKey = privateKey;

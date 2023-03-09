@@ -68,7 +68,7 @@ export class MtvDb {
     );
     this.dbName =  this.userPublicKeyStr + '_kv' ; // default db name, mtv is app name and kv is db type for keyvalue
     this.metadataKey = metadataKey;
-    if (this.metadataKey != '') {
+    if (this.metadataKey) {
       this.isNew = false;
     }
     this.metadataCid = '';
