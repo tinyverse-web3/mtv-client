@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
-
+import { format } from 'date-fns'
 import { useEvent } from 'react-use';
 
 export default function NoteList() {
@@ -64,8 +64,13 @@ export default function NoteList() {
               onClick={() => toDetail(item.id)}
               isPressable
               variant='bordered'>
-              <Card.Body>
+              <Card.Body className='py-2 px-4'>
                 <Text>{item.title}</Text>
+                {item.updated && (
+                  <div>
+                    <Text className='text-3'>{format(item.updated, 'yyyy-MM-dd')}</Text>
+                  </div>
+                )}
               </Card.Body>
               <div
                 className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-6 h-6'

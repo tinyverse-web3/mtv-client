@@ -96,7 +96,7 @@ export const QuestionSelect = ({
           selectedKeys={selected}
           onSelectionChange={onSelectionChange}>
           {qList.map((v, i) => (
-            <Dropdown.Item className='text-12px' key={v.q} textValue={v.q}>
+            <Dropdown.Item className='text-11px h-auto py-2' key={v.q} textValue={v.q}>
               {v.q}
             </Dropdown.Item>
           ))}

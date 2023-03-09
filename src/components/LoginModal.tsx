@@ -6,6 +6,8 @@ import { validEmail } from '@/lib/utils';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import { signMessage } from '@/lib/utils';
+import toast from 'react-hot-toast';
+
 export const LoginModal = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const showLogin = useGlobalStore((state) => state.showLogin);
@@ -117,6 +119,7 @@ export const LoginModal = () => {
   const sendVerify = async () => {
     if (email && flag) {
       await sendCode();
+      toast.success('验证码已发送');
       await start();
     }
   };
