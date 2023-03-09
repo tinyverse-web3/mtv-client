@@ -26,7 +26,7 @@ export const Question = ({
   onSubmit,
   type,
   className,
-  buttonText = '提交',
+  buttonText = '备份',
   children,
 }: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
@@ -161,14 +161,15 @@ export const Question = ({
           </div>
         ))}
       </div>
+      <div className='mb-4'>{children}</div>
       <div className='flex'>
         {list.length > 0 && (
           <Button className='flex-1' auto onPress={submitQuestion}>
             {buttonText}
           </Button>
         )}
-        {children}
-        {!isFull && (
+        
+        {!isFull && type === 'maintain' && (
           <Button
             auto
             className={list.length > 0 ? 'w-30 ml-4' : 'w-full'}

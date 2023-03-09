@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Dropdown, Text } from '@nextui-org/react';
 import toast from 'react-hot-toast';
+import { Textarea } from '@/components/form/Textarea';
 import { Input } from '@/components/form/Input';
 
 interface Props {
@@ -35,13 +36,14 @@ export const QuestionSelect = ({
     if (data.has(CUSTOM_QUESTION)) {
       setCustomQuestion('');
     } else {
-      setCustomQuestion(Array.from(data).join(', ').replaceAll('_', ' '))
+      console.log(Array.from(data).join(', ').replaceAll('_', ' '));
+      setCustomQuestion(Array.from(data).join(', ').replaceAll('_', ' '));
     }
     setCustomStatus(true);
   };
   const inputChange = (e: any) => {
     setAnswer(e);
-    setAnswerLen(e.length)
+    setAnswerLen(e.length);
   };
   const qList = useMemo<any[]>(() => {
     return [...list, { q: CUSTOM_QUESTION, a: '' }];
@@ -80,8 +82,12 @@ export const QuestionSelect = ({
   return (
     <div className={className}>
       <Dropdown isDisabled={disabled}>
-        <Dropdown.Button color='secondary' className='w-full mb-4'>
-          {selectedValue || '请选择一个问题'}
+        <Dropdown.Button
+          color='secondary'
+          className='w-full mb-4 max-w-full min-w-full overflow-hidden dropdown-button'>
+          <div className='text-ellipsis overflow-hidden max-w-200px'>
+            {selectedValue || '请选择一个问题'}
+          </div>
         </Dropdown.Button>
         <Dropdown.Menu
           aria-label='Single selection actions'
@@ -90,23 +96,25 @@ export const QuestionSelect = ({
           selectedKeys={selected}
           onSelectionChange={onSelectionChange}>
           {qList.map((v, i) => (
-            <Dropdown.Item key={v.q} textValue={v.q}>
+            <Dropdown.Item className='text-12px' key={v.q} textValue={v.q}>
               {v.q}
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>
       {selectedValue && (
-        <Input
-          clearable={!disabled}
-          maxLength={30}
-          className='mb-4'
-          disabled={!selectedValue || disabled}
-          placeholder='请输入问题'
-          labelRight={<RendText num={answerLen} />}
-          value={customQuestion}
-          onChange={(e: any) => setCustomQuestion(e)}
-        />
+        <div className='mb-8'>
+          <Textarea
+            clearable={!disabled}
+            maxLength={30}
+            minRows={1}
+            disabled={!selectedValue || disabled}
+            placeholder='请输入问题'
+            helperText={`答案共${answerLen}个字符`}
+            value={customQuestion}
+            onChange={(e: any) => setCustomQuestion(e)}
+          />
+        </div>
       )}
       <Input
         clearable

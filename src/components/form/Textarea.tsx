@@ -1,14 +1,13 @@
-import { Text, Textarea as NextTextarea, Button } from '@nextui-org/react';
-import { useState } from 'react';
+import { Textarea as NextTextarea, Button } from '@nextui-org/react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   value?: string | number | readonly string[] | undefined;
   onChange?: (text: string) => void;
 }
 export const Textarea = ({ value, onChange, ...rest }: Props & any) => {
-  console.log(value);
   const [flag, setFlag] = useState(false);
-
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const chanageSuccess = (val: string) => {
     onChange && onChange(val);
   };
@@ -30,15 +29,21 @@ export const Textarea = ({ value, onChange, ...rest }: Props & any) => {
   const clearHandler = () => {
     chanageSuccess('');
   };
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = value;
+    }
+  }, [value]);
   return (
     <NextTextarea
       fullWidth
       bordered
-      {...rest}
-      aria-label="textarea"
+      aria-label='textarea'
+      ref={inputRef}
       initialValue={value}
       defaultValue={value}
       minRows={4}
+      {...rest}
       onClearClick={clearHandler}
       onChange={changeHandler}
       onCompositionStart={start}
