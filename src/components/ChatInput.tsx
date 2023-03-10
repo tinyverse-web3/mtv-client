@@ -8,7 +8,7 @@ interface Props {
 export const ChatInput = ({ onSend }: Props) => {
   const [text, setText] = useState('');
   const textChange = (e: any) => {
-    setText(e);
+    setText(e?.trim());
   };
   const pressHandler = async (e: any) => {
     await onSend(text);

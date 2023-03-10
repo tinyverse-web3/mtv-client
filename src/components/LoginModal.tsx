@@ -12,6 +12,7 @@ export const LoginModal = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const showLogin = useGlobalStore((state) => state.showLogin);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
+  const setMaintain = useGlobalStore((state) => state.setMaintain);
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
   const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
@@ -56,6 +57,7 @@ export const LoginModal = () => {
     },
     {
       onSuccess: (res) => {
+        setMaintain(!!res.data.sssData);
         setUserInfo({
           mtvdb: { dbAddress: res.data.dbAddress, metadataKey: res.data.ipns },
         });

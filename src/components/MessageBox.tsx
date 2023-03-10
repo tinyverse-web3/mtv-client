@@ -54,6 +54,9 @@ export const MessageBox = ({ recipient }: any) => {
   const sendHandler = async (val: string) => {
     const { sk, pk } = nostr || {};
     if (val.trim()) {
+      console.log(sk);
+      console.log(pk);
+      console.log(recipient.pk);
       let ciphertext = await nip04.encrypt(sk as string, recipient.pk, val);
 
       let event: any = {

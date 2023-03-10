@@ -5,6 +5,7 @@ import Restore from '@/pages/restore';
 import Unlock from '@/pages/unlock';
 import Home from '@/pages/home';
 import Account from '@/pages/account';
+import ChangePwd from '@/pages/changePwd';
 import Note from '@/pages/note/list';
 import NoteEdit from '@/pages/note/edit';
 import ChatList from '@/pages/chat/list';
@@ -16,6 +17,7 @@ export const ROUTE_PATH = {
   HOME: '/home',
   CREATE: '/create',
   ACCOUNT: '/account',
+  CHANGE_PWD: '/changePwd',
   RESTORE: '/restore',
   UNLOCK: '/unlock',
   NOTE: '/note',
@@ -36,6 +38,10 @@ export const router = createBrowserRouter([
   {
     path: ROUTE_PATH.ACCOUNT,
     element: <Account />,
+  },
+  {
+    path: ROUTE_PATH.CHANGE_PWD,
+    element: <ChangePwd />,
   },
   {
     path: ROUTE_PATH.CREATE,

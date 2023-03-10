@@ -6,7 +6,6 @@ interface Props {
   onChange?: (text: string) => void;
 }
 export const Input = ({ value, onChange, ...rest }: Props & any) => {
-  console.log(value);
   const [flag, setFlag] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const chanageSuccess = (val: string) => {
@@ -30,7 +29,7 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
   };
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.value = value
+      inputRef.current.value = value || '';
     }
   }, [value]);
   return (
@@ -38,6 +37,7 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
       aria-label='text'
       fullWidth
       bordered
+      rounded
       clearable
       {...rest}
       ref={inputRef}

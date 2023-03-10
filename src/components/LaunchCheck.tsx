@@ -11,7 +11,7 @@ import {
   useGlobalStore,
 } from '@/store';
 
-const stay_path = ['home', 'note', 'account', 'chat', 'test'];
+const stay_path = ['home', 'note', 'account', 'chat', 'test', 'changePwd'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();

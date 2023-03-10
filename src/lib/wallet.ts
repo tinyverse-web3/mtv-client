@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import md5 from 'md5';
 import { Storage } from './storage';
-import keystoreIdb  from 'keystore-idb';
+import keystoreIdb from 'keystore-idb';
 
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
@@ -54,6 +54,13 @@ export class Wallet {
       this.storage.keystore.set(keystore);
     }
   }
+  async changePwd(oldPwd: string, newPwd: string) {
+    console.log(oldPwd);
+    const status = await this.verify(oldPwd);
+    if (status === STATUS_CODE.SUCCESS) {
+      this.createKeystore(newPwd);
+    }
+  }
   async verify(password: string) {
     const encryptPwd = md5(password);
     return await this._verify(encryptPwd);
@@ -78,7 +85,7 @@ export class Wallet {
   async checkKeystore() {}
   async deleteKeystore() {
     sessionStorage.removeItem(LOCAL_PASSWORD_KEY);
-    console.log('删除keystore')
+    console.log('删除keystore');
     await this.storage.keystore.remove();
   }
   async check() {

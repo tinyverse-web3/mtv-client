@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useNoteStore } from '@/store';
-import { Textarea } from '@/components/form/Textarea'
+import { Textarea } from '@/components/form/Textarea';
 import { v4 as uuidv4 } from 'uuid';
 import Page from '@/layout/page';
 import { Text, Container, Row, Button } from '@nextui-org/react';
+import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
-export default function About() {
+export default function Edit() {
   const nav = useNavigate();
   const [note, setNote] = useState('');
   const { id } = useParams();
   const get = useNoteStore((state) => state.get);
-
+  const initNote = useNoteStore((state) => state.init);
+  const mtvLoaded = useMtvdbStore((state) => state.loaded);
+  const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const add = useNoteStore((state) => state.add);
   const update = useNoteStore((state) => state.update);
   const noteChange = (e: any) => {
-    setNote(e);
+    setNote(e?.trim());
   };
   const generateNote = async () => {
     const title = note.substring(0, 10);
@@ -32,13 +34,10 @@ export default function About() {
   const getDetail = async (id?: string) => {
     if (id) {
       const detail = (await get(id)) as any;
-      console.log(detail);
       setNote(detail?.content);
     }
   };
-  useEffect(() => {
-    getDetail(id);
-  }, [id]);
+
   const addNote = async () => {
     const newNote = await generateNote();
     if (id === 'add') {
@@ -48,6 +47,19 @@ export default function About() {
     }
     nav(-1);
   };
+  useEffect(() => {
+    if (mtvDb?.kvdb && id !== 'add') {
+      mtvDb.get('note').then((res) => {
+        try {
+          const list = JSON.parse(res);
+          if (list) {
+            initNote(list || []);
+            getDetail(id);
+          }
+        } catch (error) {}
+      });
+    }
+  }, [mtvDb, mtvLoaded, id]);
   return (
     <Page title='记事本' path={ROUTE_PATH.NOTE}>
       <div className=''>

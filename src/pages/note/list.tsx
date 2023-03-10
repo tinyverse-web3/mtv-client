@@ -13,7 +13,6 @@ export default function NoteList() {
   const remove = useNoteStore((state) => state.remove);
   const initNote = useNoteStore((state) => state.init);
   const mtvLoaded = useMtvdbStore((state) => state.loaded);
-  console.log(list);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const toAdd = () => {
     nav('/note/add');

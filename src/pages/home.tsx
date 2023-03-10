@@ -1,5 +1,6 @@
 import { Text, Button, Avatar, Row, Col } from '@nextui-org/react';
-import { ThemeSwitch } from '../components/ThemeSwitch';
+import { PasswordWarnBadge } from '../components/PasswordWarnBadge';
+import { MaintainWarnBadge } from '../components/MaintainWarnBadge';
 import { useWalletStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
@@ -24,7 +25,6 @@ export default function Home() {
   };
   const toChat = async () => {
     const loginStatus = await useCheckLogin();
-    console.log(loginStatus)
     if (loginStatus) {
       nav(ROUTE_PATH.CHAT_LIST);
     }
@@ -32,6 +32,11 @@ export default function Home() {
   return (
     <Page showBack={false} title='我的芥子空间'>
       <div className='mb-4'>
+        <div className='flex justify-center mb-2'>
+          <PasswordWarnBadge />
+          <MaintainWarnBadge />
+        </div>
+
         <Address address={wallet?.wallet?.address} />
       </div>
       <Button

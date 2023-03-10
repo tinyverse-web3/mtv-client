@@ -42,7 +42,7 @@ export const QuestionSelect = ({
     setCustomStatus(true);
   };
   const inputChange = (e: any) => {
-    setAnswer(e);
+    setAnswer(e?.trim());
     setAnswerLen(e.length);
   };
   const qList = useMemo<any[]>(() => {
@@ -115,7 +115,7 @@ export const QuestionSelect = ({
             placeholder='请输入问题'
             helperText={answerLen ? `答案共${answerLen}个字符` : undefined}
             value={customQuestion}
-            onChange={(e: any) => setCustomQuestion(e)}
+            onChange={(e: any) => setCustomQuestion(e?.trim())}
           />
         </div>
       )}

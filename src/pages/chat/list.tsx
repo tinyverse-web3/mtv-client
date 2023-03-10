@@ -78,8 +78,8 @@ export default function ChatList() {
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
-        {data?.map((item) => (
-          <div key={item.nostrPublicKey}>
+        {data?.filter(s => !!s.nostrPublicKey)?.map((item) => (
+          <div key={item.email}>
             <Card onClick={() => toDetail(item)} isPressable variant='bordered'>
               <Card.Body>
                 <Text>{item.email}</Text>

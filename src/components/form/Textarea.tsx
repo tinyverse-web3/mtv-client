@@ -31,7 +31,7 @@ export const Textarea = ({ value, onChange, ...rest }: Props & any) => {
   };
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.value = value;
+      inputRef.current.value = value || '';
     }
   }, [value]);
   return (

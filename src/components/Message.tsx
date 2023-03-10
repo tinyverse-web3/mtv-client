@@ -69,14 +69,6 @@ export const Message = ({ recipient }: any) => {
     );
     decryptMessmage(messages);
   }, [sentByMe, sentToMe]);
-  useEffect(() => {
-    console.log(messages), [messages];
-  });
-  // useEffect(() => {
-  //   console.log(123);
-  //   console.log(preMssages.current);
-  //   resetList(preMssages.current);
-  // }, [preMssages]);
   // 发送回调
   async function handleSend(type: string, val: string) {
     if (type === 'text' && val.trim()) {
@@ -95,15 +87,7 @@ export const Message = ({ recipient }: any) => {
       };
       event.id = getEventHash(event);
       event.sig = signEvent(event, nostr?.sk as string);
-      console.log(event);
       publish(event);
-      // appendMsg({
-      //   type: 'text',
-      //   content: { text: val },
-      //   position: 'right',
-      // });
-
-      // setTyping(true);
     }
   }
 

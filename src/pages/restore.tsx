@@ -64,7 +64,7 @@ export default function Restore() {
     nav('/home', { replace: true });
   };
   const phraseChange = (e: any) => {
-    setPhrase(e.target.value);
+    setPhrase(e.target.value?.trim());
   };
   const pwdChange = (e: any) => {
     setPwd(e.target.value);

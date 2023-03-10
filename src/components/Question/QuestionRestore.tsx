@@ -17,10 +17,10 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
   const [shareB, setShareB] = useState('');
 
   const shareAChange = (e: any) => {
-    setShareA(e.target.value);
+    setShareA(e.target.value?.trim());
   };
   const shareBChange = (e: any) => {
-    setShareB(e.target.value);
+    setShareB(e.target.value?.trim());
   };
   const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
   const { mutate: getuserinfo } = useRequest(

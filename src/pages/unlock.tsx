@@ -49,7 +49,7 @@ export default function Unlock() {
   }, [err]);
   const pwdChange = (e: any) => {
     setErr(false);
-    setPwd(e.target.value);
+    setPwd(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
     await Promise.all([resetNostr(), resetWallet(), resetGlobal(), wallet?.deleteKeystore()]);
@@ -73,7 +73,7 @@ export default function Unlock() {
           onChange={pwdChange}
           rounded
           status={err ? 'error' : 'default'}
-          labelPlaceholder='passowrd'
+          labelPlaceholder='输入密码'
           initialValue=''
         />
       </Row>
