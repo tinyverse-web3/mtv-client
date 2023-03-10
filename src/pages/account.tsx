@@ -7,8 +7,10 @@ import { SharesCard } from '@/components/SharesCard';
 import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
+import { useCheckLogin } from '@/components/LoginModal';
+
 export default function Setting() {
-  const nav = useNavigate()
+  const nav = useNavigate();
   const [pharseVisible, setPharseVisible] = useState(false);
   const [questionVisible, setQuestionVisible] = useState(false);
   const wallet = useWalletStore((state) => state.wallet);
@@ -16,8 +18,8 @@ export default function Setting() {
   const [_, copyToClipboard] = useCopyToClipboard();
 
   const toChangePwd = () => {
-    nav(ROUTE_PATH.CHANGE_PWD)
-  }
+    nav(ROUTE_PATH.CHANGE_PWD);
+  };
   const showPharse = () => {
     if (phrase) {
       copyToClipboard(phrase);
@@ -29,9 +31,12 @@ export default function Setting() {
       }, 1000 * 5);
     }
   };
-  const showQuestion = () => {
-    setQuestionVisible(!questionVisible);
-    setPharseVisible(false);
+  const showQuestion = async () => {
+    const loginStatus = await useCheckLogin();
+    if (loginStatus) {
+      setQuestionVisible(!questionVisible);
+      setPharseVisible(false);
+    }
   };
   return (
     <Page title='账号维护'>

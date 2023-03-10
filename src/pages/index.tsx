@@ -1,4 +1,5 @@
-import { Container, Button } from '@nextui-org/react';
+import { Container } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 // import { useRouter } from 'next/navigation';
 import Page from '@/layout/page';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +31,7 @@ export default function Index() {
       }
     }
     await setWallet(wallet);
+    setLoading(false);
     nav('/home', { replace: true });
   };
   return (
@@ -39,6 +41,7 @@ export default function Index() {
           size='xl'
           className='m-auto mb-6'
           onPress={toCreate}
+          loading={loading}
           color='success'>
           创建
         </Button>

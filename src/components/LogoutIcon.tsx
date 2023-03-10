@@ -1,6 +1,8 @@
 import { useWalletStore, useGlobalStore, useNostrStore } from '@/store';
 import { Button, useTheme } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
+const LOCAL_PASSWORD_KEY = '_keypassword';
+  
 export const LogoutIcon = () => {
   const nav = useNavigate();
   const resetWallet = useWalletStore((state) => state.reset);
@@ -9,12 +11,13 @@ export const LogoutIcon = () => {
   const resetNostr = useNostrStore((state) => state.reset);
   const logout = async (e: any) => {
     await Promise.all([
-      resetNostr(),
+      // resetNostr(),
       resetWallet(),
-      resetGlobal(),
-      wallet?.deleteKeystore(),
+      // resetGlobal(),
+      // wallet?.deleteKeystore(),
     ]);
-    nav('/', { replace: true });
+    sessionStorage.removeItem(LOCAL_PASSWORD_KEY);
+    nav('/unlock', { replace: true });
   };
   return (
     <Button

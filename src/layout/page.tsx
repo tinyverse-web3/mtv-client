@@ -5,7 +5,7 @@ import { ThemeSwitch } from '@/components/ThemeSwitch';
 import { LogoutIcon } from '@/components/LogoutIcon';
 
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
-export default function Page({ children, path, title, showBack = true }: any) {
+export default function Page({ children, path, title, showBack = true, className = '' }: any) {
   const nav = useNavigate();
   const location = useLocation();
   const goBack = async () => {
@@ -15,7 +15,7 @@ export default function Page({ children, path, title, showBack = true }: any) {
     return hideLogoutPath.includes(location.pathname);
   }, [location]);
   return (
-    <main className='h-full flex flex-col'>
+    <main className={'h-full flex flex-col'}>
       <header className='stacky h-14 px-4'>
         <div className='h-full justify-between flex items-center border-black border relative'>
           <div>
@@ -37,7 +37,7 @@ export default function Page({ children, path, title, showBack = true }: any) {
               {title}
             </div>
           )}
-          <div className='flex h-full items-center'>
+          <div className={'flex h-full items-center ' + className}>
             <ThemeSwitch />
             {!hideStatsu && <LogoutIcon />}
           </div>

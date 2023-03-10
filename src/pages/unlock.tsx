@@ -33,7 +33,7 @@ export default function Unlock() {
           await initMtvdb(privateKey, dbAddress, metadataKey);
         }
       }
-      nav('/home', { replace: true });
+      nav('/', { replace: true });
     }
   };
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
@@ -53,7 +53,7 @@ export default function Unlock() {
   };
   const deleteUser = async (e: any) => {
     await Promise.all([resetNostr(), resetWallet(), resetGlobal(), wallet?.deleteKeystore()]);
-    nav('/restore', { replace: true });
+    nav('/home', { replace: true });
   };
   return (
     <Page showBack={false}>
@@ -86,7 +86,7 @@ export default function Unlock() {
         auto
         className='text-12px mx-auto'
         onPress={deleteUser}>
-        忘记密码，恢复账号
+        忘记密码，恢复账号或重新创建
       </Button>
     </Page>
   );

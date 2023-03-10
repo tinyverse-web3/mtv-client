@@ -12,16 +12,16 @@ export default function Home() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
   const toNote = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
+    // const loginStatus = await useCheckLogin();
+    // if (loginStatus) {
       nav(ROUTE_PATH.NOTE);
-    }
+    // }
   };
   const toAccount = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
+    // const loginStatus = await useCheckLogin();
+    // if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT);
-    }
+    // }
   };
   const toChat = async () => {
     const loginStatus = await useCheckLogin();
@@ -36,7 +36,6 @@ export default function Home() {
           <PasswordWarnBadge />
           <MaintainWarnBadge />
         </div>
-
         <Address address={wallet?.wallet?.address} />
       </div>
       <Button
