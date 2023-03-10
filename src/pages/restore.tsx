@@ -101,7 +101,7 @@ export default function Restore() {
             助记词恢复
           </Button>
           <Button auto className='flex-1 ml-2' onPress={ShowQuestion}>
-            问答恢复
+            安全问题恢复
           </Button>
         </Row>
 

@@ -74,7 +74,7 @@ export default function Setting() {
           size='xl'
           color='error'
           onPress={showQuestion}>
-          问答备份
+          安全问题备份
         </Button>
         {questionVisible && <QuestionMaintain />}
       </div>

@@ -30,12 +30,15 @@ export default function About() {
     await wallet.createWallet(pwd);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
+      console.time('db')
       const { dbAddress, metadataKey } = await createMtvdb(privateKey);
       if (dbAddress && metadataKey) {
         await setMtvdbToUser(dbAddress, metadataKey);
       }
+      console.timeEnd('db')
     }
     setWallet(wallet);
+    setLoading(false);
     nav('/home', { replace: true });
   };
   const pwdChange = (e: any) => {

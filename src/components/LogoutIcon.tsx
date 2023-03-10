@@ -12,7 +12,7 @@ export const LogoutIcon = () => {
   const logout = async (e: any) => {
     await Promise.all([
       // resetNostr(),
-      resetWallet(),
+      // resetWallet(),
       // resetGlobal(),
       // wallet?.deleteKeystore(),
     ]);
