@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 import { useEvent } from 'react-use';
 
 export default function NoteList() {
@@ -25,26 +25,9 @@ export default function NoteList() {
     e.stopPropagation();
     await remove(id);
   };
-  // setTimeout(() => {
-  //   if (mtvDb?.kvdb) {
-  //     mtvDb.get('note').then((res) => {
-  //       console.log(res);
-  //       try {
-  //         const list = JSON.parse(res);
-  //         if (list) {
-  //           initNote(list || []);
-  //         }
-  //       } catch (error) {}
-  //     });
-  //   }
-  // }, 2000);
   useEffect(() => {
-    console.log(mtvDb?.kvdb);
-    // setTimeout(() => {
-    //   console.log(mtvDb?.kvdb);
     if (mtvDb?.kvdb) {
       mtvDb.get('note').then((res) => {
-        console.log(res);
         try {
           const list = JSON.parse(res);
           if (list) {
@@ -53,7 +36,6 @@ export default function NoteList() {
         } catch (error) {}
       });
     }
-    // }, 2000);
   }, [mtvDb, mtvLoaded]);
   return (
     <Page title='记事本' path={ROUTE_PATH.HOME}>
@@ -68,7 +50,9 @@ export default function NoteList() {
                 <Text>{item.title}</Text>
                 {item.updated && (
                   <div>
-                    <Text className='text-3'>{format(item.updated, 'yyyy-MM-dd')}</Text>
+                    <Text className='text-3'>
+                      {format(item.updated, 'yyyy-MM-dd')}
+                    </Text>
                   </div>
                 )}
               </Card.Body>

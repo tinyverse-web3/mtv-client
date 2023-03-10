@@ -38,26 +38,13 @@ export const Question = ({
       auth: true,
     },
   });
-  const { mutate: questionList } = useRequest<any[]>(
-    {
-      url: '/question/list',
-      arg: {
-        method: 'get',
-        auth: true,
-      },
+  const { data: userList, mutate: questionList } = useRequest<any[]>({
+    url: '/question/list',
+    arg: {
+      method: 'get',
+      auth: true,
     },
-    {
-      onSuccess: (res) => {
-        const { data: qList = [] } = res || {};
-        const userList = qList.map((v: any) => {
-          const l = v.content.match(/\*\*(\d*)\*\*$/)?.[1] || 0;
-          const content = v.content.replace(/\*\*(\d*)\*\*$/, '');
-          return { q: content, a: '', Id: '', l: Number(l) };
-        });
-        set(userList);
-      },
-    },
-  );
+  });
 
   const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
   const addQuestion = () => {
@@ -70,6 +57,26 @@ export const Question = ({
       });
     }
   };
+  useEffect(() => {
+    if (userList && data) {
+      if (!userList?.length) {
+        const _list = data.slice(0, 3).map((v) => ({
+          q: v.content,
+          a: '',
+          Id: v.Id,
+          l: 0,
+        }));
+        set(_list);
+      } else {
+        const _list = userList.map((v: any) => {
+          const l = v.content.match(/\*\*(\d*)\*\*$/)?.[1] || 0;
+          const content = v.content.replace(/\*\*(\d*)\*\*$/, '');
+          return { q: content, a: '', Id: '', l: Number(l) };
+        });
+        set(_list);
+      }
+    }
+  }, [userList, data]);
   const answerChange = (i: number, { data }: any) => {
     updateAt(i, { q: data.q, a: data.a, l: data.l });
   };
@@ -97,13 +104,13 @@ export const Question = ({
   const validList = () => {
     let validStatus = true;
     if (type == 'restore') {
-      const filterAnswer = list.filter(
-        (v) => v.a !== undefined && v.a !== null && v.a !== '',
-      );
-      if (filterAnswer.length < 1) {
-        toast.error(`最少回答一个问题`);
-        validStatus = false;
-      }
+      // const filterAnswer = list.filter(
+      //   (v) => v.a !== undefined && v.a !== null && v.a !== '',
+      // );
+      // if (filterAnswer.length < 1) {
+      //   toast.error(`最少回答一个问题`);
+      //   validStatus = false;
+      // }
     } else {
       for (let i = 0; i < list.length; i++) {
         const question = list[i];
@@ -139,15 +146,17 @@ export const Question = ({
           <div className='' key={i}>
             <div className='flex mb-2 items-center'>
               <Text>问题{chineseNumMap[i]}</Text>
-              <Button
-                light
-                size='sm'
-                auto
-                disabled={disabled}
-                className='px-3 text-4 ml-4'
-                onPress={() => removeQuestion(i)}>
-                <div className='i-mdi-close'></div>
-              </Button>
+              {!disabled && (
+                <Button
+                  light
+                  size='sm'
+                  auto
+                  disabled={disabled}
+                  className='px-3 text-4 ml-4'
+                  onPress={() => removeQuestion(i)}>
+                  <div className='i-mdi-close'></div>
+                </Button>
+              )}
             </div>
             <QuestionSelect
               list={unselsectList}
@@ -161,14 +170,14 @@ export const Question = ({
           </div>
         ))}
       </div>
-      <div className='mb-4'>{children}</div>
+      <div className='mb-4 pt-2'>{children}</div>
       <div className='flex'>
         {list.length > 0 && (
           <Button className='flex-1' auto onPress={submitQuestion}>
             {buttonText}
           </Button>
         )}
-        
+
         {!isFull && type === 'maintain' && (
           <Button
             auto

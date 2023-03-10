@@ -16,6 +16,7 @@ export default function Setting() {
       copyToClipboard(phrase);
       if (pharseVisible == true) return;
       setPharseVisible(true);
+      setQuestionVisible(false);
       setTimeout(() => {
         setPharseVisible(false);
       }, 1000 * 5);
@@ -23,13 +24,14 @@ export default function Setting() {
   };
   const showQuestion = () => {
     setQuestionVisible(!questionVisible);
+    setPharseVisible(false);
   };
   return (
     <Page title='账号维护'>
-      <div className='mb-6 pb-2'>
+      <div className='mb-4 pb-2'>
         <Button
           flat
-          className='w-full mb-6'
+          className='w-full mb-4'
           size='xl'
           color='error'
           onPress={showPharse}>
@@ -37,7 +39,7 @@ export default function Setting() {
         </Button>
 
         {pharseVisible ? (
-          <Card>
+          <Card className='mb-4'>
             <Card.Body>
               <Text>{phrase}</Text>
             </Card.Body>
@@ -45,7 +47,7 @@ export default function Setting() {
         ) : (
           <></>
         )}
-        <SharesCard />
+        {/* <SharesCard /> */}
         <Button
           flat
           className='w-full mb-6'

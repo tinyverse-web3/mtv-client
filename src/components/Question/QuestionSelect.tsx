@@ -66,15 +66,15 @@ export const QuestionSelect = ({
     onChange && onChange(data);
   }, [selectedValue, answer, customQuestion]);
 
-  useEffect(() => {
-    const isCustom = !templeteList?.find((v) => v.q === select.q);
-    // if (isCustom) {
-    //   setSelected(new Set([CUSTOM_QUESTION]));
-    //   setCustomQuestion(select.q);
-    // }
-    // setCustomStatus(isCustom);
-    // setCustomQuestion(select.q);
-  }, [templeteList, select]);
+  // useEffect(() => {
+  //   const isCustom = !templeteList?.find((v) => v.q === select.q);
+  // if (isCustom) {
+  //   setSelected(new Set([CUSTOM_QUESTION]));
+  //   setCustomQuestion(select.q);
+  // }
+  // setCustomStatus(isCustom);
+  // setCustomQuestion(select.q);
+  // }, [templeteList, select]);
 
   const RendText = ({ num }: any) => {
     return num && <Text className='break-keep text-12px'>{num}个字符</Text>;
@@ -96,7 +96,10 @@ export const QuestionSelect = ({
           selectedKeys={selected}
           onSelectionChange={onSelectionChange}>
           {qList.map((v, i) => (
-            <Dropdown.Item className='text-11px h-auto py-2' key={v.q} textValue={v.q}>
+            <Dropdown.Item
+              className='text-11px h-auto py-2'
+              key={v.q}
+              textValue={v.q}>
               {v.q}
             </Dropdown.Item>
           ))}
@@ -108,9 +111,9 @@ export const QuestionSelect = ({
             clearable={!disabled}
             maxLength={30}
             minRows={1}
-            disabled={!selectedValue || disabled}
+            readOnly={!selectedValue || disabled}
             placeholder='请输入问题'
-            helperText={`答案共${answerLen}个字符`}
+            helperText={answerLen ? `答案共${answerLen}个字符` : undefined}
             value={customQuestion}
             onChange={(e: any) => setCustomQuestion(e)}
           />
@@ -119,7 +122,7 @@ export const QuestionSelect = ({
       <Input
         clearable
         maxLength={30}
-        disabled={answerDisabled}
+        readOnly={answerDisabled}
         placeholder='请输入答案'
         value={answer}
         onChange={inputChange}

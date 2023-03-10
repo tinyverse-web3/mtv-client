@@ -42,6 +42,7 @@ export function useRequest<T>(
   const customSuccess = swrOptions?.onSuccess;
 
   const onSuccess = async (data: any, key: string, config: any) => {
+    console.log(data);
     if (data.code === '400000') {
       await logout();
       location.replace('/home');
@@ -66,7 +67,7 @@ export function useRequest<T>(
       headers,
     };
     if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
-      console.log(arg.query)
+      console.log(arg.query);
       options.body = JSON.stringify(arg.query);
     }
     return fetch(`${baseUrl}/${apiVersion}${url}`, options).then((res) =>
