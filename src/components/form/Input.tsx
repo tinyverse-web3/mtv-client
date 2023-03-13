@@ -17,7 +17,6 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
     }
   };
   const start = () => {
-    console.log('start');
     setFlag(true);
   };
   const end = (e: any) => {
@@ -31,7 +30,7 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
     if (inputRef.current) {
       inputRef.current.value = value || '';
     }
-  }, [value]);
+  });
   return (
     <NextInput
       aria-label='text'

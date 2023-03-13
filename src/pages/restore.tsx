@@ -18,23 +18,26 @@ import { useRequest } from '@/api';
 import { QuestionRestore } from '@/components/Question/QuestionRestore';
 
 export default function Restore() {
+  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
 
   const [shareC, setShareC] = useState('');
-  const [questionSk, setQuestionSk] = useState('');
   const initMtvdb = useMtvdbStore((state) => state.init);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
 
   const userInfo = useGlobalStore((state) => state.userInfo);
 
-  const [pwd, setPwd] = useState('');
+  // const [pwd, setPwd] = useState('');
   const importHandler = async () => {
     if (status === 'whole') {
       if (phrase) {
         try {
-          const status = await wallet.restoreWallet(phrase, pwd);
+          const status = await wallet.restoreWallet(
+            phrase,
+            VITE_DEFAULT_PASSWORD,
+          );
           console.log(status);
           if (status === STATUS_CODE.SUCCESS) {
             await walletSuccess();
@@ -43,17 +46,11 @@ export default function Restore() {
           console.log(error);
         }
       }
-    } else {
-      if (questionSk) {
-        const status = await wallet.restoreFromKey(questionSk, pwd);
-        if (status === STATUS_CODE.SUCCESS) {
-          await walletSuccess();
-        }
-      }
     }
   };
   const walletSuccess = async () => {
     setWallet(wallet);
+    console.log(wallet);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
       const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
@@ -67,7 +64,7 @@ export default function Restore() {
     setPhrase(e.target.value?.trim());
   };
   const pwdChange = (e: any) => {
-    setPwd(e.target.value);
+    // setPwd(e.target.value);
   };
 
   const shareCChange = (e: any) => {
@@ -85,9 +82,8 @@ export default function Restore() {
     }
   };
   const questionSubmit = async (sk: string) => {
-    // setQuestionSk(sk);
-    const status = await wallet.restoreFromKey(sk, '123456');
-    console.log(status)
+    const status = await wallet.restoreFromEntropy(sk, VITE_DEFAULT_PASSWORD);
+    console.log(status);
     if (status === STATUS_CODE.SUCCESS) {
       await walletSuccess();
     }
@@ -106,16 +102,21 @@ export default function Restore() {
         </Row>
 
         {status === 'whole' && (
-          <Row className='mb-8' justify='center'>
-            <Textarea
-              bordered
-              fullWidth
-              value={phrase}
-              onChange={phraseChange}
-              labelPlaceholder='助记词'
-              initialValue=''
-            />
-          </Row>
+          <>
+            <Row className='mb-8' justify='center'>
+              <Textarea
+                bordered
+                fullWidth
+                value={phrase}
+                onChange={phraseChange}
+                labelPlaceholder='助记词'
+                initialValue=''
+              />
+            </Row>
+            <Button disabled={!phrase} onPress={importHandler}>
+              恢复
+            </Button>
+          </>
         )}
         {status === 'question' && (
           <QuestionRestore onSubmit={questionSubmit}></QuestionRestore>

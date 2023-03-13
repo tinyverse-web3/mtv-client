@@ -27,8 +27,8 @@ export class Wallet {
   getMnemonic() {
     return this.wallet?.mnemonic?.phrase;
   }
-  async restoreFromKey(key: string, password: string) {
-    const mnemonic = ethers.Mnemonic.fromEntropy(key);
+  async restoreFromEntropy(entropy: string, password: string) {
+    const mnemonic = ethers.Mnemonic.fromEntropy(entropy);
     this.wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic);
     await this.createKeystore(password);
     return STATUS_CODE.SUCCESS;

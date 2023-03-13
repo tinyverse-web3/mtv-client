@@ -11,6 +11,7 @@ import Note from '@/pages/note/list';
 import Restore from '@/pages/restore';
 import Test from '@/pages/test';
 import Unlock from '@/pages/unlock';
+import Userinfo from '@/pages/userinfo';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const ROUTE_PATH = {
@@ -27,6 +28,7 @@ export const ROUTE_PATH = {
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
   CHAT_SHARE: '/chat/imShare'
+  USERINFO: '/chat/Userinfo',
 }
 export const router = createBrowserRouter([
   {
@@ -44,6 +46,10 @@ export const router = createBrowserRouter([
   {
     path: ROUTE_PATH.CHANGE_PWD,
     element: <ChangePwd />,
+  },
+  {
+    path: ROUTE_PATH.USERINFO,
+    element: <Userinfo />,
   },
   {
     path: ROUTE_PATH.CREATE,

@@ -17,7 +17,6 @@ export const QuestionMaintain = () => {
   const [list, setList] = useState<any[]>([]);
 
   const query = useMemo(() => {
-    console.log(shareB);
     return {
       sssData: shareB,
       publicKey: wallet?.wallet?.publicKey,
@@ -47,13 +46,9 @@ export const QuestionMaintain = () => {
   }, [shareB]);
   const splitKey = async (threshold = 2, account = 3) => {
     const sss = new Shamir();
-    const { privateKey } = wallet?.wallet || {};
-    if (privateKey) {
-      const splitShares: any[] = await sss.split(
-        privateKey,
-        threshold,
-        account,
-      );
+    const { entropy } = wallet?.wallet?.mnemonic || {};
+    if (entropy) {
+      const splitShares: any[] = await sss.split(entropy, threshold, account);
       const hexShares = splitShares.map((s) => s.toString('hex'));
       return hexShares;
     }
@@ -73,12 +68,9 @@ export const QuestionMaintain = () => {
     const email = 'test';
     setList(_list);
     const shareKeys = await splitKey(2, _list.length + 2);
-    console.log(shareKeys);
     if (shareKeys && email) {
       setShareA(shareKeys[0]);
       setShareB(shareKeys[1]);
-      // console.log(shareKeys[1])
-      // await modifyuser(modifyKey);
       const kvShares = shareKeys.slice(2);
       const kvMap = kvShares?.map((s, i) => {
         const keySha = new KeySha();
@@ -88,19 +80,28 @@ export const QuestionMaintain = () => {
       await setUserQuestion();
     }
   };
+  const copyHandler = (text: string) => {
+    if (text) {
+      copyToClipboard(text);
+      toast.success('复制成功');
+    }
+  };
   return (
     <Question type='maintain' onSubmit={onSubmit}>
       {shareA && (
-        <Card>
-          <Card.Body className='px-2 py-2 flex flex-row items-center'>
-            <Text className='flex-1 overflow-x-auto'>{shareA}</Text>
-            <Button
-              className='min-w-6 ml-4'
-              onPress={() => copyToClipboard(shareA)}>
-              复制
-            </Button>
-          </Card.Body>
-        </Card>
+        <>
+          <Card>
+            <Card.Body className='px-2 py-2 flex flex-row items-center'>
+              <Text className='flex-1 overflow-x-auto'>{shareA}</Text>
+              <Button
+                className='min-w-6 ml-4'
+                onPress={() => copyHandler(shareA)}>
+                复制
+              </Button>
+            </Card.Body>
+          </Card>
+          <div className="text-12px text-center">以上为用户分片，请保存</div>
+        </>
       )}
     </Question>
   );
