@@ -1,16 +1,17 @@
-import { createBrowserRouter, redirect } from 'react-router-dom';
-import Index from '@/pages/index';
-import Create from '@/pages/create';
-import Restore from '@/pages/restore';
-import Unlock from '@/pages/unlock';
-import Home from '@/pages/home';
 import Account from '@/pages/account';
 import ChangePwd from '@/pages/changePwd';
-import Note from '@/pages/note/list';
-import NoteEdit from '@/pages/note/edit';
+import ChatImChare from '@/pages/chat/imshare';
 import ChatList from '@/pages/chat/list';
 import ChatMessage from '@/pages/chat/message';
+import Create from '@/pages/create';
+import Home from '@/pages/home';
+import Index from '@/pages/index';
+import NoteEdit from '@/pages/note/edit';
+import Note from '@/pages/note/list';
+import Restore from '@/pages/restore';
 import Test from '@/pages/test';
+import Unlock from '@/pages/unlock';
+import { createBrowserRouter } from 'react-router-dom';
 
 export const ROUTE_PATH = {
   INDEX: '/',
@@ -25,6 +26,7 @@ export const ROUTE_PATH = {
   NOTE_EDIT: '/note/:id',
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
+  CHAT_SHARE: '/chat/imShare'
 }
 export const router = createBrowserRouter([
   {
@@ -70,6 +72,10 @@ export const router = createBrowserRouter([
   {
     path: ROUTE_PATH.CHAT_MESSAGE,
     element: <ChatMessage />,
+  },
+  {
+    path: ROUTE_PATH.CHAT_SHARE,
+    element: <ChatImChare />,
   },
   {
     path: ROUTE_PATH.TEST,
