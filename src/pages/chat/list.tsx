@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useLifecycles } from 'react-use';
 
 function addMinute(minute:number) {
-  let date = new Date();    
+  let date = new Date();
   date.setMinutes(date.getMinutes()+minute); 
   let month = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
   let day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
@@ -34,7 +34,7 @@ export default function ChatList() {
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const nostr = useGlobalStore((state) => state.nostr);
 
-  const { data, mutate } = useRequest<any[]>(
+  var { data: imPkListData, mutate: requestImPkList } = useRequest<any[]>(
     {
       url: '/user/getimpubkeylist',
       arg: {
@@ -54,6 +54,15 @@ export default function ChatList() {
       },
     },
   });
+  const { data: imNotifyData, mutate: requestImNotify } = useRequest<any[]>(
+    {
+      url: '/im/notify',
+      arg: {
+        method: 'get',
+        auth: true,
+      },
+    },
+  );
   const getLocalNostr = async () => {
     // console.log('本地获取nostr');
     // console.log(mtvDb?.kvdb);
@@ -85,11 +94,30 @@ export default function ChatList() {
     e.stopPropagation();
   };
   useLifecycles(() => {
-    mutate();
+    requestImPkList();
   });
   useEffect(() => {
+    
     if (mtvLoaded) {
+      debugger
       getLocalNostr();
+      refreshShareIm();
+
+      let timerId:any = null;
+      
+      const run = async (imPkListObj:[]) => {
+        await requestImNotify()
+        for (let index = 0; index < imPkListObj.length; index++) {
+          const imPkItem = imPkListObj[index];
+          debugger
+          console.log(imPkItem)
+        }
+      };
+      timerId = setTimeout(run, 1000, imPkListData );
+
+      return () => {
+        timerId && clearTimeout(timerId);
+      }
     }
   }, [mtvDb, mtvLoaded]);
   const refreshShareIm = async () => {
@@ -113,7 +141,7 @@ export default function ChatList() {
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
-        {data?.filter(s => !!s.nostrPublicKey)?.map((item) => (
+        {imPkListData?.filter(s => !!s.nostrPublicKey)?.map((item) => (
           <div key={item.email}>
             <Card onClick={() => toDetail(item)} isPressable variant='bordered'>
               <Card.Body>
