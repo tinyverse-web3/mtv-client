@@ -30,6 +30,7 @@ export const ROUTE_PATH = {
   CHAT_MESSAGE: '/chat/message',
   CHAT_SHARE: '/chat/imShare'
 }
+
 export const router = createBrowserRouter([
   {
     path: ROUTE_PATH.INDEX,
