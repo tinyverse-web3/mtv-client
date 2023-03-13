@@ -66,7 +66,7 @@ export default function Userinfo() {
             fullWidth
             maxLength={20}
             value={nicknameRef.current}
-            helperText='英文大小写，下划线和数字'
+            helperText='支持英文大小写，下划线和数字'
             onChange={nicknameChange}
             rounded
             label='昵称'

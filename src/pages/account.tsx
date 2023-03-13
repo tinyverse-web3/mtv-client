@@ -6,16 +6,14 @@ import Page from '@/layout/page';
 import { SharesCard } from '@/components/SharesCard';
 import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
 import { ROUTE_PATH } from '@/router';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCheckLogin } from '@/components/LoginModal';
 
-export default function Setting() {
+export default function Account() {
   const nav = useNavigate();
   const [pharseVisible, setPharseVisible] = useState(false);
   const [questionVisible, setQuestionVisible] = useState(false);
   const wallet = useWalletStore((state) => state.wallet);
-  console.log(wallet);
-
   const { phrase } = wallet?.wallet?.mnemonic || {};
   const [_, copyToClipboard] = useCopyToClipboard();
 
@@ -47,7 +45,7 @@ export default function Setting() {
     }
   };
   return (
-    <Page title='账号维护'>
+    <Page title='账号维护' path={ROUTE_PATH.HOME}>
       <div className='mb-4 pb-2'>
         <Button
           flat
