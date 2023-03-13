@@ -4,6 +4,7 @@ import { generateKeys } from '@/lib/utils/generateKeys';
 
 interface UserInfo {
   email?: string;
+  nickname?: string;
   mtvdb?: {
     dbAddress?: string;
     metadataKey?: string;

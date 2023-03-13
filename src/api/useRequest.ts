@@ -43,7 +43,7 @@ export function useRequest<T>(
 
   const onSuccess = async (data: any, key: string, config: any) => {
     console.log(data);
-    if (data.code === '400000') {
+    if (data.code === '600000') {
       await logout();
       location.replace('/home');
       // apiRetryList.push(trigger);
