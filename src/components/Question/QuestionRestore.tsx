@@ -1,5 +1,7 @@
-import { Button, Text, Textarea, Row } from '@nextui-org/react';
+import { Loading, Text, Textarea, Row } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import { QuestionSelect } from '@/components/Question/QuestionSelect';
+import { Select } from '@/components/form/Select';
 import { useList } from 'react-use';
 import { useState, useMemo, useEffect } from 'react';
 import { Shamir, KeySha } from '@/lib/account';
@@ -8,11 +10,26 @@ import { useWalletStore, useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from './Question';
 
+const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 interface Props {
   onSubmit: (privateKey: string) => void;
 }
 export const QuestionRestore = ({ onSubmit }: Props) => {
+  const [selectValue, setSelectValue] = useState('1');
+  const [kvError, setKvError] = useState<string[]>([]);
+  const selectList = [
+    {
+      label: '用户保存的分片',
+      value: '1',
+    },
+    {
+      label: '安全问题的分片',
+      value: '2',
+    },
+  ];
   const isLogin = useGlobalStore((state) => state.isLogin);
+  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const userInfo = useGlobalStore((state) => state.userInfo);
   const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
 
@@ -23,76 +40,146 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
     setShareB(e.target.value?.trim());
   };
   const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
-  const { mutate: getuserinfo } = useRequest(
+  const { mutate: getuserinfo, loading: getUserLoading } = useRequest(
     {
       url: '/user/getuserinfo',
       arg: { method: 'get', auth: true },
     },
     {
       onSuccess: (res) => {
-        const { sssData } = res.data;
+        const { sssData, email } = res.data;
         setShareA(sssData);
+        setUserInfo({ email });
         setMtvdbToUser(res.data.dbAddress, res.data.ipns);
       },
     },
   );
+  const toastErr = () => {
+    for (let j = 0; j < kvError.length; j++) {
+      const err = kvError[j];
+      if (err) {
+        toast.error(err);
+        break;
+      }
+    }
+  };
   const combine = async (shares: any[] = []) => {
     const sss = new Shamir();
     const sliceShares = shares.slice(0, 2);
     if (sliceShares.length === 2) {
-      const combineKey = await sss.combine(sliceShares);
-      return combineKey;
+      try {
+        const combineKey = await sss.combine(sliceShares);
+        return combineKey;
+      } catch (error) {
+        if (kvError.length) {
+          toastErr();
+        } else {
+          toast.error(`分片错误`);
+        }
+        throw error;
+      }
     }
   };
 
   const submitHandler = async (_list: any[]) => {
-    // const { email = 'tset' } = userInfo;
-    const email = 'test';
-    const keySha = new KeySha();
-    const filterAnswer = _list.filter(
-      (v) => v.a !== undefined && v.a !== null && v.a !== '',
-    );
-    if (!filterAnswer.length) {
-      toast.error(`最少回答一个问题或者输入自己保存的分片`);
-      return;
+    const { email } = userInfo;
+    if (email) {
+      const keySha = new KeySha();
+      const filterAnswer = _list.filter(
+        (v) => v.a !== undefined && v.a !== null && v.a !== '',
+      );
+      if (!filterAnswer.length) {
+        toast.error(`最少回答一个问题!`);
+        return;
+      }
+      // const kvMap = filterAnswer?.map((s) => );
+      const kvShares: any[] = [];
+      const errArr: string[] = [];
+      // setKvError([])
+      for (let i = 0; i < filterAnswer.length; i++) {
+        const s = filterAnswer[i];
+        try {
+          const v = await keySha.get(email, s.q, s.a);
+          kvShares.push(v);
+          errArr.push('');
+        } catch (error) {
+          errArr.push(`问题${chineseNumMap[i]}答案错误`);
+        }
+      }
+      setKvError(errArr);
+      if (!kvShares.length) {
+        toastErr();
+        return;
+      }
+      const shares = [shareA, ...kvShares].filter(Boolean);
+      await restoreEntropy(shares);
     }
-    const kvMap = filterAnswer?.map((s) => keySha.get(email, s.q, s.a));
-    const kvShares = await Promise.all(kvMap);
-    const shares = [shareA, ...kvShares, shareB].filter(Boolean);
+  };
+  const userSharesSubmit = async () => {
+    const shares = [shareA, shareB].filter(Boolean);
+    await restoreEntropy(shares);
+  };
+  const restoreEntropy = async (shares: string[]) => {
     const privateKey = await combine(shares);
     await onSubmit(privateKey);
   };
+  const selectChange = (e: any) => {
+    setKvError([]);
+    setSelectValue(e);
+  };
   useEffect(() => {
-    console.log(isLogin);
     if (isLogin) {
       getuserinfo();
     }
   }, [isLogin]);
   return (
-    <Question
-      onSubmit={submitHandler}
-      type='restore'
-      className='mb-8'
-      buttonText='恢复'>
-      <Row className='mb-8 mt-4' justify='center'>
-        <Textarea
-          fullWidth
-          bordered
-          readOnly
-          value={shareA}
-          onChange={shareAChange}
-          labelPlaceholder='服务器分片'
-        />
-      </Row>
+    <div className='pt-2'>
       <Row className='mb-8' justify='center'>
-        <Textarea
-          fullWidth
-          bordered
-          value={shareB}
-          onChange={shareBChange}
-          labelPlaceholder='用户分片'
-        />
+        {getUserLoading ? (
+          <Loading type='spinner' color='currentColor' size='sm' />
+        ) : (
+          <Textarea
+            fullWidth
+            bordered
+            readOnly
+            value={shareA}
+            onChange={shareAChange}
+            labelPlaceholder='服务器分片'
+          />
+        )}
       </Row>
-    </Question>
+      <Select
+        list={selectList}
+        value={selectValue}
+        onChange={selectChange}
+        placeholder='请选择一个恢复方式'
+      />
+      {selectValue === '1' ? (
+        <>
+          <Row className='mb-8 mt-8' justify='center'>
+            <Textarea
+              fullWidth
+              bordered
+              value={shareB}
+              onChange={shareBChange}
+              labelPlaceholder='用户分片'
+            />
+          </Row>
+          <Button
+            disabled={!shareB}
+            auto
+            className='w-full'
+            onPress={userSharesSubmit}>
+            恢复
+          </Button>
+        </>
+      ) : (
+        <Question
+          onSubmit={submitHandler}
+          type='restore'
+          className='mb-8'
+          buttonText='恢复'></Question>
+      )}
+    </div>
   );
 };

@@ -38,10 +38,10 @@
 .mt-1{margin-top:0.25rem;}
 .mt-10{margin-top:2.5rem;}
 .mt-4{margin-top:1rem;}
+.mt-8{margin-top:2rem;}
 [me=""]{margin-inline-end:1rem;}
 .h-12{height:3rem;}
 .h-14{height:3.5rem;}
-.h-5{height:1.25rem;}
 .h-6{height:1.5rem;}
 .h-auto{height:auto;}
 .h-full{height:100%;}
@@ -66,6 +66,7 @@
 .flex-row-reverse{flex-direction:row-reverse;}
 .flex-col{flex-direction:column;}
 .-translate-1\/2{--un-translate-x:-50%;--un-translate-y:-50%;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.cursor-pointer{cursor:pointer;}
 .items-center{align-items:center;}
 .justify-center,
 [justify~="center"]{justify-content:center;}

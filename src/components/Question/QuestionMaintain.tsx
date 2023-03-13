@@ -47,10 +47,10 @@ export const QuestionMaintain = () => {
   }, [shareB]);
   const splitKey = async (threshold = 2, account = 3) => {
     const sss = new Shamir();
-    const { privateKey } = wallet?.wallet || {};
-    if (privateKey) {
+    const { entropy } = wallet?.wallet?.mnemonic || {};
+    if (entropy) {
       const splitShares: any[] = await sss.split(
-        privateKey,
+        entropy,
         threshold,
         account,
       );

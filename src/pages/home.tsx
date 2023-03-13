@@ -1,7 +1,7 @@
 import { Text, Button, Avatar, Row, Col } from '@nextui-org/react';
 import { PasswordWarnBadge } from '../components/PasswordWarnBadge';
 import { MaintainWarnBadge } from '../components/MaintainWarnBadge';
-import { useWalletStore } from '@/store';
+import { useWalletStore, useGlobalStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
 import { ROUTE_PATH } from '@/router';
@@ -11,17 +11,12 @@ import { useCheckLogin } from '@/components/LoginModal';
 export default function Home() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
+  const userInfo = useGlobalStore((state) => state.userInfo);
   const toNote = async () => {
-    // const loginStatus = await useCheckLogin();
-    // if (loginStatus) {
-      nav(ROUTE_PATH.NOTE);
-    // }
+    nav(ROUTE_PATH.NOTE);
   };
   const toAccount = async () => {
-    // const loginStatus = await useCheckLogin();
-    // if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT);
-    // }
+    nav(ROUTE_PATH.ACCOUNT);
   };
   const toChat = async () => {
     const loginStatus = await useCheckLogin();
@@ -36,7 +31,7 @@ export default function Home() {
           <PasswordWarnBadge />
           <MaintainWarnBadge />
         </div>
-        <Address address={wallet?.wallet?.address} />
+        <Address address={userInfo?.email || wallet?.wallet?.publicKey} />
       </div>
       <Button
         iconRight={<div className='i-mdi-account' />}

@@ -57,8 +57,8 @@ export const LoginModal = () => {
     },
     {
       onSuccess: (res) => {
-        setMaintain(!!res.data.sssData);
         setUserInfo({
+          email: res.data.email,
           mtvdb: { dbAddress: res.data.dbAddress, metadataKey: res.data.ipns },
         });
       },
@@ -66,7 +66,6 @@ export const LoginModal = () => {
   );
   const loginSucess = async (res: any) => {
     if (res.data) {
-      await setUserInfo({ email });
       await setToken(res.data);
       console.log(wallet);
       console.log(userInfo);
@@ -109,6 +108,7 @@ export const LoginModal = () => {
       console.log('没有验证码');
       return;
     }
+
     setLoginLoading(true);
     await mutate();
   };

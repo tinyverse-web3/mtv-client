@@ -14,6 +14,8 @@ export default function Setting() {
   const [pharseVisible, setPharseVisible] = useState(false);
   const [questionVisible, setQuestionVisible] = useState(false);
   const wallet = useWalletStore((state) => state.wallet);
+  console.log(wallet);
+
   const { phrase } = wallet?.wallet?.mnemonic || {};
   const [_, copyToClipboard] = useCopyToClipboard();
 
@@ -38,9 +40,23 @@ export default function Setting() {
       setPharseVisible(false);
     }
   };
+  const toChangeNickname = async () => {
+    const loginStatus = await useCheckLogin();
+    if (loginStatus) {
+      nav(ROUTE_PATH.USERINFO);
+    }
+  };
   return (
     <Page title='账号维护'>
       <div className='mb-4 pb-2'>
+        <Button
+          flat
+          className='w-full mb-4'
+          size='xl'
+          color='error'
+          onPress={toChangeNickname}>
+          个人信息
+        </Button>
         <Button
           flat
           className='w-full mb-4'

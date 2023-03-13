@@ -6,6 +6,7 @@ import Unlock from '@/pages/unlock';
 import Home from '@/pages/home';
 import Account from '@/pages/account';
 import ChangePwd from '@/pages/changePwd';
+import Userinfo from '@/pages/userinfo';
 import Note from '@/pages/note/list';
 import NoteEdit from '@/pages/note/edit';
 import ChatList from '@/pages/chat/list';
@@ -25,6 +26,7 @@ export const ROUTE_PATH = {
   NOTE_EDIT: '/note/:id',
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
+  USERINFO: '/chat/Userinfo',
 }
 export const router = createBrowserRouter([
   {
@@ -42,6 +44,10 @@ export const router = createBrowserRouter([
   {
     path: ROUTE_PATH.CHANGE_PWD,
     element: <ChangePwd />,
+  },
+  {
+    path: ROUTE_PATH.USERINFO,
+    element: <Userinfo />,
   },
   {
     path: ROUTE_PATH.CREATE,

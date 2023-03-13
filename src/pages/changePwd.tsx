@@ -10,7 +10,7 @@ import {
 } from '@/store';
 import Page from '@/layout/page';
 
-export default function Unlock() {
+export default function ChangePwd() {
   const nav = useNavigate();
   const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
