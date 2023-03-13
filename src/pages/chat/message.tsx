@@ -48,6 +48,7 @@ export default function ChatMessage() {
     }
   };
   useEffect(() => {
+    console.log('mtvLoaded ' + mtvLoaded);
     if (mtvLoaded) {
       getLocalNostr();
     }

@@ -97,9 +97,14 @@ export default function ChatList() {
     requestImPkList();
   });
   useEffect(() => {
+    console.log('mtvLoaded ' + mtvLoaded);
     
     if (mtvLoaded) {
       debugger
+    }
+    console.log('mtvLoaded ' + mtvLoaded);
+    if (mtvLoaded) {
+      debugger;
       getLocalNostr();
       refreshShareIm();
 

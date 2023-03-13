@@ -24,9 +24,10 @@ export default function Restore() {
 
   const [shareC, setShareC] = useState('');
   const initMtvdb = useMtvdbStore((state) => state.init);
+  const createMtvdb = useMtvdbStore((state) => state.create);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
-
+  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
   const userInfo = useGlobalStore((state) => state.userInfo);
 
   // const [pwd, setPwd] = useState('');
@@ -40,7 +41,15 @@ export default function Restore() {
           );
           console.log(status);
           if (status === STATUS_CODE.SUCCESS) {
-            await walletSuccess();
+            setWallet(wallet);
+            const { privateKey } = wallet.wallet || {};
+            if (privateKey) {
+              const { dbAddress, metadataKey } = await createMtvdb(privateKey);
+              if (dbAddress && metadataKey) {
+                await setMtvdbToUser(dbAddress, metadataKey);
+              }
+            }
+            nav('/home', { replace: true });
           }
         } catch (error) {
           console.log(error);
@@ -50,7 +59,6 @@ export default function Restore() {
   };
   const walletSuccess = async () => {
     setWallet(wallet);
-    console.log(wallet);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
       const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
@@ -87,7 +95,6 @@ export default function Restore() {
     if (status === STATUS_CODE.SUCCESS) {
       await walletSuccess();
     }
-    console.log(sk);
   };
   return (
     <Page showBack={false} title='账号恢复'>
