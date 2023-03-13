@@ -1,15 +1,31 @@
-import { Card, Button, Spacer, Text } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useNostrStore, useGlobalStore, useMtvdbStore } from '@/store';
-import { ROUTE_PATH } from '@/router';
 import { useRequest } from '@/api';
-import { getPublicKey } from 'nostr-tools';
-import { useLifecycles } from 'react-use';
+import { Button } from '@/components/form/Button';
 import Page from '@/layout/page';
+import { ROUTE_PATH } from '@/router';
+import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
+import { Card, Spacer, Text } from '@nextui-org/react';
+import { getPublicKey } from 'nostr-tools';
+import { useEffect } from 'react';
+import QRCode from 'react-qr-code';
+import { useNavigate } from 'react-router-dom';
+import { useCopyToClipboard, useLifecycles } from 'react-use';
+
+function addMinute(minute:number) {
+  let date = new Date();    
+  date.setMinutes(date.getMinutes()+minute); 
+  let month = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
+  let day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
+  let hours = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours()
+  let minutes = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
+  let seconds = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds()
+  let formatDate = date.getFullYear()+'-'+month+'-'+day + " " + hours + ":" + minutes + ":" + seconds;
+  return formatDate;
+}
+
 
 const NOSTR_KEY = 'nostr_sk';
 export default function ChatList() {
+  const [{ value, error, noUserInteraction }, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const createNostr = useGlobalStore((state) => state.createNostr);
   const setNostr = useGlobalStore((state) => state.setNostr);
@@ -17,6 +33,7 @@ export default function ChatList() {
   const mtvLoaded = useMtvdbStore((state) => state.loaded);
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const nostr = useGlobalStore((state) => state.nostr);
+
   const { data, mutate } = useRequest<any[]>(
     {
       url: '/user/getimpubkeylist',
@@ -75,6 +92,24 @@ export default function ChatList() {
       getLocalNostr();
     }
   }, [mtvDb, mtvLoaded]);
+  const refreshShareIm = async () => {
+    const data = await createShareIm();
+    console.log("refreshShareIm:%o", data);
+  };
+  const copyShareImLink = async () => {
+    let link = window.location.origin + "/chat/imShare?pk=" + nostr?.pk
+    copyToClipboard(link);
+    console.log("copyShareImLink:%o", link);
+  };
+  const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
+    url: '/im/createshareim',
+    arg: {
+      method: 'post',
+      auth: true,
+    },
+  });
+  
+
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
@@ -93,6 +128,34 @@ export default function ChatList() {
         ))}
         {/* <Button onPress={getLocalNostr}>创建</Button> */}
       </div>
+      <div>
+        <QRCode 
+        size={256}
+        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+        value={ window.location.origin + "/chat/imShare?pk=" + nostr?.pk}
+        viewBox={`0 0 256 256`}
+        />
+        <Button
+                auto
+                className='ml-4 min-w-20'
+                color='secondary'
+                loading={refreshImConnecting}
+                onPress={refreshShareIm}>
+                {"刷新(私聊结束时间："+ addMinute(10) + ")"}
+        </Button>
+        
+      </div>
+      <div style= {{ marginTop:5}}>
+      <Button
+                auto
+                className='ml-4 min-w-20'
+                color='secondary'
+                onPress={copyShareImLink}>
+                {"复制私聊共享链接"}
+        </Button>
+      </div>
+
     </Page>
+    
   );
 }

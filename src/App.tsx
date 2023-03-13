@@ -1,7 +1,7 @@
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { RouterProvider } from 'react-router-dom';
-import '@chatui/core/dist/index.css';
+// import '@chatui/core/dist/index.css';
 import { Toaster } from 'react-hot-toast';
 
 import { router } from '@/router';

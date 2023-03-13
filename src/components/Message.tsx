@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import Chat, { Bubble, useMessages } from '@chatui/core';
+// import Chat, { Bubble, useMessages } from '@chatui/core';
 import { useNostrEvents, dateToUnix, useNostr } from 'nostr-react';
 import { useGlobalStore } from '@/store';
 import { signEvent, getEventHash, nip04 } from 'nostr-tools';
@@ -9,9 +9,9 @@ export const Message = ({ recipient }: any) => {
   const preMssages = useRef<any[]>([]);
   const user = useGlobalStore((state) => state.userInfo);
   const nostr = useGlobalStore((state) => state.nostr);
-  const { messages, appendMsg, prependMsgs, resetList } = useMessages(
-    preMssages.current,
-  );
+  // const { messages, appendMsg, prependMsgs, resetList } = useMessages(
+  //   preMssages.current,
+  // );
   const { events: sentByMe } = useNostrEvents({
     filter: {
       kinds: [4],
@@ -42,13 +42,13 @@ export const Message = ({ recipient }: any) => {
         ...event,
         text,
       });
-      appendMsg({
-        type: 'text',
-        content: { text },
-        user: {
-          name: event.pubkey,
-        },
-      });
+      // appendMsg({
+      //   type: 'text',
+      //   content: { text },
+      //   user: {
+      //     name: event.pubkey,
+      //   },
+      // });
       // list.push({
       //   _id: event.id,
       //   type: 'text',
@@ -100,29 +100,29 @@ export const Message = ({ recipient }: any) => {
     const { type, content } = msg;
 
     // 根据消息类型来渲染
-    switch (type) {
-      case 'text':
-        return <Bubble content={content.text} />;
-      case 'image':
-        return (
-          <Bubble type='image'>
-            <img src={content.picUrl} alt='' />
-          </Bubble>
-        );
-      default:
-        return null;
-    }
+    // switch (type) {
+    //   case 'text':
+    //     return <Bubble content={content.text} />;
+    //   case 'image':
+    //     return (
+    //       <Bubble type='image'>
+    //         <img src={content.picUrl} alt='' />
+    //       </Bubble>
+    //     );
+    //   default:
+    //     return null;
+    // }
   }
 
   return (
     <div className='h-full'>
-      <Chat
+      {/* <Chat
         navbar={{ title: 'MTV_IM' }}
         messages={messages}
         renderMessageContent={renderMessageContent}
         // onQuickReplyClick={handleQuickReplyClick}
         onSend={handleSend}
-      />
+      /> */}
     </div>
   );
 };

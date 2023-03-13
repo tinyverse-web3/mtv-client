@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import md5 from 'md5';
 import { Storage } from './storage';
-import keystoreIdb from 'keystore-idb';
+// import keystoreIdb from 'keystore-idb';
 
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
