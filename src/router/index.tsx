@@ -20,13 +20,13 @@ export const ROUTE_PATH = {
   ACCOUNT: '/account',
   CHANGE_PWD: '/changePwd',
   RESTORE: '/restore',
+  USERINFO: '/userinfo',
   UNLOCK: '/unlock',
   NOTE: '/note',
   TEST: '/test',
   NOTE_EDIT: '/note/:id',
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
-  USERINFO: '/chat/Userinfo',
 }
 export const router = createBrowserRouter([
   {
