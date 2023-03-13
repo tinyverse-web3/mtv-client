@@ -98,11 +98,6 @@ export default function ChatList() {
   });
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);
-    
-    if (mtvLoaded) {
-      debugger
-    }
-    console.log('mtvLoaded ' + mtvLoaded);
     if (mtvLoaded) {
       debugger;
       getLocalNostr();
