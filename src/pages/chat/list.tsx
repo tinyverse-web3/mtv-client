@@ -80,10 +80,10 @@ export default function ChatList() {
         console.log(sk)
         console.log(pk)
         await mtvDb.put(NOSTR_KEY, sk);
-        await mtvDb.backupDb();
+        // await mtvDb.backupDb();
         await setNostr({ pk, sk });
       }
-      await sendPk();
+      // await sendPk();
     }
   };
   const toDetail = async (cur: any) => {
@@ -94,7 +94,7 @@ export default function ChatList() {
     e.stopPropagation();
   };
   useLifecycles(() => {
-    requestImPkList();
+    // requestImPkList();
   });
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);

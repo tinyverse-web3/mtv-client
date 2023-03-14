@@ -27,11 +27,8 @@ export const WalletCheck = () => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey && user?.mtvdb?.dbAddress) {
       try {
-        await initDb(
-          privateKey,
-          user?.mtvdb?.dbAddress,
-          user?.mtvdb?.metadataKey,
-        );
+        console.log('initdb');
+        initDb(privateKey, user?.mtvdb?.dbAddress, user?.mtvdb?.metadataKey);
       } catch (error) {
         console.log(error);
       }
@@ -49,12 +46,15 @@ export const WalletCheck = () => {
       if (pathname !== '/') {
         if (pathname.indexOf('chat') > -1) {
           await wallet.createWallet(VITE_DEFAULT_PASSWORD);
+          console.log('wallet create success');
           const { privateKey } = wallet.wallet || {};
           if (privateKey) {
-            const { dbAddress, metadataKey } = await createMtvdb(privateKey);
-            if (dbAddress && metadataKey) {
-              await setMtvdbToUser(dbAddress, metadataKey);
-            }
+            createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+              console.log('mtvdb create success');
+              if (dbAddress && metadataKey) {
+                setMtvdbToUser(dbAddress, metadataKey);
+              }
+            });
           }
           await setWallet(wallet);
         } else {

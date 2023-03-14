@@ -59,7 +59,7 @@ export default function Home() {
       </Button>
       <Button
         iconRight={<div className='i-mdi-chat' />}
-        color='secondary'
+        color='primary'
         className='w-full mb-4'
         // onPress={toChat}
         size='xl'>
