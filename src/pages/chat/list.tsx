@@ -96,27 +96,46 @@ export default function ChatList() {
   useLifecycles(() => {
     requestImPkList();
   });
+  const checkImNotifyTick = ():any => {
+    let timerId:any;
+    const run = async (imNotifyList:any) => {
+      await requestImNotify()
+      if (imNotifyList) {
+        var newPkList = [];
+        for (let index = 0; index < imNotifyList.length; index++) {
+          const imNotifyItem = imNotifyList[index];
+          const findPkInImPkList = (pk:string):string => {
+            if (imPkListData) {
+              for (let index = 0; index < imPkListData.length; index++) {
+                const item = imPkListData[index];
+                if (pk === item.nostrPublicKey) {
+                  return pk
+                }
+              }
+            }
+            return "";
+          }
+          const findPk = findPkInImPkList(imNotifyItem.toPublicKey);
+          if (!findPk) {
+            newPkList.push({
+              email: imNotifyItem.toPublicKey, 
+              nostrPublicKey: imNotifyItem.toPublicKey
+            })
+          }
+        }
+      }
+    };
+    timerId = setInterval(run, 2000, imNotifyData);
+    return timerId;
+  };
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);
     if (mtvLoaded) {
-      debugger;
       getLocalNostr();
       refreshShareIm();
-
-      let timerId:any = null;
-      
-      const run = async (imPkListObj:[]) => {
-        await requestImNotify()
-        for (let index = 0; index < imPkListObj.length; index++) {
-          const imPkItem = imPkListObj[index];
-          debugger
-          console.log(imPkItem)
-        }
-      };
-      timerId = setTimeout(run, 1000, imPkListData );
-
+      var timerId = checkImNotifyTick();
       return () => {
-        timerId && clearTimeout(timerId);
+        timerId && clearInterval(timerId);
       }
     }
   }, [mtvDb, mtvLoaded]);
