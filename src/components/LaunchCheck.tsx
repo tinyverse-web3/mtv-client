@@ -3,14 +3,13 @@ import { useLayoutEffect, useEffect, useState } from 'react';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { ROUTE_PATH } from '@/router/index';
 import { Loading } from '@nextui-org/react';
-import { useLifecycles } from 'react-use';
+
 import {
   useMtvdbStore,
   useNoteStore,
   useWalletStore,
   useGlobalStore,
 } from '@/store';
-
 const stay_path = ['home', 'note', 'account', 'chat', 'test', 'changePwd'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
@@ -21,6 +20,7 @@ export const WalletCheck = () => {
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
 
+
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey && user?.mtvdb?.dbAddress) {
@@ -30,7 +30,6 @@ export const WalletCheck = () => {
           user?.mtvdb?.dbAddress,
           user?.mtvdb?.metadataKey,
         );
-        console.log(123);
       } catch (error) {
         console.log(error);
       }
@@ -44,7 +43,6 @@ export const WalletCheck = () => {
     }
     setCheckLoading(true);
     const status = await wallet?.check();
-    console.log(status);
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
         location.replace(ROUTE_PATH.INDEX);

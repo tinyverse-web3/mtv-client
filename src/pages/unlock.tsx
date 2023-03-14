@@ -8,6 +8,7 @@ import {
   useGlobalStore,
   useNostrStore,
 } from '@/store';
+import { useKeyPressEvent } from 'react-use';
 import Page from '@/layout/page';
 
 export default function Unlock() {
@@ -36,6 +37,15 @@ export default function Unlock() {
       nav('/home', { replace: true });
     }
   };
+  const pressHandler = async () => {
+    await unlock();
+  };
+  useKeyPressEvent('Enter', () => {
+    if (pwd) {
+      pressHandler();
+    }
+  });
+  
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
     if (!err)
       return {
@@ -56,11 +66,11 @@ export default function Unlock() {
     nav('/', { replace: true });
   };
   return (
-    <Page showBack={false}>
-      <Text h4 className='mb-9 text-center text-6'>
+    <Page showBack={false} title="解锁">
+      {/* <Text h4 className='mb-9 text-center text-6'>
         解锁
-      </Text>
-      <Row className='mb-8' justify='center'>
+      </Text> */}
+      <Row className='mb-8 pt-8' justify='center'>
         <Input.Password
           clearable
           bordered
@@ -77,7 +87,7 @@ export default function Unlock() {
           initialValue=''
         />
       </Row>
-      <Button className='mx-auto mb-4' onPress={unlock}>
+      <Button disabled={!pwd} className='mx-auto mb-4' onPress={unlock}>
         解锁
       </Button>
       <Button

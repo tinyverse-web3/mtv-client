@@ -57,6 +57,14 @@ export default function Home() {
         size='xl'>
         IM聊天
       </Button>
+      <Button
+        iconRight={<div className='i-mdi-chat' />}
+        color='secondary'
+        className='w-full mb-4'
+        // onPress={toChat}
+        size='xl'>
+        了解更多
+      </Button>
     </Page>
   );
 }
