@@ -258,14 +258,22 @@ export class MtvDb {
   private async initIpfs(option = {}) {
     logger.info('Init the ipfs instance');
     //this.ipfs = await IPFS.create(option);
+    //retry three times
     if (this.ipfs) {
       logger.warn('ipfs has been initialized');
       await this.sleep(2);
       return;
     }
-    this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
-    // const identity = await this.ipfs.id();
-    // logger.info("ipfs id: " + identity.string);
+    try{
+      this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
+      await this.sleep(1);
+     }catch (err) {
+      logger.warn('inpns name init error: ' + (err as Error).message);
+      this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
+    }
+    if(!this.ipfs){
+      this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
+    }
   }
 
   private async initOrbitDB() {
@@ -307,11 +315,21 @@ export class MtvDb {
     }
     const name = new Name.WritableName(privateKey);
     this.w3name = name;
+    try{
+      const oldRevision = await Name.resolve(name);
+    }catch(err){
+      const errMessage =  (err as Error).message;
+      if(errMessage.indexOf("record not found for key") == -1){
+        logger.info('Use exist name: ', name.toString());
+        this.metadataKey = name.toString();
+        return;
+      }
+    }
     const revision = await Name.v0(name, pubKeyStr); // inita the ipns key
     try {
       await Name.publish(revision, name.key);
     } catch (err) {
-      logger.warn('inpns name init error: ' + (err as Error).message);
+      logger.warn('ipns name init error: ' + (err as Error).message);
     }
     this.metadataKey = name.toString();
     logger.info('created new name: ', name.toString());
