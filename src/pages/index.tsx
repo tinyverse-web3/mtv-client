@@ -18,17 +18,18 @@ export default function Index() {
     nav('/restore');
   };
   const toCreate = () => {
-    create()
+    create();
   };
   const create = async () => {
     setLoading(true);
     await wallet.createWallet(VITE_DEFAULT_PASSWORD);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
-      const { dbAddress, metadataKey } = await createMtvdb(privateKey);
-      if (dbAddress && metadataKey) {
-        await setMtvdbToUser(dbAddress, metadataKey);
-      }
+      createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+        if (dbAddress && metadataKey) {
+          setMtvdbToUser(dbAddress, metadataKey);
+        }
+      });
     }
     await setWallet(wallet);
     setLoading(false);

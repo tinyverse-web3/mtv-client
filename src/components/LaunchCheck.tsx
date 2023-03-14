@@ -3,21 +3,23 @@ import { useLayoutEffect, useEffect, useState } from 'react';
 import wallet, { STATUS_CODE } from '@/lib/wallet';
 import { ROUTE_PATH } from '@/router/index';
 import { Loading } from '@nextui-org/react';
-import { useLifecycles } from 'react-use';
+
 import {
   useMtvdbStore,
   useNoteStore,
   useWalletStore,
   useGlobalStore,
 } from '@/store';
-
 const stay_path = ['home', 'note', 'account', 'chat', 'test', 'changePwd'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();
+  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const setWallet = useWalletStore((state) => state.setWallet);
   const user = useGlobalStore((state) => state.userInfo);
   const checkLoading = useGlobalStore((state) => state.checkLoading);
+  const createMtvdb = useMtvdbStore((state) => state.create);
+  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
 
@@ -25,12 +27,8 @@ export const WalletCheck = () => {
     const { privateKey } = wallet?.wallet || {};
     if (privateKey && user?.mtvdb?.dbAddress) {
       try {
-        await initDb(
-          privateKey,
-          user?.mtvdb?.dbAddress,
-          user?.mtvdb?.metadataKey,
-        );
-        console.log(123);
+        console.log('initdb');
+        initDb(privateKey, user?.mtvdb?.dbAddress, user?.mtvdb?.metadataKey);
       } catch (error) {
         console.log(error);
       }
@@ -44,10 +42,24 @@ export const WalletCheck = () => {
     }
     setCheckLoading(true);
     const status = await wallet?.check();
-    console.log(status);
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
-        location.replace(ROUTE_PATH.INDEX);
+        if (pathname.indexOf('chat') > -1) {
+          await wallet.createWallet(VITE_DEFAULT_PASSWORD);
+          console.log('wallet create success');
+          const { privateKey } = wallet.wallet || {};
+          if (privateKey) {
+            createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+              console.log('mtvdb create success');
+              if (dbAddress && metadataKey) {
+                setMtvdbToUser(dbAddress, metadataKey);
+              }
+            });
+          }
+          await setWallet(wallet);
+        } else {
+          location.replace(ROUTE_PATH.INDEX);
+        }
       }
     } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
       if (!(pathname.indexOf('unlock') > -1)) {

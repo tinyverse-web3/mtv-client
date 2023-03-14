@@ -48,7 +48,9 @@ export default function Edit() {
     nav(-1);
   };
   useEffect(() => {
-    if (mtvDb?.kvdb && id !== 'add') {
+    if (mtvDb?.kvdb && id !== 'add' && mtvLoaded) {
+      console.log('mtvLoaded');
+      console.log(mtvLoaded);
       mtvDb.get('note').then((res) => {
         try {
           const list = JSON.parse(res);

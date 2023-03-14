@@ -15,7 +15,6 @@ export const useWalletStore = create<WalletState>()(
       set({ wallet });
     },
     reset: async () => {
-      const wallet = get().wallet;
       set({ wallet: null });
     },
   })),
