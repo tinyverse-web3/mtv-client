@@ -14,12 +14,14 @@ const stay_path = ['home', 'note', 'account', 'chat', 'test', 'changePwd'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();
+  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const setWallet = useWalletStore((state) => state.setWallet);
   const user = useGlobalStore((state) => state.userInfo);
   const checkLoading = useGlobalStore((state) => state.checkLoading);
+  const createMtvdb = useMtvdbStore((state) => state.create);
+  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
-
 
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
@@ -45,7 +47,19 @@ export const WalletCheck = () => {
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
-        location.replace(ROUTE_PATH.INDEX);
+        if (pathname.indexOf('chat') > -1) {
+          await wallet.createWallet(VITE_DEFAULT_PASSWORD);
+          const { privateKey } = wallet.wallet || {};
+          if (privateKey) {
+            const { dbAddress, metadataKey } = await createMtvdb(privateKey);
+            if (dbAddress && metadataKey) {
+              await setMtvdbToUser(dbAddress, metadataKey);
+            }
+          }
+          await setWallet(wallet);
+        } else {
+          location.replace(ROUTE_PATH.INDEX);
+        }
       }
     } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
       if (!(pathname.indexOf('unlock') > -1)) {

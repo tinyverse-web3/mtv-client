@@ -75,6 +75,7 @@ export const LoginModal = () => {
       setShowLogin(false);
     }
   };
+  const loginQuery = useMemo(() => {}, [verifyCode, wallet]);
   const { mutate } = useRequest(
     {
       url: '/user/login',
@@ -135,7 +136,7 @@ export const LoginModal = () => {
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={18}>
-          登录
+          获取Token
         </Text>
       </Modal.Header>
       <Modal.Body>
@@ -178,19 +179,13 @@ export const LoginModal = () => {
             {text}
           </Button>
         </div>
-        {/* <Row justify="space-between" >
-            <Checkbox>
-              <Text size={14}>Remember me</Text>
-            </Checkbox>
-            <Text size={14}>Forgot password?</Text>
-          </Row> */}
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>
           关闭
         </Button>
         <Button auto onPress={loginHandler} loading={loginLoading}>
-          登录
+          获取Token
         </Button>
       </Modal.Footer>
     </Modal>
