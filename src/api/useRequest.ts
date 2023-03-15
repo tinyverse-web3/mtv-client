@@ -4,6 +4,7 @@ import useSWRMutation from 'swr/mutation';
 import type { SWRConfiguration } from 'swr';
 import { useGlobalStore, useWalletStore } from '@/store';
 import { signMessage } from '@/lib/utils';
+import toast from 'react-hot-toast';
 // import { ROUTE_PATH } from '@/router';
 
 interface RequestOption {
@@ -42,6 +43,7 @@ export function useRequest<T>(
   const wallet = useWalletStore((state) => state.wallet);
   // const token = useGlobalStore((state) => state.token);
   const customSuccess = swrOptions?.onSuccess;
+  const customError = swrOptions?.onError;
 
   const onSuccess = async (data: any, key: string, config: any) => {
     if (data.code === '600000') {
@@ -52,8 +54,19 @@ export function useRequest<T>(
       await customSuccess(data, key, config);
     }
   };
+  const onError = async (data: any, key: string, config: any) => {
+    if (customError) {
+      customError(data, key, config)
+      // await logout();
+      // location.replace('/home');
+      // apiRetryList.push(trigger);
+    } else {
+      toast.error(JSON.stringify(data));
+    }
+  };
   const _swrConfig: any = { ...defaultSwrConfig, ...swrOptions };
   _swrConfig.onSuccess = onSuccess;
+  _swrConfig.onError = onError;
 
   const fetcher = async ({ url, arg }: any) => {
     console.log(url, arg);

@@ -121,14 +121,15 @@ export default function Restore() {
                 initialValue=''
               />
             </Row>
-            <Button disabled={!phrase} onPress={importHandler}>
+            <Button className="mx-auto w-full" disabled={!phrase} onPress={importHandler}>
               恢复
-            </Button>
+            </Button> 
           </>
         )}
         {status === 'question' && (
           <QuestionRestore onSubmit={questionSubmit}></QuestionRestore>
         )}
+        <Text className='text-center text-11px mt-2'>使用默认密码恢复，之后请及时修改</Text>
       </div>
     </Page>
   );

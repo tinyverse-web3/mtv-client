@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import { Modal, Button, Text, Input, Row, Checkbox } from '@nextui-org/react';
 
 interface Props {
   content: string;
 }
 export const SendEmail = ({ content }: Props) => {
-  const [visible, setVisible] = React.useState(false);
-  const [email, setEmail] = React.useState('');
+  const [visible, setVisible] = useState(false);
+  const [email, setEmail] = useState('');
 
   const sendEmail = (): void => {
     window.open(

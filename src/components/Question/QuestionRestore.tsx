@@ -29,6 +29,7 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
   ];
   const isLogin = useGlobalStore((state) => state.isLogin);
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const setMaintain = useGlobalStore((state) => state.setMaintain);
   const userInfo = useGlobalStore((state) => state.userInfo);
   const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
@@ -49,6 +50,7 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
       onSuccess: (res) => {
         const { sssData, email } = res.data;
         setShareA(sssData);
+        setMaintain(!!sssData);
         setUserInfo({ email });
         setMtvdb(res.data.dbAddress, res.data.ipns);
       },
@@ -92,10 +94,8 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
         toast.error(`最少回答一个问题!`);
         return;
       }
-      // const kvMap = filterAnswer?.map((s) => );
       const kvShares: any[] = [];
       const errArr: string[] = [];
-      // setKvError([])
       for (let i = 0; i < filterAnswer.length; i++) {
         const s = filterAnswer[i];
         try {

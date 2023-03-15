@@ -59,11 +59,13 @@ export const LoginModal = () => {
     },
     {
       onSuccess: (res) => {
+        const { sssData, name, email, dbAddress, ipns } = res.data || {};
+        setMaintain(!!sssData);
         setUserInfo({
-          nickname: res.data.name,
-          email: res.data.email,
+          nickname: name,
+          email: email,
         });
-        setMtvdb(res.data.dbAddress, res.data.ipns)
+        setMtvdb(dbAddress, ipns);
       },
     },
   );
@@ -77,7 +79,6 @@ export const LoginModal = () => {
       setShowLogin(false);
     }
   };
-  const loginQuery = useMemo(() => {}, [verifyCode, wallet]);
   const { mutate } = useRequest(
     {
       url: '/user/login',
@@ -139,7 +140,7 @@ export const LoginModal = () => {
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={18}>
-          获取Token
+          绑定邮箱
         </Text>
       </Modal.Header>
       <Modal.Body>
@@ -188,7 +189,7 @@ export const LoginModal = () => {
           关闭
         </Button>
         <Button auto onPress={loginHandler} loading={loginLoading}>
-          获取Token
+          绑定邮箱
         </Button>
       </Modal.Footer>
     </Modal>

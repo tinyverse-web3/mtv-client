@@ -18,7 +18,6 @@ function addMinute(minute: number) {
   const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss')
   return formatDate;
 }
-
 const NOSTR_KEY = 'nostr_sk';
 export default function ChatList() {
   const [{ value, error, noUserInteraction }, copyToClipboard] =
@@ -140,7 +139,7 @@ export default function ChatList() {
   const copyShareImLink = async () => {
     let link = window.location.origin + '/chat/imShare?pk=' + nostr?.pk;
     copyToClipboard(link);
-    console.log('copyShareImLink:%o', link);
+    console.log('copyShareImL ink:%o', link);
   };
   const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
     url: '/im/createshareim',
