@@ -346,6 +346,7 @@ export class MtvDb {
       sync: true,
       create: true,
       overwrite: false,
+      replicate: false,
       type: 'keyvalue', //default for keyvalue db
       accessController: { write: ['*'] },
     };
