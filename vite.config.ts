@@ -1,4 +1,5 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { terser } from 'rollup-plugin-terser';
 // import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 // import GlobalPolyFill from "@esbuild-plugins/node-globals-polyfill";
 import react from '@vitejs/plugin-react-swc';
@@ -19,7 +20,7 @@ export default defineConfig({
     https: true,
     // proxy: {
     //   '/api': {
-    //     target: 'https://39.108.72.102:8099/mtv/api/',
+    //     target: 'http://192.168.3.22:6060/',
     //     changeOrigin: true,
     //     rewrite: (path) => path.replace(/^\/api/, ''),
     //   },
@@ -50,7 +51,12 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      plugins: [builtinsPlugin],
+      plugins: [builtinsPlugin, terser({
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      }),],
     },
   },
   optimizeDeps: {

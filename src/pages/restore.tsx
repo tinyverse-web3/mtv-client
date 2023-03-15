@@ -27,7 +27,8 @@ export default function Restore() {
   const createMtvdb = useMtvdbStore((state) => state.create);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
+  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
   const userInfo = useGlobalStore((state) => state.userInfo);
 
   // const [pwd, setPwd] = useState('');
@@ -46,7 +47,7 @@ export default function Restore() {
             if (privateKey) {
               const { dbAddress, metadataKey } = await createMtvdb(privateKey);
               if (dbAddress && metadataKey) {
-                await setMtvdbToUser(dbAddress, metadataKey);
+                await setMtvdb(dbAddress, metadataKey);
               }
             }
             nav('/home', { replace: true });
@@ -61,7 +62,7 @@ export default function Restore() {
     setWallet(wallet);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
-      const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
+      const { dbAddress, metadataKey } = mtvdbInfo;
       if (dbAddress && metadataKey) {
         await initMtvdb(privateKey, dbAddress, metadataKey);
       }

@@ -13,7 +13,7 @@ export default function Index() {
   const nav = useNavigate();
   const setWallet = useWalletStore((state) => state.setWallet);
   const createMtvdb = useMtvdbStore((state) => state.create);
-  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
   const toRestore = () => {
     nav('/restore');
   };
@@ -27,7 +27,7 @@ export default function Index() {
     if (privateKey) {
       createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
         if (dbAddress && metadataKey) {
-          setMtvdbToUser(dbAddress, metadataKey);
+          setMtvdb(dbAddress, metadataKey);
         }
       });
     }

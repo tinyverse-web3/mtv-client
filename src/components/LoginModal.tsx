@@ -14,6 +14,8 @@ export const LoginModal = () => {
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const setMaintain = useGlobalStore((state) => state.setMaintain);
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
   const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
   const setToken = useGlobalStore((state) => state.setToken);
@@ -22,7 +24,7 @@ export const LoginModal = () => {
   const { start, text, flag } = useCountDown(60);
   const query = useMemo(() => {
     const { publicKey, privateKey, address } = wallet?.wallet || {};
-    const { metadataKey, dbAddress } = userInfo.mtvdb || {};
+    const { metadataKey, dbAddress } = mtvdbInfo || {};
     let sign;
     if (publicKey && privateKey && address && metadataKey && dbAddress) {
       sign = signMessage(metadataKey, { address, privateKey });
@@ -31,7 +33,7 @@ export const LoginModal = () => {
       publicKey: wallet?.wallet?.publicKey,
       address: wallet?.wallet?.address,
       ipns: metadataKey,
-      dbAddress: userInfo.mtvdb?.dbAddress,
+      dbAddress: mtvdbInfo?.dbAddress,
       sign,
     };
   }, [wallet, userInfo]);
@@ -60,8 +62,8 @@ export const LoginModal = () => {
         setUserInfo({
           nickname: res.data.name,
           email: res.data.email,
-          mtvdb: { dbAddress: res.data.dbAddress, metadataKey: res.data.ipns },
         });
+        setMtvdb(res.data.dbAddress, res.data.ipns)
       },
     },
   );
@@ -80,6 +82,7 @@ export const LoginModal = () => {
     {
       url: '/user/login',
       arg: {
+        auth: true,
         method: 'post',
         query: { email, confirmCode: verifyCode },
       },

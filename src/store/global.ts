@@ -5,10 +5,6 @@ import { generateKeys } from '@/lib/utils/generateKeys';
 interface UserInfo {
   email?: string;
   nickname?: string;
-  mtvdb?: {
-    dbAddress?: string;
-    metadataKey?: string;
-  };
 }
 const metadataKey =
   'kzwfwjn5ji4pupd2pb0qcfwlah3qc9ud9w2n1d3vgesiiidv1uk7t1wfx5ntb6w';
@@ -19,6 +15,10 @@ interface NostrInfo {
 interface GlobalState {
   isLogin: boolean;
   showLogin: boolean;
+  mtvdbInfo: {
+    dbAddress?: string;
+    metadataKey?: string;
+  };
   checkLoading: boolean;
   token: string;
   maintain: boolean;
@@ -33,7 +33,7 @@ interface GlobalState {
   setNostr: (n: NostrInfo) => void;
   createNostr: () => NostrInfo;
   reset: () => void;
-  setMtvdbToUser: (dbAddress?: string, metadataKey?: string) => void;
+  setMtvdb: (dbAddress?: string, metadataKey?: string) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()(
@@ -44,10 +44,9 @@ export const useGlobalStore = create<GlobalState>()(
         showLogin: false,
         maintain: false,
         checkLoading: true,
-        userInfo: {
-          mtvdb: {
-            // metadataKey,
-          },
+        userInfo: {},
+        mtvdbInfo: {
+          // metadataKey,
         },
         token: '',
         setUserInfo: (v) => {
@@ -68,10 +67,8 @@ export const useGlobalStore = create<GlobalState>()(
         setNostr: (n) => {
           set({ nostr: n });
         },
-        setMtvdbToUser: (dbAddress, metadataKey) => {
-          set({
-            userInfo: { ...get().userInfo, mtvdb: { dbAddress, metadataKey } },
-          });
+        setMtvdb: (dbAddress, metadataKey) => {
+          set({ mtvdbInfo: { dbAddress, metadataKey } });
         },
         reset: () => {
           set({
@@ -79,10 +76,8 @@ export const useGlobalStore = create<GlobalState>()(
             showLogin: false,
             maintain: false,
             checkLoading: false,
-            userInfo: {
-              mtvdb: {
-              },
-            },
+            userInfo: {},
+            mtvdbInfo: {},
             token: '',
           });
         },

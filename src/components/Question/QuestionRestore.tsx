@@ -39,7 +39,7 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
   const shareBChange = (e: any) => {
     setShareB(e.target.value?.trim());
   };
-  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
   const { mutate: getuserinfo, loading: getUserLoading } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -50,7 +50,7 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
         const { sssData, email } = res.data;
         setShareA(sssData);
         setUserInfo({ email });
-        setMtvdbToUser(res.data.dbAddress, res.data.ipns);
+        setMtvdb(res.data.dbAddress, res.data.ipns);
       },
     },
   );

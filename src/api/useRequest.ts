@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import type { SWRConfiguration } from 'swr';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useWalletStore } from '@/store';
+import { signMessage } from '@/lib/utils';
 // import { ROUTE_PATH } from '@/router';
 
 interface RequestOption {
@@ -38,14 +39,14 @@ export function useRequest<T>(
 ) {
   const [res, setRes] = useState<T>();
   const logout = useGlobalStore((state) => state.logout);
+  const wallet = useWalletStore((state) => state.wallet);
   // const token = useGlobalStore((state) => state.token);
   const customSuccess = swrOptions?.onSuccess;
 
   const onSuccess = async (data: any, key: string, config: any) => {
-    console.log(data);
     if (data.code === '600000') {
-      await logout();
-      location.replace('/home');
+      // await logout();
+      // location.replace('/home');
       // apiRetryList.push(trigger);
     } else if (customSuccess) {
       await customSuccess(data, key, config);
@@ -54,21 +55,28 @@ export function useRequest<T>(
   const _swrConfig: any = { ...defaultSwrConfig, ...swrOptions };
   _swrConfig.onSuccess = onSuccess;
 
-  const fetcher = ({ url, arg }: any) => {
+  const fetcher = async ({ url, arg }: any) => {
     console.log(url, arg);
     const headers: any = {};
     const _method = arg?.method.toUpperCase();
-    console.log(useGlobalStore.getState().token);
-    if (arg?.auth) {
-      headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
-    }
+    const { publicKey, privateKey, address } = wallet?.wallet || {};
     const options: any = {
       method: _method,
       headers,
     };
     if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
-      console.log(arg.query);
-      options.body = JSON.stringify(arg.query);
+      const strifyParsam = JSON.stringify(arg.query);
+      options.body = strifyParsam;
+    }
+    if (arg?.auth && privateKey && address) {
+      headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
+      const sign = await signMessage(options.body || url, {
+        address,
+        privateKey,
+      });
+      options.headers.public_key = publicKey;
+      options.headers.sign = sign;
+      options.headers.address = address;
     }
     return fetch(`${baseUrl}/${apiVersion}${url}`, options).then((res) =>
       res.json(),
