@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Card, Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { Shamir, KeySha } from '@/lib/account';
+import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import { useWalletStore, useGlobalStore } from '@/store';
 import { useCopyToClipboard } from 'react-use';
@@ -18,10 +18,11 @@ export const QuestionMaintain = () => {
   const [list, setList] = useState<any[]>([]);
 
   const query = useMemo(() => {
+    const { publicKey, address } = wallet || {}
     return {
       sssData: shareB,
-      publicKey: wallet?.wallet?.publicKey,
-      address: wallet?.wallet?.address,
+      publicKey: publicKey,
+      address: address,
     };
   }, [wallet, shareB]);
 
@@ -47,13 +48,7 @@ export const QuestionMaintain = () => {
     }
   }, [shareB]);
   const splitKey = async (threshold = 2, account = 3) => {
-    const sss = new Shamir();
-    const { entropy } = wallet?.wallet?.mnemonic || {};
-    if (entropy) {
-      const splitShares: any[] = await sss.split(entropy, threshold, account);
-      const hexShares = splitShares.map((s) => s.toString('hex'));
-      return hexShares;
-    }
+    return await wallet?.sssSplit(threshold, account);
   };
   const addQuestionQuery = useMemo(() => {
     return list.map((val) => `${val.q}**${val.l}**`);

@@ -41,7 +41,6 @@ export function useRequest<T>(
   const [res, setRes] = useState<T>();
   const logout = useGlobalStore((state) => state.logout);
   const wallet = useWalletStore((state) => state.wallet);
-  // const token = useGlobalStore((state) => state.token);
   const customSuccess = swrOptions?.onSuccess;
   const customError = swrOptions?.onError;
 
@@ -56,10 +55,7 @@ export function useRequest<T>(
   };
   const onError = async (data: any, key: string, config: any) => {
     if (customError) {
-      customError(data, key, config)
-      // await logout();
-      // location.replace('/home');
-      // apiRetryList.push(trigger);
+      customError(data, key, config);
     } else {
       toast.error(JSON.stringify(data));
     }
@@ -69,10 +65,9 @@ export function useRequest<T>(
   _swrConfig.onError = onError;
 
   const fetcher = async ({ url, arg }: any) => {
-    console.log(url, arg);
+    const { publicKey, address } = wallet || {};
     const headers: any = {};
     const _method = arg?.method.toUpperCase();
-    const { publicKey, privateKey, address } = wallet?.wallet || {};
     const options: any = {
       method: _method,
       headers,
@@ -81,12 +76,9 @@ export function useRequest<T>(
       const strifyParsam = JSON.stringify(arg.query);
       options.body = strifyParsam;
     }
-    if (arg?.auth && privateKey && address) {
+    if (arg?.auth && publicKey) {
       headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
-      const sign = await signMessage(options.body || url, {
-        address,
-        privateKey,
-      });
+      const sign = await wallet?.sign(options.body || url);
       options.headers.public_key = publicKey;
       options.headers.sign = sign;
       options.headers.address = address;

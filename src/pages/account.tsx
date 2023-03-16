@@ -3,7 +3,6 @@ import { Button, Text, Card } from '@nextui-org/react';
 import { useCopyToClipboard } from 'react-use';
 import { useWalletStore } from '@/store';
 import Page from '@/layout/page';
-import { SharesCard } from '@/components/SharesCard';
 import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -13,16 +12,19 @@ export default function Account() {
   const nav = useNavigate();
   const [pharseVisible, setPharseVisible] = useState(false);
   const [questionVisible, setQuestionVisible] = useState(false);
+  const [phrase, setPhrase] = useState<string | undefined>();
   const wallet = useWalletStore((state) => state.wallet);
-  const { phrase } = wallet?.wallet?.mnemonic || {};
+
   const [_, copyToClipboard] = useCopyToClipboard();
 
   const toChangePwd = () => {
     nav(ROUTE_PATH.CHANGE_PWD);
   };
   const showPharse = () => {
-    if (phrase) {
-      copyToClipboard(phrase);
+    const _phrase = wallet?.getMnemonic();
+    setPhrase(_phrase);
+    if (_phrase) {
+      copyToClipboard(_phrase);
       if (pharseVisible == true) return;
       setPharseVisible(true);
       setQuestionVisible(false);

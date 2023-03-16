@@ -25,8 +25,11 @@ export default function NoteList() {
     await remove(id);
   };
   useEffect(() => {
+    console.log(mtvDb?.kvdb);
+    console.log(mtvLoaded);
     if (mtvDb?.kvdb && mtvLoaded) {
       mtvDb.get('note').then((res) => {
+        console.log(res);
         try {
           const list = JSON.parse(res);
           if (list) {

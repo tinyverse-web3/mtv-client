@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { Wallet } from '@/lib/wallet';
+import { Wallet } from '@/lib/account/wallet';
 
 interface WalletState {
   wallet: Wallet | null;

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Text, Row, Button, Input } from '@nextui-org/react';
-import wallet, { STATUS_CODE } from '@/lib/wallet';
+import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import { Password } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import {
   useWalletStore,
@@ -18,7 +19,6 @@ export default function Unlock() {
   const setWallet = useWalletStore((state) => state.setWallet);
   const resetWallet = useWalletStore((state) => state.reset);
   const initMtvdb = useMtvdbStore((state) => state.init);
-  const userInfo = useGlobalStore((state) => state.userInfo);
   const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
@@ -28,7 +28,7 @@ export default function Unlock() {
       setErr(true);
     } else {
       setWallet(wallet);
-      const { privateKey } = wallet.wallet || {};
+      const { publicKey, privateKey } = wallet || {};
       if (privateKey) {
         const { dbAddress, metadataKey } = mtvdbInfo;
         if (dbAddress && metadataKey) {
@@ -63,7 +63,7 @@ export default function Unlock() {
     setPwd(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
-    await Promise.all([resetNostr(), resetWallet(), resetGlobal(), wallet?.deleteKeystore()]);
+    await Promise.all([resetNostr(), resetWallet(), resetGlobal(), wallet?.delete()]);
     nav('/', { replace: true });
   };
   return (

@@ -1,15 +1,16 @@
 import { useWalletStore } from '@/store';
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-const LOCAL_PASSWORD_KEY = '_keypassword';
+import { Password } from '@/lib/account/wallet';
 import { useIdleTimer } from 'react-idle-timer';
 
 export const LogoutIcon = () => {
   const nav = useNavigate();
   const resetWallet = useWalletStore((state) => state.reset);
   const logout = async () => {
+    const password = new Password();
     await Promise.all([resetWallet()]);
-    sessionStorage.removeItem(LOCAL_PASSWORD_KEY);
+    await password.remove();
     location.replace('/unlock');
   };
   const onIdle = () => {

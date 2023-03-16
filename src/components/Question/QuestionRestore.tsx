@@ -1,18 +1,16 @@
-import { Loading, Text, Textarea, Row } from '@nextui-org/react';
+import { Loading, Textarea, Row } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { QuestionSelect } from '@/components/Question/QuestionSelect';
 import { Select } from '@/components/form/Select';
-import { useList } from 'react-use';
-import { useState, useMemo, useEffect } from 'react';
-import { Shamir, KeySha } from '@/lib/account';
+import { useState, useEffect } from 'react';
+import {KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
-import { useWalletStore, useGlobalStore } from '@/store';
+import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from './Question';
 
 const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 interface Props {
-  onSubmit: (privateKey: string) => void;
+  onSubmit: (shares: string[]) => void;
 }
 export const QuestionRestore = ({ onSubmit }: Props) => {
   const [selectValue, setSelectValue] = useState('1');
@@ -65,23 +63,6 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
       }
     }
   };
-  const combine = async (shares: any[] = []) => {
-    const sss = new Shamir();
-    const sliceShares = shares.slice(0, 2);
-    if (sliceShares.length === 2) {
-      try {
-        const combineKey = await sss.combine(sliceShares);
-        return combineKey;
-      } catch (error) {
-        if (kvError.length) {
-          toastErr();
-        } else {
-          toast.error(`分片错误`);
-        }
-        throw error;
-      }
-    }
-  };
 
   const submitHandler = async (_list: any[]) => {
     const { email } = userInfo;
@@ -120,8 +101,7 @@ export const QuestionRestore = ({ onSubmit }: Props) => {
     await restoreEntropy(shares);
   };
   const restoreEntropy = async (shares: string[]) => {
-    const privateKey = await combine(shares);
-    await onSubmit(privateKey);
+    await onSubmit(shares);
   };
   const selectChange = (e: any) => {
     setKvError([]);

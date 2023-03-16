@@ -15,7 +15,6 @@ export const signMessage = (
     ['address', 'string'],
     [address, message.toString()],
   );
-  console.log(signHash);
   const signMessage = EthCrypto.sign(privateKey, signHash);
   return signMessage;
 };

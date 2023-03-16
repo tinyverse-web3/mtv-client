@@ -52,6 +52,7 @@ export default function Edit() {
       console.log('mtvLoaded');
       console.log(mtvLoaded);
       mtvDb.get('note').then((res) => {
+        console.log(res);
         try {
           const list = JSON.parse(res);
           if (list) {

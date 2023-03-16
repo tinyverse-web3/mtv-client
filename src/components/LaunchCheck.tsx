@@ -1,6 +1,6 @@
 import { useLayoutEffect, useEffect, useState } from 'react';
 // import { useNavigate, redirect, useLocation } from 'react-router-dom';
-import wallet, { STATUS_CODE } from '@/lib/wallet';
+import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { ROUTE_PATH } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 
@@ -25,7 +25,7 @@ export const WalletCheck = () => {
   const initDb = useMtvdbStore((state) => state.init);
 
   const launchWallet = async (wallet: any) => {
-    const { privateKey } = wallet?.wallet || {};
+    const { publicKey, privateKey } = wallet || {};
     if (privateKey && mtvdbInfo?.dbAddress) {
       try {
         console.log('initdb');
@@ -46,11 +46,11 @@ export const WalletCheck = () => {
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
         if (pathname.indexOf('chat') > -1) {
-          await wallet.createWallet(VITE_DEFAULT_PASSWORD);
+          await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');
-          const { privateKey } = wallet.wallet || {};
+          const { publicKey, privateKey } = wallet || {};
           if (privateKey) {
-            createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+            await createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
               console.log('mtvdb create success');
               if (dbAddress && metadataKey) {
                 setMtvdb(dbAddress, metadataKey);
@@ -62,7 +62,7 @@ export const WalletCheck = () => {
           location.replace(ROUTE_PATH.INDEX);
         }
       }
-    } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
+    } else if (status == STATUS_CODE.EMPTY_PASSWORD || status == STATUS_CODE.INVALID_PASSWORD ) {
       if (!(pathname.indexOf('unlock') > -1)) {
         location.replace(ROUTE_PATH.UNLOCK);
       }

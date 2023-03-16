@@ -31,7 +31,7 @@ export default function Home() {
           <PasswordWarnBadge />
           <MaintainWarnBadge />
         </div>
-        <Address address={userInfo?.email || wallet?.wallet?.publicKey} />
+        <Address address={userInfo?.email || wallet?.publicKey} />
       </div>
       <Button
         iconRight={<div className='i-mdi-account' />}

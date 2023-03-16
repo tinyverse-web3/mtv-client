@@ -23,15 +23,15 @@ export const LoginModal = () => {
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
   const query = useMemo(() => {
-    const { publicKey, privateKey, address } = wallet?.wallet || {};
+    const { publicKey, address } = wallet || {};
     const { metadataKey, dbAddress } = mtvdbInfo || {};
     let sign;
-    if (publicKey && privateKey && address && metadataKey && dbAddress) {
-      sign = signMessage(metadataKey, { address, privateKey });
+    if (publicKey && address && metadataKey && dbAddress) {
+      sign = wallet?.sign(metadataKey);
     }
     return {
-      publicKey: wallet?.wallet?.publicKey,
-      address: wallet?.wallet?.address,
+      publicKey: publicKey,
+      address: address,
       ipns: metadataKey,
       dbAddress: mtvdbInfo?.dbAddress,
       sign,
@@ -72,7 +72,7 @@ export const LoginModal = () => {
   const loginSucess = async (res: any) => {
     if (res.data) {
       await setToken(res.data);
-      if (wallet?.wallet?.publicKey) {
+      if (wallet?.publicKey) {
         await modifyuser();
       }
       setLoginLoading(false);
@@ -81,7 +81,7 @@ export const LoginModal = () => {
   };
   const { mutate } = useRequest(
     {
-      url: '/user/login',
+      url: '/user/bindmail',
       arg: {
         auth: true,
         method: 'post',

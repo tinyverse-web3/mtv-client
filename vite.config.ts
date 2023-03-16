@@ -18,13 +18,13 @@ builtinsPlugin.name = 'builtins';
 export default defineConfig({
   server: {
     https: true,
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://192.168.3.22:6060/',
-    //     changeOrigin: true,
-    //     rewrite: (path) => path.replace(/^\/api/, ''),
-    //   },
-    // },
+    proxy: {
+      '/api': {
+        target: 'http://172.20.10.6:6060/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   plugins: [
     basicSsl(),

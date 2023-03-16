@@ -58,10 +58,10 @@ export const useNoteStore = create<GlobalState>()(
     },
   ),
 );
-useNoteStore.subscribe(async (state, prevdata) => {
-  const mtvDb = window.mtvDb;
-  if (mtvDb && prevdata.list.length && JSON.stringify(state.list) !== JSON.stringify(prevdata.list)) {
-    console.log('备份数据');
-    // await mtvDb.backupDb();
-  }
-});
+// useNoteStore.subscribe(async (state, prevdata) => {
+//   const mtvDb = window.mtvDb;
+//   if (mtvDb && prevdata.list.length && JSON.stringify(state.list) !== JSON.stringify(prevdata.list)) {
+//     console.log('备份数据');
+//     // await mtvDb.backupDb();
+//   }
+// });

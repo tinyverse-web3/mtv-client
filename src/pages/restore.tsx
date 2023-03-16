@@ -1,20 +1,11 @@
-import { useEffect, useState } from 'react';
-import {
-  Text,
-  Container,
-  Row,
-  Col,
-  Button,
-  Input,
-  Textarea,
-} from '@nextui-org/react';
-import wallet, { STATUS_CODE } from '@/lib/wallet';
+import { useState } from 'react';
+import { Text, Row, Button, Textarea } from '@nextui-org/react';
+import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import { Shamir } from '@/lib/account';
 import { useCheckLogin } from '@/components/LoginModal';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import Page from '@/layout/page';
-import { useRequest } from '@/api';
+import toast from 'react-hot-toast';
 import { QuestionRestore } from '@/components/Question/QuestionRestore';
 
 export default function Restore() {
@@ -22,28 +13,25 @@ export default function Restore() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
 
-  const [shareC, setShareC] = useState('');
   const initMtvdb = useMtvdbStore((state) => state.init);
   const createMtvdb = useMtvdbStore((state) => state.create);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
   const setMtvdb = useGlobalStore((state) => state.setMtvdb);
   const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
-  const userInfo = useGlobalStore((state) => state.userInfo);
 
-  // const [pwd, setPwd] = useState('');
   const importHandler = async () => {
     if (status === 'whole') {
       if (phrase) {
         try {
-          const status = await wallet.restoreWallet(
+          const status = await wallet.restoreFromPhrase(
             phrase,
             VITE_DEFAULT_PASSWORD,
           );
           console.log(status);
           if (status === STATUS_CODE.SUCCESS) {
             setWallet(wallet);
-            const { privateKey } = wallet.wallet || {};
+            const { publicKey, privateKey } = wallet || {};
             if (privateKey) {
               const { dbAddress, metadataKey } = await createMtvdb(privateKey);
               if (dbAddress && metadataKey) {
@@ -60,7 +48,7 @@ export default function Restore() {
   };
   const walletSuccess = async () => {
     setWallet(wallet);
-    const { privateKey } = wallet.wallet || {};
+    const { publicKey, privateKey } = wallet || {};
     if (privateKey) {
       const { dbAddress, metadataKey } = mtvdbInfo;
       if (dbAddress && metadataKey) {
@@ -71,13 +59,6 @@ export default function Restore() {
   };
   const phraseChange = (e: any) => {
     setPhrase(e.target.value?.trim());
-  };
-  const pwdChange = (e: any) => {
-    // setPwd(e.target.value);
-  };
-
-  const shareCChange = (e: any) => {
-    setShareC(e.target.value);
   };
 
   const showWhole = () => {
@@ -90,11 +71,13 @@ export default function Restore() {
       setStatus('question');
     }
   };
-  const questionSubmit = async (sk: string) => {
-    const status = await wallet.restoreFromEntropy(sk, VITE_DEFAULT_PASSWORD);
+  const questionSubmit = async (shares: string[]) => {
+    const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
     console.log(status);
     if (status === STATUS_CODE.SUCCESS) {
       await walletSuccess();
+    } else if (status === STATUS_CODE.SHARES_ERROR) {
+      toast.error('分片数据错误');
     }
   };
   return (
@@ -121,15 +104,20 @@ export default function Restore() {
                 initialValue=''
               />
             </Row>
-            <Button className="mx-auto w-full" disabled={!phrase} onPress={importHandler}>
+            <Button
+              className='mx-auto w-full'
+              disabled={!phrase}
+              onPress={importHandler}>
               恢复
-            </Button> 
+            </Button>
           </>
         )}
         {status === 'question' && (
           <QuestionRestore onSubmit={questionSubmit}></QuestionRestore>
         )}
-        <Text className='text-center text-11px mt-2'>使用默认密码恢复，之后请及时修改</Text>
+        <Text className='text-center text-11px mt-2'>
+          使用默认密码恢复，之后请及时修改
+        </Text>
       </div>
     </Page>
   );

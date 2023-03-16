@@ -180,7 +180,7 @@ export class MtvDb {
   }
 
   public async get(key: string) {
-    const encryptData = this.kvdb.get(key);
+    const encryptData = await this.kvdb.get(key);
     const decryptData = await this.aesDecode(encryptData);
     return decryptData;
   }
@@ -346,7 +346,7 @@ export class MtvDb {
       sync: true,
       create: true,
       overwrite: false,
-      replicate: false,
+      replicate: true,
       type: 'keyvalue', //default for keyvalue db
       accessController: { write: ['*'] },
     };
@@ -355,18 +355,19 @@ export class MtvDb {
       address = this.dbName;
     }
     if (this.kvdb) {
+      await this.kvdb.load();
       logger.warn('kvdb has been initialized');
       return;
     }
     try {
       this.kvdb = await this.orbitdb.open(address, dbOption);
+      await this.kvdb.load();
       console.log(this.kvdb);
     } catch (err) {
       logger.warn('open db again');
       console.log(err);
       return;
     }
-    await this.kvdb.load();
     return this.kvdb;
   }
 

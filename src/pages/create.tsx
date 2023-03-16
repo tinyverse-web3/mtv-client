@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import wallet, { STATUS_CODE } from '@/lib/wallet';
+import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { validPassword } from '@/lib/utils';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 
@@ -27,7 +27,7 @@ export default function About() {
       return;
     }
     setLoading(true);
-    await wallet.createWallet(pwd);
+    await wallet.create(pwd);
     const { privateKey } = wallet.wallet || {};
     if (privateKey) {
       console.time('db')

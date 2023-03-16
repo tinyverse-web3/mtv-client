@@ -4,7 +4,7 @@ import { Button } from '@/components/form/Button';
 import Page from '@/layout/page';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import wallet, { STATUS_CODE } from '@/lib/wallet';
+import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 
 export default function Index() {
@@ -22,10 +22,10 @@ export default function Index() {
   };
   const create = async () => {
     setLoading(true);
-    await wallet.createWallet(VITE_DEFAULT_PASSWORD);
-    const { privateKey } = wallet.wallet || {};
+    await wallet.create(VITE_DEFAULT_PASSWORD);
+    const { publicKey, privateKey } = wallet || {};
     if (privateKey) {
-      createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+      await createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
         if (dbAddress && metadataKey) {
           setMtvdb(dbAddress, metadataKey);
         }

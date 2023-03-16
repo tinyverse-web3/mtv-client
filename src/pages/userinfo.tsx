@@ -1,15 +1,9 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Text, Row } from '@nextui-org/react';
+import { Row } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
-import { useNavigate } from 'react-router-dom';
-import {
-  useWalletStore,
-  useMtvdbStore,
-  useGlobalStore,
-  useNostrStore,
-} from '@/store';
+import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import Page from '@/layout/page';
 import { useRequest } from '@/api';
