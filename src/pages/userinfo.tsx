@@ -17,7 +17,7 @@ export default function Userinfo() {
     modifyuser();
   };
   const nicknameChange = (e: any) => {
-    const text = e.trim().replace(/[^\w_]/g, '');
+    const text = e.trim().replace(/[a-z1-9_]/g, '');
     nicknameRef.current = text;
     setNickname(text);
   };

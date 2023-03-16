@@ -72,6 +72,7 @@ export function useRequest<T>(
       method: _method,
       headers,
     };
+    console.log(wallet);
     if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
       const strifyParsam = JSON.stringify(arg.query);
       options.body = strifyParsam;
