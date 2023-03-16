@@ -33,16 +33,16 @@ export default function ChatList() {
   var [imPkListArray, setImPkListArray] = useState<any>([]);
   var [imPkListMap, setImPkListMap] = useState<any>({});
 
-  // var { data: imPkListData, mutate: requestImPkList } = useRequest<any[]>(
-  //   {
-  //     url: '/user/getimpubkeylist',
-  //     arg: {
-  //       method: 'get',
-  //       auth: true,
-  //     },
-  //   },
-  //   { revalidateOnMount: true },
-  // );
+  var { data: imPublicPkListData, mutate: requestImPublicPkList } = useRequest<any[]>(
+    {
+      url: '/user/getimpubkeylist',
+      arg: {
+        method: 'get',
+        auth: true,
+      },
+    },
+    { revalidateOnMount: true },
+  );
 
   const { mutate: sendPk } = useRequest({
     url: '/user/modifyuser',
@@ -96,7 +96,7 @@ export default function ChatList() {
   };
 
   useLifecycles(() => {
-    // requestImPkList();
+    requestImPublicPkList();
   });
 
   const checkImNotifyTick = async () => {
@@ -105,6 +105,13 @@ export default function ChatList() {
         const email = cur.toPublicKey, pk = cur.toPublicKey;
           imPkListMap[email] = pk;
       });
+      
+      debugger
+      imPublicPkListData?.reduce((prev:any, cur:any, index:number, data:any) => {
+        const email = cur.email, pk = cur.nostrPublicKey;
+          imPkListMap[email] = pk;
+      });
+
       setImPkListMap(imPkListMap);
 
       imPkListArray = [];
@@ -113,10 +120,12 @@ export default function ChatList() {
         imPkListArray.push({email: key, nostrPublicKey: value});
       })
       setImPkListArray(imPkListArray);
+      setTimeout(checkImNotifyTick, 2000)
   }
 
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);
+    debugger
     if (mtvLoaded) {
       getLocalNostr();
       refreshShareIm();
