@@ -5,7 +5,7 @@ import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
 import { Card, Spacer, Text } from '@nextui-org/react';
 import { getPublicKey } from 'nostr-tools';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useLifecycles } from 'react-use';
@@ -34,35 +34,41 @@ export default function ChatList() {
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const nostr = useGlobalStore((state) => state.nostr);
 
-  var { data: imPkListData, mutate: requestImPkList } = useRequest<any[]>(
-    {
-      url: '/user/getimpubkeylist',
-      arg: {
-        method: 'get',
-        auth: true,
-      },
-    },
-    { revalidateOnMount: true },
-  );
-  const { mutate: sendPk } = useRequest({
-    url: '/user/modifyuser',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: {
-        nostrPublicKey: nostr?.pk,
-      },
-    },
-  });
-  const { data: imNotifyData, mutate: requestImNotify } = useRequest<any[]>(
+  var [imPkListArray, setImPkListArray] = useState<any>([]);
+  var [imPkListMap, setImPkListMap] = useState<any>({});
+
+  // var { data: imPkListData, mutate: requestImPkList } = useRequest<any[]>(
+  //   {
+  //     url: '/user/getimpubkeylist',
+  //     arg: {
+  //       method: 'get',
+  //       auth: true,
+  //     },
+  //   },
+  //   { revalidateOnMount: true },
+  // );
+
+  // const { mutate: sendPk } = useRequest({
+  //   url: '/user/modifyuser',
+  //   arg: {
+  //     method: 'post',
+  //     auth: true,
+  //     query: {
+  //       nostrPublicKey: nostr?.pk,
+  //     },
+  //   },
+  // });
+
+  const { mutate: requestImNotify } = useRequest<any[]>(
     {
       url: '/im/notify',
       arg: {
         method: 'get',
         auth: true,
       },
-    },
+    }
   );
+
   const getLocalNostr = async () => {
     // console.log('本地获取nostr');
     // console.log(mtvDb?.kvdb);
@@ -86,68 +92,56 @@ export default function ChatList() {
       // await sendPk();
     }
   };
+
   const toDetail = async (cur: any) => {
     await setRecipient({ pk: cur.nostrPublicKey, email: cur.email });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
+
   const removeItem = async (e: any, id: string) => {
     e.stopPropagation();
   };
+
   useLifecycles(() => {
     // requestImPkList();
   });
-  const checkImNotifyTick = ():any => {
-    let timerId:any;
-    const run = async (imNotifyList:any) => {
-      await requestImNotify()
-      if (imNotifyList) {
-        var newPkList = [];
-        for (let index = 0; index < imNotifyList.length; index++) {
-          const imNotifyItem = imNotifyList[index];
-          const findPkInImPkList = (pk:string):string => {
-            if (imPkListData) {
-              for (let index = 0; index < imPkListData.length; index++) {
-                const item = imPkListData[index];
-                if (pk === item.nostrPublicKey) {
-                  return pk
-                }
-              }
-            }
-            return "";
-          }
-          const findPk = findPkInImPkList(imNotifyItem.toPublicKey);
-          if (!findPk) {
-            newPkList.push({
-              email: imNotifyItem.toPublicKey, 
-              nostrPublicKey: imNotifyItem.toPublicKey
-            })
-          }
-        }
-      }
-    };
-    timerId = setInterval(run, 2000, imNotifyData);
-    return timerId;
-  };
+
+  const checkImNotifyTick = async () => {
+      const res = await requestImNotify();
+      res.data.reduce((prev:any, cur:any, index:number, data:any) => {
+        const email = cur.toPublicKey, pk = cur.toPublicKey;
+          imPkListMap[email] = pk;
+      });
+      setImPkListMap(imPkListMap);
+
+      imPkListArray = [];
+      Object.keys(imPkListMap).forEach((key, index) => {
+        const value = imPkListMap[key];
+        imPkListArray.push({email: key, nostrPublicKey: value});
+      })
+      setImPkListArray(imPkListArray);
+  }
+
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);
     if (mtvLoaded) {
       getLocalNostr();
       refreshShareIm();
-      var timerId = checkImNotifyTick();
-      return () => {
-        timerId && clearInterval(timerId);
-      }
+      checkImNotifyTick();
     }
   }, [mtvDb, mtvLoaded]);
+
   const refreshShareIm = async () => {
     const data = await createShareIm();
     console.log("refreshShareIm:%o", data);
   };
+
   const copyShareImLink = async () => {
     let link = window.location.origin + "/chat/imShare?pk=" + nostr?.pk
     copyToClipboard(link);
     console.log("copyShareImLink:%o", link);
   };
+
   const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
     url: '/im/createshareim',
     arg: {
@@ -155,12 +149,11 @@ export default function ChatList() {
       auth: true,
     },
   });
-  
 
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       <div className='py-6'>
-        {imPkListData?.filter(s => !!s.nostrPublicKey)?.map((item) => (
+        {imPkListArray?.filter((s:any) => !!s.nostrPublicKey)?.map((item:any) => (
           <div key={item.email}>
             <Card onClick={() => toDetail(item)} isPressable variant='bordered'>
               <Card.Body>
