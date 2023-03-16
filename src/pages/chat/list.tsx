@@ -1,21 +1,21 @@
 import { useRequest } from '@/api';
+import { Address } from '@/components/Address';
 import { Button } from '@/components/form/Button';
 import Page from '@/layout/page';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
-import { Address } from '@/components/Address';
 import { Card, Spacer, Text } from '@nextui-org/react';
+import { addMinutes, format } from 'date-fns';
 import { getPublicKey } from 'nostr-tools';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useLifecycles } from 'react-use';
-import { addMinutes, format } from 'date-fns';
 
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
-  const newTime = addMinutes(currentTime, 10); 
-  const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss')
+  const newTime = addMinutes(currentTime, 10);
+  const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss');
   return formatDate;
 }
 const NOSTR_KEY = 'nostr_sk';
@@ -30,7 +30,12 @@ export default function ChatList() {
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const nostr = useGlobalStore((state) => state.nostr);
 
-  var { data: imPkListData, mutate: requestImPkList } = useRequest<any[]>(
+  var [imPkListArray, setImPkListArray] = useState<any>([]);
+  var [imPkListMap, setImPkListMap] = useState<any>({});
+
+  var { data: imPublicPkListData, mutate: requestImPublicPkList } = useRequest<
+    any[]
+  >(
     {
       url: '/user/getimpubkeylist',
       arg: {
@@ -40,6 +45,7 @@ export default function ChatList() {
     },
     { revalidateOnMount: true },
   );
+
   const { mutate: sendPk } = useRequest({
     url: '/user/modifyuser',
     arg: {
@@ -50,13 +56,15 @@ export default function ChatList() {
       },
     },
   });
-  const { data: imNotifyData, mutate: requestImNotify } = useRequest<any[]>({
+
+  const { mutate: requestImNotify } = useRequest<any[]>({
     url: '/im/notify',
     arg: {
       method: 'get',
       auth: true,
     },
   });
+
   const getLocalNostr = async () => {
     // console.log('本地获取nostr');
     // console.log(mtvDb?.kvdb);
@@ -79,68 +87,71 @@ export default function ChatList() {
       await sendPk();
     }
   };
+
   const toDetail = async (cur: any) => {
     await setRecipient({ pk: cur.nostrPublicKey, email: cur.email });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
+
   const removeItem = async (e: any, id: string) => {
     e.stopPropagation();
   };
+
   useLifecycles(() => {
-    requestImPkList();
+    requestImPublicPkList();
   });
-  const checkImNotifyTick = ():any => {
-    let timerId:any;
-    const run = async (imNotifyList:any) => {
-      await requestImNotify()
-      if (imNotifyList) {
-        var newPkList = [];
-        for (let index = 0; index < imNotifyList.length; index++) {
-          const imNotifyItem = imNotifyList[index];
-          const findPkInImPkList = (pk:string):string => {
-            if (imPkListData) {
-              for (let index = 0; index < imPkListData.length; index++) {
-                const item = imPkListData[index];
-                if (pk === item.nostrPublicKey) {
-                  return pk
-                }
-              }
-            }
-            return "";
-          }
-          const findPk = findPkInImPkList(imNotifyItem.toPublicKey);
-          if (!findPk) {
-            newPkList.push({
-              email: imNotifyItem.toPublicKey, 
-              nostrPublicKey: imNotifyItem.toPublicKey
-            })
-          }
-        }
-      }
-    };
-    timerId = setInterval(run, 2000, imNotifyData);
-    return timerId;
+
+  const checkImNotifyTick = async () => {
+    const res = await requestImNotify();
+    res.data.reduce((prev: any, cur: any, index: number, data: any) => {
+      const email = cur.toPublicKey,
+        pk = cur.toPublicKey;
+      imPkListMap[email] = pk;
+    });
+
+    debugger;
+    imPublicPkListData?.reduce(
+      (prev: any, cur: any, index: number, data: any) => {
+        const email = cur.email,
+          pk = cur.nostrPublicKey;
+        imPkListMap[email] = pk;
+      },
+    );
+
+    setImPkListMap(imPkListMap);
+
+    imPkListArray = [];
+    Object.keys(imPkListMap).forEach((key, index) => {
+      const value = imPkListMap[key];
+      imPkListArray.push({ email: key, nostrPublicKey: value });
+    });
+    setImPkListArray(imPkListArray);
+    setTimeout(checkImNotifyTick, 2000);
   };
+
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);
     if (mtvLoaded) {
       getLocalNostr();
-      refreshShareIm();
-      var timerId = checkImNotifyTick();
-      return () => {
-        timerId && clearInterval(timerId);
-      }
     }
-  }, [mtvDb, mtvLoaded]);
+    if (nostr) {
+      debugger;
+      refreshShareIm();
+      checkImNotifyTick();
+    }
+  }, [mtvDb, mtvLoaded, nostr]);
+
   const refreshShareIm = async () => {
     const data = await createShareIm();
     console.log('refreshShareIm:%o', data);
   };
+
   const copyShareImLink = async () => {
     let link = window.location.origin + '/chat/imShare?pk=' + nostr?.pk;
     copyToClipboard(link);
     console.log('copyShareImL ink:%o', link);
   };
+
   const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
     url: '/im/createshareim',
     arg: {
@@ -152,15 +163,15 @@ export default function ChatList() {
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       {nostr?.pk && (
-          <div className='mb-2 flex justify-center'>
-            <Text>我的Nostr公钥：</Text>
-            <Address address={nostr?.pk} />
-          </div>
-        )}
+        <div className='mb-2 flex justify-center'>
+          <Text>我的Nostr公钥：</Text>
+          <Address address={nostr?.pk} />
+        </div>
+      )}
       <div className='py-6'>
-        {imPkListData
-          ?.filter((s) => !!s.nostrPublicKey)
-          ?.map((item) => (
+        {imPkListArray
+          ?.filter((s: any) => !!s.nostrPublicKey)
+          ?.map((item: any) => (
             <div key={item.email}>
               <Card
                 onClick={() => toDetail(item)}
@@ -179,29 +190,37 @@ export default function ChatList() {
         {/* <Button onPress={getLocalNostr}>创建</Button> */}
       </div>
       <div>
-        <QRCode
-          size={256}
-          style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-          value={window.location.origin + '/chat/imShare?pk=' + nostr?.pk}
-          viewBox={`0 0 256 256`}
-        />
-        <Button
-          auto
-          className='ml-4 min-w-20'
-          color='secondary'
-          loading={refreshImConnecting}
-          onPress={refreshShareIm}>
-          {'刷新(私聊结束时间：' + addMinute(10) + ')'}
-        </Button>
-      </div>
-      <div style={{ marginTop: 5 }}>
-        <Button
-          auto
-          className='ml-4 min-w-20'
-          color='secondary'
-          onPress={copyShareImLink}>
-          {'复制私聊共享链接'}
-        </Button>
+        {nostr?.pk ? (
+          <div>
+            <QRCode
+              size={256}
+              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+              value={window.location.origin + '/chat/imShare?pk=' + nostr?.pk}
+              viewBox={`0 0 256 256`}
+            />
+            <Button
+              auto
+              className='ml-4 min-w-20'
+              color='secondary'
+              loading={refreshImConnecting}
+              onPress={refreshShareIm}>
+              {'刷新(私聊结束时间：' + addMinute(10) + ')'}
+            </Button>
+            <div style={{ marginTop: 5 }}>
+              <Button
+                auto
+                className='ml-4 min-w-20'
+                color='secondary'
+                onPress={copyShareImLink}>
+                {'复制私聊共享链接'}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className='mb-2 flex justify-center'>
+            <Text>私聊共享缺少nostr公钥</Text>
+          </div>
+        )}
       </div>
     </Page>
   );

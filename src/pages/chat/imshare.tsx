@@ -35,7 +35,7 @@ export default function ChatImChare() {
           setRecipient({ pk: toSharePk  , email: toSharePk });
           nav(ROUTE_PATH.CHAT_MESSAGE); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
         } else {
-          console.error("res:%v, toSharePk",res, toSharePk);
+          console.error("res:%v, toSharePk:%v",res, toSharePk);
           nav(ROUTE_PATH.HOME);
         }
       },
