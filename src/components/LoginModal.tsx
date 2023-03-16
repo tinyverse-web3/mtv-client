@@ -81,7 +81,7 @@ export const LoginModal = () => {
   };
   const { mutate } = useRequest(
     {
-      url: '/user/bindmail',
+      url: '/user/login',
       arg: {
         auth: true,
         method: 'post',

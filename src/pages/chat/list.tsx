@@ -134,12 +134,15 @@ export default function ChatList() {
     if (mtvLoaded) {
       getLocalNostr();
     }
-    if (nostr) {
+  }, [mtvDb, mtvLoaded]);
+
+  useEffect(() => {
+    if (nostr?.sk) {
       debugger;
       refreshShareIm();
       checkImNotifyTick();
     }
-  }, [mtvDb, mtvLoaded, nostr]);
+  }, [nostr]);
 
   const refreshShareIm = async () => {
     const data = await createShareIm();
