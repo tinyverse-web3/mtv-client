@@ -5,6 +5,8 @@ import { useGlobalStore } from '@/store';
 import { signEvent, getEventHash, nip04 } from 'nostr-tools';
 import { ChatList } from '@/components/ChatList';
 import { ChatInput } from '@/components/ChatInput';
+
+
 export const MessageBox = ({ recipient }: any) => {
   const { publish } = useNostr();
   const [list, { push }] = useList<any[]>([]);
@@ -73,11 +75,11 @@ export const MessageBox = ({ recipient }: any) => {
   };
 
   return (
-    <div className='h-full flex flex-col'>
-      <div className='flex-1 overflow-hidden'>
+    <div className='h-full relative  overflow-hidden'>
+      <div className='h-full pb-12'>
         <ChatList messages={list} />
       </div>
-      <div className='h-12'>
+      <div className='px-1 h-12 absolute left-0 w-full bottom-0 bg-blur z-10'>
         <ChatInput onSend={sendHandler} />
       </div>
     </div>

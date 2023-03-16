@@ -1,4 +1,4 @@
-import { Container } from '@nextui-org/react';
+import { Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 // import { useRouter } from 'next/navigation';
 import Page from '@/layout/page';
@@ -13,7 +13,7 @@ export default function Index() {
   const nav = useNavigate();
   const setWallet = useWalletStore((state) => state.setWallet);
   const createMtvdb = useMtvdbStore((state) => state.create);
-  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
   const toRestore = () => {
     nav('/restore');
   };
@@ -27,7 +27,7 @@ export default function Index() {
     if (privateKey) {
       createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
         if (dbAddress && metadataKey) {
-          setMtvdbToUser(dbAddress, metadataKey);
+          setMtvdb(dbAddress, metadataKey);
         }
       });
     }
@@ -40,12 +40,13 @@ export default function Index() {
       <div className='pt-20'>
         <Button
           size='xl'
-          className='m-auto mb-6'
+          className='m-auto mb-1'
           onPress={toCreate}
           loading={loading}
           color='success'>
           创建
         </Button>
+        <Text className='text-center text-11px mb-4'>使用默认密码创建，创建之后请及时修改</Text>
         <Button
           color='secondary'
           className='m-auto mb-6'

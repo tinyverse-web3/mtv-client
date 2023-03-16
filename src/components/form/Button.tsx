@@ -1,23 +1,27 @@
 import { Button as NextButton, Loading } from '@nextui-org/react';
 
-interface Props {
+interface ButtonProps {
   loading?: boolean;
   onPress?: () => void;
+  disabled?: boolean;
+  children?: React.ReactNode;
 }
+
 export const Button = ({
   loading,
   onPress,
   children,
+  disabled,
   ...rest
-}: Props & any) => {
+}: ButtonProps & any) => {
   const pressHandler = () => {
-    if (loading || rest.disbaled) return;
-    onPress && onPress();
+    if (loading || disabled) return;
+    onPress?.();
   };
   return (
-    <NextButton {...rest} onPress={pressHandler}>
+    <NextButton disabled={disabled} {...rest} onPress={pressHandler}>
       {loading ? (
-        <Loading type='spinner' color='currentColor' size='sm' />
+        <Loading type='spinner' size='sm' color='currentColor' />
       ) : (
         children
       )}

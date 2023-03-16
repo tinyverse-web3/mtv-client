@@ -19,16 +19,17 @@ export const WalletCheck = () => {
   const user = useGlobalStore((state) => state.userInfo);
   const checkLoading = useGlobalStore((state) => state.checkLoading);
   const createMtvdb = useMtvdbStore((state) => state.create);
-  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
+  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
 
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet?.wallet || {};
-    if (privateKey && user?.mtvdb?.dbAddress) {
+    if (privateKey && mtvdbInfo?.dbAddress) {
       try {
         console.log('initdb');
-        initDb(privateKey, user?.mtvdb?.dbAddress, user?.mtvdb?.metadataKey);
+        initDb(privateKey, mtvdbInfo?.dbAddress, mtvdbInfo?.metadataKey);
       } catch (error) {
         console.log(error);
       }
@@ -52,7 +53,7 @@ export const WalletCheck = () => {
             createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
               console.log('mtvdb create success');
               if (dbAddress && metadataKey) {
-                setMtvdbToUser(dbAddress, metadataKey);
+                setMtvdb(dbAddress, metadataKey);
               }
             });
           }

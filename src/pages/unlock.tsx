@@ -19,6 +19,7 @@ export default function Unlock() {
   const resetWallet = useWalletStore((state) => state.reset);
   const initMtvdb = useMtvdbStore((state) => state.init);
   const userInfo = useGlobalStore((state) => state.userInfo);
+  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
@@ -29,7 +30,7 @@ export default function Unlock() {
       setWallet(wallet);
       const { privateKey } = wallet.wallet || {};
       if (privateKey) {
-        const { dbAddress, metadataKey } = userInfo?.mtvdb || {};
+        const { dbAddress, metadataKey } = mtvdbInfo;
         if (dbAddress && metadataKey) {
           await initMtvdb(privateKey, dbAddress, metadataKey);
         }

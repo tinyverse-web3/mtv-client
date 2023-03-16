@@ -13,7 +13,7 @@ export default function About() {
   const [loading, setLoading] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const createMtvdb = useMtvdbStore((state) => state.create);
-  const setMtvdbToUser = useGlobalStore((state) => state.setMtvdbToUser);
+  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
   const userInfo = useGlobalStore((state) => state.userInfo);
   const [confirmPwd, setPwdChange] = useState('');
   const [validStatus, setValidStatus] = useState(true);
@@ -33,7 +33,7 @@ export default function About() {
       console.time('db')
       const { dbAddress, metadataKey } = await createMtvdb(privateKey);
       if (dbAddress && metadataKey) {
-        await setMtvdbToUser(dbAddress, metadataKey);
+        await setMtvdb(dbAddress, metadataKey);
       }
       console.timeEnd('db')
     }

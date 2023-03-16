@@ -1,31 +1,27 @@
 import { useRequest } from '@/api';
+import { Address } from '@/components/Address';
 import { Button } from '@/components/form/Button';
 import Page from '@/layout/page';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
 import { Card, Spacer, Text } from '@nextui-org/react';
+import { addMinutes, format } from 'date-fns';
 import { getPublicKey } from 'nostr-tools';
 import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useLifecycles } from 'react-use';
 
-function addMinute(minute:number) {
-  let date = new Date();
-  date.setMinutes(date.getMinutes()+minute); 
-  let month = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
-  let day = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
-  let hours = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours()
-  let minutes = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
-  let seconds = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds()
-  let formatDate = date.getFullYear()+'-'+month+'-'+day + " " + hours + ":" + minutes + ":" + seconds;
+function addMinute(minute: number) {
+  const currentTime = new Date(); // 获取当前时间
+  const newTime = addMinutes(currentTime, 10); 
+  const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss')
   return formatDate;
 }
-
-
 const NOSTR_KEY = 'nostr_sk';
 export default function ChatList() {
-  const [{ value, error, noUserInteraction }, copyToClipboard] = useCopyToClipboard();
+  const [{ value, error, noUserInteraction }, copyToClipboard] =
+    useCopyToClipboard();
   const nav = useNavigate();
   const createNostr = useGlobalStore((state) => state.createNostr);
   const setNostr = useGlobalStore((state) => state.setNostr);
@@ -48,26 +44,24 @@ export default function ChatList() {
   //   { revalidateOnMount: true },
   // );
 
-  // const { mutate: sendPk } = useRequest({
-  //   url: '/user/modifyuser',
-  //   arg: {
-  //     method: 'post',
-  //     auth: true,
-  //     query: {
-  //       nostrPublicKey: nostr?.pk,
-  //     },
-  //   },
-  // });
+  const { mutate: sendPk } = useRequest({
+    url: '/user/modifyuser',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: {
+        nostrPublicKey: nostr?.pk,
+      },
+    },
+  });
 
-  const { mutate: requestImNotify } = useRequest<any[]>(
-    {
+  const { mutate: requestImNotify } = useRequest<any[]>({
       url: '/im/notify',
       arg: {
         method: 'get',
         auth: true,
       },
-    }
-  );
+  });
 
   const getLocalNostr = async () => {
     // console.log('本地获取nostr');
@@ -82,14 +76,13 @@ export default function ChatList() {
         await setNostr({ pk, sk: localSk });
       } else {
         const { sk, pk } = await createNostr();
-        console.log('生成的sk')
-        console.log(sk)
-        console.log(pk)
+        console.log('生成的sk');
+        console.log(sk);
+        console.log(pk);
         await mtvDb.put(NOSTR_KEY, sk);
-        // await mtvDb.backupDb();
         await setNostr({ pk, sk });
       }
-      // await sendPk();
+      await sendPk();
     }
   };
 
@@ -133,13 +126,13 @@ export default function ChatList() {
 
   const refreshShareIm = async () => {
     const data = await createShareIm();
-    console.log("refreshShareIm:%o", data);
+    console.log('refreshShareIm:%o', data);
   };
 
   const copyShareImLink = async () => {
-    let link = window.location.origin + "/chat/imShare?pk=" + nostr?.pk
+    let link = window.location.origin + '/chat/imShare?pk=' + nostr?.pk;
     copyToClipboard(link);
-    console.log("copyShareImLink:%o", link);
+    console.log('copyShareImL ink:%o', link);
   };
 
   const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
@@ -150,8 +143,15 @@ export default function ChatList() {
     },
   });
 
+
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
+      {nostr?.pk && (
+          <div className='mb-2 flex justify-center'>
+            <Text>我的Nostr公钥：</Text>
+            <Address address={nostr?.pk} />
+          </div>
+        )}
       <div className='py-6'>
         {imPkListArray?.filter((s:any) => !!s.nostrPublicKey)?.map((item:any) => (
           <div key={item.email}>
@@ -162,40 +162,37 @@ export default function ChatList() {
               {/* <div
                 className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-6 h-6'
                 onClick={(e) => removeItem(e, item.pk)}></div> */}
-            </Card>
-            <Spacer y={1} />
-          </div>
-        ))}
+              </Card>
+              <Spacer y={1} />
+            </div>
+          ))}
         {/* <Button onPress={getLocalNostr}>创建</Button> */}
       </div>
       <div>
-        <QRCode 
-        size={256}
-        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-        value={ window.location.origin + "/chat/imShare?pk=" + nostr?.pk}
-        viewBox={`0 0 256 256`}
+        <QRCode
+          size={256}
+          style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+          value={window.location.origin + '/chat/imShare?pk=' + nostr?.pk}
+          viewBox={`0 0 256 256`}
         />
         <Button
-                auto
-                className='ml-4 min-w-20'
-                color='secondary'
-                loading={refreshImConnecting}
-                onPress={refreshShareIm}>
-                {"刷新(私聊结束时间："+ addMinute(10) + ")"}
-        </Button>
-        
-      </div>
-      <div style= {{ marginTop:5}}>
-      <Button
-                auto
-                className='ml-4 min-w-20'
-                color='secondary'
-                onPress={copyShareImLink}>
-                {"复制私聊共享链接"}
+          auto
+          className='ml-4 min-w-20'
+          color='secondary'
+          loading={refreshImConnecting}
+          onPress={refreshShareIm}>
+          {'刷新(私聊结束时间：' + addMinute(10) + ')'}
         </Button>
       </div>
-
+      <div style={{ marginTop: 5 }}>
+        <Button
+          auto
+          className='ml-4 min-w-20'
+          color='secondary'
+          onPress={copyShareImLink}>
+          {'复制私聊共享链接'}
+        </Button>
+      </div>
     </Page>
-    
   );
 }

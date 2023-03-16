@@ -13,6 +13,7 @@ export const QuestionMaintain = () => {
   const [shareB, setShareB] = useState<string>();
   const wallet = useWalletStore((state) => state.wallet);
   const userInfo = useGlobalStore((state) => state.userInfo);
+  const setMaintain = useGlobalStore((state) => state.setMaintain);
   const [_, copyToClipboard] = useCopyToClipboard();
   const [list, setList] = useState<any[]>([]);
 
@@ -35,6 +36,7 @@ export const QuestionMaintain = () => {
     },
     {
       onSuccess() {
+        setMaintain(true);
         toast.success('服务器分片保存成功');
       },
     },
