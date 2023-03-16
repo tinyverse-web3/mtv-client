@@ -14,8 +14,8 @@ import { useCopyToClipboard, useLifecycles } from 'react-use';
 
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
-  const newTime = addMinutes(currentTime, 10); 
-  const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss')
+  const newTime = addMinutes(currentTime, 10);
+  const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss');
   return formatDate;
 }
 const NOSTR_KEY = 'nostr_sk';
@@ -33,7 +33,9 @@ export default function ChatList() {
   var [imPkListArray, setImPkListArray] = useState<any>([]);
   var [imPkListMap, setImPkListMap] = useState<any>({});
 
-  var { data: imPublicPkListData, mutate: requestImPublicPkList } = useRequest<any[]>(
+  var { data: imPublicPkListData, mutate: requestImPublicPkList } = useRequest<
+    any[]
+  >(
     {
       url: '/user/getimpubkeylist',
       arg: {
@@ -56,11 +58,11 @@ export default function ChatList() {
   });
 
   const { mutate: requestImNotify } = useRequest<any[]>({
-      url: '/im/notify',
-      arg: {
-        method: 'get',
-        auth: true,
-      },
+    url: '/im/notify',
+    arg: {
+      method: 'get',
+      auth: true,
+    },
   });
 
   const getLocalNostr = async () => {
@@ -100,38 +102,44 @@ export default function ChatList() {
   });
 
   const checkImNotifyTick = async () => {
-      const res = await requestImNotify();
-      res.data.reduce((prev:any, cur:any, index:number, data:any) => {
-        const email = cur.toPublicKey, pk = cur.toPublicKey;
-          imPkListMap[email] = pk;
-      });
-      
-      debugger
-      imPublicPkListData?.reduce((prev:any, cur:any, index:number, data:any) => {
-        const email = cur.email, pk = cur.nostrPublicKey;
-          imPkListMap[email] = pk;
-      });
+    const res = await requestImNotify();
+    res.data.reduce((prev: any, cur: any, index: number, data: any) => {
+      const email = cur.toPublicKey,
+        pk = cur.toPublicKey;
+      imPkListMap[email] = pk;
+    });
 
-      setImPkListMap(imPkListMap);
+    debugger;
+    imPublicPkListData?.reduce(
+      (prev: any, cur: any, index: number, data: any) => {
+        const email = cur.email,
+          pk = cur.nostrPublicKey;
+        imPkListMap[email] = pk;
+      },
+    );
 
-      imPkListArray = [];
-      Object.keys(imPkListMap).forEach((key, index) => {
-        const value = imPkListMap[key];
-        imPkListArray.push({email: key, nostrPublicKey: value});
-      })
-      setImPkListArray(imPkListArray);
-      setTimeout(checkImNotifyTick, 2000)
-  }
+    setImPkListMap(imPkListMap);
+
+    imPkListArray = [];
+    Object.keys(imPkListMap).forEach((key, index) => {
+      const value = imPkListMap[key];
+      imPkListArray.push({ email: key, nostrPublicKey: value });
+    });
+    setImPkListArray(imPkListArray);
+    setTimeout(checkImNotifyTick, 2000);
+  };
 
   useEffect(() => {
     console.log('mtvLoaded ' + mtvLoaded);
-    debugger
     if (mtvLoaded) {
       getLocalNostr();
+    }
+    if (nostr) {
+      debugger;
       refreshShareIm();
       checkImNotifyTick();
     }
-  }, [mtvDb, mtvLoaded]);
+  }, [mtvDb, mtvLoaded, nostr]);
 
   const refreshShareIm = async () => {
     const data = await createShareIm();
@@ -152,23 +160,27 @@ export default function ChatList() {
     },
   });
 
-
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       {nostr?.pk && (
-          <div className='mb-2 flex justify-center'>
-            <Text>我的Nostr公钥：</Text>
-            <Address address={nostr?.pk} />
-          </div>
-        )}
+        <div className='mb-2 flex justify-center'>
+          <Text>我的Nostr公钥：</Text>
+          <Address address={nostr?.pk} />
+        </div>
+      )}
       <div className='py-6'>
-        {imPkListArray?.filter((s:any) => !!s.nostrPublicKey)?.map((item:any) => (
-          <div key={item.email}>
-            <Card onClick={() => toDetail(item)} isPressable variant='bordered'>
-              <Card.Body>
-                <Text>{item.email}</Text>
-              </Card.Body>
-              {/* <div
+        {imPkListArray
+          ?.filter((s: any) => !!s.nostrPublicKey)
+          ?.map((item: any) => (
+            <div key={item.email}>
+              <Card
+                onClick={() => toDetail(item)}
+                isPressable
+                variant='bordered'>
+                <Card.Body>
+                  <Text>{item.email}</Text>
+                </Card.Body>
+                {/* <div
                 className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-6 h-6'
                 onClick={(e) => removeItem(e, item.pk)}></div> */}
               </Card>
@@ -178,29 +190,37 @@ export default function ChatList() {
         {/* <Button onPress={getLocalNostr}>创建</Button> */}
       </div>
       <div>
-        <QRCode
-          size={256}
-          style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-          value={window.location.origin + '/chat/imShare?pk=' + nostr?.pk}
-          viewBox={`0 0 256 256`}
-        />
-        <Button
-          auto
-          className='ml-4 min-w-20'
-          color='secondary'
-          loading={refreshImConnecting}
-          onPress={refreshShareIm}>
-          {'刷新(私聊结束时间：' + addMinute(10) + ')'}
-        </Button>
-      </div>
-      <div style={{ marginTop: 5 }}>
-        <Button
-          auto
-          className='ml-4 min-w-20'
-          color='secondary'
-          onPress={copyShareImLink}>
-          {'复制私聊共享链接'}
-        </Button>
+        {nostr?.pk ? (
+          <div>
+            <QRCode
+              size={256}
+              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+              value={window.location.origin + '/chat/imShare?pk=' + nostr?.pk}
+              viewBox={`0 0 256 256`}
+            />
+            <Button
+              auto
+              className='ml-4 min-w-20'
+              color='secondary'
+              loading={refreshImConnecting}
+              onPress={refreshShareIm}>
+              {'刷新(私聊结束时间：' + addMinute(10) + ')'}
+            </Button>
+            <div style={{ marginTop: 5 }}>
+              <Button
+                auto
+                className='ml-4 min-w-20'
+                color='secondary'
+                onPress={copyShareImLink}>
+                {'复制私聊共享链接'}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className='mb-2 flex justify-center'>
+            <Text>私聊共享缺少nostr公钥</Text>
+          </div>
+        )}
       </div>
     </Page>
   );
