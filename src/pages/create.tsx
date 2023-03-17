@@ -28,7 +28,7 @@ export default function About() {
     }
     setLoading(true);
     await wallet.create(pwd);
-    const { privateKey } = wallet.wallet || {};
+    const { privateKey } = wallet || {};
     if (privateKey) {
       console.time('db')
       const { dbAddress, metadataKey } = await createMtvdb(privateKey);

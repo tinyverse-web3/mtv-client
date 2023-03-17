@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
-import { useCheckLogin } from '@/components/LoginModal';
+
 
 export default function Home() {
   const nav = useNavigate();
@@ -19,10 +19,7 @@ export default function Home() {
     nav(ROUTE_PATH.ACCOUNT);
   };
   const toChat = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.CHAT_LIST);
-    }
+    nav(ROUTE_PATH.CHAT_LIST);
   };
   return (
     <Page showBack={false} title='我的芥子空间'>

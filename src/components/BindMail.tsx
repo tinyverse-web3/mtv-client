@@ -1,14 +1,12 @@
-import { useState, useMemo } from 'react';
-import { Modal, Text, Card, Row, Input } from '@nextui-org/react';
+import { useState, useRef, useEffect } from 'react';
+import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useWalletStore } from '@/store';
-import { validEmail } from '@/lib/utils';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
-import { signMessage } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
-export const LoginModal = () => {
+export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const showLogin = useGlobalStore((state) => state.showLogin);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
@@ -16,34 +14,38 @@ export const LoginModal = () => {
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
   const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
   const setMtvdb = useGlobalStore((state) => state.setMtvdb);
-  const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
-  const setToken = useGlobalStore((state) => state.setToken);
+  const setBindStatus = useGlobalStore((state) => state.setBindStatus);
+  const signMessage = useRef<any>({});
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
-  const query = useMemo(() => {
+  const generateQuery = async () => {
     const { publicKey, address } = wallet || {};
     const { metadataKey, dbAddress } = mtvdbInfo || {};
     let sign;
     if (publicKey && address && metadataKey && dbAddress) {
-      sign = wallet?.sign(metadataKey);
+      sign = await wallet?.sign(metadataKey);
     }
-    return {
+    signMessage.current = {
       publicKey: publicKey,
       address: address,
       ipns: metadataKey,
       dbAddress: mtvdbInfo?.dbAddress,
       sign,
     };
-  }, [wallet, userInfo]);
+    console.log(signMessage.current);
+  };
+  useEffect(() => {
+    generateQuery();
+  }, [wallet, mtvdbInfo]);
   const { mutate: modifyuser } = useRequest(
     {
       url: '/user/modifyuser',
       arg: {
         method: 'post',
         auth: true,
-        query,
+        query: signMessage.current,
       },
     },
     {
@@ -65,23 +67,29 @@ export const LoginModal = () => {
           nickname: name,
           email: email,
         });
-        setMtvdb(dbAddress, ipns);
+        if (dbAddress && ipns) {
+          setMtvdb(dbAddress, ipns);
+        }
       },
     },
   );
   const loginSucess = async (res: any) => {
-    if (res.data) {
-      await setToken(res.data);
-      if (wallet?.publicKey) {
-        await modifyuser();
+    if (res.code === '000000') {
+      setBindStatus(true);
+      if (!signMessage.current?.sign) {
+        await generateQuery();
       }
+      await modifyuser();
       setLoginLoading(false);
       setShowLogin(false);
+    } else {
+      setLoginLoading(false);
+      toast.error(res.msg);
     }
   };
   const { mutate } = useRequest(
     {
-      url: '/user/login',
+      url: '/user/bindmail',
       arg: {
         auth: true,
         method: 'post',
@@ -197,15 +205,15 @@ export const LoginModal = () => {
 };
 
 export async function useCheckLogin() {
-  const isLogin = useGlobalStore.getState().isLogin;
-  let loginStatus = isLogin;
+  const bindStatus = useGlobalStore.getState().bindStatus;
+  let loginStatus = bindStatus;
   const setShowLogin = useGlobalStore.getState().setShowLogin;
   if (!loginStatus) {
     setShowLogin(true);
     loginStatus = await new Promise((resolve, reject) => {
       useGlobalStore.subscribe((state) => {
-        if (state.isLogin) {
-          resolve(state.isLogin);
+        if (state.bindStatus) {
+          resolve(state.bindStatus);
         }
       });
     });

@@ -49,8 +49,9 @@ export const WalletCheck = () => {
           await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');
           const { publicKey, privateKey } = wallet || {};
+          console.log(privateKey)
           if (privateKey) {
-            await createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+            createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
               console.log('mtvdb create success');
               if (dbAddress && metadataKey) {
                 setMtvdb(dbAddress, metadataKey);
@@ -62,7 +63,10 @@ export const WalletCheck = () => {
           location.replace(ROUTE_PATH.INDEX);
         }
       }
-    } else if (status == STATUS_CODE.EMPTY_PASSWORD || status == STATUS_CODE.INVALID_PASSWORD ) {
+    } else if (
+      status == STATUS_CODE.EMPTY_PASSWORD ||
+      status == STATUS_CODE.INVALID_PASSWORD
+    ) {
       if (!(pathname.indexOf('unlock') > -1)) {
         location.replace(ROUTE_PATH.UNLOCK);
       }

@@ -6,7 +6,7 @@ import Page from '@/layout/page';
 import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useCheckLogin } from '@/components/LoginModal';
+import { useCheckLogin } from '@/components/BindMail';
 
 export default function Account() {
   const nav = useNavigate();

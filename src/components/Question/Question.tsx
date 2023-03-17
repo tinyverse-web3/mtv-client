@@ -20,12 +20,14 @@ interface Props {
   className?: string;
   buttonText?: string;
   children?: any;
+  initList?: any[];
 }
 const QUESTION_MAX = 4;
 export const Question = ({
   onSubmit,
   type,
   className,
+  initList = [],
   buttonText = '备份',
   children,
 }: Props) => {
@@ -77,6 +79,14 @@ export const Question = ({
       }
     }
   }, [userList, data]);
+  const generateInitList = () => {
+    const _list = initList.map((v: any) => {
+      const l = v.content.match(/\*\*(\d*)\*\*$/)?.[1] || 0;
+      const content = v.content.replace(/\*\*(\d*)\*\*$/, '');
+      return { q: content, a: '', Id: '', l: Number(l) };
+    });
+    set(_list);
+  }
   const answerChange = (i: number, { data }: any) => {
     updateAt(i, { q: data.q, a: data.a, l: data.l });
   };
@@ -104,13 +114,6 @@ export const Question = ({
   const validList = () => {
     let validStatus = true;
     if (type == 'restore') {
-      // const filterAnswer = list.filter(
-      //   (v) => v.a !== undefined && v.a !== null && v.a !== '',
-      // );
-      // if (filterAnswer.length < 1) {
-      //   toast.error(`最少回答一个问题`);
-      //   validStatus = false;
-      // }
     } else {
       for (let i = 0; i < list.length; i++) {
         const question = list[i];
@@ -136,8 +139,12 @@ export const Question = ({
     }
   };
   useEffect(() => {
-    mutate();
-    questionList();
+    if (!initList?.length) {
+      mutate();
+      questionList();
+    } else {
+      generateInitList();
+    }
   }, []);
   return (
     <div className={className}>

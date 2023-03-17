@@ -27,7 +27,7 @@ export const clearRetryList = () => {
   apiRetryList = [];
 };
 // useGlobalStore.subscribe((state, prevState) => {
-//   if (state.isLogin) {
+//   if (state.bindStatus) {
 //     for (let i = 0; i < apiRetryList.length; i++) {
 //       const fn = apiRetryList.pop();
 //       fn();
@@ -72,13 +72,12 @@ export function useRequest<T>(
       method: _method,
       headers,
     };
-    console.log(wallet);
     if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
       const strifyParsam = JSON.stringify(arg.query);
       options.body = strifyParsam;
     }
     if (arg?.auth && publicKey) {
-      headers.Authorization = `Bearer ${useGlobalStore.getState().token}`;
+      
       const sign = await wallet?.sign(options.body || url);
       options.headers.public_key = publicKey;
       options.headers.sign = sign;

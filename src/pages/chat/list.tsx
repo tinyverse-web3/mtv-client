@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useLifecycles } from 'react-use';
+import { useCheckLogin } from '@/components/BindMail';
 
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
@@ -93,13 +94,9 @@ export default function ChatList() {
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
 
-  const removeItem = async (e: any, id: string) => {
-    e.stopPropagation();
-  };
-
-  useLifecycles(() => {
-    requestImPublicPkList();
-  });
+  // useLifecycles(() => {
+  //   // requestImPublicPkList();
+  // });
 
   const checkImNotifyTick = async () => {
     const res = await requestImNotify();
@@ -136,14 +133,6 @@ export default function ChatList() {
     }
   }, [mtvDb, mtvLoaded]);
 
-  useEffect(() => {
-    if (nostr?.sk) {
-      debugger;
-      refreshShareIm();
-      checkImNotifyTick();
-    }
-  }, [nostr]);
-
   const refreshShareIm = async () => {
     const data = await createShareIm();
     console.log('refreshShareIm:%o', data);
@@ -162,7 +151,13 @@ export default function ChatList() {
       auth: true,
     },
   });
-
+  const startIm = async () => {
+    const loginStatus = await useCheckLogin();
+    if (loginStatus && nostr?.sk) {
+      refreshShareIm();
+      checkImNotifyTick();
+    }
+  };
   return (
     <Page title='私密聊天' path={ROUTE_PATH.HOME}>
       {nostr?.pk && (
@@ -171,6 +166,9 @@ export default function ChatList() {
           <Address address={nostr?.pk} />
         </div>
       )}
+      <Button onPress={startIm} className='mx-auto'>
+        开启聊天
+      </Button>
       <div className='py-6'>
         {imPkListArray
           ?.filter((s: any) => !!s.nostrPublicKey)

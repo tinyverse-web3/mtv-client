@@ -2,24 +2,48 @@ import { useState } from 'react';
 import { Text, Row, Button, Textarea } from '@nextui-org/react';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useCheckLogin } from '@/components/LoginModal';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import Page from '@/layout/page';
+import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
 import { QuestionRestore } from '@/components/Question/QuestionRestore';
-
+import { VerifyMail } from '@/components/VerifyMail';
 export default function Restore() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
 
   const initMtvdb = useMtvdbStore((state) => state.init);
+  const [serverShare, setServerShare] = useState('');
+  const [questionList, setQuestionList] = useState<any[]>([]);
+  const [visibly, setVisibly] = useState(false);
   const createMtvdb = useMtvdbStore((state) => state.create);
   const [status, setStatus] = useState('whole');
   const setWallet = useWalletStore((state) => state.setWallet);
+  const setMaintain = useGlobalStore((state) => state.setMaintain);
   const setMtvdb = useGlobalStore((state) => state.setMtvdb);
-  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
+  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
 
+  const { mutate: getuserinfo } = useRequest(
+    {
+      url: '/user/getuserinfo',
+      arg: { method: 'get', auth: true },
+    },
+    {
+      onSuccess: async (res) => {
+        const { sssData, email, dbAddress, ipns, name } = res.data;
+        setMaintain(!!sssData);
+        setUserInfo({ email, nickname: name });
+        setMtvdb(dbAddress, ipns);
+        
+        const { privateKey } = wallet || {};
+        if (privateKey && dbAddress && ipns) {
+          await initMtvdb(privateKey, dbAddress, ipns);
+        }
+        nav('/home', { replace: true });
+      },
+    },
+  );
   const importHandler = async () => {
     if (status === 'whole') {
       if (phrase) {
@@ -46,17 +70,7 @@ export default function Restore() {
       }
     }
   };
-  const walletSuccess = async () => {
-    setWallet(wallet);
-    const { publicKey, privateKey } = wallet || {};
-    if (privateKey) {
-      const { dbAddress, metadataKey } = mtvdbInfo;
-      if (dbAddress && metadataKey) {
-        await initMtvdb(privateKey, dbAddress, metadataKey);
-      }
-    }
-    nav('/home', { replace: true });
-  };
+  const walletSuccess = async () => {};
   const phraseChange = (e: any) => {
     setPhrase(e.target.value?.trim());
   };
@@ -64,10 +78,10 @@ export default function Restore() {
   const showWhole = () => {
     setStatus('whole');
   };
-
   const ShowQuestion = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
+    if (!serverShare) {
+      setVisibly(true);
+    } else {
       setStatus('question');
     }
   };
@@ -75,13 +89,18 @@ export default function Restore() {
     const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
     console.log(status);
     if (status === STATUS_CODE.SUCCESS) {
-      await walletSuccess();
+      await setWallet(wallet);
+      await getuserinfo();
     } else if (status === STATUS_CODE.SHARES_ERROR) {
       toast.error('分片数据错误');
     }
   };
+  const verifySubmit = ({shareKey, questions}: any) => {
+    setServerShare(shareKey);
+    setQuestionList(questions);
+  }
   return (
-    <Page showBack={false} title='账号恢复'>
+    <Page showBack={true} title='账号恢复'>
       <div>
         <Row className='mb-8' justify='center'>
           <Button auto className='flex-1 mr-2' onPress={showWhole}>
@@ -113,8 +132,16 @@ export default function Restore() {
           </>
         )}
         {status === 'question' && (
-          <QuestionRestore onSubmit={questionSubmit}></QuestionRestore>
+          <QuestionRestore
+            serverShare={serverShare}
+            questionList={questionList}
+            onSubmit={questionSubmit}></QuestionRestore>
         )}
+        <VerifyMail
+          visibly={visibly}
+          onChange={(e) => setVisibly(e)}
+          onSubmit={verifySubmit}
+        />
         <Text className='text-center text-11px mt-2'>
           使用默认密码恢复，之后请及时修改
         </Text>
