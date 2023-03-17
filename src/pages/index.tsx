@@ -25,7 +25,7 @@ export default function Index() {
     await wallet.create(VITE_DEFAULT_PASSWORD);
     const { publicKey, privateKey } = wallet || {};
     if (privateKey) {
-      await createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
+      createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
         if (dbAddress && metadataKey) {
           setMtvdb(dbAddress, metadataKey);
         }

@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { router } from '@/router';
 import { lightTheme, darkTheme } from '@/layout';
-import { LoginModal } from '@/components/LoginModal';
+import { BindMail } from '@/components/BindMail';
 import { WalletCheck } from '@/components/LaunchCheck';
 import Container from '@/layout/container';
 import { useNostrStore, useGlobalStore } from '@/store';
@@ -57,7 +57,7 @@ export default function App() {
           <WalletCheck />
           {!loading && (
             <Container>
-              <LoginModal />
+              <BindMail />
               <Toaster
                 position='top-center'
                 reverseOrder={false}

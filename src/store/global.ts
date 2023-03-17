@@ -13,20 +13,19 @@ interface NostrInfo {
   sk: string;
 }
 interface GlobalState {
-  isLogin: boolean;
+  bindStatus: boolean;
   showLogin: boolean;
   mtvdbInfo: {
     dbAddress?: string;
     metadataKey?: string;
   };
   checkLoading: boolean;
-  token: string;
   maintain: boolean;
   userInfo: UserInfo;
   nostr?: NostrInfo;
   logout: () => void;
   setUserInfo: (UserInfo: UserInfo) => void;
-  setToken: (token: string) => void;
+  setBindStatus: (status: boolean) => void;
   setShowLogin: (visibly: boolean) => void;
   setCheckLoading: (visibly: boolean) => void;
   setMaintain: (status: boolean) => void;
@@ -40,7 +39,7 @@ export const useGlobalStore = create<GlobalState>()(
   devtools(
     persist(
       (set, get) => ({
-        isLogin: false,
+        bindStatus: false,
         showLogin: false,
         maintain: false,
         checkLoading: true,
@@ -48,15 +47,13 @@ export const useGlobalStore = create<GlobalState>()(
         mtvdbInfo: {
           // metadataKey,
         },
-        token: '',
         setUserInfo: (v) => {
           const _user = get().userInfo;
           set(() => ({ userInfo: { ..._user, ...v } }));
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
-        logout: () =>
-          set(() => ({ token: '', isLogin: false, showLogin: false })),
-        setToken: (v) => set({ token: v, isLogin: true }),
+        logout: () => set(() => ({ bindStatus: false, showLogin: false })),
+        setBindStatus: (v) => set({ bindStatus: v }),
         setMaintain: (v) => set(() => ({ maintain: v })),
         setCheckLoading: (v) => set(() => ({ checkLoading: v })),
         createNostr: () => {
@@ -72,13 +69,12 @@ export const useGlobalStore = create<GlobalState>()(
         },
         reset: () => {
           set({
-            isLogin: false,
+            bindStatus: false,
             showLogin: false,
             maintain: false,
             checkLoading: false,
             userInfo: {},
             mtvdbInfo: {},
-            token: '',
           });
         },
       }),

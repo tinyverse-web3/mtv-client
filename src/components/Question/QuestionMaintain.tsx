@@ -48,7 +48,7 @@ export const QuestionMaintain = () => {
     }
   }, [shareB]);
   const splitKey = async (threshold = 2, account = 3) => {
-    return await wallet?.sssSplit(threshold, account);
+    return await wallet?.sssSplit(account, threshold);
   };
   const addQuestionQuery = useMemo(() => {
     return list.map((val) => `${val.q}**${val.l}**`);
@@ -62,13 +62,15 @@ export const QuestionMaintain = () => {
     },
   });
   const onSubmit = async (_list: any[]) => {
-    const email = 'test';
+    const { email } = userInfo;
     setList(_list);
     const shareKeys = await splitKey(2, _list.length + 2);
     if (shareKeys && email) {
       setShareA(shareKeys[0]);
       setShareB(shareKeys[1]);
       const kvShares = shareKeys.slice(2);
+      console.log(email);
+      console.log(_list);
       const kvMap = kvShares?.map((s, i) => {
         const keySha = new KeySha();
         return keySha.set(email, _list[i].q, _list[i].a as string, s);

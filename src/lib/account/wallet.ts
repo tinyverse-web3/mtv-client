@@ -4,6 +4,7 @@ import { Shamir } from '@/lib/account';
 import { Storage } from '../storage';
 import CryptoJS from 'crypto-js';
 
+console.log(ethers);
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
   INVALID_PASSWORD,
@@ -93,12 +94,7 @@ export class Wallet {
   async encryptPrivateKey() {
     const { privateKey } = this.wallet || {};
     if (privateKey) {
-      const salt = await this.password.getSalt();
-      const encryptSk = CryptoJS.PBKDF2(privateKey, salt.toString(), {
-        keySize: 256 / 32,
-      });
-      const encryptSkString = encryptSk.toString();
-      return encryptSkString;
+      return CryptoJS.SHA256(privateKey,).toString();
     }
     return undefined;
   }
@@ -106,6 +102,7 @@ export class Wallet {
     const { publicKey, address } = this.wallet || {};
     this.publicKey = publicKey;
     this.privateKey = await this.encryptPrivateKey();
+    console.log(this.privateKey);
     this.address = address;
   }
   async create(password: string) {
@@ -213,6 +210,11 @@ export class Wallet {
       );
       const signMessage = EthCrypto.sign(privateKey, signHash);
       return signMessage;
+    }
+  }
+  async signMessage(message: string) {
+    if (this.wallet) {
+      return this.wallet.signMessage(message.toString());
     }
   }
 }

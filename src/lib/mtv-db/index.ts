@@ -56,17 +56,19 @@ export class MtvDb {
     dbAddress: string = '',
     metadataKey: string = '',
   ) {
-    const privKey =
-      await keys.supportedKeys.secp256k1.unmarshalSecp256k1PrivateKey(
+    console.log(privateKey);
+    const privKey: any =
+      await keys.supportedKeys.ed25519.generateKeyPairFromSeed(
         Buffer.from(privateKey, 'hex'),
       );
+    console.log(privKey);
     this.userPrivateKeyStr = privateKey;
     this.userPrivateKey = privKey;
     this.userPublicKey = privKey.public;
     this.userPublicKeyStr = Buffer.from(this.userPublicKey.bytes).toString(
       'hex',
     );
-    this.dbName =  this.userPublicKeyStr + '_kv' ; // default db name, mtv is app name and kv is db type for keyvalue
+    this.dbName = this.userPublicKeyStr + '_kv'; // default db name, mtv is app name and kv is db type for keyvalue
     this.metadataKey = metadataKey;
     if (this.metadataKey) {
       this.isNew = false;
@@ -81,7 +83,7 @@ export class MtvDb {
       await this.initKvDb();
       logger.info('db address: ' + this.dbAddress);
     } catch (err) {
-      logger.error((err as Error).message)
+      logger.error((err as Error).message);
       this.closeDb();
       throw err;
     }
@@ -197,7 +199,7 @@ export class MtvDb {
     const snapshotData = this.kvdb.all;
     let oldMetataCid, oldMetadataRecord, oldDbSnapshortCid;
     try {
-      if(!this.isNew){
+      if (!this.isNew) {
         await this.getMetaData(this.metadataKey);
         //get old metadataCid and old dbSnapshortCid for del process
         oldMetataCid = this.metadataCid;
@@ -264,14 +266,14 @@ export class MtvDb {
       await this.sleep(2);
       return;
     }
-    try{
+    try {
       this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
       await this.sleep(1);
-     }catch (err) {
+    } catch (err) {
       logger.warn('inpns name init error: ' + (err as Error).message);
       this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
     }
-    if(!this.ipfs){
+    if (!this.ipfs) {
       this.ipfs = await ipfsHttp.create(config.ipfs.http_node);
     }
   }
@@ -315,11 +317,11 @@ export class MtvDb {
     }
     const name = new Name.WritableName(privateKey);
     this.w3name = name;
-    try{
+    try {
       const oldRevision = await Name.resolve(name);
-    }catch(err){
-      const errMessage =  (err as Error).message;
-      if(errMessage.indexOf("record not found for key") == -1){
+    } catch (err) {
+      const errMessage = (err as Error).message;
+      if (errMessage.indexOf('record not found for key') == -1) {
         logger.info('Use exist name: ', name.toString());
         this.metadataKey = name.toString();
         return;
