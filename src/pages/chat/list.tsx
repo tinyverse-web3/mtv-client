@@ -33,18 +33,18 @@ export default function ChatList() {
   var [imPkListArray, setImPkListArray] = useState<any>([]);
   var [imPkListMap, setImPkListMap] = useState<any>({});
 
-  var { data: imPublicPkListData, mutate: requestImPublicPkList } = useRequest<
-    any[]
-  >(
-    {
-      url: '/user/getimpubkeylist',
-      arg: {
-        method: 'get',
-        auth: true,
-      },
-    },
-    { revalidateOnMount: true },
-  );
+  // var { data: imPublicPkListData, mutate: requestImPublicPkList } = useRequest<
+  //   any[]
+  // >(
+  //   {
+  //     url: '/user/getimpubkeylist',
+  //     arg: {
+  //       method: 'get',
+  //       auth: true,
+  //     },
+  //   },
+  //   { revalidateOnMount: true },
+  // );
 
   const { mutate: sendPk } = useRequest({
     url: '/user/modifyuser',
@@ -98,10 +98,11 @@ export default function ChatList() {
   };
 
   useLifecycles(() => {
-    requestImPublicPkList();
+    // requestImPublicPkList();
   });
 
   const checkImNotifyTick = async () => {
+    debugger
     const res = await requestImNotify();
     res.data.reduce((prev: any, cur: any, index: number, data: any) => {
       const email = cur.toPublicKey,
@@ -109,14 +110,14 @@ export default function ChatList() {
       imPkListMap[email] = pk;
     });
 
-    debugger;
-    imPublicPkListData?.reduce(
-      (prev: any, cur: any, index: number, data: any) => {
-        const email = cur.email,
-          pk = cur.nostrPublicKey;
-        imPkListMap[email] = pk;
-      },
-    );
+    // debugger;
+    // imPublicPkListData?.reduce(
+    //   (prev: any, cur: any, index: number, data: any) => {
+    //     const email = cur.email,
+    //       pk = cur.nostrPublicKey;
+    //     imPkListMap[email] = pk;
+    //   },
+    // );
 
     setImPkListMap(imPkListMap);
 
