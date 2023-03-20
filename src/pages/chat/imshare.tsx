@@ -6,37 +6,39 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function ChatImChare() {
-  
   const nostr = useGlobalStore((state) => state.nostr);
   const createNostr = useGlobalStore((state) => state.createNostr);
-  const [ params ] = useSearchParams(); // const { pk } = useParams();
+  const [params] = useSearchParams(); // const { pk } = useParams();
   const setRecipient = useNostrStore((state) => state.setRecipient);
+  const addFriend = useNostrStore((state) => state.add);
   const nav = useNavigate();
-  const toSharePk = params?.get("pk");
+  const toSharePk = params?.get('pk');
   const toDetail = async (cur: any) => {
-    await setRecipient({ pk: cur.nostrPublicKey, email: cur.email });
+    await setRecipient({ pk: cur.pk });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
 
-  const { mutate: exchangeImPk } = useRequest({
+  const { mutate: exchangeImPk } = useRequest(
+    {
       url: '/im/exchangeimpkey',
       arg: {
         method: 'post',
         auth: true,
         query: {
           fromPublicKey: toSharePk,
-          toPublicKey: nostr?.pk
+          toPublicKey: nostr?.pk,
         },
-      }
+      },
     },
     {
       onSuccess(res) {
-        if (res.code === "000000" && toSharePk) {
-          setRecipient({ pk: toSharePk  , email: toSharePk });
-          nav(ROUTE_PATH.CHAT_MESSAGE); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
+        if (res.code === '000000' && toSharePk) {
+          setRecipient({ pk: toSharePk });
+          addFriend({ pk: toSharePk });
+          nav(ROUTE_PATH.CHAT_MESSAGE, { replace: true }); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
         } else {
-          console.error("res:%v, toSharePk:%v",res, toSharePk);
-          nav(ROUTE_PATH.HOME);
+          console.error('res:%v, toSharePk:%v', res, toSharePk);
+          nav(ROUTE_PATH.HOME, { replace: true });
         }
       },
     },
@@ -48,14 +50,11 @@ export default function ChatImChare() {
     } else {
       await exchangeImPk();
     }
-  }
+  };
 
   useEffect(() => {
-      defaultHandle();
-  },[nostr]);
-  
-  return (
-    <div >
-    </div>
-  )
+    defaultHandle();
+  }, [nostr]);
+
+  return <div></div>;
 }

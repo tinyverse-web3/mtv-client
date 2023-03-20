@@ -4,11 +4,11 @@ import { remove, cloneDeep } from 'lodash';
 
 interface NostrList {
   pk: string;
-  email: string;
+  time: Date | number;
 }
 interface Recipient {
   pk: string;
-  email: string;
+  // email: string;
   // sk: string;
 }
 interface Relay {
@@ -17,7 +17,8 @@ interface Relay {
 interface GlobalState {
   list: NostrList[];
   relayList: Relay[];
-  add: (friend: NostrList) => void;
+  add: (friend: { pk: string }) => void;
+  remove: (pk: string) => void;
   initRelayList: (list: Relay[]) => void;
   recipient?: Recipient;
   setRecipient: (r: Recipient) => void;
@@ -35,8 +36,15 @@ export const useNostrStore = create<GlobalState>()(
           set({ relayList: list });
         },
         add: async (n) => {
-          const list = get().list;
-          list.push(n);
+          const list = cloneDeep(get().list);
+          if (!list.find((s) => s.pk === n.pk)) {
+            list.push({ ...n, time: +new Date() });
+            set({ list });
+          }
+        },
+        remove: async (pk) => {
+          const list = cloneDeep(get().list);
+          remove(list, (i) => i.pk === pk);
           set({ list });
         },
         setRecipient: async (n) => {
@@ -55,7 +63,7 @@ export const useNostrStore = create<GlobalState>()(
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(
-              ([key]) => !['list', 'relayList'].includes(key),
+              ([key]) => !['relayList'].includes(key),
             ),
           ),
       },
