@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
-import { NostrProvider } from 'nostr-react';
-import { useNostrStore, useMtvdbStore, useGlobalStore } from '@/store';
-import { relayInit } from 'nostr-tools';
-import { MessageBox } from '@/components/MessageBox';
-import { ROUTE_PATH } from '@/router';
 import { useRequest } from '@/api';
-import { getPublicKey } from 'nostr-tools';
+import { MessageBox } from '@/components/MessageBox';
 import Page from '@/layout/page';
+import { ROUTE_PATH } from '@/router';
+import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
+import { NostrProvider } from 'nostr-react';
+import { getPublicKey } from 'nostr-tools';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const NOSTR_KEY = 'nostr_sk';

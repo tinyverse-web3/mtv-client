@@ -1,5 +1,6 @@
 import { useRequest } from '@/api';
 import { Address } from '@/components/Address';
+import { useCheckLogin } from '@/components/BindMail';
 import { Button } from '@/components/form/Button';
 import Page from '@/layout/page';
 import { ROUTE_PATH } from '@/router';
@@ -10,8 +11,7 @@ import { getPublicKey } from 'nostr-tools';
 import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
-import { useCopyToClipboard, useLifecycles } from 'react-use';
-import { useCheckLogin } from '@/components/BindMail';
+import { useCopyToClipboard } from 'react-use';
 
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
@@ -98,7 +98,7 @@ export default function ChatList() {
   };
 
   // useLifecycles(() => {
-  //   // requestImPublicPkList();
+  //   requestImPublicPkList();
   // });
 
   const checkImNotifyTick = async () => {
