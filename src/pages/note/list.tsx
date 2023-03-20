@@ -41,7 +41,7 @@ export default function NoteList() {
   }, [mtvDb, mtvLoaded]);
   return (
     <Page title='记事本' path={ROUTE_PATH.HOME}>
-      <div className='py-6'>
+      <div className=''>
         {list.map((item) => (
           <div key={item.id}>
             <Card

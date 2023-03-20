@@ -173,7 +173,7 @@ export default function ChatList() {
         </div>
       )}
       <div className='flex'>
-        <div className='flex-1 mb-4'>
+        <div className='flex-1 mb-2'>
           <Input
             value={customPk}
             aria-label='text'
@@ -187,25 +187,31 @@ export default function ChatList() {
       </div>
 
       <div className='mb-2'>历史聊天链接</div>
-
-      {friendList
-        ?.filter((s: any) => !!s.pk)
-        ?.map((item: any) => (
-          <div key={item.pk} className="mb-4">
-            <Card
-              onClick={() => toDetail(item)}
-              isPressable
-              className='relative'
-              variant='bordered'>
-              <Card.Body className='py-2 pr-16'>
-                <Text className='break-all text-12px'>{item.pk}</Text>
-              </Card.Body>
-              <div
-                className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-4 h-4'
-                onClick={(e) => removeItem(e, item.pk)}></div>
-            </Card>
-          </div>
-        ))}
+      <div className='max-h-60 overflow-y-auto mb-2'>
+        {friendList
+          ?.filter((s: any) => !!s.pk)
+          ?.map((item: any) => (
+            <div key={item.pk} className='mb-2'>
+              <Card
+                onClick={() => toDetail(item)}
+                isPressable
+                className='relative'
+                variant='bordered'>
+                <Card.Body className='py-2 pr-16'>
+                  <Text className='break-all text-12px'>{item.pk}</Text>
+                  <div>
+                    <Text className='text-3'>
+                      {format(item.time, 'yyyy-MM-dd')}
+                    </Text>
+                  </div>
+                </Card.Body>
+                <div
+                  className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-4 h-4'
+                  onClick={(e) => removeItem(e, item.pk)}></div>
+              </Card>
+            </div>
+          ))}
+      </div>
       <Button onPress={startIm} className='mx-auto mb-2'>
         开启分享聊天
       </Button>
