@@ -1,15 +1,20 @@
 // import { useParams } from 'react-router-dom';
 import { useRequest } from '@/api';
 import { ROUTE_PATH } from '@/router/index';
-import { useGlobalStore, useNostrStore } from '@/store';
+import { useGlobalStore, useNostrStore, useMtvdbStore } from '@/store';
 import { useEffect } from 'react';
+import { getPublicKey } from 'nostr-tools';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+const NOSTR_KEY = 'nostr_sk';
 
 export default function ChatImChare() {
   const nostr = useGlobalStore((state) => state.nostr);
   const createNostr = useGlobalStore((state) => state.createNostr);
   const [params] = useSearchParams(); // const { pk } = useParams();
   const setRecipient = useNostrStore((state) => state.setRecipient);
+  const mtvDb = useMtvdbStore((state) => state.mtvDb);
+  const mtvLoaded = useMtvdbStore((state) => state.loaded);
+  const setNostr = useGlobalStore((state) => state.setNostr);
   const addFriend = useNostrStore((state) => state.add);
   const nav = useNavigate();
   const toSharePk = params?.get('pk');
@@ -17,7 +22,27 @@ export default function ChatImChare() {
     await setRecipient({ pk: cur.pk });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
-
+  const getLocalNostr = async () => {
+    // console.log('本地获取nostr');
+    // console.log(mtvDb?.kvdb);
+    if (mtvDb?.kvdb) {
+      const localSk = await mtvDb.get(NOSTR_KEY);
+      console.log('localSk');
+      console.log(localSk);
+      if (localSk) {
+        const pk = getPublicKey(localSk);
+        await setNostr({ pk, sk: localSk });
+      } else {
+        const { sk, pk } = await createNostr();
+        console.log('生成的sk');
+        console.log(sk);
+        console.log(pk);
+        await mtvDb.put(NOSTR_KEY, sk);
+        await setNostr({ pk, sk });
+      }
+      // await sendPk();
+    }
+  };
   const { mutate: exchangeImPk } = useRequest(
     {
       url: '/im/exchangeimpkey',
@@ -43,11 +68,15 @@ export default function ChatImChare() {
       },
     },
   );
+  useEffect(() => {
+    console.log('mtvLoaded ' + mtvLoaded);
+    if (mtvLoaded) {
+      getLocalNostr();
+    }
+  }, [mtvDb, mtvLoaded]);
 
   const defaultHandle = async () => {
-    if (!nostr) {
-      await createNostr();
-    } else {
+    if (nostr) {
       await exchangeImPk();
     }
   };
