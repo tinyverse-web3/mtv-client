@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
 import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
-
+import { useEffect } from 'react';
 
 export default function Home() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
-  const userInfo = useGlobalStore((state) => state.userInfo);
+  const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const toNote = async () => {
     nav(ROUTE_PATH.NOTE);
   };
@@ -21,6 +21,10 @@ export default function Home() {
   const toChat = async () => {
     nav(ROUTE_PATH.CHAT_LIST);
   };
+  useEffect(() => {
+    setShowLogin(true);
+  }, []);
+
   return (
     <Page showBack={false} title='我的芥子空间'>
       <div className='mb-4'>

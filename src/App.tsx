@@ -12,7 +12,6 @@ import Container from '@/layout/container';
 import { useNostrStore, useGlobalStore } from '@/store';
 import { useEffect } from 'react';
 
-
 export default function App() {
   const initRelayList = useNostrStore((state) => state.initRelayList);
   const loading = useGlobalStore((state) => state.checkLoading);
@@ -59,9 +58,12 @@ export default function App() {
             <Container>
               <BindMail />
               <Toaster
+                containerStyle={{ zIndex: 9999999 }}
                 position='top-center'
                 reverseOrder={false}
-                toastOptions={{ duration: 2000 }}
+                toastOptions={{
+                  duration: 2000,
+                }}
               />
               <RouterProvider router={router}></RouterProvider>
             </Container>

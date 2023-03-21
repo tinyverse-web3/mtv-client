@@ -17,9 +17,13 @@ export default function Userinfo() {
     modifyuser();
   };
   const nicknameChange = (e: any) => {
-    const text = e.trim().replace(/[a-z1-9_]/g, '');
-    nicknameRef.current = text;
-    setNickname(text);
+    nicknameRef.current = e;
+    setNickname(e);
+    setTimeout(() => {
+      const text = e.trim().replace(/[^a-z1-9_]/g, '');
+      nicknameRef.current = text;
+      setNickname(text);
+    }, 300);
   };
   const query = useMemo(() => ({ name: nickname }), [nickname]);
   const modifySuccess = (res: any) => {
@@ -59,7 +63,7 @@ export default function Userinfo() {
             bordered
             fullWidth
             maxLength={20}
-            value={nicknameRef.current}
+            value={nickname}
             helperText='支持英文大小写，下划线和数字'
             onChange={nicknameChange}
             rounded
