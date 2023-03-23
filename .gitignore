@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-
+mtv.tar.gz
 public/styles/uno.css
 
 # Editor directories and files

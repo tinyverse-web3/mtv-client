@@ -44,7 +44,7 @@ export default function App() {
   //   ]);
   // }, []);
   return (
-    <main className='sm:pt-20'>
+    <main className='sm:pt-20 h-full'>
       <NextThemesProvider
         defaultTheme='system'
         attribute='class'
@@ -65,7 +65,7 @@ export default function App() {
                   duration: 2000,
                 }}
               />
-              <RouterProvider router={router}></RouterProvider>
+              <RouterProvider router={router} ></RouterProvider>
             </Container>
           )}
         </NextUIProvider>

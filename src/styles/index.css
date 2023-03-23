@@ -1,3 +1,9 @@
 body {
   position: static !important;
 }
+html,
+body,
+#root, div[data-overlay-container="true"] {
+  height: 100%;
+}
+

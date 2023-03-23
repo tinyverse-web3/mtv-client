@@ -6,7 +6,6 @@ import { signEvent, getEventHash, nip04 } from 'nostr-tools';
 import { ChatList } from '@/components/ChatList';
 import { ChatInput } from '@/components/ChatInput';
 
-
 export const MessageBox = ({ recipient }: any) => {
   const { publish } = useNostr();
   const [list, { push }] = useList<any[]>([]);
@@ -42,15 +41,14 @@ export const MessageBox = ({ recipient }: any) => {
       push({
         ...event,
         me: meStatus,
-        email: meStatus ? user.email : recipient.email,
+        // email: meStatus ? user.email : recipient.email,
         text,
       });
     }
   };
   useEffect(() => {
-    const messages = [...sentByMe, ...sentToMe].sort(
-      (a, b) => a.created_at - b.created_at,
-    );
+    console.log(sentByMe);
+    const messages = [...sentByMe, ...sentToMe];
     decryptMessmage(messages);
   }, [sentByMe, sentToMe]);
   const sendHandler = async (val: string) => {
@@ -64,7 +62,8 @@ export const MessageBox = ({ recipient }: any) => {
       let event: any = {
         kind: 4,
         pubkey: pk as string,
-        created_at: dateToUnix(),
+        created_at: dateToUnix(new Date()),
+        // created_at: +new Date(),
         tags: [['p', recipient.pk]],
         content: ciphertext,
       };

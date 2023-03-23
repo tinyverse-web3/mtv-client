@@ -101,8 +101,10 @@ export default function ChatList() {
     }
   }, [bindStatus]);
   const toDetail = async (cur: any) => {
-    await setRecipient({ pk: cur.pk });
-    nav(ROUTE_PATH.CHAT_MESSAGE);
+    if (nostr?.sk) {
+      await setRecipient({ pk: cur.pk });
+      nav(ROUTE_PATH.CHAT_MESSAGE);
+    }
   };
   // useLifecycles(() => {
   //   requestImPublicPkList();
