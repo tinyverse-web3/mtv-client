@@ -76,7 +76,7 @@ export default function ChatImChare() {
   }, [mtvDb, mtvLoaded]);
 
   const defaultHandle = async () => {
-    if (nostr) {
+    if (nostr?.sk) {
       await exchangeImPk();
     }
   };

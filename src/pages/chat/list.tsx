@@ -5,7 +5,7 @@ import { Button } from '@/components/form/Button';
 import Page from '@/layout/page';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
-import { Card, Spacer, Text, Input } from '@nextui-org/react';
+import { Card, Text, Input } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { getPublicKey } from 'nostr-tools';
 import { useEffect, useState } from 'react';
@@ -25,6 +25,7 @@ export default function ChatList() {
   const nav = useNavigate();
   const createNostr = useGlobalStore((state) => state.createNostr);
   const setNostr = useGlobalStore((state) => state.setNostr);
+  const bindStatus = useGlobalStore((state) => state.bindStatus);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const mtvLoaded = useMtvdbStore((state) => state.loaded);
   const setRecipient = useNostrStore((state) => state.setRecipient);
@@ -51,7 +52,7 @@ export default function ChatList() {
   //   );
 
   const { mutate: sendPk } = useRequest({
-    url: '/user/modifyuser',
+    url: '/user/updateimpkey',
     arg: {
       method: 'post',
       auth: true,
@@ -88,15 +89,21 @@ export default function ChatList() {
         await mtvDb.put(NOSTR_KEY, sk);
         await setNostr({ pk, sk });
       }
-      await sendPk();
+      if (bindStatus) {
+        await sendPk();
+        console.log('发送pk');
+      }
     }
   };
-
+  useEffect(() => {
+    if (bindStatus) {
+      sendPk();
+    }
+  }, [bindStatus]);
   const toDetail = async (cur: any) => {
     await setRecipient({ pk: cur.pk });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
-
   // useLifecycles(() => {
   //   requestImPublicPkList();
   // });
@@ -147,6 +154,9 @@ export default function ChatList() {
     arg: {
       method: 'post',
       auth: true,
+      query: {
+        fromPublicKey: nostr?.pk,
+      },
     },
   });
   const startIm = async () => {
@@ -177,9 +187,10 @@ export default function ChatList() {
           <Input
             value={customPk}
             aria-label='text'
+            bordered
             onChange={(e) => setCustomPk(e.target.value)}
             fullWidth
-            placeholder='搜索对方公钥'></Input>
+            placeholder='输入对方公钥'></Input>
         </div>
         <Button className='ml-2' onPress={addCustomPk} auto>
           添加

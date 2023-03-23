@@ -11,6 +11,7 @@ import { useRequest } from '@/api';
 export default function Userinfo() {
   const nicknameRef = useRef('');
   const [nickname, setNickname] = useState('');
+  const timer = useRef<any>();
   const userInfo = useGlobalStore((state) => state.userInfo);
   const setUserInfo = useGlobalStore((state) => state.setUserInfo);
   const infoChange = async () => {
@@ -19,11 +20,14 @@ export default function Userinfo() {
   const nicknameChange = (e: any) => {
     nicknameRef.current = e;
     setNickname(e);
-    setTimeout(() => {
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
       const text = e.trim().replace(/[^a-z1-9_]/g, '');
       nicknameRef.current = text;
       setNickname(text);
-    }, 300);
+    }, 100);
   };
   const query = useMemo(() => ({ name: nickname }), [nickname]);
   const modifySuccess = (res: any) => {

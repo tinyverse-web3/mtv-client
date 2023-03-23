@@ -15,6 +15,7 @@ interface ImportMetaEnv {
   readonly VITE_PINATA_PIN_FILE_API: string
   readonly VITE_PINATA_UNPIN_CID_API: string
   readonly VITE_PINATA_JWT_KEY: string
+  readonly VITE_TINY_WEB: string
   // more env variables...
 }
 

@@ -6,6 +6,7 @@ import { ROUTE_PATH } from '@/router';
 import Page from '@/layout/page';
 import { format } from 'date-fns';
 import { useEvent } from 'react-use';
+import toast from 'react-hot-toast';
 
 export default function NoteList() {
   const nav = useNavigate();
@@ -15,9 +16,17 @@ export default function NoteList() {
   const mtvLoaded = useMtvdbStore((state) => state.loaded);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const toAdd = () => {
+    if (!mtvLoaded) {
+      toast.error('存储模块未加载完成，请稍后，或刷新重试');
+      return;
+    }
     nav('/note/add');
   };
   const toDetail = (id: string) => {
+    if (!mtvLoaded) {
+      toast.error('存储模块未加载完成，请稍后，或刷新重试');
+      return;
+    }
     nav(`/note/${id}`);
   };
   const removeItem = async (e: any, id: string) => {

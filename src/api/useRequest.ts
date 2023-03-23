@@ -77,15 +77,16 @@ export function useRequest<T>(
       options.body = strifyParsam;
     }
     if (arg?.auth && publicKey) {
-      
       const sign = await wallet?.sign(options.body || url);
       options.headers.public_key = publicKey;
       options.headers.sign = sign;
       options.headers.address = address;
     }
-    return fetch(`${baseUrl}/${apiVersion}${url}`, options).then((res) =>
-      res.json(),
-    );
+    let _url = `${baseUrl}/${apiVersion}${url}`;
+    if (url.indexOf('http') > -1) {
+      _url = url;
+    }
+    return fetch(_url, options).then((res) => res.json());
   };
   const { data, error, trigger, isMutating } = useSWRMutation(
     { url, arg },

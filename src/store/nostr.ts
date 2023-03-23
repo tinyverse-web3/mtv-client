@@ -70,6 +70,3 @@ export const useNostrStore = create<GlobalState>()(
     ),
   ),
 );
-// useNostrStore.subscribe((state) => {
-//   console.log(state.list.length);
-// });

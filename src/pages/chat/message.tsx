@@ -17,9 +17,10 @@ export default function ChatMessage() {
   const setNostr = useGlobalStore((state) => state.setNostr);
   const mtvDb = useMtvdbStore((state) => state.mtvDb);
   const mtvLoaded = useMtvdbStore((state) => state.loaded);
+  const nostr = useGlobalStore((state) => state.nostr);
   const { data, mutate } = useRequest<any[]>(
     {
-      url: '/im/relays',
+      url: 'https://39.108.72.102:8099/mtv/api/v0/im/relays',
       arg: {
         method: 'get',
         auth: true,
@@ -38,12 +39,13 @@ export default function ChatMessage() {
     // console.log(mtvDb?.kvdb);
     if (mtvDb?.kvdb) {
       const localSk = await mtvDb.get(NOSTR_KEY);
-      if (localSk) {
-        const pk = getPublicKey(localSk);
-        await setNostr({ pk, sk: localSk });
-      } else {
-        nav(ROUTE_PATH.CHAT_LIST);
-      }
+      console.log('message local nostr sk: ', localSk);
+      // if (localSk) {
+      //   const pk = getPublicKey(localSk);
+      //   await setNostr({ pk, sk: localSk });
+      // } else {
+      //   nav(ROUTE_PATH.CHAT_LIST);
+      // }
     }
   };
   useEffect(() => {
@@ -55,6 +57,11 @@ export default function ChatMessage() {
   useEffect(() => {
     mutate();
   }, []);
+  useEffect(() => {
+    if (!nostr?.sk) {
+      nav(ROUTE_PATH.CHAT_LIST);
+    }
+  }, [nostr]);
   return (
     <Page className='h-full' title='聊天' path={ROUTE_PATH.CHAT_LIST}>
       {relayUrls.length && (

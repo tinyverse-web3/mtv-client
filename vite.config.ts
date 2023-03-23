@@ -53,7 +53,7 @@ export default defineConfig({
     rollupOptions: {
       plugins: [builtinsPlugin, terser({
         compress: {
-          drop_console: true,
+          // drop_console: true,
           drop_debugger: true,
         },
       }),],

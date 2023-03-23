@@ -21,10 +21,9 @@ export default function Home() {
   const toChat = async () => {
     nav(ROUTE_PATH.CHAT_LIST);
   };
-  useEffect(() => {
-    setShowLogin(true);
-  }, []);
-
+  const toTiny = () => {
+    window.open(import.meta.env.VITE_TINY_WEB, '_blank')
+  };
   return (
     <Page showBack={false} title='我的芥子空间'>
       <div className='mb-4'>
@@ -62,7 +61,7 @@ export default function Home() {
         iconRight={<div className='i-mdi-chat' />}
         color='primary'
         className='w-full mb-4'
-        // onPress={toChat}
+        onPress={toTiny}
         size='xl'>
         了解更多
       </Button>

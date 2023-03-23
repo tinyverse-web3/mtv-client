@@ -104,13 +104,25 @@ export const BindMail = () => {
     },
   );
 
-  const { mutate: sendCode, loading: codeLoading } = useRequest({
-    url: '/user/sendmail',
-    arg: {
-      method: 'post',
-      query: { email },
+  const { mutate: sendCode, loading: codeLoading } = useRequest(
+    {
+      url: '/user/sendmail',
+      arg: {
+        method: 'post',
+        query: { email },
+      },
     },
-  });
+    {
+      onSuccess(res) {
+        if (res.code === '000000') {
+          toast.success('验证码已发送');
+          start();
+        } else {
+          toast.error(res.msg);
+        }
+      },
+    },
+  );
 
   const closeHandler = () => {
     setShowLogin(false);
@@ -133,8 +145,6 @@ export const BindMail = () => {
   const sendVerify = async () => {
     if (email && flag) {
       await sendCode();
-      toast.success('验证码已发送');
-      await start();
     }
   };
   const emailBlur = () => {};
