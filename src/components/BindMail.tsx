@@ -79,8 +79,8 @@ export const BindMail = () => {
       if (!signMessage.current?.sign) {
         await generateQuery();
       }
-      await modifyuser();
       setLoginLoading(false);
+      await modifyuser();
       setShowLogin(false);
     } else {
       setLoginLoading(false);

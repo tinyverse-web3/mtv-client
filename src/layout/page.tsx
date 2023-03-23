@@ -5,7 +5,7 @@ import { ThemeSwitch } from '@/components/ThemeSwitch';
 import { LogoutIcon } from '@/components/LogoutIcon';
 
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
-export default function Page({ children, path, title, showBack = true, className = '' }: any) {
+export default function Page({ children, path, title, showBack = true, className = '', showLogo = true }: any) {
   const nav = useNavigate();
   const location = useLocation();
   const goBack = async () => {
@@ -29,7 +29,7 @@ export default function Page({ children, path, title, showBack = true, className
                 <div className='i-mdi-arrow-left w-6 h-6 z-2'></div>
               </Button>
             ) : (
-              <Avatar src='/logo.png' size='xs' className='ml-3' />
+              showLogo && <Avatar src='/logo.png' size='xs' className='ml-3' />
             )}
           </div>
           {title && (
