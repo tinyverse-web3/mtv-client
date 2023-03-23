@@ -20,7 +20,7 @@ export default function ChatMessage() {
   const nostr = useGlobalStore((state) => state.nostr);
   const { data, mutate } = useRequest<any[]>(
     {
-      url: 'https://39.108.72.102:8099/mtv/api/v0/im/relays',
+      url: '/im/relays',
       arg: {
         method: 'get',
         auth: true,
@@ -64,7 +64,7 @@ export default function ChatMessage() {
   }, [nostr]);
   return (
     <Page className='h-full' title='聊天' path={ROUTE_PATH.CHAT_LIST}>
-      {relayUrls.length && (
+      {!!relayUrls.length && (
         <NostrProvider relayUrls={relayUrls.map((val) => val.wss)}>
           <MessageBox recipient={recipient} />
         </NostrProvider>
