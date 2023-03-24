@@ -15,7 +15,9 @@ export const ChatList = ({ messages = [] }: Porps) => {
     }
   };
   const list = useMemo(() => {
-    return unionBy(messages, 'id');
+    return unionBy(messages, 'id').sort(
+      (a, b) => a.created_at - b.created_at,
+    );
   }, [messages]);
   useDebounce(handleScrollToBottom, 300, [list])
   // useEffect(() => {
