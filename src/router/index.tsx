@@ -1,3 +1,4 @@
+import { createBrowserRouter, createHashRouter, RouteObject } from 'react-router-dom';
 import Account from '@/pages/account/';
 import ChangePwd from '@/pages/changePwd';
 import ChatImChare from '@/pages/chat/imshare';
@@ -15,20 +16,28 @@ import Unlock from '@/pages/unlock';
 import UserName from '@/pages/account/username';
 import UserQrcode from '@/pages/account/qrcode';
 import UserPhrase from '@/pages/account/phrase';
+import UserPhraseVerify from '@/pages/account/verifyPhrase';
+import UserPhraseSuccess from '@/pages/account/verifyPhraseSuccess';
 import SpaceIndex from '@/pages/space';
-import { createBrowserRouter } from 'react-router-dom';
+
+
+const resolveHashPath = (path: string) => {
+  return `/#${path}`;
+};
 
 export const ROUTE_PATH = {
   INDEX: '/',
   HOME: '/home',
   CREATE: '/create',
-  ACCOUNT: '/account',
   CHANGE_PWD: '/changePwd',
   RESTORE: '/restore',
   RESTORE_PHRASE: '/restore/phrase',
-  USER_NAME: '/username',
-  USER_QRCODE: '/userinfo/qrcode',
-  USER_PHRASE: '/userinfo/phrase',
+  ACCOUNT: '/account',
+  USER_NAME: '/account/username',
+  USER_QRCODE: '/account/qrcode',
+  USER_PHRASE: '/account/phrase',
+  USER_PHRASE_VERIFY: '/account/phrase/verify',
+  USER_VERIFY_SUCCESS: '/account/phrase/success',
   SPACE_INDEX: '/space',
   UNLOCK: '/unlock',
   NOTE: '/note',
@@ -38,8 +47,13 @@ export const ROUTE_PATH = {
   CHAT_MESSAGE: '/chat/message',
   CHAT_SHARE: '/chat/imShare',
 };
+const hashPath: any = {};
+Object.keys(ROUTE_PATH).forEach((k: any) => {
+  hashPath[k] = resolveHashPath((ROUTE_PATH as any)[k]);
+});
+export const ROUTE_HASH_PATH: typeof ROUTE_PATH = hashPath;
 
-export const router = createBrowserRouter([
+export const routes: RouteObject[] = [
   {
     path: ROUTE_PATH.INDEX,
     element: <Index />,
@@ -86,6 +100,14 @@ export const router = createBrowserRouter([
     element: <UserPhrase />,
   },
   {
+    path: ROUTE_PATH.USER_PHRASE_VERIFY,
+    element: <UserPhraseVerify />,
+  },
+  {
+    path: ROUTE_PATH.USER_VERIFY_SUCCESS,
+    element: <UserPhraseSuccess />,
+  },
+  {
     path: ROUTE_PATH.SPACE_INDEX,
     element: <SpaceIndex />,
   },
@@ -113,4 +135,5 @@ export const router = createBrowserRouter([
     path: ROUTE_PATH.TEST,
     element: <Test />,
   },
-]);
+];
+export const router = createHashRouter(routes);

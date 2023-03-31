@@ -1,7 +1,7 @@
 import { useLayoutEffect, useEffect, useState } from 'react';
-// import { useNavigate, redirect, useLocation } from 'react-router-dom';
+import { resolvePath, matchRoutes } from 'react-router-dom';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
-import { ROUTE_PATH } from '@/router/index';
+import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 
 import {
@@ -36,16 +36,18 @@ export const WalletCheck = () => {
     }
   };
   const checkStatus = async () => {
-    const { pathname } = location;
-    if (pathname.indexOf('test') > -1) {
+    console.log(Location);
+    const { href } = location;
+    if (href.indexOf('test') > -1) {
       setCheckLoading(false);
       return;
     }
+    console.log(resolvePath(ROUTE_HASH_PATH.ACCOUNT))
     setCheckLoading(true);
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
-      if (pathname !== '/') {
-        if (pathname.indexOf('chat') > -1) {
+      if (href !== '/') {
+        if (href.indexOf('chat') > -1) {
           await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');
           const { publicKey, privateKey } = wallet || {};
@@ -60,28 +62,29 @@ export const WalletCheck = () => {
           }
           await setWallet(wallet);
         } else {
-          location.replace(ROUTE_PATH.INDEX);
+          location.replace(ROUTE_HASH_PATH.INDEX);
         }
       }
     } else if (
       status == STATUS_CODE.EMPTY_PASSWORD ||
       status == STATUS_CODE.INVALID_PASSWORD
     ) {
-      if (!(pathname.indexOf('unlock') > -1)) {
-        location.replace(ROUTE_PATH.UNLOCK);
+      if (!(href.indexOf('unlock') > -1)) {
+        location.replace(ROUTE_HASH_PATH.UNLOCK);
       }
     } else if (status == STATUS_CODE.SUCCESS) {
       setWallet(wallet);
       await launchWallet(wallet);
-      if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
-        location.replace(ROUTE_PATH.SPACE_INDEX);
+      console.log(href?.indexOf('account'))
+      if (!stay_path.some((p) => href?.indexOf(p) > -1)) {
+        // location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
     }
     setCheckLoading(false);
   };
   useEffect(() => {
-    setCheckLoading(false);
-    // checkStatus();
+    // setCheckLoading(false);
+    checkStatus();
   }, []);
   return (
     <>
@@ -98,7 +101,7 @@ export const walletLoader = async (path: string) => {
   const status = await wallet?.check();
   console.log(status);
   if (status == STATUS_CODE.EMPTY_KEYSTORE) {
-    if (location.pathname === ROUTE_PATH.INDEX) {
+    if (location.href === ROUTE_HASH_PATH.INDEX) {
       return true;
     }
   } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
