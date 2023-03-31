@@ -5,7 +5,7 @@ import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { validPassword } from '@/lib/utils';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { useNavigate } from 'react-router-dom';
 export default function About() {
   const nav = useNavigate();

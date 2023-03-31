@@ -2,7 +2,7 @@ import { useRequest } from '@/api';
 import { Address } from '@/components/Address';
 import { useCheckLogin } from '@/components/BindMail';
 import { Button } from '@/components/form/Button';
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
 import { Card, Text, Input } from '@nextui-org/react';
@@ -177,7 +177,7 @@ export default function ChatList() {
     await removeFrient(pk);
   };
   return (
-    <Page title='私密聊天' path={ROUTE_PATH.HOME}>
+    <Page title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
       {nostr?.pk && (
         <div className='mb-2 flex justify-center'>
           <Text>我的Nostr公钥：</Text>

@@ -1,4 +1,4 @@
-import Account from '@/pages/account';
+import Account from '@/pages/account/';
 import ChangePwd from '@/pages/changePwd';
 import ChatImChare from '@/pages/chat/imshare';
 import ChatList from '@/pages/chat/list';
@@ -9,9 +9,13 @@ import Index from '@/pages/index';
 import NoteEdit from '@/pages/note/edit';
 import Note from '@/pages/note/list';
 import Restore from '@/pages/restore';
+import RestorePhrase from '@/pages/restore/phrase';
 import Test from '@/pages/test';
 import Unlock from '@/pages/unlock';
-import Userinfo from '@/pages/userinfo';
+import UserName from '@/pages/account/username';
+import UserQrcode from '@/pages/account/qrcode';
+import UserPhrase from '@/pages/account/phrase';
+import SpaceIndex from '@/pages/space';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const ROUTE_PATH = {
@@ -21,15 +25,19 @@ export const ROUTE_PATH = {
   ACCOUNT: '/account',
   CHANGE_PWD: '/changePwd',
   RESTORE: '/restore',
-  USERINFO: '/userinfo',
+  RESTORE_PHRASE: '/restore/phrase',
+  USER_NAME: '/username',
+  USER_QRCODE: '/userinfo/qrcode',
+  USER_PHRASE: '/userinfo/phrase',
+  SPACE_INDEX: '/space',
   UNLOCK: '/unlock',
   NOTE: '/note',
   TEST: '/test',
   NOTE_EDIT: '/note/:id',
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
-  CHAT_SHARE: '/chat/imShare'
-}
+  CHAT_SHARE: '/chat/imShare',
+};
 
 export const router = createBrowserRouter([
   {
@@ -40,18 +48,7 @@ export const router = createBrowserRouter([
     path: ROUTE_PATH.HOME,
     element: <Home />,
   },
-  {
-    path: ROUTE_PATH.ACCOUNT,
-    element: <Account />,
-  },
-  {
-    path: ROUTE_PATH.CHANGE_PWD,
-    element: <ChangePwd />,
-  },
-  {
-    path: ROUTE_PATH.USERINFO,
-    element: <Userinfo />,
-  },
+
   {
     path: ROUTE_PATH.CREATE,
     element: <Create />,
@@ -61,8 +58,36 @@ export const router = createBrowserRouter([
     element: <Restore />,
   },
   {
+    path: ROUTE_PATH.RESTORE_PHRASE,
+    element: <RestorePhrase />,
+  },
+  {
     path: ROUTE_PATH.UNLOCK,
     element: <Unlock />,
+  },
+  {
+    path: ROUTE_PATH.ACCOUNT,
+    element: <Account />,
+  },
+  {
+    path: ROUTE_PATH.CHANGE_PWD,
+    element: <ChangePwd />,
+  },
+  {
+    path: ROUTE_PATH.USER_NAME,
+    element: <UserName />,
+  },
+  {
+    path: ROUTE_PATH.USER_QRCODE,
+    element: <UserQrcode />,
+  },
+  {
+    path: ROUTE_PATH.USER_PHRASE,
+    element: <UserPhrase />,
+  },
+  {
+    path: ROUTE_PATH.SPACE_INDEX,
+    element: <SpaceIndex />,
   },
   {
     path: ROUTE_PATH.NOTE,
@@ -88,5 +113,4 @@ export const router = createBrowserRouter([
     path: ROUTE_PATH.TEST,
     element: <Test />,
   },
-  
 ]);

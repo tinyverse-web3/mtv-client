@@ -6,7 +6,7 @@ export default function Container({ children }: any) {
     <div
       className={`${
         isDark ? 'sm:bg-coolGray-9' : 'sm:bg-coolGray-1'
-      } rounded-xl sm:w-400px mx-auto h-full sm:h-800px overflow-y-auto`}>
+      } rounded-xl sm:w-400px mx-auto h-full sm:h-800px`}>
       {children}
     </div>
   );

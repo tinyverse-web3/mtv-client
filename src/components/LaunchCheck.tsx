@@ -10,7 +10,7 @@ import {
   useWalletStore,
   useGlobalStore,
 } from '@/store';
-const stay_path = ['home', 'note', 'account', 'chat', 'test', 'changePwd'];
+const stay_path = ['space', 'note', 'account', 'chat', 'test', 'changePwd'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();
@@ -23,7 +23,7 @@ export const WalletCheck = () => {
   const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
   const setCheckLoading = useGlobalStore((state) => state.setCheckLoading);
   const initDb = useMtvdbStore((state) => state.init);
-
+  
   const launchWallet = async (wallet: any) => {
     const { publicKey, privateKey } = wallet || {};
     if (privateKey && mtvdbInfo?.dbAddress) {
@@ -74,13 +74,14 @@ export const WalletCheck = () => {
       setWallet(wallet);
       await launchWallet(wallet);
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
-        location.replace(ROUTE_PATH.HOME);
+        location.replace(ROUTE_PATH.SPACE_INDEX);
       }
     }
     setCheckLoading(false);
   };
   useEffect(() => {
-    checkStatus();
+    setCheckLoading(false);
+    // checkStatus();
   }, []);
   return (
     <>

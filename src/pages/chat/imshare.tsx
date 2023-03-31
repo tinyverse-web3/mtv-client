@@ -63,7 +63,7 @@ export default function ChatImChare() {
           nav(ROUTE_PATH.CHAT_MESSAGE, { replace: true }); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
          } else {
           console.error('res:%v, toSharePk:%v', res, toSharePk);
-          nav(ROUTE_PATH.HOME, { replace: true });
+          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         }
       },
     },

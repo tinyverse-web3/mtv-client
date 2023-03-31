@@ -1,6 +1,6 @@
 import { useRequest } from '@/api';
 import { MessageBox } from '@/components/MessageBox';
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
 import { NostrProvider } from 'nostr-react';

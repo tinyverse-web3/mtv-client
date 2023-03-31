@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Button, Text, Card } from '@nextui-org/react';
 import { useCopyToClipboard } from 'react-use';
 import { useWalletStore } from '@/store';
-import Page from '@/layout/page';
+import LayoutThird from '@/layout/LayoutThird';
 import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCheckLogin } from '@/components/BindMail';
-
+import { UserAvatar, ListRow, UserLevel } from './components';
 export default function Account() {
   const nav = useNavigate();
   const [pharseVisible, setPharseVisible] = useState(false);
@@ -43,13 +43,26 @@ export default function Account() {
   const toChangeNickname = async () => {
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
-      nav(ROUTE_PATH.USERINFO);
+      nav(ROUTE_PATH.USER_NAME);
     }
   };
+  const toPharse = async () => {
+    nav(ROUTE_PATH.USER_PHRASE);
+  };
   return (
-    <Page title='账号维护' path={ROUTE_PATH.HOME}>
-      <div className='mb-4 pb-2'>
-        <Button
+    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
+      <div className='pt-10 px-4 text-14px'>
+        <UserAvatar className='mb-10' />
+        <UserLevel />
+        <ListRow label='名字' value='青龙' onPress={toChangeNickname} />
+        <ListRow label='钱包地址' value='青龙' onPress={toChangeNickname} />
+        <ListRow label='修改密码' onPress={toChangeNickname} />
+        <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
+        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} />
+        <ListRow label='备份助记词' onPress={toPharse} />
+        <ListRow label='守护者备份' onPress={toChangeNickname} />
+        <ListRow label='智能隐私备份' onPress={toChangeNickname} />
+        {/* <Button
           flat
           className='w-full mb-4'
           size='xl'
@@ -83,7 +96,6 @@ export default function Account() {
         ) : (
           <></>
         )}
-        {/* <SharesCard /> */}
         <Button
           flat
           className='w-full mb-6'
@@ -92,8 +104,8 @@ export default function Account() {
           onPress={showQuestion}>
           安全问题备份
         </Button>
-        {questionVisible && <QuestionMaintain />}
+        {questionVisible && <QuestionMaintain />} */}
       </div>
-    </Page>
+    </LayoutThird>
   );
 }

@@ -46,7 +46,7 @@ export default function App() {
   return (
     <main className='sm:pt-20 h-full'>
       <NextThemesProvider
-        defaultTheme='system'
+        defaultTheme='light'
         attribute='class'
         value={{
           light: lightTheme.className,

@@ -8,7 +8,7 @@ import {
   useGlobalStore,
   useNostrStore,
 } from '@/store';
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 
 export default function ChangePwd() {
   const nav = useNavigate();

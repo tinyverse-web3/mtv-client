@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Textarea } from '@/components/form/Textarea';
 import { v4 as uuidv4 } from 'uuid';
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { Text, Container, Row, Button } from '@nextui-org/react';
 import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';

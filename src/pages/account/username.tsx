@@ -5,7 +5,7 @@ import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { useRequest } from '@/api';
 
 export default function Userinfo() {

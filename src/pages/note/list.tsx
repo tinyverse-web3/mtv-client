@@ -3,7 +3,7 @@ import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { format } from 'date-fns';
 import { useEvent } from 'react-use';
 import toast from 'react-hot-toast';
@@ -49,7 +49,7 @@ export default function NoteList() {
     }
   }, [mtvDb, mtvLoaded]);
   return (
-    <Page title='记事本' path={ROUTE_PATH.HOME}>
+    <Page title='记事本' path={ROUTE_PATH.SPACE_INDEX}>
       <div className=''>
         {list.map((item) => (
           <div key={item.id}>

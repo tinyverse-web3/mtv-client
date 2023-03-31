@@ -3,11 +3,11 @@ import { Text, Row, Button, Textarea } from '@nextui-org/react';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
-import Page from '@/layout/page';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
 import { QuestionRestore } from '@/components/Question/QuestionRestore';
 import { VerifyMail } from '@/components/VerifyMail';
+import LayoutThird from '@/layout/LayoutThird';
 export default function Restore() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
@@ -35,7 +35,7 @@ export default function Restore() {
         setMaintain(!!sssData);
         setUserInfo({ email, nickname: name });
         setMtvdb(dbAddress, ipns);
-        
+
         const { privateKey } = wallet || {};
         if (privateKey && dbAddress && ipns) {
           await initMtvdb(privateKey, dbAddress, ipns);
@@ -95,12 +95,12 @@ export default function Restore() {
       toast.error('分片数据错误');
     }
   };
-  const verifySubmit = ({shareKey, questions}: any) => {
+  const verifySubmit = ({ shareKey, questions }: any) => {
     setServerShare(shareKey);
     setQuestionList(questions);
-  }
+  };
   return (
-    <Page showBack={true} title='账号恢复'>
+    <LayoutThird title='账号恢复'>
       <div>
         <Row className='mb-8' justify='center'>
           <Button auto className='flex-1 mr-2' onPress={showWhole}>
@@ -146,6 +146,6 @@ export default function Restore() {
           使用默认密码恢复，之后请及时修改
         </Text>
       </div>
-    </Page>
+    </LayoutThird>
   );
 }

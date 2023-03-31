@@ -5,7 +5,7 @@ import { useWalletStore, useGlobalStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
 import { ROUTE_PATH } from '@/router';
-import Page from '@/layout/page';
+import LayoutTwo from '@/layout/LayoutTwo';
 import { useEffect } from 'react';
 
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
     window.open(import.meta.env.VITE_TINY_WEB, '_blank')
   };
   return (
-    <Page showBack={false} title='我的芥子空间'>
+    <LayoutTwo showBack={false} title='我的芥子空间'>
       <div className='mb-4'>
         <div className='flex justify-center mb-2'>
           <PasswordWarnBadge />
@@ -65,6 +65,6 @@ export default function Home() {
         size='xl'>
         了解更多
       </Button>
-    </Page>
+    </LayoutTwo>
   );
 }
