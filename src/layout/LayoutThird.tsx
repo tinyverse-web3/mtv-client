@@ -7,6 +7,7 @@ export default function Page({
   showBack = true,
   className = '',
   showLogo = true,
+  rightContent
 }: any) {
   const nav = useNavigate();
   const location = useLocation();
@@ -31,7 +32,9 @@ export default function Page({
           )}
         </div>
         <div className='flex-1 text-center font-600'>{title}</div>
-        <div className='w-10'></div>
+        <div className='w-10'>
+          {rightContent && rightContent}
+        </div>
       </header>
       <section className='pb-12'>{children}</section>
     </main>

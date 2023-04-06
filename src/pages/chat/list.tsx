@@ -2,10 +2,10 @@ import { useRequest } from '@/api';
 import { Address } from '@/components/Address';
 import { useCheckLogin } from '@/components/BindMail';
 import { Button } from '@/components/form/Button';
-import Page from '@/layout/LayoutTwo';
+import LayoutTwo from '@/layout/LayoutTwo';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
-import { Card, Text, Input } from '@nextui-org/react';
+import { Card, Text, Input, Image } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { getPublicKey } from 'nostr-tools';
 import { useEffect, useState } from 'react';
@@ -177,101 +177,121 @@ export default function ChatList() {
     await removeFrient(pk);
   };
   return (
-    <Page title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
-      {nostr?.pk && (
+    <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
+      <div className='p-6'>
+        {/* {nostr?.pk && (
         <div className='mb-2 flex justify-center'>
           <Text>我的Nostr公钥：</Text>
           <Address address={nostr?.pk} />
         </div>
-      )}
-      <div className='flex'>
-        <div className='flex-1 mb-2'>
-          <Input
-            value={customPk}
-            aria-label='text'
-            bordered
-            onChange={(e) => setCustomPk(e.target.value)}
-            fullWidth
-            placeholder='输入对方公钥'></Input>
-        </div>
-        <Button className='ml-2' onPress={addCustomPk} auto>
-          添加
-        </Button>
-      </div>
+      )} */}
+        <div className='flex'>
+          <div className='flex-1 mb-2'>
+            <Input
+              value={customPk}
+              aria-label='text'
+              bordered
+              onChange={(e) => setCustomPk(e.target.value)}
+              fullWidth
+              clearable
+              placeholder='搜索'>
 
-      <div className='mb-2'>历史聊天链接</div>
-      <div className='max-h-60 overflow-y-auto mb-2'>
-        {friendList
-          ?.filter((s: any) => !!s.pk)
-          ?.map((item: any) => (
-            <div key={item.pk} className='mb-2'>
-              <Card
-                onClick={() => toDetail(item)}
-                isPressable
-                className='relative'
-                variant='bordered'>
-                <Card.Body className='py-2 pr-16'>
-                  <Text className='break-all text-12px'>{item.pk}</Text>
-                  <div>
-                    <Text className='text-3'>
-                      {format(item.time, 'yyyy-MM-dd')}
-                    </Text>
-                  </div>
-                </Card.Body>
-                <div
-                  className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-4 h-4'
-                  onClick={(e) => removeItem(e, item.pk)}></div>
-              </Card>
-            </div>
-          ))}
-      </div>
-      <Button onPress={startIm} className='mx-auto mb-2'>
-        开启分享聊天
-      </Button>
-      {showShare && (
-        <div>
-          {nostr?.pk ? (
-            <div>
-              <Card className='w-60 m-auto'>
-                <Card.Body>
-                  <QRCode
-                    size={256}
-                    style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-                    value={
-                      window.location.origin + '/chat/imShare?pk=' + nostr?.pk
-                    }
-                    viewBox={`0 0 256 256`}
-                  />
-                </Card.Body>
-              </Card>
-              <div className='text-center text-5 mb-4'>
-                <Text>有效期：{addMinute(10)}</Text>
-              </div>
-              <div className='flex justify-center items-center'>
-                <Button
-                  auto
-                  className='ml-4 min-w-20'
-                  color='secondary'
-                  loading={refreshImConnecting}
-                  onPress={refreshShareIm}>
-                  刷新分享链接
-                </Button>
-                <Button
-                  auto
-                  className='ml-4 min-w-20'
-                  color='secondary'
-                  onPress={copyShareImLink}>
-                  复制分享链接
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className='mb-2 flex justify-center'>
-              <Text>私聊共享缺少nostr公钥</Text>
-            </div>
-          )}
+            </Input>
+          </div>
+          {/* <Button className='ml-2' onPress={addCustomPk} auto>
+          添加
+        </Button> */}
         </div>
-      )}
-    </Page>
+        <div>
+          <div className='flex h-22 items-center px-4 border-b border-b-solid border-b-gray-200'>
+            <Image src='/logo.png' className='mr-6 w-14 h-14' />
+            <div className='flex-1'>
+              <div className='flex justify-between items-center mb-2'>
+                <span>用户名</span>
+                <span className='text-12px'>14:00</span>
+              </div>
+              <div className='text-12px'>[3条]今天天气不错</div>
+            </div>
+          </div>
+        </div>
+        {/* <div className='mb-2'>历史聊天链接</div> */}
+        <div className='max-h-60 overflow-y-auto mb-2'>
+          {friendList
+            ?.filter((s: any) => !!s.pk)
+            ?.map((item: any) => (
+              <div key={item.pk} className='mb-2'>
+                <Card
+                  onClick={() => toDetail(item)}
+                  isPressable
+                  className='relative'
+                  variant='bordered'>
+                  <Card.Body className='py-2 pr-16'>
+                    <Text className='break-all text-12px'>{item.pk}</Text>
+                    <div>
+                      <Text className='text-3'>
+                        {format(item.time, 'yyyy-MM-dd')}
+                      </Text>
+                    </div>
+                  </Card.Body>
+                  <div
+                    className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-4 h-4'
+                    onClick={(e) => removeItem(e, item.pk)}></div>
+                </Card>
+              </div>
+            ))}
+        </div>
+        {/* <Button onPress={startIm} className='mx-auto mb-2'>
+        开启分享聊天
+      </Button> */}
+        {showShare && (
+          <div>
+            {nostr?.pk ? (
+              <div>
+                <Card className='w-60 m-auto'>
+                  <Card.Body>
+                    <QRCode
+                      size={256}
+                      style={{
+                        height: 'auto',
+                        maxWidth: '100%',
+                        width: '100%',
+                      }}
+                      value={
+                        window.location.origin + '/chat/imShare?pk=' + nostr?.pk
+                      }
+                      viewBox={`0 0 256 256`}
+                    />
+                  </Card.Body>
+                </Card>
+                <div className='text-center text-5 mb-4'>
+                  <Text>有效期：{addMinute(10)}</Text>
+                </div>
+                <div className='flex justify-center items-center'>
+                  <Button
+                    auto
+                    className='ml-4 min-w-20'
+                    color='secondary'
+                    loading={refreshImConnecting}
+                    onPress={refreshShareIm}>
+                    刷新分享链接
+                  </Button>
+                  <Button
+                    auto
+                    className='ml-4 min-w-20'
+                    color='secondary'
+                    onPress={copyShareImLink}>
+                    复制分享链接
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className='mb-2 flex justify-center'>
+                <Text>私聊共享缺少nostr公钥</Text>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </LayoutTwo>
   );
 }

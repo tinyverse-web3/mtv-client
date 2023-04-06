@@ -18,8 +18,9 @@ export default function UserPhrase() {
   };
   const verify = () => {
     const _phrase = list.join(' ');
-    nav(ROUTE_PATH.USER_VERIFY_SUCCESS);
+    nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     if (_phrase === wallet?.getMnemonic()) {
+      nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     } else {
       toast.error('助记词错误');
     }
@@ -39,7 +40,11 @@ export default function UserPhrase() {
             </div>
           ))}
         </div>
-        <Button disabled={!disbaled} className='w-full' size='lg' onPress={verify}>
+        <Button
+          disabled={!disbaled}
+          className='w-full'
+          size='lg'
+          onPress={verify}>
           恢复测试
         </Button>
       </div>

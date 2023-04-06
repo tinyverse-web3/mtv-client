@@ -3,7 +3,7 @@ import { Button, Text, Card } from '@nextui-org/react';
 import { useCopyToClipboard } from 'react-use';
 import { useWalletStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
-import { QuestionMaintain } from '@/components/Question/QuestionMaintain';
+import { QuestionMaintain } from '@/components/question/QuestionMaintain';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCheckLogin } from '@/components/BindMail';
@@ -43,11 +43,17 @@ export default function Account() {
   const toChangeNickname = async () => {
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
-      nav(ROUTE_PATH.USER_NAME);
+      nav(ROUTE_PATH.ACCOUNT_NAME);
     }
   };
   const toPharse = async () => {
-    nav(ROUTE_PATH.USER_PHRASE);
+    nav(ROUTE_PATH.ACCOUNT_PHRASE);
+  };
+  const toQuestion = async () => {
+    nav(ROUTE_PATH.ACCOUNT_QUESTION);
+  };
+  const toProtector = async () => {
+    nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
@@ -56,12 +62,12 @@ export default function Account() {
         <UserLevel />
         <ListRow label='名字' value='青龙' onPress={toChangeNickname} />
         <ListRow label='钱包地址' value='青龙' onPress={toChangeNickname} />
-        <ListRow label='修改密码' onPress={toChangeNickname} />
+        <ListRow label='修改密码' onPress={toChangePwd} />
         <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
         <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} />
         <ListRow label='备份助记词' onPress={toPharse} />
-        <ListRow label='守护者备份' onPress={toChangeNickname} />
-        <ListRow label='智能隐私备份' onPress={toChangeNickname} />
+        <ListRow label='守护者备份' onPress={toProtector} />
+        <ListRow label='智能隐私备份' onPress={toQuestion} />
         {/* <Button
           flat
           className='w-full mb-4'

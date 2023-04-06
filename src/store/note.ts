@@ -8,7 +8,7 @@ interface Note {
   updated: Date | number;
   content: string;
 }
-interface GlobalState {
+interface NoteState {
   list: Note[];
   add: (note: Note) => void;
   init: (list: any[]) => void;
@@ -17,7 +17,7 @@ interface GlobalState {
   get: (id: string) => Promise<Note | undefined>;
 }
 
-export const useNoteStore = create<GlobalState>()(
+export const useNoteStore = create<NoteState>()(
   devtools(
     (set, get) => ({
       list: [],

@@ -1,5 +1,5 @@
 import { Button, Text } from '@nextui-org/react';
-import { QuestionSelect } from '@/components/Question/QuestionSelect';
+import { QuestionSelect } from '@/components/question/QuestionSelect';
 import { useList } from 'react-use';
 import { useEffect, useMemo } from 'react';
 import { Shamir, KeySha } from '@/lib/account';
@@ -16,7 +16,7 @@ interface QuestionList {
 }
 interface Props {
   onSubmit: (list: QuestionList[]) => void;
-  type: 'maintain' | 'restore';
+  type: 'maintain' | 'restore' | 'verify';
   className?: string;
   buttonText?: string;
   children?: any;
@@ -25,14 +25,14 @@ interface Props {
 const QUESTION_MAX = 4;
 export const Question = ({
   onSubmit,
-  type,
+  type, 
   className,
   initList = [],
   buttonText = '备份',
   children,
 }: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
-  const disabled = useMemo(() => type === 'restore', [type]);
+  const disabled = useMemo(() => type === 'restore' || type === 'verify', [type]);
   const { data, mutate } = useRequest<any[]>({
     url: '/question/tmplist',
     arg: {

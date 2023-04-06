@@ -134,9 +134,9 @@ export class Wallet {
   async changePwd(oldPwd: string, newPwd: string) {
     const status = await this.verify(oldPwd);
     if (status === STATUS_CODE.SUCCESS && this.wallet) {
-      await this.keystore.create(this.wallet, newPwd);
       await this.password.removeSalt();
-      await this.password.set(newPwd);
+      const encryptPwd = await this.password.set(newPwd);
+      await this.keystore.create(this.wallet, encryptPwd);
     }
   }
 

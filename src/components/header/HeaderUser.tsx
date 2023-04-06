@@ -19,7 +19,7 @@ export const HeaderUser = () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
   const toQrcode = () => {
-    nav(ROUTE_PATH.USER_QRCODE);
+    nav(ROUTE_PATH.ACCOUNT_QRCODE);
   };
   return (
     <div className='flex px-4 items-center h-full'>

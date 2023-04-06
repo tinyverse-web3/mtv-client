@@ -8,7 +8,7 @@ export default function UserPhrase() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
   const toVerify = () => {
-    nav(ROUTE_PATH.USER_PHRASE_VERIFY);
+    nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>

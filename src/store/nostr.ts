@@ -14,7 +14,7 @@ interface Recipient {
 interface Relay {
   wss: string;
 }
-interface GlobalState {
+interface NostrState {
   list: NostrList[];
   relayList: Relay[];
   add: (friend: { pk: string }) => void;
@@ -25,7 +25,7 @@ interface GlobalState {
   reset: () => void;
 }
 
-export const useNostrStore = create<GlobalState>()(
+export const useNostrStore = create<NostrState>()(
   devtools(
     persist(
       (set, get) => ({
