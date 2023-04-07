@@ -77,6 +77,9 @@ export default function Unlock() {
     ]);
     nav('/', { replace: true });
   };
+  const toRetrieve = () => {
+    nav(ROUTE_PATH.RETRIEVE);
+  };
   return (
     <LayoutOne className='px-6'>
       <HeaderLogo />
@@ -121,7 +124,7 @@ export default function Unlock() {
           auto
           color='success'
           className='text-14px px-0'
-          onPress={deleteUser}>
+          onPress={toRetrieve}>
           忘记密码
         </Button>
       </div>

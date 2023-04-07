@@ -13,8 +13,10 @@ import Restore from '@/pages/restore';
 import RestorePhrase from '@/pages/restore/phrase';
 import Test from '@/pages/test';
 import Unlock from '@/pages/unlock';
+import Retrieve from '@/pages/retrieve';
 import AccountName from '@/pages/account/username';
 import AccountQrcode from '@/pages/account/qrcode';
+import AccountScan from '@/pages/account/scan';
 import AccountPhrase from '@/pages/account/phrase';
 import AccountPhraseVerify from '@/pages/account/phraseVerify';
 import AccountPhraseSuccess from '@/pages/account/phraseVerifySuccess';
@@ -41,6 +43,7 @@ export const ROUTE_PATH = {
   ACCOUNT: '/account',
   ACCOUNT_NAME: '/account/Accountname',
   ACCOUNT_QRCODE: '/account/qrcode',
+  ACCOUNT_SCAN: '/account/scan',
   ACCOUNT_PHRASE: '/account/phrase',
   ACCOUNT_PHRASE_VERIFY: '/account/phrase/verify',
   ACCOUNT_VERIFY_SUCCESS: '/account/phrase/success',
@@ -52,6 +55,7 @@ export const ROUTE_PATH = {
   ACCOUNT_PROTECTOR_VERIFY: '/account/protector/verify',
   SPACE_INDEX: '/space',
   UNLOCK: '/unlock',
+  RETRIEVE: '/retrieve',
   NOTE: '/note',
   TEST: '/test',
   NOTE_EDIT: '/note/:id',
@@ -59,10 +63,12 @@ export const ROUTE_PATH = {
   CHAT_MESSAGE: '/chat/message',
   CHAT_SHARE: '/chat/imShare',
 };
+
 const hashPath: any = {};
 Object.keys(ROUTE_PATH).forEach((k: any) => {
   hashPath[k] = resolveHashPath((ROUTE_PATH as any)[k]);
 });
+
 export const ROUTE_HASH_PATH: typeof ROUTE_PATH = hashPath;
 
 export const routes: RouteObject[] = [
@@ -92,6 +98,10 @@ export const routes: RouteObject[] = [
     element: <Unlock />,
   },
   {
+    path: ROUTE_PATH.RETRIEVE,
+    element: <Retrieve />,
+  },
+  {
     path: ROUTE_PATH.ACCOUNT,
     element: <Account />,
   },
@@ -106,6 +116,10 @@ export const routes: RouteObject[] = [
   {
     path: ROUTE_PATH.ACCOUNT_QRCODE,
     element: <AccountQrcode />,
+  },
+  {
+    path: ROUTE_PATH.ACCOUNT_SCAN,
+    element: <AccountScan />,
   },
   {
     path: ROUTE_PATH.ACCOUNT_PHRASE,

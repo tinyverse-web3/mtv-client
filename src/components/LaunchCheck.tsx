@@ -70,7 +70,7 @@ export const WalletCheck = () => {
       status == STATUS_CODE.INVALID_PASSWORD
     ) {
       if (!(href.indexOf('unlock') > -1)) {
-        location.replace(ROUTE_HASH_PATH.UNLOCK);
+        location.href = ROUTE_HASH_PATH.UNLOCK;
       }
     } else if (status == STATUS_CODE.SUCCESS) {
       setWallet(wallet);

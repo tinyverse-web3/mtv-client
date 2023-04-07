@@ -53,11 +53,11 @@ export default function LayoutTwo({
   ];
   return (
     <main className={'h-full'}>
-      <header className='h-20 fixed top-0 left-0 w-full border-b border-b-solid border-b-coolGray'>
+      <header className='h-20 fixed top-0 left-0 w-full border-b border-b-solid border-b-gray-200'>
         <HeaderUser />
       </header>
       <section className='h-full pb-15 pt-20'>{children}</section>
-      <footer className='h-15 fixed bottom-0 left-0 w-full border-t border-t-solid border-t-coolGray'>
+      <footer className='h-15 fixed bottom-0 left-0 w-full border-t border-t-solid border-t-gray-200'>
         <div className='h-full flex items-center justify-around'>
           {footerMenus.map((v) => (
             <MenuItem key={v.text} text={v.text} path={v.path} icon={v.icon} />

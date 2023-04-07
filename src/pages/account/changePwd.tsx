@@ -49,7 +49,7 @@ export default function ChangePwd() {
         return;
       }
       if (checked) {
-        // await savePassword();
+        await savePassword();
       }
       console.log(oldPwd)
       console.log(pwd)
@@ -122,7 +122,7 @@ export default function ChangePwd() {
             status={confirmStatus ? 'default' : 'error'}
             helperText={confirmStatus ? '' : '密码不一致'}
             onChange={(e) => setConfirmPwd(e.target.value.trim())}
-            placeholder='重复密码'
+            placeholder='确认密码'
             initialValue=''
           />
         </Row>

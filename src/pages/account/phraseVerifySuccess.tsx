@@ -3,7 +3,7 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 
-const imageSuccess = new URL('@/assets/images/icon-success.png', import.meta.url).href
+import imageSuccess from '@/assets/images/icon-success.png'
 
 export default function UserPhrase() {
   const nav = useNavigate();

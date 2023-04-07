@@ -5,13 +5,12 @@ interface Props {
 export const UserAvatar = ({ className }: Props) => {
   return (
     <div className={`flex justify-center ${className}`}>
-      <div className='relative'>
-        <div className='rounded-full overflow-hidden'>
-          <Image src='/logo.png' className='w-44 h-44' />
+      <div className='relative w-24 h-24'>
+        <div className='rounded-full overflow-hidden w-full h-full'>
+          <Image src='/logo.png' className='w-full h-full' />
         </div>
-        <div className='i-mdi-camera absolute bottom-0 right-4 text-8'></div>
+        <div className='i-mdi-camera absolute bottom-0 right-0 text-8'></div>
       </div>
     </div>
   );
 };
-      

@@ -31,7 +31,9 @@ export default function AccountProtector() {
     <LayoutThird
       title='守护者'
       path={ROUTE_PATH.SPACE_INDEX}
-      rightContent={<div onClick={add}>11</div>}>
+      rightContent={
+        <div onClick={add} className='i-mdi-plus-circle-outline text-5'></div>
+      }>
       <div className='p-4'>
         <Text className='text-14px mb-6'>
           守护者可用于身份验证、社交恢复等。

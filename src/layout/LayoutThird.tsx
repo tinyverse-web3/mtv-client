@@ -16,7 +16,7 @@ export default function Page({
   };
   return (
     <main className={''}>
-      <header className='h-12 sticky top-0 left-0 w-full border-b border-b-solid border-b-coolGray px-4 flex justify-between items-center z-10 bg-white'>
+      <header className='h-12 sticky top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-4 flex justify-between items-center z-10'>
         <div className='w-10'>
           {showBack ? (
             <Button
