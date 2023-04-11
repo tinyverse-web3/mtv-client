@@ -41,7 +41,7 @@ export default function UserPhrase() {
           ))}
         </div>
         <Button
-          disabled={!disbaled}
+          disabled={disbaled}
           className='w-full'
           size='lg'
           onPress={verify}>

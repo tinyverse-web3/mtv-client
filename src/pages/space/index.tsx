@@ -1,41 +1,48 @@
-import { Avatar } from '@nextui-org/react';
+import { useMemo } from 'react';
 import LayoutTwo from '@/layout/LayoutTwo';
-import { ROUTE_PATH } from '@/router';
-import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH, routes } from '@/router';
+import { useNavigate, matchRoutes, useLocation } from 'react-router-dom';
 
-const MenuItem = ({ text }: any) => {
+const MenuItem = ({ text, icon }: any) => {
   return (
-    <div className='flex flex-col h-full items-center justify-center text-3'>
+    <div className='flex flex-col h-full items-center justify-center text-14px'>
+      <div className='rounded-full bg-gray-100 p-3 mb-1'>
+        <div className={`${icon} h-14 w-14 text-gray-600`}></div>
+      </div>
       <span>{text}</span>
     </div>
   );
 };
 export default function SpaceIndex() {
   const nav = useNavigate();
+  
+
+  // const [res] = matchRoutes(routes, location)
+  // console.log(res);
   const list = [
     {
-      icon: '',
+      icon: 'i-mdi-notebook-outline',
       label: '记事本',
       path: ROUTE_PATH.NOTE,
     },
     {
-      icon: '',
+      icon: 'i-mdi-image-album',
       label: '相册',
     },
     {
-      icon: '',
+      icon: 'i-mdi-file-document-outline',
       label: '文件',
     },
     {
-      icon: '',
+      icon: 'i-mdi-key-variant',
       label: '密码本',
     },
     {
-      icon: '',
+      icon: 'i-mdi-earth',
       label: 'GUN',
     },
     {
-      icon: '',
+      icon: 'i-mdi-book-open',
       label: '付费阅读',
     },
   ];
@@ -44,12 +51,13 @@ export default function SpaceIndex() {
       nav(path);
     }
   };
+  
   return (
     <LayoutTwo>
       <div className='grid grid-cols-3 gap-6 justify-items-center pt-10'>
         {list.map((v) => (
-          <div className='h-10' onClick={(e) => menuClick(v)}>
-            <MenuItem text={v.label} />
+          <div key={v.label} className='' onClick={(e) => menuClick(v)}>
+            <MenuItem text={v.label} icon={v.icon} />
           </div>
         ))}
       </div>

@@ -106,7 +106,7 @@ export const BindMail = () => {
 
   const { mutate: sendCode, loading: codeLoading } = useRequest(
     {
-      url: '/user/sendmail',
+      url: '/user/sendmail4verifycode',
       arg: {
         method: 'post',
         query: { email },

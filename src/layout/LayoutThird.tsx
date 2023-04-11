@@ -12,11 +12,11 @@ export default function Page({
   const nav = useNavigate();
   const location = useLocation();
   const goBack = () => {
-    nav(-1);
+    nav(path || -1);
   };
   return (
     <main className={''}>
-      <header className='h-12 sticky top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-4 flex justify-between items-center z-10'>
+      <header className='h-12 sticky top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-10'>
         <div className='w-10'>
           {showBack ? (
             <Button

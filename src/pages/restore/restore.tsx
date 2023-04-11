@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-import { QuestionRestore } from '@/components/Question/QuestionRestore';
+import { QuestionRestore } from '@/components/question/QuestionRestore';
 import { VerifyMail } from '@/components/VerifyMail';
 import LayoutThird from '@/layout/LayoutThird';
+import { ROUTE_PATH } from '@/router';
 export default function Restore() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
@@ -40,7 +41,7 @@ export default function Restore() {
         if (privateKey && dbAddress && ipns) {
           await initMtvdb(privateKey, dbAddress, ipns);
         }
-        nav('/home', { replace: true });
+        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },
     },
   );
@@ -62,7 +63,7 @@ export default function Restore() {
                 await setMtvdb(dbAddress, metadataKey);
               }
             }
-            nav('/home', { replace: true });
+            nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
           }
         } catch (error) {
           console.log(error);

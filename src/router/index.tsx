@@ -1,4 +1,8 @@
-import { createBrowserRouter, createHashRouter, RouteObject } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouteObject,
+} from 'react-router-dom';
 import Account from '@/pages/account/';
 import ChangePwd from '@/pages/account/changePwd';
 import ChatImChare from '@/pages/chat/imshare';
@@ -11,6 +15,7 @@ import NoteEdit from '@/pages/note/edit';
 import Note from '@/pages/note/list';
 import Restore from '@/pages/restore';
 import RestorePhrase from '@/pages/restore/phrase';
+import RestoreProtector from '@/pages/restore/protector';
 import Test from '@/pages/test';
 import Unlock from '@/pages/unlock';
 import Retrieve from '@/pages/retrieve';
@@ -28,7 +33,6 @@ import AccountProtectorVerify from '@/pages/account/protectorVerify';
 import AccountProtectorAdd from '@/pages/account/protectorAdd';
 import SpaceIndex from '@/pages/space';
 
-
 const resolveHashPath = (path: string) => {
   return `/#${path}`;
 };
@@ -40,8 +44,9 @@ export const ROUTE_PATH = {
   CHANGE_PWD: '/changePwd',
   RESTORE: '/restore',
   RESTORE_PHRASE: '/restore/phrase',
+  RESTORE_PROTECTOR: '/restore/protector',
   ACCOUNT: '/account',
-  ACCOUNT_NAME: '/account/Accountname',
+  ACCOUNT_NAME: '/account/name',
   ACCOUNT_QRCODE: '/account/qrcode',
   ACCOUNT_SCAN: '/account/scan',
   ACCOUNT_PHRASE: '/account/phrase',
@@ -54,6 +59,7 @@ export const ROUTE_PATH = {
   ACCOUNT_PROTECTOR_ADD: '/account/protector/add',
   ACCOUNT_PROTECTOR_VERIFY: '/account/protector/verify',
   SPACE_INDEX: '/space',
+  ASSETS_INDEX: '/assets',
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
   NOTE: '/note',
@@ -92,6 +98,10 @@ export const routes: RouteObject[] = [
   {
     path: ROUTE_PATH.RESTORE_PHRASE,
     element: <RestorePhrase />,
+  },
+  {
+    path: ROUTE_PATH.RESTORE_PROTECTOR,
+    element: <RestoreProtector />,
   },
   {
     path: ROUTE_PATH.UNLOCK,

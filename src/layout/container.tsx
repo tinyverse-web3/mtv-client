@@ -4,9 +4,7 @@ export default function Container({ children }: any) {
   const { isDark } = useTheme();
   return (
     <div
-      className={`${
-        isDark ? 'sm:bg-coolGray-9' : 'sm:bg-coolGray-1'
-      } rounded-xl sm:w-400px mx-auto h-full sm:h-800px`}>
+      className={`sm:border sm:border-gray-300 sm:shadow-xl sm:border-solid sm:rounded-xl sm:w-400px mx-auto h-full sm:h-760px`}>
       {children}
     </div>
   );

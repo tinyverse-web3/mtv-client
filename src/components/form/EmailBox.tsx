@@ -15,7 +15,7 @@ export const EmailBox = ({ onChange }: Props) => {
 
   const { mutate: sendCode, loading: codeLoading } = useRequest(
     {
-      url: '/user/sendmail',
+      url: '/user/sendmail4verifycode',
       arg: {
         method: 'post',
         query: { email },
@@ -35,9 +35,10 @@ export const EmailBox = ({ onChange }: Props) => {
   const emailChange = (e: any) => {
     setEmail(e.target.value);
   };
-  const verifyCodeChange = (e: any) => {
-    setVerifyCode(e.target.value);
-    onChange && onChange({ email, code: verifyCode });
+  const verifyCodeChange = async (e: any) => {
+    const { value } = e.target;
+    await setVerifyCode(value);
+    onChange && onChange({ email, code: value });
   };
   const sendVerify = async () => {
     if (email && flag) {

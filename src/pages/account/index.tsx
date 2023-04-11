@@ -1,10 +1,7 @@
-import { useState } from 'react';
-import { useCopyToClipboard } from 'react-use';
-import { useWalletStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
-
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
+import { useGlobalStore } from '@/store';
 import { useCheckLogin } from '@/components/BindMail';
 import { UserAvatar, ListRow, UserLevel } from './components';
 
@@ -13,6 +10,7 @@ export default function Account() {
   const toChangePwd = () => {
     nav(ROUTE_PATH.CHANGE_PWD);
   };
+  const userInfo = useGlobalStore((state) => state.userInfo);
   const toChangeNickname = async () => {
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
@@ -23,10 +21,16 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PHRASE);
   };
   const toQuestion = async () => {
-    nav(ROUTE_PATH.ACCOUNT_QUESTION);
+    const loginStatus = await useCheckLogin();
+    if (loginStatus) {
+      nav(ROUTE_PATH.ACCOUNT_QUESTION);
+    }
   };
   const toProtector = async () => {
-    nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+    const loginStatus = await useCheckLogin();
+    if (loginStatus) {
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+    }
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
@@ -36,7 +40,7 @@ export default function Account() {
           <UserLevel />
         </div>
 
-        <ListRow label='名字' value='青龙' onPress={toChangeNickname} />
+        <ListRow label='名字' value={userInfo.nickname} onPress={toChangeNickname} />
         <ListRow label='钱包地址' value='青龙' onPress={toChangeNickname} />
         <ListRow label='修改密码' onPress={toChangePwd} />
         <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />

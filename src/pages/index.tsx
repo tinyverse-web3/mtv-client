@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import wallet from '@/lib/account/wallet';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
+import { ROUTE_PATH } from '@/router';
 
 export default function Index() {
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,7 @@ export default function Index() {
     }
     await setWallet(wallet);
     setLoading(false);
-    nav('/home', { replace: true });
+    nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
   }
   return (
     <LayoutOne>

@@ -40,7 +40,7 @@ export default function AccountQuestion() {
 
   const { mutate: sendCode, loading: codeLoading } = useRequest(
     {
-      url: '/user/sendmail',
+      url: '/user/sendmail4verifycode',
       arg: {
         method: 'post',
         query: { email },

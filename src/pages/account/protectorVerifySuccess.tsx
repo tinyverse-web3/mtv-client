@@ -2,11 +2,17 @@ import { Image, Button } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
+import { useGlobalStore } from '@/store';
 import imageSuccess from '@/assets/images/icon-success.png';
 
 export default function UserPhrase() {
   const nav = useNavigate();
   const toAccount = () => {
+    const setMaintainPhrase = useGlobalStore(
+      (state) => state.setMaintainPhrase,
+    );
+    const calcUserLevel = useGlobalStore((state) => state.calcUserLevel);
+    const userLevel = useGlobalStore((state) => state.userLevel);
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (

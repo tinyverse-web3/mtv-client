@@ -9,6 +9,9 @@ export default function Restore() {
   const toPhrase = () => {
     nav(ROUTE_PATH.RESTORE_PHRASE);
   };
+  const toProtector = () => {
+    nav(ROUTE_PATH.RESTORE_PROTECTOR);
+  };
   return (
     <LayoutThird title='恢复账号'>
       <div className='pt-14 px-6'>
@@ -20,8 +23,8 @@ export default function Restore() {
           size='xl'>
           助记词恢复
         </Button>
-        <Button color='secondary' className='m-auto mb-4 w-full' size='xl'>
-          社交恢复
+        <Button color='secondary' className='m-auto mb-4 w-full' size='xl' onPress={toProtector}>
+          守护者恢复
         </Button>
         <Button color='secondary' className='m-auto mb-4 w-full' size='xl'>
           智能隐私恢复

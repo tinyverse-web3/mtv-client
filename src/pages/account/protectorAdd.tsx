@@ -5,12 +5,29 @@ import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
+import { useRequest } from '@/api';
+import toast from 'react-hot-toast';
 export default function AccountQuestion() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const { mutate } = useRequest(
+    {
+      url: '/guardian/add',
+      arg: {
+        auth: true,
+        method: 'post',
+        query: { account: email, verifyCode: code, type: 'email' },
+      },
+    },
+    {
+      onError() {
+        setLoading(false);
+      },
+    },
+  );
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
@@ -19,9 +36,15 @@ export default function AccountQuestion() {
   const checkboxChange = (e: boolean) => {
     setChecked(e);
   };
-  const submit = () => {
+  const submit = async () => {
     // setChecked(e);
-    nav(-1);
+    try {
+      await mutate();
+      await toast.success('添加成功');
+      nav(-1);
+    } catch (error) {
+      await toast.error('添加失败');
+    }
   };
   const disabled = useMemo(
     () => !(checked && email && code),

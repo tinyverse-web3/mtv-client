@@ -6,10 +6,11 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
+
 import { useQuestionStore, useWalletStore, useGlobalStore } from '@/store';
 
-import imageSuccess from '@/assets/images/icon-success.png'
-import imageError from '@/assets/images/icon-error.png'
+import imageSuccess from '@/assets/images/icon-success.png';
+import imageError from '@/assets/images/icon-error.png';
 // const imageError = new URL(
 //   '@/assets/images/icon-success.png',
 //   import.meta.url,
@@ -17,14 +18,22 @@ import imageError from '@/assets/images/icon-error.png'
 
 export default function QuestionVerifyResult() {
   const nav = useNavigate();
-  
+
   const { state } = useLocation();
   const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
   const setMaintain = useGlobalStore((state) => state.setMaintain);
   const initList = useQuestionStore((state) => state.list);
+  const setMaintainPhrase = useGlobalStore(
+    (state) => state.setMaintainPhrase,
+  );
+  const calcUserLevel = useGlobalStore((state) => state.calcUserLevel);
+  const userLevel = useGlobalStore((state) => state.userLevel);
   const [shareA, setShareA] = useState<string>();
-  const toAccount = () => {
+  const toAccount = async () => {
+    await setMaintainPhrase(true);
+    await calcUserLevel();
+    console.log(userLevel);
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {
@@ -80,10 +89,16 @@ export default function QuestionVerifyResult() {
       const kvShares = shareKeys.slice(1);
       const kvMap = kvShares?.map((s, i) => {
         const keySha = new KeySha();
-        return keySha.set(email, initList[i].content, initList[i].a as string, s);
+        return keySha.set(
+          email,
+          initList[i].content,
+          initList[i].a as string,
+          s,
+        );
       });
       await Promise.all(kvMap);
       await setUserQuestion();
+      toAccount();
     }
   };
   useEffect(() => {
@@ -106,7 +121,10 @@ export default function QuestionVerifyResult() {
           <Button className='w-full mb-6' size='lg' onPress={() => nav(-1)}>
             恢复测试
           </Button>
-          <Button className='w-full' size='lg' onPress={() => nav(ROUTE_PATH.ACCOUNT_QUESTION)}>
+          <Button
+            className='w-full'
+            size='lg'
+            onPress={() => nav(ROUTE_PATH.ACCOUNT_QUESTION)}>
             重新设置
           </Button>
         </div>

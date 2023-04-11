@@ -29,7 +29,6 @@ export default function Userinfo() {
       setNickname(text);
     }, 100);
   };
-  const query = useMemo(() => ({ name: nickname }), [nickname]);
   const modifySuccess = (res: any) => {
     if (res.code === '000000') {
       toast.success('修改成功');
@@ -40,11 +39,13 @@ export default function Userinfo() {
   };
   const { mutate: modifyuser, loading: modifyLoading } = useRequest(
     {
-      url: '/user/modifyuser',
+      url: '/user/updatename',
       arg: {
         method: 'post',
         auth: true,
-        query,
+        query: {
+          name: nickname,
+        },
       },
     },
     {

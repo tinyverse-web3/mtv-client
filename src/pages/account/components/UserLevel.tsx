@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
+import { useGlobalStore } from '@/store';
 
 interface Props {
   className?: string;
 }
 export const UserLevel = ({ className }: Props) => {
-  const level = 3;
   const levelArr = [
     {
       level: 0,
@@ -31,7 +31,8 @@ export const UserLevel = ({ className }: Props) => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
-  const levelItem = useMemo(() => levelArr[level], [level]);
+  const userLevel = useGlobalStore((state) => state.userLevel);
+  const levelItem = useMemo(() => levelArr[userLevel], [userLevel]);
   return (
     <div className={`${className}`}>
       <div className='flex items-center mb-1'>
