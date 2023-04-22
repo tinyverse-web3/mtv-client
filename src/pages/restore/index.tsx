@@ -12,6 +12,9 @@ export default function Restore() {
   const toProtector = () => {
     nav(ROUTE_PATH.RESTORE_PROTECTOR);
   };
+  const toQuestionVerify = () => {
+    nav(ROUTE_PATH.RESTORE_VERIFY);
+  };
   return (
     <LayoutThird title='恢复账号'>
       <div className='pt-14 px-6'>
@@ -26,7 +29,7 @@ export default function Restore() {
         <Button color='secondary' className='m-auto mb-4 w-full' size='xl' onPress={toProtector}>
           守护者恢复
         </Button>
-        <Button color='secondary' className='m-auto mb-4 w-full' size='xl'>
+        <Button color='secondary' className='m-auto mb-4 w-full' size='xl'  onPress={toQuestionVerify}>
           智能隐私恢复
         </Button>
       </div>

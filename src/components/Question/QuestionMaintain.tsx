@@ -7,107 +7,36 @@ import { useWalletStore, useGlobalStore, useQuestionStore } from '@/store';
 import { useCopyToClipboard } from 'react-use';
 import toast from 'react-hot-toast';
 import { Question } from './Question';
+import { QuestionDefault } from './QuestionDefault';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 
-export const QuestionMaintain = () => {
+interface Props {
+  type: Number;
+}
+export const QuestionMaintain = ({ type }: Props) => {
   const nav = useNavigate();
-  const [shareA, setShareA] = useState<string>();
-  const [shareB, setShareB] = useState<string>();
-  const wallet = useWalletStore((state) => state.wallet);
-  const setQuestionList = useQuestionStore((state) => state.setList);
-  const userInfo = useGlobalStore((state) => state.userInfo);
-  const setMaintain = useGlobalStore((state) => state.setMaintain);
-  const [_, copyToClipboard] = useCopyToClipboard();
-  const [list, setList] = useState<any[]>([]);
+  const { setList: setQuestionList, setType } = useQuestionStore((state) => state);
 
-  const query = useMemo(() => {
-    const { publicKey, address } = wallet || {};
-    return {
-      sssData: shareB,
-      publicKey: publicKey,
-      address: address,
-    };
-  }, [wallet, shareB]);
-
-  const { mutate: modifyuser } = useRequest(
-    {
-      url: '/user/modifyuser',
-      arg: {
-        method: 'post',
-        auth: true,
-        query,
-      },
-    },
-    {
-      onSuccess() {
-        setMaintain(true);
-        toast.success('服务器分片保存成功');
-      },
-    },
-  );
-  useEffect(() => {
-    if (shareB) {
-      modifyuser();
-    }
-  }, [shareB]);
-  const splitKey = async (threshold = 2, account = 3) => {
-    return await wallet?.sssSplit(account, threshold);
-  };
-  const addQuestionQuery = useMemo(() => {
-    return list.map((val) => `${val.q}**${val.l}**`);
-  }, [list]);
-  const { mutate: setUserQuestion } = useRequest<any[]>({
-    url: '/question/add',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: addQuestionQuery,
-    },
-  });
   const onSubmit = async (_list: any[]) => {
-    setQuestionList(_list.map((v) => ({ a: v.a, content: v.q })));
+    console.log(_list);
+    setQuestionList(_list.map((v) => ({ list: v.list, title: v.title })));
     nav(ROUTE_PATH.ACCOUNT_QUESTION_VERIFY);
-    // const { email } = userInfo;
-    // setList(_list);
-    // const shareKeys = await splitKey(2, _list.length + 2);
-    // if (shareKeys && email) {
-    //   setShareA(shareKeys[0]);
-    //   setShareB(shareKeys[1]);
-    //   const kvShares = shareKeys.slice(2);
-    //   console.log(email);
-    //   console.log(_list);
-    //   const kvMap = kvShares?.map((s, i) => {
-    //     const keySha = new KeySha();
-    //     return keySha.set(email, _list[i].q, _list[i].a as string, s);
-    //   });
-    //   await Promise.all(kvMap);
-    //   await setUserQuestion();
-    // }
-  };
-  const copyHandler = (text: string) => {
-    if (text) {
-      copyToClipboard(text);
-      toast.success('复制成功');
-    }
   };
   return (
-    <Question type='maintain' buttonText='恢复测试' onSubmit={onSubmit}>
-      {/* {shareA && (
-        <>
-          <Card>
-            <Card.Body className='px-2 py-2 flex flex-row items-center'>
-              <Text className='flex-1 overflow-x-auto'>{shareA}</Text>
-              <Button
-                className='min-w-6 ml-4'
-                onPress={() => copyHandler(shareA)}>
-                复制
-              </Button>
-            </Card.Body>
-          </Card>
-          <div className="text-12px text-center">以上为用户分片，请保存</div>
-        </>
-      )} */}
-    </Question>
+    <>
+      {type == 1 ? (
+        <QuestionDefault
+          type='maintain'
+          buttonText='恢复测试'
+          onSubmit={onSubmit}
+        />
+      ) : (
+        <Question
+          type='maintain'
+          buttonText='恢复测试'
+          onSubmit={onSubmit}></Question>
+      )}
+    </>
   );
 };

@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
+import { useUpdateLevel } from '@/lib/hooks';
 
 import { useQuestionStore, useWalletStore, useGlobalStore } from '@/store';
 
@@ -22,25 +23,29 @@ export default function QuestionVerifyResult() {
   const { state } = useLocation();
   const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
-  const setMaintain = useGlobalStore((state) => state.setMaintain);
-  const initList = useQuestionStore((state) => state.list);
-  const setMaintainPhrase = useGlobalStore(
-    (state) => state.setMaintainPhrase,
+  const { list: initList, type } = useQuestionStore((state) => state);
+  const { setMaintainQuestion, calcUserLevel } = useGlobalStore(
+    (state) => state,
   );
-  const calcUserLevel = useGlobalStore((state) => state.calcUserLevel);
-  const userLevel = useGlobalStore((state) => state.userLevel);
+
   const [shareA, setShareA] = useState<string>();
+  useUpdateLevel();
   const toAccount = async () => {
-    await setMaintainPhrase(true);
+    await setMaintainQuestion(true);
     await calcUserLevel();
-    console.log(userLevel);
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {
     return await wallet?.sssSplit(account, threshold);
   };
   const addQuestionQuery = useMemo(() => {
-    return initList.map((val) => `${val.content}**${val.a.length}**`);
+    return initList.map((val) => ({
+      content: JSON.stringify( 
+        val.list.map((s) => ({ content: s.q, characters: s.l })),
+      ),
+      title: val.title,
+      type,
+    }));
   }, [initList]);
   const { mutate: setUserQuestion } = useRequest<any[]>({
     url: '/question/add',
@@ -60,45 +65,35 @@ export default function QuestionVerifyResult() {
     };
   }, [wallet, shareA]);
 
-  const { mutate: modifyuser } = useRequest(
-    {
-      url: '/user/modifyuser',
-      arg: {
-        method: 'post',
-        auth: true,
-        query,
-      },
+  const { mutate: saveSssData } = useRequest({
+    url: '/user/savesssdata4question',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: { questionSssData: shareA },
     },
-    {
-      onSuccess() {
-        setMaintain(true);
-        toast.success('服务器分片保存成功');
-      },
-    },
-  );
-  useEffect(() => {
-    if (shareA) {
-      modifyuser();
-    }
-  }, [shareA]);
+  });
   const onSubmit = async () => {
-    const { email } = userInfo;
-    const shareKeys = await splitKey(2, initList.length + 1);
-    if (shareKeys && email) {
-      setShareA(shareKeys[0]);
-      const kvShares = shareKeys.slice(1);
-      const kvMap = kvShares?.map((s, i) => {
-        const keySha = new KeySha();
-        return keySha.set(
-          email,
-          initList[i].content,
-          initList[i].a as string,
-          s,
-        );
-      });
-      await Promise.all(kvMap);
-      await setUserQuestion();
-      toAccount();
+    try {
+      const { email } = userInfo;
+      const shareKeys = await splitKey(2, initList.length + 1);
+      if (shareKeys && email) {
+        await setShareA(shareKeys[0]);
+        const kvShares = shareKeys.slice(1);
+        const kvMap = kvShares?.map((s, i) => {
+          const keySha = new KeySha();
+          const q = initList[i].list.map((val) => val.q).join('');
+          const a = initList[i].list.map((val) => val.a).join('');
+          return keySha.set(email, q, a, s);
+        });
+        await Promise.all([...kvMap, saveSssData()]);
+        await setUserQuestion();
+        toast.success('备份成功');
+        toAccount();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('备份失败');
     }
   };
   useEffect(() => {

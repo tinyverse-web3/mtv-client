@@ -11,12 +11,12 @@ export default function Page({
 }: any) {
   const nav = useNavigate();
   const location = useLocation();
-  const goBack = () => {
-    nav(path || -1);
+  const goBack = async () => {
+    await nav(path || -1);
   };
   return (
-    <main className={''}>
-      <header className='h-12 sticky top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-10'>
+    <main className='h-full relative'>
+      <header className='h-12 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-10 bg-white'>
         <div className='w-10'>
           {showBack ? (
             <Button
@@ -36,7 +36,7 @@ export default function Page({
           {rightContent && rightContent}
         </div>
       </header>
-      <section className='pb-12'>{children}</section>
+      <section className='pt-12 h-full'>{children}</section>
     </main>
   );
 }

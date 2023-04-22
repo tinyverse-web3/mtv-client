@@ -1,16 +1,24 @@
 import LayoutThird from '@/layout/LayoutThird';
+import { useEffect } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useWalletStore } from '@/store';
 import { useCheckLogin } from '@/components/BindMail';
+import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
+import { useRequest } from '@/api';
 
 export default function Account() {
   const nav = useNavigate();
+  const { userInfo, setUserInfo } = useGlobalStore((state) => state);
+  const { wallet } = useWalletStore((state) => state);
+  
   const toChangePwd = () => {
     nav(ROUTE_PATH.CHANGE_PWD);
   };
-  const userInfo = useGlobalStore((state) => state.userInfo);
+  const toPublicKey = () => {
+    nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);
+  };
   const toChangeNickname = async () => {
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
@@ -39,9 +47,12 @@ export default function Account() {
           <UserAvatar className='mr-4' />
           <UserLevel />
         </div>
-
-        <ListRow label='名字' value={userInfo.nickname} onPress={toChangeNickname} />
-        <ListRow label='钱包地址' value='青龙' onPress={toChangeNickname} />
+        <ListRow
+          label='名字'
+          value={userInfo.nickname}
+          onPress={toChangeNickname}
+        />
+        <ListRow label='钱包地址' value={ <Address address={wallet?.publicKey} />} onPress={toPublicKey} />
         <ListRow label='修改密码' onPress={toChangePwd} />
         <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
         <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} />

@@ -38,32 +38,31 @@ export const MessageBox = ({ recipient }: any) => {
         continue;
       }
       const meStatus = event.pubkey === nostr?.pk;
+      console.log(user.nickname)
+      console.log(recipient.name)
       push({
         ...event,
         me: meStatus,
+        name: meStatus ? user.nickname : recipient.name,
+        avatar: meStatus ? user.avatar : recipient.avatar,
         // email: meStatus ? user.email : recipient.email,
         text,
       });
     }
   };
   useEffect(() => {
-    console.log(sentByMe);
     const messages = [...sentByMe, ...sentToMe];
     decryptMessmage(messages);
   }, [sentByMe, sentToMe]);
   const sendHandler = async (val: string) => {
     const { sk, pk } = nostr || {};
     if (val.trim()) {
-      console.log(sk);
-      console.log(pk);
-      console.log(recipient.pk);
       let ciphertext = await nip04.encrypt(sk as string, recipient.pk, val);
 
       let event: any = {
         kind: 4,
         pubkey: pk as string,
         created_at: dateToUnix(new Date()),
-        // created_at: +new Date(),
         tags: [['p', recipient.pk]],
         content: ciphertext,
       };
@@ -74,11 +73,11 @@ export const MessageBox = ({ recipient }: any) => {
   };
 
   return (
-    <div className='h-full relative  overflow-hidden'>
+    <div className='h-full relative overflow-hidden p-2'>
       <div className='h-full pb-12'>
         <ChatList messages={list} />
       </div>
-      <div className='px-1 h-12 absolute left-0 w-full bottom-0 bg-blur z-10'>
+      <div className='px-2 h-12 absolute left-0 w-full bottom-0 bg-blur z-10'>
         <ChatInput onSend={sendHandler} />
       </div>
     </div>

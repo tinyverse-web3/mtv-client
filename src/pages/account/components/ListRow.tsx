@@ -1,7 +1,7 @@
 import { Text } from '@nextui-org/react';
 interface Props {
   label: string;
-  value?: string;
+  value?: string | any;
   onPress?: () => void;
 }
 export const ListRow = ({ label, value, onPress }: Props) => {

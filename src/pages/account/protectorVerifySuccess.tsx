@@ -7,12 +7,7 @@ import imageSuccess from '@/assets/images/icon-success.png';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const toAccount = () => {
-    const setMaintainPhrase = useGlobalStore(
-      (state) => state.setMaintainPhrase,
-    );
-    const calcUserLevel = useGlobalStore((state) => state.calcUserLevel);
-    const userLevel = useGlobalStore((state) => state.userLevel);
+  const toAccount = async () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (

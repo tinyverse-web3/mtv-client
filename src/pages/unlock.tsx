@@ -90,6 +90,7 @@ export default function Unlock() {
         <Input.Password
           clearable
           bordered
+          aria-label='password'
           fullWidth
           maxLength={20}
           type='password'

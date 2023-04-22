@@ -5,7 +5,7 @@ import { Select } from '@/components/form/Select';
 import { useState, useEffect } from 'react';
 import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useQuestionStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from './Question';
 
@@ -22,28 +22,10 @@ export const QuestionRestore = ({
 }: Props) => {
   const [selectValue, setSelectValue] = useState('1');
   const [kvError, setKvError] = useState<string[]>([]);
-  const selectList = useMemo(() => {
-    const _l = [
-      {
-        label: '用户保存的分片',
-        value: '1',
-      },
-    ];
-    if (questionList?.length) {
-      _l.push({
-        label: '安全问题的分片',
-        value: '2',
-      });
-    }
-    return _l;
-  }, [questionList]);
+  const { email } = useQuestionStore((state) => state);
   const userInfo = useGlobalStore((state) => state.userInfo);
   // const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
-
-  const shareBChange = (e: any) => {
-    setShareB(e.target.value?.trim());
-  };
 
   const toastErr = () => {
     for (let j = 0; j < kvError.length; j++) {
@@ -54,16 +36,35 @@ export const QuestionRestore = ({
       }
     }
   };
-
+  const validList = (list: any[]) => {
+    let validStatus = true;
+    for (let i = 0; i < list.length; i++) {
+      const question = list[i];
+      for (let j = 0; j < question.list.length; j++) {
+        const q = question.list[j];
+        if (!q.a) {
+          toast.error(`问题${chineseNumMap[i]}的第${j + 1}个子问题答案未输入`);
+          validStatus = false;
+          break;
+        }
+      }
+      if (!validStatus) break;
+    }
+    if (list.length < 1) {
+      toast.error(`最少填写一个问题`);
+      validStatus = false;
+    }
+  };
   const submitHandler = async (_list: any[]) => {
-    const { email } = userInfo;
     if (email) {
       const keySha = new KeySha();
-      const filterAnswer = _list.filter(
-        (v) => v.a !== undefined && v.a !== null && v.a !== '',
+      const filterAnswer = _list.filter((v) =>
+        v.list.every(
+          (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
+        ),
       );
       if (!filterAnswer.length) {
-        toast.error(`最少回答一个问题!`);
+        toast.error(`最少回答一个完整问题!`);
         return;
       }
       const kvShares: any[] = [];
@@ -73,7 +74,10 @@ export const QuestionRestore = ({
         const s = filterAnswer[i];
         try {
           console.log(s);
-          const v = await keySha.get(email, s.q, s.a);
+          const q = s.list.map((val: any) => val.q).join('');
+          const a = s.list.map((val: any) => val.a).join('');
+          const v = await keySha.get(email, q, a);
+          console.log(v);
           kvShares.push(v);
           errArr.push('');
         } catch (error) {
@@ -102,50 +106,12 @@ export const QuestionRestore = ({
   };
   return (
     <div className='pt-2'>
-      <Row className='mb-8' justify='center'>
-        <Textarea
-          fullWidth
-          bordered
-          readOnly
-          value={serverShare}
-          labelPlaceholder='服务器分片'
-        />
-      </Row>
-      <Select
-        list={selectList}
-        value={selectValue}
-        onChange={selectChange}
-        placeholder='请选择一个恢复方式'
-      />
-      {selectValue === '1' ? (
-        <>
-          <Row className='mb-8 mt-8' justify='center'>
-            <Textarea
-              fullWidth
-              bordered
-              value={shareB}
-              onChange={shareBChange}
-              labelPlaceholder='用户分片'
-            />
-          </Row>
-          <Button
-            disabled={!shareB}
-            auto
-            className='w-full'
-            onPress={userSharesSubmit}>
-            恢复
-          </Button>
-        </>
-      ) : (
-        questionList && (
-          <Question
-            onSubmit={submitHandler}
-            initList={questionList}
-            type='restore'
-            className='mb-8'
-            buttonText='恢复'></Question>
-        )
-      )}
+      <Question
+        onSubmit={submitHandler}
+        initList={questionList}
+        type='restore'
+        className='mb-8'
+        buttonText='恢复'></Question>
     </div>
   );
 };

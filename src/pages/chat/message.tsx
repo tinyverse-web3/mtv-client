@@ -1,6 +1,6 @@
 import { useRequest } from '@/api';
 import { MessageBox } from '@/components/MessageBox';
-import Page from '@/layout/LayoutTwo';
+import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
 import { NostrProvider } from 'nostr-react';
@@ -63,12 +63,12 @@ export default function ChatMessage() {
     }
   }, [nostr]);
   return (
-    <Page className='h-full' title='聊天' path={ROUTE_PATH.CHAT_LIST}>
+    <LayoutThird className='h-full' title='聊天' path={ROUTE_PATH.CHAT_LIST}>
       {!!relayUrls.length && (
         <NostrProvider relayUrls={relayUrls.map((val) => val.wss)}>
           <MessageBox recipient={recipient} />
         </NostrProvider>
       )}
-    </Page>
+    </LayoutThird>
   );
 }

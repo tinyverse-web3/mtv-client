@@ -72,20 +72,30 @@ export function useRequest<T>(
       method: _method,
       headers,
     };
+    let _url = url;
+    if (url.indexOf('http') > -1) {
+      _url = url;
+    }
     if (['POST', 'PUT', 'UPDATE'].includes(_method) && arg.query) {
       const strifyParsam = JSON.stringify(arg.query);
       options.body = strifyParsam;
     }
+    if (arg?.query && _method === 'GET') {
+      const query = Object.keys(arg.query)
+        .map((key) => `${key}=${arg.query[key]}`)
+        .join('&');
+      _url = `${_url}?${query}`;
+    }
     if (arg?.auth && publicKey) {
-      const sign = await wallet?.sign(options.body || url);
+      const signStr = options.body || _url;
+      console.log(signStr)
+      const sign = await wallet?.sign(signStr);
       options.headers.public_key = publicKey;
       options.headers.sign = sign;
       options.headers.address = address;
     }
-    let _url = `${baseUrl}/${apiVersion}${url}`;
-    if (url.indexOf('http') > -1) {
-      _url = url;
-    }
+    
+    _url = `${baseUrl}/${apiVersion}${_url}`;
     return fetch(_url, options).then((res) => res.json());
   };
   const { data, error, trigger, isMutating } = useSWRMutation(

@@ -6,10 +6,11 @@ interface NostrList {
   pk: string;
   time: Date | number;
 }
-interface Recipient {
+interface Friend {
+  Id: number;
   pk: string;
-  // email: string;
-  // sk: string;
+  name: string;
+  avatar: string;
 }
 interface Relay {
   wss: string;
@@ -20,8 +21,8 @@ interface NostrState {
   add: (friend: { pk: string }) => void;
   remove: (pk: string) => void;
   initRelayList: (list: Relay[]) => void;
-  recipient?: Recipient;
-  setRecipient: (r: Recipient) => void;
+  recipient?: Friend;
+  setRecipient: (r: Friend) => void;
   reset: () => void;
 }
 

@@ -37,9 +37,13 @@ export const UserLevel = ({ className }: Props) => {
     <div className={`${className}`}>
       <div className='flex items-center mb-1'>
         <span>安全等级：</span>
-        <div className='h-5 bg-gray-100 w-50 rounded-full overflow-hidden'>
-          <div className={`h-full flex justify-center items-center text-12px bg-blue-600 rounded-full text-white`} style={{width: `${20 * levelItem.level}%`}}>
-            {levelItem.level}
+        <div className='flex-1 overflow-hidden'>
+          <div className='h-5 bg-gray-100 w-50 max-w-full rounded-full overflow-hidden'>
+            <div
+              className={`h-full flex justify-center items-center text-12px bg-blue-600 rounded-full text-white min-w-5`}
+              style={{ width: `${20 * levelItem.level}%` }}>
+              {levelItem.level}
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { generateKeys } from '@/lib/utils/generateKeys';
 
 interface UserInfo {
   email?: string;
+  avatar?: string;
   nickname?: string;
 }
 const metadataKey =
@@ -74,7 +75,11 @@ export const useGlobalStore = create<GlobalState>()(
           set(() => ({ userInfo: { ..._user, ...v } }));
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
-        setUserLevel: (l) => set(() => ({ userLevel: l })),
+        setUserLevel: (l) => {
+          if (l > get().userLevel) {
+            set(() => ({ userLevel: l }))
+          }
+        },
         setMaintainPhrase: (v) => set(() => ({ maintainPhrase: v })),
         setMaintainProtector: (v) => set(() => ({ maintainProtector: v })),
         setMaintainQuestion: (v) => set(() => ({ maintainQuestion: v })),

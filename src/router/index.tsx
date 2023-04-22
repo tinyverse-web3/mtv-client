@@ -16,11 +16,14 @@ import Note from '@/pages/note/list';
 import Restore from '@/pages/restore';
 import RestorePhrase from '@/pages/restore/phrase';
 import RestoreProtector from '@/pages/restore/protector';
+import RestoreVerify from '@/pages/restore/verify';
+import RestoreQuestion from '@/pages/restore/question';
 import Test from '@/pages/test';
 import Unlock from '@/pages/unlock';
 import Retrieve from '@/pages/retrieve';
 import AccountName from '@/pages/account/username';
 import AccountQrcode from '@/pages/account/qrcode';
+import AccountMyPublicKey from '@/pages/account/myPublicKey';
 import AccountScan from '@/pages/account/scan';
 import AccountPhrase from '@/pages/account/phrase';
 import AccountPhraseVerify from '@/pages/account/phraseVerify';
@@ -32,6 +35,7 @@ import AccountProtector from '@/pages/account/protector';
 import AccountProtectorVerify from '@/pages/account/protectorVerify';
 import AccountProtectorAdd from '@/pages/account/protectorAdd';
 import SpaceIndex from '@/pages/space';
+import AssetsIndex from '@/pages/assets';
 
 const resolveHashPath = (path: string) => {
   return `/#${path}`;
@@ -45,9 +49,12 @@ export const ROUTE_PATH = {
   RESTORE: '/restore',
   RESTORE_PHRASE: '/restore/phrase',
   RESTORE_PROTECTOR: '/restore/protector',
+  RESTORE_VERIFY: '/restore/verify',
+  RESTORE_QUESTION: '/restore/question',
   ACCOUNT: '/account',
   ACCOUNT_NAME: '/account/name',
   ACCOUNT_QRCODE: '/account/qrcode',
+  ACCOUNT_PUBLICKEY: '/account/publickey',
   ACCOUNT_SCAN: '/account/scan',
   ACCOUNT_PHRASE: '/account/phrase',
   ACCOUNT_PHRASE_VERIFY: '/account/phrase/verify',
@@ -104,6 +111,14 @@ export const routes: RouteObject[] = [
     element: <RestoreProtector />,
   },
   {
+    path: ROUTE_PATH.RESTORE_VERIFY,
+    element: <RestoreVerify />,
+  },
+  {
+    path: ROUTE_PATH.RESTORE_QUESTION,
+    element: <RestoreQuestion />,
+  },
+  {
     path: ROUTE_PATH.UNLOCK,
     element: <Unlock />,
   },
@@ -126,6 +141,10 @@ export const routes: RouteObject[] = [
   {
     path: ROUTE_PATH.ACCOUNT_QRCODE,
     element: <AccountQrcode />,
+  },
+  {
+    path: ROUTE_PATH.ACCOUNT_PUBLICKEY,
+    element: <AccountMyPublicKey />,
   },
   {
     path: ROUTE_PATH.ACCOUNT_SCAN,
@@ -170,6 +189,10 @@ export const routes: RouteObject[] = [
   {
     path: ROUTE_PATH.SPACE_INDEX,
     element: <SpaceIndex />,
+  },
+  {
+    path: ROUTE_PATH.ASSETS_INDEX,
+    element: <AssetsIndex />,
   },
   {
     path: ROUTE_PATH.NOTE,

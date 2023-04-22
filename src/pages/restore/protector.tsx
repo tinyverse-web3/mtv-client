@@ -19,9 +19,8 @@ export default function AccountQuestion() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const setBindStatus = useGlobalStore((state) => state.setBindStatus);
-  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
-  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const { setBindStatus, setUserLevel, setUserInfo, setMtvdb } = useGlobalStore((state) => state);
+
   const query = useMemo(() => {
     return {
       email,
@@ -35,10 +34,11 @@ export default function AccountQuestion() {
     },
     {
       onSuccess: async (res) => {
-        const { email, dbAddress, ipns, name } = res.data;
+        const { email, dbAddress, ipns, name, safeLevel } = res.data;
         if (email) {
           setBindStatus(true);
         }
+        setUserLevel(safeLevel);
         setUserInfo({ email, nickname: name });
         setMtvdb(dbAddress, ipns);
 

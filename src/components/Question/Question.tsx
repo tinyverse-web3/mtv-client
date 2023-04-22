@@ -5,14 +5,22 @@ import { useEffect, useMemo } from 'react';
 import { Shamir, KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import { useWalletStore, useGlobalStore } from '@/store';
+import { differenceBy } from 'lodash';
 import toast from 'react-hot-toast';
+import { cloneDeep, divide, map } from 'lodash';
 
-interface QuestionList {
+interface QuestionItem {
   q: string;
   a?: string;
   Id?: string;
   l?: number;
   error?: boolean;
+}
+interface QuestionList {
+  id: number;
+  list: QuestionItem[];
+  template: QuestionItem[];
+  unselectList: QuestionItem[];
 }
 interface Props {
   onSubmit: (list: QuestionList[]) => void;
@@ -23,21 +31,28 @@ interface Props {
   initList?: any[];
 }
 const QUESTION_MAX = 4;
+const QUESTION_CHILDREN_MAX = 3;
 export const Question = ({
   onSubmit,
-  type, 
+  type,
   className,
   initList = [],
   buttonText = '备份',
   children,
 }: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
-  const disabled = useMemo(() => type === 'restore' || type === 'verify', [type]);
+  const disabled = useMemo(
+    () => type === 'restore' || type === 'verify',
+    [type],
+  );
   const { data, mutate } = useRequest<any[]>({
     url: '/question/tmplist',
     arg: {
       method: 'get',
       auth: true,
+      query: {
+        type: 2,
+      },
     },
   });
   const { data: userList, mutate: questionList } = useRequest<any[]>({
@@ -49,65 +64,91 @@ export const Question = ({
   });
 
   const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
-  const addQuestion = () => {
-    if (list.length <= QUESTION_MAX) {
-      push({
-        q: '',
-        a: '',
-        Id: '',
-        error: false,
-      });
-    }
-  };
+
   useEffect(() => {
     if (userList && data) {
       if (!userList?.length) {
-        const _list = data.slice(0, 3).map((v) => ({
-          q: v.content,
-          a: '',
-          Id: v.Id,
-          l: 0,
-        }));
+        const _list = data.slice(0, 3).map((v, i) => {
+          const list = JSON.parse(v.content);
+          return {
+            id: i,
+            list: list.map((s: any) => ({
+              q: s.content,
+              a: '',
+              l: Number(s.characters),
+            })),
+            template: list.map((s: any) => ({
+              q: s.content,
+            })),
+            unselectList: [],
+          };
+        });
         set(_list);
       } else {
-        const _list = userList.map((v: any) => {
-          const l = v.content.match(/\*\*(\d*)\*\*$/)?.[1] || 0;
-          const content = v.content.replace(/\*\*(\d*)\*\*$/, '');
-          return { q: content, a: '', Id: '', l: Number(l) };
+        const _list = userList.slice(0, 3).map((v, i) => {
+          const list = JSON.parse(v.content);
+          return {
+            id: i,
+            list: list.map((s: any) => ({
+              q: s.content,
+              a: '',
+              l: Number(s.characters),
+            })),
+            template: list.map((s: any) => ({
+              q: s.content,
+            })),
+            unselectList: [],
+          };
         });
         set(_list);
       }
     }
   }, [userList, data]);
   const generateInitList = () => {
-    const _list = initList.map((v: any) => {
-      const l = v.content.match(/\*\*(\d*)\*\*$/)?.[1] || 0;
-      const content = v.content.replace(/\*\*(\d*)\*\*$/, '');
-      return { q: content, a: '', Id: '', l: Number(l) };
+    const _list = initList.map((v, i) => {
+      return {
+        id: i,
+        list: v.list.map((s: any) => ({ q: s.q, a: '', l: s.l })),
+        template: [],
+        unselectList: [],
+      };
     });
     set(_list);
-  }
-  const answerChange = (i: number, { data }: any) => {
-    updateAt(i, { q: data.q, a: data.a, l: data.l });
+  };
+  const answerChange = (i: number, j: number, { data }: any) => {
+    const _list = cloneDeep(list[i]);
+    _list.list[j].a = data.a;
+    _list.list[j].q = data.q;
+    _list.list[j].l = data.l;
+    updateAt(i, _list);
   };
   const questionTemplate = useMemo(
-    () => data?.map((v) => ({ q: v.content, Id: v.Id })) || [],
+    () =>
+      data?.map((v, i) => {
+        const list = JSON.parse(v.content);
+        return {
+          id: i,
+          list: list.map((s: any) => ({
+            q: s.content,
+            a: '',
+          })),
+        };
+      }),
     [data],
   );
-  const unselsectList = useMemo(() => {
-    const _list = [];
-    const selectList = list.filter((v) => !!v.q);
-    for (let i = 0; i < questionTemplate.length; i++) {
-      const item = questionTemplate[i];
-      if (!selectList.find((v) => v.q === item.q)) {
-        _list.push(item);
-      }
-    }
-    return _list;
-  }, [list, questionTemplate]);
+  const unSelectList = useMemo(() => {
+    return list.map((v) => {
+      let unselList = differenceBy(v.template, v.list, 'q');
+      unselList = unselList.map((v) => ({ ...v, a: '' }));
+      return {
+        ...v,
+        unselectList: unselList,
+      };
+    });
+  }, [list]);
   const isFull = useMemo(() => {
     return list.length === QUESTION_MAX || data?.length === list.length;
-  }, [list, unselsectList]);
+  }, [list]);
   const removeQuestion = (i: number) => {
     remove(i);
   };
@@ -117,18 +158,23 @@ export const Question = ({
     } else {
       for (let i = 0; i < list.length; i++) {
         const question = list[i];
-        if (!question.a) {
-          toast.error(`问题${chineseNumMap[i]}答案未输入`);
-          validStatus = false;
-          break;
+        for (let j = 0; j < question.list.length; j++) {
+          const q = question.list[j];
+          if (!q.a) {
+            toast.error(
+              `问题${chineseNumMap[i]}的第${j + 1}个子问题答案未输入`,
+            );
+            validStatus = false;
+            break;
+          }
         }
+        if (!validStatus) break;
       }
       if (list.length < 1) {
         toast.error(`最少填写一个问题`);
         validStatus = false;
       }
     }
-
     return validStatus;
   };
   const submitQuestion = async () => {
@@ -137,6 +183,44 @@ export const Question = ({
     if (validStatus) {
       await onSubmit(list);
     }
+  };
+  const addQuestion = () => {
+    if (list.length <= QUESTION_MAX) {
+      const disArr = differenceBy(questionTemplate as any, list, 'id');
+      if (disArr.length) {
+        push({ ...(disArr[0] as any), unselectList: [] });
+      } else {
+        push({
+          id: list.length,
+          template: [],
+          list: [
+            {
+              q: '',
+              a: '',
+              l: 0,
+              error: false,
+            },
+          ],
+          unselectList: [],
+        });
+      }
+    }
+  };
+  const addQuestionChildren = (i: number) => {
+    const _list = cloneDeep(list[i]);
+    _list.list.push({
+      q: '',
+      a: '',
+      l: 0,
+      error: false,
+    });
+    updateAt(i, _list);
+  };
+  const removeQuestionChildren = (i: number, j: number) => {
+    const _list = cloneDeep(list[i]);
+    _list.list.splice(j, 1);
+    console.log(_list.list);
+    updateAt(i, _list);
   };
   useEffect(() => {
     if (!initList?.length) {
@@ -149,8 +233,8 @@ export const Question = ({
   return (
     <div className={className}>
       <div className='mb-4'>
-        {list.map((val, i) => (
-          <div className='' key={i}>
+        {unSelectList.map((val, i) => (
+          <div className='mb-4' key={i}>
             <div className='flex mb-2 items-center'>
               <Text>问题{chineseNumMap[i]}</Text>
               {!disabled && (
@@ -165,19 +249,30 @@ export const Question = ({
                 </Button>
               )}
             </div>
-            <QuestionSelect
-              list={unselsectList}
-              disabled={disabled}
-              templeteList={questionTemplate}
-              key={i}
-              select={val}
-              className='mb-6'
-              onChange={(e) => answerChange(i, { data: e })}
-            />
+            {val.list.map((v, j) => (
+              <QuestionSelect
+                key={v.q}
+                index={j}
+                list={val.unselectList}
+                disabled={disabled}
+                select={v}
+                className='mb-6'
+                onRemove={() => removeQuestionChildren(i, j)}
+                onChange={(e) => answerChange(i, j, { data: e })}
+              />
+            ))}
+            {val.list.length < QUESTION_CHILDREN_MAX && type === 'maintain' && (
+              <Button
+                auto
+                className='w-full'
+                onPress={() => addQuestionChildren(i)}>
+                <div className='i-mdi-plus-circle-outline text-5'></div> 子问题
+              </Button>
+            )}
           </div>
         ))}
       </div>
-      <div className='mb-4 pt-2'>{children}</div>
+      <div className='mb-4'>{children}</div>
       <div className='flex'>
         {list.length > 0 && (
           <Button className='flex-1' auto onPress={submitQuestion}>
