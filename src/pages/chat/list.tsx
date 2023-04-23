@@ -28,6 +28,7 @@ function addMinute(minute: number) {
 }
 const NOSTR_KEY = 'nostr_sk';
 export default function ChatList() {
+  const { VITE_WSS_URL } = import.meta.env;
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const { createNostr, setNostr, bindStatus, nostr } = useGlobalStore(
@@ -44,7 +45,7 @@ export default function ChatList() {
 
   const [messageHistory, setMessageHistory] = useState([]);
   const socketUrl = useMemo(() => {
-    return `wss://192.168.3.154:8099/socket?publicKey=${wallet?.publicKey}`;
+    return `${VITE_WSS_URL}/socket?publicKey=${wallet?.publicKey}`;
   }, [wallet]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
