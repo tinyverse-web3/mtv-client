@@ -6,8 +6,8 @@ import { useRequest } from '@/api';
 import { useWalletStore, useGlobalStore, useQuestionStore } from '@/store';
 import { useCopyToClipboard } from 'react-use';
 import toast from 'react-hot-toast';
-import { Question } from './Question';
-import { QuestionDefault } from './QuestionDefault';
+import { Question } from '@/components/form/Question';
+import { QuestionDefault } from '@/components/form/QuestionDefault';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 

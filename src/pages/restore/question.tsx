@@ -10,7 +10,7 @@ import {
 } from '@/store';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-import { QuestionRestore } from '@/components/question/QuestionRestore';
+import { QuestionRestore } from '@/pages/restore/components/QuestionRestore';
 import { VerifyMail } from '@/components/VerifyMail';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';

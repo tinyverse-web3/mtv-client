@@ -1,5 +1,5 @@
 import { Button, Text } from '@nextui-org/react';
-import { QuestionSelect } from '@/components/question/QuestionSelect';
+import { QuestionSelect } from '@/components/form/QuestionSelect';
 import { useList } from 'react-use';
 import { useEffect, useMemo } from 'react';
 import { Shamir, KeySha } from '@/lib/account';

@@ -1,7 +1,7 @@
 import { useQuestionStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
-import { Question } from '@/components/question/Question';
-import { QuestionDefault } from '@/components/question/QuestionDefault';
+import { Question } from '@/components/form/Question';
+import { QuestionDefault } from '@/components/form/QuestionDefault';
 import { ROUTE_PATH } from '@/router';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';

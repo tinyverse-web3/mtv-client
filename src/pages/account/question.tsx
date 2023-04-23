@@ -1,7 +1,7 @@
 import { Button, Text, Card } from '@nextui-org/react';
 import { useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
-import { QuestionMaintain } from '@/components/question/QuestionMaintain';
+import { QuestionMaintain } from '@/pages/account/components/QuestionMaintain';
 import { useQuestionStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';

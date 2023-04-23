@@ -7,7 +7,7 @@ import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import { useGlobalStore, useQuestionStore } from '@/store';
 import toast from 'react-hot-toast';
-import { Question } from './Question';
+import { Question } from '@/components/form/Question';
 
 const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 interface Props {
