@@ -8,14 +8,8 @@ import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const showLogin = useGlobalStore((state) => state.showLogin);
-  const setShowLogin = useGlobalStore((state) => state.setShowLogin);
-  const setMaintain = useGlobalStore((state) => state.setMaintain);
-  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
-  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
-  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
+  const { showLogin, setShowLogin, setUserInfo, mtvdbInfo, setMtvdb, setBindStatus, setUserLevel }= useGlobalStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
-  const setBindStatus = useGlobalStore((state) => state.setBindStatus);
   const signMessage = useRef<any>({});
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
@@ -34,7 +28,6 @@ export const BindMail = () => {
       dbAddress: mtvdbInfo?.dbAddress,
       sign,
     };
-    console.log(signMessage.current);
   };
   useEffect(() => {
     generateQuery();
@@ -61,8 +54,8 @@ export const BindMail = () => {
     },
     {
       onSuccess: (res) => {
-        const { sssData, name, email, dbAddress, ipns } = res.data || {};
-        setMaintain(!!sssData);
+        const { name, email, dbAddress, ipns, safeLevel } = res.data || {};
+        setUserLevel(safeLevel);
         setUserInfo({
           nickname: name,
           email: email,
@@ -79,8 +72,8 @@ export const BindMail = () => {
       if (!signMessage.current?.sign) {
         await generateQuery();
       }
-      await modifyuser();
       setLoginLoading(false);
+      await modifyuser();
       setShowLogin(false);
     } else {
       setLoginLoading(false);
@@ -106,7 +99,7 @@ export const BindMail = () => {
 
   const { mutate: sendCode, loading: codeLoading } = useRequest(
     {
-      url: '/user/sendmail',
+      url: '/user/sendmail4verifycode',
       arg: {
         method: 'post',
         query: { email },

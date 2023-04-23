@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Textarea } from '@/components/form/Textarea';
 import { v4 as uuidv4 } from 'uuid';
-import Page from '@/layout/page';
+import LayoutThird from '@/layout/LayoutThird';
 import { Text, Container, Row, Button } from '@nextui-org/react';
 import { useNoteStore, useMtvdbStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
@@ -64,8 +64,10 @@ export default function Edit() {
     }
   }, [mtvDb, mtvLoaded, id]);
   return (
-    <Page title='记事本' path={ROUTE_PATH.NOTE}>
-      <div className=''>
+    <LayoutThird
+      title='记事本'
+      path={ROUTE_PATH.SPACE_INDEX}>
+      <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Textarea
             value={note}
@@ -85,6 +87,6 @@ export default function Edit() {
           </Button>
         </Row>
       </div>
-    </Page>
+      </LayoutThird>
   );
 }

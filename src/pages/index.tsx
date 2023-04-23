@@ -1,15 +1,17 @@
-import { Text } from '@nextui-org/react';
+import { Text, Link } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 // import { useRouter } from 'next/navigation';
-import Page from '@/layout/page';
+import LayoutOne from '@/layout/LayoutOne';
+import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import wallet from '@/lib/account/wallet';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
+import { ROUTE_PATH } from '@/router';
 
 export default function Index() {
   const [loading, setLoading] = useState(false);
-  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
+  const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();
   const setWallet = useWalletStore((state) => state.setWallet);
   const createMtvdb = useMtvdbStore((state) => state.create);
@@ -33,28 +35,34 @@ export default function Index() {
     }
     await setWallet(wallet);
     setLoading(false);
-    nav('/home', { replace: true });
-  };
+    nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+  }
   return (
-    <Page showBack={false}>
-      <div className='pt-20'>
+    <LayoutOne>
+      <div className='pt-10 px-8'>
+        <HeaderLogo />
         <Button
           size='xl'
-          className='m-auto mb-1'
+          className='m-auto mb-1 w-full'
           onPress={toCreate}
           loading={loading}
           color='success'>
-          创建
+          一键创建
         </Button>
-        <Text className='text-center text-11px mb-4'>使用默认密码创建，创建之后请及时修改</Text>
+        <Text className='text-center text-11px mb-4'>
+          使用默认密码创建，创建之后请及时修改
+        </Text>
         <Button
           color='secondary'
-          className='m-auto mb-6'
+          className='m-auto mb-4 w-full'
           onPress={toRestore}
           size='xl'>
-          恢复
+          恢复账户
         </Button>
+        <div className='flex justify-end'>
+          <Link href={VITE_TINY_WEB} target="_blank">了解更多</Link>
+        </div>
       </div>
-    </Page>
+    </LayoutOne>
   );
 }

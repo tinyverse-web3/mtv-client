@@ -6,26 +6,27 @@ interface NostrList {
   pk: string;
   time: Date | number;
 }
-interface Recipient {
+interface Friend {
+  Id: number;
   pk: string;
-  // email: string;
-  // sk: string;
+  name: string;
+  avatar: string;
 }
 interface Relay {
   wss: string;
 }
-interface GlobalState {
+interface NostrState {
   list: NostrList[];
   relayList: Relay[];
   add: (friend: { pk: string }) => void;
   remove: (pk: string) => void;
   initRelayList: (list: Relay[]) => void;
-  recipient?: Recipient;
-  setRecipient: (r: Recipient) => void;
+  recipient?: Friend;
+  setRecipient: (r: Friend) => void;
   reset: () => void;
 }
 
-export const useNostrStore = create<GlobalState>()(
+export const useNostrStore = create<NostrState>()(
   devtools(
     persist(
       (set, get) => ({

@@ -20,9 +20,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
     );
   }, [messages]);
   useDebounce(handleScrollToBottom, 300, [list])
-  // useEffect(() => {
-  //   handleScrollToBottom();
-  // }, [list]);
+
   return (
     <div className='h-full overflow-y-auto' ref={containerRef}>
       {list.map((v) => (
@@ -31,7 +29,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
           className={`mb-4 flex ${v.me ? 'flex-row-reverse' : ''}`}>
           <User
             name=''
-            text={v.email || v.pubkey}
+            text={v.name || v.pubkey}
             className={`px-0 ${v.me ? 'ml-2' : ''}`}
           />
           <Card className='max-w-60% w-fit'>

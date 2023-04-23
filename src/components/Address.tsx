@@ -1,4 +1,3 @@
-import { Text } from '@nextui-org/react';
 import { useCopyToClipboard } from 'react-use';
 import toast from 'react-hot-toast';
 interface Props {
@@ -11,15 +10,15 @@ export const Address = ({ address }: Props) => {
   )}`;
   const clickHandler = () => {
     if (address) {
-      copyToClipboard(address);
-      toast.success('复制成功');
+      // copyToClipboard(address);
+      // toast.success('复制成功');
     }
   };
   return (
     <div
-      className='cursor-pointer h-6 flex justify-center items-center'
+      className='cursor-pointer h-6 flex justify-center items-center text-4'
       onClick={clickHandler}>
-      <Text className='text-center text-4'>{shortAddress}</Text>
+      {shortAddress}
     </div>
   );
 };

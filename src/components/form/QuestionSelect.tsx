@@ -1,25 +1,27 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dropdown, Text } from '@nextui-org/react';
+import { Dropdown, Text, Button } from '@nextui-org/react';
 import toast from 'react-hot-toast';
 import { Textarea } from '@/components/form/Textarea';
 import { Input } from '@/components/form/Input';
 
 interface Props {
   list: any[];
-  templeteList: any[];
+  index: number;
   className?: string;
   select?: any;
   disabled?: boolean;
   onChange?: ({ q, a }: any) => void;
+  onRemove?: () => void;
 }
 const CUSTOM_QUESTION = '自定义';
 export const QuestionSelect = ({
   list = [],
-  templeteList = [],
+  index,
   className,
   onChange,
   disabled,
   select,
+  onRemove,
 }: Props) => {
   const [selected, setSelected] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);
@@ -43,7 +45,9 @@ export const QuestionSelect = ({
   };
   const inputChange = (e: any) => {
     setAnswer(e?.trim());
-    setAnswerLen(e.length);
+    if (!disabled) {
+      setAnswerLen(e.length);
+    }
   };
   const qList = useMemo<any[]>(() => {
     return [...list, { q: CUSTOM_QUESTION, a: '' }];
@@ -66,45 +70,50 @@ export const QuestionSelect = ({
     onChange && onChange(data);
   }, [selectedValue, answer, customQuestion]);
 
-  // useEffect(() => {
-  //   const isCustom = !templeteList?.find((v) => v.q === select.q);
-  // if (isCustom) {
-  //   setSelected(new Set([CUSTOM_QUESTION]));
-  //   setCustomQuestion(select.q);
-  // }
-  // setCustomStatus(isCustom);
-  // setCustomQuestion(select.q);
-  // }, [templeteList, select]);
 
   const RendText = ({ num }: any) => {
-    return num && <Text className='break-keep text-12px'>{num}个字符</Text>;
+    return disabled && num && <Text className='break-keep text-12px'>{num}个字符</Text>;
   };
   return (
     <div className={className}>
-      <Dropdown isDisabled={disabled}>
-        <Dropdown.Button
-          color='secondary'
-          className='w-full mb-4 max-w-full min-w-full overflow-hidden dropdown-button'>
-          <div className='text-ellipsis overflow-hidden max-w-200px'>
-            {selectedValue || '请选择一个问题'}
-          </div>
-        </Dropdown.Button>
-        <Dropdown.Menu
-          aria-label='Single selection actions'
-          disallowEmptySelection
-          selectionMode='single'
-          selectedKeys={selected}
-          onSelectionChange={onSelectionChange}>
-          {qList.map((v, i) => (
-            <Dropdown.Item
-              className='text-11px h-auto py-2'
-              key={v.q}
-              textValue={v.q}>
-              {v.q}
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+      <div className='flex items-center mb-4'>
+        <div className='w-5 min-h-5 rounded-full border border-gray-300 border-solid mr-1 flex items-center justify-center text-12px'>{index + 1}</div>
+        <div className='flex-1'>
+          <Dropdown isDisabled={disabled}>
+            <Dropdown.Button
+              color='secondary'
+              className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
+              <div className='text-ellipsis overflow-hidden max-w-200px'>
+                {selectedValue || '请选择一个问题'}
+              </div>
+            </Dropdown.Button>
+            <Dropdown.Menu
+              aria-label='Single selection actions'
+              disallowEmptySelection
+              selectionMode='single'
+              selectedKeys={selected}
+              onSelectionChange={onSelectionChange}>
+              {qList.map((v, i) => (
+                <Dropdown.Item
+                  className='text-11px h-auto py-2'
+                  key={v.q}
+                  textValue={v.q}>
+                  {v.q}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        <Button
+          light
+          size='sm'
+          auto
+          disabled={disabled}
+          className='px-2 text-4'
+          onPress={onRemove}>
+          <div className='i-mdi-close'></div>
+        </Button>
+      </div>
       {selectedValue && (
         <div className='mb-8'>
           <Textarea
@@ -124,6 +133,7 @@ export const QuestionSelect = ({
         maxLength={30}
         readOnly={answerDisabled}
         placeholder='请输入答案'
+        labelRight={<RendText num={answer.length} />}
         value={answer}
         onChange={inputChange}
       />

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Text, Row, Button, Input } from '@nextui-org/react';
+import { Text, Row, Input } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { Password } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
@@ -10,11 +11,14 @@ import {
   useNostrStore,
 } from '@/store';
 import { useKeyPressEvent } from 'react-use';
-import Page from '@/layout/page';
+import LayoutOne from '@/layout/LayoutOne';
+import { HeaderLogo } from '@/components/header/HeaderLogo';
+import { ROUTE_PATH } from '@/router';
 
 export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
+  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const resetWallet = useWalletStore((state) => state.reset);
@@ -23,6 +27,7 @@ export default function Unlock() {
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
+    setLoading(true);
     const status = await wallet?.verify(pwd);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
@@ -35,7 +40,8 @@ export default function Unlock() {
           await initMtvdb(privateKey, dbAddress, metadataKey);
         }
       }
-      nav('/home', { replace: true });
+      setLoading(false);
+      nav(-1);
     }
   };
   const pressHandler = async () => {
@@ -46,7 +52,7 @@ export default function Unlock() {
       pressHandler();
     }
   });
-  
+
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
     if (!err)
       return {
@@ -63,18 +69,28 @@ export default function Unlock() {
     setPwd(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
-    await Promise.all([resetNostr(), resetWallet(), resetGlobal(), wallet?.delete()]);
+    await Promise.all([
+      resetNostr(),
+      resetWallet(),
+      resetGlobal(),
+      wallet?.delete(),
+    ]);
     nav('/', { replace: true });
   };
+  const toRetrieve = () => {
+    nav(ROUTE_PATH.RETRIEVE);
+  };
   return (
-    <Page showBack={false} title="解锁">
+    <LayoutOne className='px-6'>
+      <HeaderLogo />
       {/* <Text h4 className='mb-9 text-center text-6'>
         解锁
       </Text> */}
-      <Row className='mb-8 pt-8' justify='center'>
+      <Row className='mb-6 pt-8' justify='center'>
         <Input.Password
           clearable
           bordered
+          aria-label='password'
           fullWidth
           maxLength={20}
           type='password'
@@ -82,13 +98,17 @@ export default function Unlock() {
           helperColor={helper.color}
           helperText={helper.text}
           onChange={pwdChange}
-          rounded
           status={err ? 'error' : 'default'}
-          labelPlaceholder='输入密码'
+          placeholder='输入密码'
           initialValue=''
         />
       </Row>
-      <Button disabled={!pwd} className='mx-auto mb-4' onPress={unlock}>
+      <Button
+        disabled={!pwd}
+        size='lg'
+        loading={loading}
+        className='mx-auto mb-2 w-full'
+        onPress={unlock}>
         解锁
       </Button>
       <Button
@@ -99,6 +119,16 @@ export default function Unlock() {
         onPress={deleteUser}>
         忘记密码，恢复账号或重新创建
       </Button>
-    </Page>
+      <div className='flex justify-end'>
+        <Button
+          light
+          auto
+          color='success'
+          className='text-14px px-0'
+          onPress={toRetrieve}>
+          忘记密码
+        </Button>
+      </div>
+    </LayoutOne>
   );
 }

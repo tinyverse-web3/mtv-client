@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Row } from '@nextui-org/react';
+import { Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
 import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
-import Page from '@/layout/page';
+import LayoutThird from '@/layout/LayoutThird';
 import { useRequest } from '@/api';
 
 export default function Userinfo() {
@@ -29,7 +29,6 @@ export default function Userinfo() {
       setNickname(text);
     }, 100);
   };
-  const query = useMemo(() => ({ name: nickname }), [nickname]);
   const modifySuccess = (res: any) => {
     if (res.code === '000000') {
       toast.success('修改成功');
@@ -40,11 +39,13 @@ export default function Userinfo() {
   };
   const { mutate: modifyuser, loading: modifyLoading } = useRequest(
     {
-      url: '/user/modifyuser',
+      url: '/user/updatename',
       arg: {
         method: 'post',
         auth: true,
-        query,
+        query: {
+          name: nickname,
+        },
       },
     },
     {
@@ -59,29 +60,35 @@ export default function Userinfo() {
     setNickname(userInfo.nickname || '');
   }, [userInfo]);
   return (
-    <Page showBack title='个人信息' path={ROUTE_PATH.ACCOUNT}>
-      <div className='pt-2'>
-        <Row className='mb-12' justify='center'>
+    <LayoutThird showBack title='修改名字' path={ROUTE_PATH.ACCOUNT}>
+      <div className='pt-4 px-4'>
+        <Text className='text-14px mb-6'>
+          用户的全球唯一名称（Global Unique
+          Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。
+        </Text>
+        <div className='mb-6'>
           <Input
             clearable
             bordered
             fullWidth
             maxLength={20}
             value={nickname}
-            helperText='支持英文大小写，下划线和数字'
             onChange={nicknameChange}
-            rounded
-            label='昵称'
+            placeholder='名字'
           />
-        </Row>
+        </div>
         <Button
           disabled={chagneDisabled}
           loading={modifyLoading}
-          className='mx-auto'
+          className='mx-auto mb-2 w-full'
+          size="lg"
           onPress={infoChange}>
           修改
         </Button>
+        <Text className='text-3 mb-4'>
+            目前只支持字母、数字和连接符_，且不区分字母大小写。仅可免费修改一次。
+          </Text>
       </div>
-    </Page>
+    </LayoutThird>
   );
 }

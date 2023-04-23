@@ -1,17 +1,15 @@
-import { Text, Button, Avatar, Row, Col } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { PasswordWarnBadge } from '../components/PasswordWarnBadge';
 import { MaintainWarnBadge } from '../components/MaintainWarnBadge';
-import { useWalletStore, useGlobalStore } from '@/store';
+import { useWalletStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { Address } from '@/components/Address';
 import { ROUTE_PATH } from '@/router';
-import Page from '@/layout/page';
-import { useEffect } from 'react';
+import LayoutTwo from '@/layout/LayoutTwo';
 
 export default function Home() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
-  const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const toNote = async () => {
     nav(ROUTE_PATH.NOTE);
   };
@@ -22,10 +20,10 @@ export default function Home() {
     nav(ROUTE_PATH.CHAT_LIST);
   };
   const toTiny = () => {
-    window.open(import.meta.env.VITE_TINY_WEB, '_blank')
+    window.open(import.meta.env.VITE_TINY_WEB, '_blank');
   };
   return (
-    <Page showBack={false} title='我的芥子空间'>
+    <LayoutTwo showBack={false} title='我的芥子空间'>
       <div className='mb-4'>
         <div className='flex justify-center mb-2'>
           <PasswordWarnBadge />
@@ -65,6 +63,6 @@ export default function Home() {
         size='xl'>
         了解更多
       </Button>
-    </Page>
+    </LayoutTwo>
   );
 }

@@ -24,15 +24,43 @@ class Keystore {
       keystore: new Storage(LOCAL_KEYSTORE_KEY),
     };
   }
-  async create(wallet: ethers.HDNodeWallet, password: string) {
+  async create(privateKey: string, password: string) {
     sessionStorage.setItem(LOCAL_PASSWORD_KEY, password);
-    if (wallet) {
-      const keystore = await wallet.encrypt(password);
-      this.storage.keystore.set(keystore);
-    }
+    const encrypted = await this.encrypt(privateKey, password);
+    await this.storage.keystore.set(encrypted);
   }
-  async get() {
-    return await this.storage.keystore.get();
+  async encrypt(data: string, password: string) {
+    const key = CryptoJS.enc.Base64.parse(password);
+    const iv = CryptoJS.lib.WordArray.random(128 / 8);
+    const srcs = CryptoJS.enc.Utf8.parse(data);
+    const encrypted = CryptoJS.AES.encrypt(srcs, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return {
+      iv: encrypted.iv.toString(CryptoJS.enc.Hex),
+      content: encrypted.toString(),
+    };
+  }
+  async decrypt(password: string) {
+    const encrypted = await this.storage.keystore.get();
+    if (!encrypted) {
+      return;
+    }
+    const key = CryptoJS.enc.Base64.parse(password);
+    const decipher = CryptoJS.AES.decrypt(encrypted.content, key, {
+      iv: CryptoJS.enc.Hex.parse(encrypted.iv),
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return decipher.toString(CryptoJS.enc.Utf8);
+  }
+  async get(password: string) {
+    return await this.decrypt(password);
+  }
+  async exist() {
+    return !!(await this.storage.keystore.get());
   }
   async remove() {
     await this.storage.keystore.remove();
@@ -85,7 +113,7 @@ export class Wallet {
   public publicKey?: string;
   public privateKey?: string;
   public address?: string;
-  private wallet?: ethers.HDNodeWallet;
+  public wallet?: ethers.HDNodeWallet;
   constructor() {}
 
   getMnemonic() {
@@ -94,7 +122,7 @@ export class Wallet {
   async encryptPrivateKey() {
     const { privateKey } = this.wallet || {};
     if (privateKey) {
-      return CryptoJS.SHA256(privateKey,).toString();
+      return CryptoJS.SHA256(privateKey).toString();
     }
     return undefined;
   }
@@ -102,27 +130,30 @@ export class Wallet {
     const { publicKey, address } = this.wallet || {};
     this.publicKey = publicKey;
     this.privateKey = await this.encryptPrivateKey();
-    console.log(this.privateKey);
     this.address = address;
   }
   async create(password: string) {
     this.wallet = ethers.Wallet.createRandom();
     await this.exposed();
+    await this.saveKeyStore(password);
+  }
+  async saveKeyStore(password: string) {
     const encryptPwd = await this.password.set(password);
-    await this.keystore.create(this.wallet, encryptPwd);
+    const { entropy } = this.wallet?.mnemonic || {};
+    if (entropy) {
+      await this.keystore.create(entropy, encryptPwd);
+    }
   }
   async restoreFromEntropy(entropy: string, password: string) {
     const mnemonic = ethers.Mnemonic.fromEntropy(entropy);
     this.wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic);
-    const encryptPwd = await this.password.set(password);
-    await this.keystore.create(this.wallet, encryptPwd);
+    await this.saveKeyStore(password);
     await this.exposed();
     return STATUS_CODE.SUCCESS;
   }
   async restoreFromPhrase(phrase: string, password: string) {
     this.wallet = ethers.HDNodeWallet.fromPhrase(phrase);
-    const encryptPwd = await this.password.set(password);
-    await this.keystore.create(this.wallet, encryptPwd);
+    await this.saveKeyStore(password);
     await this.exposed();
     return STATUS_CODE.SUCCESS;
   }
@@ -134,22 +165,27 @@ export class Wallet {
   async changePwd(oldPwd: string, newPwd: string) {
     const status = await this.verify(oldPwd);
     if (status === STATUS_CODE.SUCCESS && this.wallet) {
-      await this.keystore.create(this.wallet, newPwd);
       await this.password.removeSalt();
-      await this.password.set(newPwd);
+      const encryptPwd = await this.password.set(newPwd);
+      const { entropy } = this.wallet.mnemonic || {};
+      if (entropy) {
+        await this.keystore.create(entropy, encryptPwd);
+      }
     }
   }
 
   private async _verify(encryptPwd: string) {
-    const keystore = await this.keystore.get();
+    const keystore = await this.keystore.get(encryptPwd);
     try {
-      this.wallet = (await ethers.Wallet.fromEncryptedJson(
-        keystore as string,
-        encryptPwd,
-      )) as ethers.HDNodeWallet;
-      await this.exposed();
-      sessionStorage.setItem(LOCAL_PASSWORD_KEY, encryptPwd);
-      return STATUS_CODE.SUCCESS;
+      if (keystore) {
+        const mnemonic = ethers.Mnemonic.fromEntropy(keystore);
+        this.wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic);
+        await this.exposed();
+        sessionStorage.setItem(LOCAL_PASSWORD_KEY, encryptPwd);
+        return STATUS_CODE.SUCCESS;
+      } else {
+        STATUS_CODE.RESTORE_ERROR;
+      }
     } catch (error) {
       console.log(error);
       if ((error as any).code == 'INVALID_ARGUMENT') {
@@ -164,7 +200,7 @@ export class Wallet {
   }
 
   async check() {
-    const keystore = await this.keystore.get();
+    const keystore = await this.keystore.exist();
     if (!keystore) {
       return STATUS_CODE.EMPTY_KEYSTORE;
     }

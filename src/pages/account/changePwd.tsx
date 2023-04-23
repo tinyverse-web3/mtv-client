@@ -1,24 +1,44 @@
-import { useState, useMemo } from 'react';
-import { Text, Row, Button, Input } from '@nextui-org/react';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import { Text, Checkbox, Row, Button, Input } from '@nextui-org/react';
+import wallet, { STATUS_CODE, Password } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import {
-  useWalletStore,
-  useMtvdbStore,
-  useGlobalStore,
-  useNostrStore,
-} from '@/store';
-import Page from '@/layout/page';
+import { useWalletStore } from '@/store';
+import { useRequest } from '@/api';
+import LayoutThird from '@/layout/LayoutThird';
 
 export default function ChangePwd() {
   const nav = useNavigate();
+  const passwordManager = new Password();
   const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
+  const [checked, setChecked] = useState(false);
   const [confirmPwd, setConfirmPwd] = useState('');
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
   const wallet = useWalletStore((state) => state.wallet);
+
+  const generateQuery = async () => {
+    query.current.password = await passwordManager.encrypt(pwd);
+  };
+  const query = useRef({ password: '' });
+  useEffect(() => {
+    generateQuery();
+  }, [pwd]);
+  const { mutate: savePassword } = useRequest(
+    {
+      url: '/user/savepassword',
+      arg: {
+        method: 'post',
+        auth: true,
+        query: query.current,
+      },
+    },
+    {
+      onSuccess() {},
+    },
+  );
+
   const changePassword = async () => {
     const status = await wallet?.verify(oldPwd);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
@@ -28,6 +48,11 @@ export default function ChangePwd() {
         setConfirmStatus(false);
         return;
       }
+      if (checked) {
+        await savePassword();
+      }
+      console.log(oldPwd)
+      console.log(pwd)
       await wallet?.changePwd(oldPwd, pwd);
       nav(-1);
     }
@@ -47,13 +72,17 @@ export default function ChangePwd() {
     setErr(false);
     setOldPwd(e.target.value?.trim());
   };
+  const checkboxChange = (e: boolean) => {
+    setChecked(e);
+  };
   return (
-    <Page showBack title='修改密码'>
-      <div className='pt-6'>
-        <Row className='mb-12' justify='center'>
+    <LayoutThird showBack title='修改密码'>
+      <div className='pt-6 px-6'>
+        <Row className='mb-8' justify='center'>
           <Input.Password
             clearable
             bordered
+            aria-label='password'
             fullWidth
             maxLength={20}
             type='password'
@@ -61,43 +90,51 @@ export default function ChangePwd() {
             helperColor={helper.color}
             helperText={helper.text}
             onChange={oldPwdChange}
-            rounded
             status={err ? 'error' : 'default'}
-            labelPlaceholder='旧密码'
+            placeholder='旧密码'
             initialValue=''
-          />
-        </Row>
-        <Row className='mb-12' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            fullWidth
-            rounded
-            value={pwd}
-            disabled={!oldPwd}
-            helperColor={validStatus ? 'default' : 'error'}
-            status={validStatus ? 'default' : 'error'}
-            // helperText='8-16位，包含大小写和数字'
-            onChange={(e) => setPwd(e.target.value?.trim())}
-            labelPlaceholder='新密码'
           />
         </Row>
         <Row className='mb-8' justify='center'>
           <Input.Password
             clearable
             bordered
+            aria-label='password'
             fullWidth
-            rounded
+            value={pwd}
+            disabled={!oldPwd}
+            helperColor={validStatus ? 'default' : 'error'}
+            status={validStatus ? 'default' : 'error'}
+            helperText='密码至少8位，包括数字、大小写字母和符号至少2种'
+            onChange={(e) => setPwd(e.target.value?.trim())}
+            placeholder='新密码'
+          />
+        </Row>
+        <Row className='mb-4' justify='center'>
+          <Input.Password
+            clearable
+            bordered
+            fullWidth
+            aria-label='password'
             disabled={!pwd}
             value={confirmPwd}
             helperColor={confirmStatus ? 'default' : 'error'}
             status={confirmStatus ? 'default' : 'error'}
             helperText={confirmStatus ? '' : '密码不一致'}
             onChange={(e) => setConfirmPwd(e.target.value.trim())}
-            labelPlaceholder='重复密码'
+            placeholder='确认密码'
             initialValue=''
           />
         </Row>
+        <Checkbox
+          className='mb-3'
+          aria-label='checkbox'
+          // isSelected={checked}
+          onChange={checkboxChange}>
+          <Text className='text-3'>
+            是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。
+          </Text>
+        </Checkbox>
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}
           className='mx-auto'
@@ -105,6 +142,6 @@ export default function ChangePwd() {
           修改
         </Button>
       </div>
-    </Page>
+    </LayoutThird>
   );
 }

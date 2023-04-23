@@ -36,7 +36,6 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
       aria-label='text'
       fullWidth
       bordered
-      rounded
       clearable
       {...rest}
       ref={inputRef}

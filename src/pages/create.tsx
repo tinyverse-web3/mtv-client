@@ -5,8 +5,9 @@ import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { validPassword } from '@/lib/utils';
 import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
 
-import Page from '@/layout/page';
+import Page from '@/layout/LayoutTwo';
 import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '@/router';
 export default function About() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
@@ -39,7 +40,7 @@ export default function About() {
     }
     setWallet(wallet);
     setLoading(false);
-    nav('/home', { replace: true });
+    nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
   };
   const pwdChange = (e: any) => {
     setPwd(e.target.value);

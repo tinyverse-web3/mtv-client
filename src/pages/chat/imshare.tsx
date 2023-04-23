@@ -19,7 +19,7 @@ export default function ChatImChare() {
   const nav = useNavigate();
   const toSharePk = params?.get('pk');
   const toDetail = async (cur: any) => {
-    await setRecipient({ pk: cur.pk });
+    // await setRecipient({ pk: cur.pk });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
   const getLocalNostr = async () => {
@@ -58,12 +58,12 @@ export default function ChatImChare() {
     {
       onSuccess(res) {
         if (res.code === '000000' && toSharePk) {
-          setRecipient({ pk: toSharePk });
+          // setRecipient({ pk: toSharePk });
           addFriend({ pk: toSharePk });
           nav(ROUTE_PATH.CHAT_MESSAGE, { replace: true }); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
          } else {
           console.error('res:%v, toSharePk:%v', res, toSharePk);
-          nav(ROUTE_PATH.HOME, { replace: true });
+          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         }
       },
     },
