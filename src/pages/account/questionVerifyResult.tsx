@@ -33,6 +33,7 @@ export default function QuestionVerifyResult() {
   const toAccount = async () => {
     await setMaintainQuestion(true);
     await calcUserLevel();
+    console.log(123)
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {
@@ -56,15 +57,6 @@ export default function QuestionVerifyResult() {
     },
   });
 
-  const query = useMemo(() => {
-    const { publicKey, address } = wallet || {};
-    return {
-      sssData: shareA,
-      publicKey: publicKey,
-      address: address,
-    };
-  }, [wallet, shareA]);
-
   const { mutate: saveSssData } = useRequest({
     url: '/user/savesssdata4question',
     arg: {
@@ -74,6 +66,7 @@ export default function QuestionVerifyResult() {
     },
   });
   const onSubmit = async () => {
+    console.log(initList)
     try {
       const { email } = userInfo;
       const shareKeys = await splitKey(2, initList.length + 1);

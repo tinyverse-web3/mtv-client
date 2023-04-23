@@ -31,12 +31,7 @@ export default function LayoutTwo({
   className = '',
   showLogo = true,
 }: any) {
-  const nav = useNavigate();
-
   const { pathname } = useLocation();
-  const goBack = async () => {
-    nav(path || -1);
-  };
   const hideStatsu = useMemo(() => {
     return hideLogoutPath.includes(pathname);
   }, [pathname]);

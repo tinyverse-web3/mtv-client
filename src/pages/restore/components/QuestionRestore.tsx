@@ -8,17 +8,20 @@ import { useRequest } from '@/api';
 import { useGlobalStore, useQuestionStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from '@/components/form/Question';
+import { QuestionDefault } from '@/components/form/QuestionDefault';
 
 const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 interface Props {
   onSubmit: (shares: string[]) => void;
   serverShare?: string;
   questionList?: any[];
+  type: number | string;
 }
 export const QuestionRestore = ({
   onSubmit,
   serverShare,
   questionList,
+  type,
 }: Props) => {
   const [selectValue, setSelectValue] = useState('1');
   const [kvError, setKvError] = useState<string[]>([]);
@@ -69,7 +72,6 @@ export const QuestionRestore = ({
       }
       const kvShares: any[] = [];
       const errArr: string[] = [];
-      console.log(email);
       for (let i = 0; i < filterAnswer.length; i++) {
         const s = filterAnswer[i];
         try {
@@ -106,12 +108,21 @@ export const QuestionRestore = ({
   };
   return (
     <div className='pt-2'>
-      <Question
-        onSubmit={submitHandler}
-        initList={questionList}
-        type='restore'
-        className='mb-8'
-        buttonText='恢复'></Question>
+      {type == 1 ? (
+        <QuestionDefault
+          onSubmit={submitHandler}
+          initList={questionList}
+          type='restore'
+          className='mb-8'
+          buttonText='恢复'></QuestionDefault>
+      ) : (
+        <Question
+          onSubmit={submitHandler}
+          initList={questionList}
+          type='restore'
+          className='mb-8'
+          buttonText='恢复'></Question>
+      )}
     </div>
   );
 };

@@ -41,7 +41,7 @@ export default function Account() {
     }
   };
   return (
-    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='我的资料' path={ROUTE_PATH.CHAT_LIST}>
       <div className='pt-4 px-4 text-14px'>
         <div className='flex'>
           <UserAvatar className='mr-4' />

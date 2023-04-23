@@ -19,7 +19,7 @@ export default function Restore() {
   const nav = useNavigate();
   const [Loading, setLoading] = useState(false);
   const initMtvdb = useMtvdbStore((state) => state.init);
-  const { list: questionList, sssData: serverShare } = useQuestionStore(
+  const { list: questionList, sssData: serverShare, type } = useQuestionStore(
     (state) => state,
   );
   const setWallet = useWalletStore((state) => state.setWallet);
@@ -57,6 +57,7 @@ export default function Restore() {
     <LayoutThird title='智能隐私恢复'>
       <div className='p-6'>
         <QuestionRestore
+          type={type}
           serverShare={serverShare}
           questionList={questionList}
           onSubmit={questionSubmit}></QuestionRestore>

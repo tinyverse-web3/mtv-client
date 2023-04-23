@@ -205,12 +205,6 @@ export default function ChatList() {
   return (
     <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>
-        {/* {nostr?.pk && (
-        <div className='mb-2 flex justify-center'>
-          <Text>我的Nostr公钥：</Text>
-          <Address address={nostr?.pk} />
-        </div>
-      )} */}
         <div className='flex'>
           <div className='flex-1 mb-2'>
             <Input
@@ -224,9 +218,6 @@ export default function ChatList() {
               placeholder='搜索'
             />
           </div>
-          {/* <Button className='ml-2' onPress={addCustomPk} auto>
-          添加
-        </Button> */}
         </div>
         <div>
           {filterFriends?.map((item: any) => (
@@ -248,10 +239,6 @@ export default function ChatList() {
             </div>
           ))}
         </div>
-
-        {/* <Button onPress={startIm} className='mx-auto mb-2'>
-        开启分享聊天
-      </Button> */}
         {showShare && (
           <div>
             {nostr?.pk ? (

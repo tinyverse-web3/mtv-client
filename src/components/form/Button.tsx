@@ -14,12 +14,12 @@ export const Button = ({
   disabled,
   ...rest
 }: ButtonProps & any) => {
-  const pressHandler = () => {
+  const pressHandler = (e: any) => {
     if (loading || disabled) return;
     onPress?.();
   };
   return (
-    <NextButton disabled={disabled} {...rest} onPress={pressHandler}>
+    <NextButton disabled={disabled} {...rest} onPressEnd={pressHandler}>
       {loading ? (
         <Loading type='spinner' size='sm' color='currentColor' />
       ) : (

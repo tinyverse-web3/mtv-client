@@ -15,10 +15,6 @@ const MenuItem = ({ text, icon }: any) => {
 };
 export default function SpaceIndex() {
   const nav = useNavigate();
-  
-
-  // const [res] = matchRoutes(routes, location)
-  // console.log(res);
   const list = [
     {
       icon: 'i-mdi-notebook-outline',

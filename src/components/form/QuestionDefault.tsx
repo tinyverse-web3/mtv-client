@@ -64,12 +64,13 @@ export const QuestionDefault = ({
       return {
         id: i,
         list: v.list
-          .filter((s: any) => s.a)
           .map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
         title: v.title,
       };
     });
     _list = _list.filter((v) => v.list.length);
+    console.log(123);
+    console.log(_list);
     set(_list);
   };
   const answerChange = (i: number, j: number, e: any) => {

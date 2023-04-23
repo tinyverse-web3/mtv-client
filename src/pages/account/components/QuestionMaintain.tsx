@@ -19,8 +19,16 @@ export const QuestionMaintain = ({ type }: Props) => {
   const { setList: setQuestionList, setType } = useQuestionStore((state) => state);
 
   const onSubmit = async (_list: any[]) => {
-    console.log(_list);
-    setQuestionList(_list.map((v) => ({ list: v.list, title: v.title })));
+    let list = _list.map((v, i) => {
+      return {
+        id: i,
+        list: v.list
+          .filter((s: any) => s.a),
+        title: v.title,
+      };
+    });
+    list = list.filter((v) => v.list.length);
+    setQuestionList(list.map((v) => ({ list: v.list, title: v.title })));
     nav(ROUTE_PATH.ACCOUNT_QUESTION_VERIFY);
   };
   return (

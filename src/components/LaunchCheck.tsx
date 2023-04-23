@@ -94,7 +94,7 @@ export const WalletCheck = () => {
       await launchWallet(wallet);
       console.log(href?.indexOf('account'));
       if (!stay_path.some((p) => href?.indexOf(p) > -1)) {
-        // location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
+        location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
     }
     setCheckLoading(false);

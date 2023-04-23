@@ -13,10 +13,10 @@ export const HeaderUser = () => {
   const userInfo = useGlobalStore((state) => state.userInfo);
   const userLevel = useGlobalStore((state) => state.userLevel);
   const { wallet } = useWalletStore((state) => state);
-  const location = useLocation();
-  const hideStatsu = useMemo(() => {
-    return hideLogoutPath.includes(location.pathname);
-  }, [location]);
+  // const location = useLocation();
+  // const hideStatsu = useMemo(() => {
+  //   return hideLogoutPath.includes(location.pathname);
+  // }, [location]);
   const toUserInfo = () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
@@ -64,8 +64,11 @@ export const HeaderUser = () => {
         <div className='flex-1 h-full pt-6'>
           <div className='flex text-5 items-center'>
             <div className='font-600 mr-2 cursor-pointer' onClick={toUserInfo}>
-              {userInfo.nickname}
-              <Address address={wallet?.publicKey} />
+              {userInfo.nickname ? (
+                userInfo.nickname
+              ) : (
+                <Address address={wallet?.publicKey} />
+              )}
             </div>
             <div
               className='i-mdi-cog-outline text-blue-9 cursor-pointer'

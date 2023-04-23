@@ -12,13 +12,13 @@ export default function AccountQuestion() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const { setEmail: setVerifyEmail, setList, setSssData } = useQuestionStore((state) => state);
+  const { setEmail: setVerifyEmail, setList, setSssData, setType } = useQuestionStore((state) => state);
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
     setCode(code);
   };
   const { mutate: verifyBindEmail } = useRequest({
-    url: '/user/verifymail',
+    url: '/user/getsssdata4question',
     arg: {
       auth: true,
       method: 'post',
@@ -31,10 +31,13 @@ export default function AccountQuestion() {
       if (data?.questionSssData) {
         await setVerifyEmail(data.email);
         await setSssData(data.questionSssData);
+        const questionType = data.questions[0].type;
+        setType(questionType);
         const _list = data.questions.map((v: any, i: number) => {
           const list = JSON.parse(v.content);
           return {
             id: i,
+            title: v.title,
             list: list.map((s: any) => ({
               q: s.content,
               a: '',
