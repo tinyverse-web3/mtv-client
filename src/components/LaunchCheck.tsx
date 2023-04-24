@@ -5,10 +5,8 @@ import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 import { Password } from '@/lib/account/wallet';
 import { useIdleTimer } from 'react-idle-timer';
-
 import { useMtvStorageStore, useWalletStore, useGlobalStore } from '@/store';
 const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
-
 
 export const WalletCheck = () => {
   const mounted = useRef(false);
@@ -18,13 +16,12 @@ export const WalletCheck = () => {
   const { checkLoading, setCheckLoading } = useGlobalStore(
     (state) => state,
   );
-  const { init: initStorage } = useMtvStorageStore((state) => state);
+  const { init: initStorage, mtvStorage, destory: destoryStorage } = useMtvStorageStore((state) => state);
 
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet || {};
-    if (privateKey) {
+    if (privateKey && !mtvStorage) {
       try {
-        console.log('initdb');
         await initStorage(privateKey);
       } catch (error) {
         console.log(error);
@@ -38,6 +35,7 @@ export const WalletCheck = () => {
       const password = new Password();
       await Promise.all([resetWallet()]);
       await password.remove();
+      destoryStorage();
       location.replace(ROUTE_HASH_PATH.UNLOCK);
     }
   };

@@ -7,6 +7,7 @@ interface MtvdbState {
   loaded: boolean;
   init: (privateKey: string, ipns?: string) => void;
   resume: (ipns: string) => void;
+  destory: () => void;
 }
 
 export const useMtvStorageStore = create<MtvdbState>()(
@@ -27,6 +28,9 @@ export const useMtvStorageStore = create<MtvdbState>()(
       } catch (error) {
         console.log(error);
       }
+    },
+    destory: () => {
+      set({ mtvStorage: undefined });
     },
     resume: async (ipns) => {
       if (get().mtvStorage) {

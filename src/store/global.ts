@@ -69,7 +69,7 @@ export const useGlobalStore = create<GlobalState>()(
         setShowLogin: (v) => set(() => ({ showLogin: v })),
         setUserLevel: (l) => {
           if (l > get().userLevel) {
-            set(() => ({ userLevel: l }))
+            set(() => ({ userLevel: l }));
           }
         },
         setMaintainPhrase: (v) => set(() => ({ maintainPhrase: v })),
@@ -106,7 +106,11 @@ export const useGlobalStore = create<GlobalState>()(
             bindStatus: false,
             showLogin: false,
             maintain: false,
-            checkLoading: false,
+            checkLoading: true,
+            userLevel: 0,
+            maintainPhrase: false,
+            maintainProtector: false,
+            maintainQuestion: false,
             userInfo: {},
           });
         },

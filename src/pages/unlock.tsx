@@ -22,7 +22,9 @@ export default function Unlock() {
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const resetWallet = useWalletStore((state) => state.reset);
-  const initMtvStorage = useMtvStorageStore((state) => state.init);
+  const { init: initMtvStorage, destory: destoryStorage } = useMtvStorageStore(
+    (state) => state,
+  );
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
@@ -34,7 +36,7 @@ export default function Unlock() {
       setWallet(wallet);
       const { publicKey, privateKey } = wallet || {};
       if (privateKey) {
-          await initMtvStorage(privateKey);
+        await initMtvStorage(privateKey);
       }
       setLoading(false);
       nav(ROUTE_PATH.SPACE_INDEX);
@@ -69,6 +71,7 @@ export default function Unlock() {
       resetNostr(),
       resetWallet(),
       resetGlobal(),
+      destoryStorage(),
       wallet?.delete(),
     ]);
     nav(ROUTE_PATH.INDEX, { replace: true });
