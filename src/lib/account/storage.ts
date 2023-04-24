@@ -8,6 +8,7 @@ export class MtvStorage {
     this.crypto = crypto;
   }
   async init() {
+    debugger;
     console.log('init');
     this.ipfsStorage = await Web3Storage.createIpfsStorage(this.userPk, {
       remoteGenKeyCallback: (ipnsId: string) => {

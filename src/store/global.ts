@@ -106,7 +106,7 @@ export const useGlobalStore = create<GlobalState>()(
             bindStatus: false,
             showLogin: false,
             maintain: false,
-            checkLoading: true,
+            checkLoading: false,
             userLevel: 0,
             maintainPhrase: false,
             maintainProtector: false,

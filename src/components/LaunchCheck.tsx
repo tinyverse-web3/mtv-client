@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useRef, useLayoutEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
@@ -10,13 +10,17 @@ const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 
 export const WalletCheck = () => {
   const mounted = useRef(false);
-  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const routerLocation = useLocation();
+  const { pathname } = routerLocation;
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const { setWallet, reset: resetWallet } = useWalletStore((state) => state);
-  const { checkLoading, setCheckLoading } = useGlobalStore(
-    (state) => state,
-  );
-  const { init: initStorage, mtvStorage, destory: destoryStorage } = useMtvStorageStore((state) => state);
+  const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
+  const {
+    init: initStorage,
+    mtvStorage,
+    destory: destoryStorage,
+  } = useMtvStorageStore((state) => state);
 
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet || {};
@@ -68,6 +72,7 @@ export const WalletCheck = () => {
           await setWallet(wallet);
         } else {
           location.replace(ROUTE_HASH_PATH.INDEX);
+          mounted.current = true;
         }
       }
     } else if (
@@ -82,19 +87,24 @@ export const WalletCheck = () => {
       await launchWallet(wallet);
       console.log(pathname?.indexOf('account'));
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+        
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
     }
     setCheckLoading(false);
   };
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-      checkStatus();
-    } else if (stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+    if (checkLoading) {
+      console.log('mounted');
       checkStatus();
     }
-  }, [pathname]);
+  }, []);
+  useLayoutEffect(() => {
+    if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+      console.log('router change');
+      checkStatus();
+    }
+  }, [routerLocation]);
   return (
     <>
       {checkLoading ? (
