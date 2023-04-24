@@ -1,8 +1,5 @@
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
-import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
-import { Card, Text, Input } from '@nextui-org/react';
-import QRCode from 'react-qr-code';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useEffect, useRef, useState } from 'react';
 export default function UserQrcode() {

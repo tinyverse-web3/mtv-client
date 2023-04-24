@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { remove, cloneDeep } from 'lodash';
-import { useMtvdbStore } from './mtvdb';
 interface Note {
   id: string;
   title: string;
@@ -24,7 +23,7 @@ export const useNoteStore = create<NoteState>()(
       add: async (n) => {
         const list = cloneDeep(get().list);
         list.push(n);
-        await window?.mtvDb.put('note', JSON.stringify(list));
+        await window?.mtvStorage.put('note',list);
         set({ list });
       },
       init: async (n) => {
@@ -33,7 +32,7 @@ export const useNoteStore = create<NoteState>()(
       remove: async (id) => {
         const list = cloneDeep(get().list);
         remove(list, (i) => i.id === id);
-        await window?.mtvDb.put('note', JSON.stringify(list));
+        await window?.mtvStorage.put('note',list);
         set({ list });
       },
       update: async ({ id, ...res }) => {
@@ -44,7 +43,7 @@ export const useNoteStore = create<NoteState>()(
             ...list[itemIndex],
             ...res,
           };
-          await window?.mtvDb.put('note', JSON.stringify(list));
+          await window?.mtvStorage.put('note', list);
           set({ list });
         }
       },
@@ -59,7 +58,7 @@ export const useNoteStore = create<NoteState>()(
   ),
 );
 // useNoteStore.subscribe(async (state, prevdata) => {
-//   const mtvDb = window.mtvDb;
+//   const mtvStorage = window.mtvStorage;
 //   if (mtvDb && prevdata.list.length && JSON.stringify(state.list) !== JSON.stringify(prevdata.list)) {
 //     console.log('备份数据');
 //     // await mtvDb.backupDb();

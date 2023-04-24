@@ -2,9 +2,8 @@ import { useRequest } from '@/api';
 import { MessageBox } from '@/components/MessageBox';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
-import { useGlobalStore, useMtvdbStore, useNostrStore } from '@/store';
+import { useGlobalStore, useMtvStorageStore, useNostrStore } from '@/store';
 import { NostrProvider } from 'nostr-react';
-import { getPublicKey } from 'nostr-tools';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,8 +14,7 @@ export default function ChatMessage() {
   const recipient = useNostrStore((state) => state.recipient);
   const initRelayList = useNostrStore((state) => state.initRelayList);
   const setNostr = useGlobalStore((state) => state.setNostr);
-  const mtvDb = useMtvdbStore((state) => state.mtvDb);
-  const mtvLoaded = useMtvdbStore((state) => state.loaded);
+  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const nostr = useGlobalStore((state) => state.nostr);
   const { data, mutate } = useRequest<any[]>(
     {
@@ -35,10 +33,8 @@ export default function ChatMessage() {
     },
   );
   const getLocalNostr = async () => {
-    // console.log('本地获取nostr');
-    // console.log(mtvDb?.kvdb);
-    if (mtvDb?.kvdb) {
-      const localSk = await mtvDb.get(NOSTR_KEY);
+    if (mtvStorage) {
+      const localSk = await mtvStorage.get(NOSTR_KEY);
       console.log('message local nostr sk: ', localSk);
       // if (localSk) {
       //   const pk = getPublicKey(localSk);
@@ -49,11 +45,8 @@ export default function ChatMessage() {
     }
   };
   useEffect(() => {
-    console.log('mtvLoaded ' + mtvLoaded);
-    if (mtvLoaded) {
-      getLocalNostr();
-    }
-  }, [mtvDb, mtvLoaded]);
+    getLocalNostr();
+  }, [mtvStorage]);
   useEffect(() => {
     mutate();
   }, []);

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   useWalletStore,
   useGlobalStore,
-  useMtvdbStore,
+  useMtvStorageStore,
   useQuestionStore,
 } from '@/store';
 import { useRequest } from '@/api';
@@ -18,13 +18,12 @@ export default function Restore() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
   const [Loading, setLoading] = useState(false);
-  const initMtvdb = useMtvdbStore((state) => state.init);
+  const initMtvStorage = useMtvStorageStore((state) => state.init);
   const { list: questionList, sssData: serverShare, type } = useQuestionStore(
     (state) => state,
   );
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setMtvdb, setUserInfo } = useGlobalStore((state) => state);
-
+  const { setUserInfo } = useGlobalStore((state) => state);
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -34,10 +33,9 @@ export default function Restore() {
       onSuccess: async (res) => {
         const { dbAddress, ipns, name, email } = res.data;
         setUserInfo({ email, nickname: name });
-        setMtvdb(dbAddress, ipns);
         const { privateKey } = wallet || {};
-        if (privateKey && dbAddress && ipns) {
-          await initMtvdb(privateKey, dbAddress, ipns);
+        if (privateKey) {
+          await initMtvStorage(privateKey, ipns);
         }
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },

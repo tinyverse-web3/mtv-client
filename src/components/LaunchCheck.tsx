@@ -1,31 +1,31 @@
-import { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { resolvePath, matchRoutes, useLocation } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 import { Password } from '@/lib/account/wallet';
 import { useIdleTimer } from 'react-idle-timer';
 
-import { useMtvdbStore, useWalletStore, useGlobalStore } from '@/store';
+import { useMtvStorageStore, useWalletStore, useGlobalStore } from '@/store';
 const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
-//一个简单的鉴权操作
+
+
 export const WalletCheck = () => {
-  // const nav = useNavigate();
   const mounted = useRef(false);
   const { pathname } = useLocation();
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const { setWallet, reset: resetWallet } = useWalletStore((state) => state);
-  const { checkLoading, setMtvdb, mtvdbInfo, setCheckLoading } = useGlobalStore(
+  const { checkLoading, setCheckLoading } = useGlobalStore(
     (state) => state,
   );
-  const { create: createMtvdb, init: initDb } = useMtvdbStore((state) => state);
+  const { init: initStorage } = useMtvStorageStore((state) => state);
 
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet || {};
-    if (privateKey && mtvdbInfo?.dbAddress) {
+    if (privateKey) {
       try {
         console.log('initdb');
-        initDb(privateKey, mtvdbInfo?.dbAddress, mtvdbInfo?.metadataKey);
+        await initStorage(privateKey);
       } catch (error) {
         console.log(error);
       }
@@ -48,7 +48,7 @@ export const WalletCheck = () => {
 
   useIdleTimer({
     onIdle,
-    timeout: 10 * 10 * 1000,
+    timeout: 60 * 10 * 1000,
     throttle: 2000,
   });
   const checkStatus = async () => {
@@ -63,15 +63,9 @@ export const WalletCheck = () => {
         if (pathname.indexOf('chat') > -1) {
           await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');
-          const { publicKey, privateKey } = wallet || {};
-          console.log(privateKey);
+          const { privateKey } = wallet || {};
           if (privateKey) {
-            createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
-              console.log('mtvdb create success');
-              if (dbAddress && metadataKey) {
-                setMtvdb(dbAddress, metadataKey);
-              }
-            });
+            await initStorage(privateKey);
           }
           await setWallet(wallet);
         } else {
@@ -98,7 +92,6 @@ export const WalletCheck = () => {
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
-      console.log(123);
       checkStatus();
     } else if (stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       checkStatus();

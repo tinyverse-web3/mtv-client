@@ -1,9 +1,9 @@
 export {};
 declare global {
   interface Window {
-    mtvDb: any;
+    mtvStorage: any;
   }
   interface globalThis {
-    mtvDb: any;
+    mtvStorage: any;
   }
 }

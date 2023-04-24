@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useNoteStore, useMtvdbStore } from '@/store';
+import { useNoteStore, useMtvStorageStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import { format } from 'date-fns';
@@ -13,17 +13,16 @@ export default function NoteList() {
   const list = useNoteStore((state) => state.list);
   const remove = useNoteStore((state) => state.remove);
   const initNote = useNoteStore((state) => state.init);
-  const mtvLoaded = useMtvdbStore((state) => state.loaded);
-  const mtvDb = useMtvdbStore((state) => state.mtvDb);
+  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const toAdd = () => {
-    if (!mtvLoaded) {
+    if (!mtvStorage) {
       toast.error('存储模块未加载完成，请稍后，或刷新重试');
       return;
     }
     nav('/note/add');
   };
   const toDetail = (id: string) => {
-    if (!mtvLoaded) {
+    if (!mtvStorage) {
       toast.error('存储模块未加载完成，请稍后，或刷新重试');
       return;
     }
@@ -34,25 +33,25 @@ export default function NoteList() {
     await remove(id);
   };
   useEffect(() => {
-    console.log(mtvDb?.kvdb);
-    console.log(mtvLoaded);
-    if (mtvDb?.kvdb && mtvLoaded) {
-      mtvDb.get('note').then((res) => {
-        console.log(res);
+    if (mtvStorage) {
+      mtvStorage.get('note').then((list) => {
+        console.log('list');
+        console.log(list);
         try {
-          const list = JSON.parse(res);
           if (list) {
             initNote(list || []);
           }
         } catch (error) {}
       });
     }
-  }, [mtvDb, mtvLoaded]);
+  }, [mtvStorage]);
   return (
     <LayoutThird
       title='记事本'
       path={ROUTE_PATH.SPACE_INDEX}
-      rightContent={<div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>}>
+      rightContent={
+        <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
+      }>
       <div className='p-6'>
         {list.map((item) => (
           <div

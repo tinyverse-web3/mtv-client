@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Text, Row, Button, Textarea } from '@nextui-org/react';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
+import { useWalletStore, useMtvStorageStore } from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
@@ -11,8 +11,7 @@ export default function Phrase() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
-  const createMtvdb = useMtvdbStore((state) => state.create);
+  const initMtvStorage = useMtvStorageStore((state) => state.init);
   const importHandler = async () => {
     if (phrase) {
       try {
@@ -25,10 +24,7 @@ export default function Phrase() {
           setWallet(wallet);
           const { privateKey } = wallet || {};
           if (privateKey) {
-            const { dbAddress, metadataKey } = await createMtvdb(privateKey);
-            if (dbAddress && metadataKey) {
-              await setMtvdb(dbAddress, metadataKey);
-            }
+            await initMtvStorage(privateKey);
           }
           nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         }

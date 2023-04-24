@@ -6,7 +6,7 @@ import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import wallet from '@/lib/account/wallet';
-import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
+import { useWalletStore, useMtvStorageStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 export default function Index() {
@@ -14,8 +14,7 @@ export default function Index() {
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();
   const setWallet = useWalletStore((state) => state.setWallet);
-  const createMtvdb = useMtvdbStore((state) => state.create);
-  const setMtvdb = useGlobalStore((state) => state.setMtvdb);
+  const initMtvStorage = useMtvStorageStore((state) => state.init);
   const toRestore = () => {
     nav('/restore');
   };
@@ -27,11 +26,7 @@ export default function Index() {
     await wallet.create(VITE_DEFAULT_PASSWORD);
     const { publicKey, privateKey } = wallet || {};
     if (privateKey) {
-      await createMtvdb(privateKey).then(({ dbAddress, metadataKey }) => {
-        if (dbAddress && metadataKey) {
-          setMtvdb(dbAddress, metadataKey);
-        }
-      });
+      await initMtvStorage(privateKey);
     }
     await setWallet(wallet);
     setLoading(false);

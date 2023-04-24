@@ -69,7 +69,6 @@ export const QuestionDefault = ({
       };
     });
     _list = _list.filter((v) => v.list.length);
-    console.log(123);
     console.log(_list);
     set(_list);
   };

@@ -25,10 +25,6 @@ interface NostrInfo {
 interface GlobalState {
   bindStatus: boolean;
   showLogin: boolean;
-  mtvdbInfo: {
-    dbAddress?: string;
-    metadataKey?: string;
-  };
   userLevel: number;
   maintainPhrase: boolean;
   maintainProtector: boolean;
@@ -51,7 +47,6 @@ interface GlobalState {
   setNostr: (n: NostrInfo) => void;
   createNostr: () => NostrInfo;
   reset: () => void;
-  setMtvdb: (dbAddress?: string, metadataKey?: string) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()(
@@ -67,9 +62,6 @@ export const useGlobalStore = create<GlobalState>()(
         maintainProtector: false,
         maintainQuestion: false,
         userInfo: {},
-        mtvdbInfo: {
-          // metadataKey,
-        },
         setUserInfo: (v) => {
           const _user = get().userInfo;
           set(() => ({ userInfo: { ..._user, ...v } }));
@@ -109,9 +101,6 @@ export const useGlobalStore = create<GlobalState>()(
         setNostr: (n) => {
           set({ nostr: n });
         },
-        setMtvdb: (dbAddress, metadataKey) => {
-          set({ mtvdbInfo: { dbAddress, metadataKey } });
-        },
         reset: () => {
           set({
             bindStatus: false,
@@ -119,7 +108,6 @@ export const useGlobalStore = create<GlobalState>()(
             maintain: false,
             checkLoading: false,
             userInfo: {},
-            mtvdbInfo: {},
           });
         },
       }),

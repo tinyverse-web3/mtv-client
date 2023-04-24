@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const { showLogin, setShowLogin, setUserInfo, mtvdbInfo, setMtvdb, setBindStatus, setUserLevel }= useGlobalStore((state) => state);
+  const { showLogin, setShowLogin, setUserInfo, setBindStatus, setUserLevel }= useGlobalStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
   const signMessage = useRef<any>({});
   const [email, setEmail] = useState('');
@@ -16,22 +16,21 @@ export const BindMail = () => {
   const { start, text, flag } = useCountDown(60);
   const generateQuery = async () => {
     const { publicKey, address } = wallet || {};
-    const { metadataKey, dbAddress } = mtvdbInfo || {};
     let sign;
-    if (publicKey && address && metadataKey && dbAddress) {
-      sign = await wallet?.sign(metadataKey);
+    const ipns = ''
+    if (publicKey && address && ipns) {
+      sign = await wallet?.sign(ipns);
     }
     signMessage.current = {
       publicKey: publicKey,
       address: address,
-      ipns: metadataKey,
-      dbAddress: mtvdbInfo?.dbAddress,
+      ipns,
       sign,
     };
   };
   useEffect(() => {
-    generateQuery();
-  }, [wallet, mtvdbInfo]);
+    // generateQuery();
+  }, [wallet]);
   const { mutate: modifyuser } = useRequest(
     {
       url: '/user/modifyuser',
@@ -60,9 +59,6 @@ export const BindMail = () => {
           nickname: name,
           email: email,
         });
-        if (dbAddress && ipns) {
-          setMtvdb(dbAddress, ipns);
-        }
       },
     },
   );

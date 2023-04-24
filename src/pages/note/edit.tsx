@@ -4,7 +4,7 @@ import { Textarea } from '@/components/form/Textarea';
 import { v4 as uuidv4 } from 'uuid';
 import LayoutThird from '@/layout/LayoutThird';
 import { Text, Container, Row, Button } from '@nextui-org/react';
-import { useNoteStore, useMtvdbStore } from '@/store';
+import { useNoteStore, useMtvStorageStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 export default function Edit() {
@@ -13,8 +13,7 @@ export default function Edit() {
   const { id } = useParams();
   const get = useNoteStore((state) => state.get);
   const initNote = useNoteStore((state) => state.init);
-  const mtvLoaded = useMtvdbStore((state) => state.loaded);
-  const mtvDb = useMtvdbStore((state) => state.mtvDb);
+  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const add = useNoteStore((state) => state.add);
   const update = useNoteStore((state) => state.update);
   const noteChange = (e: any) => {
@@ -48,13 +47,11 @@ export default function Edit() {
     nav(-1);
   };
   useEffect(() => {
-    if (mtvDb?.kvdb && id !== 'add' && mtvLoaded) {
-      console.log('mtvLoaded');
-      console.log(mtvLoaded);
-      mtvDb.get('note').then((res) => {
-        console.log(res);
+    if (mtvStorage && id !== 'add') {
+      console.log('mtvStorage');
+      console.log(mtvStorage);
+      mtvStorage.get('note').then((list) => {
         try {
-          const list = JSON.parse(res);
           if (list) {
             initNote(list || []);
             getDetail(id);
@@ -62,11 +59,9 @@ export default function Edit() {
         } catch (error) {}
       });
     }
-  }, [mtvDb, mtvLoaded, id]);
+  }, [mtvStorage, id]);
   return (
-    <LayoutThird
-      title='记事本'
-      path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='记事本' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Textarea
@@ -87,6 +82,6 @@ export default function Edit() {
           </Button>
         </Row>
       </div>
-      </LayoutThird>
+    </LayoutThird>
   );
 }

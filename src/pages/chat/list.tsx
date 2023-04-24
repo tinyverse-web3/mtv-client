@@ -6,7 +6,7 @@ import LayoutTwo from '@/layout/LayoutTwo';
 import { ROUTE_PATH } from '@/router';
 import {
   useGlobalStore,
-  useMtvdbStore,
+  useMtvStorageStore,
   useNostrStore,
   useWalletStore,
 } from '@/store';
@@ -35,8 +35,7 @@ export default function ChatList() {
     (state) => state,
   );
   const { wallet } = useWalletStore((state) => state);
-  const mtvDb = useMtvdbStore((state) => state.mtvDb);
-  const mtvLoaded = useMtvdbStore((state) => state.loaded);
+  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const removeFrient = useNostrStore((state) => state.remove);
   const [showShare, setShowShare] = useState(false);
@@ -116,14 +115,14 @@ export default function ChatList() {
   });
 
   const getLocalNostr = async () => {
-    if (mtvDb?.kvdb) {
-      const localSk = await mtvDb.get(NOSTR_KEY);
+    if (mtvStorage) {
+      const localSk = await mtvStorage.get(NOSTR_KEY);
       if (localSk) {
         const pk = getPublicKey(localSk);
         await setNostr({ pk, sk: localSk });
       } else {
         const { sk, pk } = await createNostr();
-        await mtvDb.put(NOSTR_KEY, sk);
+        await mtvStorage.put(NOSTR_KEY, sk);
         await setNostr({ pk, sk });
       }
       if (bindStatus) {
@@ -198,10 +197,10 @@ export default function ChatList() {
     }
   }, [friendPk]);
   useEffect(() => {
-    if (mtvLoaded) {
+    if (mtvStorage) {
       getLocalNostr();
     }
-  }, [mtvDb, mtvLoaded]);
+  }, [mtvStorage]);
   return (
     <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>

@@ -6,7 +6,7 @@ import { Password } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import {
   useWalletStore,
-  useMtvdbStore,
+  useMtvStorageStore,
   useGlobalStore,
   useNostrStore,
 } from '@/store';
@@ -22,8 +22,7 @@ export default function Unlock() {
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const resetWallet = useWalletStore((state) => state.reset);
-  const initMtvdb = useMtvdbStore((state) => state.init);
-  const mtvdbInfo = useGlobalStore((state) => state.mtvdbInfo);
+  const initMtvStorage = useMtvStorageStore((state) => state.init);
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
@@ -35,10 +34,7 @@ export default function Unlock() {
       setWallet(wallet);
       const { publicKey, privateKey } = wallet || {};
       if (privateKey) {
-        const { dbAddress, metadataKey } = mtvdbInfo;
-        if (dbAddress && metadataKey) {
-          await initMtvdb(privateKey, dbAddress, metadataKey);
-        }
+          await initMtvStorage(privateKey);
       }
       setLoading(false);
       nav(ROUTE_PATH.SPACE_INDEX);

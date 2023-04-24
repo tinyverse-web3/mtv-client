@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { Logger } from 'tslog';
-import { config } from './config';
+import { config } from './mpc/config';
 
 const logger = new Logger({ name: 'KeySha' });
 
@@ -111,7 +111,7 @@ export class KeySha {
     let encryptedBase64Data = CryptoJS.enc.Base64.stringify(
      encrypted.ciphertext,
     );
-    return encodeURIComponent(encryptedBase64Data);
+    return encryptedBase64Data;
   }
 
   aesDecode(aesKey:any, aesIv:any, cryptData: string) {

@@ -6,20 +6,20 @@ import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore, useGlobalStore, useMtvdbStore } from '@/store';
+import { useWalletStore, useGlobalStore, useMtvStorageStore } from '@/store';
 import { useRequest } from '@/api';
 import { KeySha } from '@/lib/account';
 import toast from 'react-hot-toast';
 
 export default function Protector() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const initMtvdb = useMtvdbStore((state) => state.init);
+  const initMtvStorage = useMtvStorageStore((state) => state.init);
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setBindStatus, setUserLevel, setUserInfo, setMtvdb } = useGlobalStore((state) => state);
+  const { setBindStatus, setUserLevel, setUserInfo } = useGlobalStore((state) => state);
 
   const query = useMemo(() => {
     return {
@@ -40,11 +40,10 @@ export default function Protector() {
         }
         setUserLevel(safeLevel);
         setUserInfo({ email, nickname: name });
-        setMtvdb(dbAddress, ipns);
 
         const { privateKey } = wallet || {};
-        if (privateKey && dbAddress && ipns) {
-          await initMtvdb(privateKey, dbAddress, ipns);
+        if (privateKey) {
+          await initMtvStorage(privateKey);
         }
         setLoading(true);    
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
