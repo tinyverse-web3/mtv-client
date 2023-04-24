@@ -5,7 +5,7 @@ import { QuestionMaintain } from '@/pages/account/components/QuestionMaintain';
 import { useQuestionStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-export default function AccountQuestion() {
+export default function Question() {
   const { setType, type } = useQuestionStore((state) => state);
   const tabs = [
     {

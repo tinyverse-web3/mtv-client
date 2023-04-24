@@ -7,7 +7,7 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-export default function AccountQuestion() {
+export default function ProtectorAdd() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);

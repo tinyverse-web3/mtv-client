@@ -7,7 +7,7 @@ import { useRequest } from '@/api';
 import { useNavigate } from 'react-router-dom';
 import { useQuestionStore } from '@/store';
 import { toast } from 'react-hot-toast';
-export default function AccountQuestion() {
+export default function RestoreVerifyEmail() {
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');

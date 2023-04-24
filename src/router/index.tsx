@@ -3,6 +3,7 @@ import {
   createHashRouter,
   RouteObject,
 } from 'react-router-dom';
+import Root from '@/Root';
 import Account from '@/pages/account/';
 import ChangePwd from '@/pages/account/changePwd';
 import ChatImChare from '@/pages/chat/imshare';
@@ -42,7 +43,7 @@ const resolveHashPath = (path: string) => {
 };
 
 export const ROUTE_PATH = {
-  INDEX: '/',
+  INDEX: '/index',
   HOME: '/home',
   CREATE: '/create',
   CHANGE_PWD: '/changePwd',
@@ -86,137 +87,144 @@ export const ROUTE_HASH_PATH: typeof ROUTE_PATH = hashPath;
 
 export const routes: RouteObject[] = [
   {
-    path: ROUTE_PATH.INDEX,
-    element: <Index />,
-  },
-  {
-    path: ROUTE_PATH.HOME,
-    element: <Home />,
-  },
+    path: '/',
+    element: <Root />,
+    // errorElement: <ErrorPage />,
+    children: [
+      {
+        path: ROUTE_PATH.INDEX,
+        element: <Index />,
+      },
+      {
+        path: ROUTE_PATH.HOME,
+        element: <Home />,
+      },
 
-  {
-    path: ROUTE_PATH.CREATE,
-    element: <Create />,
-  },
-  {
-    path: ROUTE_PATH.RESTORE,
-    element: <Restore />,
-  },
-  {
-    path: ROUTE_PATH.RESTORE_PHRASE,
-    element: <RestorePhrase />,
-  },
-  {
-    path: ROUTE_PATH.RESTORE_PROTECTOR,
-    element: <RestoreProtector />,
-  },
-  {
-    path: ROUTE_PATH.RESTORE_VERIFY,
-    element: <RestoreVerify />,
-  },
-  {
-    path: ROUTE_PATH.RESTORE_QUESTION,
-    element: <RestoreQuestion />,
-  },
-  {
-    path: ROUTE_PATH.UNLOCK,
-    element: <Unlock />,
-  },
-  {
-    path: ROUTE_PATH.RETRIEVE,
-    element: <Retrieve />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT,
-    element: <Account />,
-  },
-  {
-    path: ROUTE_PATH.CHANGE_PWD,
-    element: <ChangePwd />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_NAME,
-    element: <AccountName />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_QRCODE,
-    element: <AccountQrcode />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_PUBLICKEY,
-    element: <AccountMyPublicKey />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_SCAN,
-    element: <AccountScan />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_PHRASE,
-    element: <AccountPhrase />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_PHRASE_VERIFY,
-    element: <AccountPhraseVerify />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS,
-    element: <AccountPhraseSuccess />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_QUESTION,
-    element: <AccountQuestion />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_QUESTION_VERIFY,
-    element: <AccountQuestionVerify />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_QUESTION_RESULT,
-    element: <AccountQuestionVerifyResult />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_PROTECTOR,
-    element: <AccountProtector />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_PROTECTOR_ADD,
-    element: <AccountProtectorAdd />,
-  },
-  {
-    path: ROUTE_PATH.ACCOUNT_PROTECTOR_VERIFY,
-    element: <AccountProtectorVerify />,
-  },
-  {
-    path: ROUTE_PATH.SPACE_INDEX,
-    element: <SpaceIndex />,
-  },
-  {
-    path: ROUTE_PATH.ASSETS_INDEX,
-    element: <AssetsIndex />,
-  },
-  {
-    path: ROUTE_PATH.NOTE,
-    element: <Note />,
-  },
-  {
-    path: ROUTE_PATH.NOTE_EDIT,
-    element: <NoteEdit />,
-  },
-  {
-    path: ROUTE_PATH.CHAT_LIST,
-    element: <ChatList />,
-  },
-  {
-    path: ROUTE_PATH.CHAT_MESSAGE,
-    element: <ChatMessage />,
-  },
-  {
-    path: ROUTE_PATH.CHAT_SHARE,
-    element: <ChatImChare />,
-  },
-  {
-    path: ROUTE_PATH.TEST,
-    element: <Test />,
+      {
+        path: ROUTE_PATH.CREATE,
+        element: <Create />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE,
+        element: <Restore />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE_PHRASE,
+        element: <RestorePhrase />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE_PROTECTOR,
+        element: <RestoreProtector />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE_VERIFY,
+        element: <RestoreVerify />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE_QUESTION,
+        element: <RestoreQuestion />,
+      },
+      {
+        path: ROUTE_PATH.UNLOCK,
+        element: <Unlock />,
+      },
+      {
+        path: ROUTE_PATH.RETRIEVE,
+        element: <Retrieve />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT,
+        element: <Account />,
+      },
+      {
+        path: ROUTE_PATH.CHANGE_PWD,
+        element: <ChangePwd />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_NAME,
+        element: <AccountName />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_QRCODE,
+        element: <AccountQrcode />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PUBLICKEY,
+        element: <AccountMyPublicKey />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_SCAN,
+        element: <AccountScan />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PHRASE,
+        element: <AccountPhrase />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PHRASE_VERIFY,
+        element: <AccountPhraseVerify />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS,
+        element: <AccountPhraseSuccess />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_QUESTION,
+        element: <AccountQuestion />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_QUESTION_VERIFY,
+        element: <AccountQuestionVerify />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_QUESTION_RESULT,
+        element: <AccountQuestionVerifyResult />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PROTECTOR,
+        element: <AccountProtector />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PROTECTOR_ADD,
+        element: <AccountProtectorAdd />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PROTECTOR_VERIFY,
+        element: <AccountProtectorVerify />,
+      },
+      {
+        path: ROUTE_PATH.SPACE_INDEX,
+        element: <SpaceIndex />,
+      },
+      {
+        path: ROUTE_PATH.ASSETS_INDEX,
+        element: <AssetsIndex />,
+      },
+      {
+        path: ROUTE_PATH.NOTE,
+        element: <Note />,
+      },
+      {
+        path: ROUTE_PATH.NOTE_EDIT,
+        element: <NoteEdit />,
+      },
+      {
+        path: ROUTE_PATH.CHAT_LIST,
+        element: <ChatList />,
+      },
+      {
+        path: ROUTE_PATH.CHAT_MESSAGE,
+        element: <ChatMessage />,
+      },
+      {
+        path: ROUTE_PATH.CHAT_SHARE,
+        element: <ChatImChare />,
+      },
+      {
+        path: ROUTE_PATH.TEST,
+        element: <Test />,
+      },
+    ],
   },
 ];
 export const router = createHashRouter(routes);

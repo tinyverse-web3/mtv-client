@@ -11,7 +11,7 @@ import { useRequest } from '@/api';
 import { KeySha } from '@/lib/account';
 import toast from 'react-hot-toast';
 
-export default function AccountQuestion() {
+export default function Protector() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const initMtvdb = useMtvdbStore((state) => state.init);
   const nav = useNavigate();

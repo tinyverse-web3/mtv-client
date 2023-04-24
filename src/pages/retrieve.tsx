@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import imageSuccess from '@/assets/images/icon-success.png';
 // import { SendEmail } from '@/components/SendEmail';
 
-export default function AccountQuestion() {
+export default function Retrieve() {
   const [step, setStep] = useState(1);
   const nav = useNavigate();
   const [verifyCode, setVerifyCode] = useState('');
@@ -96,11 +96,12 @@ export default function AccountQuestion() {
     },
   ];
   return (
-    <LayoutThird title='找回密码' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='找回密码' path={ROUTE_PATH.UNLOCK}>
       <div className=''>
         <div className='flex h-12'>
           {setArr.map((v, i) => (
             <div
+            key={i}
               onClick={() => stepClick(i)}
               className={`w-1/4 h-full flex justify-center items-center text-3 cursor-pointer border-b border-b-gray-300 border-b-solid ${
                 i !== 3 ? 'border-r border-gray-300 border-r-solid' : ''

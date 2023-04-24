@@ -1,20 +1,18 @@
-import { useLayoutEffect, useEffect, useState } from 'react';
-import { resolvePath, matchRoutes } from 'react-router-dom';
+import { useLayoutEffect, useEffect, useState, useRef } from 'react';
+import { resolvePath, matchRoutes, useLocation } from 'react-router-dom';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 import { Password } from '@/lib/account/wallet';
 import { useIdleTimer } from 'react-idle-timer';
 
-import {
-  useMtvdbStore,
-  useWalletStore,
-  useGlobalStore,
-} from '@/store';
+import { useMtvdbStore, useWalletStore, useGlobalStore } from '@/store';
 const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 //一个简单的鉴权操作
 export const WalletCheck = () => {
   // const nav = useNavigate();
+  const mounted = useRef(false);
+  const { pathname } = useLocation();
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const { setWallet, reset: resetWallet } = useWalletStore((state) => state);
   const { checkLoading, setMtvdb, mtvdbInfo, setCheckLoading } = useGlobalStore(
@@ -36,7 +34,7 @@ export const WalletCheck = () => {
 
   const logout = async () => {
     const { href } = location;
-    if (!stay_path.some((p) => href?.indexOf(p) > -1)) {
+    if (stay_path.some((p) => href?.indexOf(p) > -1)) {
       const password = new Password();
       await Promise.all([resetWallet()]);
       await password.remove();
@@ -50,21 +48,19 @@ export const WalletCheck = () => {
 
   useIdleTimer({
     onIdle,
-    timeout: 10 * 50 * 1000,
+    timeout: 10 * 10 * 1000,
     throttle: 2000,
   });
   const checkStatus = async () => {
-    const { href } = location;
-    if (href.indexOf('test') > -1) {
+    if (pathname.indexOf('test') > -1) {
       setCheckLoading(false);
       return;
     }
-    console.log(resolvePath(ROUTE_HASH_PATH.ACCOUNT));
     setCheckLoading(true);
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
-      if (href !== '/') {
-        if (href.indexOf('chat') > -1) {
+      if (pathname !== '/') {
+        if (pathname.indexOf('chat') > -1) {
           await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');
           const { publicKey, privateKey } = wallet || {};
@@ -86,22 +82,28 @@ export const WalletCheck = () => {
       status == STATUS_CODE.EMPTY_PASSWORD ||
       status == STATUS_CODE.INVALID_PASSWORD
     ) {
-      if (!(href.indexOf('unlock') > -1)) {
+      if (!(pathname.indexOf('unlock') > -1)) {
         location.href = ROUTE_HASH_PATH.UNLOCK;
       }
     } else if (status == STATUS_CODE.SUCCESS) {
       setWallet(wallet);
       await launchWallet(wallet);
-      console.log(href?.indexOf('account'));
-      if (!stay_path.some((p) => href?.indexOf(p) > -1)) {
+      console.log(pathname?.indexOf('account'));
+      if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
     }
     setCheckLoading(false);
   };
   useEffect(() => {
-    checkStatus();
-  }, []);
+    if (!mounted.current) {
+      mounted.current = true;
+      console.log(123);
+      checkStatus();
+    } else if (stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+      checkStatus();
+    }
+  }, [pathname]);
   return (
     <>
       {checkLoading ? (
@@ -115,7 +117,6 @@ export const WalletCheck = () => {
 
 export const walletLoader = async (path: string) => {
   const status = await wallet?.check();
-  console.log(status);
   if (status == STATUS_CODE.EMPTY_KEYSTORE) {
     if (location.href === ROUTE_HASH_PATH.INDEX) {
       return true;

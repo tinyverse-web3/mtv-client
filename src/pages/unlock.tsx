@@ -13,7 +13,7 @@ import {
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
-import { ROUTE_PATH } from '@/router';
+import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
 
 export default function Unlock() {
   const nav = useNavigate();
@@ -41,7 +41,7 @@ export default function Unlock() {
         }
       }
       setLoading(false);
-      nav(-1);
+      nav(ROUTE_PATH.SPACE_INDEX);
     }
   };
   const pressHandler = async () => {
@@ -75,7 +75,7 @@ export default function Unlock() {
       resetGlobal(),
       wallet?.delete(),
     ]);
-    nav('/', { replace: true });
+    nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const toRetrieve = () => {
     nav(ROUTE_PATH.RETRIEVE);

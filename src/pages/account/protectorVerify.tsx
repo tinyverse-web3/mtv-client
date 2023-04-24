@@ -5,7 +5,7 @@ import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-export default function AccountQuestion() {
+export default function protectorVerify() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);

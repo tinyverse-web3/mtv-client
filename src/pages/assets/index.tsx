@@ -85,6 +85,7 @@ export default function AssetsIndex() {
                 <AssetsTokenItem
                   icon={item.icon}
                   symbol={item.symbol}
+                  key={item.symbol}
                   balance={item.balance}
                   dollar={item.dollar}
                 />
