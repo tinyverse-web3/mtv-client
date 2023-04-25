@@ -9,12 +9,14 @@ import { useMtvStorageStore, useWalletStore, useGlobalStore } from '@/store';
 const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 
 export const WalletCheck = () => {
-  const mounted = useRef(false);
-  const navigate = useNavigate();
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const { setWallet, reset: resetWallet } = useWalletStore((state) => state);
+  const {
+    setWallet,
+    reset: resetWallet,
+    wallet: storeWallet,
+  } = useWalletStore((state) => state);
   const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
   const {
     init: initStorage,
@@ -62,18 +64,17 @@ export const WalletCheck = () => {
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
-        if (pathname.indexOf('chat') > -1) {
-          await wallet.create(VITE_DEFAULT_PASSWORD);
-          console.log('wallet create success');
-          const { privateKey } = wallet || {};
-          if (privateKey) {
-            await initStorage(privateKey);
-          }
-          await setWallet(wallet);
-        } else {
-          location.replace(ROUTE_HASH_PATH.INDEX);
-          mounted.current = true;
-        }
+        // if (pathname.indexOf('chat') > -1) {
+        //   await wallet.create(VITE_DEFAULT_PASSWORD);
+        //   console.log('wallet create success');
+        //   const { privateKey } = wallet || {};
+        //   if (privateKey) {
+        //     await initStorage(privateKey);
+        //   }
+        //   await setWallet(wallet);
+        // } else {
+        location.replace(ROUTE_HASH_PATH.INDEX);
+        // }
       }
     } else if (
       status == STATUS_CODE.EMPTY_PASSWORD ||
@@ -87,7 +88,6 @@ export const WalletCheck = () => {
       await launchWallet(wallet);
       console.log(pathname?.indexOf('account'));
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
-        
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
     }
@@ -100,7 +100,11 @@ export const WalletCheck = () => {
     }
   }, []);
   useLayoutEffect(() => {
-    if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+    if (
+      !storeWallet &&
+      !checkLoading &&
+      stay_path.some((p) => pathname?.indexOf(p) > -1)
+    ) {
       console.log('router change');
       checkStatus();
     }

@@ -22,9 +22,11 @@ export default function Unlock() {
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const resetWallet = useWalletStore((state) => state.reset);
-  const { init: initMtvStorage, destory: destoryStorage } = useMtvStorageStore(
-    (state) => state,
-  );
+  const {
+    init: initMtvStorage,
+    destory: destoryStorage,
+    reset: resetStorage,
+  } = useMtvStorageStore((state) => state);
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
@@ -71,6 +73,7 @@ export default function Unlock() {
       resetNostr(),
       resetWallet(),
       resetGlobal(),
+      resetStorage(),
       destoryStorage(),
       wallet?.delete(),
     ]);
@@ -80,7 +83,7 @@ export default function Unlock() {
     nav(ROUTE_PATH.RETRIEVE);
   };
   return (
-    <LayoutOne className='px-6'>
+    <LayoutOne className='px-6 pt-14'>
       <HeaderLogo />
       {/* <Text h4 className='mb-9 text-center text-6'>
         解锁
@@ -94,6 +97,7 @@ export default function Unlock() {
           maxLength={20}
           type='password'
           value={pwd}
+          className='h-50px'
           helperColor={helper.color}
           helperText={helper.text}
           onChange={pwdChange}
@@ -123,7 +127,7 @@ export default function Unlock() {
           light
           auto
           color='success'
-          className='text-14px px-0'
+          className='text-14px px-0 text-blue-5'
           onPress={toRetrieve}>
           忘记密码
         </Button>

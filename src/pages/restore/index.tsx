@@ -1,4 +1,5 @@
-import { Text, Row, Button, Image } from '@nextui-org/react';
+import { Text, Row, Image } from '@nextui-org/react';
+import {Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
@@ -17,19 +18,18 @@ export default function Restore() {
   };
   return (
     <LayoutThird title='恢复账号'>
-      <div className='pt-14 px-6'>
-        <Image src='/icon-restore.png' className='mb-14 w-40' />
+      <div className='pt-7 px-6'>
+        <Image src='/icon-restore.png' className='mb-12 w-40' />
         <Button
-          color='secondary'
-          className='m-auto mb-4 w-full'
+          className='m-auto mb-4 w-full bg-cyan-700'
           onPress={toPhrase}
           size='xl'>
           助记词恢复
         </Button>
-        <Button color='secondary' className='m-auto mb-4 w-full' size='xl' onPress={toProtector}>
+        <Button className='m-auto mb-4 w-full bg-blue-8' size='xl' onPress={toProtector}>
           守护者恢复
         </Button>
-        <Button color='secondary' className='m-auto mb-4 w-full' size='xl'  onPress={toQuestionVerify}>
+        <Button className='m-auto mb-4 w-full bg-blue-9' size='xl'  onPress={toQuestionVerify}>
           智能隐私恢复
         </Button>
       </div>

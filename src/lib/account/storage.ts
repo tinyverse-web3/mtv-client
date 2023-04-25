@@ -7,12 +7,12 @@ export class MtvStorage {
     this.userPk = userPk;
     this.crypto = crypto;
   }
-  async init() {
-    debugger;
+  async init(callback?: (ipnsId: string) => void) {
     console.log('init');
     this.ipfsStorage = await Web3Storage.createIpfsStorage(this.userPk, {
-      remoteGenKeyCallback: (ipnsId: string) => {
+      remoteGenKeyCallback: (ipnsId: any) => {
         console.info('ipnsId: %s', ipnsId);
+        callback && callback(ipnsId);
       },
     });
   }
@@ -36,6 +36,11 @@ export class MtvStorage {
   async resume(ipns: string) {
     if (!this.ipfsStorage) {
       await this.ipfsStorage.resume(ipns);
+    }
+  }
+  async destory() {
+    if (this.ipfsStorage) {
+      await this.ipfsStorage.stop();
     }
   }
 }

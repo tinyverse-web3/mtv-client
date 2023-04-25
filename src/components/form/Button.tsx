@@ -12,6 +12,7 @@ export const Button = ({
   onPress,
   children,
   disabled,
+  className,
   ...rest
 }: ButtonProps & any) => {
   const pressHandler = (e: any) => {
@@ -19,7 +20,11 @@ export const Button = ({
     onPress?.();
   };
   return (
-    <NextButton disabled={disabled} {...rest} onPressEnd={pressHandler}>
+    <NextButton
+      className={`h-50px rounded-2 text-4 ${className}`}
+      disabled={disabled}
+      {...rest}
+      onPressEnd={pressHandler}>
       {loading ? (
         <Loading type='spinner' size='sm' color='currentColor' />
       ) : (

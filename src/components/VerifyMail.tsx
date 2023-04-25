@@ -98,6 +98,7 @@ export const VerifyMail = ({ visibly, onChange, onSubmit }: Props) => {
           bordered
           fullWidth
           type='email'
+          className='h-50px'
           aria-label='email'
           color='primary'
           size='lg'

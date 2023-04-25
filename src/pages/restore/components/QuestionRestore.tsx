@@ -61,11 +61,23 @@ export const QuestionRestore = ({
   const submitHandler = async (_list: any[]) => {
     if (email) {
       const keySha = new KeySha();
-      const filterAnswer = _list.filter((v) =>
-        v.list.every(
-          (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
-        ),
-      );
+      let filterAnswer = [];
+      if (type === 1) {
+        const list = _list.map((v, i) => {
+          return {
+            id: i,
+            list: v.list.filter((s: any) => s.a),
+            title: v.title,
+          };
+        });
+        filterAnswer = list.filter((v) => v.list.length);
+      } else {
+        filterAnswer = _list.filter((v) =>
+          v.list.every(
+            (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
+          ),
+        );
+      }
       if (!filterAnswer.length) {
         toast.error(`最少回答一个完整问题!`);
         return;
@@ -79,7 +91,6 @@ export const QuestionRestore = ({
           const q = s.list.map((val: any) => val.q).join('');
           const a = s.list.map((val: any) => val.a).join('');
           const v = await keySha.get(email, q, a);
-          console.log(v);
           kvShares.push(v);
           errArr.push('');
         } catch (error) {

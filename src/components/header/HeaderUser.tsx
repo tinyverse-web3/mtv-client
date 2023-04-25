@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, Avatar, Text } from '@nextui-org/react';
+import { Image } from '@nextui-org/react';
 import { Address } from '@/components/Address';
 import { PasswordWarnBadge } from '@/components/PasswordWarnBadge';
 import { useGlobalStore, useWalletStore } from '@/store';
@@ -59,7 +59,7 @@ export const HeaderUser = () => {
     <div className='h-full relative'>
       <div className='flex px-4 items-center h-full'>
         <div className='mr-4' onClick={toUserInfo}>
-          <Avatar src='/logo.png' size='xl' className=' cursor-pointer' />
+          <Image src='/logo.png' className=' cursor-pointer w-14 h-14' />
         </div>
         <div className='flex-1 h-full pt-6'>
           <div className='flex text-5 items-center'>

@@ -33,7 +33,7 @@ export default function LayoutOne({
   const footerMenus = [{ text: '空间' }, { text: '密信' }, { text: '资产' }];
   return (
     <main className={'h-full relative'}>
-      <section className={`h-full pb-12 pt-20 ${className ? className : ''}`}>
+      <section className={`h-full pb-12 ${className ? className : ''}`}>
         {children}
       </section>
     </main>

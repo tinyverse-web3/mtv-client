@@ -44,6 +44,7 @@ export const SendEmail = ({ content }: Props) => {
             clearable
             bordered
             fullWidth
+            className='h-50px'
             color='primary'
             size='lg'
             value={email}

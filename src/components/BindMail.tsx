@@ -156,6 +156,7 @@ export const BindMail = () => {
           bordered
           fullWidth
           type='email'
+          className='h-50px'
           aria-label='email'
           color='primary'
           size='lg'
@@ -170,10 +171,11 @@ export const BindMail = () => {
             clearable
             bordered
             fullWidth
+            
             type='number'
             maxLength={6}
             aria-label='验证码'
-            className='flex-1'
+            className='flex-1 50px'
             color='primary'
             size='lg'
             value={verifyCode}

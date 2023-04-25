@@ -33,7 +33,7 @@ export default function QuestionVerifyResult() {
   const toAccount = async () => {
     await setMaintainQuestion(true);
     await calcUserLevel();
-    console.log(123)
+    console.log(123);
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {
@@ -41,7 +41,7 @@ export default function QuestionVerifyResult() {
   };
   const addQuestionQuery = useMemo(() => {
     return initList.map((val) => ({
-      content: JSON.stringify( 
+      content: JSON.stringify(
         val.list.map((s) => ({ content: s.q, characters: s.l })),
       ),
       title: val.title,
@@ -66,17 +66,25 @@ export default function QuestionVerifyResult() {
     },
   });
   const onSubmit = async () => {
-    console.log(initList)
+    console.log(initList);
+    let list = initList.map((v, i) => {
+      return {
+        id: i,
+        list: v.list.filter((s: any) => s.a),
+        title: v.title,
+      };
+    });
+    list = list.filter((v) => v.list.length);
     try {
       const { email } = userInfo;
-      const shareKeys = await splitKey(2, initList.length + 1);
+      const shareKeys = await splitKey(2, list.length + 1);
       if (shareKeys && email) {
         await setShareA(shareKeys[0]);
         const kvShares = shareKeys.slice(1);
         const kvMap = kvShares?.map((s, i) => {
           const keySha = new KeySha();
-          const q = initList[i].list.map((val) => val.q).join('');
-          const a = initList[i].list.map((val) => val.a).join('');
+          const q = list[i].list.map((val) => val.q).join('');
+          const a = list[i].list.map((val) => val.a).join('');
           return keySha.set(email, q, a, s);
         });
         await Promise.all([...kvMap, saveSssData()]);
@@ -95,7 +103,7 @@ export default function QuestionVerifyResult() {
     }
   }, []);
   return (
-    <LayoutThird title='智能隐私备份' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='智能隐私备份' path={ROUTE_PATH.ACCOUNT_QUESTION_VERIFY}>
       {state ? (
         <div className='px-6 pt-10'>
           <Image src={imageSuccess} className='w-40 mb-10' />

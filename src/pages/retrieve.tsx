@@ -101,11 +101,11 @@ export default function Retrieve() {
         <div className='flex h-12'>
           {setArr.map((v, i) => (
             <div
-            key={i}
+              key={i}
               onClick={() => stepClick(i)}
               className={`w-1/4 h-full flex justify-center items-center text-3 cursor-pointer border-b border-b-gray-300 border-b-solid ${
                 i !== 3 ? 'border-r border-gray-300 border-r-solid' : ''
-              } ${i < step ? 'bg-blue-5 text-white' : 'bg-gray-3'}`}>
+              } ${i < step ? 'bg-blue-7 text-white' : 'bg-gray-3'}`}>
               {v.text}
             </div>
           ))}
@@ -124,10 +124,13 @@ export default function Retrieve() {
                 value={email}
                 onChange={emailChange}
                 placeholder='邮箱'
-                className='mb-4'
+                className='mb-4 h-50px'
                 contentLeft={<div className='i-mdi-email color-current' />}
               />
-              <Button className='w-full' size='lg' onPress={sendEmail}>
+              <Button
+                className='w-full bg-blue-7'
+                size='lg'
+                onPress={sendEmail}>
                 发送Emial
               </Button>
             </div>
@@ -142,7 +145,7 @@ export default function Retrieve() {
                   type='number'
                   maxLength={6}
                   aria-label='验证码'
-                  className='flex-1'
+                  className='flex-1 h-50px'
                   color='primary'
                   size='lg'
                   value={verifyCode}
@@ -153,7 +156,7 @@ export default function Retrieve() {
                     <div className='p-2'>
                       <Button
                         auto
-                        className='min-w-20 text-12px h-7'
+                        className='min-w-20 text-12px h-7 bg-blue-7'
                         color='secondary'
                         loading={codeLoading}
                         onPress={sendVerify}>
@@ -166,7 +169,10 @@ export default function Retrieve() {
                   }
                 />
               </div>
-              <Button className='w-full' size='lg' onPress={verifyEmial}>
+              <Button
+                className='w-full bg-blue-7'
+                size='lg'
+                onPress={verifyEmial}>
                 验证
               </Button>
             </div>
@@ -180,6 +186,7 @@ export default function Retrieve() {
                   aria-label='password'
                   fullWidth
                   value={pwd}
+                  className='h-50px'
                   helperColor={validStatus ? 'default' : 'error'}
                   status={validStatus ? 'default' : 'error'}
                   helperText='密码至少8位，包括数字、大小写字母和符号至少2种'
@@ -193,7 +200,7 @@ export default function Retrieve() {
                 fullWidth
                 aria-label='password'
                 disabled={!pwd}
-                className='mb-4'
+                className='mb-4 h-50px'
                 value={confirmPwd}
                 helperColor={confirmStatus ? 'default' : 'error'}
                 status={confirmStatus ? 'default' : 'error'}
@@ -202,7 +209,10 @@ export default function Retrieve() {
                 placeholder='确认密码'
                 initialValue=''
               />
-              <Button className='w-full' size='lg' onPress={changePwd}>
+              <Button
+                className='w-full bg-blue-7'
+                size='lg'
+                onPress={changePwd}>
                 修改
               </Button>
             </div>
@@ -210,7 +220,7 @@ export default function Retrieve() {
           {step === 4 && (
             <div className='px-6 pt-10'>
               <Image src={imageSuccess} className='w-40 mb-10' />
-              <Button className='w-full' size='lg' onPress={toUnlock}>
+              <Button className='w-full bg-blue-7' size='lg' onPress={toUnlock}>
                 完成
               </Button>
             </div>

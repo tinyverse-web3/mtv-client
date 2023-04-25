@@ -23,39 +23,42 @@ export default function Index() {
   };
   const create = async () => {
     setLoading(true);
+    console.time('create wallet');
     await wallet.create(VITE_DEFAULT_PASSWORD);
-    const { publicKey, privateKey } = wallet || {};
+    const { privateKey } = wallet || {};
     if (privateKey) {
       await initMtvStorage(privateKey);
     }
     await setWallet(wallet);
     setLoading(false);
+    console.timeEnd('create wallet');
     nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-  }
+  };
   return (
     <LayoutOne>
-      <div className='pt-10 px-8'>
+      <div className='pt-16 px-6'>
         <HeaderLogo />
         <Button
           size='xl'
-          className='m-auto mb-1 w-full'
+          className='m-auto mb-2 w-full bg-blue-4'
           onPress={toCreate}
-          loading={loading}
-          color='success'>
+          loading={loading}>
           一键创建
         </Button>
-        <Text className='text-center text-11px mb-4'>
+        <Text className='text-13px mb-4'>
           使用默认密码创建，创建之后请及时修改
         </Text>
         <Button
           color='secondary'
-          className='m-auto mb-4 w-full'
+          className='m-auto mb-4 w-full h-50px bg-blue-6'
           onPress={toRestore}
           size='xl'>
           恢复账户
         </Button>
         <div className='flex justify-end'>
-          <Link href={VITE_TINY_WEB} target="_blank">了解更多</Link>
+          <Link href={VITE_TINY_WEB} target='_blank' className='text-blue-9'>
+            了解更多
+          </Link>
         </div>
       </div>
     </LayoutOne>
