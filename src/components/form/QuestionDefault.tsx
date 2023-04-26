@@ -1,7 +1,7 @@
 import { Button, Text } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
 import { useList } from 'react-use';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
@@ -37,6 +37,7 @@ export const QuestionDefault = ({
   children,
 }: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
+  const [localList, setLocalList] = useState([]);
   const { mtvStorage } = useMtvStorageStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
@@ -76,8 +77,9 @@ export const QuestionDefault = ({
     const _list = cloneDeep(list[i]);
     _list.list[j].a = e;
     _list.list[j].l = e.length;
-    await mtvStorage?.put(LOCAL_QUESTION, _list);
+    console.log(e);
     updateAt(i, _list);
+    await mtvStorage?.put(LOCAL_QUESTION, list);
   };
   useEffect(() => {
     if (mtvStorage) {
@@ -85,13 +87,15 @@ export const QuestionDefault = ({
         console.log('res');
         console.log(res);
         if (res) {
-          // set(res);
+          setLocalList(res);
         }
       });
     }
   }, [mtvStorage]);
   useEffect(() => {
-    if (data) {
+    if (localList?.length) {
+      set(localList);
+    } else if (data) {
       const _list = data.map((v, i) => {
         const childrenList = JSON.parse(v.content);
         return {
@@ -107,7 +111,7 @@ export const QuestionDefault = ({
       });
       set(_list);
     }
-  }, [data, userList]);
+  }, [data, localList]);
 
   const validList = () => {
     let validStatus = true;
