@@ -76,6 +76,8 @@ export const WalletCheck = () => {
         } else {
           location.replace(ROUTE_HASH_PATH.INDEX);
         }
+      } else {
+        location.replace(ROUTE_HASH_PATH.INDEX);
       }
     } else if (
       status == STATUS_CODE.EMPTY_PASSWORD ||
