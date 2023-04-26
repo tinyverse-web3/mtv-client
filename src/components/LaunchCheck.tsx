@@ -64,6 +64,7 @@ export const WalletCheck = () => {
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
+        console.log('pathname', pathname)
         if (pathname.indexOf('chat/imShare') > -1) {
           await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');

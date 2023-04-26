@@ -151,7 +151,7 @@ export default function ChatList() {
   };
 
   const copyShareImLink = async () => {
-    let link = window.location.origin + '/chat/imShare?pk=' + nostr?.pk;
+    let link = window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey;
     copyToClipboard(link);
   };
 
@@ -254,7 +254,7 @@ export default function ChatList() {
                         width: '100%',
                       }}
                       value={
-                        window.location.origin + '/chat/imShare?pk=' + nostr?.pk
+                        window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey
                       }
                       viewBox={`0 0 256 256`}
                     />

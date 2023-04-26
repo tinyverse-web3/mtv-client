@@ -20,17 +20,30 @@ export default function Test() {
     const storage = new MtvStorage(privateKey, crypt);
     await storage.init();
     await storage.put('test', 1);
-    const data = await storage.get('test');
+    // const data = await storage.get('test');
     console.log('put key2');
     await storage.put('abc', { a: 1, b: 2 });
-    const data2 = await storage.get('abc');
-    console.log(data);
-    console.log(data2);
+    // const data2 = await storage.get('abc');
+    // console.log(data);
+    // console.log(data2);
+  };
+  const test2 = async () => {
+    const privateKey =
+      '6d26323e54ee98139c1ade27c29c08dc7ec17606bc0d90ac9f81240aaddce579';
+    const crypt = new MtvCrypto(privateKey);
+    const storage = new MtvStorage(privateKey, crypt);
+    await storage.init();
+    // await storage.put('test', 1);
+    const data = await storage.get('test');
+    console.log('put key2');
+    // await storage.put('abc', { a: 1, b: 2 });
+    const data2  = await storage.get('abc');
   };
 
   return (
     <div>
       <div onClick={test}>Test</div>
+      <div onClick={test2}>Test2</div>
       {/* <QRCode 
       size={256}
       style={{ height: "auto", maxWidth: "100%", width: "100%" }}

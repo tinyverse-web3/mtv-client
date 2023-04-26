@@ -83,7 +83,7 @@ export default function AccountProtector() {
       }>
       <div className='p-4'>
         <Text className='text-14px mb-6'>
-          守护者可用于身份验证、社交恢复等。
+          守护者可用于身份验证、社交恢复等。增加多个守护者让你的账户更安全。
           <br />
           请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。
         </Text>

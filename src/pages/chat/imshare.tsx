@@ -14,7 +14,7 @@ export default function ChatImChare() {
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const setNostr = useGlobalStore((state) => state.setNostr);
-  const addFriend = useNostrStore((state) => state.add);
+  // const addFriend = useNostrStore((state) => state.add);
   const nav = useNavigate();
   const toSharePk = params?.get('pk');
   const toDetail = async (cur: any) => {
@@ -42,15 +42,14 @@ export default function ChatImChare() {
       // await sendPk();
     }
   };
-  const { mutate: exchangeImPk } = useRequest(
+  const { mutate: addFriend } = useRequest<any[]>(
     {
-      url: '/im/exchangeimpkey',
+      url: '/im/addfriend',
       arg: {
         method: 'post',
         auth: true,
         query: {
-          fromPublicKey: toSharePk,
-          toPublicKey: nostr?.pk,
+          toPublicKey: toSharePk,
         },
       },
     },
@@ -58,15 +57,40 @@ export default function ChatImChare() {
       onSuccess(res) {
         if (res.code === '000000' && toSharePk) {
           // setRecipient({ pk: toSharePk });
-          addFriend({ pk: toSharePk });
+          
           nav(ROUTE_PATH.CHAT_MESSAGE, { replace: true }); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
         } else {
           console.error('res:%v, toSharePk:%v', res, toSharePk);
-          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+          // nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         }
       },
     },
   );
+  // const { mutate: exchangeImPk } = useRequest(
+  //   {
+  //     url: '/im/exchangeimpkey',
+  //     arg: {
+  //       method: 'post',
+  //       auth: true,
+  //       query: {
+  //         fromPublicKey: toSharePk,
+  //         toPublicKey: nostr?.pk,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     onSuccess(res) {
+  //       if (res.code === '000000' && toSharePk) {
+  //         // setRecipient({ pk: toSharePk });
+  //         addFriend({ pk: toSharePk });
+  //         nav(ROUTE_PATH.CHAT_MESSAGE, { replace: true }); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
+  //       } else {
+  //         console.error('res:%v, toSharePk:%v', res, toSharePk);
+  //         // nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+  //       }
+  //     },
+  //   },
+  // );
   useEffect(() => {
     console.log('mtvStorage ' + mtvStorage);
     if (mtvStorage) {
@@ -76,7 +100,7 @@ export default function ChatImChare() {
 
   const defaultHandle = async () => {
     if (nostr?.sk) {
-      await exchangeImPk();
+      // await exchangeImPk();
     }
   };
 
