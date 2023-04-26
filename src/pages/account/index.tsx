@@ -10,9 +10,15 @@ import { useRequest } from '@/api';
 
 export default function Account() {
   const nav = useNavigate();
-  const { userInfo, setUserInfo } = useGlobalStore((state) => state);
+  const {
+    userInfo,
+    setUserInfo,
+    maintainPhrase,
+    maintainProtector,
+    maintainQuestion,
+  } = useGlobalStore((state) => state);
   const { wallet } = useWalletStore((state) => state);
-  
+
   const toChangePwd = () => {
     nav(ROUTE_PATH.CHANGE_PWD);
   };
@@ -52,13 +58,29 @@ export default function Account() {
           value={userInfo.nickname}
           onPress={toChangeNickname}
         />
-        <ListRow label='钱包地址' value={ <Address address={wallet?.publicKey} />} onPress={toPublicKey} />
+        <ListRow
+          label='钱包地址'
+          value={<Address address={wallet?.publicKey} />}
+          onPress={toPublicKey}
+        />
         <ListRow label='修改密码' onPress={toChangePwd} />
-        <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
-        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} />
-        <ListRow label='备份助记词' onPress={toPharse} />
-        <ListRow label='守护者备份' onPress={toProtector} />
-        <ListRow label='智能隐私备份' onPress={toQuestion} />
+        {/* <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
+        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} /> */}
+        <ListRow
+          label='备份助记词'
+          value={maintainPhrase ? '已备份' : ''}
+          onPress={toPharse}
+        />
+        <ListRow
+          label='守护者备份'
+          value={maintainProtector ? '已备份' : ''}
+          onPress={toProtector}
+        />
+        <ListRow
+          label='智能隐私备份'
+          value={maintainQuestion ? '已备份' : ''}
+          onPress={toQuestion}
+        />
       </div>
     </LayoutThird>
   );

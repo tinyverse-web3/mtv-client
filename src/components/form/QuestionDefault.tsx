@@ -5,7 +5,7 @@ import { useEffect, useMemo } from 'react';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
-
+import { useMtvStorageStore } from '@/store';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -27,6 +27,7 @@ interface Props {
   children?: any;
   initList?: any[];
 }
+const LOCAL_QUESTION = 'local_question';
 export const QuestionDefault = ({
   onSubmit,
   type,
@@ -36,6 +37,7 @@ export const QuestionDefault = ({
   children,
 }: Props) => {
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
+  const { mtvStorage } = useMtvStorageStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
     [type],
@@ -63,22 +65,31 @@ export const QuestionDefault = ({
     let _list = initList.map((v, i) => {
       return {
         id: i,
-        list: v.list
-          .map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
+        list: v.list.map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
         title: v.title,
       };
     });
     _list = _list.filter((v) => v.list.length);
-    console.log(_list);
     set(_list);
   };
-  const answerChange = (i: number, j: number, e: any) => {
+  const answerChange = async (i: number, j: number, e: any) => {
     const _list = cloneDeep(list[i]);
     _list.list[j].a = e;
     _list.list[j].l = e.length;
+    await mtvStorage?.put(LOCAL_QUESTION, _list);
     updateAt(i, _list);
   };
-
+  useEffect(() => {
+    if (mtvStorage) {
+      mtvStorage.get(LOCAL_QUESTION).then((res) => {
+        console.log('res');
+        console.log(res);
+        if (res) {
+          // set(res);
+        }
+      });
+    }
+  }, [mtvStorage]);
   useEffect(() => {
     if (data) {
       const _list = data.map((v, i) => {

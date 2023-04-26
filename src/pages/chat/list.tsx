@@ -49,9 +49,6 @@ export default function ChatList() {
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
   useEffect(() => {
-    console.log('lastMessage', lastMessage);
-  }, [lastMessage]);
-  useEffect(() => {
     console.log('readyState', readyState);
   }, [readyState]);
   const { mutate: searchuser } = useRequest<any[]>({
@@ -192,6 +189,10 @@ export default function ChatList() {
     getFriends();
   }, []);
   useEffect(() => {
+    console.log('lastMessage', lastMessage);
+    getFriends();
+  }, [lastMessage]);
+  useEffect(() => {
     if (friendPk) {
       addFriend();
     }
@@ -238,6 +239,7 @@ export default function ChatList() {
             </div>
           ))}
         </div>
+        <Button className="mx-auto w-full mt-6" onPress={() => setShowShare(true)}>开启聊天</Button>
         {showShare && (
           <div>
             {nostr?.pk ? (

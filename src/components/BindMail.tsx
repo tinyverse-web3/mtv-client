@@ -8,16 +8,17 @@ import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const { showLogin, setShowLogin, setUserInfo, setBindStatus, setUserLevel }= useGlobalStore((state) => state);
+  const { showLogin, setShowLogin, setUserInfo, setBindStatus, setUserLevel } =
+    useGlobalStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
   const signMessage = useRef<any>({});
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
-  const { start, text, flag } = useCountDown(60);
+  const { start, text, flag, reset } = useCountDown(60);
   const generateQuery = async () => {
     const { publicKey, address } = wallet || {};
     let sign;
-    const ipns = ''
+    const ipns = '';
     if (publicKey && address && ipns) {
       sign = await wallet?.sign(ipns);
     }
@@ -70,11 +71,11 @@ export const BindMail = () => {
       }
       setLoginLoading(false);
       await modifyuser();
-      setShowLogin(false);
     } else {
-      setLoginLoading(false);
       toast.error(res.msg);
     }
+    setShowLogin(false);
+    reset();
   };
   const { mutate } = useRequest(
     {
@@ -171,7 +172,6 @@ export const BindMail = () => {
             clearable
             bordered
             fullWidth
-            
             type='number'
             maxLength={6}
             aria-label='验证码'

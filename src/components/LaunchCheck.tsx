@@ -64,17 +64,17 @@ export const WalletCheck = () => {
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/') {
-        // if (pathname.indexOf('chat') > -1) {
-        //   await wallet.create(VITE_DEFAULT_PASSWORD);
-        //   console.log('wallet create success');
-        //   const { privateKey } = wallet || {};
-        //   if (privateKey) {
-        //     await initStorage(privateKey);
-        //   }
-        //   await setWallet(wallet);
-        // } else {
-        location.replace(ROUTE_HASH_PATH.INDEX);
-        // }
+        if (pathname.indexOf('chat/imShare') > -1) {
+          await wallet.create(VITE_DEFAULT_PASSWORD);
+          console.log('wallet create success');
+          const { privateKey } = wallet || {};
+          if (privateKey) {
+            await initStorage(privateKey);
+          }
+          await setWallet(wallet);
+        } else {
+          location.replace(ROUTE_HASH_PATH.INDEX);
+        }
       }
     } else if (
       status == STATUS_CODE.EMPTY_PASSWORD ||

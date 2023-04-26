@@ -12,6 +12,11 @@ export function useCountDown(initCount = 10, initText = '获取验证码') {
       setCount((count) => count - 1);
     }, 1000);
   };
+  const reset = () => {
+    setCount(initCount);
+    setText(initText);
+    setFlag(true);
+  }
   useEffect(() => window.clearInterval(timeId.current.id), []);
   useEffect(() => {
     if (count === initCount) {
@@ -25,5 +30,5 @@ export function useCountDown(initCount = 10, initText = '获取验证码') {
       setText(`${count}s`);
     }
   }, [count]);
-  return { start, count, text, flag };
+  return { start, count, text, flag, reset };
 }

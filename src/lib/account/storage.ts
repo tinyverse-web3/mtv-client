@@ -14,6 +14,8 @@ export class MtvStorage {
         console.info('ipnsId: %s', ipnsId);
         callback && callback(ipnsId);
       },
+      genRemoteKeyTimeout: 30000,
+      syncTryTimeout: 30000,
     });
   }
   async put(key: string, data: any) {
