@@ -23,7 +23,7 @@ export default function Restore() {
     (state) => state,
   );
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setUserInfo } = useGlobalStore((state) => state);
+  const { setUserInfo, setUserLevel, setMaintainQuestion, setBindStatus } = useGlobalStore((state) => state);
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -31,7 +31,10 @@ export default function Restore() {
     },
     {
       onSuccess: async (res) => {
-        const { dbAddress, ipns, name, email } = res.data;
+        const { dbAddress, ipns, name, email, safeLevel } = res.data;
+        setUserLevel(safeLevel);
+        setMaintainQuestion(true);
+        setBindStatus(true);
         setUserInfo({ email, nickname: name });
         const { privateKey } = wallet || {};
         if (privateKey) {

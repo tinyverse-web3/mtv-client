@@ -21,7 +21,9 @@ const ProtectorItem = ({ type, account, onDel }: GuardItem) => {
     <div className='flex items-center h-14'>
       <span>{typeMap[type]}</span>
       <div className='flex-1 text-end'>{account}</div>
-      <div className='i-mdi-trash-can-outline ml-4' onClick={() => onDel?.()}></div>
+      <div
+        className='i-mdi-trash-can-outline ml-4'
+        onClick={() => onDel?.()}></div>
     </div>
   );
 };
@@ -32,7 +34,9 @@ export default function AccountProtector() {
   const [shareA, setShareA] = useState('');
   const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
-  const { setMaintainProtector, calcUserLevel } = useGlobalStore((state) => state);
+  const { setMaintainProtector, calcUserLevel } = useGlobalStore(
+    (state) => state,
+  );
   useUpdateLevel();
   const { data, mutate, loading } = useRequest<any[]>({
     url: '/guardian/list',
@@ -42,16 +46,14 @@ export default function AccountProtector() {
     },
   });
 
-  const { mutate: saveSssData } = useRequest(
-    {
-      url: '/user/savesssdata4guardian',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: { guardianSssData: shareA },
-      },
+  const { mutate: saveSssData } = useRequest({
+    url: '/user/savesssdata4guardian',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: { guardianSssData: shareA },
     },
-  );
+  });
   const { mutate: delGuardian } = useRequest(
     {
       url: '/guardian/del',
@@ -70,7 +72,16 @@ export default function AccountProtector() {
       },
     },
   );
-
+  const { mutate: updateSafeLevel } = useRequest({
+    url: '/user/updatesafelevel',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: {
+        safeLevel: 3,
+      },
+    },
+  });
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
   };
@@ -94,9 +105,9 @@ export default function AccountProtector() {
   };
   const delHandler = async (id: string) => {
     await setDelId(id);
-    console.log('delId', delId)
+    console.log('delId', delId);
     delGuardian();
-  }
+  };
   useEffect(() => {
     mutate();
   }, []);

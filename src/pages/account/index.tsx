@@ -7,9 +7,11 @@ import { useCheckLogin } from '@/components/BindMail';
 import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import { Password } from '@/lib/account/wallet';
+import { useUpdateLevel } from '@/lib/hooks';
 
 export default function Account() {
   const nav = useNavigate();
+  useUpdateLevel();
   const {
     userInfo,
     setUserInfo,

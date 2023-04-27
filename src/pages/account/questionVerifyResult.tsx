@@ -23,17 +23,28 @@ export default function QuestionVerifyResult() {
   const { state } = useLocation();
   const userInfo = useGlobalStore((state) => state.userInfo);
   const wallet = useWalletStore((state) => state.wallet);
+  const [shareA, setShareA] = useState<string>();
   const { list: initList, type } = useQuestionStore((state) => state);
   const { setMaintainQuestion, calcUserLevel } = useGlobalStore(
     (state) => state,
   );
 
-  const [shareA, setShareA] = useState<string>();
-  useUpdateLevel();
+  const { mutate: updateSafeLevel, loading: loading } = useRequest(
+    {
+      url: '/user/updatesafelevel',
+      arg: {
+        method: 'post',
+        auth: true,
+        query: {
+          safeLevel: 3,
+        },
+      },
+    },
+  );
+
   const toAccount = async () => {
     await setMaintainQuestion(true);
     await calcUserLevel();
-    console.log(123);
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {
@@ -89,6 +100,7 @@ export default function QuestionVerifyResult() {
         });
         await Promise.all([...kvMap, saveSssData()]);
         await setUserQuestion();
+        await updateSafeLevel();
         toast.success('备份成功');
         toAccount();
       }

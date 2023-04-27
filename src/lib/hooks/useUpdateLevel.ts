@@ -1,10 +1,10 @@
 import { useGlobalStore } from '@/store';
 import { useRequest } from '@/api';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useUpdateLevel = () => {
   const { userLevel } = useGlobalStore((state) => state);
-  console.log(userLevel);
+  const prevLevel = useRef(userLevel);
   const { mutate: updateSafeLevel, loading: loading } = useRequest(
     {
       url: '/user/updatesafelevel',
@@ -16,19 +16,13 @@ export const useUpdateLevel = () => {
         },
       },
     },
-    {
-      onSuccess() {},
-    },
   );
 
-  const unsub = useGlobalStore.subscribe((state, prevState) => {
-    if (state.userLevel > prevState.userLevel) {
-      updateSafeLevel();
-    }
-  });
   useEffect(() => {
-    return unsub;
-  });
-  console.log(useGlobalStore);
+    if (prevLevel.current <= userLevel) {
+      updateSafeLevel();
+      prevLevel.current = userLevel;
+    }
+  }, [userLevel]);
   return userLevel;
 };
