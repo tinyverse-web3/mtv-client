@@ -6,7 +6,7 @@ import { useGlobalStore, useWalletStore } from '@/store';
 import { useCheckLogin } from '@/components/BindMail';
 import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
-import { useRequest } from '@/api';
+import { Password } from '@/lib/account/wallet';
 
 export default function Account() {
   const nav = useNavigate();
@@ -17,7 +17,7 @@ export default function Account() {
     maintainProtector,
     maintainQuestion,
   } = useGlobalStore((state) => state);
-  const { wallet } = useWalletStore((state) => state);
+  const { wallet, reset: resetWallet } = useWalletStore((state) => state);
 
   const toChangePwd = () => {
     nav(ROUTE_PATH.CHANGE_PWD);
@@ -45,6 +45,12 @@ export default function Account() {
     if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     }
+  };
+  const logout = async () => {
+    const password = new Password();
+    await Promise.all([resetWallet()]);
+    await password.remove();
+    location.replace('/unlock');
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.CHAT_LIST}>
@@ -80,6 +86,10 @@ export default function Account() {
           label='智能隐私备份'
           value={maintainQuestion ? '已备份' : ''}
           onPress={toQuestion}
+        />
+        <ListRow
+          label='退出'
+          onPress={logout}
         />
       </div>
     </LayoutThird>
