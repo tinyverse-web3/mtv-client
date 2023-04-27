@@ -120,7 +120,7 @@ export const useGlobalStore = create<GlobalState>()(
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(
-              ([key]) => !['nostr', 'checkLoading'].includes(key),
+              ([key]) => !['nostr', 'checkLoading', 'showLogin'].includes(key),
             ),
           ),
       },

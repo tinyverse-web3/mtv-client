@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import LayoutTwo from '@/layout/LayoutTwo';
 import { ROUTE_PATH, routes } from '@/router';
 import { useNavigate, matchRoutes, useLocation } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const MenuItem = ({ text, icon }: any) => {
   return (
@@ -41,13 +42,19 @@ export default function SpaceIndex() {
       icon: 'i-mdi-book-open',
       label: '付费阅读',
     },
+    {
+      icon: 'i-mdi-database-settings-outline',
+      label: '账本',
+    },
   ];
   const menuClick = ({ path, url }: any) => {
     if (path) {
       nav(path);
+    } else {
+      toast('即将发布');
     }
   };
-  
+
   return (
     <LayoutTwo>
       <div className='grid grid-cols-3 gap-6 justify-items-center pt-10'>

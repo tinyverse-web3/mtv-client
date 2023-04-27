@@ -93,6 +93,7 @@ export const WalletCheck = () => {
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
+      console.log(123);
     }
     setCheckLoading(false);
   };

@@ -122,9 +122,9 @@ export default function ChatList() {
         await mtvStorage.put(NOSTR_KEY, sk);
         await setNostr({ pk, sk });
       }
-      if (bindStatus) {
-        await sendPk();
-      }
+      // if (bindStatus) {
+      await sendPk();
+      // }
     }
   };
 
@@ -151,7 +151,8 @@ export default function ChatList() {
   };
 
   const copyShareImLink = async () => {
-    let link = window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey;
+    let link =
+      window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey;
     copyToClipboard(link);
   };
 
@@ -227,11 +228,11 @@ export default function ChatList() {
               onClick={() => toDetail(item)}>
               <Image
                 src={item.imgCid || '/logo.png'}
-                className='mr-6 w-14 h-14'
+                className='mr-6 w-12 h-12'
               />
               <div className='flex-1'>
                 <div className='flex justify-between items-center mb-2'>
-                  <span>{item.name}</span>
+                  <span>{item.name || <Address address={item.PublicKey}></Address>}</span>
                   {/* <span className='text-12px'>14:00</span> */}
                 </div>
                 {/* <div className='text-12px'>[3条]今天天气不错</div> */}
@@ -239,7 +240,11 @@ export default function ChatList() {
             </div>
           ))}
         </div>
-        <Button className="mx-auto w-full mt-6" onPress={() => setShowShare(true)}>开启聊天</Button>
+        <Button
+          className='mx-auto w-full mt-6'
+          onPress={() => setShowShare(true)}>
+          开启聊天
+        </Button>
         {showShare && (
           <div>
             {nostr?.pk ? (
@@ -254,7 +259,9 @@ export default function ChatList() {
                         width: '100%',
                       }}
                       value={
-                        window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey
+                        window.location.origin +
+                        '/#/chat/imShare?pk=' +
+                        wallet?.publicKey
                       }
                       viewBox={`0 0 256 256`}
                     />

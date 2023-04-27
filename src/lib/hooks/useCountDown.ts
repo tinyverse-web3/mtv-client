@@ -13,17 +13,18 @@ export function useCountDown(initCount = 10, initText = '获取验证码') {
     }, 1000);
   };
   const reset = () => {
+    window.clearInterval(timeId.current.id);
     setCount(initCount);
     setText(initText);
     setFlag(true);
-  }
+  };
   useEffect(() => window.clearInterval(timeId.current.id), []);
   useEffect(() => {
     if (count === initCount) {
       setText(initText);
     } else if (count === 0) {
       setFlag(true);
-      setCount(initCount)
+      setCount(initCount);
       clearInterval(timeId.current.id);
       setText(initText);
     } else {

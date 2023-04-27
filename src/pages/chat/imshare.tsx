@@ -5,15 +5,15 @@ import { useGlobalStore, useNostrStore, useMtvStorageStore } from '@/store';
 import { useEffect } from 'react';
 import { getPublicKey } from 'nostr-tools';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 const NOSTR_KEY = 'nostr_sk';
 
 export default function ChatImChare() {
-  const nostr = useGlobalStore((state) => state.nostr);
-  const createNostr = useGlobalStore((state) => state.createNostr);
+  const { createNostr, nostr } = useGlobalStore((state) => state);
   const [params] = useSearchParams(); // const { pk } = useParams();
   const setRecipient = useNostrStore((state) => state.setRecipient);
   const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
-  const setNostr = useGlobalStore((state) => state.setNostr);
+  const { setNostr } = useGlobalStore((state) => state);
   // const addFriend = useNostrStore((state) => state.add);
   const nav = useNavigate();
   const toSharePk = params?.get('pk');
@@ -21,6 +21,16 @@ export default function ChatImChare() {
     // await setRecipient({ pk: cur.pk });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
+  const { mutate: sendPk } = useRequest({
+    url: '/user/updateimpkey',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: {
+        nostrPublicKey: nostr?.pk,
+      },
+    },
+  });
   const getLocalNostr = async () => {
     // console.log('本地获取nostr');
     // console.log(mtvDb?.kvdb);
@@ -39,9 +49,38 @@ export default function ChatImChare() {
         await mtvStorage.put(NOSTR_KEY, sk);
         await setNostr({ pk, sk });
       }
-      // await sendPk();
+      await sendPk();
     }
   };
+  const { mutate: searchuser } = useRequest<any[]>(
+    {
+      url: '/im/searchuser',
+      arg: {
+        method: 'get',
+        auth: true,
+        query: {
+          param: toSharePk,
+        },
+      },
+    },
+    {
+      onSuccess(res) {
+        console.log('searchuser');
+        console.log(res);
+        if (res.code === '000000') {
+          const { nostrPublicKey, Id, name, imgCid } = res.data;
+          if (nostrPublicKey) {
+            setRecipient({ pk: nostrPublicKey, Id, name, avatar: imgCid });
+            addFriend();
+          } else {
+            toast.error('对方无法聊天');
+          }
+        } else {
+          toast.error(res.msg);
+        }
+      },
+    },
+  );
   const { mutate: addFriend } = useRequest<any[]>(
     {
       url: '/im/addfriend',
@@ -55,9 +94,8 @@ export default function ChatImChare() {
     },
     {
       onSuccess(res) {
-        if (res.code === '000000' && toSharePk) {
-          // setRecipient({ pk: toSharePk });
-          
+        console.log(res);
+        if (res.code === '000000') {
           nav(ROUTE_PATH.CHAT_MESSAGE, { replace: true }); // location.replace(ROUTE_PATH.CHAT_MESSAGE);
         } else {
           console.error('res:%v, toSharePk:%v', res, toSharePk);
@@ -99,7 +137,8 @@ export default function ChatImChare() {
   }, [mtvStorage]);
 
   const defaultHandle = async () => {
-    if (nostr?.sk) {
+    if (nostr?.sk && toSharePk) {
+      searchuser();
       // await exchangeImPk();
     }
   };

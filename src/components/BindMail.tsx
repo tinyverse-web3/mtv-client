@@ -69,12 +69,12 @@ export const BindMail = () => {
       if (!signMessage.current?.sign) {
         await generateQuery();
       }
-      setLoginLoading(false);
       await modifyuser();
+      setShowLogin(false);
     } else {
       toast.error(res.msg);
     }
-    setShowLogin(false);
+    setLoginLoading(false);
     reset();
   };
   const { mutate } = useRequest(

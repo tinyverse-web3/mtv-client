@@ -11,8 +11,9 @@ import { toast } from 'react-hot-toast';
 interface GuardItem {
   type: string;
   account: string;
+  onDel: () => void;
 }
-const ProtectorItem = ({ type, account }: GuardItem) => {
+const ProtectorItem = ({ type, account, onDel }: GuardItem) => {
   const typeMap: any = {
     email: 'Email',
   };
@@ -20,7 +21,7 @@ const ProtectorItem = ({ type, account }: GuardItem) => {
     <div className='flex items-center h-14'>
       <span>{typeMap[type]}</span>
       <div className='flex-1 text-end'>{account}</div>
-      <div className='i-mdi-trash-can-outline ml-4'></div>
+      <div className='i-mdi-trash-can-outline ml-4' onClick={() => onDel?.()}></div>
     </div>
   );
 };
@@ -29,6 +30,7 @@ export default function AccountProtector() {
   const nav = useNavigate();
   const [existed, setExisted] = useState(true);
   const [shareA, setShareA] = useState('');
+  const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
   const { setMaintainProtector, calcUserLevel } = useGlobalStore((state) => state);
   useUpdateLevel();
@@ -50,6 +52,25 @@ export default function AccountProtector() {
       },
     },
   );
+  const { mutate: delGuardian } = useRequest(
+    {
+      url: '/guardian/del',
+      arg: {
+        auth: true,
+        method: 'post',
+        query: { id: delId },
+      },
+    },
+    {
+      onSuccess() {
+        mutate();
+      },
+      onError() {
+        // setLoading(false);
+      },
+    },
+  );
+
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
   };
@@ -71,6 +92,11 @@ export default function AccountProtector() {
       }
     }
   };
+  const delHandler = async (id: string) => {
+    await setDelId(id);
+    console.log('delId', delId)
+    delGuardian();
+  }
   useEffect(() => {
     mutate();
   }, []);
@@ -96,6 +122,7 @@ export default function AccountProtector() {
                     key={v.Id}
                     type={v.type}
                     account={v.accountMask}
+                    onDel={() => delHandler(v.Id)}
                   />
                 ))}
               <Button

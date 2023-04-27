@@ -6,6 +6,7 @@ import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
 import { useMtvStorageStore } from '@/store';
+import { useDebounce } from 'react-use';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -79,8 +80,14 @@ export const QuestionDefault = ({
     _list.list[j].l = e.length;
     console.log(e);
     updateAt(i, _list);
-    await mtvStorage?.put(LOCAL_QUESTION, list);
   };
+  const saveLocalList = () => {
+    if (type === 'maintain') {
+      console.log('maintain save');
+      mtvStorage?.put(LOCAL_QUESTION, list);
+    }
+  };
+  useDebounce(saveLocalList, 300, [list]);
   useEffect(() => {
     if (mtvStorage) {
       mtvStorage.get(LOCAL_QUESTION).then((res) => {
@@ -93,7 +100,7 @@ export const QuestionDefault = ({
     }
   }, [mtvStorage]);
   useEffect(() => {
-    if (localList?.length) {
+    if (localList?.length && type === 'maintain') {
       set(localList);
     } else if (data) {
       const _list = data.map((v, i) => {
