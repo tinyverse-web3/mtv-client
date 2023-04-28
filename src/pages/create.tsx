@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
-import { validPassword } from '@/lib/utils';
+import { validatePassword } from '@/lib/utils';
 import { useWalletStore, useGlobalStore, useMtvStorageStore } from '@/store';
 
 import Page from '@/layout/LayoutTwo';
@@ -18,7 +18,7 @@ export default function About() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const create = async () => {
-    const valid = await validPassword(pwd);
+    const valid = await validatePassword(pwd);
     setValidStatus(valid as boolean);
     if (!pwd || !confirmPwd || !valid) return;
     if (pwd !== confirmPwd) {

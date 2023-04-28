@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Text, Checkbox, Row, Button, Input } from '@nextui-org/react';
-import wallet, { STATUS_CODE, Password } from '@/lib/account/wallet';
+import { STATUS_CODE, Password } from '@/lib/account/wallet';
+import { toast } from 'react-hot-toast';
+import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '@/store';
 import { useRequest } from '@/api';
@@ -35,24 +37,37 @@ export default function ChangePwd() {
       },
     },
     {
-      onSuccess() {},
+      onSuccess(res) {},
     },
   );
 
   const changePassword = async () => {
+    if (oldPwd === pwd) {
+      toast.error('新密码不能与旧密码相同');
+      return;
+    }
+    if (pwd !== confirmPwd) {
+      setConfirmStatus(false);
+      return;
+    }
+    const validStatus = await validatePassword(pwd);
+    if (!validStatus.value)  { 
+      setValidStatus(false);
+      return;
+    };
     const status = await wallet?.verify(oldPwd);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
-      if (pwd !== confirmPwd) {
-        setConfirmStatus(false);
-        return;
-      }
       if (checked) {
-        await savePassword();
+        const res = await savePassword();
+        if (res.code === '000000') {
+          toast.success('密码保存成功');
+        } else {
+          toast.error(res.msg);
+          return;
+        }
       }
-      console.log(oldPwd)
-      console.log(pwd)
       await wallet?.changePwd(oldPwd, pwd);
       nav(-1);
     }
