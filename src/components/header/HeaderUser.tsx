@@ -59,7 +59,10 @@ export const HeaderUser = () => {
     <div className='h-full relative'>
       <div className='flex px-4 items-center h-full'>
         <div className='mr-4' onClick={toUserInfo}>
-          <Image src='/logo.png' className=' cursor-pointer w-14 h-14' />
+          <Image
+            src={userInfo.avatar || '/logo.png'}
+            className=' cursor-pointer w-14 h-14'
+          />
         </div>
         <div className='flex-1 h-full pt-6'>
           <div className='flex text-5 items-center'>

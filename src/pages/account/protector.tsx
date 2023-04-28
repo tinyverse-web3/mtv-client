@@ -1,8 +1,9 @@
 import { Button, Text, Textarea } from '@nextui-org/react';
+
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useUpdateLevel } from '@/lib/hooks';
 import { useRequest } from '@/api';
 import { useWalletStore, useGlobalStore } from '@/store';
@@ -30,7 +31,6 @@ const ProtectorItem = ({ type, account, onDel }: GuardItem) => {
 
 export default function AccountProtector() {
   const nav = useNavigate();
-  const [existed, setExisted] = useState(true);
   const [shareA, setShareA] = useState('');
   const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
@@ -111,6 +111,9 @@ export default function AccountProtector() {
   useEffect(() => {
     mutate();
   }, []);
+  const existed = useMemo(() => {
+    return data && data.length;
+  }, [data]);
   return (
     <LayoutThird
       title='守护者'

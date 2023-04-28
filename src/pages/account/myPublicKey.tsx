@@ -16,7 +16,7 @@ export default function UserQrcode() {
     toast.success('复制成功');
   };
   return (
-    <LayoutThird title='我的公钥' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='我的公钥' path={ROUTE_PATH.ACCOUNT}>
       <div className='pt-16 px-6'>
         {wallet?.publicKey && (
           <Card className='w-50 m-auto mb-16'>

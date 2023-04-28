@@ -18,7 +18,6 @@ export default function UserPhrase() {
   };
   const verify = () => {
     const _phrase = list.join(' ');
-    nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     if (_phrase === wallet?.getMnemonic()) {
       nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     } else {
@@ -27,7 +26,7 @@ export default function UserPhrase() {
   };
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
-    <LayoutThird title='助记词恢复测试' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='助记词恢复测试' path={ROUTE_PATH.ACCOUNT_PHRASE}>
       <div className='p-4'>
         <div className='grid grid-cols-4 gap-4 mb-4'>
           {list.map((v, i) => (

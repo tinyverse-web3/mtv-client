@@ -11,7 +11,7 @@ export default function UserPhrase() {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
   };
   return (
-    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='助记词备份' path={ROUTE_PATH.ACCOUNT}>
       <div className='p-4'>
         <Text className='text-4 mb-4'>
           助记词非常重要，请妥善保管，注意不使用联网工具备份。

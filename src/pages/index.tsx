@@ -53,7 +53,7 @@ export default function Index() {
           className='m-auto mb-4 w-full h-50px bg-blue-6'
           onPress={toRestore}
           size='xl'>
-          恢复账户
+          恢复账号
         </Button>
         <div className='flex justify-end'>
           <Link href={VITE_TINY_WEB} target='_blank' className='text-blue-9'>
