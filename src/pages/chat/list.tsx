@@ -4,6 +4,7 @@ import { useCheckLogin } from '@/components/BindMail';
 import { Button } from '@/components/form/Button';
 import LayoutTwo from '@/layout/LayoutTwo';
 import { ROUTE_PATH } from '@/router';
+import { QRCodeCanvas } from 'qrcode.react';
 import {
   useGlobalStore,
   useMtvStorageStore,
@@ -14,7 +15,6 @@ import { Card, Text, Input, Image } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { getPublicKey } from 'nostr-tools';
 import { useEffect, useMemo, useState } from 'react';
-import QRCode from 'react-qr-code';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard } from 'react-use';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
@@ -249,21 +249,15 @@ export default function ChatList() {
           <div>
             {nostr?.pk ? (
               <div>
-                <Card className='w-60 m-auto'>
+                <Card className='w-fit m-auto'>
                   <Card.Body>
-                    <QRCode
-                      size={256}
-                      style={{
-                        height: 'auto',
-                        maxWidth: '100%',
-                        width: '100%',
-                      }}
+                    <QRCodeCanvas
+                      size={200}
                       value={
                         window.location.origin +
                         '/#/chat/imShare?pk=' +
                         wallet?.publicKey
                       }
-                      viewBox={`0 0 256 256`}
                     />
                   </Card.Body>
                 </Card>

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import QRCode from 'react-qr-code';
 import { createMemo, useEvent, useList } from 'react-use';
 import { MtvCrypto, MtvStorage } from '@/lib/account';
 const fibonacci: any = (n: any) => {

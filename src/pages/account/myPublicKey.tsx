@@ -4,10 +4,13 @@ import { useWalletStore } from '@/store';
 import { Card } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useCopyToClipboard } from 'react-use';
-import QRCode from 'react-qr-code';
+import { QRCodeCanvas } from 'qrcode.react';
 import { toast } from 'react-hot-toast';
+import { download } from '@/lib/utils';
+import { useRef } from 'react';
 
 export default function UserQrcode() {
+  const qrBoxRef = useRef<any>();
   const { wallet } = useWalletStore((state) => state);
   const [_, copyToClipboard] = useCopyToClipboard();
   const copy = () => {
@@ -15,17 +18,26 @@ export default function UserQrcode() {
     copyToClipboard(wallet?.publicKey);
     toast.success('复制成功');
   };
+  const loadQrcode = () => {
+    if (qrBoxRef.current) {
+      const canvas = qrBoxRef.current.querySelector('canvas');
+      const url = canvas?.toDataURL();
+      console.log(url);
+      if (url) {
+        download(url, `qrcode_${wallet?.publicKey}.png`);
+      }
+    }
+  };
+
   return (
     <LayoutThird title='我的公钥' path={ROUTE_PATH.ACCOUNT}>
       <div className='pt-16 px-6'>
         {wallet?.publicKey && (
-          <Card className='w-50 m-auto mb-16'>
-            <Card.Body>
-              <QRCode
-                size={256}
-                style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+          <Card className='w-fit m-auto mb-16'>
+            <Card.Body ref={qrBoxRef}>
+              <QRCodeCanvas
                 value={wallet?.publicKey}
-                viewBox={`0 0 256 256`}
+                size={200}
               />
             </Card.Body>
           </Card>
@@ -33,10 +45,10 @@ export default function UserQrcode() {
         <Card className='w-full m-auto text-12px mb-6'>
           <Card.Body>{wallet?.publicKey}</Card.Body>
         </Card>
-        <Button className='w-full mb-6' size='lg' onPress={copy}>
+        <Button className='w-full mb-6 bg-cyan-5' size='lg' onPress={copy}>
           复制公钥
         </Button>
-        <Button className='w-full mb-6' size='lg'>
+        <Button className='w-full mb-6 bg-blue-9' size='lg' onPress={loadQrcode}>
           保存二维码
         </Button>
       </div>
