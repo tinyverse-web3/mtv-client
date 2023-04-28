@@ -17,17 +17,23 @@ export const WalletCheck = () => {
     reset: resetWallet,
     wallet: storeWallet,
   } = useWalletStore((state) => state);
-  const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
+  const { checkLoading, setCheckLoading, bindStatus } = useGlobalStore((state) => state);
   const {
     init: initStorage,
     mtvStorage,
     destory: destoryStorage,
   } = useMtvStorageStore((state) => state);
 
+  useEffect(() => {
+    if (bindStatus && mtvStorage) {
+      mtvStorage?.connect();
+    }
+  }, [bindStatus, mtvStorage]);
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet || {};
     if (privateKey && !mtvStorage) {
       try {
+        console.log('init storage');
         await initStorage(privateKey);
       } catch (error) {
         console.log(error);
@@ -63,8 +69,8 @@ export const WalletCheck = () => {
     setCheckLoading(true);
     const status = await wallet?.check();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
-      if (pathname !== '/') {
-        console.log('pathname', pathname)
+      if (pathname !== '/index') {
+        console.log('pathname', pathname);
         if (pathname.indexOf('chat/imShare') > -1) {
           await wallet.create(VITE_DEFAULT_PASSWORD);
           console.log('wallet create success');
@@ -89,17 +95,14 @@ export const WalletCheck = () => {
     } else if (status == STATUS_CODE.SUCCESS) {
       setWallet(wallet);
       await launchWallet(wallet);
-      console.log(pathname?.indexOf('account'));
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
-      console.log(123);
     }
     setCheckLoading(false);
   };
   useEffect(() => {
     if (checkLoading) {
-      console.log('mounted');
       checkStatus();
     }
   }, []);

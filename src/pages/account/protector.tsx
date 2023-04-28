@@ -22,9 +22,9 @@ const ProtectorItem = ({ type, account, onDel }: GuardItem) => {
     <div className='flex items-center h-14'>
       <span>{typeMap[type]}</span>
       <div className='flex-1 text-end'>{account}</div>
-      <div
-        className='i-mdi-trash-can-outline ml-4'
-        onClick={() => onDel?.()}></div>
+      <div className='p-3 -mr-3' onClick={() => onDel?.()}>
+        <div className='i-mdi-trash-can-outline w-5 h-5'></div>
+      </div>
     </div>
   );
 };

@@ -1,15 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useWalletStore } from '@/store';
+import { useGlobalStore, useWalletStore, useMtvStorageStore } from '@/store';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const { showLogin, setShowLogin, setUserInfo, setBindStatus, setUserLevel } =
-    useGlobalStore((state) => state);
+  const {
+    showLogin,
+    setShowLogin,
+    setUserInfo,
+    setBindStatus,
+    setUserLevel,
+    bindStatus,
+  } = useGlobalStore((state) => state);
+  const { mtvStorage } = useMtvStorageStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
   const signMessage = useRef<any>({});
   const [email, setEmail] = useState('');
@@ -17,20 +24,13 @@ export const BindMail = () => {
   const { start, text, flag, reset } = useCountDown(60);
   const generateQuery = async () => {
     const { publicKey, address } = wallet || {};
-    let sign;
-    const ipns = '';
-    if (publicKey && address && ipns) {
-      sign = await wallet?.sign(ipns);
-    }
     signMessage.current = {
       publicKey: publicKey,
       address: address,
-      ipns,
-      sign,
     };
   };
   useEffect(() => {
-    // generateQuery();
+    generateQuery();
   }, [wallet]);
   const { mutate: modifyuser } = useRequest(
     {
@@ -54,7 +54,7 @@ export const BindMail = () => {
     },
     {
       onSuccess: (res) => {
-        const { name, email, dbAddress, ipns, safeLevel } = res.data || {};
+        const { name, email, safeLevel } = res.data || {};
         setUserLevel(safeLevel);
         setUserInfo({
           nickname: name,
@@ -66,9 +66,7 @@ export const BindMail = () => {
   const loginSucess = async (res: any) => {
     if (res.code === '000000') {
       setBindStatus(true);
-      if (!signMessage.current?.sign) {
-        await generateQuery();
-      }
+      await generateQuery();
       await modifyuser();
       setShowLogin(false);
     } else {
@@ -77,6 +75,7 @@ export const BindMail = () => {
     setLoginLoading(false);
     reset();
   };
+  
   const { mutate } = useRequest(
     {
       url: '/user/bindmail',

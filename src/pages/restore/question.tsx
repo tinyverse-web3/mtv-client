@@ -31,14 +31,14 @@ export default function Restore() {
     },
     {
       onSuccess: async (res) => {
-        const { dbAddress, ipns, name, email, safeLevel } = res.data;
+        const { name, email, safeLevel } = res.data;
         setUserLevel(safeLevel);
         setMaintainQuestion(true);
         setBindStatus(true);
         setUserInfo({ email, nickname: name });
         const { privateKey } = wallet || {};
         if (privateKey) {
-          await initMtvStorage(privateKey, ipns);
+          await initMtvStorage(privateKey);
         }
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },

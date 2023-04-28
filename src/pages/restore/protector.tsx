@@ -13,13 +13,17 @@ import toast from 'react-hot-toast';
 
 export default function Protector() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const initMtvStorage = useMtvStorageStore((state) => state.init);
+  const { resume: resumeMtvStorage } = useMtvStorageStore(
+    (state) => state,
+  );
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setBindStatus, setUserLevel, setUserInfo } = useGlobalStore((state) => state);
+  const { setBindStatus, setUserLevel, setUserInfo } = useGlobalStore(
+    (state) => state,
+  );
 
   const query = useMemo(() => {
     return {
@@ -34,7 +38,7 @@ export default function Protector() {
     },
     {
       onSuccess: async (res) => {
-        const { email, dbAddress, ipns, name, safeLevel } = res.data;
+        const { email, dbAddress, name, safeLevel } = res.data;
         if (email) {
           setBindStatus(true);
         }
@@ -43,14 +47,14 @@ export default function Protector() {
 
         const { privateKey } = wallet || {};
         if (privateKey) {
-          await initMtvStorage(privateKey);
+          await resumeMtvStorage(privateKey);
         }
-        setLoading(true);    
+        setLoading(true);
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },
       onError() {
         setLoading(false);
-      }
+      },
     },
   );
   const { mutate: getSssData } = useRequest({

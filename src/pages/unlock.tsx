@@ -25,7 +25,6 @@ export default function Unlock() {
   const {
     init: initMtvStorage,
     destory: destoryStorage,
-    reset: resetStorage,
   } = useMtvStorageStore((state) => state);
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
@@ -74,7 +73,6 @@ export default function Unlock() {
       resetNostr(),
       resetWallet(),
       resetGlobal(),
-      resetStorage(),
       destoryStorage(),
       wallet?.delete(),
     ]);

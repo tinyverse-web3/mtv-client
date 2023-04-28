@@ -88,7 +88,6 @@ export function useRequest<T>(
     }
     if (arg?.auth && publicKey) {
       const signStr = options.body || _url;
-      console.log(signStr)
       const sign = await wallet?.sign(signStr);
       options.headers.public_key = publicKey;
       options.headers.sign = sign;

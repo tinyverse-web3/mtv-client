@@ -61,7 +61,7 @@ export const HeaderUser = () => {
         <div className='mr-4' onClick={toUserInfo}>
           <Image
             src={userInfo.avatar || '/logo.png'}
-            className=' cursor-pointer w-14 h-14'
+            className=' cursor-pointer w-14 h-14 rounded-full'
           />
         </div>
         <div className='flex-1 h-full pt-6'>
