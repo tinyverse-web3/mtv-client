@@ -176,6 +176,7 @@ export class Wallet {
 
   private async _verify(encryptPwd: string) {
     const keystore = await this.keystore.get(encryptPwd);
+    console.log(keystore);
     try {
       if (keystore) {
         const mnemonic = ethers.Mnemonic.fromEntropy(keystore);
@@ -184,12 +185,12 @@ export class Wallet {
         sessionStorage.setItem(LOCAL_PASSWORD_KEY, encryptPwd);
         return STATUS_CODE.SUCCESS;
       } else {
-        STATUS_CODE.RESTORE_ERROR;
+        return STATUS_CODE.INVALID_PASSWORD;
       }
     } catch (error) {
       console.log(error);
       if ((error as any).code == 'INVALID_ARGUMENT') {
-        return STATUS_CODE.INVALID_PASSWORD;
+        return STATUS_CODE.RESTORE_ERROR;
       }
     }
   }

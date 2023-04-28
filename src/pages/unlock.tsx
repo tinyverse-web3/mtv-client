@@ -32,6 +32,7 @@ export default function Unlock() {
   const unlock = async () => {
     setLoading(true);
     const status = await wallet?.verify(pwd);
+    console.log(status);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
@@ -40,9 +41,9 @@ export default function Unlock() {
       if (privateKey) {
         await initMtvStorage(privateKey);
       }
-      setLoading(false);
       nav(ROUTE_PATH.SPACE_INDEX);
     }
+    setLoading(false);
   };
   const pressHandler = async () => {
     await unlock();
