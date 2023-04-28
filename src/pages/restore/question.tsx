@@ -17,13 +17,15 @@ import { ROUTE_PATH } from '@/router';
 export default function Restore() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
-  const [Loading, setLoading] = useState(false);
-  const initMtvStorage = useMtvStorageStore((state) => state.init);
-  const { list: questionList, sssData: serverShare, type } = useQuestionStore(
-    (state) => state,
-  );
+  const { resume: resumeMtvStorage } = useMtvStorageStore((state) => state);
+  const {
+    list: questionList,
+    sssData: serverShare,
+    type,
+  } = useQuestionStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setUserInfo, setUserLevel, setMaintainQuestion, setBindStatus } = useGlobalStore((state) => state);
+  const { setUserInfo, setUserLevel, setMaintainQuestion, setBindStatus } =
+    useGlobalStore((state) => state);
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -38,7 +40,7 @@ export default function Restore() {
         setUserInfo({ email, nickname: name });
         const { privateKey } = wallet || {};
         if (privateKey) {
-          await initMtvStorage(privateKey);
+          await resumeMtvStorage(privateKey);
         }
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },

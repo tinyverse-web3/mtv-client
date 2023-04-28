@@ -1,19 +1,26 @@
 import { useState } from 'react';
-import { Text, Row, Button, Textarea } from '@nextui-org/react';
+import { Text, Row, Textarea } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore, useMtvStorageStore } from '@/store';
+import { useWalletStore, useMtvStorageStore, useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
+import { useRequest } from '@/api';
+
 export default function Phrase() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { setBindStatus, setUserLevel, setUserInfo } = useGlobalStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
-  const initMtvStorage = useMtvStorageStore((state) => state.init);
+  const { resume: resumeMtvStorage } = useMtvStorageStore((state) => state);
+
   const importHandler = async () => {
     if (phrase) {
+      setLoading(true);
       try {
         const status = await wallet.restoreFromPhrase(
           phrase,
@@ -21,18 +28,43 @@ export default function Phrase() {
         );
         console.log(status);
         if (status === STATUS_CODE.SUCCESS) {
-          setWallet(wallet);
-          const { privateKey } = wallet || {};
-          if (privateKey) {
-            await initMtvStorage(privateKey);
-          }
-          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+          await setWallet(wallet);
+          await getuserinfo();
+        } else {
+          setLoading(false);
         }
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     }
   };
+  const { mutate: getuserinfo } = useRequest(
+    {
+      url: '/user/getuserinfo',
+      arg: { method: 'get', auth: true },
+    },
+    {
+      onSuccess: async (res) => {
+        const { email, name, safeLevel } = res.data;
+        if (email) {
+          setBindStatus(true);
+        }
+        setUserLevel(safeLevel);
+        setUserInfo({ email, nickname: name });
+
+        const { privateKey } = wallet || {};
+        if (privateKey) {
+          await resumeMtvStorage(privateKey);
+        }
+        setLoading(true);
+        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+      },
+      onError() {
+        setLoading(false);
+      },
+    },
+  );
   const phraseChange = (e: any) => {
     setPhrase(e.target.value?.trim());
   };
@@ -54,6 +86,7 @@ export default function Phrase() {
         <Button
           className='mx-auto w-full'
           disabled={!phrase}
+          loading={loading}
           onPress={importHandler}>
           恢复
         </Button>
