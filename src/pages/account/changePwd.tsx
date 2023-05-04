@@ -4,7 +4,7 @@ import { STATUS_CODE, Password } from '@/lib/account/wallet';
 import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore } from '@/store';
+import { useGlobalStore, useWalletStore } from '@/store';
 import { useRequest } from '@/api';
 import LayoutThird from '@/layout/LayoutThird';
 
@@ -18,6 +18,7 @@ export default function ChangePwd() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
+  const { bindStatus } = useGlobalStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
 
   const generateQuery = async () => {
@@ -51,10 +52,10 @@ export default function ChangePwd() {
       return;
     }
     const validStatus = await validatePassword(pwd);
-    if (!validStatus.value)  { 
+    if (!validStatus.value) {
       setValidStatus(false);
       return;
-    };
+    }
     const status = await wallet?.verify(oldPwd);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
@@ -141,15 +142,18 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        <Checkbox
-          className='mb-3'
-          aria-label='checkbox'
-          // isSelected={checked}
-          onChange={checkboxChange}>
-          <Text className='text-3'>
-            是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。
-          </Text>
-        </Checkbox>
+        {bindStatus && (
+          <Checkbox
+            className='mb-3'
+            aria-label='checkbox'
+            // isSelected={checked}
+            onChange={checkboxChange}>
+            <Text className='text-3'>
+              是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。
+            </Text>
+          </Checkbox>
+        )}
+
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}
           className='mx-auto'

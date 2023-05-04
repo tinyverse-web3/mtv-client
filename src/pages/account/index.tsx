@@ -1,8 +1,13 @@
 import LayoutThird from '@/layout/LayoutThird';
 import { useEffect } from 'react';
-import { ROUTE_PATH } from '@/router';
+import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalStore, useWalletStore } from '@/store';
+import {
+  useGlobalStore,
+  useWalletStore,
+  useNostrStore,
+  useMtvStorageStore,
+} from '@/store';
 import { useCheckLogin } from '@/components/BindMail';
 import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
@@ -18,7 +23,10 @@ export default function Account() {
     maintainPhrase,
     maintainProtector,
     maintainQuestion,
+    reset: resetGlobal,
   } = useGlobalStore((state) => state);
+  const resetNostr = useNostrStore((state) => state.reset);
+  const { destory: destoryStorage } = useMtvStorageStore((state) => state);
   const { wallet, reset: resetWallet } = useWalletStore((state) => state);
 
   const toChangePwd = () => {
@@ -47,6 +55,17 @@ export default function Account() {
     if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     }
+  };
+  const deleteUser = async () => {
+    await Promise.all([
+      resetNostr(),
+      resetWallet(),
+      resetGlobal(),
+      destoryStorage(),
+      wallet?.delete(),
+    ]);
+    location.reload();
+    // nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const logout = async () => {
     const password = new Password();
@@ -89,10 +108,7 @@ export default function Account() {
           value={maintainQuestion ? '已备份' : ''}
           onPress={toQuestion}
         />
-        <ListRow
-          label='退出'
-          onPress={logout}
-        />
+        <ListRow label='退出' onPress={deleteUser} />
       </div>
     </LayoutThird>
   );

@@ -49,7 +49,7 @@ export default function Protector() {
         if (privateKey) {
           await resumeMtvStorage(privateKey);
         }
-        setLoading(true);
+        setLoading(false);
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },
       onError() {
@@ -77,8 +77,7 @@ export default function Protector() {
       if (data.code === '000000') {
         const { sssData, guardians } = data.data;
         const keySha = new KeySha();
-        const { account } = guardians[1];
-        console.log(account);
+        const { account } = guardians[0];
         const shareB = await keySha.get(account, '', '');
         console.log(shareB);
         const shares: string[] = [sssData, shareB];
@@ -90,7 +89,6 @@ export default function Protector() {
         } else if (status === STATUS_CODE.SHARES_ERROR) {
           toast.error('分片数据错误');
         }
-        setLoading(false);
         await toast.success('恢复成功');
       } else {
         await toast.error(data.msg);
