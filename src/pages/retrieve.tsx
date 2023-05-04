@@ -1,79 +1,126 @@
-import { useState, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Checkbox, Text, Image, Input } from '@nextui-org/react';
+import { EmailBox } from '@/components/form/EmailBox';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useRequest } from '@/api';
 import { useWalletStore } from '@/store';
-import { useCountDown } from '@/lib/hooks';
+import { validatePassword } from '@/lib/utils';
 import toast from 'react-hot-toast';
+import wallet, { STATUS_CODE, Password } from '@/lib/account/wallet';
 import imageSuccess from '@/assets/images/icon-success.png';
 // import { SendEmail } from '@/components/SendEmail';
 
 export default function Retrieve() {
   const [step, setStep] = useState(1);
   const nav = useNavigate();
+  const passwordManager = new Password();
   const [verifyCode, setVerifyCode] = useState('');
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
   const [confirmPwd, setConfirmPwd] = useState('');
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
-  const wallet = useWalletStore((state) => state.wallet);
+  const { setWallet } = useWalletStore((state) => state);
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
     setCode(code);
   };
-  const sendEmail = () => {
-    setStep(2);
+  const generateQuery = async () => {
+    query.current.password = await passwordManager.encrypt(pwd);
   };
-  const checkboxChange = (e: boolean) => {
-    setChecked(e);
-  };
-  const { start, text, flag } = useCountDown(60);
-
-  const { mutate: sendCode, loading: codeLoading } = useRequest(
+  const query = useRef({ password: '' });
+  useEffect(() => {
+    generateQuery();
+  }, [pwd]);
+  const { mutate: savePassword } = useRequest(
     {
-      url: '/user/sendmail4verifycode',
+      url: '/user/savepassword',
       arg: {
         method: 'post',
-        query: { email },
+        auth: true,
+        query: query.current,
       },
     },
     {
-      onSuccess(res) {
-        if (res.code === '000000') {
-          toast.success('验证码已发送');
-          start();
-        } else {
-          toast.error(res.msg);
-        }
-      },
+      onSuccess(res) {},
     },
   );
-  const verifyCodeChange = (e: any) => {
-    setVerifyCode(e.target.value);
-  };
-  const sendVerify = async () => {
-    if (email && flag) {
-      await sendCode();
+  const { mutate: verifyEmail } = useRequest({
+    url: '/user/getpassword',
+    arg: {
+      auth: true,
+      method: 'post',
+      query: { email, confirmCode: code },
+    },
+  });
+
+  const verifyEmial = async () => {
+    const res = await verifyEmail();
+    console.log(res);
+    if (res.data) {
+      setStep(2);
+      setOldPwd(res.data);
+    } else {
+      toast.error('没有存储任何密码，无法找回！');
     }
   };
-  const verifyEmial = () => {
-    setStep(3);
-  };
-  const changePwd = () => {
-    setStep(4);
-  };
 
+  const changePassword = async () => {
+    if (oldPwd === pwd) {
+      toast.error('新密码不能与旧密码相同');
+      return;
+    }
+    if (pwd !== confirmPwd) {
+      setConfirmStatus(false);
+      return;
+    }
+    const validStatus = await validatePassword(pwd);
+    if (!validStatus.value) {
+      setValidStatus(false);
+      return;
+    }
+    console.log(oldPwd, pwd)
+    const status = await wallet?.verfiyHashPwd(oldPwd);
+    if (status === STATUS_CODE.INVALID_PASSWORD) {
+      toast.error('原始密码错误');
+    } else {
+      await wallet?.changeHashPwd(oldPwd, pwd);
+      // nav(ROUTE_PATH.SPACE_INDEX);
+      toast.success('修改成功');
+      setStep(3);
+    }
+  };
+  const changePwd = async () => {
+    await changePassword();
+    await savePassword();
+  };
+  // const unlock = async () => {
+  //   setLoading(true);
+  //   const status = await wallet?.verify(pwd);
+  //   console.log(status);
+  //   if (status === STATUS_CODE.INVALID_PASSWORD) {
+  //     setErr(true);
+  //   } else {
+  //     setWallet(wallet);
+  //     const { publicKey, privateKey } = wallet || {};
+  //     if (privateKey) {
+  //       await initMtvStorage(privateKey);
+  //     }
+  //     nav(ROUTE_PATH.SPACE_INDEX);
+  //   }
+  //   setLoading(false);
+  // };
   const toUnlock = () => {
-    nav(-1);
+    nav(ROUTE_PATH.UNLOCK, { replace: true });
   };
   const stepClick = (i: number) => {
     if (i < step - 1) {
@@ -82,9 +129,6 @@ export default function Retrieve() {
   };
 
   const setArr = [
-    {
-      text: '输入账号',
-    },
     {
       text: '验证身份',
     },
@@ -103,7 +147,7 @@ export default function Retrieve() {
             <div
               key={i}
               onClick={() => stepClick(i)}
-              className={`w-1/4 h-full flex justify-center items-center text-3 cursor-pointer border-b border-b-gray-300 border-b-solid ${
+              className={`w-1/3 h-full flex justify-center items-center text-3 cursor-pointer border-b border-b-gray-300 border-b-solid ${
                 i !== 3 ? 'border-r border-gray-300 border-r-solid' : ''
               } ${i < step ? 'bg-blue-7 text-white' : 'bg-gray-3'}`}>
               {v.text}
@@ -113,62 +157,10 @@ export default function Retrieve() {
         <div className='p-6'>
           {step === 1 && (
             <div>
-              <Input
-                clearable
-                bordered
-                fullWidth
-                type='email'
-                aria-label='email'
-                color='primary'
-                size='lg'
-                value={email}
-                onChange={emailChange}
-                placeholder='邮箱'
-                className='mb-4 h-50px'
-                contentLeft={<div className='i-mdi-email color-current' />}
-              />
-              <Button
-                className='w-full bg-blue-7'
-                size='lg'
-                onPress={sendEmail}>
-                发送Emial
-              </Button>
-            </div>
-          )}
-          {step === 2 && (
-            <div>
-              <div className='flex mb-4'>
-                <Input
-                  clearable
-                  bordered
-                  fullWidth
-                  type='number'
-                  maxLength={6}
-                  aria-label='验证码'
-                  className='flex-1 h-50px'
-                  color='primary'
-                  size='lg'
-                  value={verifyCode}
-                  onChange={verifyCodeChange}
-                  placeholder='验证码'
-                  contentRightStyling={false}
-                  contentRight={
-                    <div className='p-2'>
-                      <Button
-                        auto
-                        className='min-w-20 text-12px h-7 bg-blue-7'
-                        color='secondary'
-                        loading={codeLoading}
-                        onPress={sendVerify}>
-                        {text}
-                      </Button>
-                    </div>
-                  }
-                  contentLeft={
-                    <div className='i-mdi-shield-outline color-current' />
-                  }
-                />
+              <div className='mb-4'>
+                <EmailBox onChange={emailChange} />
               </div>
+
               <Button
                 className='w-full bg-blue-7'
                 size='lg'
@@ -177,7 +169,7 @@ export default function Retrieve() {
               </Button>
             </div>
           )}
-          {step === 3 && (
+          {step === 2 && (
             <div>
               <div className='mb-8'>
                 <Input.Password
@@ -200,7 +192,7 @@ export default function Retrieve() {
                 fullWidth
                 aria-label='password'
                 disabled={!pwd}
-                className='mb-4 h-50px'
+                className='mb-6 h-50px'
                 value={confirmPwd}
                 helperColor={confirmStatus ? 'default' : 'error'}
                 status={confirmStatus ? 'default' : 'error'}
@@ -217,7 +209,7 @@ export default function Retrieve() {
               </Button>
             </div>
           )}
-          {step === 4 && (
+          {step === 3 && (
             <div className='px-6 pt-10'>
               <Image src={imageSuccess} className='w-40 mb-10' />
               <Button className='w-full bg-blue-7' size='lg' onPress={toUnlock}>

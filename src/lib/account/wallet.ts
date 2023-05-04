@@ -167,6 +167,18 @@ export class Wallet {
     if (status === STATUS_CODE.SUCCESS && this.wallet) {
       await this.password.removeSalt();
       const encryptPwd = await this.password.set(newPwd);
+      console.log('新密码hash', encryptPwd);
+      const { entropy } = this.wallet.mnemonic || {};
+      if (entropy) {
+        await this.keystore.create(entropy, encryptPwd);
+      }
+    }
+  }
+  async changeHashPwd(oldPwd: string, newPwd: string) {
+    const status = await this.verfiyHashPwd(oldPwd);
+    if (status === STATUS_CODE.SUCCESS && this.wallet) {
+      await this.password.removeSalt();
+      const encryptPwd = await this.password.set(newPwd);
       const { entropy } = this.wallet.mnemonic || {};
       if (entropy) {
         await this.keystore.create(entropy, encryptPwd);
@@ -175,9 +187,8 @@ export class Wallet {
   }
 
   private async _verify(encryptPwd: string) {
-    const keystore = await this.keystore.get(encryptPwd);
-    console.log(keystore);
     try {
+      const keystore = await this.keystore.get(encryptPwd);
       if (keystore) {
         const mnemonic = ethers.Mnemonic.fromEntropy(keystore);
         this.wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic);
@@ -189,15 +200,17 @@ export class Wallet {
       }
     } catch (error) {
       console.log(error);
-      if ((error as any).code == 'INVALID_ARGUMENT') {
-        return STATUS_CODE.RESTORE_ERROR;
-      }
+      return STATUS_CODE.INVALID_PASSWORD;
     }
   }
 
   async verify(password: string) {
     const entropyPwd = await this.password.encrypt(password);
+    console.log(entropyPwd);
     return await this._verify(entropyPwd);
+  }
+  async verfiyHashPwd(pwd: string) {
+    return await this._verify(pwd);
   }
 
   async check() {

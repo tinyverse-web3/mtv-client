@@ -20,14 +20,17 @@ export default function ChangePwd() {
   const [err, setErr] = useState(false);
   const { userInfo } = useGlobalStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
-
-  const generateQuery = async () => {
-    query.current.password = await passwordManager.encrypt(pwd);
-  };
   const query = useRef({ password: '' });
-  useEffect(() => {
-    generateQuery();
-  }, [pwd]);
+  const generateQuery = async () => {
+    console.log('保存的密码', pwd);
+    const encryptPwd = await passwordManager.encrypt(pwd);
+    console.log('保存的密码hash', encryptPwd);
+    query.current.password = encryptPwd;
+  };
+
+  // useEffect(() => {
+  //   generateQuery();
+  // }, [pwd]);
   const { mutate: savePassword } = useRequest(
     {
       url: '/user/savepassword',
@@ -60,6 +63,8 @@ export default function ChangePwd() {
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
+      await wallet?.changePwd(oldPwd, pwd);
+      await generateQuery();
       if (checked) {
         const res = await savePassword();
         if (res.code === '000000') {
@@ -69,7 +74,7 @@ export default function ChangePwd() {
           return;
         }
       }
-      await wallet?.changePwd(oldPwd, pwd);
+
       nav(-1);
     }
   };

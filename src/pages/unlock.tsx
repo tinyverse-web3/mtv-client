@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { Text, Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
-import { Password } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import {
   useWalletStore,

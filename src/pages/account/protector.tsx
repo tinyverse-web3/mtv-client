@@ -11,9 +11,10 @@ import { toast } from 'react-hot-toast';
 interface GuardItem {
   type: string;
   account: string;
+  showDel: boolean;
   onDel: () => void;
 }
-const ProtectorItem = ({ type, account, onDel }: GuardItem) => {
+const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
   const typeMap: any = {
     email: 'Email',
   };
@@ -21,9 +22,11 @@ const ProtectorItem = ({ type, account, onDel }: GuardItem) => {
     <div className='flex items-center h-14'>
       <span>{typeMap[type]}</span>
       <div className='flex-1 text-end'>{account}</div>
-      <div className='p-3 -mr-3' onClick={() => onDel?.()}>
-        <div className='i-mdi-trash-can-outline w-5 h-5'></div>
-      </div>
+      {showDel && (
+        <div className='p-3 -mr-3' onClick={() => onDel?.()}>
+          <div className='i-mdi-trash-can-outline w-5 h-5'></div>
+        </div>
+      )}
     </div>
   );
 };
@@ -127,9 +130,10 @@ export default function AccountProtector() {
           {existed ? (
             <div>
               {data &&
-                data.map((v) => (
+                data.map((v, i) => (
                   <ProtectorItem
                     key={v.Id}
+                    showDel={data.length !== 1}
                     type={v.type}
                     account={v.accountMask}
                     onDel={() => delHandler(v.Id)}
