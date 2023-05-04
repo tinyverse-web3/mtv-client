@@ -26,14 +26,6 @@ export let apiRetryList: any[] = [];
 export const clearRetryList = () => {
   apiRetryList = [];
 };
-// useGlobalStore.subscribe((state, prevState) => {
-//   if (state.bindStatus) {
-//     for (let i = 0; i < apiRetryList.length; i++) {
-//       const fn = apiRetryList.pop();
-//       fn();
-//     }
-//   }
-// });
 export function useRequest<T>(
   { url, arg = { method: 'get', auth: false } }: RequestOption,
   swrOptions?: SWRConfiguration,

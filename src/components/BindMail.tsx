@@ -8,11 +8,9 @@ import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const {
-    showLogin,
-    setShowLogin,
-    setUserInfo,
-  } = useGlobalStore((state) => state);
+  const { showLogin, setShowLogin, setUserInfo } = useGlobalStore(
+    (state) => state,
+  );
   const { mtvStorage } = useMtvStorageStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
   const signMessage = useRef<any>({});

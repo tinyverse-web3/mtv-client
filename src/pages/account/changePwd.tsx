@@ -18,7 +18,7 @@ export default function ChangePwd() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
-  const { bindStatus } = useGlobalStore((state) => state);
+  const { userInfo } = useGlobalStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
 
   const generateQuery = async () => {
@@ -142,7 +142,7 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        {bindStatus && (
+        {userInfo.bindStatus && (
           <Checkbox
             className='mb-3'
             aria-label='checkbox'
