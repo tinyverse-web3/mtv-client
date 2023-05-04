@@ -21,7 +21,7 @@ export default function Protector() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setUserInfo } = useGlobalStore((state) => state);
+  const { getLocalUserInfo } = useGlobalStore((state) => state);
 
   const query = useMemo(() => {
     return {
@@ -29,38 +29,15 @@ export default function Protector() {
       confirmCode: code,
     };
   }, [email, code]);
-  const getStorageUserInfo = async () => {
-    const userInfo = await mtvStorage?.get('userInfo');
-    if (userInfo) {
-      await setUserInfo(userInfo);
+
+  const restoreData = async () => {
+    const { privateKey } = wallet || {};
+    if (privateKey) {
+      await resumeMtvStorage(privateKey);
+      await getLocalUserInfo();
     }
   };
-  const { mutate: getuserinfo } = useRequest(
-    {
-      url: '/user/getuserinfo',
-      arg: { method: 'get', auth: true },
-    },
-    {
-      onSuccess: async (res) => {
-        const { email, name } = res.data;
-        if (email) {
-          setUserInfo({ bindStatus: true });
-        }
-        setUserInfo({ email, nickname: name, maintainProtector: true });
 
-        const { privateKey } = wallet || {};
-        if (privateKey) {
-          await resumeMtvStorage(privateKey);
-          await getStorageUserInfo();
-        }
-        setLoading(false);
-        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      },
-      onError() {
-        setLoading(false);
-      },
-    },
-  );
   const { mutate: getSssData } = useRequest({
     url: '/user/getsssdata4guardian',
     arg: {
@@ -89,7 +66,9 @@ export default function Protector() {
         console.log(status);
         if (status === STATUS_CODE.SUCCESS) {
           await setWallet(wallet);
-          await getuserinfo();
+          await restoreData();
+          setLoading(false);
+          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         } else if (status === STATUS_CODE.SHARES_ERROR) {
           toast.error('分片数据错误');
         }
@@ -105,7 +84,7 @@ export default function Protector() {
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title='守护者恢复' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='守护者恢复' path={ROUTE_PATH.INDEX}>
       <div className='p-4'>
         <div>
           <div className='mb-6'>

@@ -7,10 +7,11 @@ import { useGlobalStore } from '@/store';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const { setUserInfo } = useGlobalStore((state) => state);
+  const { setUserInfo, calcUserLevel } = useGlobalStore((state) => state);
   // useUpdateLevel();
   const toAccount = async () => {
     await setUserInfo({ maintainPhrase: true });
+    await calcUserLevel();
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (

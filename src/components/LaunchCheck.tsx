@@ -28,6 +28,7 @@ export const WalletCheck = () => {
 
   useEffect(() => {
     if (userInfo?.bindStatus && mtvStorage) {
+      console.log('connect storage');
       mtvStorage?.connect();
     }
   }, [userInfo?.bindStatus, mtvStorage]);
@@ -36,7 +37,9 @@ export const WalletCheck = () => {
     if (privateKey && !mtvStorage) {
       try {
         console.log('init storage');
-        await initStorage(privateKey);
+        // await initStorage(privateKey);
+        // const userInfo = await window?.mtvStorage?.get('userInfo');
+        // console.log('userInfo', userInfo);
       } catch (error) {
         console.log(error);
       }

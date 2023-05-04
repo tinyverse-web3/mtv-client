@@ -19,12 +19,13 @@ export default function Test() {
     const storage = new MtvStorage(privateKey, crypt);
     await storage.init();
     await storage.put('test', 1);
-    // const data = await storage.get('test');
+    const data = await storage.get('test');
     console.log('put key2');
     await storage.put('abc', { a: 1, b: 2 });
-    // const data2 = await storage.get('abc');
-    // console.log(data);
-    // console.log(data2);
+    const data2 = await storage.get('abc');
+    await storage.connect();
+    console.log(data);
+    console.log(data2);
   };
   const test2 = async () => {
     const privateKey =
@@ -32,11 +33,15 @@ export default function Test() {
     const crypt = new MtvCrypto(privateKey);
     const storage = new MtvStorage(privateKey, crypt);
     await storage.init();
+    await storage.connect();
+    await storage.resume();
     // await storage.put('test', 1);
     const data = await storage.get('test');
     console.log('put key2');
     // await storage.put('abc', { a: 1, b: 2 });
-    const data2  = await storage.get('abc');
+    const data2 = await storage.get('abc');
+    console.log(data);
+    console.log(data2);
   };
 
   return (

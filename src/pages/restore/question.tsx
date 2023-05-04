@@ -26,38 +26,19 @@ export default function Restore() {
     type,
   } = useQuestionStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setUserInfo } = useGlobalStore((state) => state);
-  const getStorageUserInfo = async () => {
-    const userInfo = await mtvStorage?.get('userInfo');
-    if (userInfo) {
-      await setUserInfo(userInfo);
+  const { getLocalUserInfo } = useGlobalStore((state) => state);
+  const restoreData = async () => {
+    const { privateKey } = wallet || {};
+    if (privateKey) {
+      await resumeMtvStorage(privateKey);
+      await getLocalUserInfo();
     }
   };
-  const { mutate: getuserinfo } = useRequest(
-    {
-      url: '/user/getuserinfo',
-      arg: { method: 'get', auth: true },
-    },
-    {
-      onSuccess: async (res) => {
-        const { name, email, safeLevel } = res.data;
-        setUserInfo({ bindStatus: true, maintainQuestion: true });
-        setUserInfo({ email, nickname: name, maintainQuestion: true });
-        const { privateKey } = wallet || {};
-        if (privateKey) {
-          await resumeMtvStorage(privateKey);
-          await getStorageUserInfo();
-        }
-        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      },
-    },
-  );
-
   const questionSubmit = async (shares: string[]) => {
     const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
     if (status === STATUS_CODE.SUCCESS) {
       await setWallet(wallet);
-      await getuserinfo();
+      await restoreData();
     } else if (status === STATUS_CODE.SHARES_ERROR) {
       toast.error('分片数据错误');
     }

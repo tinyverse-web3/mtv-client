@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { generateKeys } from '@/lib/utils/generateKeys';
-
+import { isEqual } from 'lodash';
 interface UserInfo {
   email?: string;
   avatar?: string;
@@ -35,7 +35,7 @@ interface GlobalState {
   nostr?: NostrInfo;
   logout: () => void;
   // setUserLevel: (l: number) => void;
-  calcUserLevel: () => number;
+  calcUserLevel: () => void;
   // setMaintainPhrase: (v: boolean) => void;
   // setMaintainProtector: (v: boolean) => void;
   // setMaintainQuestion: (v: boolean) => void;
@@ -46,6 +46,8 @@ interface GlobalState {
   setNostr: (n: NostrInfo) => void;
   createNostr: () => NostrInfo;
   reset: () => void;
+  saveUserInfo: () => void;
+  getLocalUserInfo: () => void;
 }
 
 export const useGlobalStore = create<GlobalState>()(
@@ -60,18 +62,45 @@ export const useGlobalStore = create<GlobalState>()(
         // maintainQuestion: false,
         userInfo: {
           bindStatus: false,
-          // userLevel: 0,
+          userLevel: 0,
           maintainPhrase: false,
           maintainProtector: false,
           maintainQuestion: false,
         },
         setUserInfo: (v) => {
           const _user = get().userInfo;
-          set(() => ({ userInfo: { ..._user, ...v } }));
+          const userInfo = { ..._user, ...v };
+          set(() => ({ userInfo }));
+          console.log('mtvStorage put userInfo', userInfo);
+          window?.mtvStorage?.put('userInfo', userInfo);
+        },
+        saveUserInfo: () => {
+          const { userInfo } = get();
+          console.log('mtvStorage put userInfo', userInfo);
+          window?.mtvStorage?.put('userInfo', userInfo);
+        },
+        getLocalUserInfo: async () => {
+          const userInfo = await window?.mtvStorage?.get('userInfo');
+          console.log('获取mtvStorage的userInfo');
+          console.log(window?.mtvStorage);
+          console.log(userInfo);
+          if (userInfo) {
+            const {
+              maintainPhrase,
+              bindStatus,
+              maintainProtector,
+              maintainQuestion,
+              userLevel,
+            } = userInfo;
+            console.log('mtvStorage get userInfo', userInfo);
+            set({
+              userInfo,
+            });
+          }
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
         calcUserLevel: () => {
-          const { userInfo } = get();
+          const { userInfo, setUserInfo } = get();
           const { maintainPhrase, maintainProtector, maintainQuestion } =
             userInfo;
           let level = 0;
@@ -84,7 +113,8 @@ export const useGlobalStore = create<GlobalState>()(
           if (maintainQuestion || (maintainPhrase && maintainProtector)) {
             level = 3;
           }
-          return level;
+          setUserInfo({ userLevel: level });
+          // set({ userInfo: { ...userInfo, userLevel: level } });
         },
         logout: () => set(() => ({ bindStatus: false, showLogin: false })),
         // setBindStatus: (v) => set({ bindStatus: v }),
@@ -110,7 +140,7 @@ export const useGlobalStore = create<GlobalState>()(
             // maintainQuestion: false,
             userInfo: {
               bindStatus: false,
-              // userLevel: 0,
+              userLevel: 0,
               maintainPhrase: false,
               maintainProtector: false,
               maintainQuestion: false,
@@ -130,3 +160,11 @@ export const useGlobalStore = create<GlobalState>()(
     ),
   ),
 );
+
+// useGlobalStore.subscribe((state, prevState) => {
+//   if (isEqual(state.userInfo, prevState.userInfo) || !window?.mtvStorage)
+//     return;
+//   const { userInfo } = state;
+//   console.log('mtvStorage put userInfo', userInfo);
+//   window?.mtvStorage?.put('userInfo', userInfo);
+// });

@@ -33,8 +33,7 @@ export default function AccountProtector() {
   const [shareA, setShareA] = useState('');
   const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
-  const { setUserInfo } = useGlobalStore((state) => state);
-  // useUpdateLevel();
+  const { setUserInfo, calcUserLevel } = useGlobalStore((state) => state);
   const { data, mutate, loading } = useRequest<any[]>({
     url: '/guardian/list',
     arg: {
@@ -93,6 +92,7 @@ export default function AccountProtector() {
       try {
         await Promise.all([...kvMap, saveSssData()]);
         await setUserInfo({ maintainProtector: true });
+        await calcUserLevel();
         toast.success('备份成功');
       } catch (error) {
         toast.error('备份失败');
@@ -113,7 +113,7 @@ export default function AccountProtector() {
   return (
     <LayoutThird
       title='守护者'
-      path={ROUTE_PATH.SPACE_INDEX}
+      path={ROUTE_PATH.ACCOUNT}
       rightContent={
         <div onClick={add} className='i-mdi-plus-circle-outline text-5'></div>
       }>

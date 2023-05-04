@@ -14,17 +14,18 @@ export default function Phrase() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setUserInfo } = useGlobalStore((state) => state);
+  const { setUserInfo, getLocalUserInfo } = useGlobalStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
   const { resume: resumeMtvStorage, mtvStorage } = useMtvStorageStore(
     (state) => state,
   );
-  const getStorageUserInfo = async () => {
-    const userInfo = await mtvStorage?.get('userInfo');
-    if (userInfo) {
-      await setUserInfo(userInfo);
-    }
-  };
+  // const getStorageUserInfo = async () => {
+  //   const userInfo = await mtvStorage?.get('userInfo');
+  //   console.log(userInfo);
+  //   if (userInfo) {
+  //     await setUserInfo(userInfo);
+  //   }
+  // };
   const importHandler = async () => {
     if (phrase) {
       setLoading(true);
@@ -36,7 +37,7 @@ export default function Phrase() {
         console.log(status);
         if (status === STATUS_CODE.SUCCESS) {
           await setWallet(wallet);
-          await getuserinfo();
+          await restoreData();
         } else {
           setLoading(false);
         }
@@ -46,32 +47,14 @@ export default function Phrase() {
       }
     }
   };
-  const { mutate: getuserinfo } = useRequest(
-    {
-      url: '/user/getuserinfo',
-      arg: { method: 'get', auth: true },
-    },
-    {
-      onSuccess: async (res) => {
-        const { email, name } = res.data;
-        if (email) {
-          setUserInfo({ bindStatus: true });
-        }
-        setUserInfo({ email, nickname: name, maintainPhrase: true });
 
-        const { privateKey } = wallet || {};
-        if (privateKey && email) {
-          await resumeMtvStorage(privateKey);
-          await getStorageUserInfo();
-        }
-        setLoading(true);
-        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      },
-      onError() {
-        setLoading(false);
-      },
-    },
-  );
+  const restoreData = async () => {
+    const { privateKey } = wallet || {};
+    if (privateKey) {
+      await resumeMtvStorage(privateKey);
+      await getLocalUserInfo();
+    }
+  };
   const phraseChange = (e: any) => {
     setPhrase(e.target.value?.trim());
   };
