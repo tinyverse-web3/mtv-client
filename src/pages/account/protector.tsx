@@ -4,7 +4,6 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
-import { useUpdateLevel } from '@/lib/hooks';
 import { useRequest } from '@/api';
 import { useWalletStore, useGlobalStore } from '@/store';
 import { KeySha } from '@/lib/account';
@@ -34,10 +33,8 @@ export default function AccountProtector() {
   const [shareA, setShareA] = useState('');
   const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
-  const { setMaintainProtector, calcUserLevel } = useGlobalStore(
-    (state) => state,
-  );
-  useUpdateLevel();
+  const { setUserInfo } = useGlobalStore((state) => state);
+  // useUpdateLevel();
   const { data, mutate, loading } = useRequest<any[]>({
     url: '/guardian/list',
     arg: {
@@ -95,8 +92,7 @@ export default function AccountProtector() {
       });
       try {
         await Promise.all([...kvMap, saveSssData()]);
-        await setMaintainProtector(true);
-        await calcUserLevel();
+        await setUserInfo({ maintainProtector: true });
         toast.success('备份成功');
       } catch (error) {
         toast.error('备份失败');

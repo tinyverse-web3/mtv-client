@@ -17,7 +17,9 @@ export const WalletCheck = () => {
     reset: resetWallet,
     wallet: storeWallet,
   } = useWalletStore((state) => state);
-  const { checkLoading, setCheckLoading, bindStatus } = useGlobalStore((state) => state);
+  const { checkLoading, setCheckLoading, userInfo } = useGlobalStore(
+    (state) => state,
+  );
   const {
     init: initStorage,
     mtvStorage,
@@ -25,10 +27,10 @@ export const WalletCheck = () => {
   } = useMtvStorageStore((state) => state);
 
   useEffect(() => {
-    if (bindStatus && mtvStorage) {
+    if (userInfo?.bindStatus && mtvStorage) {
       mtvStorage?.connect();
     }
-  }, [bindStatus, mtvStorage]);
+  }, [userInfo?.bindStatus, mtvStorage]);
   const launchWallet = async (wallet: any) => {
     const { privateKey } = wallet || {};
     if (privateKey && !mtvStorage) {

@@ -17,15 +17,22 @@ import { ROUTE_PATH } from '@/router';
 export default function Restore() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const nav = useNavigate();
-  const { resume: resumeMtvStorage } = useMtvStorageStore((state) => state);
+  const { resume: resumeMtvStorage, mtvStorage } = useMtvStorageStore(
+    (state) => state,
+  );
   const {
     list: questionList,
     sssData: serverShare,
     type,
   } = useQuestionStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setUserInfo, setUserLevel, setMaintainQuestion, setBindStatus } =
-    useGlobalStore((state) => state);
+  const { setUserInfo } = useGlobalStore((state) => state);
+  const getStorageUserInfo = async () => {
+    const userInfo = await mtvStorage?.get('userInfo');
+    if (userInfo) {
+      await setUserInfo(userInfo);
+    }
+  };
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -34,13 +41,12 @@ export default function Restore() {
     {
       onSuccess: async (res) => {
         const { name, email, safeLevel } = res.data;
-        setUserLevel(safeLevel);
-        setMaintainQuestion(true);
-        setBindStatus(true);
-        setUserInfo({ email, nickname: name });
+        setUserInfo({ bindStatus: true, maintainQuestion: true });
+        setUserInfo({ email, nickname: name, maintainQuestion: true });
         const { privateKey } = wallet || {};
         if (privateKey) {
           await resumeMtvStorage(privateKey);
+          await getStorageUserInfo();
         }
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       },

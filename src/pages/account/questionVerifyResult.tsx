@@ -6,7 +6,6 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-import { useUpdateLevel } from '@/lib/hooks';
 
 import { useQuestionStore, useWalletStore, useGlobalStore } from '@/store';
 
@@ -25,26 +24,21 @@ export default function QuestionVerifyResult() {
   const wallet = useWalletStore((state) => state.wallet);
   const [shareA, setShareA] = useState<string>();
   const { list: initList, type } = useQuestionStore((state) => state);
-  const { setMaintainQuestion, calcUserLevel } = useGlobalStore(
-    (state) => state,
-  );
+  const { setUserInfo } = useGlobalStore((state) => state);
 
-  const { mutate: updateSafeLevel, loading: loading } = useRequest(
-    {
-      url: '/user/updatesafelevel',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: {
-          safeLevel: 3,
-        },
+  const { mutate: updateSafeLevel, loading: loading } = useRequest({
+    url: '/user/updatesafelevel',
+    arg: {
+      method: 'post',
+      auth: true,
+      query: {
+        safeLevel: 3,
       },
     },
-  );
+  });
 
   const toAccount = async () => {
-    await setMaintainQuestion(true);
-    await calcUserLevel();
+    await setUserInfo({ maintainQuestion: true });
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {

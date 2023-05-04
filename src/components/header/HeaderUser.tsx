@@ -10,8 +10,7 @@ const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
 export const HeaderUser = () => {
   const nav = useNavigate();
-  const userInfo = useGlobalStore((state) => state.userInfo);
-  const userLevel = useGlobalStore((state) => state.userLevel);
+  const { userInfo } = useGlobalStore((state) => state);
   const { wallet } = useWalletStore((state) => state);
   // const location = useLocation();
   // const hideStatsu = useMemo(() => {
@@ -52,8 +51,10 @@ export const HeaderUser = () => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
+  const userLevel = userInfo.userLevel || 0;
   const levelText = useMemo(() => {
-    return levelArr[userLevel]?.text;
+    const index = userLevel || 0;
+    return levelArr[index]?.text;
   }, [userLevel]);
   return (
     <div className='h-full relative'>

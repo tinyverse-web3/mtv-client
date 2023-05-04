@@ -14,10 +14,17 @@ export default function Phrase() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setBindStatus, setUserLevel, setUserInfo } = useGlobalStore((state) => state);
+  const { setUserInfo } = useGlobalStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { resume: resumeMtvStorage } = useMtvStorageStore((state) => state);
-
+  const { resume: resumeMtvStorage, mtvStorage } = useMtvStorageStore(
+    (state) => state,
+  );
+  const getStorageUserInfo = async () => {
+    const userInfo = await mtvStorage?.get('userInfo');
+    if (userInfo) {
+      await setUserInfo(userInfo);
+    }
+  };
   const importHandler = async () => {
     if (phrase) {
       setLoading(true);
@@ -46,16 +53,16 @@ export default function Phrase() {
     },
     {
       onSuccess: async (res) => {
-        const { email, name, safeLevel } = res.data;
+        const { email, name } = res.data;
         if (email) {
-          setBindStatus(true);
+          setUserInfo({ bindStatus: true });
         }
-        setUserLevel(safeLevel);
-        setUserInfo({ email, nickname: name });
+        setUserInfo({ email, nickname: name, maintainPhrase: true });
 
         const { privateKey } = wallet || {};
-        if (privateKey) {
+        if (privateKey && email) {
           await resumeMtvStorage(privateKey);
+          await getStorageUserInfo();
         }
         setLoading(true);
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });

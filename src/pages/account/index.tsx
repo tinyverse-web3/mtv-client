@@ -12,17 +12,15 @@ import { useCheckLogin } from '@/components/BindMail';
 import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import { Password } from '@/lib/account/wallet';
-import { useUpdateLevel } from '@/lib/hooks';
 
 export default function Account() {
   const nav = useNavigate();
-  useUpdateLevel();
   const {
     userInfo,
     setUserInfo,
-    maintainPhrase,
-    maintainProtector,
-    maintainQuestion,
+    // maintainPhrase,
+    // maintainProtector,
+    // maintainQuestion,
     reset: resetGlobal,
   } = useGlobalStore((state) => state);
   const resetNostr = useNostrStore((state) => state.reset);
@@ -95,17 +93,17 @@ export default function Account() {
         <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} /> */}
         <ListRow
           label='备份助记词'
-          value={maintainPhrase ? '已备份' : ''}
+          value={userInfo.maintainPhrase ? '已备份' : ''}
           onPress={toPharse}
         />
         <ListRow
           label='守护者备份'
-          value={maintainProtector ? '已备份' : ''}
+          value={userInfo.maintainProtector ? '已备份' : ''}
           onPress={toProtector}
         />
         <ListRow
           label='智能隐私备份'
-          value={maintainQuestion ? '已备份' : ''}
+          value={userInfo.maintainQuestion ? '已备份' : ''}
           onPress={toQuestion}
         />
         <ListRow label='退出' onPress={deleteUser} />

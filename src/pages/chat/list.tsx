@@ -31,7 +31,7 @@ export default function ChatList() {
   const { VITE_WSS_URL } = import.meta.env;
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
-  const { createNostr, setNostr, bindStatus, nostr } = useGlobalStore(
+  const { createNostr, setNostr, userInfo, nostr } = useGlobalStore(
     (state) => state,
   );
   const { wallet } = useWalletStore((state) => state);
@@ -114,6 +114,7 @@ export default function ChatList() {
   const getLocalNostr = async () => {
     if (mtvStorage) {
       const localSk = await mtvStorage.get(NOSTR_KEY);
+      console.log('nostr local key', localSk);
       if (localSk) {
         const pk = getPublicKey(localSk);
         await setNostr({ pk, sk: localSk });
@@ -182,10 +183,10 @@ export default function ChatList() {
     }
   };
   useEffect(() => {
-    if (bindStatus) {
+    if (userInfo.bindStatus) {
       sendPk();
     }
-  }, [bindStatus]);
+  }, [userInfo.bindStatus]);
   useEffect(() => {
     getFriends();
   }, []);
@@ -232,7 +233,9 @@ export default function ChatList() {
               />
               <div className='flex-1'>
                 <div className='flex justify-between items-center mb-2'>
-                  <span>{item.name || <Address address={item.PublicKey}></Address>}</span>
+                  <span>
+                    {item.name || <Address address={item.PublicKey}></Address>}
+                  </span>
                   {/* <span className='text-12px'>14:00</span> */}
                 </div>
                 {/* <div className='text-12px'>[3条]今天天气不错</div> */}

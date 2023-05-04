@@ -18,9 +18,9 @@ export default function About() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const create = async () => {
-    const valid = await validatePassword(pwd);
-    setValidStatus(valid as boolean);
-    if (!pwd || !confirmPwd || !valid) return;
+    // const valid = await validatePassword(pwd);
+    // setValidStatus(valid as boolean);
+    if (!pwd || !confirmPwd) return;
     if (pwd !== confirmPwd) {
       setConfirmStatus(false);
       return;

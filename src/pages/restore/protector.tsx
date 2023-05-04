@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 
 export default function Protector() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const { resume: resumeMtvStorage } = useMtvStorageStore(
+  const { resume: resumeMtvStorage, mtvStorage } = useMtvStorageStore(
     (state) => state,
   );
   const nav = useNavigate();
@@ -21,9 +21,7 @@ export default function Protector() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { setBindStatus, setUserLevel, setUserInfo } = useGlobalStore(
-    (state) => state,
-  );
+  const { setUserInfo } = useGlobalStore((state) => state);
 
   const query = useMemo(() => {
     return {
@@ -31,6 +29,12 @@ export default function Protector() {
       confirmCode: code,
     };
   }, [email, code]);
+  const getStorageUserInfo = async () => {
+    const userInfo = await mtvStorage?.get('userInfo');
+    if (userInfo) {
+      await setUserInfo(userInfo);
+    }
+  };
   const { mutate: getuserinfo } = useRequest(
     {
       url: '/user/getuserinfo',
@@ -38,16 +42,16 @@ export default function Protector() {
     },
     {
       onSuccess: async (res) => {
-        const { email, dbAddress, name, safeLevel } = res.data;
+        const { email, name } = res.data;
         if (email) {
-          setBindStatus(true);
+          setUserInfo({ bindStatus: true });
         }
-        setUserLevel(safeLevel);
-        setUserInfo({ email, nickname: name });
+        setUserInfo({ email, nickname: name, maintainProtector: true });
 
         const { privateKey } = wallet || {};
         if (privateKey) {
           await resumeMtvStorage(privateKey);
+          await getStorageUserInfo();
         }
         setLoading(false);
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });

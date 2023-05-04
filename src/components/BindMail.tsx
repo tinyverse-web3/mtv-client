@@ -12,9 +12,6 @@ export const BindMail = () => {
     showLogin,
     setShowLogin,
     setUserInfo,
-    setBindStatus,
-    setUserLevel,
-    bindStatus,
   } = useGlobalStore((state) => state);
   const { mtvStorage } = useMtvStorageStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
@@ -54,8 +51,7 @@ export const BindMail = () => {
     },
     {
       onSuccess: (res) => {
-        const { name, email, safeLevel } = res.data || {};
-        setUserLevel(safeLevel);
+        const { name, email } = res.data || {};
         setUserInfo({
           nickname: name,
           email: email,
@@ -65,7 +61,7 @@ export const BindMail = () => {
   );
   const loginSucess = async (res: any) => {
     if (res.code === '000000') {
-      setBindStatus(true);
+      setUserInfo({ bindStatus: true });
       await generateQuery();
       await modifyuser();
       setShowLogin(false);
@@ -75,7 +71,7 @@ export const BindMail = () => {
     setLoginLoading(false);
     reset();
   };
-  
+
   const { mutate } = useRequest(
     {
       url: '/user/bindmail',
@@ -205,15 +201,15 @@ export const BindMail = () => {
 };
 
 export async function useCheckLogin() {
-  const bindStatus = useGlobalStore.getState().bindStatus;
+  const bindStatus = useGlobalStore.getState().userInfo.bindStatus;
   let loginStatus = bindStatus;
   const setShowLogin = useGlobalStore.getState().setShowLogin;
   if (!loginStatus) {
     setShowLogin(true);
     loginStatus = await new Promise((resolve, reject) => {
       useGlobalStore.subscribe((state) => {
-        if (state.bindStatus) {
-          resolve(state.bindStatus);
+        if (state.userInfo.bindStatus) {
+          resolve(state.userInfo.bindStatus);
         }
       });
     });

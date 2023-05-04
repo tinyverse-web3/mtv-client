@@ -6,10 +6,12 @@ interface UserInfo {
   email?: string;
   avatar?: string;
   nickname?: string;
+  userLevel?: number;
+  bindStatus?: boolean;
+  maintainPhrase?: boolean;
+  maintainProtector?: boolean;
+  maintainQuestion?: boolean;
 }
-const metadataKey =
-  'kzwfwjn5ji4pupd2pb0qcfwlah3qc9ud9w2n1d3vgesiiidv1uk7t1wfx5ntb6w';
-
 /* userLevel 用户等级
 0级：临时账户，账户无法恢复，数据随时会丢失，请尽快做账户维护。
 1级：账户存在单点故障，请尽快做账户维护。
@@ -23,27 +25,24 @@ interface NostrInfo {
   sk: string;
 }
 interface GlobalState {
-  bindStatus: boolean;
   showLogin: boolean;
-  userLevel: number;
-  maintainPhrase: boolean;
-  maintainProtector: boolean;
-  maintainQuestion: boolean;
+  // userLevel: number;
+  // maintainPhrase: boolean;
+  // maintainProtector: boolean;
+  // maintainQuestion: boolean;
   checkLoading: boolean;
-  maintain: boolean;
   userInfo: UserInfo;
   nostr?: NostrInfo;
   logout: () => void;
-  setUserLevel: (l: number) => void;
-  calcUserLevel: () => void;
-  setMaintainPhrase: (v: boolean) => void;
-  setMaintainProtector: (v: boolean) => void;
-  setMaintainQuestion: (v: boolean) => void;
-  setUserInfo: (UserInfo: UserInfo) => void;
-  setBindStatus: (status: boolean) => void;
+  // setUserLevel: (l: number) => void;
+  calcUserLevel: () => number;
+  // setMaintainPhrase: (v: boolean) => void;
+  // setMaintainProtector: (v: boolean) => void;
+  // setMaintainQuestion: (v: boolean) => void;
+  setUserInfo: (userInfo: UserInfo) => void;
+  // setBindStatus: (status: boolean) => void;
   setShowLogin: (visibly: boolean) => void;
   setCheckLoading: (visibly: boolean) => void;
-  setMaintain: (status: boolean) => void;
   setNostr: (n: NostrInfo) => void;
   createNostr: () => NostrInfo;
   reset: () => void;
@@ -53,30 +52,28 @@ export const useGlobalStore = create<GlobalState>()(
   devtools(
     persist(
       (set, get) => ({
-        bindStatus: false,
         showLogin: false,
-        maintain: false,
         checkLoading: true,
-        userLevel: 0,
-        maintainPhrase: false,
-        maintainProtector: false,
-        maintainQuestion: false,
-        userInfo: {},
+        // userLevel: 0,
+        // maintainPhrase: false,
+        // maintainProtector: false,
+        // maintainQuestion: false,
+        userInfo: {
+          bindStatus: false,
+          // userLevel: 0,
+          maintainPhrase: false,
+          maintainProtector: false,
+          maintainQuestion: false,
+        },
         setUserInfo: (v) => {
           const _user = get().userInfo;
           set(() => ({ userInfo: { ..._user, ...v } }));
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
-        setUserLevel: (l) => {
-          if (l > get().userLevel) {
-            set(() => ({ userLevel: l }));
-          }
-        },
-        setMaintainPhrase: (v) => set(() => ({ maintainPhrase: v })),
-        setMaintainProtector: (v) => set(() => ({ maintainProtector: v })),
-        setMaintainQuestion: (v) => set(() => ({ maintainQuestion: v })),
         calcUserLevel: () => {
-          const { maintainPhrase, maintainProtector, maintainQuestion } = get();
+          const { userInfo } = get();
+          const { maintainPhrase, maintainProtector, maintainQuestion } =
+            userInfo;
           let level = 0;
           if (maintainPhrase) {
             level = 1;
@@ -87,11 +84,11 @@ export const useGlobalStore = create<GlobalState>()(
           if (maintainQuestion || (maintainPhrase && maintainProtector)) {
             level = 3;
           }
-          set({ userLevel: level });
+          return level;
         },
         logout: () => set(() => ({ bindStatus: false, showLogin: false })),
-        setBindStatus: (v) => set({ bindStatus: v }),
-        setMaintain: (v) => set(() => ({ maintain: v })),
+        // setBindStatus: (v) => set({ bindStatus: v }),
+        // setMaintain: (v) => set(() => ({ maintain: v })),
         setCheckLoading: (v) => set(() => ({ checkLoading: v })),
         createNostr: () => {
           const user = generateKeys();
@@ -103,15 +100,21 @@ export const useGlobalStore = create<GlobalState>()(
         },
         reset: () => {
           set({
-            bindStatus: false,
+            // bindStatus: false,
             showLogin: false,
-            maintain: false,
+            // maintain: false,
             checkLoading: false,
-            userLevel: 0,
-            maintainPhrase: false,
-            maintainProtector: false,
-            maintainQuestion: false,
-            userInfo: {},
+            // userLevel: 0,
+            // maintainPhrase: false,
+            // maintainProtector: false,
+            // maintainQuestion: false,
+            userInfo: {
+              bindStatus: false,
+              // userLevel: 0,
+              maintainPhrase: false,
+              maintainProtector: false,
+              maintainQuestion: false,
+            },
           });
         },
       }),

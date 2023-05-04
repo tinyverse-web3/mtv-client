@@ -31,8 +31,11 @@ export const UserLevel = ({ className }: Props) => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
-  const userLevel = useGlobalStore((state) => state.userLevel);
-  const levelItem = useMemo(() => levelArr[userLevel], [userLevel]);
+  const { userInfo } = useGlobalStore((state) => state);
+  const levelItem = useMemo(
+    () => levelArr[userInfo.userLevel || 0],
+    [userInfo.userLevel],
+  );
   return (
     <div className={`${className}`}>
       <div className='flex items-center mb-1'>
