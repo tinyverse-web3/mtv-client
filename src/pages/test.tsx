@@ -21,7 +21,7 @@ export default function Test() {
     await storage.put('test', 1);
     const data = await storage.get('test');
     console.log('put key2');
-    await storage.put('abc', { a: 1, b: 2 });
+    await storage.put('abc' , { a: 1, b: 5 });
     const data2 = await storage.get('abc');
     await storage.connect();
     console.log(data);
@@ -37,7 +37,7 @@ export default function Test() {
     await storage.resume();
     // await storage.put('test', 1);
     const data = await storage.get('test');
-    console.log('put key2');
+    console.log('get key2');
     // await storage.put('abc', { a: 1, b: 2 });
     const data2 = await storage.get('abc');
     console.log(data);

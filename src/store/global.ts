@@ -85,13 +85,6 @@ export const useGlobalStore = create<GlobalState>()(
           console.log(window?.mtvStorage);
           console.log(userInfo);
           if (userInfo) {
-            const {
-              maintainPhrase,
-              bindStatus,
-              maintainProtector,
-              maintainQuestion,
-              userLevel,
-            } = userInfo;
             console.log('mtvStorage get userInfo', userInfo);
             set({
               userInfo,

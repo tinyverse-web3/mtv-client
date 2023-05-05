@@ -9,8 +9,8 @@ export class MtvStorage {
   }
   async init() {
     this.ipfsStorage = await Web3Storage.createIpfsStorage(this.userPk, {
-      genRemoteKeyTimeout: 30000,
-      syncTryTimeout: 30000,
+      genRemoteKeyTimeout: 10000,
+      syncTryTimeout: 10000,
     });
     return this.ipfsStorage;
   }
