@@ -62,6 +62,7 @@ export default function Account() {
       destoryStorage(),
       wallet?.delete(),
     ]);
+    localStorage.clear();
     location.reload();
     // nav(ROUTE_PATH.INDEX, { replace: true });
   };
