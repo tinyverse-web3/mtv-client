@@ -5,12 +5,13 @@ import { ROUTE_PATH } from '@/router';
 import { useList } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { cloneDeep } from 'lodash';
 
 export default function UserPhrase() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
+  const [emptyList, setEmptyList] = useState<number[]>([]);
   const [list, { updateAt, set }] = useList<string>(
     Array.from<string>({ length: 12 }).fill(''),
   );
@@ -25,7 +26,10 @@ export default function UserPhrase() {
       toast.error('助记词错误');
     }
   };
-  const phrase = useMemo(() => wallet?.getMnemonic()?.split(' ') || [], [wallet]);
+  const phrase = useMemo(
+    () => wallet?.getMnemonic()?.split(' ') || [],
+    [wallet],
+  );
   const getFourUniqueNumbers = (range: number, arr: string[]) => {
     const len = arr.length;
     const numbers: number[] = [];
@@ -38,11 +42,12 @@ export default function UserPhrase() {
         list[num] = '';
       }
     }
+    setEmptyList(numbers);
     return list;
   };
   useEffect(() => {
     const _phrase = getFourUniqueNumbers(4, phrase);
-    set(_phrase)
+    set(_phrase);
   }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
@@ -52,6 +57,7 @@ export default function UserPhrase() {
           {list.map((v, i) => (
             <div key={i}>
               <Input
+                readOnly={!emptyList.includes(i)}
                 aria-label='text'
                 value={v}
                 className='text-center'
