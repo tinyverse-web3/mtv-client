@@ -5,12 +5,13 @@ import { ROUTE_PATH } from '@/router';
 import { useList } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { cloneDeep } from 'lodash';
 
 export default function UserPhrase() {
   const nav = useNavigate();
   const wallet = useWalletStore((state) => state.wallet);
-  const [list, { updateAt }] = useList<string>(
+  const [list, { updateAt, set }] = useList<string>(
     Array.from<string>({ length: 12 }).fill(''),
   );
   const changeHandler = (i: number, value: string) => {
@@ -24,6 +25,25 @@ export default function UserPhrase() {
       toast.error('助记词错误');
     }
   };
+  const phrase = useMemo(() => wallet?.getMnemonic()?.split(' ') || [], [wallet]);
+  const getFourUniqueNumbers = (range: number, arr: string[]) => {
+    const len = arr.length;
+    const numbers: number[] = [];
+    const list = cloneDeep(arr);
+    console.log(list);
+    while (numbers.length < range) {
+      let num = Math.floor(Math.random() * len);
+      if (!numbers.includes(num)) {
+        numbers.push(num);
+        list[num] = '';
+      }
+    }
+    return list;
+  };
+  useEffect(() => {
+    const _phrase = getFourUniqueNumbers(4, phrase);
+    set(_phrase)
+  }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
     <LayoutThird title='助记词恢复测试' path={ROUTE_PATH.ACCOUNT_PHRASE}>
