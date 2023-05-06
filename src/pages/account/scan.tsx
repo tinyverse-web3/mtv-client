@@ -35,9 +35,11 @@ export default function UserQrcode() {
     try {
       const devices = await Html5Qrcode.getCameras();
       console.log('devices', devices);
-
       if (devices && devices.length) {
         cameraId.current = devices[1].id;
+      } else {
+        toast('没有找到摄像头');
+        return;
       }
       html5Qrcode.current = new Html5Qrcode(/* element id */ 'reader');
       console.log(html5Qrcode.current);
