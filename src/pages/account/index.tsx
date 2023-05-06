@@ -85,7 +85,7 @@ export default function Account() {
           onPress={toChangeNickname}
         />
         <ListRow
-          label='钱包地址'
+          label='我的公钥'
           value={<Address address={wallet?.publicKey} />}
           onPress={toPublicKey}
         />
