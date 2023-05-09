@@ -33,14 +33,9 @@ export default function UserQrcode() {
     <LayoutThird title='我的公钥' path={ROUTE_PATH.ACCOUNT}>
       <div className='pt-16 px-6'>
         {wallet?.publicKey && (
-          <Card className='w-fit m-auto mb-16'>
-            <Card.Body ref={qrBoxRef}>
-              <QRCodeCanvas
-                value={wallet?.publicKey}
-                size={200}
-              />
-            </Card.Body>
-          </Card>
+          <div className='w-fit m-auto mb-16'>
+            <QRCodeCanvas value={wallet?.publicKey} size={200} />
+          </div>
         )}
         <Card className='w-full m-auto text-12px mb-6'>
           <Card.Body>{wallet?.publicKey}</Card.Body>
@@ -48,7 +43,10 @@ export default function UserQrcode() {
         <Button className='w-full mb-6 bg-cyan-5' size='lg' onPress={copy}>
           复制公钥
         </Button>
-        <Button className='w-full mb-6 bg-blue-9' size='lg' onPress={loadQrcode}>
+        <Button
+          className='w-full mb-6 bg-blue-9'
+          size='lg'
+          onPress={loadQrcode}>
           保存二维码
         </Button>
       </div>

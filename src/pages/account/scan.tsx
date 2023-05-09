@@ -94,7 +94,7 @@ export default function UserQrcode() {
           <div id='reader'></div>
         </div>
         <div className='text-center'>扫一扫</div>
-        <div>扫描结果：{text}</div>
+        {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>
   );

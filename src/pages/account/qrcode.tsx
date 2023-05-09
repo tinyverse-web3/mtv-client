@@ -5,10 +5,10 @@ import { Card, Text, Input } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useWalletStore } from '@/store';
 import { download } from '@/lib/utils';
-import { QrType } from '@/type'
+import { QrType } from '@/type';
 
 enum MtvEnum {
-  TEST
+  TEST,
 }
 export default function UserQrcode() {
   const qrBoxRef = useRef<any>();
@@ -34,9 +34,7 @@ export default function UserQrcode() {
   return (
     <LayoutThird title='我的二维码' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='pt-18'>
-        <Text className='mb-24 text-center'>
-          Create and connect your world on web3
-        </Text>
+        <Text className='mb-24 text-center'>用于他人添加好友</Text>
         {wallet?.publicKey && (
           <div className='flex justify-center mb-12'>
             <div className=' rounded-2 overflow-hidden' ref={qrBoxRef}>

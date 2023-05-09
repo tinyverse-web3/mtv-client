@@ -32,9 +32,11 @@ export default function Protector() {
 
   const restoreData = async () => {
     const { privateKey } = wallet || {};
+    console.time('restore mtvStorage');
     if (privateKey) {
       await resumeMtvStorage(privateKey);
       await getLocalUserInfo();
+      console.timeEnd('restore mtvStorage');
     }
   };
 
