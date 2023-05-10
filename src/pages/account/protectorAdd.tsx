@@ -7,12 +7,14 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
+import { useGlobalStore } from '@/store';
 export default function ProtectorAdd() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const { changeProtectorStatus } = useGlobalStore((state) => state);
   const { mutate } = useRequest(
     {
       url: '/guardian/add',
@@ -41,7 +43,8 @@ export default function ProtectorAdd() {
     try {
       await mutate();
       await toast.success('添加成功');
-      nav(-1);
+      await changeProtectorStatus(true);
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     } catch (error) {
       await toast.error('添加失败');
     }

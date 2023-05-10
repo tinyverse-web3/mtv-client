@@ -33,10 +33,12 @@ const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
 
 export default function AccountProtector() {
   const nav = useNavigate();
-  const [shareA, setShareA] = useState('');
+  // const [shareA, setShareA] = useState('');
+  const [shares, setShares] = useState<string[]>([]);
   const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
-  const { setUserInfo, calcUserLevel } = useGlobalStore((state) => state);
+  const { setUserInfo, calcUserLevel, protectorStatus, changeProtectorStatus } =
+    useGlobalStore((state) => state);
   const { data, mutate, loading } = useRequest<any[]>({
     url: '/guardian/list',
     arg: {
@@ -50,7 +52,7 @@ export default function AccountProtector() {
     arg: {
       method: 'post',
       auth: true,
-      query: { guardianSssData: shareA },
+      query: { guardianSssData: shares[0] },
     },
   });
   const { mutate: delGuardian } = useRequest(
@@ -71,31 +73,22 @@ export default function AccountProtector() {
       },
     },
   );
-  const { mutate: updateSafeLevel } = useRequest({
-    url: '/user/updatesafelevel',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: {
-        safeLevel: 3,
-      },
-    },
-  });
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
   };
   const backup = async () => {
-    const shares = await wallet?.sssSplit(2, 2);
     if (shares && data) {
-      await setShareA(shares[0]);
+      // await setShareA(shares[0]);
       const kvMap = data.map((s, i) => {
         const keySha = new KeySha();
         return keySha.set(s.account, '', '', shares[1]);
       });
       try {
+        // console.log('shareA');
         await Promise.all([...kvMap, saveSssData()]);
         await setUserInfo({ maintainProtector: true });
         await calcUserLevel();
+        changeProtectorStatus(false);
         toast.success('备份成功');
       } catch (error) {
         toast.error('备份失败');
@@ -113,6 +106,18 @@ export default function AccountProtector() {
   const existed = useMemo(() => {
     return data && data.length;
   }, [data]);
+  useEffect(() => {
+    if (data?.length) {
+      wallet?.sssSplit(2, 2).then((res) => {
+        setShares(res as string[]);
+      });
+    }
+  }, [data]);
+  useEffect(() => {
+    if (protectorStatus && shares?.length) {
+      backup();
+    }
+  }, [protectorStatus, shares]);
   return (
     <LayoutThird
       title='守护者'
@@ -139,12 +144,12 @@ export default function AccountProtector() {
                     onDel={() => delHandler(v.Id)}
                   />
                 ))}
-              <Button
+              {/* <Button
                 size='lg'
                 className='mx-auto mb-6 w-full'
                 onPress={backup}>
                 备份
-              </Button>
+              </Button> */}
             </div>
           ) : (
             <div className='h-20 flex justify-center'>

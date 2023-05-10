@@ -64,17 +64,18 @@ export default function Protector() {
         const shareB = await keySha.get(account, '', '');
         console.log(shareB);
         const shares: string[] = [sssData, shareB];
+        console.log(shares)
         const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
         console.log(status);
         if (status === STATUS_CODE.SUCCESS) {
           await setWallet(wallet);
           await restoreData();
           setLoading(false);
+          await toast.success('恢复成功');
           nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         } else if (status === STATUS_CODE.SHARES_ERROR) {
           toast.error('分片数据错误');
         }
-        await toast.success('恢复成功');
       } else {
         await toast.error(data.msg);
         setLoading(false);

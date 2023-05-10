@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const { showLogin, setShowLogin, setUserInfo } = useGlobalStore(
+  const { showLogin, setShowLogin, setUserInfo, changeProtectorStatus } = useGlobalStore(
     (state) => state,
   );
   const { mtvStorage } = useMtvStorageStore((state) => state);
@@ -59,6 +59,7 @@ export const BindMail = () => {
   );
   const loginSucess = async (res: any) => {
     if (res.code === '000000') {
+      changeProtectorStatus(true);
       setUserInfo({ bindStatus: true });
       await generateQuery();
       await modifyuser();
