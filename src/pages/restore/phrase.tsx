@@ -38,6 +38,7 @@ export default function Phrase() {
         if (status === STATUS_CODE.SUCCESS) {
           await setWallet(wallet);
           await restoreData();
+          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
         } else {
           setLoading(false);
         }
