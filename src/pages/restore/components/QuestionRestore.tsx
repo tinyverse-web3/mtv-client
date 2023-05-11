@@ -31,7 +31,6 @@ export const QuestionRestore = ({
   const [shareB, setShareB] = useState('');
 
   const toastErr = () => {
-    console.log(kvError);
     for (let j = 0; j < kvError.length; j++) {
       const err = kvError[j];
       if (err) {
@@ -98,7 +97,6 @@ export const QuestionRestore = ({
           errArr.push(`问题${chineseNumMap[i]}答案错误`);
         }
       }
-      console.log(errArr);
       setKvError(errArr);
       if (errArr.length) {
         toastErr();

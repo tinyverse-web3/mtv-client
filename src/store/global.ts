@@ -2,6 +2,12 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { generateKeys } from '@/lib/utils/generateKeys';
 import { isEqual } from 'lodash';
+
+interface Guardian {
+  name: string;
+  type: string;
+  id?: string;
+}
 interface UserInfo {
   email?: string;
   avatar?: string;
@@ -11,6 +17,7 @@ interface UserInfo {
   maintainPhrase?: boolean;
   maintainProtector?: boolean;
   maintainQuestion?: boolean;
+  guardians?: Guardian[];
 }
 /* userLevel 用户等级
 0级：临时账户，账户无法恢复，数据随时会丢失，请尽快做账户维护。
@@ -70,6 +77,7 @@ export const useGlobalStore = create<GlobalState>()(
           maintainPhrase: false,
           maintainProtector: false,
           maintainQuestion: false,
+          guardians: [],
         },
         changeProtectorStatus(v) {
           set({ protectorStatus: v });

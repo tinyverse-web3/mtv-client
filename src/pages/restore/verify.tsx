@@ -61,7 +61,7 @@ export default function RestoreVerifyEmail() {
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title='添加守护者' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='智能隐私身份验证' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-4'>
         <div>
           <div className='mb-6'>

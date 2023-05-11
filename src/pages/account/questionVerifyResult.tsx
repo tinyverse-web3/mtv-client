@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-
+import { cloneDeep } from 'lodash';
 import { useQuestionStore, useWalletStore, useGlobalStore } from '@/store';
 
 import imageSuccess from '@/assets/images/icon-success.png';
@@ -27,20 +27,39 @@ export default function QuestionVerifyResult() {
   const { setUserInfo, calcUserLevel } = useGlobalStore((state) => state);
 
   const toAccount = async () => {
-    
     nav(ROUTE_PATH.ACCOUNT);
   };
   const splitKey = async (threshold = 2, account = 3) => {
     return await wallet?.sssSplit(account, threshold);
   };
   const addQuestionQuery = useMemo(() => {
-    return initList.map((val) => ({
-      content: JSON.stringify(
-        val.list.map((s) => ({ content: s.q, characters: s.l })),
-      ),
-      title: val.title,
-      type,
-    }));
+    if (type == 1) {
+      return initList.map((val) => ({
+        content: JSON.stringify(
+          val.list.map((s) => ({ content: s.q, characters: s.l })),
+        ),
+        title: val.title,
+        type,
+      }));
+    } else {
+      let _list = cloneDeep(initList);
+      _list = _list.map((v, i) => {
+        return {
+          id: i,
+          list: v.list.filter((s: any) => s.a),
+          title: v.title,
+        };
+      });
+      _list = _list.filter((v) => v.list.length);
+
+      return _list.map((val) => ({
+        content: JSON.stringify(
+          val.list.map((s) => ({ content: s.q, characters: s.l })),
+        ),
+        title: val.title,
+        type,
+      }));
+    }
   }, [initList]);
   const { mutate: setUserQuestion } = useRequest<any[]>({
     url: '/question/add',
@@ -70,18 +89,18 @@ export default function QuestionVerifyResult() {
     });
     list = list.filter((v) => v.list.length);
     try {
-      const { email } = userInfo;
+      const { publicKey } = wallet?.wallet || {};
       const shareKeys = await splitKey(2, list.length + 1);
-      if (shareKeys && email) {
+      if (shareKeys && publicKey) {
         await setShareA(shareKeys[0]);
         const kvShares = shareKeys.slice(1);
         const kvMap = kvShares?.map((s, i) => {
           const keySha = new KeySha();
           const q = list[i].list.map((val) => val.q).join('');
           const a = list[i].list.map((val) => val.a).join('');
-          return keySha.set(email, q, a, s);
+          return keySha.set(publicKey, q, a, s);
         });
-        await Promise.all([...kvMap, saveSssData()]);
+        await Promise.all([...kvMap]);
         await setUserQuestion();
         await setUserInfo({ maintainQuestion: true });
         await calcUserLevel();
@@ -93,6 +112,11 @@ export default function QuestionVerifyResult() {
       toast.error('备份失败');
     }
   };
+  useEffect(() => {
+    if (shareA) {
+      saveSssData();
+    }
+  }, [shareA]);
   useEffect(() => {
     if (!initList.length) {
       nav(ROUTE_PATH.ACCOUNT_QUESTION);

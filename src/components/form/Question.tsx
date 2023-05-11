@@ -40,6 +40,7 @@ export const Question = ({
   buttonText = '备份',
   children,
 }: Props) => {
+  console.log(type);
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
@@ -154,7 +155,8 @@ export const Question = ({
   };
   const validList = () => {
     let validStatus = true;
-    if (type == 'restore') {
+    console.log(type)
+    if (type !== 'restore') {
     } else {
       for (let i = 0; i < list.length; i++) {
         const question = list[i];

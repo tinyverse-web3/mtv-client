@@ -33,11 +33,12 @@ export class KeySha {
     return await this.setKeyToKvServer(dataKey, encryptShareKey);
   }
 
-  private generateAesSupple(userId:string, question:string, answer:string) :any {
-    const concatStr = config.kv.qasks_api_key + userId + question + answer;
-    const key = CryptoJS.SHA3(concatStr).toString();
-    const aesIv = CryptoJS.enc.Utf8.parse(key);
-    const aesKey = CryptoJS.enc.Utf8.parse(key);
+  private generateAesSupple(publicKey:string, question:string, answer:string) :any {
+    const concatStr = config.kv.qasks_api_key + publicKey + question + answer;
+    const key = CryptoJS.SHA3(concatStr).toString(); // kv 的key
+    const key2 = CryptoJS.SHA512(concatStr).toString(); // kv 的 value 加密key
+    const aesIv = CryptoJS.enc.Utf8.parse(key2);
+    const aesKey = CryptoJS.enc.Utf8.parse(key2);
     return {
       'key': key,
       'aes_iv': aesIv,
