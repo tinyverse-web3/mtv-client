@@ -209,7 +209,10 @@ export const QuestionDefault = ({
             </div>
             {val?.list.map((v, j) => (
               <div className='flex break-keep items-center  mb-2' key={v.q}>
-                <div className='w-30'>{v.q}</div>
+                <div className='w-30'>
+                  <div>{v.q}</div>
+                  {type !== 'maintain' && !!(v.l && !isNaN(v.l)) && <div  className='text-12px'>答案共{v.l}个字符</div>}
+                </div>
                 <div className='flex-1'>
                   <Input
                     value={v.a}

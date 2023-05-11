@@ -53,7 +53,8 @@ export const WalletCheck = () => {
       await Promise.all([resetWallet()]);
       await password.remove();
       destoryStorage();
-      location.replace(ROUTE_HASH_PATH.UNLOCK);
+      location.reload();
+      // location.replace(ROUTE_HASH_PATH.UNLOCK);
     }
   };
   const onIdle = () => {
