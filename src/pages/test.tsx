@@ -15,27 +15,19 @@ const useMemoFibonacci = createMemo(fibonacci);
 // import EthCrypto from 'eth-crypto';
 export default function Test() {
   const test = async () => {
-    const transport = new GrpcWebFetchTransport({
-      baseUrl: 'http://localhost:50051',
-    });
-
-    const client = new GreeterClient(transport);
-    client.sayHello({ message: 'test'}).then((res) => {
-      console.log(res);
-    });
-    // const privateKey =
-    //   '6d26323e54ee98139c1ade27c29c08dc7ec17606bc0d90ac9f81240aaddce579';
-    // const crypt = new MtvCrypto(privateKey);
-    // const storage = new MtvStorage(privateKey, crypt);
-    // await storage.init();
-    // await storage.put('test', 1);
-    // const data = await storage.get('test');
-    // console.log('put key2');
-    // await storage.put('abc', { a: 1, b: 5 });
-    // const data2 = await storage.get('abc');
-    // await storage.connect();
-    // console.log(data);
-    // console.log(data2);
+    const privateKey =
+      '6d26323e54ee98139c1ade27c29c08dc7ec17606bc0d90ac9f81240aaddce579';
+    const crypt = new MtvCrypto(privateKey);
+    const storage = new MtvStorage(privateKey, crypt);
+    await storage.init();
+    await storage.put('test', 1);
+    const data = await storage.get('test');
+    console.log('put key2');
+    await storage.put('abc', { a: 1, b: 5 });
+    const data2 = await storage.get('abc');
+    await storage.connect();
+    console.log(data);
+    console.log(data2);
   };
   const test2 = async () => {
     const privateKey =

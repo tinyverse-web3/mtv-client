@@ -39,6 +39,7 @@ export default function Restore() {
     if (status === STATUS_CODE.SUCCESS) {
       await setWallet(wallet);
       await restoreData();
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
     } else if (status === STATUS_CODE.SHARES_ERROR) {
       toast.error('分片数据错误');
     }

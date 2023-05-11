@@ -31,6 +31,7 @@ export const QuestionRestore = ({
   const [shareB, setShareB] = useState('');
 
   const toastErr = () => {
+    console.log(kvError);
     for (let j = 0; j < kvError.length; j++) {
       const err = kvError[j];
       if (err) {
@@ -92,13 +93,14 @@ export const QuestionRestore = ({
           const a = s.list.map((val: any) => val.a).join('');
           const v = await keySha.get(email, q, a);
           kvShares.push(v);
-          errArr.push('');
+          // errArr.push('');
         } catch (error) {
           errArr.push(`问题${chineseNumMap[i]}答案错误`);
         }
       }
+      console.log(errArr);
       setKvError(errArr);
-      if (!kvShares.length) {
+      if (errArr.length) {
         toastErr();
         return;
       }

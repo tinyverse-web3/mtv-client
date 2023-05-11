@@ -26,7 +26,7 @@ export default function RestoreVerifyEmail() {
     },
   });
   const submit = async () => {
-    const { data, code } = await verifyBindEmail();
+    const { data, code, msg } = await verifyBindEmail();
     if (code === '000000') {
       if (data?.questionSssData) {
         await setVerifyEmail(data.email);
@@ -54,6 +54,8 @@ export default function RestoreVerifyEmail() {
       } else {
         toast.error('该邮箱未进行智能隐私备份');
       }
+    } else {
+      toast.error(msg);
     }
     setLoading(false);
   };

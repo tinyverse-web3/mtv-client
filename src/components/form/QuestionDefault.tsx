@@ -33,7 +33,7 @@ export const QuestionDefault = ({
   onSubmit,
   type,
   className,
-  initList = [],
+  // initList = [],
   buttonText = '备份',
   children,
 }: Props) => {
@@ -44,36 +44,74 @@ export const QuestionDefault = ({
     () => type === 'restore' || type === 'verify',
     [type],
   );
-  const { data, mutate } = useRequest<any[]>({
-    url: '/question/tmplist',
-    arg: {
-      method: 'get',
-      auth: true,
-      query: {
-        type: 1,
-      },
+  const data = [
+    {
+      Id: 0,
+      title: '基本信息',
+      content:
+        '[{"content":"姓名","characters":0},{"content":"性别","characters":0},{"content":"出生时间(yyyymmdd)","characters":0},{"content":"出生地点(城市名称)","characters":0},{"content":"身份证","characters":0},{"content":"社保号码","characters":0},{"content":"血型","characters":0},{"content":"大学名称","characters":0},{"content":"入学时间","characters":0}]',
+      type: 0,
+      CreateTime: '0001-01-01T00:00:00Z',
+      UpdateTime: '0001-01-01T00:00:00Z',
     },
-  });
-  const { data: userList, mutate: questionList } = useRequest<any[]>({
-    url: '/question/list',
-    arg: {
-      method: 'get',
-      auth: true,
+    {
+      Id: 0,
+      title: '网络身份',
+      content:
+        '[{"content":"手机号码","characters":0},{"content":"邮箱","characters":0},{"content":"Apple ID","characters":0},{"content":"Google账号","characters":0},{"content":"Twitter账号","characters":0},{"content":"Facebook账号","characters":0},{"content":"微信账号","characters":0},{"content":"QQ账号","characters":0},{"content":"淘宝账号","characters":0},{"content":"微博账号","characters":0}]',
+      type: 0,
+      CreateTime: '0001-01-01T00:00:00Z',
+      UpdateTime: '0001-01-01T00:00:00Z',
     },
-  });
+    {
+      Id: 0,
+      title: '金融信息',
+      content:
+        '[{"content":"储蓄卡1开户行","characters":"0"},{"content":"储蓄卡1卡号","characters":0},{"content":"储蓄卡2开户行","characters":0},{"content":"储蓄卡2卡号","characters":0},{"content":"信用卡开户行","characters":0},{"content":"信用卡卡号","characters":0}]',
+      type: 0,
+      CreateTime: '0001-01-01T00:00:00Z',
+      UpdateTime: '0001-01-01T00:00:00Z',
+    },
+    {
+      Id: 0,
+      title: '额外信息',
+      content:
+        '[{"content":"紧急联系人","characters":"0"},{"content":"紧急联系人电话","characters":0},{"content":"第一辆汽车品牌","characters":0},{"content":"第一辆汽车车牌","characters":0},{"content":"小学名称","characters":0},{"content":"初中名称","characters":0},{"content":"高中名称","characters":0}]',
+      type: 0,
+      CreateTime: '0001-01-01T00:00:00Z',
+      UpdateTime: '0001-01-01T00:00:00Z',
+    },
+  ];
+  // const { data, mutate } = useRequest<any[]>({
+  //   url: '/question/tmplist',
+  //   arg: {
+  //     method: 'get',
+  //     auth: true,
+  //     query: {
+  //       type: 1,
+  //     },
+  //   },
+  // });
+  // const { data: userList, mutate: questionList } = useRequest<any[]>({
+  //   url: '/question/list',
+  //   arg: {
+  //     method: 'get',
+  //     auth: true,
+  //   },
+  // });
 
-  const generateInitList = () => {
-    console.log(initList);
-    let _list = initList.map((v, i) => {
-      return {
-        id: i,
-        list: v.list.map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
-        title: v.title,
-      };
-    });
-    _list = _list.filter((v) => v.list.length);
-    set(_list);
-  };
+  // const generateInitList = () => {
+  //   console.log(initList);
+  //   let _list = initList.map((v, i) => {
+  //     return {
+  //       id: i,
+  //       list: v.list.map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
+  //       title: v.title,
+  //     };
+  //   });
+  //   _list = _list.filter((v) => v.list.length);
+  //   set(_list);
+  // };
   const answerChange = async (i: number, j: number, e: any) => {
     const _list = cloneDeep(list[i]);
     _list.list[j].a = e;
@@ -118,7 +156,7 @@ export const QuestionDefault = ({
       });
       set(_list);
     }
-  }, [data, localList]);
+  }, [localList]);
 
   const validList = () => {
     let validStatus = true;
@@ -154,12 +192,12 @@ export const QuestionDefault = ({
     }
   };
   useEffect(() => {
-    if (!initList?.length) {
-      mutate();
-      questionList();
-    } else {
-      generateInitList();
-    }
+    // if (!initList?.length) {
+    // mutate();
+    //   questionList();
+    // } else {
+    // generateInitList();
+    // }
   }, []);
   return (
     <div className={className}>
