@@ -10,6 +10,7 @@ interface Guardian {
 }
 interface UserInfo {
   email?: string;
+  publicKey?: string;
   avatar?: string;
   nickname?: string;
   userLevel?: number;

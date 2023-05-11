@@ -15,9 +15,9 @@ interface QuestionState {
   sssData: string;
   list: QuestionList[];
   type: number;
-  email: string;
+  publicKey: string;
   setList: (list: QuestionList[]) => void;
-  setEmail: (e: string) => void;
+  setPublicKey: (e: string) => void;
   setType: (e: number) => void;
   setSssData: (e: string) => void;
 }
@@ -27,12 +27,12 @@ export const useQuestionStore = create<QuestionState>()(
     list: [],
     sssData: '',
     type: 1,
-    email: '',
+    publicKey: '',
     setList: (list) => {
       set({ list });
     },
-    setEmail: (email) => {
-      set({ email });
+    setPublicKey: (publicKey) => {
+      set({ publicKey });
     },
     setType: (type) => {
       set({ type });

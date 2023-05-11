@@ -12,7 +12,7 @@ export default function RestoreVerifyEmail() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const { setEmail: setVerifyEmail, setList, setSssData, setType } = useQuestionStore((state) => state);
+  const { setPublicKey, setList, setSssData, setType } = useQuestionStore((state) => state);
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
     setCode(code);
@@ -29,7 +29,7 @@ export default function RestoreVerifyEmail() {
     const { data, code, msg } = await verifyBindEmail();
     if (code === '000000') {
       if (data?.questionSssData) {
-        await setVerifyEmail(data.email);
+        await setPublicKey(data.publicKey);
         await setSssData(data.questionSssData);
         const questionType = data.questions[0].type;
         setType(questionType);

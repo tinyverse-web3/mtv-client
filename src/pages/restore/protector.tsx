@@ -13,9 +13,12 @@ import toast from 'react-hot-toast';
 
 export default function Protector() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const { resume: resumeMtvStorage, mtvStorage } = useMtvStorageStore(
-    (state) => state,
-  );
+  const {
+    resume: resumeMtvStorage,
+    mtvStorage,
+    init: initMtvStorage,
+  } = useMtvStorageStore((state) => state);
+  const [resumeStatus, setResumeStatus] = useState(false);
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -30,13 +33,13 @@ export default function Protector() {
     };
   }, [email, code]);
 
-  const restoreData = async () => {
-    const { privateKey } = wallet || {};
-    console.time('restore mtvStorage');
+  const restoreData = async (privateKey: string) => {
     if (privateKey) {
-      await resumeMtvStorage(privateKey);
+      if (!resumeStatus) {
+        await initMtvStorage(privateKey);
+      }
+      await resumeMtvStorage();
       await getLocalUserInfo();
-      console.timeEnd('restore mtvStorage');
     }
   };
 
@@ -56,30 +59,35 @@ export default function Protector() {
     setLoading(true);
     try {
       const data = await getSssData();
-      console.log(data);
       if (data.code === '000000') {
         const { sssData, guardians } = data.data;
         const keySha = new KeySha();
         const { account } = guardians[0];
         const shareB = await keySha.get(account, '', '');
-        console.log(shareB);
         const shares: string[] = [sssData, shareB];
-        console.log(shares)
         const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
-        console.log(status);
-        if (status === STATUS_CODE.SUCCESS) {
-          await setWallet(wallet);
-          await restoreData();
-          setLoading(false);
-          await toast.success('恢复成功');
-          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+        if (status === STATUS_CODE.SUCCESS && wallet?.privateKey) {
+          try {
+            await restoreData(wallet?.privateKey);
+            await setWallet(wallet);
+            nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+          } catch (error: any) {
+            if (error.toString().indexOf('resolve name') > -1) {
+              toast.error('您未备份过数据，数据无法恢复！');
+              nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+            } else {
+              setResumeStatus(true);
+              await wallet?.delete();
+              toast.error('恢复数据失败，请重试！');
+            }
+          }
         } else if (status === STATUS_CODE.SHARES_ERROR) {
           toast.error('分片数据错误');
         }
       } else {
-        await toast.error(data.msg);
-        setLoading(false);
+        toast.error(data.msg);
       }
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       await toast.error('恢复失败');

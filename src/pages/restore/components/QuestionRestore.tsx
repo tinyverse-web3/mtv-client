@@ -25,7 +25,7 @@ export const QuestionRestore = ({
 }: Props) => {
   const [selectValue, setSelectValue] = useState('1');
   const [kvError, setKvError] = useState<string[]>([]);
-  const { email } = useQuestionStore((state) => state);
+  const { publicKey } = useQuestionStore((state) => state);
   const userInfo = useGlobalStore((state) => state.userInfo);
   // const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
@@ -59,7 +59,8 @@ export const QuestionRestore = ({
     }
   };
   const submitHandler = async (_list: any[]) => {
-    if (email) {
+    console.log(publicKey);
+    if (publicKey) {
       const keySha = new KeySha();
       let filterAnswer = [];
       if (type === 1) {
@@ -90,7 +91,7 @@ export const QuestionRestore = ({
           console.log(s);
           const q = s.list.map((val: any) => val.q).join('');
           const a = s.list.map((val: any) => val.a).join('');
-          const v = await keySha.get(email, q, a);
+          const v = await keySha.get(publicKey, q, a);
           kvShares.push(v);
           // errArr.push('');
         } catch (error) {

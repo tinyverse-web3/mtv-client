@@ -14,11 +14,15 @@ export default function Phrase() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resumeStatus, setResumeStatus] = useState(false);
   const { setUserInfo, getLocalUserInfo } = useGlobalStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
-  const { resume: resumeMtvStorage, mtvStorage } = useMtvStorageStore(
-    (state) => state,
-  );
+  const {
+    resume: resumeMtvStorage,
+    init: initMtvStorage,
+    mtvStorage,
+    // retryResume,
+  } = useMtvStorageStore((state) => state);
   // const getStorageUserInfo = async () => {
   //   const userInfo = await mtvStorage?.get('userInfo');
   //   console.log(userInfo);
@@ -35,13 +39,25 @@ export default function Phrase() {
           VITE_DEFAULT_PASSWORD,
         );
         console.log(status);
-        if (status === STATUS_CODE.SUCCESS) {
-          await setWallet(wallet);
-          await restoreData();
-          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-        } else {
-          setLoading(false);
+        if (status === STATUS_CODE.SUCCESS && wallet?.privateKey) {
+          try {
+            await restoreData(wallet?.privateKey);
+            await setWallet(wallet);
+            nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+          } catch (error: any) {
+            if (error.toString().indexOf('resolve name') > -1) {
+              toast.error('您未备份过数据，数据无法恢复！');
+              nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+            } else {
+              setResumeStatus(true);
+              await wallet?.delete();
+              toast.error('恢复数据失败，请重试！');
+            }
+          }
+        } else if (status === STATUS_CODE.SHARES_ERROR) {
+          toast.error('分片数据错误');
         }
+        setLoading(false);
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -49,10 +65,12 @@ export default function Phrase() {
     }
   };
 
-  const restoreData = async () => {
-    const { privateKey } = wallet || {};
+  const restoreData = async (privateKey: string) => {
     if (privateKey) {
-      await resumeMtvStorage(privateKey);
+      if (!resumeStatus) {
+        await initMtvStorage(privateKey);
+      } 
+      await resumeMtvStorage();
       await getLocalUserInfo();
     }
   };
