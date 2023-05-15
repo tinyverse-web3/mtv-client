@@ -16,21 +16,21 @@ export default function ProtectorAdd() {
   const [code, setCode] = useState('');
   const { changeProtectorStatus } = useGlobalStore((state) => state);
   const { setAccount, account } = useAccountStore((state) => state);
-  // const { mutate } = useRequest(
-  //   {
-  //     url: '/guardian/add',
-  //     arg: {
-  //       auth: true,
-  //       method: 'post',
-  //       query: { account: email, verifyCode: code, type: 'email' },
-  //     },
-  //   },
-  //   {
-  //     onError() {
-  //       setLoading(false);
-  //     },
-  //   },
-  // );
+  const { mutate } = useRequest(
+    {
+      url: '/guardian/add',
+      arg: {
+        auth: true,
+        method: 'post',
+        query: { account: email, verifyCode: code, type: 'email' },
+      },
+    },
+    {
+      onError() {
+        setLoading(false);
+      },
+    },
+  );
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
@@ -45,6 +45,7 @@ export default function ProtectorAdd() {
       const newGuardians = [...guardians, { type: 'email', name: email }];
       await setAccount({ guardians: newGuardians });
       await toast.success('添加成功');
+      await mutate();
       await changeProtectorStatus(true);
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     } catch (error) {
