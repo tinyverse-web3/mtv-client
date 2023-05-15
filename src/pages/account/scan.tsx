@@ -35,8 +35,10 @@ export default function UserQrcode() {
     try {
       const devices = await Html5Qrcode.getCameras();
       console.log('devices', devices);
+      
       if (devices && devices.length) {
-        cameraId.current = devices[1].id;
+        const backCamer = devices.find((item: any) => item.label.indexOf('back') > -1);
+        cameraId.current = backCamer?.id || devices[0].id
       } else {
         toast('没有找到摄像头');
         return;
@@ -53,7 +55,7 @@ export default function UserQrcode() {
           async (decodedText: string) => {
             console.log(decodedText);
             setText(decodedText);
-            html5Qrcode.current.pause(true);
+            // html5Qrcode.current.pause(true);
             // do something when code is read
           },
           (errorMessage: any) => {
@@ -68,6 +70,12 @@ export default function UserQrcode() {
   useEffect(() => {
     if (!html5Qrcode.current) {
       start();
+    }
+    return () => {
+      if (html5Qrcode.current) {
+        html5Qrcode.current.stop();
+        html5Qrcode.current = null;
+      }
     }
   }, []);
   const parseText = () => {
