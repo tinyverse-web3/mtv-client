@@ -5,7 +5,7 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { useRequest } from '@/api';
-import { useWalletStore, useGlobalStore } from '@/store';
+import { useWalletStore, useGlobalStore, useAccountStore } from '@/store';
 import { KeySha } from '@/lib/account';
 import { toast } from 'react-hot-toast';
 interface GuardItem {
@@ -39,13 +39,15 @@ export default function AccountProtector() {
   const wallet = useWalletStore((state) => state.wallet);
   const { setUserInfo, calcUserLevel, protectorStatus, changeProtectorStatus } =
     useGlobalStore((state) => state);
-  const { data, mutate, loading } = useRequest<any[]>({
-    url: '/guardian/list',
-    arg: {
-      auth: true,
-      method: 'get',
-    },
-  });
+  const { account } = useAccountStore((state) => state);
+  const { guardians } = account;
+  // const { data, mutate, loading } = useRequest<any[]>({
+  //   url: '/guardian/list',
+  //   arg: {
+  //     auth: true,
+  //     method: 'get',
+  //   },
+  // });
 
   const { mutate: saveSssData } = useRequest({
     url: '/user/savesssdata4guardian',
@@ -55,36 +57,34 @@ export default function AccountProtector() {
       query: { guardianSssData: shares[0] },
     },
   });
-  const { mutate: delGuardian } = useRequest(
-    {
-      url: '/guardian/del',
-      arg: {
-        auth: true,
-        method: 'post',
-        query: { id: delId },
-      },
-    },
-    {
-      onSuccess() {
-        mutate();
-      },
-      onError() {
-        // setLoading(false);
-      },
-    },
-  );
+  // const { mutate: delGuardian } = useRequest(
+  //   {
+  //     url: '/guardian/del',
+  //     arg: {
+  //       auth: true,
+  //       method: 'post',
+  //       query: { id: delId },
+  //     },
+  //   },
+  //   {
+  //     onSuccess() {
+  //       mutate();
+  //     },
+  //     onError() {
+  //       // setLoading(false);
+  //     },
+  //   },
+  // );
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
   };
   const backup = async () => {
-    if (shares && data) {
-      // await setShareA(shares[0]);
-      const kvMap = data.map((s, i) => {
+    if (shares && guardians) {
+      const kvMap = guardians.map((s, i) => {
         const keySha = new KeySha();
-        return keySha.set(s.account, '', '', shares[1]);
+        return keySha.set(s.name, '', '', shares[1]);
       });
       try {
-        // console.log('shareA');
         await Promise.all([...kvMap, saveSssData()]);
         await setUserInfo({ maintainProtector: true });
         await calcUserLevel();
@@ -98,21 +98,21 @@ export default function AccountProtector() {
   const delHandler = async (id: string) => {
     await setDelId(id);
     console.log('delId', delId);
-    delGuardian();
+    // delGuardian();
   };
-  useEffect(() => {
-    mutate();
-  }, []);
+  // useEffect(() => {
+  //   mutate();
+  // }, []);
   const existed = useMemo(() => {
-    return data && data.length;
-  }, [data]);
+    return guardians && guardians.length;
+  }, [guardians]);
   useEffect(() => {
-    if (data?.length) {
+    if (protectorStatus && guardians?.length) {
       wallet?.sssSplit(2, 2).then((res) => {
         setShares(res as string[]);
       });
     }
-  }, [data]);
+  }, [guardians, protectorStatus]);
   useEffect(() => {
     if (protectorStatus && shares?.length) {
       backup();
@@ -134,14 +134,14 @@ export default function AccountProtector() {
         <div>
           {existed ? (
             <div>
-              {data &&
-                data.map((v, i) => (
+              {guardians &&
+                guardians.map((v, i) => (
                   <ProtectorItem
-                    key={v.Id}
-                    showDel={data.length !== 1}
+                    key={v.name}
+                    showDel={guardians.length !== 1}
                     type={v.type}
-                    account={v.accountMask}
-                    onDel={() => delHandler(v.Id)}
+                    account={v.name}
+                    onDel={() => delHandler(v.name)}
                   />
                 ))}
               {/* <Button

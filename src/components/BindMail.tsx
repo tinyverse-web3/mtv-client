@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useWalletStore, useMtvStorageStore } from '@/store';
+import { useGlobalStore, useWalletStore, useMtvStorageStore, useAccountStore } from '@/store';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ export const BindMail = () => {
     (state) => state,
   );
   const { mtvStorage } = useMtvStorageStore((state) => state);
+  const { setAccount } = useAccountStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
   const signMessage = useRef<any>({});
   const [email, setEmail] = useState('');

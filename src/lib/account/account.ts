@@ -1,10 +1,12 @@
-import { ethers } from 'ethers';
-import EthCrypto from 'eth-crypto';
+import { MtvCrypto } from './crypto';
+import { MtvStorage } from './storage';
+import { Keystore, Password } from './wallet';
 import { Shamir } from '@/lib/account';
-import { Storage } from '../storage';
+import { ethers } from 'ethers';
+import { KeySha } from './kvSha';
+import EthCrypto from 'eth-crypto';
 import CryptoJS from 'crypto-js';
 
-console.log(ethers);
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
   INVALID_PASSWORD,
@@ -16,127 +18,170 @@ export enum STATUS_CODE {
 const LOCAL_PASSWORD_KEY = '_password';
 const LOCAL_PASSWORD_SALT_KEY = '_password_salt';
 const LOCAL_KEYSTORE_KEY = '_keystore';
+const LOCAL_ACCOUNT_KEY = 'account';
 
-export class Keystore {
-  private storage: Record<string, Storage>;
-  constructor() {
-    this.storage = {
-      keystore: new Storage(LOCAL_KEYSTORE_KEY),
-    };
-  }
-  async create(privateKey: string, password: string) {
-    sessionStorage.setItem(LOCAL_PASSWORD_KEY, password);
-    const encrypted = await this.encrypt(privateKey, password);
-    await this.storage.keystore.set(encrypted);
-  }
-  async encrypt(data: string, password: string) {
-    const key = CryptoJS.enc.Base64.parse(password);
-    const iv = CryptoJS.lib.WordArray.random(128 / 8);
-    const srcs = CryptoJS.enc.Utf8.parse(data);
-    const encrypted = CryptoJS.AES.encrypt(srcs, key, {
-      iv: iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-    });
-    return {
-      iv: encrypted.iv.toString(CryptoJS.enc.Hex),
-      content: encrypted.toString(),
-    };
-  }
-  async decrypt(password: string) {
-    const encrypted = await this.storage.keystore.get();
-    if (!encrypted) {
-      return;
-    }
-    const key = CryptoJS.enc.Base64.parse(password);
-    const decipher = CryptoJS.AES.decrypt(encrypted.content, key, {
-      iv: CryptoJS.enc.Hex.parse(encrypted.iv),
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-    });
-    return decipher.toString(CryptoJS.enc.Utf8);
-  }
-  async get(password: string) {
-    return await this.decrypt(password);
-  }
-  async exist() {
-    return !!(await this.storage.keystore.get());
-  }
-  async remove() {
-    await this.storage.keystore.remove();
-  }
+interface Guardian {
+  name: string;
+  type: string;
+  id?: string;
 }
-
-export class Password {
-  private saltStorage: Storage;
-  constructor() {
-    this.saltStorage = new Storage(LOCAL_PASSWORD_SALT_KEY);
-  }
-  async set(password: string) {
-    const encryptPwd = await this.encrypt(password);
-    sessionStorage.setItem(LOCAL_PASSWORD_KEY, encryptPwd);
-    return encryptPwd;
-  }
-  async encrypt(password: string) {
-    const salt = await this.getSalt();
-    const encryptPwd = CryptoJS.PBKDF2(password, salt.toString(), {
-      keySize: 256 / 32,
-    });
-    const encryptPwdString = encryptPwd.toString();
-    return encryptPwdString;
-  }
-  async getSalt() {
-    const localSalt = await this.saltStorage.get();
-    if (localSalt) {
-      return localSalt;
-    } else {
-      const salt = CryptoJS.lib.WordArray.random(128 / 8);
-      const saltString = salt.toString();
-      await this.saltStorage.set(saltString);
-      return saltString;
-    }
-  }
-  async get() {
-    return sessionStorage.getItem(LOCAL_PASSWORD_KEY);
-  }
-  async remove() {
-    sessionStorage.removeItem(LOCAL_PASSWORD_KEY);
-  }
-  async removeSalt() {
-    await this.saltStorage.remove();
-  }
+interface NostrInfo {
+  pk: string;
+  sk: string;
 }
-export class Wallet {
+export interface AccountInfo {
+  publicKey: string;
+  avatar: string;
+  name: string;
+  address: string;
+  safeLevel: number;
+  bindStatus: boolean;
+  maintainPhrase: boolean;
+  maintainProtector: boolean;
+  maintainQuestion: boolean;
+  privacyInfo: {};
+  nostr: NostrInfo;
+  guardians: Guardian[];
+}
+export class Account {
   private readonly keystore = new Keystore();
   private readonly password = new Password();
   private readonly sss = new Shamir();
-  public publicKey?: string;
+  private crypto?: MtvCrypto;
+  private mtvStorage?: MtvStorage;
+  private keySha?: KeySha;
   public privateKey?: string;
-  public address?: string;
-  public wallet?: ethers.HDNodeWallet;
-  constructor() {}
+  private wallet?: ethers.HDNodeWallet;
+  public accountInfo: AccountInfo = {
+    publicKey: '',
+    avatar: '',
+    name: '',
+    address: '',
+    safeLevel: 0,
+    bindStatus: false,
+    maintainPhrase: false,
+    maintainProtector: false,
+    maintainQuestion: false,
+    privacyInfo: {},
+    nostr: {
+      pk: '',
+      sk: '',
+    },
+    guardians: [],
+  };
 
-  getMnemonic() {
-    return this.wallet?.mnemonic?.phrase;
+  /**
+   * 创建加密实例
+   * @param {any} privateKey:string
+   * @returns {any}
+   */
+  private initCrypto(privateKey: string) {
+    this.crypto = new MtvCrypto(privateKey);
   }
-  async encryptPrivateKey() {
+  /**
+   * 创建加密实例
+   * @param {any} privateKey:string
+   * @returns {any}
+   */
+  private initKeySha(publicKey: string) {
+    this.keySha = new KeySha(publicKey);
+  }
+  /**
+   * 创建存储实例
+   * @param {any} privateKey:string
+   * @returns {any}
+   */
+  private async initMtvStorage(privateKey: string) {
+    if (this.crypto === undefined) {
+      console.error('crypto is undefined');
+    } else {
+      try {
+        this.mtvStorage = new MtvStorage(privateKey, this.crypto);
+        await this.mtvStorage.init();
+        console.log('创建 mtv storage 成功');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  /**
+   * 创建各种实例
+   * @param {any} password:string
+   * @returns {any}
+   */
+  async create(password: string) {
+    this.wallet = ethers.Wallet.createRandom();
+    await this.exposed();
+    await this.saveKeyStore(password);
+    try {
+      if (this.privateKey) {
+        await this.initCrypto(this.privateKey);
+        await this.initKeySha(this.accountInfo.publicKey);
+        await this.initMtvStorage(this.privateKey);
+      } else {
+        console.log('不存在 private key');
+      }
+    } catch (error) {
+      console.error('存储模块创建失败');
+      console.error(error);
+    }
+  }
+
+  /**
+   * 恢复账号数据
+   * @returns {any}
+   */
+  async restore() {
+    try {
+      await this.mtvStorage?.resume();
+      const serverAccount = this.mtvStorage?.get(LOCAL_ACCOUNT_KEY);
+      if (serverAccount) {
+        this.accountInfo = { ...this.accountInfo, ...serverAccount };
+      }
+    } catch (error: any) {
+      if (error.toString().indexOf('resolve name') > -1) {
+        console.error('您未备份过数据，数据无法恢复！');
+      } else {
+        console.error('恢复数据失败，请重试！');
+      }
+    }
+  }
+  async saveAccount() {
+    await this.mtvStorage?.put(LOCAL_ACCOUNT_KEY, this.accountInfo);
+  }
+  /**
+   * Description
+   * @returns {any}
+   */
+  private async encryptPrivateKey() {
     const { privateKey } = this.wallet || {};
     if (privateKey) {
       return CryptoJS.SHA256(privateKey).toString();
     }
     return undefined;
   }
+  /**
+   * 获取助记词
+   * @returns {string} 助记词
+   */
+  public getMnemonic() {
+    return this.wallet?.mnemonic?.phrase;
+  }
+  /**
+   * 暴露公私钥和地址
+   */
   private async exposed() {
-    const { publicKey, address } = this.wallet || {};
-    this.publicKey = publicKey;
+    const { publicKey = '', address = '' } = this.wallet || {};
+    this.accountInfo.publicKey = publicKey;
     this.privateKey = await this.encryptPrivateKey();
-    this.address = address;
+    this.accountInfo.address = address;
   }
-  async create(password: string) {
-    this.wallet = ethers.Wallet.createRandom();
-    await this.exposed();
-    await this.saveKeyStore(password);
-  }
+
+  /**
+   * 通过密码保存 keystore
+   * @param {string} password:string
+   * @returns {any}
+   */
   async saveKeyStore(password: string) {
     const encryptPwd = await this.password.set(password);
     const { entropy } = this.wallet?.mnemonic || {};
@@ -151,6 +196,7 @@ export class Wallet {
     await this.exposed();
     return STATUS_CODE.SUCCESS;
   }
+
   async restoreFromPhrase(phrase: string, password: string) {
     this.wallet = ethers.HDNodeWallet.fromPhrase(phrase);
     await this.saveKeyStore(password);
@@ -268,5 +314,3 @@ export class Wallet {
     }
   }
 }
-
-export default new Wallet();

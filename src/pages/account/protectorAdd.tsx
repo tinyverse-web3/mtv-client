@@ -7,7 +7,7 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-import { useGlobalStore } from '@/store';
+import { useGlobalStore, useAccountStore } from '@/store';
 export default function ProtectorAdd() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
@@ -15,21 +15,22 @@ export default function ProtectorAdd() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const { changeProtectorStatus } = useGlobalStore((state) => state);
-  const { mutate } = useRequest(
-    {
-      url: '/guardian/add',
-      arg: {
-        auth: true,
-        method: 'post',
-        query: { account: email, verifyCode: code, type: 'email' },
-      },
-    },
-    {
-      onError() {
-        setLoading(false);
-      },
-    },
-  );
+  const { setAccount, account } = useAccountStore((state) => state);
+  // const { mutate } = useRequest(
+  //   {
+  //     url: '/guardian/add',
+  //     arg: {
+  //       auth: true,
+  //       method: 'post',
+  //       query: { account: email, verifyCode: code, type: 'email' },
+  //     },
+  //   },
+  //   {
+  //     onError() {
+  //       setLoading(false);
+  //     },
+  //   },
+  // );
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
@@ -39,9 +40,10 @@ export default function ProtectorAdd() {
     setChecked(e);
   };
   const submit = async () => {
-    // setChecked(e);
     try {
-      await mutate();
+      const { guardians } = account;
+      const newGuardians = [...guardians, { type: 'email', name: email }];
+      await setAccount({ guardians: newGuardians });
       await toast.success('添加成功');
       await changeProtectorStatus(true);
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
