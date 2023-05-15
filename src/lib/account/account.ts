@@ -49,7 +49,7 @@ export class Account {
   private readonly sss = new Shamir();
   private crypto?: MtvCrypto;
   private mtvStorage?: MtvStorage;
-  private keySha?: KeySha;
+  public keySha?: KeySha;
   public privateKey?: string;
   private wallet?: ethers.HDNodeWallet;
   public accountInfo: AccountInfo = {

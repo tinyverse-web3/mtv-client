@@ -24,7 +24,7 @@ export default function Userinfo() {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      const text = e.trim().replace(/[^a-z0-9_]/g, '');
+      const text = e.trim().replace(/[^A-Za-z0-9_]/g, '');
       nicknameRef.current = text;
       setNickname(text);
     }, 100);
@@ -32,7 +32,7 @@ export default function Userinfo() {
   const modifySuccess = (res: any) => {
     if (res.code === '000000') {
       toast.success('修改成功');
-      setUserInfo({ nickname: nicknameRef.current });
+      setUserInfo({ nickname: nicknameRef.current.toLocaleLowerCase() });
     } else {
       toast.error(res.msg);
     }
@@ -44,7 +44,7 @@ export default function Userinfo() {
         method: 'post',
         auth: true,
         query: {
-          name: nickname,
+          name: nickname.toLocaleLowerCase(),
         },
       },
     },
@@ -81,13 +81,13 @@ export default function Userinfo() {
           disabled={chagneDisabled}
           loading={modifyLoading}
           className='mx-auto mb-2 w-full'
-          size="lg"
+          size='lg'
           onPress={infoChange}>
           修改
         </Button>
         <Text className='text-3 mb-4'>
-            目前只支持字母、数字和连接符_，且不区分字母大小写。仅可免费修改一次。
-          </Text>
+          目前只支持字母、数字和连接符_，且不区分字母大小写。仅可免费修改一次。
+        </Text>
       </div>
     </LayoutThird>
   );
