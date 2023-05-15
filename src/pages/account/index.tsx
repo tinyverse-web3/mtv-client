@@ -73,7 +73,7 @@ export default function Account() {
     location.replace('/unlock');
   };
   return (
-    <LayoutThird title='我的资料' path={ROUTE_PATH.CHAT_LIST}>
+    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='pt-4 px-4 text-14px'>
         <div className='flex'>
           <UserAvatar className='mr-4' />

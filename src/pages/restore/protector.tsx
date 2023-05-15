@@ -72,6 +72,7 @@ export default function Protector() {
             await setWallet(wallet);
             nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
           } catch (error: any) {
+            console.log(error);
             if (error.toString().indexOf('resolve name') > -1) {
               toast.error('您未备份过数据，数据无法恢复！');
               nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
