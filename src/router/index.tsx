@@ -20,6 +20,7 @@ import RestoreProtector from '@/pages/restore/protector';
 import RestoreVerify from '@/pages/restore/verify';
 import RestoreQuestion from '@/pages/restore/question';
 import Test from '@/pages/test';
+import AppTest from '@/pages/app';
 import Unlock from '@/pages/unlock';
 import Retrieve from '@/pages/retrieve';
 import AccountName from '@/pages/account/username';
@@ -72,6 +73,7 @@ export const ROUTE_PATH = {
   RETRIEVE: '/retrieve',
   NOTE: '/note',
   TEST: '/test',
+  APP_TEST: '/app',
   NOTE_EDIT: '/note/:id',
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
@@ -98,6 +100,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.HOME,
         element: <Home />,
+      },
+      {
+        path: ROUTE_PATH.APP_TEST,
+        element: <AppTest />,
       },
 
       {

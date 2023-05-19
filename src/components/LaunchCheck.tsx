@@ -68,7 +68,7 @@ export const WalletCheck = () => {
     throttle: 2000,
   });
   const checkStatus = async () => {
-    if (pathname.indexOf('test') > -1) {
+    if (pathname.indexOf('test') > -1 || pathname.indexOf('app') > -1) {
       setCheckLoading(false);
       return;
     }

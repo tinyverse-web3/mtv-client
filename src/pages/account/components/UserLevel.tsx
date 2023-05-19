@@ -20,7 +20,7 @@ export const UserLevel = ({ className }: Props) => {
     },
     {
       level: 3,
-      text: '低标准账户，建议提示安全级别。',
+      text: '低标准账户，建议提升安全级别。',
     },
     {
       level: 4,
