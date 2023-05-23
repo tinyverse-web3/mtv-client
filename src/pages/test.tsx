@@ -8,7 +8,6 @@ const fibonacci: any = (n: any) => {
   return fibonacci(n - 1) + fibonacci(n - 2);
 };
 import { GreeterClient } from '@/api/grpc/demo.client';
-import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 const useMemoFibonacci = createMemo(fibonacci);
 
 // import { ethers } from 'ethers';

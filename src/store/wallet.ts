@@ -12,6 +12,7 @@ export const useWalletStore = create<WalletState>()(
   devtools((set, get) => ({
     wallet: null,
     setWallet: (wallet: Wallet) => {
+      console.log(wallet)
       set({ wallet });
     },
     reset: async () => {

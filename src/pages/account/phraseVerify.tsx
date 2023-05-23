@@ -1,5 +1,5 @@
 import { Input, Button } from '@nextui-org/react';
-import { useWalletStore } from '@/store';
+import { useAccountStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useList } from 'react-use';
@@ -10,7 +10,7 @@ import { cloneDeep } from 'lodash';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const wallet = useWalletStore((state) => state.wallet);
+  const { account } = useAccountStore((state) => state);
   const [emptyList, setEmptyList] = useState<number[]>([]);
   const [list, { updateAt, set }] = useList<string>(
     Array.from<string>({ length: 12 }).fill(''),
@@ -20,15 +20,15 @@ export default function UserPhrase() {
   };
   const verify = () => {
     const _phrase = list.join(' ');
-    if (_phrase === wallet?.getMnemonic()) {
+    if (_phrase === account.getMnemonic()) {
       nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     } else {
       toast.error('助记词错误');
     }
   };
   const phrase = useMemo(
-    () => wallet?.getMnemonic()?.split(' ') || [],
-    [wallet],
+    () => account.getMnemonic()?.split(' ') || [],
+    [account],
   );
   const getFourUniqueNumbers = (range: number, arr: string[]) => {
     const len = arr.length;

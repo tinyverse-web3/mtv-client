@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useGlobalStore } from '@/store';
+import { useAccountStore } from '@/store';
 
 interface Props {
   className?: string;
@@ -31,10 +31,10 @@ export const UserLevel = ({ className }: Props) => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
-  const { userInfo } = useGlobalStore((state) => state);
+  const { account } = useAccountStore((state) => state);
   const levelItem = useMemo(
-    () => levelArr[userInfo.userLevel || 0],
-    [userInfo.userLevel],
+    () => levelArr[account.accountInfo.safeLevel || 0],
+    [account.accountInfo],
   );
   return (
     <div className={`${className}`}>

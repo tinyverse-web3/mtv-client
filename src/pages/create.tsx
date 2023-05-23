@@ -3,7 +3,7 @@ import { Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { validatePassword } from '@/lib/utils';
-import { useWalletStore, useGlobalStore, useMtvStorageStore } from '@/store';
+import { useWalletStore, useAccountStore, useMtvStorageStore } from '@/store';
 
 import Page from '@/layout/LayoutTwo';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ export default function About() {
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
+  const { account } = useAccountStore((state) => state);
   const initMtvStorage = useMtvStorageStore((state) => state.init);
   const [confirmPwd, setPwdChange] = useState('');
   const [validStatus, setValidStatus] = useState(true);
@@ -29,7 +30,7 @@ export default function About() {
     await wallet.create(pwd);
     const { privateKey } = wallet || {};
     if (privateKey) {
-      console.time('db')
+      console.time('db');
       await initMtvStorage(privateKey);
     }
     setWallet(wallet);

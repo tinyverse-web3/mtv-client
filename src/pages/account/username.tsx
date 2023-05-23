@@ -3,7 +3,7 @@ import { Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
-import { useGlobalStore } from '@/store';
+import { useAccountStore } from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { useRequest } from '@/api';
@@ -11,11 +11,13 @@ import { useRequest } from '@/api';
 export default function Userinfo() {
   const nicknameRef = useRef('');
   const [nickname, setNickname] = useState('');
+  const [loading, setLoading] = useState(false);
   const timer = useRef<any>();
-  const userInfo = useGlobalStore((state) => state.userInfo);
-  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
+  const { account } = useAccountStore((state) => state);
   const infoChange = async () => {
-    modifyuser();
+    setLoading(true);
+    await account.updateName({ name: nickname });
+    setLoading(false);
   };
   const nicknameChange = (e: any) => {
     nicknameRef.current = e;
@@ -29,36 +31,10 @@ export default function Userinfo() {
       setNickname(text);
     }, 100);
   };
-  const modifySuccess = (res: any) => {
-    if (res.code === '000000') {
-      toast.success('修改成功');
-      setUserInfo({ nickname: nicknameRef.current.toLocaleLowerCase() });
-    } else {
-      toast.error(res.msg);
-    }
-  };
-  const { mutate: modifyuser, loading: modifyLoading } = useRequest(
-    {
-      url: '/user/updatename',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: {
-          name: nickname.toLocaleLowerCase(),
-        },
-      },
-    },
-    {
-      onSuccess: modifySuccess,
-    },
-  );
+
   const chagneDisabled = useMemo(() => {
-    return !nickname || nickname === userInfo.nickname;
-  }, [nickname, userInfo]);
-  useEffect(() => {
-    nicknameRef.current = userInfo.nickname || '';
-    setNickname(userInfo.nickname || '');
-  }, [userInfo]);
+    return !nickname || nickname === account.accountInfo.name;
+  }, [nickname, account.accountInfo]);
   return (
     <LayoutThird showBack title='修改名字' path={ROUTE_PATH.ACCOUNT}>
       <div className='pt-4 px-4'>
@@ -79,7 +55,7 @@ export default function Userinfo() {
         </div>
         <Button
           disabled={chagneDisabled}
-          loading={modifyLoading}
+          loading={loading}
           className='mx-auto mb-2 w-full'
           size='lg'
           onPress={infoChange}>

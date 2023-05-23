@@ -1,16 +1,15 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Text, Checkbox, Row, Button, Input } from '@nextui-org/react';
-import { STATUS_CODE, Password } from '@/lib/account/wallet';
+import { STATUS_CODE } from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalStore, useWalletStore } from '@/store';
+import { useGlobalStore, useWalletStore, useAccountStore } from '@/store';
 import { useRequest } from '@/api';
 import LayoutThird from '@/layout/LayoutThird';
 
 export default function ChangePwd() {
   const nav = useNavigate();
-  const passwordManager = new Password();
   const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
   const [checked, setChecked] = useState(false);
@@ -18,32 +17,8 @@ export default function ChangePwd() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
-  const { userInfo } = useGlobalStore((state) => state);
+  const { account } = useAccountStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
-  const query = useRef({ password: '' });
-  const generateQuery = async () => {
-    console.log('保存的密码', pwd);
-    const encryptPwd = await passwordManager.encrypt(pwd);
-    console.log('保存的密码hash', encryptPwd);
-    query.current.password = encryptPwd;
-  };
-
-  // useEffect(() => {
-  //   generateQuery();
-  // }, [pwd]);
-  const { mutate: savePassword } = useRequest(
-    {
-      url: '/user/savepassword',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: query.current,
-      },
-    },
-    {
-      onSuccess(res) {},
-    },
-  );
 
   const changePassword = async () => {
     if (oldPwd === pwd) {
@@ -59,22 +34,16 @@ export default function ChangePwd() {
       setValidStatus(false);
       return;
     }
-    const status = await wallet?.verify(oldPwd);
+    const status = await account.changePassword({
+      oldPwd,
+      newPwd: pwd,
+      saveStatus: checked,
+    });
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
       await wallet?.changePwd(oldPwd, pwd);
-      await generateQuery();
-      if (checked) {
-        const res = await savePassword();
-        if (res.code === '000000') {
-          toast.success('密码保存成功');
-        } else {
-          toast.error(res.msg);
-          return;
-        }
-      }
-
+      toast.success('密码修改成功');
       nav(-1);
     }
   };
@@ -147,7 +116,7 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        {userInfo.bindStatus && (
+        {account.accountInfo.bindStatus && (
           <Checkbox
             className='mb-3'
             aria-label='checkbox'

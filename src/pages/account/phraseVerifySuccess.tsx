@@ -3,15 +3,13 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import imageSuccess from '@/assets/images/icon-success.png';
-import { useGlobalStore } from '@/store';
+import { useAccountStore } from '@/store';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const { setUserInfo, calcUserLevel } = useGlobalStore((state) => state);
-  // useUpdateLevel();
+  const { account } = useAccountStore((state) => state);
   const toAccount = async () => {
-    await setUserInfo({ maintainPhrase: true });
-    await calcUserLevel();
+    await account.backupByPharse();
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (

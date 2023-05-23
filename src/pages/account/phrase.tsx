@@ -1,12 +1,12 @@
 import { Card, Text, Button } from '@nextui-org/react';
-import { useWalletStore } from '@/store';
+import { useAccountStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const wallet = useWalletStore((state) => state.wallet);
+  const { account } = useAccountStore((state) => state);
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
   };
@@ -18,7 +18,7 @@ export default function UserPhrase() {
         </Text>
         <Card className='mb-4'>
           <Card.Body>
-            <Text>{wallet?.getMnemonic()}</Text>
+            <Text>{account.getMnemonic()}</Text>
           </Card.Body>
         </Card>
         <Button onPress={toVerify} className='w-full' size='lg'>

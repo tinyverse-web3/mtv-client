@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useWalletStore } from '@/store';
+import { useAccountStore, useWalletStore } from '@/store';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
@@ -10,28 +10,10 @@ interface Props {
 }
 export const EmailBox = ({ onChange }: Props) => {
   const [email, setEmail] = useState('');
+  const [codeLoading, setCodeLoading] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
-
-  const { mutate: sendCode, loading: codeLoading } = useRequest(
-    {
-      url: '/user/sendmail4verifycode',
-      arg: {
-        method: 'post',
-        query: { email },
-      },
-    },
-    {
-      onSuccess(res) {
-        if (res.code === '000000') {
-          toast.success('验证码已发送');
-          start();
-        } else {
-          toast.error(res.msg);
-        }
-      },
-    },
-  );
+  const { account } = useAccountStore((state) => state);
   const emailChange = (e: any) => {
     setEmail(e.target.value);
   };
@@ -42,7 +24,11 @@ export const EmailBox = ({ onChange }: Props) => {
   };
   const sendVerify = async () => {
     if (email && flag) {
-      await sendCode();
+      setCodeLoading(true);
+      await account.sendVerifyCode({ type: 'email', account: email });
+      start();
+      toast.success('验证码已发送');
+      setCodeLoading(false);
     }
   };
   const emailBlur = () => {};

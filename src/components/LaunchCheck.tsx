@@ -1,60 +1,25 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import { STATUS_CODE } from '@/lib/account/account';
 import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 import { Password } from '@/lib/account/wallet';
 import { useIdleTimer } from 'react-idle-timer';
-import { useMtvStorageStore, useWalletStore, useGlobalStore } from '@/store';
+import { useAccountStore, useGlobalStore } from '@/store';
 const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 
 export const WalletCheck = () => {
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const {
-    setWallet,
-    reset: resetWallet,
-    wallet: storeWallet,
-  } = useWalletStore((state) => state);
-  const { checkLoading, setCheckLoading, userInfo } = useGlobalStore(
-    (state) => state,
-  );
-  const {
-    init: initStorage,
-    mtvStorage,
-    destory: destoryStorage,
-  } = useMtvStorageStore((state) => state);
-
-  useEffect(() => {
-    if (userInfo?.bindStatus && mtvStorage) {
-      console.log('connect storage');
-      mtvStorage?.connect();
-    }
-  }, [userInfo?.bindStatus, mtvStorage]);
-  const launchWallet = async (wallet: any) => {
-    const { privateKey } = wallet || {};
-    if (privateKey && !mtvStorage) {
-      try {
-        console.log('init storage');
-        await initStorage(privateKey);
-        const userInfo = await window?.mtvStorage?.get('userInfo');
-        console.log('userInfo', userInfo);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
+  const { account } = useAccountStore((state) => state);
 
   const logout = async () => {
     const { href } = location;
     if (stay_path.some((p) => href?.indexOf(p) > -1)) {
-      const password = new Password();
-      await Promise.all([resetWallet()]);
-      await password.remove();
-      destoryStorage();
+      await account.lock();
       location.reload();
-      // location.replace(ROUTE_HASH_PATH.UNLOCK);
     }
   };
   const onIdle = () => {
@@ -73,34 +38,22 @@ export const WalletCheck = () => {
       return;
     }
     setCheckLoading(true);
-    const status = await wallet?.check();
+    const status = await account.checkStatus();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/index') {
-        console.log('pathname', pathname);
         if (pathname.indexOf('chat/imShare') > -1) {
-          await wallet.create(VITE_DEFAULT_PASSWORD);
-          console.log('wallet create success');
-          const { privateKey } = wallet || {};
-          if (privateKey) {
-            await initStorage(privateKey);
-          }
-          await setWallet(wallet);
+          await account.create(VITE_DEFAULT_PASSWORD);
         } else {
           location.replace(ROUTE_HASH_PATH.INDEX);
         }
       } else {
         location.replace(ROUTE_HASH_PATH.INDEX);
       }
-    } else if (
-      status == STATUS_CODE.EMPTY_PASSWORD ||
-      status == STATUS_CODE.INVALID_PASSWORD
-    ) {
+    } else if (status == STATUS_CODE.INVALID_PASSWORD) {
       if (!(pathname.indexOf('unlock') > -1)) {
         location.href = ROUTE_HASH_PATH.UNLOCK;
       }
     } else if (status == STATUS_CODE.SUCCESS) {
-      setWallet(wallet);
-      await launchWallet(wallet);
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
@@ -113,11 +66,7 @@ export const WalletCheck = () => {
     }
   }, []);
   useLayoutEffect(() => {
-    if (
-      !storeWallet &&
-      !checkLoading &&
-      stay_path.some((p) => pathname?.indexOf(p) > -1)
-    ) {
+    if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       console.log('router change');
       checkStatus();
     }
@@ -131,18 +80,4 @@ export const WalletCheck = () => {
       ) : null}
     </>
   );
-};
-
-export const walletLoader = async (path: string) => {
-  const status = await wallet?.check();
-  if (status == STATUS_CODE.EMPTY_KEYSTORE) {
-    if (location.href === ROUTE_HASH_PATH.INDEX) {
-      return true;
-    }
-  } else if (status == STATUS_CODE.EMPTY_PASSWORD) {
-  } else if (status == STATUS_CODE.SUCCESS) {
-    if (stay_path.some((p) => path?.indexOf(p) > -1)) {
-      return true;
-    }
-  }
 };

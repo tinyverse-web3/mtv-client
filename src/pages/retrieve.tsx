@@ -28,7 +28,6 @@ export default function Retrieve() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
-  const { setWallet } = useWalletStore((state) => state);
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);

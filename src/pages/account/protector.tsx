@@ -37,88 +37,27 @@ export default function AccountProtector() {
   const [shares, setShares] = useState<string[]>([]);
   const [delId, setDelId] = useState('');
   const wallet = useWalletStore((state) => state.wallet);
-  const { setUserInfo, calcUserLevel, protectorStatus, changeProtectorStatus } =
+  const { protectorStatus, changeProtectorStatus } =
     useGlobalStore((state) => state);
   const { account } = useAccountStore((state) => state);
-  const { guardians } = account;
-  const { data, mutate, loading } = useRequest<any[]>({
-    url: '/guardian/list',
-    arg: {
-      auth: true,
-      method: 'get',
-    },
-  });
+  const list = useMemo(() => account.accountInfo.guardians, [account]);
 
-  const { mutate: saveSssData } = useRequest({
-    url: '/user/savesssdata4guardian',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: { guardianSssData: shares[0] },
-    },
-  });
-  const { mutate: delGuardian } = useRequest(
-    {
-      url: '/guardian/del',
-      arg: {
-        auth: true,
-        method: 'post',
-        query: { id: delId },
-      },
-    },
-    {
-      onSuccess() {
-        mutate();
-      },
-      onError() {
-        // setLoading(false);
-      },
-    },
-  );
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
   };
   const backup = async () => {
-    if (shares && data) {
-      const kvMap = data.map((s, i) => {
-        const keySha = new KeySha();
-        return keySha.set(s.account, '', '', shares[1]);
-      });
-      try {
-        await Promise.all([...kvMap, saveSssData()]);
-        await setUserInfo({ maintainProtector: true });
-        await calcUserLevel();
-        changeProtectorStatus(false);
-        toast.success('备份成功');
-      } catch (error) {
-        toast.error('备份失败');
-      }
-    }
+    await account.backupByGuardian();
+    changeProtectorStatus(false);
+    toast.success('备份成功');
   };
-  const delHandler = async (id: string) => {
-    await setDelId(id);
-    console.log('delId', delId);
-    delGuardian();
+  const delHandler = async (name: string) => {
+    await account.delGuardian({ account: name });
   };
   useEffect(() => {
-    mutate();
-  }, []);
-  // const existed = useMemo(() => {
-  //   return guardians && guardians.length;
-  // }, [guardians]);
-  useEffect(() => {
-    if (protectorStatus && data?.length) {
-      wallet?.sssSplit(2, 2).then((res) => {
-        setShares(res as string[]);
-      });
-    }
-  }, [data, protectorStatus]);
-  useEffect(() => {
-    if (protectorStatus && shares?.length) {
+    if (protectorStatus) {
       backup();
     }
-  }, [protectorStatus, shares]);
-  console.log(data);
+  }, [protectorStatus]);
   return (
     <LayoutThird
       title='守护者'
@@ -133,24 +72,24 @@ export default function AccountProtector() {
           请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。
         </Text>
         <div>
-            <div>
-              {data &&
-                data.map((v, i) => (
-                  <ProtectorItem
-                    key={v.Id}
-                    showDel={data.length !== 1}
-                    type={v.type}
-                    account={v.accountMask}
-                    onDel={() => delHandler(v.Id)}
-                  />
-                ))}
-              {/* <Button
+          <div>
+            {list?.length &&
+              list.map((v, i) => (
+                <ProtectorItem
+                  key={v.name}
+                  showDel={list.length !== 1}
+                  type={v.type}
+                  account={v.name}
+                  onDel={() => delHandler(v.name)}
+                />
+              ))}
+            {/* <Button
                 size='lg'
                 className='mx-auto mb-6 w-full'
                 onPress={backup}>
                 备份
               </Button> */}
-            </div>
+          </div>
           {/* ) : (
             <div className='h-20 flex justify-center'>
               还未设置守护者。点击设置守护者。

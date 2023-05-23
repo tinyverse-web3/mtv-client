@@ -1,13 +1,14 @@
 import { useState, useMemo } from 'react';
 import { Text, Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 import {
   useWalletStore,
   useMtvStorageStore,
   useGlobalStore,
   useNostrStore,
+  useAccountStore,
 } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
@@ -19,26 +20,16 @@ export default function Unlock() {
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const setWallet = useWalletStore((state) => state.setWallet);
-  const resetWallet = useWalletStore((state) => state.reset);
-  const {
-    init: initMtvStorage,
-    destory: destoryStorage,
-  } = useMtvStorageStore((state) => state);
+  const { account } = useAccountStore((state) => state);
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
     setLoading(true);
-    const status = await wallet?.verify(pwd);
+    const status = await account.unlock(pwd);
     console.log(status);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
-      setWallet(wallet);
-      const { publicKey, privateKey } = wallet || {};
-      if (privateKey) {
-        await initMtvStorage(privateKey);
-      }
       nav(ROUTE_PATH.SPACE_INDEX);
     }
     setLoading(false);
@@ -68,13 +59,7 @@ export default function Unlock() {
     setPwd(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
-    await Promise.all([
-      resetNostr(),
-      resetWallet(),
-      resetGlobal(),
-      destoryStorage(),
-      wallet?.delete(),
-    ]);
+    account.remove();
     nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const toRetrieve = () => {

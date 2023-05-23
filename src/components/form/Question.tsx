@@ -1,10 +1,10 @@
 import { Button, Text } from '@nextui-org/react';
 import { QuestionSelect } from '@/components/form/QuestionSelect';
 import { useList } from 'react-use';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Shamir, KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
-import { useWalletStore, useGlobalStore } from '@/store';
+import { useAccountStore } from '@/store';
 import { differenceBy } from 'lodash';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
@@ -40,12 +40,26 @@ export const Question = ({
   buttonText = '备份',
   children,
 }: Props) => {
-  console.log(type);
+  const { account } = useAccountStore((state) => state);
+  const [tmpList, setTmpList] = useState<any[]>([]);
+  const [userList, setUserList] = useState<any[]>([]);
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
     [type],
   );
+  const getTmpQuestions = async () => {
+    const data = await account.getTmpQuestions(2);
+    if (data?.length) {
+      setTmpList(data);
+    }
+  };
+  const getUserQuestions = async () => {
+    const data = await account.getQuestions();
+    if (data?.length) {
+      setUserList(data);
+    }
+  };
   const { data, mutate } = useRequest<any[]>({
     url: '/question/tmplist',
     arg: {
@@ -56,36 +70,21 @@ export const Question = ({
       },
     },
   });
-  const { data: userList, mutate: questionList } = useRequest<any[]>({
-    url: '/question/list',
-    arg: {
-      method: 'get',
-      auth: true,
-    },
-  });
+  // const { data: userList, mutate: questionList } = useRequest<any[]>({
+  //   url: '/question/list',
+  //   arg: {
+  //     method: 'get',
+  //     auth: true,
+  //   },
+  // });
 
   const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
   useEffect(() => {
-    if (userList && data) {
-      if (!userList?.length) {
-        const _list = data.slice(0, 3).map((v, i) => {
-          const list = JSON.parse(v.content);
-          return {
-            id: i,
-            list: list.map((s: any) => ({
-              q: s.content,
-              a: '',
-              l: Number(s.characters),
-            })),
-            template: list.map((s: any) => ({
-              q: s.content,
-            })),
-            unselectList: [],
-          };
-        });
-        set(_list);
-      } else {
+    console.log(userList)
+    console.log(tmpList)
+    if (userList && tmpList) {
+      if (userList?.length && userList[0].type == 2) {
         const _list = userList.slice(0, 3).map((v, i) => {
           const list = JSON.parse(v.content);
           return {
@@ -102,9 +101,26 @@ export const Question = ({
           };
         });
         set(_list);
+      } else {
+        const _list = tmpList.slice(0, 3).map((v, i) => {
+          const list = v.content;
+          return {
+            id: i,
+            list: list.map((s: any) => ({
+              q: s.content,
+              a: '',
+              l: Number(s.characters),
+            })),
+            template: list.map((s: any) => ({
+              q: s.content,
+            })),
+            unselectList: [],
+          };
+        });
+        set(_list);
       }
     }
-  }, [userList, data]);
+  }, [userList, tmpList]);
   const generateInitList = () => {
     const _list = initList.map((v, i) => {
       return {
@@ -226,8 +242,8 @@ export const Question = ({
   };
   useEffect(() => {
     if (!initList?.length) {
-      mutate();
-      questionList();
+      getTmpQuestions();
+      getUserQuestions();
     } else {
       generateInitList();
     }

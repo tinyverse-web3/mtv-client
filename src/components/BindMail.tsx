@@ -1,114 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useWalletStore, useMtvStorageStore, useAccountStore } from '@/store';
+import { useGlobalStore, useAccountStore } from '@/store';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
+import { STATUS_CODE } from '@/lib/account/account';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const { showLogin, setShowLogin, setUserInfo, changeProtectorStatus } = useGlobalStore(
-    (state) => state,
-  );
-  const { mtvStorage } = useMtvStorageStore((state) => state);
-  const { setAccount } = useAccountStore((state) => state);
-  const wallet = useWalletStore((state) => state.wallet);
-  const signMessage = useRef<any>({});
+  const { showLogin, setShowLogin } = useGlobalStore((state) => state);
+  const { account } = useAccountStore((state) => state);
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag, reset } = useCountDown(60);
-  const generateQuery = async () => {
-    const { publicKey, address } = wallet || {};
-    signMessage.current = {
-      publicKey: publicKey,
-      address: address,
-    };
-  };
-  useEffect(() => {
-    generateQuery();
-  }, [wallet]);
-  const { mutate: modifyuser } = useRequest(
-    {
-      url: '/user/modifyuser',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: signMessage.current,
-      },
-    },
-    {
-      onSuccess() {
-        getuserinfo();
-      },
-    },
-  );
-  const { mutate: getuserinfo } = useRequest(
-    {
-      url: '/user/getuserinfo',
-      arg: { method: 'get', auth: true },
-    },
-    {
-      onSuccess: (res) => {
-        const { name, email } = res.data || {};
-        setUserInfo({
-          nickname: name,
-          email: email,
-        });
-      },
-    },
-  );
-  const loginSucess = async (res: any) => {
-    if (res.code === '000000') {
-      changeProtectorStatus(true);
-      setUserInfo({ bindStatus: true });
-      await generateQuery();
-      await modifyuser();
-      setShowLogin(false);
-    } else {
-      toast.error(res.msg);
-    }
-    setLoginLoading(false);
-    reset();
-  };
-
-  const { mutate } = useRequest(
-    {
-      url: '/user/bindmail',
-      arg: {
-        auth: true,
-        method: 'post',
-        query: { email, confirmCode: verifyCode },
-      },
-    },
-    {
-      onSuccess: loginSucess,
-      onError() {
-        setLoginLoading(false);
-      },
-    },
-  );
-
-  const { mutate: sendCode, loading: codeLoading } = useRequest(
-    {
-      url: '/user/sendmail4verifycode',
-      arg: {
-        method: 'post',
-        query: { email },
-      },
-    },
-    {
-      onSuccess(res) {
-        if (res.code === '000000') {
-          toast.success('验证码已发送');
-          start();
-        } else {
-          toast.error(res.msg);
-        }
-      },
-    },
-  );
-
+  const { changeProtectorStatus } = useGlobalStore((state) => state);
   const closeHandler = () => {
     setShowLogin(false);
   };
@@ -119,7 +25,18 @@ export const BindMail = () => {
     }
 
     setLoginLoading(true);
-    await mutate();
+    const status = await account.addGuardian({
+      account: email,
+      verifyCode: verifyCode,
+      type: 'email',
+    });
+    if (status === STATUS_CODE.SUCCESS) {
+      setShowLogin(false);
+      changeProtectorStatus(true);
+    } else {
+      toast.error('绑定失败');
+    }
+    setLoginLoading(false);
   };
   const emailChange = (e: any) => {
     setEmail(e.target.value);
@@ -129,7 +46,8 @@ export const BindMail = () => {
   };
   const sendVerify = async () => {
     if (email && flag) {
-      await sendCode();
+      await account.sendVerifyCode({ type: 'email', account: email });
+      start();
     }
   };
   const emailBlur = () => {};
@@ -182,7 +100,6 @@ export const BindMail = () => {
             auto
             className='ml-4 min-w-20'
             color='secondary'
-            loading={codeLoading}
             onPress={sendVerify}>
             {text}
           </Button>
@@ -201,15 +118,16 @@ export const BindMail = () => {
 };
 
 export async function useCheckLogin() {
-  const bindStatus = useGlobalStore.getState().userInfo.bindStatus;
+  const { bindStatus } = useAccountStore.getState().account.accountInfo;
+  console.log(useAccountStore.getState().account.accountInfo);
   let loginStatus = bindStatus;
   const setShowLogin = useGlobalStore.getState().setShowLogin;
   if (!loginStatus) {
     setShowLogin(true);
     loginStatus = await new Promise((resolve, reject) => {
-      useGlobalStore.subscribe((state) => {
-        if (state.userInfo.bindStatus) {
-          resolve(state.userInfo.bindStatus);
+      useAccountStore.subscribe((state) => {
+        if (state.account.accountInfo.bindStatus) {
+          resolve(state.account.accountInfo.bindStatus);
         }
       });
     });

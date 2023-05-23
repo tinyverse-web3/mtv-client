@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Image } from '@nextui-org/react';
 import { Address } from '@/components/Address';
 import { PasswordWarnBadge } from '@/components/PasswordWarnBadge';
-import { useGlobalStore, useWalletStore } from '@/store';
+import { useGlobalStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
@@ -11,7 +11,7 @@ const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 export const HeaderUser = () => {
   const nav = useNavigate();
   const { userInfo } = useGlobalStore((state) => state);
-  const { wallet } = useWalletStore((state) => state);
+  const { account } = useAccountStore((state) => state);
   // const location = useLocation();
   // const hideStatsu = useMemo(() => {
   //   return hideLogoutPath.includes(location.pathname);
@@ -51,11 +51,11 @@ export const HeaderUser = () => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
-  const userLevel = userInfo.userLevel || 0;
-  const levelText = useMemo(() => {
-    const index = userLevel || 0;
-    return levelArr[index]?.text;
-  }, [userLevel]);
+  console.log(account);
+  const levelItem = useMemo(
+    () => levelArr[account.accountInfo.safeLevel || 0],
+    [account.accountInfo],
+  );
   return (
     <div className='h-full relative'>
       <div className='flex px-4 items-center h-full'>
@@ -68,10 +68,10 @@ export const HeaderUser = () => {
         <div className='flex-1 h-full pt-6'>
           <div className='flex text-5 items-center'>
             <div className='font-600 mr-2 cursor-pointer' onClick={toUserInfo}>
-              {userInfo.nickname ? (
-                userInfo.nickname
+              {account.accountInfo.name ? (
+                account.accountInfo.name
               ) : (
-                <Address address={wallet?.publicKey} />
+                <Address address={account.accountInfo.publicKey} />
               )}
             </div>
             <div
@@ -82,9 +82,9 @@ export const HeaderUser = () => {
           <div className='text-3 break-keep'>
             安全等级：
             <div className='w-4 h-4 text-center text-white bg-blue-9 rounded-full inline-block mr-1'>
-              {userLevel}
+              {levelItem.level}
             </div>
-            级({levelText})
+            级({levelItem.text})
           </div>
         </div>
         <div className='i-mdi-line-scan text-7' onClick={toScan}></div>

@@ -6,15 +6,14 @@ import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import wallet from '@/lib/account/wallet';
-import { useWalletStore, useMtvStorageStore } from '@/store';
+import { useWalletStore, useMtvStorageStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 export default function Index() {
+  const { account } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();
-  const setWallet = useWalletStore((state) => state.setWallet);
-  const initMtvStorage = useMtvStorageStore((state) => state.init);
   const toRestore = () => {
     nav('/restore');
   };
@@ -23,15 +22,11 @@ export default function Index() {
   };
   const create = async () => {
     setLoading(true);
-    console.time('create wallet');
-    await wallet.create(VITE_DEFAULT_PASSWORD);
-    const { privateKey } = wallet || {};
-    if (privateKey) {
-      await initMtvStorage(privateKey);
-    }
-    await setWallet(wallet);
+    console.time('create account');
+    console.log('create account');
+    await account.create(VITE_DEFAULT_PASSWORD);
     setLoading(false);
-    console.timeEnd('create wallet');
+    console.timeEnd('create account');
     nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
   };
   return (
