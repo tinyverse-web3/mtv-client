@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { Text, Row, Textarea } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore, useMtvStorageStore, useGlobalStore } from '@/store';
+import {
+  useWalletStore,
+  useMtvStorageStore,
+  useGlobalStore,
+  useAccountStore,
+} from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
@@ -15,6 +20,7 @@ export default function Phrase() {
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
   const [resumeStatus, setResumeStatus] = useState(false);
+  const { account } = useAccountStore((state) => state);
   const { setUserInfo, getLocalUserInfo } = useGlobalStore((state) => state);
   const setWallet = useWalletStore((state) => state.setWallet);
   const {
@@ -34,29 +40,17 @@ export default function Phrase() {
     if (phrase) {
       setLoading(true);
       try {
-        const status = await wallet.restoreFromPhrase(
+        const status = await account.restore({
           phrase,
-          VITE_DEFAULT_PASSWORD,
-        );
-        console.log(status);
-        if (status === STATUS_CODE.SUCCESS && wallet?.privateKey) {
-          try {
-            await restoreData(wallet?.privateKey);
-            await setWallet(wallet);
-            nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-          } catch (error: any) {
-            if (error.toString().indexOf('resolve name') > -1) {
-              toast.error('您未备份过数据，数据无法恢复！');
-              nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-            } else {
-              setResumeStatus(true);
-              await wallet?.delete();
-              toast.error('恢复数据失败，请重试！');
-            }
-          }
-        } else if (status === STATUS_CODE.SHARES_ERROR) {
-          toast.error('分片数据错误');
+          password: VITE_DEFAULT_PASSWORD,
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+          toast.success('恢复成功');
+          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+        } else {
+          toast.success('恢复失败');
         }
+        console.log(status);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -69,7 +63,7 @@ export default function Phrase() {
     if (privateKey) {
       if (!resumeStatus) {
         await initMtvStorage(privateKey);
-      } 
+      }
       await resumeMtvStorage();
       await getLocalUserInfo();
     }

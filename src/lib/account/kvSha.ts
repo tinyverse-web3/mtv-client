@@ -7,48 +7,64 @@ const logger = new Logger({ name: 'KeySha' });
 
 export class KeySha {
   private publicKey: string;
-  private readonly qasks_api_key = import.meta.env
-    .VITE_KEY_QASKS_API_SECRET_KEY;
-  constructor(publicKey: string) {
+  private app: string;
+  constructor(publicKey: string, app: string = 'mtv') {
     this.publicKey = publicKey;
+    this.app = app;
   }
   public async get(key: string) {
     logger.debug('keySha get key:' + key);
-    const aesSupplyInfo = this.generateAesSupple(key);
+    const aesSupplyInfo = this.generateAesSupple(JSON.stringify(key));
     const dataKey = aesSupplyInfo.key;
-    const encryptShareKey = await this.getKeyFromKvServer(dataKey);
+    const encryptShareKey = await this.getFromDauth({ key: dataKey });
     let data;
-    logger.debug('keySha get data:' + data);
-    if (data) {
+    logger.debug('keySha get data:' + encryptShareKey);
+    logger.debug('keySha get dataKey:' + dataKey);
+
+    if (encryptShareKey) {
       data = this.aesDecode(
         aesSupplyInfo.aes_key,
         aesSupplyInfo.aes_iv,
         encryptShareKey,
       );
+      console.log(data);
       data = JSON.parse(data);
     }
     return data;
   }
-
-  public async set(key: string, data: any) {
-    if (data === null || data === undefined) {
+  public async put({
+    key,
+    value,
+    privateData,
+  }: {
+    key: string;
+    value: any;
+    privateData: any;
+  }) {
+    if (value === null || value === undefined) {
       logger.debug('keySha set is no data');
       return;
     }
     logger.debug('keySha set key:' + key);
-    logger.debug('keySha set data:' + data);
+    logger.debug('keySha set data:' + value);
     const aesSupplyInfo = this.generateAesSupple(JSON.stringify(key));
     const encryptShareKey = this.aesEncode(
       aesSupplyInfo.aes_key,
       aesSupplyInfo.aes_iv,
-      data,
+      JSON.stringify(value),
     );
     const dataKey = aesSupplyInfo.key;
-    return await this.setKeyToKvServer(dataKey, encryptShareKey);
+    logger.debug('keySha get dataKey:' + dataKey);
+    return await this.putToDuath({
+      key: dataKey,
+      value: encryptShareKey,
+      privateData,
+      duration: 60 * 60 * 24 * 365,
+    });
   }
 
   private generateAesSupple(key: string): any {
-    const concatStr = `${this.qasks_api_key}_${this.publicKey}_${key}`;
+    const concatStr = `${this.app}_${this.publicKey}_${key}`;
     const key1 = CryptoJS.SHA3(concatStr).toString(); // kv 的key
     const key2 = CryptoJS.SHA512(concatStr).toString(); // kv 的 value 加密key
     const aesIv = CryptoJS.enc.Utf8.parse(key2);
@@ -59,62 +75,6 @@ export class KeySha {
       aes_key: aesKey,
     };
   }
-
-  private async getKeyFromKvServer(key: string) {
-    const httpConfig = {
-      headers: {
-        qasks_api_key: config.kv.qasks_api_key,
-        qasks_api_secret_key: config.kv.qasks_api_secret_key,
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    };
-    const getKeyUrl = config.kv.key_server_url + config.kv.get_key_url + key;
-    logger.info('getKey key: ' + key);
-    return axios
-      .get(getKeyUrl, httpConfig)
-      .then((res) => {
-        if (res.data.code == '000000') {
-          logger.info('getKey value: ' + res.data.data);
-          return res.data.data;
-        }
-        throw new Error(res.data.msg);
-      })
-      .catch((err) => {
-        logger.error(err);
-        throw err;
-      });
-  }
-
-  private async setKeyToKvServer(key: string, value: string) {
-    const httpConfig = {
-      headers: {
-        qasks_api_key: config.kv.qasks_api_key,
-        qasks_api_secret_key: config.kv.qasks_api_secret_key,
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    };
-    const setKeyUrl = config.kv.key_server_url + config.kv.set_key_url;
-    const setData = {
-      key: key,
-      value: value,
-    };
-    logger.info('keySha push hash key: ' + key);
-    logger.info('keySha push hash value: ' + key);
-    return axios
-      .post(setKeyUrl, setData, httpConfig)
-      .then((res) => {
-        if (res.data.code == '000000') {
-          return res.data.data;
-        }
-        logger.error(res.data.msg);
-        throw new Error(res.data.msg);
-      })
-      .catch((err) => {
-        logger.error(err);
-        throw err;
-      });
-  }
-
   aesEncode(aesKey: any, aesIv: any, data: string) {
     let srcs = CryptoJS.enc.Utf8.parse(data);
     let encrypted = CryptoJS.AES.encrypt(srcs, aesKey, {
@@ -139,5 +99,51 @@ export class KeySha {
     });
     let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
     return decryptedStr.toString();
+  }
+  async putToDuath({ privateData, key, value, duration }: any) {
+    return await this.invoke({
+      name: 'put',
+      data: {
+        privateData,
+        key: `/service/dauth/${key}`,
+        value,
+        duration,
+      },
+    });
+  }
+  async getFromDauth({ key }: any) {
+    const res = await this.invoke({
+      name: 'get',
+      data: {
+        key: `/service/dauth/${key}`,
+      },
+    });
+    let result;
+    const { code, data } = res.data;
+    if (code === '000000' && data !== null && data !== undefined) {
+      try {
+        result = data;
+      } catch (error) {
+        console.log('获取dauth 数据失败');
+        console.log(error);
+      }
+    }
+    return result;
+  }
+  async invoke({
+    name,
+    data,
+    method = 'post',
+  }: {
+    name: string;
+    data: Record<string, any>;
+    method?: string;
+  }) {
+    data.appName = this.app;
+    const url = `http://192.168.2.121:8888/sdk/${name}`;
+    return await this.request({ url, method, data });
+  }
+  async request({ url, method, data, params }: any) {
+    return await axios({ url, method, data, params });
   }
 }

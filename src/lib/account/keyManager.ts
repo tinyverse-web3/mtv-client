@@ -240,8 +240,9 @@ export class KeyManager {
       }
     }
   }
-  async resotreFromShares(shares: string[], password: string) {
+  async restoreFromShares(shares: string[], password: string) {
     const combineKey = await this.sss.combine(shares);
+    console.log(combineKey);
     return await this.restoreFromEntropy(combineKey, password);
   }
   async sign(message: string) {

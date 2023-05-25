@@ -68,7 +68,7 @@ export class Account {
   private crypto?: MtvCrypto;
   // private mtvStorage?: MtvStorage;
   private keyManager?: KeyManager;
-  // public keySha?: KeySha;
+  public keySha?: KeySha;
   public privateKey?: string;
   private getAccountStatus: boolean = false;
   public accountInfo: AccountInfo = {
@@ -94,14 +94,17 @@ export class Account {
   async initModule() {
     console.log('存储相关模块初始化');
     console.log(this.privateKey, this.accountInfo.publicKey);
-    if (this.privateKey && this.accountInfo.publicKey) {
+    if (this.privateKey && !this.crypto) {
       this.crypto = new MtvCrypto(this.privateKey);
       await this.dauth.init(this.crypto);
       // this.mtvStorage = new MtvStorage(this.privateKey, this.crypto);
       // await this.mtvStorage.init();
       // console.log(this.mtvStorage);
-      // this.keySha = new KeySha(this.accountInfo.publicKey);
-      console.log('存储相关模块初始化成功');
+      console.log('Dauth 存储加密模块初始化');
+    }
+    if (!this.keySha && this.accountInfo.publicKey) {
+      this.keySha = new KeySha(this.accountInfo.publicKey, 'mtv');
+      console.log('keySha 存储加密模块初始化');
     }
   }
   async create(password: string) {
@@ -222,7 +225,7 @@ export class Account {
     // this.crypto = undefined;
     // this.keySha = undefined;
   }
-  async resotre({
+  async restore({
     password,
     phrase,
     shares,
@@ -235,7 +238,7 @@ export class Account {
   }) {
     const encryptPwd = await this.password.encrypt(password);
     let status;
-    if (!phrase || !entropy || !shares?.length) {
+    if (!phrase && !entropy && !shares?.length) {
       return STATUS_CODE.EMPTY_INPUT;
     }
     try {
@@ -244,7 +247,7 @@ export class Account {
       } else if (entropy) {
         await this.keyManager?.restoreFromEntropy(entropy, encryptPwd);
       } else if (shares?.length) {
-        await this.keyManager?.resotreFromShares(shares, encryptPwd);
+        await this.keyManager?.restoreFromShares(shares, encryptPwd);
       }
       status = STATUS_CODE.SUCCESS;
     } catch (error) {
@@ -261,7 +264,29 @@ export class Account {
     }
     return status;
   }
-
+  async restoreByGuardian({ account, verifyCode, password }: any) {
+    const res = await this.dauth.getSssData({
+      account,
+      verifyCode,
+      type: 'guardian',
+      privateData: '123',
+    });
+    const { data, code } = res.data;
+    if (code === '000000') {
+      const { sssData, guardians } = data;
+      const { account: hashAccount, publicKey } = guardians[0];
+      console.log(hashAccount, publicKey);
+      this.accountInfo.publicKey = publicKey;
+      await this.initModule();
+      const shareB = await this.keySha?.get(hashAccount);
+      console.log('shareB', shareB);
+      const shares: string[] = [sssData, shareB];
+      console.log(shares);
+      const status = await this.restore({ password, shares });
+      return status;
+    }
+    return STATUS_CODE.RESTORE_ERROR;
+  }
   async saveAccount() {
     await this.dauth.put({
       privateData: '123',
@@ -332,11 +357,10 @@ export class Account {
     if (shares?.length) {
       const kvMap = this.accountInfo.guardians.map((s, i) => {
         // return this.keySha?.set(s.hash, shares[1]);
-        return this.dauth.put({
+        return this.keySha?.put({
           privateData: '123',
           key: s.hash,
           value: shares[1],
-          duration: 60 * 60 * 24 * 365,
         });
       });
       const { publicKey } = this.accountInfo;
@@ -376,11 +400,10 @@ export class Account {
         const kvMap = kvShares?.map((s, i) => {
           const q = list[i].list.map((val: any) => val.q).join('');
           const a = list[i].list.map((val: any) => val.a).join('');
-          return this.dauth.put({
+          return this.keySha?.put({
             privateData: '123',
             key: q + a,
             value: s,
-            duration: 60 * 60 * 24 * 365,
           });
         });
         await Promise.all([

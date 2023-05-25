@@ -93,6 +93,18 @@ export class Dauth {
       },
     });
   }
+  async getSssData({ privateData, account, verifyCode, type }: any) {
+    return await this.invoke({
+      name: 'getSssData',
+      data: {
+        privateData,
+        appName: this.app,
+        account,
+        verifyCode,
+        type,
+      },
+    });
+  }
   /**
    * 获取问题模版列表
    * @param 问题模版类型，其中1表示默认问题模版，2表示自定义问题模版
