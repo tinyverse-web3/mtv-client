@@ -264,8 +264,16 @@ export class Account {
     }
     return status;
   }
+  async getSssData({ account, verifyCode, type, privateData }: any) {
+    return await this.dauth.getSssData({
+      account,
+      verifyCode,
+      type,
+      privateData,
+    });
+  }
   async restoreByGuardian({ account, verifyCode, password }: any) {
-    const res = await this.dauth.getSssData({
+    const res = await this.getSssData({
       account,
       verifyCode,
       type: 'guardian',
@@ -286,6 +294,29 @@ export class Account {
       return status;
     }
     return STATUS_CODE.RESTORE_ERROR;
+  }
+  async restoreByQuestions({ questions, publicKey, sssData, password }: any) {
+    this.accountInfo.publicKey = publicKey;
+    await this.initModule();
+    const kvShares: any[] = [];
+    // const errArr: string[] = [];
+    for (let i = 0; i < questions.length; i++) {
+      const s = questions[i];
+      try {
+        console.log(s);
+        const q = s.list.map((val: any) => val.q).join('');
+        const a = s.list.map((val: any) => val.a).join('');
+        const v = await this.keySha?.get(q + a);
+        kvShares.push(v);
+        // errArr.push('');
+      } catch (error) {
+        return STATUS_CODE.RESTORE_ERROR;
+        // errArr.push(`问题${chineseNumMap[i]}答案错误`);
+      }
+    }
+    const shares = [sssData, ...kvShares].filter(Boolean);
+    const status = await this.restore({ password, shares });
+    return status;
   }
   async saveAccount() {
     await this.dauth.put({
@@ -356,7 +387,6 @@ export class Account {
     const shares = await this.keyManager?.sssSplit(2, 2);
     if (shares?.length) {
       const kvMap = this.accountInfo.guardians.map((s, i) => {
-        // return this.keySha?.set(s.hash, shares[1]);
         return this.keySha?.put({
           privateData: '123',
           key: s.hash,
@@ -383,23 +413,39 @@ export class Account {
     const res = await this.dauth.getTmpQuestions({ type });
     return res.data.data;
   }
-  async backupByQuestion({ list }: any) {
-    let _list = list.map((v: any) => {
-      return {
-        list: v.list.filter((s: any) => s.a),
-        title: v.title,
-      };
-    });
-    _list = _list.filter((v: any) => v.list.length);
+  async backupByQuestion({ list, type }: any) {
+    // let _list = list.map((v: any) => {
+    //   return {
+    //     list: v.list.filter((s: any) => s.a),
+    //     title: v.title,
+    //   };
+    // });
+    let filterAnswer: any[] = [];
+    if (type === 1) {
+      const _list = list.map((v: any, i: number) => {
+        return {
+          id: i,
+          list: v.list.filter((s: any) => s.a),
+          title: v.title,
+        };
+      });
+      filterAnswer = _list.filter((v: any) => v.list.length);
+    } else {
+      filterAnswer = list.filter((v: any) =>
+        v.list.every(
+          (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
+        ),
+      );
+    }
     try {
       const { publicKey } = this.accountInfo;
-      const shares = await this.keyManager?.sssSplit(list.length + 1, 2);
+      const shares = await this.keyManager?.sssSplit(filterAnswer.length + 1, 2);
       if (shares) {
         const serverShare = shares?.[0];
         const kvShares = shares.slice(1);
         const kvMap = kvShares?.map((s, i) => {
-          const q = list[i].list.map((val: any) => val.q).join('');
-          const a = list[i].list.map((val: any) => val.a).join('');
+          const q = filterAnswer[i].list.map((val: any) => val.q).join('');
+          const a = filterAnswer[i].list.map((val: any) => val.a).join('');
           return this.keySha?.put({
             privateData: '123',
             key: q + a,
@@ -425,7 +471,7 @@ export class Account {
     }
   }
   async backupByCustom(list: any[]) {
-    await this.backupByQuestion({ list });
+    await this.backupByQuestion({ list, type: 2 });
     await this.saveQuestionToServer(list, 2);
   }
   async backupByPrivacyInfo(list: any[]) {
@@ -437,7 +483,7 @@ export class Account {
       });
     });
     this.accountInfo.privacyInfo = privacyInfo;
-    await this.backupByQuestion({ list });
+    await this.backupByQuestion({ list, type: 1 });
   }
   async saveQuestionToServer(list: any[], type = 1) {
     let serverList = [];

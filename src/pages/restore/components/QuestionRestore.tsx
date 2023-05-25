@@ -5,7 +5,7 @@ import { Select } from '@/components/form/Select';
 import { useState, useEffect } from 'react';
 import { KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
-import { useGlobalStore, useQuestionStore } from '@/store';
+import { useGlobalStore, useQuestionStore, useAccountStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from '@/components/form/Question';
 import { QuestionDefault } from '@/components/form/QuestionDefault';
@@ -24,6 +24,7 @@ export const QuestionRestore = ({
   type,
 }: Props) => {
   const [selectValue, setSelectValue] = useState('1');
+  const { account } = useAccountStore((state) => state);
   const [kvError, setKvError] = useState<string[]>([]);
   const { publicKey } = useQuestionStore((state) => state);
   const userInfo = useGlobalStore((state) => state.userInfo);
@@ -83,28 +84,29 @@ export const QuestionRestore = ({
         toast.error(`最少回答一个完整问题!`);
         return;
       }
-      const kvShares: any[] = [];
-      const errArr: string[] = [];
-      for (let i = 0; i < filterAnswer.length; i++) {
-        const s = filterAnswer[i];
-        try {
-          console.log(s);
-          const q = s.list.map((val: any) => val.q).join('');
-          const a = s.list.map((val: any) => val.a).join('');
-          const v = await keySha.get(publicKey, q, a);
-          kvShares.push(v);
-          // errArr.push('');
-        } catch (error) {
-          errArr.push(`问题${chineseNumMap[i]}答案错误`);
-        }
-      }
-      setKvError(errArr);
-      if (errArr.length) {
-        toastErr();
-        return;
-      }
-      const shares = [serverShare, ...kvShares].filter(Boolean);
-      await restoreEntropy(shares);
+      await restoreEntropy(filterAnswer);
+      // const kvShares: any[] = [];
+      // const errArr: string[] = [];
+      // for (let i = 0; i < filterAnswer.length; i++) {
+      //   const s = filterAnswer[i];
+      //   try {
+      //     console.log(s);
+      //     const q = s.list.map((val: any) => val.q).join('');
+      //     const a = s.list.map((val: any) => val.a).join('');
+      //     const v = await keySha.get(publicKey, q, a);
+      //     kvShares.push(v);
+      //     // errArr.push('');
+      //   } catch (error) {
+      //     errArr.push(`问题${chineseNumMap[i]}答案错误`);
+      //   }
+      // }
+      // setKvError(errArr);
+      // if (errArr.length) {
+      //   toastErr();
+      //   return;
+      // }
+      // const shares = [serverShare, ...kvShares].filter(Boolean);
+      // await restoreEntropy(shares);
     }
   };
   const userSharesSubmit = async () => {
