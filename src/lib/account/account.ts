@@ -135,7 +135,9 @@ export class Account {
     if (this.getAccountStatus) {
       return;
     }
-    const data = await this.dauth.get({ key: LOCAL_ACCOUNT_KEY });
+    const data = await this.dauth.get({
+      key: `${LOCAL_ACCOUNT_KEY}_${this.accountInfo.publicKey}`,
+    });
     this.getAccountStatus = true;
     console.log('getAccountInfo');
     console.log(data);
@@ -321,7 +323,7 @@ export class Account {
   async saveAccount() {
     await this.dauth.put({
       privateData: '123',
-      key: LOCAL_ACCOUNT_KEY,
+      key: `${LOCAL_ACCOUNT_KEY}_${this.accountInfo.publicKey}`,
       value: this.accountInfo,
       duration: 60 * 60 * 24 * 365,
     });
@@ -439,7 +441,10 @@ export class Account {
     }
     try {
       const { publicKey } = this.accountInfo;
-      const shares = await this.keyManager?.sssSplit(filterAnswer.length + 1, 2);
+      const shares = await this.keyManager?.sssSplit(
+        filterAnswer.length + 1,
+        2,
+      );
       if (shares) {
         const serverShare = shares?.[0];
         const kvShares = shares.slice(1);
