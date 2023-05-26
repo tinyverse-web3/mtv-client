@@ -21,10 +21,9 @@ export default function Unlock() {
   const [err, setErr] = useState(false);
   const setWallet = useWalletStore((state) => state.setWallet);
   const resetWallet = useWalletStore((state) => state.reset);
-  const {
-    init: initMtvStorage,
-    destory: destoryStorage,
-  } = useMtvStorageStore((state) => state);
+  const { init: initMtvStorage, destory: destoryStorage } = useMtvStorageStore(
+    (state) => state,
+  );
   const resetGlobal = useGlobalStore((state) => state.reset);
   const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
@@ -129,6 +128,9 @@ export default function Unlock() {
           onPress={toRetrieve}>
           忘记密码
         </Button>
+      </div>
+      <div className='text-3 text-center mt-20'>
+        测试数据库已与2023年5月26日清除，旧账号无法通过守护者和智能隐私恢复。
       </div>
     </LayoutOne>
   );
