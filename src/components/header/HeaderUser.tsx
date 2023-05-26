@@ -10,6 +10,7 @@ const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
 export const HeaderUser = () => {
   const nav = useNavigate();
+  const { VITE_IPFS_HOST } = import.meta.env;
   const { userInfo } = useGlobalStore((state) => state);
   const { account } = useAccountStore((state) => state);
   // const location = useLocation();
@@ -56,12 +57,15 @@ export const HeaderUser = () => {
     () => levelArr[account.accountInfo.safeLevel || 0],
     [account.accountInfo],
   );
+  const imageSrc = useMemo(() => {
+    return `${VITE_IPFS_HOST}/${account.accountInfo.avatar}` || '/logo.png';
+  }, [account.accountInfo]);
   return (
     <div className='h-full relative'>
       <div className='flex px-4 items-center h-full'>
         <div className='mr-4' onClick={toUserInfo}>
           <Image
-            src={userInfo.avatar || '/logo.png'}
+            src={imageSrc}
             className=' cursor-pointer w-14 h-14 rounded-full'
           />
         </div>

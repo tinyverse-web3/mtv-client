@@ -176,20 +176,48 @@ export class Dauth {
     }
     return result;
   }
+  async uploadIpfsFile({ file }: { file: File }) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return await this.invoke({
+      name: 'uploadFile',
+      method: 'post',
+      formData: formData,
+    });
+  }
+  async uploadIpfsContent({ content }: { content: string }) {
+    return await this.invoke({
+      name: 'uploadContent',
+      method: 'post',
+      data: {
+        content,
+      },
+    });
+  }
   async invoke({
     name,
-    data,
+    data = {},
     method = 'post',
+    formData,
   }: {
     name: string;
-    data: Record<string, any>;
+    data?: Record<string, any>;
     method?: string;
+    formData?: any;
   }) {
-    data.appName = this.app;
     const url = `http://192.168.2.121:8888/sdk/${name}`;
-    return await this.request({ url, method, data });
+    if (formData) {
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+      };
+      console.log(url);
+      return await this.request({ url, method, data: formData, headers });
+    } else {
+      data.appName = this.app;
+      return await this.request({ url, method, data });
+    }
   }
-  async request({ url, method, data, params }: any) {
-    return await axios({ url, method, data, params });
+  async request({ url, method, data, params, headers }: any) {
+    return await axios({ url, method, data, params, headers });
   }
 }

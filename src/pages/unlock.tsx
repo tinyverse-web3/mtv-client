@@ -14,7 +14,7 @@ import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
-
+ 
 export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');

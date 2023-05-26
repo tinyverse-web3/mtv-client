@@ -415,6 +415,7 @@ export class Account {
     const res = await this.dauth.getTmpQuestions({ type });
     return res.data.data;
   }
+
   async backupByQuestion({ list, type }: any) {
     // let _list = list.map((v: any) => {
     //   return {
@@ -562,6 +563,17 @@ export class Account {
     }
     return res;
   }
+  async updateAvatar({ file }: { file: File }) {
+    const res = await this.dauth.uploadIpfsFile({
+      file,
+    });
+    if (res.data.code === '000000') {
+      this.accountInfo.avatar = res.data.data;
+      this.saveAccount();
+      return STATUS_CODE.SUCCESS;
+    }
+    return res;
+  }
   async changePassword({
     oldPwd,
     oldHashPwd,
@@ -608,17 +620,4 @@ export class Account {
     const res = await this.dauth.getQuestions({ publicKey });
     return res.data.data;
   }
-  // async updateAvatar({ file }: { file: File }) {
-  //   const { publicKey } = this.accountInfo;
-  //   const res = await this.dauth.updateName({
-  //     publicKey,
-  //     name,
-  //   });
-  //   if (res.data.code === '000000') {
-  //     this.accountInfo.name = name;
-  //     this.saveAccount();
-  //     return STATUS_CODE.SUCCESS;
-  //   }
-  //   return res;
-  // }
 }
