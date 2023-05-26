@@ -61,7 +61,7 @@ export default function Index() {
           </Link>
         </div>
         <div className='text-3 text-center mt-20'>
-          测试数据库已与2023年5月26日清除，旧账号无法通过守护者和智能隐私恢复。
+          测试数据库已与2023年5月27日清除，旧账号无法通过守护者和智能隐私恢复。
         </div>
       </div>
     </LayoutOne>
