@@ -4,18 +4,21 @@ import { Textarea } from '@/components/form/Textarea';
 import { v4 as uuidv4 } from 'uuid';
 import LayoutThird from '@/layout/LayoutThird';
 import { Text, Container, Row, Button } from '@nextui-org/react';
-import { useNoteStore, useMtvStorageStore } from '@/store';
+import { useNoteStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 export default function Edit() {
   const nav = useNavigate();
   const [note, setNote] = useState('');
   const { id } = useParams();
-  const get = useNoteStore((state) => state.get);
-  const initNote = useNoteStore((state) => state.init);
-  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
-  const add = useNoteStore((state) => state.add);
-  const update = useNoteStore((state) => state.update);
+  const {
+    get: getNoteById,
+    init: initNote,
+    add,
+    update,
+    list,
+  } = useNoteStore((state) => state);
+  const { account } = useAccountStore(state => state)
   const noteChange = (e: any) => {
     setNote(e?.trim());
   };
@@ -32,7 +35,7 @@ export default function Edit() {
   };
   const getDetail = async (id?: string) => {
     if (id) {
-      const detail = (await get(id)) as any;
+      const detail = (await getNoteById(id)) as any;
       setNote(detail?.content);
     }
   };
@@ -47,19 +50,19 @@ export default function Edit() {
     nav(-1);
   };
   useEffect(() => {
-    if (mtvStorage && id !== 'add') {
-      console.log('mtvStorage');
-      console.log(mtvStorage);
-      mtvStorage.get('note').then((list) => {
-        try {
-          if (list) {
-            initNote(list || []);
-            getDetail(id);
-          }
-        } catch (error) {}
+    if (list?.length) {
+      getDetail(id);
+    } else {
+      account.getNote().then((content) => {
+        if (content) {
+          try {
+            const list = JSON.parse(content);
+            initNote(list);
+          } catch (error) {}
+        }
       });
     }
-  }, [mtvStorage, id]);
+  }, [list]);
   return (
     <LayoutThird title='记事本' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>

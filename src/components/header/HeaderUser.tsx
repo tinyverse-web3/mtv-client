@@ -58,7 +58,7 @@ export const HeaderUser = () => {
     [account.accountInfo],
   );
   const imageSrc = useMemo(() => {
-    return `${VITE_IPFS_HOST}/${account.accountInfo.avatar}` || '/logo.png';
+    return account.accountInfo.avatar ?`${VITE_IPFS_HOST}/${account.accountInfo.avatar}` : '/logo.png';
   }, [account.accountInfo]);
   return (
     <div className='h-full relative'>

@@ -8,7 +8,7 @@ import { KeySha } from './kvSha';
 import { Dauth } from './dauth';
 import EthCrypto from 'eth-crypto';
 import CryptoJS from 'crypto-js';
-
+import axios from 'axios';
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
   EMPTY_INPUT,
@@ -50,6 +50,7 @@ export interface AccountInfo {
   privacyInfo: any;
   nostr: NostrInfo;
   guardians: Guardian[];
+  note_ipfs: string;
 }
 
 /* SafeLevel 用户等级
@@ -60,7 +61,11 @@ export interface AccountInfo {
 4级：标准账户，您的账户已经很安全，但还有提升空间。
 5级：高标准账户，您的账户已经得到完全的保护。
 */
-
+interface Response {
+  code: STATUS_CODE;
+  data: any;
+  msg: string;
+}
 export class Account {
   private readonly keystore = new Keystore();
   private readonly password = new Password();
@@ -87,6 +92,7 @@ export class Account {
       sk: '',
     },
     guardians: [],
+    note_ipfs: '',
   };
   constructor() {
     this.keyManager = new KeyManager();
@@ -168,6 +174,7 @@ export class Account {
         sk: '',
       },
       guardians: [],
+      note_ipfs: '',
     };
   }
   async checkStatus() {
@@ -279,7 +286,7 @@ export class Account {
       account,
       verifyCode,
       type: 'guardian',
-      privateData: '123',
+      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
     });
     const { data, code } = res.data;
     if (code === '000000') {
@@ -322,7 +329,7 @@ export class Account {
   }
   async saveAccount() {
     await this.dauth.put({
-      privateData: '123',
+      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
       key: `${LOCAL_ACCOUNT_KEY}_${this.accountInfo.publicKey}`,
       value: this.accountInfo,
       duration: 60 * 60 * 24 * 365,
@@ -361,6 +368,7 @@ export class Account {
       publicKey,
       account,
       verifyCode,
+      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
     });
     if (res.data.code === '000000') {
       const hashAccount = CryptoJS.MD5(account).toString();
@@ -380,6 +388,34 @@ export class Account {
       return STATUS_CODE.ERROR;
     }
   }
+  async delGuardian({
+    account,
+    type = 'email',
+  }: {
+    account: string;
+    type?: string;
+  }) {
+    const { publicKey } = this.accountInfo;
+    const res = await this.dauth.delGuardian({
+      publicKey,
+      account,
+      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
+    });
+    console.log(res);
+    console.log(this.accountInfo);
+    if (res.data.code === '000000') {
+      const index = this.accountInfo.guardians.findIndex(
+        (v) => v.name === account,
+      );
+      if (index > -1) {
+        this.accountInfo.guardians.splice(index, 1);
+        console.log(this.accountInfo);
+        this.saveAccount();
+      }
+      return STATUS_CODE.SUCCESS;
+    }
+    return res;
+  }
   async backupByPharse() {
     this.accountInfo.maintainPhrase = true;
     this.calcUserLevel();
@@ -390,7 +426,7 @@ export class Account {
     if (shares?.length) {
       const kvMap = this.accountInfo.guardians.map((s, i) => {
         return this.keySha?.put({
-          privateData: '123',
+          privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
           key: s.hash,
           value: shares[1],
         });
@@ -401,7 +437,7 @@ export class Account {
         this.dauth.saveSssData({
           publicKey,
           appName: 'mtv',
-          privateData: '123',
+          privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
           sssData: shares[0],
           type: 'guardian',
         }),
@@ -453,7 +489,7 @@ export class Account {
           const q = filterAnswer[i].list.map((val: any) => val.q).join('');
           const a = filterAnswer[i].list.map((val: any) => val.a).join('');
           return this.keySha?.put({
-            privateData: '123',
+            privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
             key: q + a,
             value: s,
           });
@@ -463,7 +499,7 @@ export class Account {
           this.dauth.saveSssData({
             publicKey,
             appName: 'mtv',
-            privateData: '123',
+            privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
             sssData: serverShare,
             type: 'question',
           }),
@@ -526,30 +562,7 @@ export class Account {
       questions: serverList,
     });
   }
-  async delGuardian({
-    account,
-    type = 'email',
-  }: {
-    account: string;
-    type?: string;
-  }) {
-    const { publicKey } = this.accountInfo;
-    const res = await this.dauth.delGuardian({
-      publicKey,
-      account,
-    });
-    if (res.data.code === '000000') {
-      const index = this.accountInfo.guardians.findIndex(
-        (v) => v.name === account,
-      );
-      if (index > -1) {
-        this.accountInfo.guardians.splice(index, 1);
-        this.saveAccount();
-      }
-      return STATUS_CODE.SUCCESS;
-    }
-    return res;
-  }
+
   async updateName({ name }: { name: string }) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.updateName({
@@ -620,4 +633,29 @@ export class Account {
     const res = await this.dauth.getQuestions({ publicKey });
     return res.data.data;
   }
+  async saveNote(note: string) {
+    const content = await this.crypto?.encrypt(note);
+    if (content) {
+      const res = await this.dauth.uploadIpfsContent({
+        content,
+      });
+      const { code, data } = res.data;
+      if (code === '000000') {
+        this.accountInfo.note_ipfs = data;
+        await this.saveAccount();
+      }
+    }
+  }
+  async getNote() {
+    const { note_ipfs } = this.accountInfo;
+    const { VITE_IPFS_HOST } = import.meta.env;
+    const res = await axios.get(`${VITE_IPFS_HOST}/${note_ipfs}`);
+    const { data } = res;
+    if (data) {
+      const content = await this.crypto?.decrypt(data);
+      return content;
+    }
+  }
 }
+
+export default new Account();

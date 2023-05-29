@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useNoteStore, useMtvStorageStore } from '@/store';
+import { useNoteStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import { format } from 'date-fns';
@@ -13,19 +13,11 @@ export default function NoteList() {
   const list = useNoteStore((state) => state.list);
   const remove = useNoteStore((state) => state.remove);
   const initNote = useNoteStore((state) => state.init);
-  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
+  const { account } = useAccountStore((state) => state);
   const toAdd = () => {
-    if (!mtvStorage) {
-      toast.error('存储模块未加载完成，请稍后，或刷新重试');
-      return;
-    }
     nav('/note/add');
   };
   const toDetail = (id: string) => {
-    if (!mtvStorage) {
-      toast.error('存储模块未加载完成，请稍后，或刷新重试');
-      return;
-    }
     nav(`/note/${id}`);
   };
   const removeItem = async (e: any, id: string) => {
@@ -33,18 +25,17 @@ export default function NoteList() {
     await remove(id);
   };
   useEffect(() => {
-    if (mtvStorage) {
-      mtvStorage.get('note').then((list) => {
-        console.log('list');
-        console.log(list);
-        try {
-          if (list) {
-            initNote(list || []);
-          }
-        } catch (error) {}
+    if (!list?.length) {
+      account.getNote().then((content) => {
+        if (content) {
+          try {
+            const list = JSON.parse(content);
+            initNote(list);
+          } catch (error) {}
+        }
       });
     }
-  }, [mtvStorage]);
+  }, [list]);
   return (
     <LayoutThird
       title='记事本'

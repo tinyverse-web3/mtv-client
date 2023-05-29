@@ -15,7 +15,7 @@ export const UserAvatar = ({ className }: Props) => {
     // });
   };
   const imageSrc = useMemo(() => {
-    return `${VITE_IPFS_HOST}/${account.accountInfo.avatar}` || '/logo.png';
+    return account.accountInfo.avatar ?`${VITE_IPFS_HOST}/${account.accountInfo.avatar}` : '/logo.png';
   }, [account.accountInfo]);
   return (
     <div className={`flex justify-center ${className}`}>

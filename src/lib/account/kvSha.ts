@@ -140,7 +140,7 @@ export class KeySha {
     method?: string;
   }) {
     data.appName = this.app;
-    const url = `http://192.168.2.121:8888/sdk/${name}`;
+    const url = `http://192.168.2.65:8888/sdk/${name}`;
     return await this.request({ url, method, data });
   }
   async request({ url, method, data, params }: any) {

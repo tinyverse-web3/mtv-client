@@ -52,7 +52,7 @@ export class Dauth {
   /**
    * 添加守护者
    */
-  async addGuardian({ publicKey, account, verifyCode, type = 'email' }: any) {
+  async addGuardian({ privateData, publicKey, account, verifyCode, type = 'email' }: any) {
     return await this.invoke({
       name: 'addGuardian',
       data: {
@@ -60,15 +60,17 @@ export class Dauth {
         account,
         verifyCode,
         type,
+        privateData,
       },
     });
   }
-  async delGuardian({ account, publicKey }: any) {
+  async delGuardian({ privateData, account, publicKey }: any) {
     return await this.invoke({
       name: 'delGuardian',
       data: {
         account,
         publicKey,
+        privateData,
       },
     });
   }
@@ -205,7 +207,7 @@ export class Dauth {
     method?: string;
     formData?: any;
   }) {
-    const url = `http://192.168.2.121:8888/sdk/${name}`;
+    const url = `http://192.168.2.65:8888/sdk/${name}`;
     if (formData) {
       const headers = {
         'Content-Type': 'multipart/form-data',

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { remove, cloneDeep } from 'lodash';
+import account, { Account } from '@/lib/account/account';
 interface Note {
   id: string;
   title: string;
@@ -23,7 +24,7 @@ export const useNoteStore = create<NoteState>()(
       add: async (n) => {
         const list = cloneDeep(get().list);
         list.push(n);
-        await window?.mtvStorage.put('note',list);
+        await account.saveNote(JSON.stringify(list));
         set({ list });
       },
       init: async (n) => {
@@ -32,7 +33,7 @@ export const useNoteStore = create<NoteState>()(
       remove: async (id) => {
         const list = cloneDeep(get().list);
         remove(list, (i) => i.id === id);
-        await window?.mtvStorage.put('note',list);
+        await account.saveNote(JSON.stringify(list));
         set({ list });
       },
       update: async ({ id, ...res }) => {
@@ -43,7 +44,7 @@ export const useNoteStore = create<NoteState>()(
             ...list[itemIndex],
             ...res,
           };
-          await window?.mtvStorage.put('note', list);
+          await account.saveNote(JSON.stringify(list));
           set({ list });
         }
       },
