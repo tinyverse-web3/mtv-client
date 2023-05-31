@@ -31,7 +31,7 @@ export default function NoteList() {
           try {
             const list = JSON.parse(content);
             initNote(list);
-          } catch (error) {}
+          } catch (error) {}  
         }
       });
     }

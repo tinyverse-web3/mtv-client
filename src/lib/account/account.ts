@@ -1,12 +1,8 @@
 import { MtvCrypto } from './crypto';
-import { MtvStorage } from './storage';
 import { Keystore, Password } from './wallet';
-import { Shamir } from '@/lib/account';
 import { KeyManager, KYEMANAGER_STATUS_CODE } from './keyManager';
-import { ethers } from 'ethers';
 import { KeySha } from './kvSha';
 import { Dauth } from './dauth';
-import EthCrypto from 'eth-crypto';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 export enum STATUS_CODE {
@@ -649,11 +645,15 @@ export class Account {
   async getNote() {
     const { note_ipfs } = this.accountInfo;
     const { VITE_IPFS_HOST } = import.meta.env;
-    const res = await axios.get(`${VITE_IPFS_HOST}/${note_ipfs}`);
-    const { data } = res;
-    if (data) {
-      const content = await this.crypto?.decrypt(data);
-      return content;
+    if (note_ipfs) {
+      const res = await axios.get(`${VITE_IPFS_HOST}/${note_ipfs}`);
+      const { data } = res;
+      if (data) {
+        const content = await this.crypto?.decrypt(data);
+        return content;
+      }
+    } else {
+      return '';
     }
   }
 }
