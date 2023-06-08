@@ -44,7 +44,11 @@ export interface AccountInfo {
   maintainProtector: boolean;
   maintainQuestion: boolean;
   privacyInfo: any;
-  nostr: NostrInfo;
+  fingerprintPrivateData: string;
+  textPrivateData: string;
+  passwordPrivateData: string;
+  customFeatureData: string;
+  featureData?: any[];
   guardians: Guardian[];
   note_ipfs: string;
 }
@@ -67,7 +71,6 @@ export class Account {
   private readonly password = new Password();
   private readonly dauth = new Dauth();
   private crypto?: MtvCrypto;
-  // private mtvStorage?: MtvStorage;
   private keyManager?: KeyManager;
   public keySha?: KeySha;
   public privateKey?: string;
@@ -78,15 +81,16 @@ export class Account {
     name: '',
     address: '',
     safeLevel: 0,
+    fingerprintPrivateData: '',
+    textPrivateData: '',
+    passwordPrivateData: '',
+    customFeatureData: '',
+    featureData: undefined,
     bindStatus: false,
     maintainPhrase: false,
     maintainProtector: false,
     maintainQuestion: false,
     privacyInfo: {},
-    nostr: {
-      pk: '',
-      sk: '',
-    },
     guardians: [],
     note_ipfs: '',
   };
@@ -149,7 +153,62 @@ export class Account {
         ...data,
       };
     }
+    console.log(this.accountInfo);
   }
+  async getAppPrivateData() {
+    const privateData = '';
+    // this.privateData = privateData;
+  }
+  async setPivateData(
+    textPrivateData: string,
+    passwordPrivateData: string,
+    customFeatureData: string,
+  ) {
+    const arr = [
+      textPrivateData,
+      passwordPrivateData,
+      customFeatureData,
+    ].filter(Boolean);
+    const res = await this.dauth.generateFeatureData({
+      type: 'text',
+      content: arr.join('_'),
+    });
+    const { code, data } = res.data;
+    if (code === '000000') {
+      this.accountInfo.featureData = data;
+      this.accountInfo.textPrivateData = textPrivateData;
+      this.accountInfo.passwordPrivateData = passwordPrivateData;
+      this.accountInfo.customFeatureData = customFeatureData;
+      await this.saveAccount();
+    }
+  }
+  async restorePivateData(
+    textPrivateData: string,
+    passwordPrivateData: string,
+    customFeatureData: string,
+  ) {
+    const arr = [
+      textPrivateData,
+      passwordPrivateData,
+      customFeatureData,
+    ].filter(Boolean);
+    const res = await this.dauth.generateFeatureData({
+      type: 'text',
+      content: arr.join('_'),
+    });
+    const { code, data } = res.data;
+    if (code === '000000') {
+      this.accountInfo.featureData = data;
+      this.accountInfo.textPrivateData = textPrivateData;
+      this.accountInfo.passwordPrivateData = passwordPrivateData;
+      this.accountInfo.customFeatureData = customFeatureData;
+    }
+  }
+  async getLocalPrivateData() {
+    const privateData = '';
+    // this.privateData = privateData;
+  }
+  async saveLocalPrivateData() {}
   getMnemonic() {
     return this.keyManager?.getMnemonic();
   }
@@ -160,15 +219,16 @@ export class Account {
       name: '',
       address: '',
       safeLevel: 0,
+      fingerprintPrivateData: '',
+      textPrivateData: '',
+      passwordPrivateData: '',
+      customFeatureData: '',
+      featureData: undefined,
       bindStatus: false,
       maintainPhrase: false,
       maintainProtector: false,
       maintainQuestion: false,
       privacyInfo: {},
-      nostr: {
-        pk: '',
-        sk: '',
-      },
       guardians: [],
       note_ipfs: '',
     };
@@ -219,9 +279,8 @@ export class Account {
   async remove() {
     await Promise.all([this.password.remove(), this.keyManager?.delete()]);
     this.resetAccountInfo();
-    // this.mtvStorage = undefined;
-    // this.crypto = undefined;
-    // this.keySha = undefined;
+    this.crypto = undefined;
+    this.keySha = undefined;
   }
   async lock() {
     await this.password.remove();
@@ -269,12 +328,12 @@ export class Account {
     }
     return status;
   }
-  async getSssData({ account, verifyCode, type, privateData }: any) {
+  async getSssData({ account, verifyCode, type }: any) {
     return await this.dauth.getSssData({
       account,
       verifyCode,
       type,
-      privateData,
+      privateData: this.accountInfo.featureData,
     });
   }
   async restoreByGuardian({ account, verifyCode, password }: any) {
@@ -282,7 +341,7 @@ export class Account {
       account,
       verifyCode,
       type: 'guardian',
-      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
+      privateData: this.accountInfo.featureData,
     });
     const { data, code } = res.data;
     if (code === '000000') {
@@ -311,8 +370,16 @@ export class Account {
         console.log(s);
         const q = s.list.map((val: any) => val.q).join('');
         const a = s.list.map((val: any) => val.a).join('');
-        const v = await this.keySha?.get(q + a);
-        kvShares.push(v);
+        const v = await this.dauth.getSssDataForUser({
+          publicKey,
+          type: 'question',
+          question: q,
+          answer: a,
+          privateData: this.accountInfo.featureData,
+        });
+        if (v.data.code === '000000') {
+          kvShares.push(v.data.data);
+        }
         // errArr.push('');
       } catch (error) {
         return STATUS_CODE.RESTORE_ERROR;
@@ -320,12 +387,12 @@ export class Account {
       }
     }
     const shares = [sssData, ...kvShares].filter(Boolean);
+    console.log(shares);
     const status = await this.restore({ password, shares });
     return status;
   }
   async saveAccount() {
     await this.dauth.put({
-      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
       key: `${LOCAL_ACCOUNT_KEY}_${this.accountInfo.publicKey}`,
       value: this.accountInfo,
       duration: 60 * 60 * 24 * 365,
@@ -364,7 +431,7 @@ export class Account {
       publicKey,
       account,
       verifyCode,
-      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
+      privateData: this.accountInfo.featureData,
     });
     if (res.data.code === '000000') {
       const hashAccount = CryptoJS.MD5(account).toString();
@@ -395,7 +462,7 @@ export class Account {
     const res = await this.dauth.delGuardian({
       publicKey,
       account,
-      privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
+      privateData: this.accountInfo.featureData,
     });
     console.log(res);
     console.log(this.accountInfo);
@@ -422,7 +489,6 @@ export class Account {
     if (shares?.length) {
       const kvMap = this.accountInfo.guardians.map((s, i) => {
         return this.keySha?.put({
-          privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
           key: s.hash,
           value: shares[1],
         });
@@ -433,7 +499,7 @@ export class Account {
         this.dauth.saveSssData({
           publicKey,
           appName: 'mtv',
-          privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
+          privateData: this.accountInfo.featureData,
           sssData: shares[0],
           type: 'guardian',
         }),
@@ -484,10 +550,17 @@ export class Account {
         const kvMap = kvShares?.map((s, i) => {
           const q = filterAnswer[i].list.map((val: any) => val.q).join('');
           const a = filterAnswer[i].list.map((val: any) => val.a).join('');
-          return this.keySha?.put({
-            privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
-            key: q + a,
-            value: s,
+          // return this.keySha?.put({
+          //   key: q + a,
+          //   value: s,
+          // });
+          return this.dauth.saveSssDataForUser({
+            publicKey,
+            type: 'question',
+            question: q,
+            answer: a,
+            privateData: this.accountInfo.featureData,
+            sssData: s,
           });
         });
         await Promise.all([
@@ -495,7 +568,7 @@ export class Account {
           this.dauth.saveSssData({
             publicKey,
             appName: 'mtv',
-            privateData: '1.01, 2.0, 3.03, 4.0, 5.0, 6.0, 7, 8, 9, 10',
+            privateData: this.accountInfo.featureData,
             sssData: serverShare,
             type: 'question',
           }),
@@ -555,6 +628,7 @@ export class Account {
     const { publicKey } = this.accountInfo;
     await this.dauth.saveQuestions({
       publicKey,
+      privateData: this.accountInfo.featureData,
       questions: serverList,
     });
   }
@@ -655,6 +729,53 @@ export class Account {
     } else {
       return '';
     }
+  }
+  async publishMsg(destMsgPubkey: string) {
+    const { publicKey } = this.accountInfo;
+    const res = await this.dauth.publishMsg({
+      publicKey,
+      destMsgPubkey,
+    });
+    return res.data.data;
+  }
+  async getFriens() {
+    const { publicKey } = this.accountInfo;
+    const res = await this.dauth.getFriens({
+      publicKey,
+    });
+    return res.data.data;
+  }
+  async getMsgs(destMsgPubkey: string) {
+    const { publicKey } = this.accountInfo;
+    const res = await this.dauth.getMsgs({
+      publicKey,
+      destMsgPubkey,
+    });
+    return res.data.data;
+  }
+  async getAllMsgs(destMsgPubkey: string) {
+    const { publicKey } = this.accountInfo;
+    const res = await this.dauth.getAllMsgs({
+      publicKey,
+      destMsgPubkey,
+    });
+    return res.data.data;
+  }
+  async sendMsg(destMsgPubkey: string, content: string) {
+    const res = await this.dauth.sendMsg({
+      destMsgPubkey,
+      content,
+    });
+    return res.data.data;
+  }
+  async startMsgService() {
+    const { privateKey } = this;
+    const { publicKey } = this.accountInfo;
+    const res = await this.dauth.startMsgService({
+      privateKeyHash: privateKey,
+      publicKey,
+    });
+    return res.data.data;
   }
 }
 

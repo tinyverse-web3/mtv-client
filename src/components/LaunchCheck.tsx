@@ -62,13 +62,13 @@ export const WalletCheck = () => {
   };
   useEffect(() => {
     if (checkLoading) {
-      checkStatus();
+      // checkStatus();
     }
   }, []);
   useLayoutEffect(() => {
     if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       console.log('router change');
-      checkStatus();
+      // checkStatus();
     }
   }, [routerLocation]);
   return (

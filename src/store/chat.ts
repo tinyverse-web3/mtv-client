@@ -1,51 +1,38 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { remove, cloneDeep } from 'lodash';
-
-interface NostrList {
-  pk: string;
-  time: Date | number;
-}
 interface Friend {
   Id: number;
-  pk: string;
+  publicKey: string;
   name: string;
   avatar: string;
+  time?: Date | number;
 }
-interface Relay {
-  wss: string;
-}
-interface NostrState {
-  list: NostrList[];
-  relayList: Relay[];
-  add: (friend: { pk: string }) => void;
-  remove: (pk: string) => void;
-  initRelayList: (list: Relay[]) => void;
+interface ChatState {
+  list: Friend[];
   recipient?: Friend;
+  add: (friend: Friend) => void;
+  remove: (publicKey: string) => void;
   setRecipient: (r: Friend) => void;
   reset: () => void;
 }
 
-export const useNostrStore = create<NostrState>()(
+export const useChatStore = create<ChatState>()(
   devtools(
     persist(
       (set, get) => ({
         list: [],
         recipient: undefined,
-        relayList: [],
-        initRelayList: async (list) => {
-          set({ relayList: list });
-        },
         add: async (n) => {
           const list = cloneDeep(get().list);
-          if (!list.find((s) => s.pk === n.pk)) {
+          if (!list.find((s) => s.publicKey === n.publicKey)) {
             list.push({ ...n, time: +new Date() });
             set({ list });
           }
         },
-        remove: async (pk) => {
+        remove: async (publicKey) => {
           const list = cloneDeep(get().list);
-          remove(list, (i) => i.pk === pk);
+          remove(list, (i) => i.publicKey === publicKey);
           set({ list });
         },
         setRecipient: async (n) => {
@@ -55,7 +42,6 @@ export const useNostrStore = create<NostrState>()(
           set({
             list: [],
             recipient: undefined,
-            relayList: [],
           });
         },
       }),

@@ -19,9 +19,11 @@ import RestorePhrase from '@/pages/restore/phrase';
 import RestoreProtector from '@/pages/restore/protector';
 import RestoreVerify from '@/pages/restore/verify';
 import RestoreQuestion from '@/pages/restore/question';
+import RestorePirvateData from '@/pages/restore/privateData';
 import Test from '@/pages/test';
 import AppTest from '@/pages/app';
 import Unlock from '@/pages/unlock';
+import PrivateData from '@/pages/account/privateData';
 import Retrieve from '@/pages/retrieve';
 import AccountName from '@/pages/account/username';
 import AccountQrcode from '@/pages/account/qrcode';
@@ -53,6 +55,7 @@ export const ROUTE_PATH = {
   RESTORE_PROTECTOR: '/restore/protector',
   RESTORE_VERIFY: '/restore/verify',
   RESTORE_QUESTION: '/restore/question',
+  RESTORE_PRIVATEDATA: '/restore/privateData',
   ACCOUNT: '/account',
   ACCOUNT_NAME: '/account/name',
   ACCOUNT_QRCODE: '/account/qrcode',
@@ -67,6 +70,7 @@ export const ROUTE_PATH = {
   ACCOUNT_PROTECTOR: '/account/protector',
   ACCOUNT_PROTECTOR_ADD: '/account/protector/add',
   ACCOUNT_PROTECTOR_VERIFY: '/account/protector/verify',
+  ACCOUNT_PRIVATEDATA: '/account/privateData',
   SPACE_INDEX: '/space',
   ASSETS_INDEX: '/assets',
   UNLOCK: '/unlock',
@@ -77,6 +81,7 @@ export const ROUTE_PATH = {
   NOTE_EDIT: '/note/:id',
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
+  
   CHAT_SHARE: '/chat/imShare',
 };
 
@@ -105,7 +110,7 @@ export const routes: RouteObject[] = [
         path: ROUTE_PATH.APP_TEST,
         element: <AppTest />,
       },
-
+     
       {
         path: ROUTE_PATH.CREATE,
         element: <Create />,
@@ -131,6 +136,10 @@ export const routes: RouteObject[] = [
         element: <RestoreQuestion />,
       },
       {
+        path: ROUTE_PATH.RESTORE_PRIVATEDATA,
+        element: <RestorePirvateData />,
+      },
+      {
         path: ROUTE_PATH.UNLOCK,
         element: <Unlock />,
       },
@@ -145,6 +154,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.CHANGE_PWD,
         element: <ChangePwd />,
+      },
+      {
+        path: ROUTE_PATH.ACCOUNT_PRIVATEDATA,
+        element: <PrivateData />,
       },
       {
         path: ROUTE_PATH.ACCOUNT_NAME,

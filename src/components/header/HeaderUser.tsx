@@ -10,7 +10,8 @@ const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
 export const HeaderUser = () => {
   const nav = useNavigate();
-  const { VITE_IPFS_HOST } = import.meta.env;
+  const { VITE_IPFS_HOST, VITE_IPFS_LOCAL_HOST } = import.meta.env;
+  const ipfsHost = window.JsBridge ? VITE_IPFS_LOCAL_HOST : VITE_IPFS_HOST;
   const { userInfo } = useGlobalStore((state) => state);
   const { account } = useAccountStore((state) => state);
   // const location = useLocation();
@@ -52,13 +53,12 @@ export const HeaderUser = () => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
-  console.log(account);
   const levelItem = useMemo(
     () => levelArr[account.accountInfo.safeLevel || 0],
     [account.accountInfo],
   );
   const imageSrc = useMemo(() => {
-    return account.accountInfo.avatar ?`${VITE_IPFS_HOST}/${account.accountInfo.avatar}` : '/logo.png';
+    return account.accountInfo.avatar ?`${ipfsHost}/${account.accountInfo.avatar}` : '/logo.png';
   }, [account.accountInfo]);
   return (
     <div className='h-full relative'>

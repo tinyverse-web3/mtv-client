@@ -9,11 +9,9 @@ import { lightTheme, darkTheme } from '@/layout';
 import { BindMail } from '@/components/BindMail';
 
 import Container from '@/layout/container';
-import { useNostrStore, useGlobalStore } from '@/store';
-import { useEffect } from 'react';
+import { useGlobalStore } from '@/store';
 
 export default function App() {
-  const loading = useGlobalStore((state) => state.checkLoading);
   return (
     <main className='sm:pt-20 h-full'>
       <NextThemesProvider

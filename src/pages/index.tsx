@@ -15,7 +15,7 @@ export default function Index() {
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();
   const toRestore = () => {
-    nav('/restore');
+    nav(ROUTE_PATH.RESTORE_PRIVATEDATA);
   };
   const toCreate = () => {
     create();

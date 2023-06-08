@@ -13,7 +13,7 @@ export class Dauth {
    * 发送验证码
    */
   async sendVerifyCode({ account, type = 'email' }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'sendVerifyCode',
       data: {
         account,
@@ -21,9 +21,21 @@ export class Dauth {
       },
     });
   }
+  /**
+   * 生成个人特征数据
+   */
+  async generateFeatureData({ type = 'text', content }: any) {
+    return this.invoke({
+      name: 'generateFeatureData',
+      data: {
+        type,
+        content,
+      },
+    });
+  }
 
   async savePassword({ publicKey, password }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'savePassword',
       data: {
         publicKey,
@@ -32,7 +44,7 @@ export class Dauth {
     });
   }
   async updateName({ publicKey, name }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'updateName',
       data: {
         publicKey,
@@ -41,7 +53,7 @@ export class Dauth {
     });
   }
   async getPassword({ account, verifyCode }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'getPassword',
       data: {
         account,
@@ -52,8 +64,14 @@ export class Dauth {
   /**
    * 添加守护者
    */
-  async addGuardian({ privateData, publicKey, account, verifyCode, type = 'email' }: any) {
-    return await this.invoke({
+  async addGuardian({
+    privateData,
+    publicKey,
+    account,
+    verifyCode,
+    type = 'email',
+  }: any) {
+    return this.invoke({
       name: 'addGuardian',
       data: {
         publicKey,
@@ -65,7 +83,7 @@ export class Dauth {
     });
   }
   async delGuardian({ privateData, account, publicKey }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'delGuardian',
       data: {
         account,
@@ -75,7 +93,7 @@ export class Dauth {
     });
   }
   async getUserInfo({ publicKey }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'getUserInfo',
       data: {
         publicKey,
@@ -84,7 +102,7 @@ export class Dauth {
   }
 
   async saveSssData({ publicKey, sssData, privateData, type }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'saveSssData',
       data: {
         publicKey,
@@ -95,8 +113,48 @@ export class Dauth {
       },
     });
   }
+  async saveSssDataForUser({
+    publicKey,
+    sssData,
+    type,
+    question,
+    answer,
+    privateData,
+  }: any) {
+    return this.invoke({
+      name: 'saveSssDataForUser',
+      data: {
+        publicKey,
+        sssData,
+        question,
+        answer,
+        privateData,
+        appName: this.app,
+        type,
+      },
+    });
+  }
+  async getSssDataForUser({
+    publicKey,
+    type,
+    question,
+    answer,
+    privateData,
+  }: any) {
+    return this.invoke({
+      name: 'getSssDataForUser',
+      data: {
+        publicKey,
+        question,
+        answer,
+        privateData,
+        appName: this.app,
+        type,
+      },
+    });
+  }
   async getSssData({ privateData, account, verifyCode, type }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'getSssData',
       data: {
         privateData,
@@ -112,7 +170,7 @@ export class Dauth {
    * @param 问题模版类型，其中1表示默认问题模版，2表示自定义问题模版
    */
   async getTmpQuestions({ type }: { type: 1 | 2 }) {
-    return await this.invoke({
+    return this.invoke({
       name: 'getTmpQuestions',
       data: {
         type,
@@ -120,7 +178,7 @@ export class Dauth {
     });
   }
   async saveQuestions({ privateData, publicKey, questions }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'saveQuestions',
       data: {
         privateData,
@@ -134,7 +192,7 @@ export class Dauth {
    * 获取问题表
    */
   async getQuestions({ privateData, appName = 'mtv', publicKey }: any) {
-    return await this.invoke({
+    return this.invoke({
       name: 'getQuestions',
       data: {
         privateData,
@@ -143,15 +201,14 @@ export class Dauth {
       },
     });
   }
-  async put({ privateData, key, value, duration }: any) {
+  async put({ key, value, duration }: any) {
     if (value === null || value === undefined) {
       return;
     }
     const _data = await this.crypto.encrypt(JSON.stringify(value));
-    return await this.invoke({
+    return this.invoke({
       name: 'put',
       data: {
-        privateData,
         key: `/service/dauth/${key}`,
         value: _data,
         duration,
@@ -181,18 +238,92 @@ export class Dauth {
   async uploadIpfsFile({ file }: { file: File }) {
     const formData = new FormData();
     formData.append('file', file);
-    return await this.invoke({
+    return this.invoke({
       name: 'uploadFile',
       method: 'post',
       formData: formData,
     });
   }
   async uploadIpfsContent({ content }: { content: string }) {
-    return await this.invoke({
+    return this.invoke({
       name: 'uploadContent',
       method: 'post',
       data: {
         content,
+      },
+    });
+  }
+  async getFriens({ publicKey }: any) {
+    return this.invoke({
+      name: 'getFriens',
+      method: 'post',
+      data: {
+        appName: this.app,
+        publicKey,
+      },
+    });
+  }
+  async publishMsg({ destMsgPubkey, publicKey }: any) {
+    return this.invoke({
+      name: 'publishMsg',
+      method: 'post',
+      data: {
+        appName: this.app,
+        destMsgPubkey,
+        publicKey,
+      },
+    });
+  }
+  async unpublishMsg({ destMsgPubkey, publicKey }: any) {
+    return this.invoke({
+      name: 'unpublishMsg',
+      method: 'post',
+      data: {
+        appName: this.app,
+        destMsgPubkey,
+        publicKey,
+      },
+    });
+  }
+  async sendMsg({ destMsgPubkey, content }: any) {
+    return this.invoke({
+      name: 'sendMsg',
+      method: 'post',
+      data: {
+        appName: this.app,
+        content,
+        destMsgPubkey,
+      },
+    });
+  }
+  async getMsgs({ destMsgPubkey }: any) {
+    return this.invoke({
+      name: 'getMsgs',
+      method: 'post',
+      data: {
+        appName: this.app,
+        destMsgPubkey,
+      },
+    });
+  }
+  async getAllMsgs({ destMsgPubkey }: any) {
+    return this.invoke({
+      name: 'getAllMsgs',
+      method: 'post',
+      data: {
+        appName: this.app,
+        destMsgPubkey,
+      },
+    });
+  }
+  async startMsgService({ privateKeyHash, publicKey }: any) {
+    return this.invoke({
+      name: 'startMsgService',
+      method: 'post',
+      data: {
+        appName: this.app,
+        privateKey: privateKeyHash,
+        publicKey,
       },
     });
   }
@@ -207,19 +338,21 @@ export class Dauth {
     method?: string;
     formData?: any;
   }) {
-    const url = `http://192.168.2.65:8888/sdk/${name}`;
+    const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+    const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
+    const url = `${apiHost}/sdk/${name}`;
     if (formData) {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
       console.log(url);
-      return await this.request({ url, method, data: formData, headers });
+      return this.request({ url, method, data: formData, headers });
     } else {
       data.appName = this.app;
-      return await this.request({ url, method, data });
+      return this.request({ url, method, data });
     }
   }
   async request({ url, method, data, params, headers }: any) {
-    return await axios({ url, method, data, params, headers });
+    return axios({ url, method, data, params, headers });
   }
 }

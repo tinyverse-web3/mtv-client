@@ -7,7 +7,6 @@ import {
   useWalletStore,
   useMtvStorageStore,
   useGlobalStore,
-  useNostrStore,
   useAccountStore,
 } from '@/store';
 import { useKeyPressEvent } from 'react-use';
@@ -21,8 +20,6 @@ export default function Unlock() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { account } = useAccountStore((state) => state);
-  const resetGlobal = useGlobalStore((state) => state.reset);
-  const resetNostr = useNostrStore((state) => state.reset);
   const unlock = async () => {
     setLoading(true);
     const status = await account.unlock(pwd);

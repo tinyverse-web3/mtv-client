@@ -52,13 +52,6 @@ export const QuestionDefault = ({
       setTmpList(data);
     }
   };
-  // const { data: userList, mutate: questionList } = useRequest<any[]>({
-  //   url: '/question/list',
-  //   arg: {
-  //     method: 'get',
-  //     auth: true,
-  //   },
-  // });
 
   const generateInitList = () => {
     console.log(initList);
@@ -76,7 +69,6 @@ export const QuestionDefault = ({
     const _list = cloneDeep(list[i]);
     _list.list[j].a = e;
     _list.list[j].l = e.length;
-    console.log(e);
     updateAt(i, _list);
   };
   const saveLocalList = () => {
@@ -86,17 +78,7 @@ export const QuestionDefault = ({
     }
   };
   useDebounce(saveLocalList, 300, [list]);
-  // useEffect(() => {
-  //   if (mtvStorage) {
-  //     mtvStorage.get(LOCAL_QUESTION).then((res) => {
-  //       console.log('res');
-  //       console.log(res);
-  //       if (res) {
-  //         setLocalList(res);
-  //       }
-  //     });
-  //   }
-  // }, [mtvStorage]);
+
   useEffect(() => {
     if (tmpList) {
       const _list = tmpList.map((v, i) => {

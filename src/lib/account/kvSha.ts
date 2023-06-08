@@ -35,11 +35,9 @@ export class KeySha {
   public async put({
     key,
     value,
-    privateData,
   }: {
     key: string;
     value: any;
-    privateData: any;
   }) {
     if (value === null || value === undefined) {
       logger.debug('keySha set is no data');
@@ -58,7 +56,6 @@ export class KeySha {
     return await this.putToDuath({
       key: dataKey,
       value: encryptShareKey,
-      privateData,
       duration: 60 * 60 * 24 * 365,
     });
   }
@@ -140,7 +137,9 @@ export class KeySha {
     method?: string;
   }) {
     data.appName = this.app;
-    const url = `http://192.168.2.65:8888/sdk/${name}`;
+    const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+    const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
+    const url = `${apiHost}/sdk/${name}`;
     return await this.request({ url, method, data });
   }
   async request({ url, method, data, params }: any) {

@@ -1,7 +1,7 @@
 // import { useParams } from 'react-router-dom';
 import { useRequest } from '@/api';
 import { ROUTE_PATH } from '@/router/index';
-import { useGlobalStore, useNostrStore, useMtvStorageStore } from '@/store';
+import { useGlobalStore, useChatStore, useMtvStorageStore } from '@/store';
 import { useEffect } from 'react';
 import { getPublicKey } from 'nostr-tools';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -11,14 +11,12 @@ const NOSTR_KEY = 'nostr_sk';
 export default function ChatImChare() {
   const { createNostr, nostr } = useGlobalStore((state) => state);
   const [params] = useSearchParams(); // const { pk } = useParams();
-  const setRecipient = useNostrStore((state) => state.setRecipient);
+  const { setRecipient } = useChatStore((state) => state);
   const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const { setNostr } = useGlobalStore((state) => state);
-  // const addFriend = useNostrStore((state) => state.add);
   const nav = useNavigate();
   const toSharePk = params?.get('pk');
   const toDetail = async (cur: any) => {
-    // await setRecipient({ pk: cur.pk });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
   const { mutate: sendPk } = useRequest({
@@ -70,7 +68,7 @@ export default function ChatImChare() {
         if (res.code === '000000') {
           const { nostrPublicKey, Id, name, imgCid } = res.data;
           if (nostrPublicKey) {
-            setRecipient({ pk: nostrPublicKey, Id, name, avatar: imgCid });
+            setRecipient({ publicKey: nostrPublicKey, Id, name, avatar: imgCid });
             addFriend();
           } else {
             toast.error('对方无法聊天');

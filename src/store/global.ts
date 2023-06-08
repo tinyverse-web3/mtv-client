@@ -66,7 +66,7 @@ export const useGlobalStore = create<GlobalState>()(
     persist(
       (set, get) => ({
         showLogin: false,
-        checkLoading: true,
+        checkLoading: false,
         protectorStatus: false,
         // userLevel: 0,
         // maintainPhrase: false,
