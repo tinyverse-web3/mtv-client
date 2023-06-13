@@ -3,7 +3,33 @@ body {
 }
 html,
 body,
-#root, div[data-overlay-container="true"] {
+#root,
+div[data-overlay-container='true'] {
   height: 100%;
 }
 
+.circular-progress {
+  width: 40px;
+  height: 40px;
+}
+
+.circular-progress-bar {
+  stroke: #3498db;
+  stroke-dasharray: 307.716; /* 圆的周长 */
+  stroke-width: 8px;
+  fill: transparent;
+}
+
+.circular-progress-bar {
+  animation: circular-progress 1.2s linear infinite; 
+}
+
+@keyframes circular-progress {
+  0% { 
+    stroke-dashoffset: 307.716;
+  }
+  
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

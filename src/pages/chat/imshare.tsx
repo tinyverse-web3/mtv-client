@@ -68,7 +68,7 @@ export default function ChatImChare() {
         if (res.code === '000000') {
           const { nostrPublicKey, Id, name, imgCid } = res.data;
           if (nostrPublicKey) {
-            setRecipient({ publicKey: nostrPublicKey, Id, name, avatar: imgCid });
+            // setRecipient({ publicKey: nostrPublicKey, Id, name, avatar: imgCid });
             addFriend();
           } else {
             toast.error('对方无法聊天');

@@ -26,7 +26,7 @@ export const UserAvatar = ({ className }: Props) => {
         <div className='rounded-full overflow-hidden w-full h-full'>
           <Image src={imageSrc} className='w-full h-full' />
         </div>
-        <div className='i-mdi-camera absolute bottom-0 right-0 text-8 text-gray-700'></div>
+        <div className='i-mdi-camera absolute  bottom-0 right-0 text-8 text-gray-700'></div>
         <input
           type='file'
           accept='image/*'

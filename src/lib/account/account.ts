@@ -97,6 +97,10 @@ export class Account {
   constructor() {
     this.keyManager = new KeyManager();
   }
+  /**
+   * 初始化模块
+   * @returns {any}
+   */
   async initModule() {
     console.log('存储相关模块初始化');
     console.log(this.privateKey, this.accountInfo.publicKey);
@@ -113,7 +117,12 @@ export class Account {
       console.log('keySha 存储加密模块初始化');
     }
   }
-  async create(password: string) {
+  /**
+   * 创建账户
+   * @param password - 账户密码
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
+  async create(password: string): Promise<STATUS_CODE> {
     const encryptPwd = await this.password.encrypt(password);
     await this.keyManager?.create(encryptPwd);
 
@@ -127,6 +136,10 @@ export class Account {
     }
     return status;
   }
+  /**
+   * 获取密钥信息
+   * @returns {Promise<void>}
+   */
   async getKeyInfo() {
     const {
       privateKey = '',
@@ -137,6 +150,11 @@ export class Account {
     this.accountInfo.address = address;
     this.privateKey = privateKey;
   }
+
+  /**
+   * 获取账户信息
+   * @returns {Promise<void>}
+   */
   async getAccountInfo() {
     if (this.getAccountStatus) {
       return;
@@ -155,10 +173,21 @@ export class Account {
     }
     console.log(this.accountInfo);
   }
+  /**
+   * 获取应用私有数据
+   * @returns {Promise<void>}
+   */
   async getAppPrivateData() {
     const privateData = '';
     // this.privateData = privateData;
   }
+  /**
+   * 设置私有数据
+   * @param textPrivateData - 文本私有数据
+   * @param passwordPrivateData - 密码私有数据
+   * @param customFeatureData - 自定义特征数据
+   * @returns {Promise<void>}
+   */
   async setPivateData(
     textPrivateData: string,
     passwordPrivateData: string,
@@ -182,6 +211,13 @@ export class Account {
       await this.saveAccount();
     }
   }
+  /**
+   * 恢复私有数据
+   * @param textPrivateData - 文本私有数据
+   * @param passwordPrivateData - 密码私有数据
+   * @param customFeatureData - 自定义特征数据
+   * @returns {Promise<void>}
+   */
   async restorePivateData(
     textPrivateData: string,
     passwordPrivateData: string,
@@ -209,6 +245,10 @@ export class Account {
     // this.privateData = privateData;
   }
   async saveLocalPrivateData() {}
+  /**
+   * 获取助记词
+   * @returns {string | undefined} - 返回助记词或undefined
+   */
   getMnemonic() {
     return this.keyManager?.getMnemonic();
   }
@@ -233,6 +273,10 @@ export class Account {
       note_ipfs: '',
     };
   }
+  /**
+   * 检查账户状态
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async checkStatus() {
     const keyStatus = await this.keyManager?.check();
     let status;
@@ -260,6 +304,11 @@ export class Account {
     }
     return status;
   }
+  /**
+   * 解锁账户
+   * @param password - 账户密码
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async unlock(password: string) {
     const encryptPwd = await this.password.encrypt(password);
     const keyStatus = await this.keyManager?.verify(encryptPwd);
@@ -276,12 +325,20 @@ export class Account {
       }
     }
   }
+  /**
+   * 删除账户信息，包括密码和密钥管理器
+   * @returns {Promise<void>}
+   */
   async remove() {
     await Promise.all([this.password.remove(), this.keyManager?.delete()]);
     this.resetAccountInfo();
     this.crypto = undefined;
     this.keySha = undefined;
   }
+  /**
+   * 锁定账户，删除密码和重置账户信息
+   * @returns {Promise<void>}
+   */
   async lock() {
     await this.password.remove();
     this.resetAccountInfo();
@@ -289,6 +346,14 @@ export class Account {
     // this.crypto = undefined;
     // this.keySha = undefined;
   }
+  /**
+   * 恢复账户信息
+   * @param password - 账户密码
+   * @param phrase - 助记词
+   * @param entropy - 熵
+   * @param shares - 分享的密钥
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async restore({
     password,
     phrase,
@@ -328,7 +393,23 @@ export class Account {
     }
     return status;
   }
-  async getSssData({ account, verifyCode, type }: any) {
+  /**
+   * 获取 SSS 数据
+   * @param {Object} options - 选项对象
+   * @param {string} options.account - 账户名
+   * @param {string} options.verifyCode - 验证码
+   * @param {string} options.type - 类型
+   * @returns {Promise<Object>} - 返回包含 SSS 数据和状态码的对象
+   */
+  async getSssData({
+    account,
+    verifyCode,
+    type,
+  }: {
+    account: string;
+    verifyCode: string;
+    type: string;
+  }) {
     return await this.dauth.getSssData({
       account,
       verifyCode,
@@ -336,12 +417,19 @@ export class Account {
       privateData: this.accountInfo.featureData,
     });
   }
+  /**
+   * 通过守护者恢复账户信息
+   * @param {Object} options - 选项对象
+   * @param {string} options.account - 守护者账户名
+   * @param {string} options.verifyCode - 验证码
+   * @param {string} options.password - 账户密码
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async restoreByGuardian({ account, verifyCode, password }: any) {
     const res = await this.getSssData({
       account,
       verifyCode,
       type: 'guardian',
-      privateData: this.accountInfo.featureData,
     });
     const { data, code } = res.data;
     if (code === '000000') {
@@ -359,15 +447,22 @@ export class Account {
     }
     return STATUS_CODE.RESTORE_ERROR;
   }
+  /**
+   * 通过密保问题恢复账户信息
+   * @param {Object} options - 选项对象
+   * @param {Array} options.questions - 密保问题列表
+   * @param {string} options.publicKey - 公钥
+   * @param {string} options.sssData - SSS 数据
+   * @param {string} options.password - 账户密码
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async restoreByQuestions({ questions, publicKey, sssData, password }: any) {
     this.accountInfo.publicKey = publicKey;
     await this.initModule();
     const kvShares: any[] = [];
-    // const errArr: string[] = [];
     for (let i = 0; i < questions.length; i++) {
       const s = questions[i];
       try {
-        console.log(s);
         const q = s.list.map((val: any) => val.q).join('');
         const a = s.list.map((val: any) => val.a).join('');
         const v = await this.dauth.getSssDataForUser({
@@ -380,14 +475,11 @@ export class Account {
         if (v.data.code === '000000') {
           kvShares.push(v.data.data);
         }
-        // errArr.push('');
       } catch (error) {
         return STATUS_CODE.RESTORE_ERROR;
-        // errArr.push(`问题${chineseNumMap[i]}答案错误`);
       }
     }
     const shares = [sssData, ...kvShares].filter(Boolean);
-    console.log(shares);
     const status = await this.restore({ password, shares });
     return status;
   }
@@ -730,40 +822,39 @@ export class Account {
       return '';
     }
   }
-  async publishMsg(destMsgPubkey: string) {
+  async publishMsg(destPubkey: string) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.publishMsg({
       publicKey,
-      destMsgPubkey,
+      destPubkey,
     });
     return res.data.data;
   }
-  async getFriens() {
+  async getContacts() {
     const { publicKey } = this.accountInfo;
-    const res = await this.dauth.getFriens({
+    const res = await this.dauth.getContacts({
       publicKey,
     });
     return res.data.data;
   }
-  async getMsgs(destMsgPubkey: string) {
+  async receiveMsgs(destPubkey: string) {
     const { publicKey } = this.accountInfo;
-    const res = await this.dauth.getMsgs({
-      publicKey,
-      destMsgPubkey,
-    });
+    const res = await this.dauth.receiveMsgs({
+      destPubkey,
+    })
     return res.data.data;
   }
-  async getAllMsgs(destMsgPubkey: string) {
+  async getAllMsgs(destPubkey: string) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.getAllMsgs({
       publicKey,
-      destMsgPubkey,
+      destPubkey,
     });
     return res.data.data;
   }
-  async sendMsg(destMsgPubkey: string, content: string) {
+  async sendMsg(destPubkey: string, content: string) {
     const res = await this.dauth.sendMsg({
-      destMsgPubkey,
+      destPubkey,
       content,
     });
     return res.data.data;

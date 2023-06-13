@@ -8,12 +8,16 @@ interface Friend {
   avatar: string;
   time?: Date | number;
 }
+
+interface Recipinet {
+  publicKey: string;
+}
 interface ChatState {
   list: Friend[];
-  recipient?: Friend;
+  recipient?: Recipinet;
   add: (friend: Friend) => void;
   remove: (publicKey: string) => void;
-  setRecipient: (r: Friend) => void;
+  setRecipient: (r: Recipinet) => void;
   reset: () => void;
 }
 

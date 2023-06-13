@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useList } from 'react-use';
 import { useAccountStore } from '@/store';
 import { ChatList } from '@/components/ChatList';
@@ -6,29 +6,48 @@ import { ChatInput } from '@/components/ChatInput';
 import { useInterval } from 'react-use';
 
 export const MessageBox = ({ recipient }: any) => {
-  const [allList, { set: setAllList }] = useList<any[]>([]);
-  const [lastList, { set: setLastList }] = useList<any[]>([]);
+  const [allList, { set: setAllList }] = useList<any>([]);
+  const [lastList, { set: setLastList, push }] = useList<any>([]);
   const { account } = useAccountStore((state) => state);
+
+  const reciveMsg = useCallback(
+    (msg: any) => {
+      console.log(msg);
+      push(msg);
+    },
+    [recipient],
+  );
 
   const sendHandler = async (msg: string) => {
     await account.sendMsg(recipient.publicKey, msg);
+    await getMsgs();
   };
   const getAllMsgs = async () => {
     const list = await account.getAllMsgs(recipient.publicKey);
-    setAllList(list);
+    console.log(list);
+    if (list?.length) {
+      setAllList(list);
+    }
   };
   const getMsgs = async () => {
-    const list = await account.getMsgs(recipient.publicKey);
+    const list = await account.receiveMsgs(recipient.publicKey);
     setLastList(list);
   };
   const list = useMemo(() => {
-    return [...allList, ...lastList];
+    return [...allList, ...lastList].map((v) => ({
+      ...v,
+      publicKey:
+        v.Direction === 'to'
+          ? recipient.publicKey
+          : account.accountInfo.publicKey,
+      isMe: v.Direction === 'to',
+    }));
   }, [allList, lastList]);
   useInterval(
     () => {
       getMsgs();
     },
-    recipient ? 1000 : null,
+    recipient ? 3000 : null,
   );
   useEffect(() => {
     if (recipient) {

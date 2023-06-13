@@ -18,8 +18,6 @@ export const Select = ({
   placeholder = '请选择',
   keys = { label: 'label', value: 'value' },
 }: Props) => {
-  console.log(list);
-
   const [selected, setSelected] = useState(new Set([value]));
 
   const selectedValue = useMemo(() => Array.from(selected)[0], [selected]);

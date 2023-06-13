@@ -3,34 +3,18 @@ import { ROUTE_PATH } from '@/router';
 import { Html5Qrcode } from 'html5-qrcode';
 import { QrType } from '@/type';
 import { useRequest } from '@/api';
+import { useAccountStore } from '@/store';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+
 export default function UserQrcode() {
   const nav = useNavigate();
   const html5Qrcode = useRef<any>();
   const [text, setText] = useState('');
   const cameraId = useRef('');
-  const [friendPk, setFrientPk] = useState('');
+  const { account } = useAccountStore((state) => state);
 
-  const { mutate: addFriend } = useRequest<any[]>(
-    {
-      url: '/im/addfriend',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: {
-          toPublicKey: friendPk,
-        },
-      },
-    },
-    {
-      onSuccess() {
-        toast.success('添加成功');
-        nav(ROUTE_PATH.CHAT_LIST);
-      },
-    },
-  );
   const start = async () => {
     try {
       const devices = await Html5Qrcode.getCameras();
@@ -70,23 +54,18 @@ export default function UserQrcode() {
       start();
     }
   }, []);
-  const parseText = () => {
+  const parseText = async () => {
     if (text) {
       const obj = JSON.parse(text);
       if (obj.type === QrType.ADD_FRIEND && obj.value) {
-        setFrientPk(obj.value);
+        await account.publishMsg(obj.value);
+        toast.success('添加好友成功');
       }
     }
   };
   useEffect(() => {
     parseText();
   }, [text]);
-  useEffect(() => {
-    if (friendPk) {
-      toast('正在添加好友');
-      addFriend();
-    }
-  }, [friendPk]);
   return (
     <LayoutThird title='我的二维码' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='pt-30'>

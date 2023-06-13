@@ -34,6 +34,11 @@ export class Dauth {
     });
   }
 
+  /**
+   * 保存密码
+   * @param publicKey 公钥
+   * @param password 密码
+   */
   async savePassword({ publicKey, password }: any) {
     return this.invoke({
       name: 'savePassword',
@@ -43,6 +48,11 @@ export class Dauth {
       },
     });
   }
+  /**
+   * 更新用户名称
+   * @param publicKey 公钥
+   * @param name 用户名称
+   */
   async updateName({ publicKey, name }: any) {
     return this.invoke({
       name: 'updateName',
@@ -52,6 +62,11 @@ export class Dauth {
       },
     });
   }
+  /**
+   * 获取密码
+   * @param account 账户
+   * @param verifyCode 验证码
+   */
   async getPassword({ account, verifyCode }: any) {
     return this.invoke({
       name: 'getPassword',
@@ -63,6 +78,11 @@ export class Dauth {
   }
   /**
    * 添加守护者
+   * @param privateData 私有数据
+   * @param publicKey 公钥
+   * @param account 账户
+   * @param verifyCode 验证码
+   * @param type 类型
    */
   async addGuardian({
     privateData,
@@ -82,6 +102,12 @@ export class Dauth {
       },
     });
   }
+  /**
+   * 删除守护者
+   * @param privateData 私有数据
+   * @param account 账户
+   * @param publicKey 公钥
+   */
   async delGuardian({ privateData, account, publicKey }: any) {
     return this.invoke({
       name: 'delGuardian',
@@ -92,6 +118,10 @@ export class Dauth {
       },
     });
   }
+  /**
+   * 获取用户信息
+   * @param publicKey 公钥
+   */
   async getUserInfo({ publicKey }: any) {
     return this.invoke({
       name: 'getUserInfo',
@@ -101,6 +131,13 @@ export class Dauth {
     });
   }
 
+  /**
+   * 保存 SSS 数据
+   * @param publicKey 公钥
+   * @param sssData SSS 数据
+   * @param privateData 私有数据
+   * @param type 类型
+   */
   async saveSssData({ publicKey, sssData, privateData, type }: any) {
     return this.invoke({
       name: 'saveSssData',
@@ -113,6 +150,16 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 保存用户 SSS 数据
+   * @param publicKey 公钥
+   * @param sssData SSS 数据
+   * @param type 类型
+   * @param question 问题
+   * @param answer 答案
+   * @param privateData 私有数据
+   */
   async saveSssDataForUser({
     publicKey,
     sssData,
@@ -134,6 +181,15 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 获取用户 SSS 数据
+   * @param publicKey 公钥
+   * @param type 类型
+   * @param question 问题
+   * @param answer 答案
+   * @param privateData 私有数据
+   */
   async getSssDataForUser({
     publicKey,
     type,
@@ -153,6 +209,14 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 获取 SSS 数据
+   * @param privateData 私有数据
+   * @param account 账户
+   * @param verifyCode 验证码
+   * @param type 类型
+   */
   async getSssData({ privateData, account, verifyCode, type }: any) {
     return this.invoke({
       name: 'getSssData',
@@ -165,9 +229,10 @@ export class Dauth {
       },
     });
   }
+
   /**
    * 获取问题模版列表
-   * @param 问题模版类型，其中1表示默认问题模版，2表示自定义问题模版
+   * @param type 问题模版类型，其中1表示默认问题模版，2表示自定义问题模版
    */
   async getTmpQuestions({ type }: { type: 1 | 2 }) {
     return this.invoke({
@@ -177,6 +242,13 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 保存问题
+   * @param privateData 私有数据
+   * @param publicKey 公钥
+   * @param questions 问题
+   */
   async saveQuestions({ privateData, publicKey, questions }: any) {
     return this.invoke({
       name: 'saveQuestions',
@@ -188,8 +260,12 @@ export class Dauth {
       },
     });
   }
+
   /**
    * 获取问题表
+   * @param privateData 私有数据
+   * @param appName 应用名称
+   * @param publicKey 公钥
    */
   async getQuestions({ privateData, appName = 'mtv', publicKey }: any) {
     return this.invoke({
@@ -201,6 +277,13 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 存储数据
+   * @param key 键
+   * @param value 值
+   * @param duration 持续时间
+   */
   async put({ key, value, duration }: any) {
     if (value === null || value === undefined) {
       return;
@@ -215,6 +298,11 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 获取数据
+   * @param key 键
+   */
   async get({ key }: any) {
     const res = await this.invoke({
       name: 'get',
@@ -235,6 +323,11 @@ export class Dauth {
     }
     return result;
   }
+
+  /**
+   * 上传 IPFS 文件
+   * @param file 文件
+   */
   async uploadIpfsFile({ file }: { file: File }) {
     const formData = new FormData();
     formData.append('file', file);
@@ -244,6 +337,11 @@ export class Dauth {
       formData: formData,
     });
   }
+
+  /**
+   * 上传 IPFS 内容
+   * @param content 内容
+   */
   async uploadIpfsContent({ content }: { content: string }) {
     return this.invoke({
       name: 'uploadContent',
@@ -253,69 +351,122 @@ export class Dauth {
       },
     });
   }
-  async getFriens({ publicKey }: any) {
+
+  /**
+   * 获取联系人列表
+   * @param publicKey 公钥
+   */
+  async getContacts({ publicKey }: any) {
     return this.invoke({
-      name: 'getFriens',
-      method: 'post',
+      name: 'getContacts',
+      method: 'get',
       data: {
         appName: this.app,
         publicKey,
       },
     });
   }
-  async publishMsg({ destMsgPubkey, publicKey }: any) {
+  /**
+   * 获取聊天消息
+   * @param destPubkey 公钥
+   */
+  async receiveMsgs({ destPubkey }: any) {
+    return this.invoke({
+      name: 'receiveMsgs',
+      method: 'get',
+      data: {
+        appName: this.app,
+        destPubkey,
+      },
+    });
+  }
+
+  /**
+   * 发布消息
+   * @param destPubkey 目标公钥
+   * @param publicKey 公钥
+   */
+  async publishMsg({ destPubkey, publicKey }: any) {
     return this.invoke({
       name: 'publishMsg',
       method: 'post',
       data: {
         appName: this.app,
-        destMsgPubkey,
+        destPubkey,
         publicKey,
       },
     });
   }
-  async unpublishMsg({ destMsgPubkey, publicKey }: any) {
+
+  /**
+   * 取消发布消息
+   * @param destPubkey 目标公钥
+   * @param publicKey 公钥
+   */
+  async unpublishMsg({ destPubkey, publicKey }: any) {
     return this.invoke({
       name: 'unpublishMsg',
       method: 'post',
       data: {
         appName: this.app,
-        destMsgPubkey,
+        destPubkey,
         publicKey,
       },
     });
   }
-  async sendMsg({ destMsgPubkey, content }: any) {
+
+  /**
+   * 发送消息
+   * @param destPubkey 目标公钥
+   * @param content 内容
+   */
+  async sendMsg({ destPubkey, content }: any) {
     return this.invoke({
       name: 'sendMsg',
       method: 'post',
       data: {
         appName: this.app,
         content,
-        destMsgPubkey,
+        destPubkey,
       },
     });
   }
-  async getMsgs({ destMsgPubkey }: any) {
+
+  /**
+   * 获取消息
+   * @param destPubkey 目标公钥
+   */
+  async getMsgs({ destPubkey }: any) {
     return this.invoke({
       name: 'getMsgs',
       method: 'post',
       data: {
         appName: this.app,
-        destMsgPubkey,
+        destPubkey,
       },
     });
   }
-  async getAllMsgs({ destMsgPubkey }: any) {
+
+  /**
+   * 获取所有消息
+   * @param destPubkey 目标公钥
+   */
+  async getAllMsgs({ destPubkey }: any) {
     return this.invoke({
       name: 'getAllMsgs',
       method: 'post',
       data: {
         appName: this.app,
-        destMsgPubkey,
+        destPubkey,
       },
     });
   }
+
+  /**
+   * 开始消息服务
+   * @param privateKeyHash 私钥哈希
+   * @param publicKey 公钥
+   */
   async startMsgService({ privateKeyHash, publicKey }: any) {
     return this.invoke({
       name: 'startMsgService',
@@ -327,6 +478,14 @@ export class Dauth {
       },
     });
   }
+
+  /**
+   * 调用接口
+   * @param name 接口名称
+   * @param data 数据
+   * @param method 请求方法
+   * @param formData 表单数据
+   */
   async invoke({
     name,
     data = {},
@@ -349,10 +508,23 @@ export class Dauth {
       return this.request({ url, method, data: formData, headers });
     } else {
       data.appName = this.app;
-      return this.request({ url, method, data });
+      if (method === 'get') {
+        return this.request({ url, method, params: data });
+      } else {
+        return this.request({ url, method, data });
+      }
     }
   }
+
+  /**
+   * 发送请求
+   * @param url 请求地址
+   * @param method 请求方法
+   * @param data 数据
+   * @param params 参数
+   * @param headers 请求头
+   */
   async request({ url, method, data, params, headers }: any) {
-    return axios({ url, method, data, params, headers });
+    return axios({ url, method, data, params, headers, timeout: 100000 });
   }
 }

@@ -46,6 +46,11 @@ export default function SpaceIndex() {
       icon: 'i-mdi-database-settings-outline',
       label: '账本',
     },
+    {
+      icon: 'i-mdi-database-settings-outline',
+      label: '身份验证器',
+      path: ROUTE_PATH.SPACE_AUTHENTICATOR,
+    },
   ];
   const menuClick = ({ path, url }: any) => {
     if (path) {

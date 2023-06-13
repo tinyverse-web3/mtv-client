@@ -24,7 +24,7 @@ export const PasswordWarnBadge = () => {
     return passwrod === defaultPwd;
   }, [passwrod, defaultPwd]);
   const clickHandler = async () => {
-    nav(ROUTE_PATH.CHANGE_PWD);
+    nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
   };
   useEffect(() => {
     getLocalPwd();

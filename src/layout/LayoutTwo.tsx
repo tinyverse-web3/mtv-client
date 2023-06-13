@@ -49,6 +49,9 @@ export default function LayoutTwo({
       icon: 'i-mdi-database-settings-outline',
     },
   ];
+  if (!window.JsBridge) {
+    footerMenus.splice(1, 1);
+  }
   return (
     <main className={'h-full relative'}>
       <header className='w-full h-24 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200'>

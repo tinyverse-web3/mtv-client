@@ -4,18 +4,12 @@ import { Button } from '@/components/form/Button';
 import LayoutTwo from '@/layout/LayoutTwo';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
-import {
-  useChatStore,
-  useWalletStore,
-  useAccountStore,
-} from '@/store';
+import { useChatStore, useWalletStore, useAccountStore } from '@/store';
 import { Card, Text, Input, Image } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
-import { getPublicKey } from 'nostr-tools';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCopyToClipboard } from 'react-use';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useCopyToClipboard, useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
 
 function addMinute(minute: number) {
@@ -24,7 +18,6 @@ function addMinute(minute: number) {
   const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss');
   return formatDate;
 }
-const NOSTR_KEY = 'nostr_sk';
 export default function ChatList() {
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
@@ -34,22 +27,23 @@ export default function ChatList() {
   const { setRecipient } = useChatStore((state) => state);
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const getFriends = async () => {
-    const list = await account.getFriens();
+  const getContacts = async () => {
+    const list = await account.getContacts();
     setFriendList(list);
   };
+
   const addFriend = async () => {
     await account.publishMsg(searchText);
     toast.success('添加成功');
     setSearchText('');
-    await getFriends();
+    // await getFriends();
   };
   const startMsgServer = async () => {
     await account.startMsgService();
   };
-  const toDetail = async ({ publicKey, Id, name, imgCid }: any) => {
-    console.log(publicKey, Id, name, imgCid);
-    await setRecipient({ publicKey, Id, name, avatar: imgCid });
+  const toDetail = async (publicKey: any) => {
+    await account.publishMsg(publicKey);
+    await setRecipient({ publicKey });
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
 
@@ -94,12 +88,15 @@ export default function ChatList() {
     }
   };
   useEffect(() => {
-    getFriends();
     startMsgServer();
+    getContacts();
   }, []);
+  useInterval(() => {
+    getContacts();
+  }, 2000);
   // useEffect(() => {
   //   console.log('lastMessage', lastMessage);
-  //   getFriends();
+  //   getContacts();
   // }, [lastMessage]);
   return (
     <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
@@ -119,10 +116,10 @@ export default function ChatList() {
           </div>
         </div>
         <div>
-          {friendList?.map((item: any) => (
+          {friendList?.filter(Boolean).map((item: any) => (
             <div
               className='flex h-22 items-center px-4 border-b border-b-solid border-b-gray-200 cursor-pointer'
-              key={item.name}
+              key={item}
               onClick={() => toDetail(item)}>
               <Image
                 src={item.imgCid || '/logo.png'}
@@ -130,9 +127,7 @@ export default function ChatList() {
               />
               <div className='flex-1'>
                 <div className='flex justify-between items-center mb-2'>
-                  <span>
-                    {item.name || <Address address={item.PublicKey}></Address>}
-                  </span>
+                  <span>{<Address address={item}></Address>}</span>
                   {/* <span className='text-12px'>14:00</span> */}
                 </div>
                 {/* <div className='text-12px'>[3条]今天天气不错</div> */}

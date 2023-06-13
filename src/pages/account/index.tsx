@@ -1,17 +1,10 @@
 import LayoutThird from '@/layout/LayoutThird';
-import { useEffect } from 'react';
-import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
+import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import {
-  useGlobalStore,
-  // useWalletStore,
-  useAccountStore,
-  // useMtvStorageStore,
-} from '@/store';
+import { useGlobalStore, useAccountStore } from '@/store';
 import { useCheckLogin } from '@/components/BindMail';
 import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
-import { Password } from '@/lib/account/wallet';
 import { toast } from 'react-hot-toast';
 
 export default function Account() {
@@ -20,7 +13,7 @@ export default function Account() {
   const { account } = useAccountStore((state) => state);
 
   const toChangePwd = () => {
-    nav(ROUTE_PATH.CHANGE_PWD);
+    nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
   };
   const toPublicKey = () => {
     nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);

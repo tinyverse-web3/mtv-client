@@ -53,7 +53,7 @@ export default function Unlock() {
   }, [err]);
   const pwdChange = (e: any) => {
     setErr(false);
-    setPwd(e.target.value?.trim());
+    console.log(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
     account.remove();
