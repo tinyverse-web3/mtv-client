@@ -37,7 +37,7 @@ export class MtvStorage {
   }
   async connect() {
     console.log('ipfs connect network');
-    await this.ipfsStorage?.connectNetwork();
+    // await this.ipfsStorage?.connectNetwork();
   }
   async destory() {
     await this.ipfsStorage?.stop();
