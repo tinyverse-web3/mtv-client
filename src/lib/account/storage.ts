@@ -11,6 +11,8 @@ export class MtvStorage {
     this.ipfsStorage = await Web3Storage.createIpfsStorage(this.userPk, {
       genRemoteKeyTimeout: 5000,
       syncTryTimeout: 5000,
+      ipfsServiceUrl: 'https://api.tinyverse.space/ipfs/api/v0'
+
     });
     return this.ipfsStorage;
   }
@@ -37,7 +39,7 @@ export class MtvStorage {
   }
   async connect() {
     console.log('ipfs connect network');
-    // await this.ipfsStorage?.connectNetwork();
+    await this.ipfsStorage?.connectNetwork();
   }
   async destory() {
     await this.ipfsStorage?.stop();
