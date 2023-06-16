@@ -15,6 +15,8 @@ import AccountProtectorAdd from '@/pages/account/protectorAdd';
 import PrivateData from '@/pages/account/privateData';
 import Account from '@/pages/account/';
 import ChangePwd from '@/pages/account/changePwd';
+import SubAccountList from '@/pages/account/subAccount/list';
+import SubAccountEdit from '@/pages/account/subAccount/edit';
 
 export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT: '/account',
@@ -33,6 +35,8 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_PROTECTOR_ADD: '/account/protector/add',
   ACCOUNT_PROTECTOR_VERIFY: '/account/protector/verify',
   ACCOUNT_PRIVATEDATA: '/account/privateData',
+  ACCOUNT_SUBACCOUNT_LIST: '/account/subAccount/list',
+  ACCOUNT_SUBACCOUNT_EDIT: '/account/subAccount/edit',
 };
 export const accountRoutes: RouteObject[] = [
   {
@@ -98,5 +102,13 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_PROTECTOR_VERIFY,
     element: <AccountProtectorVerify />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_SUBACCOUNT_LIST,
+    element: <SubAccountList />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_SUBACCOUNT_EDIT,
+    element: <SubAccountEdit />,
   },
 ];

@@ -17,6 +17,11 @@ export default function UserQrcode() {
 
   const start = async () => {
     try {
+      console.log('start');
+      const constraints = { audio: false, video: { facingMode: 'user' } };
+      console.log(navigator.mediaDevices.getUserMedia);
+      const deviceAr = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log(deviceAr);
       const devices = await Html5Qrcode.getCameras();
       console.log('devices', devices);
       if (devices && devices.length) {
@@ -47,7 +52,10 @@ export default function UserQrcode() {
         .catch((err: any) => {
           // Start failed, handle it.
         });
-    } catch (error) {}
+    } catch (error) {
+      console.log('初始化扫码错误');
+      console.log(error);
+    }
   };
   useEffect(() => {
     if (!html5Qrcode.current) {

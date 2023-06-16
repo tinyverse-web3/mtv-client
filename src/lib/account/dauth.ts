@@ -509,7 +509,11 @@ export class Dauth {
     } else {
       data.appName = this.app;
       if (method === 'get') {
-        return this.request({ url, method, params: data });
+        return this.request({
+          url,
+          method,
+          params: { ...data, timestamp: +new Date() },
+        });
       } else {
         return this.request({ url, method, data });
       }

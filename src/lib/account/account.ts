@@ -33,6 +33,41 @@ interface NostrInfo {
   pk: string;
   sk: string;
 }
+interface SubAccountWeb3 {
+  id: string;
+  type: string;
+  label: string;
+  remark?: string;
+  chainId: string;
+  category: string;
+  rpc_url: string;
+  publicKey: string;
+  privateKey: string;
+  mnemonic: string;
+}
+interface SubAccountWeb2 {
+  id: string;
+  type: string;
+  label: string;
+  category: string;
+  remark?: string;
+  service_name: string;
+  service_url: string;
+  account: string;
+  password: string;
+}
+interface SubAccountLocal {
+  id: string;
+  type: string;
+  label: string;
+  remark?: string;
+  category: string;
+  account: string;
+  service_type: string;
+  publicKey: string;
+  privateKey: string;
+}
+export type SubAccount = SubAccountWeb3 | SubAccountWeb2 | SubAccountLocal;
 export interface AccountInfo {
   publicKey: string;
   avatar: string;
@@ -51,6 +86,7 @@ export interface AccountInfo {
   featureData?: any[];
   guardians: Guardian[];
   note_ipfs: string;
+  subAccount: SubAccount[];
 }
 
 /* SafeLevel 用户等级
@@ -92,6 +128,7 @@ export class Account {
     maintainQuestion: false,
     privacyInfo: {},
     guardians: [],
+    subAccount: [],
     note_ipfs: '',
   };
   constructor() {
@@ -182,6 +219,34 @@ export class Account {
     // this.privateData = privateData;
   }
   /**
+   * 添加子账户
+   * @param sub - 子账户信息
+   */
+  async addSubAccount(sub: SubAccount) {
+    this.accountInfo.subAccount.push(sub);
+    await this.saveAccount();
+  }
+  /**
+   * 移除子账户
+   * @param sub - 子账户信息
+   */
+  async deleteSubAccount(sub: SubAccount) {
+    const index = this.accountInfo.subAccount.findIndex(
+      (item) => item.id === sub.id,
+    );
+    if (index > -1) {
+      this.accountInfo.subAccount.splice(index, 1);
+    }
+    await this.saveAccount();
+  }
+  /**
+   * 获取所有子账户信息
+   * @returns {SubAccount[]} - 返回子账户信息数组
+   */
+  async getAllSubAccount(): Promise<SubAccount[]> {
+    return this.accountInfo.subAccount;
+  }
+  /**
    * 设置私有数据
    * @param textPrivateData - 文本私有数据
    * @param passwordPrivateData - 密码私有数据
@@ -270,6 +335,7 @@ export class Account {
       maintainQuestion: false,
       privacyInfo: {},
       guardians: [],
+      subAccount: [],
       note_ipfs: '',
     };
   }
@@ -841,7 +907,7 @@ export class Account {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.receiveMsgs({
       destPubkey,
-    })
+    });
     return res.data.data;
   }
   async getAllMsgs(destPubkey: string) {

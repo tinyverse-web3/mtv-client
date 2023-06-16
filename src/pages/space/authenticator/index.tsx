@@ -1,11 +1,15 @@
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH, routes } from '@/router';
-import { useNavigate, matchRoutes, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
+import { useList } from 'react-use';
 
 export default function SpaceIndex() {
   const nav = useNavigate();
+  const { account } = useAccountStore((state) => state);
+  const [subAccounts, { set: setList }] = useList<any>([]);
   const list: any[] = [
     {
       label: 'Google',
@@ -16,10 +20,17 @@ export default function SpaceIndex() {
       code: 378899,
     },
   ];
+  const getSubAccount = async () => {
+    const list = await account.getAllSubAccount();
+    setList(list);
+  };
   const itemClick = ({ path, url }: any) => {};
   const toAdd = () => {
     nav(ROUTE_PATH.SPACE_AUTHENTICATOR_ADD);
   };
+  useEffect(() => {
+    getSubAccount();
+  }, []);
   return (
     <LayoutThird
       title='身份验证器'

@@ -57,7 +57,7 @@ export default function Account() {
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
-    }
+    } 
   };
   const toPrivateData = async () => {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
@@ -66,6 +66,9 @@ export default function Account() {
     await Promise.all([resetGlobal(), account.remove()]);
     localStorage.clear();
     location.reload();
+  };
+  const toSubAccount = () => {
+    nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
@@ -102,6 +105,10 @@ export default function Account() {
           label='智能隐私备份'
           value={account.accountInfo.maintainQuestion ? '已备份' : ''}
           onPress={toQuestion}
+        />
+        <ListRow
+          label='子账号'
+          onPress={toSubAccount}
         />
         <ListRow label='退出' onPress={deleteUser} />
       </div>
