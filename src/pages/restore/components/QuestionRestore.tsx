@@ -1,10 +1,4 @@
-import { useMemo } from 'react';
-import { Loading, Textarea, Row } from '@nextui-org/react';
-import { Button } from '@/components/form/Button';
-import { Select } from '@/components/form/Select';
 import { useState, useEffect } from 'react';
-import { KeySha } from '@/lib/account';
-import { useRequest } from '@/api';
 import { useGlobalStore, useQuestionStore, useAccountStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from '@/components/form/Question';
@@ -62,7 +56,6 @@ export const QuestionRestore = ({
   const submitHandler = async (_list: any[]) => {
     console.log(publicKey);
     if (publicKey) {
-      const keySha = new KeySha();
       let filterAnswer = [];
       if (type === 1) {
         const list = _list.map((v, i) => {
