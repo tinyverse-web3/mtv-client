@@ -8,8 +8,8 @@ export default function Root() {
   const loading = useGlobalStore((state) => state.checkLoading);
   return (
     <>
-      <WalletCheck />
-      {!loading && <Outlet />}
+      <WalletCheck>
+      </WalletCheck>
     </>
   );
 }

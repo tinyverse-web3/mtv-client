@@ -5,10 +5,11 @@ import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import { Loading } from '@nextui-org/react';
 import { Password } from '@/lib/account/wallet';
 import { useIdleTimer } from 'react-idle-timer';
+import { Outlet } from 'react-router-dom';
 import { useAccountStore, useGlobalStore } from '@/store';
 const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 
-export const WalletCheck = () => {
+export const WalletCheck = ({ children }: any) => {
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
@@ -37,7 +38,7 @@ export const WalletCheck = () => {
       setCheckLoading(false);
       return;
     }
-    setCheckLoading(true);
+    // setCheckLoading(true);
     const status = await account.checkStatus();
     if (status == STATUS_CODE.EMPTY_KEYSTORE) {
       if (pathname !== '/index') {
@@ -65,7 +66,10 @@ export const WalletCheck = () => {
       checkStatus();
     }
   }, []);
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log(1);
+  }, []);
+  useEffect(() => {
     if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       console.log('router change');
       checkStatus();
@@ -77,7 +81,11 @@ export const WalletCheck = () => {
         <div className='w-full h-screen absolute top-0 left-0 flex justify-center items-center z-10'>
           <Loading />
         </div>
-      ) : null}
+      ) : (
+        <>
+          <Outlet />
+        </>
+      )}
     </>
   );
 };

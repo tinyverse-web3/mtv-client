@@ -6,6 +6,7 @@ import { useRequest } from '@/api';
 import { useAccountStore } from '@/store';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useMount } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 
 export default function UserQrcode() {
@@ -60,16 +61,15 @@ export default function UserQrcode() {
       console.log(error);
     }
   };
-  useEffect(() => {
+  useMount(() => {
+    console.log('native scan');
     if (window.JsBridge) {
       window.JsBridge.startQrcodeScanActivity(nativeScan);
     } else if (!html5Qrcode.current) {
       start();
     }
-  }, []);
-  const toScan = () => {
-    
-  }
+  });
+  const toScan = () => {};
   const parseText = async () => {
     if (text) {
       const obj = JSON.parse(text);
@@ -90,7 +90,9 @@ export default function UserQrcode() {
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center' onClick={toScan}>扫一扫</div>
+        <div className='text-center' onClick={toScan}>
+          扫一扫
+        </div>
         {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>
