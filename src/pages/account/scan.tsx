@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import { useMount } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 
-export default function UserQrcode() {
+export default function UserScan() {
   const nav = useNavigate();
   const html5Qrcode = useRef<any>();
   const [text, setText] = useState('');
@@ -17,7 +17,8 @@ export default function UserQrcode() {
   const { account } = useAccountStore((state) => state);
   const nativeScan = (result: any) => {
     console.log(result);
-    setText(JSON.stringify(result));
+    // console.log(typeof result);
+    setText(result.data);
     // alert(JSON.stringify(result));
   };
   const start = async () => {
@@ -73,9 +74,15 @@ export default function UserQrcode() {
   const toScan = () => {};
   const parseText = async () => {
     if (text) {
-      const obj = JSON.parse(text);
-      if (obj.type === QrType.ADD_FRIEND && obj.value) {
-        await account.publishMsg(obj.value);
+      console.log(text);
+      const searchParams = new URLSearchParams(text);
+      const type = searchParams.get('type') as any;
+      
+      const value = searchParams.get('value');
+      console.log(value);
+      console.log(type);
+      if (Number(type) === QrType.ADD_FRIEND && value) {
+        await account.publishMsg(value);
         toast.success('添加好友成功');
       } else {
         toast.success('没有得到任何结果');

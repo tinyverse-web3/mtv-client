@@ -18,7 +18,6 @@ export default function UserQrcode() {
     if (qrBoxRef.current) {
       const canvas = qrBoxRef.current.querySelector('canvas');
       const url = canvas?.toDataURL();
-      console.log(url);
       if (url) {
         download(url, `qrcode_${publicKey}.png`);
       }
@@ -26,10 +25,7 @@ export default function UserQrcode() {
   };
   const qrcodeValue = useMemo(() => {
     if (!publicKey) return '';
-    return JSON.stringify({
-      type: QrType.ADD_FRIEND,
-      value: publicKey,
-    });
+    return `type=${QrType.ADD_FRIEND}&value=${publicKey}`
   }, [publicKey]);
   console.log(qrcodeValue);
   return (

@@ -67,9 +67,6 @@ export const WalletCheck = ({ children }: any) => {
     }
   }, []);
   useEffect(() => {
-    console.log(1);
-  }, []);
-  useEffect(() => {
     if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       console.log('router change');
       checkStatus();
