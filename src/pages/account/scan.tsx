@@ -14,7 +14,10 @@ export default function UserQrcode() {
   const [text, setText] = useState('');
   const cameraId = useRef('');
   const { account } = useAccountStore((state) => state);
-
+  const nativeScan = (result: any) => {
+    console.log(result);
+    alert(JSON.stringify(result));
+  };
   const start = async () => {
     try {
       console.log('start');
@@ -58,16 +61,23 @@ export default function UserQrcode() {
     }
   };
   useEffect(() => {
-    if (!html5Qrcode.current) {
+    if (window.JsBridge) {
+      window.JsBridge.startQrcodeScanActivity(nativeScan);
+    } else if (!html5Qrcode.current) {
       start();
     }
   }, []);
+  const toScan = () => {
+    
+  }
   const parseText = async () => {
     if (text) {
       const obj = JSON.parse(text);
       if (obj.type === QrType.ADD_FRIEND && obj.value) {
         await account.publishMsg(obj.value);
         toast.success('添加好友成功');
+      } else {
+        toast.success('没有得到任何结果');
       }
     }
   };
@@ -80,7 +90,7 @@ export default function UserQrcode() {
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center'>扫一扫</div>
+        <div className='text-center' onClick={toScan}>扫一扫</div>
         {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>

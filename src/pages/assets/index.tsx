@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import { useWalletStore } from '@/store';
 import { useList } from 'react-use';
 import { useWalletBalance } from '@/lib/hooks';
+import { HeaderAccount } from './components/HeaderAccount';
 interface AssetsTokenItemProps {
   icon?: string;
   symbol: string;
@@ -62,6 +63,7 @@ export default function AssetsIndex() {
   ];
   return (
     <LayoutTwo title='私密聊天'>
+      <HeaderAccount />
       <div className='p-6'>
         <div className='flex mb-6'>
           {assetsTypes.map((item) => (

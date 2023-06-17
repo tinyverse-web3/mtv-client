@@ -34,7 +34,6 @@ export default function RestoreVerifyEmail() {
       account: email,
       verifyCode: code,
       type: 'question',
-      privateData: '123',
     });
     const { code: resCode, data, msg } = res.data;
     console.log(res);

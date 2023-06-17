@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.14",
-    "@nextui-org/react": "^1.0.0-beta.12",
+    "@nextui-org/react": "^1.0.0-beta.13",
     "@protobuf-ts/plugin": "^2.9.0",
     "@tinyverse.space/web3storage": "^0.0.42",
     "@unocss/reset": "^0.49.4",
