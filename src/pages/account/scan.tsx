@@ -17,7 +17,7 @@ export default function UserQrcode() {
   const { account } = useAccountStore((state) => state);
   const nativeScan = (result: any) => {
     console.log(result);
-    setText(result);
+    setText(JSON.stringify(result));
     // alert(JSON.stringify(result));
   };
   const start = async () => {
