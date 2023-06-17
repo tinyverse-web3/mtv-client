@@ -17,7 +17,8 @@ export default function UserQrcode() {
   const { account } = useAccountStore((state) => state);
   const nativeScan = (result: any) => {
     console.log(result);
-    alert(JSON.stringify(result));
+    setText(result);
+    // alert(JSON.stringify(result));
   };
   const start = async () => {
     try {
@@ -79,6 +80,7 @@ export default function UserQrcode() {
       } else {
         toast.success('没有得到任何结果');
       }
+      nav(-1);
     }
   };
   useEffect(() => {
