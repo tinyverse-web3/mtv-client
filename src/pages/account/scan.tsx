@@ -77,10 +77,7 @@ export default function UserScan() {
       console.log(text);
       const searchParams = new URLSearchParams(text);
       const type = searchParams.get('type') as any;
-      
       const value = searchParams.get('value');
-      console.log(value);
-      console.log(type);
       if (Number(type) === QrType.ADD_FRIEND && value) {
         await account.publishMsg(value);
         toast.success('添加好友成功');

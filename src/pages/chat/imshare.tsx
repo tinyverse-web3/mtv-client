@@ -1,7 +1,7 @@
 // import { useParams } from 'react-router-dom';
 import { useRequest } from '@/api';
 import { ROUTE_PATH } from '@/router/index';
-import { useGlobalStore, useChatStore, useMtvStorageStore } from '@/store';
+import { useGlobalStore, useChatStore } from '@/store';
 import { useEffect } from 'react';
 import { getPublicKey } from 'nostr-tools';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -11,45 +11,8 @@ const NOSTR_KEY = 'nostr_sk';
 export default function ChatImChare() {
   const { createNostr, nostr } = useGlobalStore((state) => state);
   const [params] = useSearchParams(); // const { pk } = useParams();
-  const { setRecipient } = useChatStore((state) => state);
-  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
-  const { setNostr } = useGlobalStore((state) => state);
   const nav = useNavigate();
   const toSharePk = params?.get('pk');
-  const toDetail = async (cur: any) => {
-    nav(ROUTE_PATH.CHAT_MESSAGE);
-  };
-  const { mutate: sendPk } = useRequest({
-    url: '/user/updateimpkey',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: {
-        nostrPublicKey: nostr?.pk,
-      },
-    },
-  });
-  const getLocalNostr = async () => {
-    // console.log('本地获取nostr');
-    // console.log(mtvDb?.kvdb);
-    if (mtvStorage) {
-      const localSk = await mtvStorage.get(NOSTR_KEY);
-      console.log('localSk');
-      console.log(localSk);
-      if (localSk) {
-        const pk = getPublicKey(localSk);
-        await setNostr({ pk, sk: localSk });
-      } else {
-        const { sk, pk } = await createNostr();
-        console.log('生成的sk');
-        console.log(sk);
-        console.log(pk);
-        await mtvStorage.put(NOSTR_KEY, sk);
-        await setNostr({ pk, sk });
-      }
-      await sendPk();
-    }
-  };
   const { mutate: searchuser } = useRequest<any[]>(
     {
       url: '/im/searchuser',
@@ -127,12 +90,6 @@ export default function ChatImChare() {
   //     },
   //   },
   // );
-  useEffect(() => {
-    console.log('mtvStorage ' + mtvStorage);
-    if (mtvStorage) {
-      getLocalNostr();
-    }
-  }, [mtvStorage]);
 
   const defaultHandle = async () => {
     if (nostr?.sk && toSharePk) {

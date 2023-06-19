@@ -99,7 +99,7 @@ export class KeySha {
   }
   async putToDuath({ privateData, key, value, duration }: any) {
     return await this.invoke({
-      name: 'put',
+      name: 'kv/get',
       data: {
         privateData,
         key: `/service/dauth/${key}`,
@@ -110,7 +110,7 @@ export class KeySha {
   }
   async getFromDauth({ key }: any) {
     const res = await this.invoke({
-      name: 'get',
+      name: 'kv/get',
       data: {
         key: `/service/dauth/${key}`,
       },

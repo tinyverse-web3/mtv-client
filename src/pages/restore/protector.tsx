@@ -7,9 +7,6 @@ import { ROUTE_PATH } from '@/router';
 import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 import {
-  useWalletStore,
-  useGlobalStore,
-  useMtvStorageStore,
   useAccountStore,
 } from '@/store';
 import { useRequest } from '@/api';

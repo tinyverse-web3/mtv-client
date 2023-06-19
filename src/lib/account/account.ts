@@ -35,19 +35,18 @@ interface NostrInfo {
 }
 interface SubAccountWeb3 {
   id: string;
-  type: string;
+  type: 'web3';
   label: string;
   remark?: string;
-  chainId: string;
   category: string;
-  rpc_url: string;
-  publicKey: string;
-  privateKey: string;
+  address: string;
+  publicKey?: string;
+  privateKey?: string;
   mnemonic: string;
 }
 interface SubAccountWeb2 {
   id: string;
-  type: string;
+  type: 'web2';
   label: string;
   category: string;
   remark?: string;
@@ -58,7 +57,7 @@ interface SubAccountWeb2 {
 }
 interface SubAccountLocal {
   id: string;
-  type: string;
+  type: 'local';
   label: string;
   remark?: string;
   category: string;
@@ -66,6 +65,11 @@ interface SubAccountLocal {
   service_type: string;
   publicKey: string;
   privateKey: string;
+}
+interface PointAccount {
+  type: 'point';
+  label: string;
+  address: string;
 }
 export type SubAccount = SubAccountWeb3 | SubAccountWeb2 | SubAccountLocal;
 export interface AccountInfo {
@@ -87,6 +91,7 @@ export interface AccountInfo {
   guardians: Guardian[];
   note_ipfs: string;
   subAccount: SubAccount[];
+  pointAccount: PointAccount;
 }
 
 /* SafeLevel 用户等级
@@ -130,6 +135,11 @@ export class Account {
     guardians: [],
     subAccount: [],
     note_ipfs: '',
+    pointAccount: {
+      type: 'point',
+      label: 'point',
+      address: '',
+    }
   };
   constructor() {
     this.keyManager = new KeyManager();
@@ -185,6 +195,7 @@ export class Account {
     } = this.keyManager || {};
     this.accountInfo.publicKey = publicKey;
     this.accountInfo.address = address;
+    this.accountInfo.pointAccount.address = address;
     this.privateKey = privateKey;
   }
 
@@ -337,6 +348,11 @@ export class Account {
       guardians: [],
       subAccount: [],
       note_ipfs: '',
+      pointAccount: {
+        type: 'point',
+        label: 'point',
+        address: '',
+      }
     };
   }
   /**
@@ -549,6 +565,9 @@ export class Account {
     const status = await this.restore({ password, shares });
     return status;
   }
+  /**
+   * 保存账户信息到本地
+   */
   async saveAccount() {
     await this.dauth.put({
       key: `${LOCAL_ACCOUNT_KEY}_${this.accountInfo.publicKey}`,
@@ -557,6 +576,10 @@ export class Account {
     });
   }
   async sync() {}
+
+  /**
+   * 计算用户安全等级
+   */
   calcUserLevel() {
     const { maintainPhrase, maintainProtector, maintainQuestion } =
       this.accountInfo;
@@ -572,9 +595,26 @@ export class Account {
     }
     this.accountInfo.safeLevel = level;
   }
+
+  /**
+   * 发送验证码
+   * @param {Object} options - 选项对象
+   * @param {string} options.type - 验证码类型
+   * @param {string} options.account - 账户名
+   * @returns {Promise<Object>} - 返回包含状态码和数据的对象
+   */
   async sendVerifyCode({ type, account }: any) {
     return await this.dauth.sendVerifyCode({ account, type });
   }
+
+  /**
+   * 添加守护者
+   * @param {Object} options - 选项对象
+   * @param {string} options.account - 守护者账户名
+   * @param {string} options.verifyCode - 验证码
+   * @param {string} options.type - 守护者类型
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async addGuardian({
     account,
     verifyCode,
@@ -609,6 +649,13 @@ export class Account {
       return STATUS_CODE.ERROR;
     }
   }
+  /**
+   * 删除守护者
+   * @param {Object} options - 选项对象
+   * @param {string} options.account - 守护者账户名
+   * @param {string} options.type - 守护者类型
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async delGuardian({
     account,
     type = 'email',
@@ -637,14 +684,24 @@ export class Account {
     }
     return res;
   }
+  /**
+   * 通过助记词备份账户信息
+   * @returns {Promise<void>} - 无返回值
+   */
   async backupByPharse() {
     this.accountInfo.maintainPhrase = true;
     this.calcUserLevel();
     await this.saveAccount();
   }
+
+  /**
+   * 备份守护者
+   * @returns {Promise<void>} - 无返回值
+   */
   async backupByGuardian() {
     const shares = await this.keyManager?.sssSplit(2, 2);
     if (shares?.length) {
+      // 将 SSS 数据分别存储到每个守护者的 Key-Value 存储中
       const kvMap = this.accountInfo.guardians.map((s, i) => {
         return this.keySha?.put({
           key: s.hash,
@@ -652,6 +709,7 @@ export class Account {
         });
       });
       const { publicKey } = this.accountInfo;
+      // 将 SSS 数据存储到服务器
       await Promise.all([
         ...kvMap,
         this.dauth.saveSssData({
@@ -667,20 +725,28 @@ export class Account {
       await this.saveAccount();
     }
   }
+
+  /**
+   * 获取问题模板
+   * @param {number} type - 问答问题类型，1表示隐私信息，2表示自定义问题
+   * @returns {Promise<Array>} - 返回问题模板列表
+   */
   async getTmpQuestions(type: 1 | 2) {
     const res = await this.dauth.getTmpQuestions({ type });
     return res.data.data;
   }
 
+  /**
+   * 备份问答问题
+   * @param {Object} options - 选项对象
+   * @param {Array} options.list - 问答问题列表
+   * @param {number} options.type - 问答问题类型，1表示隐私信息，2表示自定义问题
+   * @returns {Promise<void>} - 无返回值
+   */
   async backupByQuestion({ list, type }: any) {
-    // let _list = list.map((v: any) => {
-    //   return {
-    //     list: v.list.filter((s: any) => s.a),
-    //     title: v.title,
-    //   };
-    // });
     let filterAnswer: any[] = [];
     if (type === 1) {
+      // 过滤掉没有回答的问题
       const _list = list.map((v: any, i: number) => {
         return {
           id: i,
@@ -690,6 +756,7 @@ export class Account {
       });
       filterAnswer = _list.filter((v: any) => v.list.length);
     } else {
+      // 过滤掉没有回答的问题
       filterAnswer = list.filter((v: any) =>
         v.list.every(
           (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
@@ -698,6 +765,7 @@ export class Account {
     }
     try {
       const { publicKey } = this.accountInfo;
+      // 使用Shamir's Secret Sharing算法将密钥分割成多份
       const shares = await this.keyManager?.sssSplit(
         filterAnswer.length + 1,
         2,
@@ -708,10 +776,7 @@ export class Account {
         const kvMap = kvShares?.map((s, i) => {
           const q = filterAnswer[i].list.map((val: any) => val.q).join('');
           const a = filterAnswer[i].list.map((val: any) => val.a).join('');
-          // return this.keySha?.put({
-          //   key: q + a,
-          //   value: s,
-          // });
+          // 将密钥分割后的数据保存到服务器
           return this.dauth.saveSssDataForUser({
             publicKey,
             type: 'question',
@@ -721,6 +786,7 @@ export class Account {
             sssData: s,
           });
         });
+        // 将密钥分割后的数据保存到服务器
         await Promise.all([
           ...kvMap,
           this.dauth.saveSssData({
@@ -731,6 +797,7 @@ export class Account {
             type: 'question',
           }),
         ]);
+        // 更新账户信息
         this.accountInfo.maintainQuestion = true;
         this.calcUserLevel();
         await this.saveAccount();
@@ -739,21 +806,44 @@ export class Account {
       console.log(error);
     }
   }
+  /**
+   * 备份自定义问题
+   * @param {Array} list - 问答问题列表
+   * @returns {Promise<void>} - 无返回值
+   */
   async backupByCustom(list: any[]) {
+    // 备份自定义问题
     await this.backupByQuestion({ list, type: 2 });
+    // 将自定义问题保存到服务器
     await this.saveQuestionToServer(list, 2);
   }
+  /**
+   * 备份隐私信息
+   * @param {Array} list - 问答问题列表
+   * @returns {Promise<void>} - 无返回值
+   */
   async backupByPrivacyInfo(list: any[]) {
+    // 将问答问题保存到服务器
     await this.saveQuestionToServer(list, 1);
+    // 构建隐私信息对象
     const privacyInfo: any = {};
     list.forEach((v) => {
       v.list.forEach((s: any) => {
         privacyInfo[s.q] = s.a;
       });
     });
+    // 更新账户信息中的隐私信息
     this.accountInfo.privacyInfo = privacyInfo;
+    // 备份问答问题
     await this.backupByQuestion({ list, type: 1 });
   }
+
+  /**
+   * 将问答问题保存到服务器
+   * @param {Array} list - 问答问题列表
+   * @param {number} type - 问答问题类型，1为默认类型，2为自定义类型
+   * @returns {Promise<void>} - 无返回值
+   */
   async saveQuestionToServer(list: any[], type = 1) {
     let serverList = [];
     if (type == 1) {
@@ -791,6 +881,13 @@ export class Account {
     });
   }
 
+
+  /**
+   * 更新用户昵称
+   * @param {Object} options - 选项对象
+   * @param {string} options.name - 新昵称
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async updateName({ name }: { name: string }) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.updateName({
@@ -804,6 +901,12 @@ export class Account {
     }
     return res;
   }
+  /**
+   * 更新用户头像
+   * @param {Object} options - 选项对象
+   * @param {File} options.file - 头像文件
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async updateAvatar({ file }: { file: File }) {
     const res = await this.dauth.uploadIpfsFile({
       file,
@@ -815,6 +918,16 @@ export class Account {
     }
     return res;
   }
+
+  /**
+   * 修改密码
+   * @param {Object} options - 选项对象
+   * @param {string} options.oldPwd - 旧密码
+   * @param {string} options.oldHashPwd - 旧密码的哈希值
+   * @param {string} options.newPwd - 新密码
+   * @param {boolean} options.saveStatus - 是否保存密码
+   * @returns {Promise<STATUS_CODE>} - 返回状态码
+   */
   async changePassword({
     oldPwd,
     oldHashPwd,
@@ -849,18 +962,38 @@ export class Account {
     }
     return status;
   }
+  /**
+   * 获取密码
+   * @param {string} account - 账户名
+   * @param {string} verifyCode - 验证码
+   * @returns {Promise<any>} - 返回获取到的密码
+   */
   async getPassword({ account, verifyCode }: any) {
     return this.dauth.getPassword({ account, verifyCode });
   }
+  /**
+   * 保存问答问题到服务器
+   * @param {Array} questions - 要保存的问答问题
+   * @returns {Promise<any>} - 返回保存结果
+   */
   async saveQuestions({ questions }: any) {
     const { publicKey } = this.accountInfo;
     return this.dauth.saveQuestions({ publicKey, questions });
   }
+  /**
+   * 获取问答问题
+   * @returns {Promise<any>} - 返回问答问题
+   */
   async getQuestions() {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.getQuestions({ publicKey });
     return res.data.data;
   }
+  /**
+   * 保存记事本内容到IPFS
+   * @param {string} note - 要保存的记事本内容
+   * @returns {Promise<void>} - 无返回值
+   */
   async saveNote(note: string) {
     const content = await this.crypto?.encrypt(note);
     if (content) {
@@ -874,6 +1007,10 @@ export class Account {
       }
     }
   }
+  /**
+   * 获取记事本内容
+   * @returns {Promise<string>} - 返回记事本内容
+   */
   async getNote() {
     const { note_ipfs } = this.accountInfo;
     const { VITE_IPFS_HOST } = import.meta.env;
@@ -888,6 +1025,11 @@ export class Account {
       return '';
     }
   }
+  /**
+   * 订阅消息
+   * @param {string} destPubkey - 目标公钥
+   * @returns {Promise<any>} - 返回发布的消息数据
+   */
   async publishMsg(destPubkey: string) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.publishMsg({
@@ -896,6 +1038,10 @@ export class Account {
     });
     return res.data.data;
   }
+  /**
+   * 获取联系人列表
+   * @returns {Promise<any>} - 返回联系人列表数据
+   */
   async getContacts() {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.getContacts({
@@ -903,6 +1049,11 @@ export class Account {
     });
     return res.data.data;
   }
+  /**
+   * 接收消息
+   * @param {string} destPubkey - 目标公钥
+   * @returns {Promise<any>} - 返回接收到的消息数据
+   */
   async receiveMsgs(destPubkey: string) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.receiveMsgs({
@@ -910,6 +1061,11 @@ export class Account {
     });
     return res.data.data;
   }
+  /**
+   * 获取所有消息
+   * @param {string} destPubkey - 目标公钥
+   * @returns {Promise<any>} - 返回所有消息数据
+   */
   async getAllMsgs(destPubkey: string) {
     const { publicKey } = this.accountInfo;
     const res = await this.dauth.getAllMsgs({
@@ -918,6 +1074,12 @@ export class Account {
     });
     return res.data.data;
   }
+  /**
+   * 发送消息
+   * @param {string} destPubkey - 目标公钥
+   * @param {string} content - 消息内容
+   * @returns {Promise<any>} - 返回发送消息数据
+   */
   async sendMsg(destPubkey: string, content: string) {
     const res = await this.dauth.sendMsg({
       destPubkey,
@@ -925,6 +1087,10 @@ export class Account {
     });
     return res.data.data;
   }
+  /**
+   * 开始消息服务
+   * @returns {Promise<any>} - 返回消息服务数据
+   */
   async startMsgService() {
     const { privateKey } = this;
     const { publicKey } = this.accountInfo;

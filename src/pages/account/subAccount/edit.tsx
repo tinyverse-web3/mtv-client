@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
+import { Textarea } from '@/components/form/Textarea';
 import { Select } from '@/components/form/Select';
 import { v4 as uuidv4 } from 'uuid';
 import LayoutThird from '@/layout/LayoutThird';
@@ -20,24 +21,25 @@ export default function Edit() {
   //   key: '',
   //   type: 1,
   // });
-  const [data, {set, setAll, remove, reset}] = useMap({
+  const [data, { set, setAll, remove, reset }] = useMap({
     name: '',
     key: '',
-    type: 1,
+    mnemonic: '',
+    type: 'web3',
   });
   const { account } = useAccountStore((state) => state);
   const types = [
     {
       label: 'Web3账户',
-      value: '1',
+      value: 'web3',
     },
     {
       label: 'Web2账户',
-      value: '1',
+      value: 'web2',
     },
     {
       label: '本地账户',
-      value: '1',
+      value: 'local',
     },
   ];
 
@@ -48,6 +50,7 @@ export default function Edit() {
       setAll({
         name: item.label,
         key: item.privateKey,
+        mnemonic: item.mnemonic,
         type: item.type,
       });
     }
@@ -62,18 +65,18 @@ export default function Edit() {
   const keyChange = (e: any) => {
     data.key = e?.trim();
   };
-  
+
   const addSubAccount = async () => {
     await account.addSubAccount({
-      label: data.name,
-      privateKey: data.key,
       id: uuidv4(),
-      type: '3',
+      type: 'web3',
+      label: data.name,
       remark: '',
-      category: 'authenticator',
-      account: '',
-      service_type: '',
-      publicKey: 'string',
+      category: '',
+      address: data.name,
+      publicKey: '',
+      privateKey: '',
+      mnemonic: data.mnemonic,
     });
     toast.success('添加成功');
     nav(-1);
@@ -81,7 +84,7 @@ export default function Edit() {
   useEffect(() => {
     getSubAccount();
   }, []);
-  console.log(data)
+  console.log(data);
   return (
     <LayoutThird title='添加账号'>
       <div className='p-6'>
@@ -109,12 +112,20 @@ export default function Edit() {
           />
         </Row>
         <Row className='mb-8' justify='center'>
-          <Input
+          {/* <Input
             value={data.key}
             maxLength={300}
             onChange={keyChange}
             placeholder='您的秘钥'
-          />
+          /> */}
+          {data.type === 'web3' && (
+            <Textarea
+              value={data.mnemonic}
+              maxLength={300}
+              onChange={keyChange}
+              placeholder='您的助记词'
+            />
+          )}
         </Row>
 
         <Row className='' justify='center'>

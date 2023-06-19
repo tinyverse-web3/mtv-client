@@ -1,19 +1,14 @@
 import { useState, useMemo } from 'react';
-import { Text, Row, Input } from '@nextui-org/react';
+import { Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
-import {
-  useWalletStore,
-  useMtvStorageStore,
-  useGlobalStore,
-  useAccountStore,
-} from '@/store';
+import { useAccountStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
-import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
- 
+import { ROUTE_PATH } from '@/router';
+
 export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');

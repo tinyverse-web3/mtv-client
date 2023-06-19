@@ -6,7 +6,7 @@ import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import wallet from '@/lib/account/wallet';
-import { useWalletStore, useMtvStorageStore, useAccountStore } from '@/store';
+import { useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 export default function Index() {

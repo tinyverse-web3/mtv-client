@@ -5,7 +5,6 @@ import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 import {
   useWalletStore,
-  useMtvStorageStore,
   useGlobalStore,
   useAccountStore,
 } from '@/store';
@@ -19,23 +18,8 @@ export default function Phrase() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
-  const [resumeStatus, setResumeStatus] = useState(false);
   const { account } = useAccountStore((state) => state);
-  const { setUserInfo, getLocalUserInfo } = useGlobalStore((state) => state);
-  const setWallet = useWalletStore((state) => state.setWallet);
-  const {
-    resume: resumeMtvStorage,
-    init: initMtvStorage,
-    mtvStorage,
-    // retryResume,
-  } = useMtvStorageStore((state) => state);
-  // const getStorageUserInfo = async () => {
-  //   const userInfo = await mtvStorage?.get('userInfo');
-  //   console.log(userInfo);
-  //   if (userInfo) {
-  //     await setUserInfo(userInfo);
-  //   }
-  // };
+
   const importHandler = async () => {
     if (phrase) {
       setLoading(true);
@@ -59,15 +43,6 @@ export default function Phrase() {
     }
   };
 
-  const restoreData = async (privateKey: string) => {
-    if (privateKey) {
-      if (!resumeStatus) {
-        await initMtvStorage(privateKey);
-      }
-      await resumeMtvStorage();
-      await getLocalUserInfo();
-    }
-  };
   const phraseChange = (e: any) => {
     setPhrase(e.target.value?.trim());
   };

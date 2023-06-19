@@ -8,7 +8,6 @@ import Root from '@/Root';
 import ChatImChare from '@/pages/chat/imshare';
 import ChatList from '@/pages/chat/list';
 import ChatMessage from '@/pages/chat/message';
-import Create from '@/pages/create';
 import Home from '@/pages/home';
 import Index from '@/pages/index';
 import AssetsIndex from '@/pages/assets';
@@ -82,10 +81,6 @@ export const routes: RouteObject[] = [
         element: <AppTest />,
       },
 
-      {
-        path: ROUTE_PATH.CREATE,
-        element: <Create />,
-      },
       {
         path: ROUTE_PATH.RESTORE,
         element: <Restore />,

@@ -290,7 +290,7 @@ export class Dauth {
     }
     const _data = await this.crypto.encrypt(JSON.stringify(value));
     return this.invoke({
-      name: 'put',
+      name: 'kv/get',
       data: {
         key: `/service/dauth/${key}`,
         value: _data,
@@ -305,7 +305,7 @@ export class Dauth {
    */
   async get({ key }: any) {
     const res = await this.invoke({
-      name: 'get',
+      name: 'kv/get',
       data: {
         key: `/service/dauth/${key}`,
       },
@@ -332,7 +332,7 @@ export class Dauth {
     const formData = new FormData();
     formData.append('file', file);
     return this.invoke({
-      name: 'uploadFile',
+      name: 'ipfs/uploadFile',
       method: 'post',
       formData: formData,
     });
@@ -344,7 +344,7 @@ export class Dauth {
    */
   async uploadIpfsContent({ content }: { content: string }) {
     return this.invoke({
-      name: 'uploadContent',
+      name: 'ipfs/uploadContent',
       method: 'post',
       data: {
         content,
