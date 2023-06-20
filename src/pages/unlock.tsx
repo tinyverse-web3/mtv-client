@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { STATUS_CODE } from '@/lib/account/account';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAccountStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
@@ -15,13 +15,18 @@ export default function Unlock() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { account } = useAccountStore((state) => state);
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect');
   const unlock = async () => {
     setLoading(true);
     const status = await account.unlock(pwd);
-    console.log(status);
     if (status === STATUS_CODE.INVALID_PASSWORD) {
       setErr(true);
     } else {
+      if (redirect) {
+        location.replace(decodeURIComponent(redirect));
+        return;
+      }
       nav(ROUTE_PATH.SPACE_INDEX);
     }
     setLoading(false);
@@ -55,14 +60,12 @@ export default function Unlock() {
     nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const toRetrieve = () => {
+
     nav(ROUTE_PATH.RETRIEVE);
   };
   return (
     <LayoutOne className='px-6 pt-14'>
       <HeaderLogo />
-      {/* <Text h4 className='mb-9 text-center text-6'>
-        解锁
-      </Text> */}
       <Row className='mb-6 pt-8' justify='center'>
         <Input.Password
           clearable

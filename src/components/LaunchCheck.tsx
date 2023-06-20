@@ -24,13 +24,16 @@ export const WalletCheck = ({ children }: any) => {
     }
   };
   const onIdle = () => {
+    if (pathname.indexOf('unlock') > -1) {
+      return;
+    }
     console.log(`window idle, user is level`);
     logout();
   };
 
   useIdleTimer({
     onIdle,
-    timeout: 60 * 10 * 1000,
+    timeout: 60 * 1 * 1000,
     throttle: 2000,
   });
   const checkStatus = async () => {
@@ -52,7 +55,7 @@ export const WalletCheck = ({ children }: any) => {
       }
     } else if (status == STATUS_CODE.INVALID_PASSWORD) {
       if (!(pathname.indexOf('unlock') > -1)) {
-        location.href = ROUTE_HASH_PATH.UNLOCK;
+        location.href = `${ROUTE_HASH_PATH.UNLOCK}?redirect=${encodeURIComponent(location.href)}`;
       }
     } else if (status == STATUS_CODE.SUCCESS) {
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
