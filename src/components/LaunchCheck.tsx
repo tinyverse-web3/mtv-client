@@ -33,7 +33,7 @@ export const WalletCheck = ({ children }: any) => {
 
   useIdleTimer({
     onIdle,
-    timeout: 60 * 1 * 1000,
+    timeout: 60 * 10 * 1000,
     throttle: 2000,
   });
   const checkStatus = async () => {
