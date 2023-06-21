@@ -20,7 +20,7 @@ export const WalletCheck = ({ children }: any) => {
     const { href } = location;
     if (stay_path.some((p) => href?.indexOf(p) > -1)) {
       await account.lock();
-      location.reload();
+      location.reload();  
     }
   };
   const onIdle = () => {
