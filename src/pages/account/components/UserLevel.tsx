@@ -31,10 +31,10 @@ export const UserLevel = ({ className }: Props) => {
       text: '高标准账户，您的账户已经得到完全的保护。',
     },
   ];
-  const { account } = useAccountStore((state) => state);
+  const { accountInfo } = useAccountStore((state) => state);
   const levelItem = useMemo(
-    () => levelArr[account.accountInfo.safeLevel || 0],
-    [account.accountInfo],
+    () => levelArr[accountInfo.safeLevel || 0],
+    [accountInfo],
   );
   return (
     <div className={`${className}`}>

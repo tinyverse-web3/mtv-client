@@ -25,9 +25,12 @@ export default function Unlock() {
       return;
     }
     try {
-      await account.restorePivateData(text, password, customText);
+      await account.restoreByGuardian({
+        textPrivateData: text,
+        passwordPrivateData: password,
+      });
       toast.success('恢复成功');
-      nav(ROUTE_PATH.RESTORE);
+      // nav(ROUTE_PATH.RESTORE);
     } catch (error) {
       toast.error('恢复失败');
     }

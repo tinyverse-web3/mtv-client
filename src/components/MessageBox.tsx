@@ -8,7 +8,7 @@ import { useInterval } from 'react-use';
 export const MessageBox = ({ recipient }: any) => {
   const [allList, { set: setAllList }] = useList<any>([]);
   const [lastList, { set: setLastList, push }] = useList<any>([]);
-  const { account } = useAccountStore((state) => state);
+  const { account, accountInfo } = useAccountStore((state) => state);
 
   const reciveMsg = useCallback(
     (msg: any) => {
@@ -39,7 +39,7 @@ export const MessageBox = ({ recipient }: any) => {
       publicKey:
         v.Direction === 'to'
           ? recipient.publicKey
-          : account.accountInfo.publicKey,
+          : accountInfo.publicKey,
       isMe: v.Direction === 'to',
     }));
   }, [allList, lastList]);

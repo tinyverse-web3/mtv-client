@@ -40,7 +40,7 @@ export const QuestionDefault = ({
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const [localList, setLocalList] = useState([]);
   const [tmpList, setTmpList] = useState<any[]>([]);
-  const { account } = useAccountStore((state) => state);
+  const { account, accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
     [type],
@@ -88,7 +88,7 @@ export const QuestionDefault = ({
           title: v.title,
           list: childrenList.map((s: any) => {
             const q: string = s.content.replace(/\([\S\s]*\)/g, '');
-            const a = account.accountInfo.privacyInfo[q] || ''
+            const a = accountInfo.privacyInfo[q] || ''
             return {
             q: q,
             a: a,
@@ -99,7 +99,7 @@ export const QuestionDefault = ({
       });
       set(_list);
     }
-  }, [tmpList, account.accountInfo]);
+  }, [tmpList, accountInfo]);
 
   const validList = () => {
     let validStatus = true;

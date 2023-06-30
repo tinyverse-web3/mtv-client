@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Row, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAccountStore } from '@/store';
+import { useAccountStore, useGlobalStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
@@ -14,20 +13,22 @@ export default function Unlock() {
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const { account } = useAccountStore((state) => state);
+  const { account, getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
+  const { reset: resetGlobal } = useGlobalStore((state) => state);
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
   const unlock = async () => {
     setLoading(true);
-    const status = await account.unlock(pwd);
-    if (status === STATUS_CODE.INVALID_PASSWORD) {
-      setErr(true);
-    } else {
+    const result = await account.unlock(pwd);
+    if (result) {
+      await getLocalAccountInfo()
       if (redirect) {
         location.replace(decodeURIComponent(redirect));
         return;
       }
       nav(ROUTE_PATH.SPACE_INDEX);
+    } else {
+      setErr(true);
     }
     setLoading(false);
   };
@@ -56,7 +57,8 @@ export default function Unlock() {
     setPwd(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
-    account.remove();
+    await Promise.all([resetGlobal(), delAccount()]);
+    localStorage.clear();
     nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const toRetrieve = () => {

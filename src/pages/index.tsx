@@ -10,21 +10,20 @@ import { useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
 export default function Index() {
-  const { account } = useAccountStore((state) => state);
+  const { account,getLocalAccountInfo } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();
   const toRestore = () => {
-    nav(ROUTE_PATH.RESTORE_PRIVATEDATA);
+    nav(ROUTE_PATH.RESTORE);
   };
   const toCreate = () => {
     create();
   };
   const create = async () => {
     setLoading(true);
-    console.time('create account');
-    console.log('create account');
-    await account.create(VITE_DEFAULT_PASSWORD);
+    await account.create();
+    await getLocalAccountInfo();
     setLoading(false);
     console.timeEnd('create account');
     nav(ROUTE_PATH.SPACE_INDEX, { replace: true });

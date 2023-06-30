@@ -11,14 +11,14 @@ interface Props {
 }
 export const HeaderAccount = () => {
   const nav = useNavigate();
-  const { account, web3AccountSelect, setWeb3Select } = useAccountStore(
+  const { account, web3AccountSelect, setWeb3Select, accountInfo } = useAccountStore(
     (state) => state,
   );
   const list = useMemo(() => {
-    const web3SubAccount = account.accountInfo.subAccount.filter(
+    const web3SubAccount = accountInfo.subAccount.filter(
       (v) => v.type === 'web3',
     );
-    return [account.accountInfo.pointAccount, ...web3SubAccount] as any;
+    return [accountInfo.pointAccount, ...web3SubAccount] as any;
   }, [account]);
   const subAccount = useMemo<any>(() => {
     let index = list.findIndex((v: any) => v?.address === web3AccountSelect);

@@ -13,12 +13,12 @@ export default function Unlock() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { account } = useAccountStore((state) => state);
+  const { account, setAccountInfo, accountInfo } = useAccountStore((state) => state);
 
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
-    const privateFilter= privateArr.filter((v) => !!v);
+    const privateFilter = privateArr.filter((v) => !!v);
     if (privateFilter.length < 2) {
       toast.error('请至少输入两种内容');
       setLoading(false);
@@ -26,6 +26,7 @@ export default function Unlock() {
     }
     try {
       await account.setPivateData(text, password, customText);
+      setAccountInfo({ hasFeatureData: true });
       toast.success('设置成功');
       nav(-1);
     } catch (error) {
@@ -51,12 +52,12 @@ export default function Unlock() {
     setCustomText(e.target.value?.trim());
   };
   useEffect(() => {
-    if (account.accountInfo) {
-      setText(account.accountInfo.textPrivateData || '');
-      setPassword(account.accountInfo.passwordPrivateData || '');
-      setCustomText(account.accountInfo.customFeatureData || '');
+    if (accountInfo) {
+      // setText(accountInfo.textPrivateData || '');
+      // setPassword(accountInfo.passwordPrivateData || '');
+      // setCustomText(accountInfo.customFeatureData || '');
     }
-  }, [account.accountInfo]);
+  }, [accountInfo]);
   return (
     <LayoutThird title='设置加密保险箱'>
       <div className='pt-8 px-6'>

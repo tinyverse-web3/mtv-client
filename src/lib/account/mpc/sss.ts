@@ -15,4 +15,4 @@ export class Shamir {
     const recovered = this.sss.combine(shares);
     return recovered.toString();
   }
-}
+} 

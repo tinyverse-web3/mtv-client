@@ -14,12 +14,12 @@ import { AssetsNftItem } from './components/AssetsNftItem';
 export default function AssetsIndex() {
   const [assetsType, setAssetsType] = useState('token');
 
-  const { account, web3AccountSelect } = useAccountStore((state) => state);
+  const { account, web3AccountSelect, accountInfo } = useAccountStore((state) => state);
   const list = useMemo(() => {
-    const web3SubAccount = account.accountInfo.subAccount.filter(
+    const web3SubAccount = accountInfo.subAccount.filter(
       (v) => v.type === 'web3',
     );
-    return [account.accountInfo.pointAccount, ...web3SubAccount] as any;
+    return [accountInfo.pointAccount, ...web3SubAccount] as any;
   }, [account]);
   const subAccount = useMemo<any>(() => {
     let index = list.findIndex((v: any) => v?.address === web3AccountSelect);

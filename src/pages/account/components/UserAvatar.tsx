@@ -5,7 +5,7 @@ interface Props {
   className?: string;
 }
 export const UserAvatar = ({ className }: Props) => {
-  const { account } = useAccountStore((state) => state);
+  const { account, accountInfo } = useAccountStore((state) => state);
   const { VITE_IPFS_HOST, VITE_IPFS_LOCAL_HOST } = import.meta.env;
   const ipfsHost = window.JsBridge ? VITE_IPFS_LOCAL_HOST : VITE_IPFS_HOST;
   const imageChange = async (e: any) => {
@@ -16,10 +16,10 @@ export const UserAvatar = ({ className }: Props) => {
     // });
   };
   const imageSrc = useMemo(() => {
-    return account.accountInfo.avatar
-      ? `${ipfsHost}/${account.accountInfo.avatar}`
+    return accountInfo.avatar
+      ? `${ipfsHost}/${accountInfo.avatar}`
       : '/logo.png';
-  }, [account.accountInfo]);
+  }, [accountInfo]);
   return (
     <div className={`flex justify-center ${className}`}>
       <label className='relative w-24 h-24'>

@@ -28,12 +28,12 @@ export default function Phrase() {
           phrase,
           password: VITE_DEFAULT_PASSWORD,
         });
-        if (status === STATUS_CODE.SUCCESS) {
-          toast.success('恢复成功');
-          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-        } else {
-          toast.success('恢复失败');
-        }
+        // if (status === STATUS_CODE.SUCCESS) {
+        //   toast.success('恢复成功');
+        //   nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+        // } else {
+        //   toast.success('恢复失败');
+        // }
         console.log(status);
         setLoading(false);
       } catch (error) {

@@ -13,10 +13,11 @@ export default function Userinfo() {
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(false);
   const timer = useRef<any>();
-  const { account } = useAccountStore((state) => state);
+  const { account, accountInfo, setAccountInfo } = useAccountStore((state) => state);
   const infoChange = async () => {
     setLoading(true);
     await account.updateName({ name: nickname });
+    setAccountInfo({ name: nickname })
     setLoading(false);
   };
   const nicknameChange = (e: any) => {
@@ -33,8 +34,8 @@ export default function Userinfo() {
   };
 
   const chagneDisabled = useMemo(() => {
-    return !nickname || nickname === account.accountInfo.name;
-  }, [nickname, account.accountInfo]);
+    return !nickname || nickname === accountInfo.name;
+  }, [nickname, accountInfo]);
   return (
     <LayoutThird showBack title='修改名字' path={ROUTE_PATH.ACCOUNT}>
       <div className='pt-4 px-4'>

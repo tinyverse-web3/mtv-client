@@ -10,13 +10,16 @@ import { STATUS_CODE } from '@/lib/account/account';
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const { showLogin, setShowLogin } = useGlobalStore((state) => state);
-  const { account } = useAccountStore((state) => state);
+  const { account, setAccountInfo, getLocalAccountInfo } = useAccountStore((state) => state);
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag, reset } = useCountDown(60);
   const { changeProtectorStatus } = useGlobalStore((state) => state);
   const closeHandler = () => {
     setShowLogin(false);
+    reset();
+    setEmail('');
+    setVerifyCode('');
   };
   const loginHandler = async () => {
     if (!verifyCode) {
@@ -30,12 +33,14 @@ export const BindMail = () => {
       verifyCode: verifyCode,
       type: 'email',
     });
-    if (status === STATUS_CODE.SUCCESS) {
-      setShowLogin(false);
-      changeProtectorStatus(true);
-    } else {
-      toast.error('绑定失败');
-    }
+    setAccountInfo({ bindStatus: true });
+    await getLocalAccountInfo();
+    // if (!!status) {
+    //   setShowLogin(false);
+    //   changeProtectorStatus(true);
+    // } else {
+    //   toast.error('绑定失败');
+    // }
     setLoginLoading(false);
   };
   const emailChange = (e: any) => {
@@ -118,16 +123,16 @@ export const BindMail = () => {
 };
 
 export async function useCheckLogin() {
-  const { bindStatus } = useAccountStore.getState().account.accountInfo;
-  console.log(useAccountStore.getState().account.accountInfo);
+  const { bindStatus } = useAccountStore.getState().accountInfo;
+  console.log(useAccountStore.getState().accountInfo);
   let loginStatus = bindStatus;
   const setShowLogin = useGlobalStore.getState().setShowLogin;
   if (!loginStatus) {
     setShowLogin(true);
     loginStatus = await new Promise((resolve, reject) => {
       useAccountStore.subscribe((state) => {
-        if (state.account.accountInfo.bindStatus) {
-          resolve(state.account.accountInfo.bindStatus);
+        if (state.accountInfo.bindStatus) {
+          resolve(state.accountInfo.bindStatus);
         }
       });
     });

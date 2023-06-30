@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast';
 export default function Account() {
   const nav = useNavigate();
   const { reset: resetGlobal } = useGlobalStore((state) => state);
-  const { account } = useAccountStore((state) => state);
+  const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toChangePwd = () => {
     nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
@@ -20,7 +20,7 @@ export default function Account() {
   };
 
   const toChangeNickname = async () => {
-    if (!account.accountInfo.featureData) {
+    if (!accountInfo.hasFeatureData) {
       toast('请先设置加密保险箱');
       return;
     }
@@ -30,7 +30,7 @@ export default function Account() {
     }
   };
   const toPharse = async () => {
-    if (!account.accountInfo.featureData) {
+    if (!accountInfo.hasFeatureData) {
       toast('请先设置加密保险箱');
       return;
     }
@@ -40,7 +40,7 @@ export default function Account() {
     }
   };
   const toQuestion = async () => {
-    if (!account.accountInfo.featureData) {
+    if (!accountInfo.hasFeatureData) {
       toast('请先设置加密保险箱');
       return;
     }
@@ -50,12 +50,13 @@ export default function Account() {
     }
   };
   const toProtector = async () => {
-    if (!account.accountInfo.featureData) {
+    if (!accountInfo.hasFeatureData) {
       toast('请先设置加密保险箱');
       return;
     }
+    nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     const loginStatus = await useCheckLogin();
-    if (loginStatus) {
+    if (!loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     } 
   };
@@ -63,7 +64,7 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
   };
   const deleteUser = async () => {
-    await Promise.all([resetGlobal(), account.remove()]);
+    await Promise.all([resetGlobal(), delAccount()]);
     localStorage.clear();
     location.reload();
   };
@@ -79,12 +80,12 @@ export default function Account() {
         </div>
         <ListRow
           label='名字'
-          value={account.accountInfo.name}
+          value={accountInfo.name}
           onPress={toChangeNickname}
         />
         <ListRow
           label='我的公钥'
-          value={<Address address={account.accountInfo.publicKey} />}
+          value={<Address address={accountInfo.publicKey} />}
           onPress={toPublicKey}
         />
         <ListRow label='修改密码' onPress={toChangePwd} />
@@ -93,17 +94,17 @@ export default function Account() {
         <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} /> */}
         <ListRow
           label='备份助记词'
-          value={account.accountInfo.maintainPhrase ? '已备份' : ''}
+          value={accountInfo.maintainPhrase ? '已备份' : ''}
           onPress={toPharse}
         />
         <ListRow
           label='守护者备份'
-          value={account.accountInfo.maintainProtector ? '已备份' : ''}
+          value={accountInfo.maintainProtector ? '已备份' : ''}
           onPress={toProtector}
         />
         <ListRow
           label='智能隐私备份'
-          value={account.accountInfo.maintainQuestion ? '已备份' : ''}
+          value={accountInfo.maintainQuestion ? '已备份' : ''}
           onPress={toQuestion}
         />
         <ListRow

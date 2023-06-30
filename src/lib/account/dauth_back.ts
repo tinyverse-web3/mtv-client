@@ -5,106 +5,7 @@ export class Dauth {
   constructor(app = 'mtv') {
     this.app = app;
   }
-  /**
-   * 创建账户
-   */
-  async createMasterAccount() {
-    return this.invoke({
-      name: 'createMasterAccount',
-      data: {
-        appName: this.app,
-      },
-    });
-  }
-  /**
-   * 验证邮箱
-   */
-  async verifyEmail({ account, verifyCode }: any) {
-    return this.invoke({
-      name: 'verify',
-      data: {
-        appName: this.app,
-        account,
-        verifyCode,
-      },
-    });
-  }
-  /**
-   * 获取远程账户信息
-   */
-  async getAccountInfo() {
-    return this.invoke({
-      name: 'getAccountInfo',
-      data: {},
-    });
-  }
-  async cleanLocalAccount() {
-    return this.invoke({
-      name: 'cleanLocalAccount',
-      data: {},
-    });
-  }
-  async hasPassword() {
-    return this.invoke({
-      name: 'hasPassword',
-      data: {},
-    });
-  }
-  async updatePassword({ oldPassword, newPassword }: any) {
-    return this.invoke({
-      name: 'updatePassword',
-      data: {
-        oldPassword,
-        newPassword,
-      },
-    });
-  }
-  async lock() {
-    return this.invoke({
-      name: 'lock',
-      data: {},
-    });
-  }
-  async unlock(password: string) {
-    return this.invoke({
-      name: 'unlock',
-      data: {
-        password,
-      },
-    });
-  }
-  async hasLocalAccount() {
-    return this.invoke({
-      name: 'hasLocalAccount',
-      data: {},
-    });
-  }
-  /**
-   * 获取本地账户信息
-   */
-  async loadLocalAccount() {
-    return this.invoke({
-      name: 'loadLocalAccount',
-      data: {},
-    });
-  }
-  /**
-   * 验证邮箱
-   */
-  async retrieveAccountByGuardian({
-    account,
-    textPrivateData,
-    passwordPrivateData,
-  }: any) {
-    return this.invoke({
-      name: 'retrieveAccountByGuardian',
-      data: {
-        appName: this.app,
-        account,
-        textPrivateData,
-        passwordPrivateData,
-      },
-    });
+  init(crypto: any) {
   }
   /**
    * 发送验证码
@@ -121,12 +22,12 @@ export class Dauth {
   /**
    * 生成个人特征数据
    */
-  async generateFeatureData({ textPrivateData, passwordPrivateData }: any) {
+  async generateFeatureData({ type = 'text', content }: any) {
     return this.invoke({
       name: 'generateFeatureData',
       data: {
-        textPrivateData,
-        passwordPrivateData,
+        type,
+        content,
       },
     });
   }
@@ -181,13 +82,21 @@ export class Dauth {
    * @param verifyCode 验证码
    * @param type 类型
    */
-  async addGuardian({ account, verifyCode, type = 'email' }: any) {
+  async addGuardian({
+    privateData,
+    publicKey,
+    account,
+    verifyCode,
+    type = 'email',
+  }: any) {
     return this.invoke({
       name: 'addGuardian',
       data: {
+        publicKey,
         account,
         verifyCode,
         type,
+        privateData,
       },
     });
   }
@@ -608,6 +517,6 @@ export class Dauth {
    * @param headers 请求头
    */
   async request({ url, method, data, params, headers }: any) {
-    return axios({ url, method, data, params, headers, timeout: 30000 });
+    return axios({ url, method, data, params, headers, timeout: 3000 });
   }
 }

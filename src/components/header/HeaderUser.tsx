@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Image } from '@nextui-org/react';
 import { Address } from '@/components/Address';
@@ -13,7 +13,7 @@ export const HeaderUser = () => {
   const { VITE_IPFS_HOST, VITE_IPFS_LOCAL_HOST } = import.meta.env;
   const ipfsHost = window.JsBridge ? VITE_IPFS_LOCAL_HOST : VITE_IPFS_HOST;
   const { userInfo } = useGlobalStore((state) => state);
-  const { account } = useAccountStore((state) => state);
+  const { account, accountInfo } = useAccountStore((state) => state);
   // const location = useLocation();
   // const hideStatsu = useMemo(() => {
   //   return hideLogoutPath.includes(location.pathname);
@@ -54,12 +54,17 @@ export const HeaderUser = () => {
     },
   ];
   const levelItem = useMemo(
-    () => levelArr[account.accountInfo.safeLevel || 0],
-    [account.accountInfo],
+    () => levelArr[accountInfo.safeLevel || 0],
+    [accountInfo],
   );
   const imageSrc = useMemo(() => {
-    return account.accountInfo.avatar ?`${ipfsHost}/${account.accountInfo.avatar}` : '/logo.png';
-  }, [account.accountInfo]);
+    return accountInfo.avatar
+      ? `${ipfsHost}/${accountInfo.avatar}`
+      : '/logo.png';
+  }, [accountInfo]);
+  useEffect(() => {
+    console.log(accountInfo);
+  }, [accountInfo]);
   return (
     <div className='h-full relative'>
       <div className='flex px-4 items-center h-full'>
@@ -72,10 +77,10 @@ export const HeaderUser = () => {
         <div className='flex-1 h-full pt-6'>
           <div className='flex text-5 items-center'>
             <div className='font-600 mr-2 cursor-pointer' onClick={toUserInfo}>
-              {account.accountInfo.name ? (
-                account.accountInfo.name
+              {accountInfo.name ? (
+                accountInfo.name
               ) : (
-                <Address address={account.accountInfo.publicKey} />
+                <Address address={accountInfo.publicKey} />
               )}
             </div>
             <div

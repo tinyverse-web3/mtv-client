@@ -39,8 +39,9 @@ export default function AccountProtector() {
   const wallet = useWalletStore((state) => state.wallet);
   const { protectorStatus, changeProtectorStatus } =
     useGlobalStore((state) => state);
-  const { account } = useAccountStore((state) => state);
-  const list = useMemo(() => account.accountInfo.guardians, [account]);
+  const { account, accountInfo } = useAccountStore((state) => state);
+  console.log(accountInfo)
+  const list = useMemo(() => accountInfo.guardians, [accountInfo]);
 
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
@@ -58,6 +59,7 @@ export default function AccountProtector() {
       backup();
     }
   }, [protectorStatus]);
+  console.log(list);
   return (
     <LayoutThird
       title='守护者'
@@ -76,11 +78,11 @@ export default function AccountProtector() {
             {list?.length &&
               list.map((v, i) => (
                 <ProtectorItem
-                  key={v.name}
+                  key={v.Account}
                   showDel={list.length !== 1}
-                  type={v.type}
-                  account={v.name}
-                  onDel={() => delHandler(v.name)}
+                  type='email'
+                  account={v.AccountMask}
+                  onDel={() => delHandler(v.Account)}
                 />
               ))}
             {/* <Button

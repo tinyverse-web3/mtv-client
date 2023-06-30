@@ -37,17 +37,17 @@ export default function Protector() {
   const submit = async () => {
     setLoading(true);
     try {
-      const status = await account.restoreByGuardian({
+      const status = await account.verifyEmail({
         account: email,
         verifyCode: code,
-        password: VITE_DEFAULT_PASSWORD,
       });
-      if (status === STATUS_CODE.SUCCESS) {
-        toast.success('恢复成功')
-        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      } else {
-        toast.success('恢复失败')
-      }
+      // if (status === STATUS_CODE.SUCCESS) {
+      //   toast.success('恢复成功')
+      //   nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+      // } else {
+      //   toast.success('恢复失败')
+      // }
+      nav(ROUTE_PATH.RESTORE_PRIVATEDATA);
       setLoading(false);
     } catch (error) {
       setLoading(false);

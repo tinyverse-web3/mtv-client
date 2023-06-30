@@ -11,8 +11,8 @@ import { useRef } from 'react';
 
 export default function UserQrcode() {
   const qrBoxRef = useRef<any>();
-  const { account } = useAccountStore((state) => state);
-  const { publicKey } = account.accountInfo;
+  const { accountInfo } = useAccountStore((state) => state);
+  const { publicKey } = accountInfo;
   const [_, copyToClipboard] = useCopyToClipboard();
   const copy = () => {
     if (!publicKey) return;

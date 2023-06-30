@@ -12,8 +12,8 @@ enum MtvEnum {
 }
 export default function UserQrcode() {
   const qrBoxRef = useRef<any>();
-  const { account } = useAccountStore((state) => state);
-  const { publicKey } = account.accountInfo;
+  const { account, accountInfo } = useAccountStore((state) => state);
+  const { publicKey } = accountInfo;
   const loadQrcode = () => {
     if (qrBoxRef.current) {
       const canvas = qrBoxRef.current.querySelector('canvas');
@@ -27,7 +27,6 @@ export default function UserQrcode() {
     if (!publicKey) return '';
     return `type=${QrType.ADD_FRIEND}&value=${publicKey}`
   }, [publicKey]);
-  console.log(qrcodeValue);
   return (
     <LayoutThird title='我的二维码' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='pt-18'>

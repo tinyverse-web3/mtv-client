@@ -10,7 +10,6 @@ import AccountQuestion from '@/pages/account/question';
 import AccountQuestionVerify from '@/pages/account/questionVerify';
 import AccountQuestionVerifyResult from '@/pages/account/questionVerifyResult';
 import AccountProtector from '@/pages/account/protector';
-import AccountProtectorVerify from '@/pages/account/protectorVerify';
 import AccountProtectorAdd from '@/pages/account/protectorAdd';
 import PrivateData from '@/pages/account/privateData';
 import Account from '@/pages/account/';
@@ -98,10 +97,6 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_PROTECTOR_ADD,
     element: <AccountProtectorAdd />,
-  },
-  {
-    path: ROUTE_PATH_ACCOUNT.ACCOUNT_PROTECTOR_VERIFY,
-    element: <AccountProtectorVerify />,
   },
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_SUBACCOUNT_LIST,

@@ -17,7 +17,7 @@ export default function ChangePwd() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
-  const { account } = useAccountStore((state) => state);
+  const { account, accountInfo, setAccountInfo } = useAccountStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
 
   const changePassword = async () => {
@@ -43,6 +43,7 @@ export default function ChangePwd() {
       setErr(true);
     } else {
       await wallet?.changePwd(oldPwd, pwd);
+      setAccountInfo({ isDefaultPwd: false });
       toast.success('密码修改成功');
       nav(-1);
     }
@@ -116,7 +117,7 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        {account.accountInfo.bindStatus && (
+        {accountInfo.bindStatus && (
           <Checkbox
             className='mb-3'
             aria-label='checkbox'

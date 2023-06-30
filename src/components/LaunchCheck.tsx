@@ -14,13 +14,13 @@ export const WalletCheck = ({ children }: any) => {
   const { pathname } = routerLocation;
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
-  const { account } = useAccountStore((state) => state);
+  const { account, getLocalAccountInfo } = useAccountStore((state) => state);
 
   const logout = async () => {
     const { href } = location;
     if (stay_path.some((p) => href?.indexOf(p) > -1)) {
       await account.lock();
-      location.reload();  
+      location.reload();
     }
   };
   const onIdle = () => {
@@ -43,21 +43,25 @@ export const WalletCheck = ({ children }: any) => {
     }
     // setCheckLoading(true);
     const status = await account.checkStatus();
-    if (status == STATUS_CODE.EMPTY_KEYSTORE) {
+    const [accountStatus, passwordStatus] = await Promise.all([account.hasLocalAccount(), account.hasPassword()]);
+    console.log('accountStatus', accountStatus);
+    console.log('passwordStatus', passwordStatus);
+    if (!accountStatus) {
       if (pathname !== '/index') {
         if (pathname.indexOf('chat/imShare') > -1) {
-          await account.create(VITE_DEFAULT_PASSWORD);
+          await account.create();
         } else {
           location.replace(ROUTE_HASH_PATH.INDEX);
         }
       } else {
         location.replace(ROUTE_HASH_PATH.INDEX);
       }
-    } else if (status == STATUS_CODE.INVALID_PASSWORD) {
+    } else if (!passwordStatus) {
       if (!(pathname.indexOf('unlock') > -1)) {
         location.href = `${ROUTE_HASH_PATH.UNLOCK}?redirect=${encodeURIComponent(location.href)}`;
       }
-    } else if (status == STATUS_CODE.SUCCESS) {
+    } else {
+      getLocalAccountInfo();
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
       }
@@ -65,14 +69,12 @@ export const WalletCheck = ({ children }: any) => {
     setCheckLoading(false);
   };
   useEffect(() => {
-    if (checkLoading) {
-      checkStatus();
-    }
+    checkStatus();
   }, []);
   useEffect(() => {
     if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       console.log('router change');
-      checkStatus();
+      // checkStatus();
     }
   }, [routerLocation]);
   return (
