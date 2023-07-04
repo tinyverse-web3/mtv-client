@@ -37,6 +37,7 @@ export default function SpaceIndex() {
     {
       icon: 'i-mdi-earth',
       label: 'GUN',
+      path: ROUTE_PATH.GUN_GUNLISTPAGE,
     },
     {
       icon: 'i-mdi-book-open',
