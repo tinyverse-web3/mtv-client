@@ -40,6 +40,7 @@ export const QuestionDefault = ({
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const [localList, setLocalList] = useState([]);
   const [tmpList, setTmpList] = useState<any[]>([]);
+  const [userList, setUserList] = useState<any[]>([]);
   const { account, accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
@@ -52,7 +53,13 @@ export const QuestionDefault = ({
       setTmpList(data);
     }
   };
-
+  const getUserQuestions = async () => {
+    const data = await account.getQuestions();
+    if (data?.length) {
+      setUserList(data);
+      console.log(data);
+    }
+  };
   const generateInitList = () => {
     console.log(initList);
     let _list = initList.map((v, i) => {
@@ -136,8 +143,8 @@ export const QuestionDefault = ({
   };
   useEffect(() => {
     if (!initList?.length) {
-      getTmpQuestions();
-      // questionList();
+      // getTmpQuestions();
+      getUserQuestions();
     } else {
       generateInitList();
     }

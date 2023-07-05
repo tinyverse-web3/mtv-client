@@ -309,7 +309,7 @@ export class Account {
    * @returns {Promise<void>}
    */
   async remove() {
-    const result = await this.dauth.cleanLocalAccount()
+    const result = await this.dauth.cleanLocalAccount();
     return !!result.data.data;
   }
   /**
@@ -343,30 +343,6 @@ export class Account {
     shares?: string[];
   }) {}
   /**
-   * 获取 SSS 数据
-   * @param {Object} options - 选项对象
-   * @param {string} options.account - 账户名
-   * @param {string} options.verifyCode - 验证码
-   * @param {string} options.type - 类型
-   * @returns {Promise<Object>} - 返回包含 SSS 数据和状态码的对象
-   */
-  async getSssData({
-    account,
-    verifyCode,
-    type,
-  }: {
-    account: string;
-    verifyCode: string;
-    type: string;
-  }) {
-    return await this.dauth.getSssData({
-      account,
-      verifyCode,
-      type,
-      privateData: this.accountInfo.featureData,
-    });
-  }
-  /**
    * 通过守护者恢复账户信息
    * @param {Object} options - 选项对象
    * @param {string} options.account - 账户名
@@ -389,17 +365,64 @@ export class Account {
       passwordPrivateData,
     });
   }
+  async getQuestions4Retrieve({
+    // account,
+    textPrivateData,
+    passwordPrivateData,
+  }: {
+    // account: string;
+    textPrivateData: string;
+    passwordPrivateData: string;
+  }) {
+    const result = await this.dauth.getQuestions4Retrieve({
+      textPrivateData,
+      passwordPrivateData,
+    });
+    return result.data.data;
+  }
   /**
    * 通过密保问题恢复账户信息
    * @param {Object} options - 选项对象
-   * @param {Array} options.questions - 密保问题列表
-   * @param {string} options.publicKey - 公钥
-   * @param {string} options.sssData - SSS 数据
-   * @param {string} options.password - 账户密码
+   * @param {Array} options.list - 密保问题列表
    * @returns {Promise<STATUS_CODE>} - 返回状态码
    */
-  async restoreByQuestions({ questions, publicKey, sssData, password }: any) {}
+  async restoreByQuestions(list: any[], type = 1) {
+    let serverList = [];
+    if (type == 1) {
+      serverList = list.map((val) => ({
+        Content: val.list.map((s: any) => ({
+          Content: s.q,
+          Characters: s.l,
+          Answer: s.a,
+        })),
+        Title: val.title,
+        Type: type,
+      }));
+    } else {
+      let _list = list;
+      _list = _list.map((v, i) => {
+        return {
+          id: i,
+          list: v.list.filter((s: any) => s.a),
+          title: v.title,
+        };
+      });
+      _list = _list.filter((v) => v.list.length);
 
+      serverList = _list.map((val) => ({
+        Content: val.list.map((s: any) => ({
+          Content: s.q,
+          Characters: s.l,
+          Answer: s.a,
+        })),
+        Title: val.title,
+        Type: type,
+      }));
+    }
+    await this.dauth.retrieveAccountBySmartPrivacy({
+      questions: serverList,
+    });
+  }
   /**
    * 发送验证码
    * @param {Object} options - 选项对象
@@ -500,15 +523,15 @@ export class Account {
    * @param {number} options.type - 问答问题类型，1表示隐私信息，2表示自定义问题
    * @returns {Promise<void>} - 无返回值
    */
-  async backupByQuestion({ list, type }: any) {}
+  async backupByQuestion({ list, type }: any) {
+    await this.saveQuestionToServer(list, type);
+  }
   /**
    * 备份自定义问题
    * @param {Array} list - 问答问题列表
    * @returns {Promise<void>} - 无返回值
    */
   async backupByCustom(list: any[]) {
-    // 备份自定义问题
-    await this.backupByQuestion({ list, type: 2 });
     // 将自定义问题保存到服务器
     await this.saveQuestionToServer(list, 2);
   }
@@ -518,19 +541,7 @@ export class Account {
    * @returns {Promise<void>} - 无返回值
    */
   async backupByPrivacyInfo(list: any[]) {
-    // 将问答问题保存到服务器
     await this.saveQuestionToServer(list, 1);
-    // 构建隐私信息对象
-    const privacyInfo: any = {};
-    list.forEach((v) => {
-      v.list.forEach((s: any) => {
-        privacyInfo[s.q] = s.a;
-      });
-    });
-    // 更新账户信息中的隐私信息
-    this.accountInfo.privacyInfo = privacyInfo;
-    // 备份问答问题
-    await this.backupByQuestion({ list, type: 1 });
   }
 
   /**
@@ -543,11 +554,13 @@ export class Account {
     let serverList = [];
     if (type == 1) {
       serverList = list.map((val) => ({
-        content: JSON.stringify(
-          val.list.map((s: any) => ({ content: s.q, characters: s.l })),
-        ),
-        title: val.title,
-        type,
+        Content: val.list.map((s: any) => ({
+          Content: s.q,
+          Characters: s.l,
+          Answer: s.a,
+        })),
+        Title: val.title,
+        Type: type,
       }));
     } else {
       let _list = list;
@@ -561,17 +574,16 @@ export class Account {
       _list = _list.filter((v) => v.list.length);
 
       serverList = _list.map((val) => ({
-        content: JSON.stringify(
-          val.list.map((s: any) => ({ content: s.q, characters: s.l })),
-        ),
-        title: val.title,
-        type,
+        Content: val.list.map((s: any) => ({
+          Content: s.q,
+          Characters: s.l,
+          Answer: s.a,
+        })),
+        Title: val.title,
+        Type: type,
       }));
     }
-    const { publicKey } = this.accountInfo;
     await this.dauth.saveQuestions({
-      publicKey,
-      privateData: this.accountInfo.featureData,
       questions: serverList,
     });
   }
@@ -601,13 +613,10 @@ export class Account {
    * @returns {Promise<STATUS_CODE>} - 返回状态码
    */
   async updateAvatar({ file }: { file: File }) {
-    const res = await this.dauth.uploadIpfsFile({
+    const res = await this.dauth.uploadAvatar({
       file,
     });
-    if (res.data.code === '000000') {
-      this.accountInfo.avatar = res.data.data;
-      return STATUS_CODE.SUCCESS;
-    }
+    console.log(res);
     return res;
   }
 

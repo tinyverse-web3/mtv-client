@@ -106,6 +106,27 @@ export class Dauth {
       },
     });
   }
+  async getQuestions4Retrieve({
+    textPrivateData,
+    passwordPrivateData,
+  }: any) {
+    return this.invoke({
+      name: 'getQuestions4Retrieve',
+      data: {
+        appName: this.app,
+        textPrivateData,
+        passwordPrivateData,
+      },
+    });
+  }
+  async retrieveAccountBySmartPrivacy({ questions }: any) {
+    return this.invoke({
+      name: 'retrieveAccountBySmartPrivacy',
+      data: {
+        questions,
+      },
+    });
+  }
   /**
    * 发送验证码
    */
@@ -360,9 +381,6 @@ export class Dauth {
     return this.invoke({
       name: 'getQuestions',
       data: {
-        privateData,
-        appName,
-        publicKey,
       },
     });
   }
@@ -412,6 +430,15 @@ export class Dauth {
     formData.append('file', file);
     return this.invoke({
       name: 'ipfs/uploadFile',
+      method: 'post',
+      formData: formData,
+    });
+  }
+  async uploadAvatar({ file }: { file: File }) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.invoke({
+      name: 'uploadAvatar',
       method: 'post',
       formData: formData,
     });

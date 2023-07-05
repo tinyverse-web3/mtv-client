@@ -16,10 +16,11 @@ export const BindMail = () => {
   const { start, text, flag, reset } = useCountDown(60);
   const { changeProtectorStatus } = useGlobalStore((state) => state);
   const closeHandler = () => {
-    setShowLogin(false);
     reset();
     setEmail('');
     setVerifyCode('');
+    setShowLogin(false);
+    setLoginLoading(false);
   };
   const loginHandler = async () => {
     if (!verifyCode) {
@@ -42,6 +43,7 @@ export const BindMail = () => {
     //   toast.error('绑定失败');
     // }
     setLoginLoading(false);
+    closeHandler()
   };
   const emailChange = (e: any) => {
     setEmail(e.target.value);

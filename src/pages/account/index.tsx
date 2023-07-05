@@ -72,7 +72,7 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
   };
   return (
-    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='我的资料'>
       <div className='pt-4 px-4 text-14px'>
         <div className='flex'>
           <UserAvatar className='mr-4' />

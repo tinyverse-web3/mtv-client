@@ -66,6 +66,7 @@ export const useAccountStore = create<AccountState>()(
             hasFeatureData: localInfo.isSetVault || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
+            avatar: localInfo.ImgCid,
           });
           set({ accountInfo });
         },

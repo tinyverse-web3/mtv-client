@@ -17,7 +17,6 @@ import {
 import imageSuccess from '@/assets/images/icon-success.png';
 import imageError from '@/assets/images/icon-error.png';
 
-
 export default function QuestionVerifyResult() {
   const nav = useNavigate();
 
@@ -32,11 +31,7 @@ export default function QuestionVerifyResult() {
   const onSubmit = async () => {
     console.log(initList);
     try {
-      if (type ===1) {
-        await account.backupByPrivacyInfo(initList);
-      } else {
-        await account.backupByCustom(initList);
-      }
+      await account.backupByQuestion({ list: initList, type });
       toast.success('备份成功');
       toAccount();
     } catch (error) {

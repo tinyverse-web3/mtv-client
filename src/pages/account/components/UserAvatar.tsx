@@ -5,21 +5,19 @@ interface Props {
   className?: string;
 }
 export const UserAvatar = ({ className }: Props) => {
-  const { account, accountInfo } = useAccountStore((state) => state);
-  const { VITE_IPFS_HOST, VITE_IPFS_LOCAL_HOST } = import.meta.env;
-  const ipfsHost = window.JsBridge ? VITE_IPFS_LOCAL_HOST : VITE_IPFS_HOST;
+  const { account, accountInfo, getLocalAccountInfo } = useAccountStore(
+    (state) => state,
+  );
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
     await account.updateAvatar({ file: image });
-    // setUserInfo({
-    //   avatar: data,
-    // });
+    await getLocalAccountInfo();
   };
   const imageSrc = useMemo(() => {
-    return accountInfo.avatar
-      ? `${ipfsHost}/${accountInfo.avatar}`
-      : '/logo.png';
-  }, [accountInfo]);
+    return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
+  }, [accountInfo.avatar]);
   return (
     <div className={`flex justify-center ${className}`}>
       <label className='relative w-24 h-24'>

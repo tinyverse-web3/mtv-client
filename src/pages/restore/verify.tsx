@@ -30,37 +30,35 @@ export default function RestoreVerifyEmail() {
   // });
   const submit = async () => {
     // const { data, code, msg } = await verifyBindEmail();
-    const res = await account.getSssData({
+    const res = await account.verifyEmail({
       account: email,
       verifyCode: code,
-      type: 'question',
     });
     const { code: resCode, data, msg } = res.data;
-    console.log(res);
-    const { publicKey, sssData, questions } = data;
     if (resCode === '000000') {
-      await setPublicKey(publicKey);
-      await setSssData(sssData);
-      const questionType = data.questions[0].type;
-      setType(questionType);
-      const _list = data.questions.map((v: any, i: number) => {
-        const list = JSON.parse(v.content);
-        return {
-          id: i,
-          title: v.title,
-          list: list.map((s: any) => ({
-            q: s.content,
-            a: '',
-            l: Number(s.characters),
-          })),
-          template: list.map((s: any) => ({
-            q: s.content,
-          })),
-          unselectList: [],
-        };
-      });
-      await setList(_list);
-      nav(ROUTE_PATH.RESTORE_QUESTION);
+      nav(ROUTE_PATH.RESTORE_QUESTION_FEATURE)
+      // await setPublicKey(publicKey);
+      // await setSssData(sssData);
+      // const questionType = data.questions[0].type;
+      // setType(questionType);
+      // const _list = data.questions.map((v: any, i: number) => {
+      //   const list = JSON.parse(v.content);
+      //   return {
+      //     id: i,
+      //     title: v.title,
+      //     list: list.map((s: any) => ({
+      //       q: s.content,
+      //       a: '',
+      //       l: Number(s.characters),
+      //     })),
+      //     template: list.map((s: any) => ({
+      //       q: s.content,
+      //     })),
+      //     unselectList: [],
+      //   };
+      // });
+      // await setList(_list);
+      // nav(ROUTE_PATH.RESTORE_QUESTION);
     }
     // if (code === '000000') {
     //   if (data?.questionSssData) {
@@ -96,7 +94,7 @@ export default function RestoreVerifyEmail() {
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title='智能隐私身份验证' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='智能隐私身份验证'>
       <div className='p-4'>
         <div>
           <div className='mb-6'>

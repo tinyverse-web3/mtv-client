@@ -18,6 +18,7 @@ import RestoreProtector from '@/pages/restore/protector';
 import RestoreVerify from '@/pages/restore/verify';
 import RestoreQuestion from '@/pages/restore/question';
 import RestorePirvateData from '@/pages/restore/privateData';
+import RestoreQuestionFeature from '@/pages/restore/questionFeature';
 import Test from '@/pages/test';
 import AppTest from '@/pages/app';
 import Unlock from '@/pages/unlock';
@@ -46,6 +47,7 @@ export const ROUTE_PATH = {
   RESTORE_VERIFY: '/restore/verify',
   RESTORE_QUESTION: '/restore/question',
   RESTORE_PRIVATEDATA: '/restore/privateData',
+  RESTORE_QUESTION_FEATURE: '/restore/questionFeature',
   ASSETS_INDEX: '/assets',
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
@@ -115,6 +117,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.RESTORE_PRIVATEDATA,
         element: <RestorePirvateData />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE_QUESTION_FEATURE,
+        element: <RestoreQuestionFeature />,
       },
       {
         path: ROUTE_PATH.UNLOCK,

@@ -9,15 +9,12 @@ import { ROUTE_PATH } from '@/router';
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
 export const HeaderUser = () => {
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const nav = useNavigate();
-  const { VITE_IPFS_HOST, VITE_IPFS_LOCAL_HOST } = import.meta.env;
-  const ipfsHost = window.JsBridge ? VITE_IPFS_LOCAL_HOST : VITE_IPFS_HOST;
   const { userInfo } = useGlobalStore((state) => state);
   const { account, accountInfo } = useAccountStore((state) => state);
-  // const location = useLocation();
-  // const hideStatsu = useMemo(() => {
-  //   return hideLogoutPath.includes(location.pathname);
-  // }, [location]);
+  
   const toUserInfo = () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
@@ -58,13 +55,8 @@ export const HeaderUser = () => {
     [accountInfo],
   );
   const imageSrc = useMemo(() => {
-    return accountInfo.avatar
-      ? `${ipfsHost}/${accountInfo.avatar}`
-      : '/logo.png';
-  }, [accountInfo]);
-  useEffect(() => {
-    console.log(accountInfo);
-  }, [accountInfo]);
+    return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
+  }, [accountInfo.avatar]);
   return (
     <div className='h-full relative'>
       <div className='flex px-4 items-center h-full'>

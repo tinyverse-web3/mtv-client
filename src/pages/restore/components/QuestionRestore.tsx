@@ -54,53 +54,28 @@ export const QuestionRestore = ({
     }
   };
   const submitHandler = async (_list: any[]) => {
-    console.log(publicKey);
-    if (publicKey) {
-      let filterAnswer = [];
-      if (type === 1) {
-        const list = _list.map((v, i) => {
-          return {
-            id: i,
-            list: v.list.filter((s: any) => s.a),
-            title: v.title,
-          };
-        });
-        filterAnswer = list.filter((v) => v.list.length);
-      } else {
-        filterAnswer = _list.filter((v) =>
-          v.list.every(
-            (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
-          ),
-        );
-      }
-      if (!filterAnswer.length) {
-        toast.error(`最少回答一个完整问题!`);
-        return;
-      }
-      await restoreEntropy(filterAnswer);
-      // const kvShares: any[] = [];
-      // const errArr: string[] = [];
-      // for (let i = 0; i < filterAnswer.length; i++) {
-      //   const s = filterAnswer[i];
-      //   try {
-      //     console.log(s);
-      //     const q = s.list.map((val: any) => val.q).join('');
-      //     const a = s.list.map((val: any) => val.a).join('');
-      //     const v = await keySha.get(publicKey, q, a);
-      //     kvShares.push(v);
-      //     // errArr.push('');
-      //   } catch (error) {
-      //     errArr.push(`问题${chineseNumMap[i]}答案错误`);
-      //   }
-      // }
-      // setKvError(errArr);
-      // if (errArr.length) {
-      //   toastErr();
-      //   return;
-      // }
-      // const shares = [serverShare, ...kvShares].filter(Boolean);
-      // await restoreEntropy(shares);
+    let filterAnswer = [];
+    if (type === 1) {
+      const list = _list.map((v, i) => {
+        return {
+          id: i,
+          list: v.list.filter((s: any) => s.a),
+          title: v.title,
+        };
+      });
+      filterAnswer = list.filter((v) => v.list.length);
+    } else {
+      filterAnswer = _list.filter((v) =>
+        v.list.every(
+          (v: any) => v.a !== undefined && v.a !== null && v.a !== '',
+        ),
+      );
     }
+    if (!filterAnswer.length) {
+      toast.error(`最少回答一个完整问题!`);
+      return;
+    }
+    await restoreEntropy(_list);
   };
   const userSharesSubmit = async () => {
     const shares = [serverShare, shareB].filter(Boolean);
