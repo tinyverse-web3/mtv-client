@@ -63,10 +63,11 @@ export const useAccountStore = create<AccountState>()(
           accountInfo = Object.assign(accountInfo, {
             publicKey: localInfo.PublicKey,
             address: localInfo.Address,
-            hasFeatureData: localInfo.isSetVault || false,
+            hasFeatureData: localInfo.IsSetVault || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
             avatar: localInfo.ImgCid,
+            isDefaultPwd: !localInfo.IsChangedPassword,
           });
           set({ accountInfo });
         },

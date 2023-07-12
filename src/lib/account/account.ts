@@ -14,10 +14,6 @@ export enum STATUS_CODE {
   SAVE_PASSWOR_ERROR,
   CHANGE_PASSWORD_ERROR,
 }
-const LOCAL_PASSWORD_KEY = '_password';
-const LOCAL_PASSWORD_SALT_KEY = '_password_salt';
-const LOCAL_KEYSTORE_KEY = '_keystore';
-const LOCAL_ACCOUNT_KEY = 'account';
 
 interface Guardian {
   name: string;
@@ -101,7 +97,6 @@ interface Response {
   msg: string;
 }
 export class Account {
-  private readonly password = new Password();
   private readonly dauth = new Dauth();
   private getAccountStatus: boolean = false;
   private textPrivateData = '';
@@ -153,6 +148,15 @@ export class Account {
     this.account = account;
     return this.dauth.verifyEmail({ account, verifyCode });
   }
+  async updatePasswordByGuardian({ account, verifyCode, password }: any) {
+    this.account = account;
+    const result = await this.dauth.updatePasswordByGuardian({
+      account,
+      verifyCode,
+      password,
+    });
+    return result.data;
+  }
   /**
    * 获取密钥信息
    * @returns {Promise<void>}
@@ -172,6 +176,22 @@ export class Account {
     } else {
       return {};
     }
+  }
+  async getNotes() {
+    const result = await this.dauth.getNotes();
+    return result.data;
+  }
+  async delNote({ Id }: any) {
+    const result = await this.dauth.delNote({ Id });
+    return result.data;
+  }
+  async addNote({ Title, Content }: any) {
+    const result = await this.dauth.addNote({ Title, Content });
+    return result.data;
+  }
+  async modifyNote({ Id, Title, Content }: any) {
+    const result = await this.dauth.modifyNote({ Id, Title, Content });
+    return result.data;
   }
   /**
    * 获取应用私有数据
@@ -262,7 +282,22 @@ export class Account {
    * 获取助记词
    * @returns {string | undefined} - 返回助记词或undefined
    */
-  getMnemonic() {}
+  async getMnemonic() {
+    const result = await this.dauth.getMnemonic();
+    return result.data.data;
+  }
+  async retrieveAccountByMnemonic({
+    mnemonic,
+    textPrivateData,
+    passwordPrivateData,
+  }: any) {
+    const result = await this.dauth.retrieveAccountByMnemonic({
+      mnemonic,
+      textPrivateData,
+      passwordPrivateData,
+    });
+    return result.data;
+  }
   resetAccountInfo() {
     this.accountInfo = {
       publicKey: '',
@@ -635,15 +670,6 @@ export class Account {
     return result.data.data;
   }
   /**
-   * 获取密码
-   * @param {string} account - 账户名
-   * @param {string} verifyCode - 验证码
-   * @returns {Promise<any>} - 返回获取到的密码
-   */
-  async getPassword({ account, verifyCode }: any) {
-    return this.dauth.getPassword({ account, verifyCode });
-  }
-  /**
    * 保存问答问题到服务器
    * @param {Array} questions - 要保存的问答问题
    * @returns {Promise<any>} - 返回保存结果
@@ -662,59 +688,20 @@ export class Account {
     return res.data.data;
   }
   /**
-   * 保存记事本内容到IPFS
-   * @param {string} note - 要保存的记事本内容
-   * @returns {Promise<void>} - 无返回值
-   */
-  async saveNote(content: string) {
-    if (content) {
-      const res = await this.dauth.uploadIpfsContent({
-        content,
-      });
-      const { code, data } = res.data;
-      if (code === '000000') {
-        this.accountInfo.note_ipfs = data;
-      }
-    }
-  }
-  /**
-   * 获取记事本内容
-   * @returns {Promise<string>} - 返回记事本内容
-   */
-  async getNote() {
-    const { note_ipfs } = this.accountInfo;
-    const { VITE_IPFS_HOST } = import.meta.env;
-    if (note_ipfs) {
-      const res = await axios.get(`${VITE_IPFS_HOST}/${note_ipfs}`);
-      const { data } = res;
-      return data;
-    } else {
-      return '';
-    }
-  }
-  /**
-   * 订阅消息
-   * @param {string} destPubkey - 目标公钥
-   * @returns {Promise<any>} - 返回发布的消息数据
-   */
-  async publishMsg(destPubkey: string) {
-    const { publicKey } = this.accountInfo;
-    const res = await this.dauth.publishMsg({
-      publicKey,
-      destPubkey,
-    });
-    return res.data.data;
-  }
-  /**
    * 获取联系人列表
    * @returns {Promise<any>} - 返回联系人列表数据
    */
   async getContacts() {
     const { publicKey } = this.accountInfo;
-    const res = await this.dauth.getContacts({
-      publicKey,
-    });
+    const res = await this.dauth.getContacts();
     return res.data.data;
+  }
+  async setContactAlias({ destPubkey, alias }: any) {
+    const res = await this.dauth.setContactAlias({
+      destPubkey,
+      alias,
+    });
+    return res.data;
   }
   /**
    * 接收消息
@@ -752,7 +739,7 @@ export class Account {
       destPubkey,
       content,
     });
-    return res.data.data;
+    return res.data;
   }
   /**
    * 开始消息服务

@@ -13,30 +13,26 @@ export default function Edit() {
   const { id } = useParams();
   const {
     get: getNoteById,
-    init: initNote,
     add,
     update,
-    list,
   } = useNoteStore((state) => state);
+
   const { account } = useAccountStore(state => state)
   const noteChange = (e: any) => {
     setNote(e?.trim());
   };
   const generateNote = async () => {
     const title = note.substring(0, 10);
-    const updated = +new Date();
-    const newId = id && id === 'add' ? uuidv4() : id;
     return {
-      id: newId as string,
-      title,
-      content: note,
-      updated,
+      Id: id,
+      Title: title,
+      Content: note,
     };
   };
   const getDetail = async (id?: string) => {
     if (id) {
       const detail = (await getNoteById(id)) as any;
-      setNote(detail?.content);
+      setNote(detail?.Content);
     }
   };
 
@@ -50,19 +46,8 @@ export default function Edit() {
     nav(-1);
   };
   useEffect(() => {
-    if (list?.length) {
       getDetail(id);
-    } else {
-      account.getNote().then((content) => {
-        if (content) {
-          try {
-            const list = JSON.parse(content);
-            initNote(list);
-          } catch (error) {}
-        }
-      });
-    }
-  }, [list]);
+  }, [id]);
   return (
     <LayoutThird title='记事本' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>

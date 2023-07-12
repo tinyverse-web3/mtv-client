@@ -1,11 +1,17 @@
 import { useRequest } from '@/api';
 import { Address } from '@/components/Address';
-import { Button } from '@/components/form/Button';
 import LayoutTwo from '@/layout/LayoutTwo';
+import { Button } from '@/components/form/Button';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useChatStore, useWalletStore, useAccountStore } from '@/store';
-import { Card, Text, Input, Image } from '@nextui-org/react';
+import {
+  Card,
+  Text,
+  Input,
+  Image,
+  Button as NextButton,
+} from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +24,16 @@ function addMinute(minute: number) {
   const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss');
   return formatDate;
 }
+
+const renderName = (item: any) => {
+  if (item.Alias) {
+    return item.Alias;
+  } else if (item.DAuthKey) {
+    return <Address address={item.DAuthKey}></Address>;
+  } else {
+    return '匿名';
+  }
+};
 export default function ChatList() {
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
@@ -32,21 +48,23 @@ export default function ChatList() {
     setFriendList(list);
   };
 
-  const addFriend = async () => {
-    await account.publishMsg(searchText);
-    toast.success('添加成功');
+  const toSender = async () => {
+    // toast.success('添加成功');
     setSearchText('');
+    await toDetail({ DAuthKey: searchText });
     // await getFriends();
   };
   const startMsgServer = async () => {
     await account.startMsgService();
   };
-  const toDetail = async (publicKey: any) => {
-    await account.publishMsg(publicKey);
-    await setRecipient({ publicKey });
+  const toDetail = async (item: any) => {
+    await setRecipient(item);
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
-
+  const toProfile = async (item: any) => {
+    await setRecipient(item);
+    nav(ROUTE_PATH.CHAT_PROFILE);
+  };
   const checkImNotifyTick = async () => {
     // const res = await requestImNotify();
     // const _list = res.data || [];
@@ -84,11 +102,17 @@ export default function ChatList() {
 
   const searchHandler = async (e: any) => {
     if (e.key === 'Enter') {
-      const data = await addFriend();
+      toSender();
     }
   };
+  const formatTime = (time: number) => {
+    if (time.toString().length === 10) {
+      time = time * 1000;
+    }
+    return format(new Date(time), 'HH:mm');
+  };
   useEffect(() => {
-    startMsgServer();
+    // startMsgServer();
     getContacts();
   }, []);
   useInterval(() => {
@@ -101,8 +125,8 @@ export default function ChatList() {
   return (
     <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>
-        <div className='flex'>
-          <div className='flex-1 mb-2'>
+        <div className='flex items-center'>
+          <div className='flex-1'>
             <Input
               value={searchText}
               aria-label='text'
@@ -111,9 +135,17 @@ export default function ChatList() {
               fullWidth
               clearable
               onKeyUp={searchHandler}
-              placeholder='搜索'
+              placeholder='对方公钥'
             />
           </div>
+          <NextButton
+            auto
+            flat
+            size='xs'
+            className='ml-4 h-10'
+            onPress={toSender}>
+            发送消息
+          </NextButton>
         </div>
         <div>
           {friendList?.filter(Boolean).map((item: any) => (
@@ -127,19 +159,31 @@ export default function ChatList() {
               />
               <div className='flex-1'>
                 <div className='flex justify-between items-center mb-2'>
-                  <span>{<Address address={item}></Address>}</span>
-                  {/* <span className='text-12px'>14:00</span> */}
+                  <span>{renderName(item)}</span>
+                  <span className='text-12px'>
+                    {formatTime(item.LastMsgTime)}
+                  </span>
                 </div>
-                {/* <div className='text-12px'>[3条]今天天气不错</div> */}
+                <div className='text-12px'>{item.LastMessage}</div>
               </div>
+              {item.DAuthKey && (
+                <NextButton
+                  auto
+                  flat
+                  size='xs'
+                  className='ml-4 h-10'
+                  onPress={() => toProfile(item)}>
+                  编辑
+                </NextButton>
+              )}
             </div>
           ))}
         </div>
-        <Button
+        {/* <Button
           className='mx-auto w-full mt-6'
           onPress={() => setShowShare(true)}>
           开启聊天
-        </Button>
+        </Button> */}
         {showShare && (
           <div>
             <div>

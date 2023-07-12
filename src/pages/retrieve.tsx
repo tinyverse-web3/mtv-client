@@ -6,7 +6,7 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useRequest } from '@/api';
-import { useWalletStore } from '@/store';
+import { useAccountStore } from '@/store';
 import { validatePassword } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import wallet, { STATUS_CODE, Password } from '@/lib/account/wallet';
@@ -16,107 +16,48 @@ import imageSuccess from '@/assets/images/icon-success.png';
 export default function Retrieve() {
   const [step, setStep] = useState(1);
   const nav = useNavigate();
-  const passwordManager = new Password();
-  const [verifyCode, setVerifyCode] = useState('');
-  const [checked, setChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
+  const { account } = useAccountStore((state) => state);
   const [confirmPwd, setConfirmPwd] = useState('');
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
-  const [err, setErr] = useState(false);
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
     setCode(code);
   };
-  const generateQuery = async () => {
-    query.current.password = await passwordManager.encrypt(pwd);
-  };
-  const query = useRef({ password: '' });
-  useEffect(() => {
-    generateQuery();
-  }, [pwd]);
-  const { mutate: savePassword } = useRequest(
-    {
-      url: '/user/savepassword',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: query.current,
-      },
-    },
-    {
-      onSuccess(res) {},
-    },
-  );
-  const { mutate: verifyEmail } = useRequest({
-    url: '/user/getpassword',
-    arg: {
-      auth: true,
-      method: 'post',
-      query: { email, confirmCode: code },
-    },
-  });
 
   const verifyEmial = async () => {
-    const res = await verifyEmail();
-    console.log(res);
-    if (res.data) {
-      setStep(2);
-      setOldPwd(res.data);
-    } else {
-      toast.error('没有存储任何密码，无法找回！');
-    }
+    setStep(2);
   };
 
   const changePassword = async () => {
-    if (oldPwd === pwd) {
-      toast.error('新密码不能与旧密码相同');
-      return;
-    }
     if (pwd !== confirmPwd) {
       setConfirmStatus(false);
       return;
     }
-    const validStatus = await validatePassword(pwd);
+    const validStatus = validatePassword(pwd);
     if (!validStatus.value) {
       setValidStatus(false);
       return;
     }
-    console.log(oldPwd, pwd)
-    const status = await wallet?.verfiyHashPwd(oldPwd);
-    if (status === STATUS_CODE.INVALID_PASSWORD) {
-      toast.error('原始密码错误');
-    } else {
-      await wallet?.changeHashPwd(oldPwd, pwd);
-      // nav(ROUTE_PATH.SPACE_INDEX);
+    const { code: resultCode, msg } = await account.updatePasswordByGuardian({
+      account: email,
+      verifyCode: code,
+      password: pwd,
+    });
+    if (resultCode === '000000') {
       toast.success('修改成功');
       setStep(3);
+    } else {
+      toast.error(msg);
     }
   };
   const changePwd = async () => {
     await changePassword();
-    await savePassword();
   };
-  // const unlock = async () => {
-  //   setLoading(true);
-  //   const status = await wallet?.verify(pwd);
-  //   console.log(status);
-  //   if (status === STATUS_CODE.INVALID_PASSWORD) {
-  //     setErr(true);
-  //   } else {
-  //     setWallet(wallet);
-  //     const { publicKey, privateKey } = wallet || {};
-  //     if (privateKey) {
-  //       await initMtvStorage(privateKey);
-  //     }
-  //     nav(ROUTE_PATH.SPACE_INDEX);
-  //   }
-  //   setLoading(false);
   // };
   const toUnlock = () => {
     nav(ROUTE_PATH.UNLOCK, { replace: true });
@@ -163,8 +104,9 @@ export default function Retrieve() {
               <Button
                 className='w-full bg-blue-7'
                 size='lg'
+                disabled={!email || !code}
                 onPress={verifyEmial}>
-                验证
+                下一步
               </Button>
             </div>
           )}

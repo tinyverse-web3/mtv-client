@@ -31,7 +31,7 @@ export default function UserQrcode() {
   };
 
   return (
-    <LayoutThird title='我的公钥' path={ROUTE_PATH.ACCOUNT}>
+    <LayoutThird title='我的公钥'>
       <div className='pt-16 px-6'>
         {publicKey && (
           <div className='w-fit m-auto mb-16'>

@@ -12,7 +12,6 @@ export class Dauth {
     return this.invoke({
       name: 'createMasterAccount',
       data: {
-        appName: this.app,
       },
     });
   }
@@ -23,10 +22,57 @@ export class Dauth {
     return this.invoke({
       name: 'verify',
       data: {
-        appName: this.app,
         account,
         verifyCode,
       },
+    });
+  }
+  async updatePasswordByGuardian({ account, verifyCode, password }: any) {
+    return this.invoke({
+      name: 'updatePasswordByGuardian',
+      data: {
+        account,
+        verifyCode,
+        password,
+      },
+    });
+  }
+  async getMnemonic() {
+    return this.invoke({
+      name: 'getMnemonic',
+      method: 'get',
+    });
+  }
+  async getNotes() {
+    return this.invoke({
+      name: 'getNotes',
+    });
+  }
+  async delNote({ Id }: any) {
+    return this.invoke({
+      name: 'delNote',
+      data: {
+        Id
+      }
+    });
+  }
+  async addNote({ Title, Content }: any) {
+    return this.invoke({
+      name: 'addNote',
+      data: {
+        Title,
+        Content,
+      }
+    });
+  }
+  async modifyNote({ Id, Title, Content }: any) {
+    return this.invoke({
+      name: 'modifyNote',
+      data: {
+        Id,
+        Title,
+        Content,
+      }
     });
   }
   /**
@@ -99,10 +145,23 @@ export class Dauth {
     return this.invoke({
       name: 'retrieveAccountByGuardian',
       data: {
-        appName: this.app,
         account,
         textPrivateData,
         passwordPrivateData,
+      },
+    });
+  }
+  async retrieveAccountByMnemonic({
+    mnemonic,
+    textPrivateData,
+    passwordPrivateData,
+  }: any) {
+    return this.invoke({
+      name: 'retrieveAccountByMnemonic',
+      data: {
+        Mnemonic: mnemonic,
+        TextPrivateData: textPrivateData,
+        PasswordPrivateData: passwordPrivateData,
       },
     });
   }
@@ -113,7 +172,6 @@ export class Dauth {
     return this.invoke({
       name: 'getQuestions4Retrieve',
       data: {
-        appName: this.app,
         textPrivateData,
         passwordPrivateData,
       },
@@ -255,7 +313,6 @@ export class Dauth {
         publicKey,
         sssData,
         privateData,
-        appName: this.app,
         type,
       },
     });
@@ -286,7 +343,6 @@ export class Dauth {
         question,
         answer,
         privateData,
-        appName: this.app,
         type,
       },
     });
@@ -314,7 +370,6 @@ export class Dauth {
         question,
         answer,
         privateData,
-        appName: this.app,
         type,
       },
     });
@@ -332,7 +387,6 @@ export class Dauth {
       name: 'getSssData',
       data: {
         privateData,
-        appName: this.app,
         account,
         verifyCode,
         type,
@@ -364,7 +418,6 @@ export class Dauth {
       name: 'saveQuestions',
       data: {
         privateData,
-        appName: this.app,
         publicKey,
         questions,
       },
@@ -460,63 +513,12 @@ export class Dauth {
 
   /**
    * 获取联系人列表
-   * @param publicKey 公钥
    */
-  async getContacts({ publicKey }: any) {
+  async getContacts() {
     return this.invoke({
-      name: 'getContacts',
+      name: 'msg/getContacts',
       method: 'get',
       data: {
-        appName: this.app,
-        publicKey,
-      },
-    });
-  }
-  /**
-   * 获取聊天消息
-   * @param destPubkey 公钥
-   */
-  async receiveMsgs({ destPubkey }: any) {
-    return this.invoke({
-      name: 'receiveMsgs',
-      method: 'get',
-      data: {
-        appName: this.app,
-        destPubkey,
-      },
-    });
-  }
-
-  /**
-   * 发布消息
-   * @param destPubkey 目标公钥
-   * @param publicKey 公钥
-   */
-  async publishMsg({ destPubkey, publicKey }: any) {
-    return this.invoke({
-      name: 'publishMsg',
-      method: 'post',
-      data: {
-        appName: this.app,
-        destPubkey,
-        publicKey,
-      },
-    });
-  }
-
-  /**
-   * 取消发布消息
-   * @param destPubkey 目标公钥
-   * @param publicKey 公钥
-   */
-  async unpublishMsg({ destPubkey, publicKey }: any) {
-    return this.invoke({
-      name: 'unpublishMsg',
-      method: 'post',
-      data: {
-        appName: this.app,
-        destPubkey,
-        publicKey,
       },
     });
   }
@@ -528,12 +530,21 @@ export class Dauth {
    */
   async sendMsg({ destPubkey, content }: any) {
     return this.invoke({
-      name: 'sendMsg',
+      name: 'msg/sendMsg',
       method: 'post',
       data: {
-        appName: this.app,
         content,
         destPubkey,
+      },
+    });
+  }
+  async setContactAlias({ destPubkey, alias }: any) {
+    return this.invoke({
+      name: 'msg/setContactAlias',
+      method: 'post',
+      data: {
+        Alias: alias,
+        DestPubkey: destPubkey,
       },
     });
   }
@@ -542,12 +553,11 @@ export class Dauth {
    * 获取消息
    * @param destPubkey 目标公钥
    */
-  async getMsgs({ destPubkey }: any) {
+  async receiveMsgs({ destPubkey }: any) {
     return this.invoke({
-      name: 'getMsgs',
-      method: 'post',
+      name: 'msg/receiveMsgs',
+      method: 'get',
       data: {
-        appName: this.app,
         destPubkey,
       },
     });
@@ -559,10 +569,9 @@ export class Dauth {
    */
   async getAllMsgs({ destPubkey }: any) {
     return this.invoke({
-      name: 'getAllMsgs',
+      name: 'msg/getAllMsgs',
       method: 'post',
       data: {
-        appName: this.app,
         destPubkey,
       },
     });
@@ -578,7 +587,6 @@ export class Dauth {
       name: 'startMsgService',
       method: 'post',
       data: {
-        appName: this.app,
         privateKey: privateKeyHash,
         publicKey,
       },

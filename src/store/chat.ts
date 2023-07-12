@@ -10,7 +10,12 @@ interface Friend {
 }
 
 interface Recipinet {
-  publicKey: string;
+  Alias?: string;
+  CreateTime?: number;
+  DAuthKey?: string;
+  LastMessage?: string;
+  LastMsgTime?: number;
+  MessageKey?: string;
 }
 interface ChatState {
   list: Friend[];

@@ -12,8 +12,15 @@ export default function Account() {
   const { reset: resetGlobal } = useGlobalStore((state) => state);
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
-  const toChangePwd = () => {
-    nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
+  const toChangePwd = async () => {
+    if (!accountInfo.hasFeatureData) {
+      toast('请先设置加密保险箱');
+      return;
+    }
+    const loginStatus = await useCheckLogin();
+    if (loginStatus) {
+      nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
+    }
   };
   const toPublicKey = () => {
     nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);
@@ -34,10 +41,10 @@ export default function Account() {
       toast('请先设置加密保险箱');
       return;
     }
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_PHRASE);
-    }
+    // const loginStatus = await useCheckLogin();
+    // if (loginStatus) {
+    nav(ROUTE_PATH.ACCOUNT_PHRASE);
+    // }
   };
   const toQuestion = async () => {
     if (!accountInfo.hasFeatureData) {

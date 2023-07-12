@@ -50,7 +50,7 @@ export default function LayoutTwo({
     },
   ];
   if (!window.JsBridge) {
-    footerMenus.splice(1, 1);
+    // footerMenus.splice(1, 1);
   }
   return (
     <main className={'h-full relative'}>

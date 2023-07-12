@@ -15,8 +15,8 @@ export const ChatList = ({ messages = [] }: Porps) => {
     }
   };
   const list = useMemo(() => {
-    return unionBy(messages, 'timeStamp').sort(
-      (a, b) => a.timeStamp - b.timeStamp,
+    return unionBy(messages, 'ID').sort(
+      (a, b) => a.TimeStamp - b.TimeStamp,
     );
   }, [messages]);
   useDebounce(handleScrollToBottom, 300, [list]);
@@ -25,7 +25,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
     <div className='h-full overflow-y-auto' ref={containerRef}>
       {list.map((v) => (
         <div
-          key={v.timeStamp}
+          key={v.ID}
           className={`mb-4 flex ${v.isMe ? 'flex-row-reverse' : ''}`}>
           <User
             name=''
@@ -33,7 +33,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
             className={`px-0 ${v.isMe ? 'ml-2' : ''}`}
           />
           <Card className='max-w-60% w-fit'>
-            <Card.Body className='py-2'>{v.content}</Card.Body>
+            <Card.Body className='py-2'>{v.Content}</Card.Body>
           </Card>
         </div>
       ))}

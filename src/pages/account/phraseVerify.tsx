@@ -18,36 +18,42 @@ export default function UserPhrase() {
   const changeHandler = (i: number, value: string) => {
     updateAt(i, value);
   };
+  const [mnemonic, setMnemonic] = useState<string>('');
+  const getMnemonic = async () => {
+    const _mnemonic = await account.getMnemonic();
+    setMnemonic(_mnemonic);
+  };
+  useEffect(() => {
+    getMnemonic();
+  }, []);
   const verify = () => {
     const _phrase = list.join(' ');
-    if (_phrase === account.getMnemonic()) {
+    if (_phrase === mnemonic) {
       nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     } else {
       toast.error('助记词错误');
     }
   };
-  const phrase = useMemo(
-    () => account.getMnemonic()?.split(' ') || [],
-    [account],
-  );
+  const phrase = useMemo(() => mnemonic?.split(' ') || [], [mnemonic]);
   const getFourUniqueNumbers = (range: number, arr: string[]) => {
     const len = arr.length;
     const numbers: number[] = [];
-    const list = cloneDeep(arr);
-    console.log(list);
+    const _list = cloneDeep(arr);
     while (numbers.length < range) {
       let num = Math.floor(Math.random() * len);
       if (!numbers.includes(num)) {
         numbers.push(num);
-        list[num] = '';
+        _list[num] = '';
       }
     }
     setEmptyList(numbers);
-    return list;
+    return _list;
   };
   useEffect(() => {
-    const _phrase = getFourUniqueNumbers(4, phrase);
-    set(_phrase);
+    if (phrase.length > 1) {
+      const _phrase = getFourUniqueNumbers(4, phrase);
+      set(_phrase);
+    }
   }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (

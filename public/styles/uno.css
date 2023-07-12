@@ -91,6 +91,7 @@
 .mt-2{margin-top:0.5rem;}
 .mt-6{margin-top:1.5rem;}
 .inline-block{display:inline-block;}
+.h-10{height:2.5rem;}
 .h-12{height:3rem;}
 .h-14{height:3.5rem;}
 .h-15{height:3.75rem;}
@@ -100,7 +101,8 @@
 .h-22{height:5.5rem;}
 .h-24{height:6rem;}
 .h-4{height:1rem;}
-.h-5{height:1.25rem;}
+.h-5,
+[h5=""]{height:1.25rem;}
 .h-50px{height:50px;}
 .h-6,
 [h-6=""]{height:1.5rem;}
@@ -168,6 +170,7 @@
 .border-b-gray-200{--un-border-opacity:1;--un-border-bottom-opacity:var(--un-border-opacity);border-bottom-color:rgba(229,231,235,var(--un-border-bottom-opacity));}
 .border-b-gray-300{--un-border-opacity:1;--un-border-bottom-opacity:var(--un-border-opacity);border-bottom-color:rgba(209,213,219,var(--un-border-bottom-opacity));}
 .border-t-gray-200{--un-border-opacity:1;--un-border-top-opacity:var(--un-border-opacity);border-top-color:rgba(229,231,235,var(--un-border-top-opacity));}
+.rounded{border-radius:0.25rem;}
 .rounded-2{border-radius:0.5rem;}
 .rounded-full{border-radius:9999px;}
 .border-solid{border-style:solid;}

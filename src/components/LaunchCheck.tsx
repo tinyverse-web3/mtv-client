@@ -12,7 +12,6 @@ const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 export const WalletCheck = ({ children }: any) => {
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
-  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
   const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
   const { account, getLocalAccountInfo } = useAccountStore((state) => state);
 
@@ -24,7 +23,7 @@ export const WalletCheck = ({ children }: any) => {
     }
   };
   const onIdle = () => {
-    if (pathname.indexOf('unlock') > -1) {
+    if (['unlock', 'retrieve'].some((p) => pathname?.indexOf(p) > -1)) {
       return;
     }
     console.log(`window idle, user is level`);

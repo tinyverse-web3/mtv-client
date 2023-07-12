@@ -35,7 +35,7 @@ const chainList: ChainState[] = [
     symbol: 'ETH',
     tokens: [
       {
-        contract: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        contract:  '0x6b175474e89094c44da98b954eedeac495271d0f',
         symbol: 'DAI',
         balance: 0,
         icon: 'https://assets.coingecko.com/coins/images/9956/small/dai-multi-collateral-mcd.png?1574218774',

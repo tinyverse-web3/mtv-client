@@ -12,6 +12,7 @@ export default function Edit() {
   const nav = useNavigate();
   const [name, setName] = useState('');
   const [key, setKey] = useState('');
+  
   const { account } = useAccountStore((state) => state);
   const types = [
     {

@@ -5,3 +5,4 @@ export * from './chat';
 export * from './question';
 export * from './chain'; 
 export * from './account';  
+export * from './restore';  

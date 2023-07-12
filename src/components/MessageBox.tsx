@@ -4,6 +4,7 @@ import { useAccountStore } from '@/store';
 import { ChatList } from '@/components/ChatList';
 import { ChatInput } from '@/components/ChatInput';
 import { useInterval } from 'react-use';
+import { toast } from 'react-hot-toast';
 
 export const MessageBox = ({ recipient }: any) => {
   const [allList, { set: setAllList }] = useList<any>([]);
@@ -17,29 +18,43 @@ export const MessageBox = ({ recipient }: any) => {
     },
     [recipient],
   );
-
+  console.log(recipient);
   const sendHandler = async (msg: string) => {
-    await account.sendMsg(recipient.publicKey, msg);
+    const res = await account.sendMsg(
+      recipient.DAuthKey || recipient.MessageKey,
+      msg,
+    );
+    if (res.code !== '000000') {
+      toast.error(res.msg);
+      throw new Error(res.msg);
+    }
     await getMsgs();
   };
   const getAllMsgs = async () => {
-    const list = await account.getAllMsgs(recipient.publicKey);
+    const list = await account.getAllMsgs(
+      recipient.DAuthKey || recipient.MessageKey,
+    );
     console.log(list);
     if (list?.length) {
       setAllList(list);
     }
   };
   const getMsgs = async () => {
-    const list = await account.receiveMsgs(recipient.publicKey);
-    setLastList(list);
+    const list = await account.receiveMsgs(
+      recipient.DAuthKey || recipient.MessageKey,
+    );
+    if (list) {
+      setLastList(list);
+    }
+    console.log(list);
   };
   const list = useMemo(() => {
     return [...allList, ...lastList].map((v) => ({
       ...v,
       publicKey:
         v.Direction === 'to'
-          ? recipient.publicKey
-          : accountInfo.publicKey,
+          ? accountInfo.publicKey
+          : recipient.Alias || recipient.DAuthKey || recipient.MessageKey,
       isMe: v.Direction === 'to',
     }));
   }, [allList, lastList]);
@@ -54,6 +69,7 @@ export const MessageBox = ({ recipient }: any) => {
       getAllMsgs();
     }
   }, [recipient]);
+  console.log(list);
   return (
     <div className='h-full relative overflow-hidden p-2'>
       <div className='h-full pb-12'>

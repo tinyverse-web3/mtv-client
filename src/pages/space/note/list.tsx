@@ -1,41 +1,30 @@
-import { useEffect, useMemo } from 'react';
-import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
+import { useEffect } from 'react';
+import { Text } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useNoteStore, useAccountStore } from '@/store';
+import { useNoteStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import { format } from 'date-fns';
-import { useEvent } from 'react-use';
-import toast from 'react-hot-toast';
 
 export default function NoteList() {
   const nav = useNavigate();
-  const list = useNoteStore((state) => state.list);
-  const remove = useNoteStore((state) => state.remove);
-  const initNote = useNoteStore((state) => state.init);
-  const { account } = useAccountStore((state) => state);
+  const { list, remove, getList } = useNoteStore((state) => state);
   const toAdd = () => {
-    nav('/note/add');
+    nav('/space/note/add');
   };
-  const toDetail = (id: string) => {
-    nav(`/note/${id}`);
+  const toDetail = (id?: string) => {
+    console.log(id);
+    nav(`/space/note/${id}`);
   };
-  const removeItem = async (e: any, id: string) => {
+  const removeItem = async (e: any, id?: string) => {
     e.stopPropagation();
-    await remove(id);
+    if (id) {
+      await remove(id);
+    }
   };
   useEffect(() => {
-    if (!list?.length) {
-      account.getNote().then((content) => {
-        if (content) {
-          try {
-            const list = JSON.parse(content);
-            initNote(list);
-          } catch (error) {}  
-        }
-      });
-    }
-  }, [list]);
+    getList();
+  }, [])
   return (
     <LayoutThird
       title='记事本'
@@ -46,24 +35,24 @@ export default function NoteList() {
       <div className='p-6'>
         {list.map((item) => (
           <div
-            key={item.id}
+            key={item.Id}
             className='py-2 px-4 relative border-b border-b-solid border-b-gray-300'>
-            <div onClick={() => toDetail(item.id)}>
+            <div onClick={() => toDetail(item?.Id)}>
               <div className='flex items-center'>
                 <div className='text-5 i-mdi-file-document-outline mr-1'></div>
-                {item.title}
+                {item.Title}
               </div>
-              {item.updated && (
+              {item.ModifyTIme && (
                 <div>
                   <Text className='text-3'>
-                    {format(item.updated, 'yyyy-MM-dd')}
+                    {format(new Date(item.ModifyTIme), 'yyyy-MM-dd')}
                   </Text>
                 </div>
               )}
             </div>
             <div
               className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-6 h-6'
-              onClick={(e) => removeItem(e, item.id)}></div>
+              onClick={(e) => removeItem(e, item?.Id)}></div>
           </div>
         ))}
       </div>

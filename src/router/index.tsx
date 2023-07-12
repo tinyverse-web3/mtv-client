@@ -8,12 +8,14 @@ import Root from '@/Root';
 import ChatImChare from '@/pages/chat/imshare';
 import ChatList from '@/pages/chat/list';
 import ChatMessage from '@/pages/chat/message';
+import ChatProfile from '@/pages/chat/profile';
 import Home from '@/pages/home';
 import Index from '@/pages/index';
 import AssetsIndex from '@/pages/assets';
 
 import Restore from '@/pages/restore';
 import RestorePhrase from '@/pages/restore/phrase';
+import RestorePhraseFeature from '@/pages/restore/phraseFeature';
 import RestoreProtector from '@/pages/restore/protector';
 import RestoreVerify from '@/pages/restore/verify';
 import RestoreQuestion from '@/pages/restore/question';
@@ -43,6 +45,7 @@ export const ROUTE_PATH = {
 
   RESTORE: '/restore',
   RESTORE_PHRASE: '/restore/phrase',
+  RESTORE_PHRASE_FEATURE: '/restore/phraseFeature',
   RESTORE_PROTECTOR: '/restore/protector',
   RESTORE_VERIFY: '/restore/verify',
   RESTORE_QUESTION: '/restore/question',
@@ -57,7 +60,7 @@ export const ROUTE_PATH = {
 
   CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
-
+  CHAT_PROFILE: '/chat/profile',
   CHAT_SHARE: '/chat/imShare',
   ...ROUTE_PATH_SPACE,
   ...ROUTE_PATH_ACCOUNT,
@@ -93,7 +96,6 @@ export const routes: RouteObject[] = [
         path: ROUTE_PATH.APP_TEST,
         element: <AppTest />,
       },
-
       {
         path: ROUTE_PATH.RESTORE,
         element: <Restore />,
@@ -101,6 +103,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.RESTORE_PHRASE,
         element: <RestorePhrase />,
+      },
+      {
+        path: ROUTE_PATH.RESTORE_PHRASE_FEATURE,
+        element: <RestorePhraseFeature />,
       },
       {
         path: ROUTE_PATH.RESTORE_PROTECTOR,
@@ -143,6 +149,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.CHAT_MESSAGE,
         element: <ChatMessage />,
+      },
+      {
+        path: ROUTE_PATH.CHAT_PROFILE,
+        element: <ChatProfile />,
       },
       {
         path: ROUTE_PATH.CHAT_SHARE,
