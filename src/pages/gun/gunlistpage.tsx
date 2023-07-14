@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
-import { useMtvStorageStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import { format } from 'date-fns';
@@ -42,7 +41,6 @@ export default function GunListShow() {
   return (
     <LayoutThird
     title='你拥有的GUN域名'
-    path={ROUTE_PATH.SPACE_INDEX}
     rightContent={
       <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
     }>

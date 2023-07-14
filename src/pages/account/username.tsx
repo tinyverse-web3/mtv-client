@@ -37,7 +37,7 @@ export default function Userinfo() {
     return !nickname || nickname === accountInfo.name;
   }, [nickname, accountInfo]);
   return (
-    <LayoutThird showBack title='修改名字' path={ROUTE_PATH.ACCOUNT}>
+    <LayoutThird showBack title='修改名字'>
       <div className='pt-4 px-4'>
         <Text className='text-14px mb-6'>
           用户的全球唯一名称（Global Unique

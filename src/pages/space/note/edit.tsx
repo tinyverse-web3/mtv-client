@@ -49,7 +49,7 @@ export default function Edit() {
       getDetail(id);
   }, [id]);
   return (
-    <LayoutThird title='记事本' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='记事本'>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Textarea

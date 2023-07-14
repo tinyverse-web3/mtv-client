@@ -13,7 +13,7 @@ export default function UserPhrase() {
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (
-    <LayoutThird title='助记词备份' path={ROUTE_PATH.ACCOUNT_PHRASE_VERIFY}>
+    <LayoutThird title='助记词备份'>
       <div className='px-6 pt-10'>
         <Image src={imageSuccess} className='w-40 mb-10' />
         <Button className='w-full' size='lg' onPress={toAccount}>

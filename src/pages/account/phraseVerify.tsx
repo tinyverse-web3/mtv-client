@@ -57,7 +57,7 @@ export default function UserPhrase() {
   }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
-    <LayoutThird title='助记词恢复测试' path={ROUTE_PATH.ACCOUNT_PHRASE}>
+    <LayoutThird title='助记词恢复测试'>
       <div className='p-4'>
         <div className='grid grid-cols-4 gap-4 mb-4'>
           {list.map((v, i) => (

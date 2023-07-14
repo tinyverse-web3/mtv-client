@@ -6,26 +6,41 @@ import LayoutThird from '@/layout/LayoutThird';
 import { Input as NextInput, Row, Button } from '@nextui-org/react';
 import { usePasswordStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
+import { useSearchParams } from 'react-router-dom';
 import { useMap } from 'react-use';
+import { toast } from 'react-hot-toast';
 
 export default function Edit() {
   const nav = useNavigate();
-  const { add } = usePasswordStore((state) => state);
+  const { add, getById, list, update } = usePasswordStore((state) => state);
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get('type');
+  const id = searchParams.get('id') as string;
   const [data, { set, setAll, remove, reset }] = useMap({
+    Id: id,
     Title: '',
     Account: '',
     Password: '',
     Url: '',
-    remark: '',
   });
   const saveHandler = async (e: any) => {
-    console.log(data);
-    await add(data);
+    if (type === 'add') {
+      await add(data);
+      toast.success('添加成功');
+    } else {
+      await update(data);
+      toast.success('更新成功');
+    }
+    nav(-1);
   };
-
-  const addNote = async () => {};
+  useEffect(() => {
+    if (id) {
+      const detail = getById(id);
+      setAll(detail as any);
+    }
+  }, [id]);
   return (
-    <LayoutThird title='新建密码本' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title={`${type ==='add' ? '新建' : '编辑'}密码本`}>
       <div className='p-6'>
         <Row className='mb-8' justify='center' align='center'>
           <span className='w-16'>标题</span>
@@ -65,7 +80,7 @@ export default function Edit() {
             placeholder='网址'
           />
         </Row>
-        <Row className='mb-8' justify='center'>
+        {/* <Row className='mb-8' justify='center'>
           <span className='w-16'>备注</span>
           <Textarea
             value={data.remark}
@@ -73,7 +88,7 @@ export default function Edit() {
             onChange={(e: string) => set('remark', e?.trim())}
             placeholder='备注'
           />
-        </Row>
+        </Row> */}
         <Row className='' justify='center'>
           <Button
             color='secondary'

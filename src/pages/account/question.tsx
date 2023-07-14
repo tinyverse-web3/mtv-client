@@ -19,7 +19,7 @@ export default function Question() {
     setType(value);
   };
   return (
-    <LayoutThird title='智能隐私备份' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='智能隐私备份'>
       <div className='p-4'>
         <div className='flex mb-4'>
           {tabs.map((item, index) => {

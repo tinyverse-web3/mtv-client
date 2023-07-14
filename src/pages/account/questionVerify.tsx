@@ -37,7 +37,7 @@ export default function QuestionVerify() {
     }
   }, []);
   return (
-    <LayoutThird title='智能隐私恢复测试' path={ROUTE_PATH.ACCOUNT_QUESTION}>
+    <LayoutThird title='智能隐私恢复测试'>
       <div className='p-4'>
         {type == 1 ? (
           <QuestionDefault

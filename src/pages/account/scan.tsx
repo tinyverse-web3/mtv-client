@@ -79,7 +79,7 @@ export default function UserScan() {
       const type = searchParams.get('type') as any;
       const value = searchParams.get('value');
       if (Number(type) === QrType.ADD_FRIEND && value) {
-        await account.publishMsg(value);
+        // await account.publishMsg(value);
         toast.success('添加好友成功');
       } else {
         toast.success('没有得到任何结果');
@@ -91,7 +91,7 @@ export default function UserScan() {
     parseText();
   }, [text]);
   return (
-    <LayoutThird title='我的二维码' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='我的二维码'>
       <div className='pt-30'>
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>

@@ -80,7 +80,7 @@ export default function Retrieve() {
     },
   ];
   return (
-    <LayoutThird title='找回密码' path={ROUTE_PATH.UNLOCK}>
+    <LayoutThird title='找回密码'>
       <div className=''>
         <div className='flex h-12'>
           {setArr.map((v, i) => (

@@ -46,7 +46,7 @@ export default function QuestionVerifyResult() {
     }
   }, []);
   return (
-    <LayoutThird title='智能隐私备份' path={ROUTE_PATH.ACCOUNT_QUESTION_VERIFY}>
+    <LayoutThird title='智能隐私备份'>
       {state ? (
         <div className='px-6 pt-10'>
           <Image src={imageSuccess} className='w-40 mb-10' />

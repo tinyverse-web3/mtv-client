@@ -49,13 +49,8 @@ export default function ChatList() {
   };
 
   const toSender = async () => {
-    // toast.success('添加成功');
     setSearchText('');
     await toDetail({ DAuthKey: searchText });
-    // await getFriends();
-  };
-  const startMsgServer = async () => {
-    await account.startMsgService();
   };
   const toDetail = async (item: any) => {
     await setRecipient(item);
@@ -112,16 +107,11 @@ export default function ChatList() {
     return format(new Date(time), 'HH:mm');
   };
   useEffect(() => {
-    // startMsgServer();
     getContacts();
   }, []);
   useInterval(() => {
     getContacts();
   }, 2000);
-  // useEffect(() => {
-  //   console.log('lastMessage', lastMessage);
-  //   getContacts();
-  // }, [lastMessage]);
   return (
     <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>
@@ -151,7 +141,7 @@ export default function ChatList() {
           {friendList?.filter(Boolean).map((item: any) => (
             <div
               className='flex h-22 items-center px-4 border-b border-b-solid border-b-gray-200 cursor-pointer'
-              key={item}
+              key={item.DAuthKey}
               onClick={() => toDetail(item)}>
               <Image
                 src={item.imgCid || '/logo.png'}

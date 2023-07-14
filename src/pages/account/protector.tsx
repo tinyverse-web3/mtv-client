@@ -63,7 +63,6 @@ export default function AccountProtector() {
   return (
     <LayoutThird
       title='守护者'
-      path={ROUTE_PATH.ACCOUNT}
       rightContent={
         <div onClick={add} className='i-mdi-plus-circle-outline text-5'></div>
       }>

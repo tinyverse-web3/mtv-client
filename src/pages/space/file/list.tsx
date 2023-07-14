@@ -84,7 +84,6 @@ export default function Album() {
   return (
     <LayoutThird
       title='相册'
-      path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
           <div className='i-mdi-plus-circle-outline text-5'></div>

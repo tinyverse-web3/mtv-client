@@ -17,7 +17,7 @@ interface PasswordState {
   getList: () => void;
   remove: (id: string) => void;
   update: (Password: Password) => void;
-  get: (id: string) => Promise<Password | undefined>;
+  getById: (id: string) => (Password | undefined);
 }
 
 export const usePasswordStore = create<PasswordState>()(
@@ -74,7 +74,7 @@ export const usePasswordStore = create<PasswordState>()(
           }
         }
       },
-      get: async (id) => {
+      getById: (id) => {
         const list = get().list;
         return list.find((i) => i.Id === id);
       },

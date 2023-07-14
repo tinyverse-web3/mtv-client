@@ -21,7 +21,7 @@ export default function UserPhrase() {
     getMnemonic()
   }, []);
   return (
-    <LayoutThird title='助记词备份' path={ROUTE_PATH.ACCOUNT}>
+    <LayoutThird title='助记词备份'>
       <div className='p-4'>
         <Text className='text-4 mb-4'>
           助记词非常重要，请妥善保管，注意不使用联网工具备份。

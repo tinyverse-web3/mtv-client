@@ -28,7 +28,7 @@ export default function UserQrcode() {
     return `type=${QrType.ADD_FRIEND}&value=${publicKey}`
   }, [publicKey]);
   return (
-    <LayoutThird title='我的二维码' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='我的二维码'>
       <div className='pt-18'>
         <Text className='mb-24 text-center'>用于他人添加好友</Text>
         {publicKey && (

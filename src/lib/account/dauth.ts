@@ -100,7 +100,7 @@ export class Dauth {
   }
   async modifyCodebook({ Id, Title, Account, Password, Url }: any) {
     return this.invoke({
-      name: 'codebook/add',
+      name: 'codebook/modify',
       data: {
         Id,
         Title,

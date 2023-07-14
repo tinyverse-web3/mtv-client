@@ -13,8 +13,7 @@ export default function NoteList() {
     nav(`${ROUTE_PATH.SPACE_PASSWORD_ADD}?type=add`);
   };
   const toDetail = (id?: string) => {
-    console.log(id);
-    nav(`${ROUTE_PATH.SPACE_PASSWORD_ADD}?type=add&id=${id}`);
+    nav(`${ROUTE_PATH.SPACE_PASSWORD_ADD}?type=edit&id=${id}`);
   };
   const removeItem = async (e: any, id?: string) => {
     e.stopPropagation();
@@ -29,13 +28,12 @@ export default function NoteList() {
   return (
     <LayoutThird
       title='密码本'
-      path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
-      <div className='p-6'>
+      <div className='p-4'>
         {list.map((item) => (
-          <PasswordItem item={item} key={item.Id} />
+          <PasswordItem item={item} key={item.Id} toDetail={toDetail}/>
         ))}
       </div>
     </LayoutThird>

@@ -129,7 +129,7 @@ export default function GunRenew() {
   const label = "";
 
     return (
-    <LayoutThird showBack title='申请你的GUN域名' path={ROUTE_PATH.GUN_GUNLISTPAGE}>
+    <LayoutThird showBack title='申请你的GUN域名'>
       <div>
         <div className='pt-4 px-4'>
           <Text className='text-14px mb-2'>

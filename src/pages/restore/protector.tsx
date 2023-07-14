@@ -56,7 +56,7 @@ export default function Protector() {
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title='守护者恢复' path={ROUTE_PATH.INDEX}>
+    <LayoutThird title='守护者恢复'>
       <div className='p-4'>
         <div>
           <div className='mb-6'>

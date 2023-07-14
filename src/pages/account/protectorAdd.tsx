@@ -42,7 +42,7 @@ export default function ProtectorAdd() {
     [checked, email, code],
   );
   return (
-    <LayoutThird title='添加守护者' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='添加守护者'>
       <div className='p-4'>
         <Text className='text-14px mb-6'>
           守护者可用于身份验证、社交恢复等。

@@ -55,7 +55,7 @@ export default function GunRenew() {
 
 
     return (
-    <LayoutThird showBack title='给你的GUN域名续期' path={ROUTE_PATH.GUN_GUNLISTPAGE}>
+    <LayoutThird showBack title='给你的GUN域名续期'>
       <div>
         <div className='pt-4 px-4'>
           <Text className='text-14px mb-6'>

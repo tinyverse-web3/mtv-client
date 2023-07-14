@@ -10,11 +10,11 @@ export default function NoteList() {
   const nav = useNavigate();
   const { list, remove, getList } = useNoteStore((state) => state);
   const toAdd = () => {
-    nav('/space/password/add');
+    nav('/space/note/add');
   };
   const toDetail = (id?: string) => {
     console.log(id);
-    nav(`/space/password/${id}`);
+    nav(`/space/note/${id}`);
   };
   const removeItem = async (e: any, id?: string) => {
     e.stopPropagation();
@@ -25,7 +25,6 @@ export default function NoteList() {
   return (
     <LayoutThird
       title='记事本'
-      path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
