@@ -10,11 +10,11 @@ export default function NoteList() {
   const nav = useNavigate();
   const { list, remove, getList } = useNoteStore((state) => state);
   const toAdd = () => {
-    nav('/space/note/add');
+    nav('/space/password/add');
   };
   const toDetail = (id?: string) => {
     console.log(id);
-    nav(`/space/note/${id}`);
+    nav(`/space/password/${id}`);
   };
   const removeItem = async (e: any, id?: string) => {
     e.stopPropagation();
@@ -22,9 +22,6 @@ export default function NoteList() {
       await remove(id);
     }
   };
-  useEffect(() => {
-    getList();
-  }, [])
   return (
     <LayoutThird
       title='记事本'

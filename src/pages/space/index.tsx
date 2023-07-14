@@ -25,14 +25,17 @@ export default function SpaceIndex() {
     {
       icon: 'i-mdi-image-album',
       label: '相册',
+      path: ROUTE_PATH.SPACE_ALBUM,
     },
     {
       icon: 'i-mdi-file-document-outline',
       label: '文件',
+      path: ROUTE_PATH.SPACE_FILE,
     },
     {
       icon: 'i-mdi-key-variant',
       label: '密码本',
+      path: ROUTE_PATH.SPACE_PASSWORD,
     },
     {
       icon: 'i-mdi-earth',

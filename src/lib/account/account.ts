@@ -193,6 +193,33 @@ export class Account {
     const result = await this.dauth.modifyNote({ Id, Title, Content });
     return result.data;
   }
+  async getCodebookList() {
+    const result = await this.dauth.getCodebookList();
+    return result.data;
+  }
+  async delCodebook({ Id }: any) {
+    const result = await this.dauth.delCodebook({ Id });
+    return result.data;
+  }
+  async addCodebook({ Title, Account, Password, Url }: any) {
+    const result = await this.dauth.addCodebook({
+      Title,
+      Account,
+      Password,
+      Url,
+    });
+    return result.data;
+  }
+  async modifyCodebook({ Id, Title, Account, Password, Url }: any) {
+    const result = await this.dauth.modifyCodebook({
+      Id,
+      Title,
+      Account,
+      Password,
+      Url,
+    });
+    return result.data;
+  }
   /**
    * 获取应用私有数据
    * @returns {Promise<void>}
@@ -651,10 +678,38 @@ export class Account {
     const res = await this.dauth.uploadAvatar({
       file,
     });
-    console.log(res);
     return res;
   }
-
+  async uploadFile({
+    file,
+    type,
+    password,
+  }: {
+    file: File;
+    type: string;
+    password?: string;
+  }) {
+    const res = await this.dauth.uploadFile({
+      file,
+      type,
+      password,
+    });
+    return res.data;
+  }
+  async getFileList({ type }: any) {
+    const res = await this.dauth.getFileList({ type });
+    return res.data;
+  }
+  async uploadAlbum({ file }: { file: File }) {
+    const res = await this.dauth.uploadAlbum({
+      file,
+    });
+    return res.data;
+  }
+  async getAlbumList() {
+    const res = await this.dauth.getAlbumList();
+    return res.data;
+  }
   /**
    * 修改密码
    * @param {Object} options - 选项对象
@@ -740,17 +795,6 @@ export class Account {
       content,
     });
     return res.data;
-  }
-  /**
-   * 开始消息服务
-   * @returns {Promise<any>} - 返回消息服务数据
-   */
-  async startMsgService() {
-    const { publicKey } = this.accountInfo;
-    const res = await this.dauth.startMsgService({
-      publicKey,
-    });
-    return res.data.data;
   }
 }
 

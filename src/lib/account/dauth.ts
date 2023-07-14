@@ -11,8 +11,7 @@ export class Dauth {
   async createMasterAccount() {
     return this.invoke({
       name: 'createMasterAccount',
-      data: {
-      },
+      data: {},
     });
   }
   /**
@@ -52,8 +51,8 @@ export class Dauth {
     return this.invoke({
       name: 'delNote',
       data: {
-        Id
-      }
+        Id,
+      },
     });
   }
   async addNote({ Title, Content }: any) {
@@ -62,7 +61,7 @@ export class Dauth {
       data: {
         Title,
         Content,
-      }
+      },
     });
   }
   async modifyNote({ Id, Title, Content }: any) {
@@ -72,7 +71,43 @@ export class Dauth {
         Id,
         Title,
         Content,
-      }
+      },
+    });
+  }
+  async getCodebookList() {
+    return this.invoke({
+      name: 'codebook/getList',
+    });
+  }
+  async delCodebook({ Id }: any) {
+    return this.invoke({
+      name: 'codebook/del',
+      data: {
+        Id,
+      },
+    });
+  }
+  async addCodebook({ Title, Account, Password, Url }: any) {
+    return this.invoke({
+      name: 'codebook/add',
+      data: {
+        Title,
+        Account,
+        Password,
+        Url,
+      },
+    });
+  }
+  async modifyCodebook({ Id, Title, Account, Password, Url }: any) {
+    return this.invoke({
+      name: 'codebook/add',
+      data: {
+        Id,
+        Title,
+        Account,
+        Password,
+        Url,
+      },
     });
   }
   /**
@@ -165,10 +200,7 @@ export class Dauth {
       },
     });
   }
-  async getQuestions4Retrieve({
-    textPrivateData,
-    passwordPrivateData,
-  }: any) {
+  async getQuestions4Retrieve({ textPrivateData, passwordPrivateData }: any) {
     return this.invoke({
       name: 'getQuestions4Retrieve',
       data: {
@@ -433,8 +465,7 @@ export class Dauth {
   async getQuestions({ privateData, appName = 'mtv', publicKey }: any) {
     return this.invoke({
       name: 'getQuestions',
-      data: {
-      },
+      data: {},
     });
   }
 
@@ -496,7 +527,51 @@ export class Dauth {
       formData: formData,
     });
   }
-
+  async uploadAlbum({ file }: { file: File }) {
+    const formData = new FormData();
+    formData.append('File', file);
+    return this.invoke({
+      name: 'album/upload',
+      method: 'post',
+      formData: formData,
+    });
+  }
+  async getAlbumList() {
+    return this.invoke({
+      name: 'album/getList',
+      method: 'get',
+    });
+  }
+  async uploadFile({
+    file,
+    type,
+    password,
+  }: {
+    file: File;
+    type: string;
+    password?: string;
+  }) {
+    const formData = new FormData();
+    formData.append('File', file);
+    formData.append('Type', type);
+    if (password) {
+      formData.append('Password', password);
+    }
+    return this.invoke({
+      name: 'file/upload',
+      method: 'post',
+      formData: formData,
+    });
+  }
+  async getFileList({ type }: any) {
+    return this.invoke({
+      name: 'file/getList',
+      method: 'get',
+      data: {
+        Type: type,
+      },
+    });
+  }
   /**
    * 上传 IPFS 内容
    * @param content 内容
@@ -518,8 +593,7 @@ export class Dauth {
     return this.invoke({
       name: 'msg/getContacts',
       method: 'get',
-      data: {
-      },
+      data: {},
     });
   }
 
@@ -573,22 +647,6 @@ export class Dauth {
       method: 'post',
       data: {
         destPubkey,
-      },
-    });
-  }
-
-  /**
-   * 开始消息服务
-   * @param privateKeyHash 私钥哈希
-   * @param publicKey 公钥
-   */
-  async startMsgService({ privateKeyHash, publicKey }: any) {
-    return this.invoke({
-      name: 'startMsgService',
-      method: 'post',
-      data: {
-        privateKey: privateKeyHash,
-        publicKey,
       },
     });
   }
