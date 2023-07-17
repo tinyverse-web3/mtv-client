@@ -4,10 +4,10 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import imageSuccess from '@/assets/images/icon-success.png';
 import { useAccountStore } from '@/store';
+import account from '@/lib/account/account';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const toAccount = async () => {
     await account.backupByPharse();
     nav(ROUTE_PATH.ACCOUNT);

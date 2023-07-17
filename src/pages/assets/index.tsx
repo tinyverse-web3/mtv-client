@@ -10,11 +10,12 @@ import { HeaderAccount } from './components/HeaderAccount';
 import { Point } from './components/Point';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
 import { AssetsNftItem } from './components/AssetsNftItem';
+import account from '@/lib/account/account';
 
 export default function AssetsIndex() {
   const [assetsType, setAssetsType] = useState('token');
 
-  const { account, web3AccountSelect, accountInfo } = useAccountStore((state) => state);
+  const { web3AccountSelect, accountInfo } = useAccountStore((state) => state);
   const list = useMemo(() => {
     const web3SubAccount = accountInfo.subAccount.filter(
       (v) => v.type === 'web3',

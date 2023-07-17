@@ -1,22 +1,17 @@
 import { useState } from 'react';
 import { Text, Row, Textarea } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 import {
   useRestoreStore,
-  useAccountStore,
 } from '@/store';
-import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
-import { useRequest } from '@/api';
 
 export default function Phrase() {
   const nav = useNavigate();
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
-  const { account } = useAccountStore((state) => state);
   const { setMnemonic } = useRestoreStore((state) => state);
 
   const importHandler = async () => {

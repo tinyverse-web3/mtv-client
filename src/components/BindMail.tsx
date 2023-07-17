@@ -2,15 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
-import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
-import toast from 'react-hot-toast';
-import { STATUS_CODE } from '@/lib/account/account';
+import account from '@/lib/account/account';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const { showLogin, setShowLogin } = useGlobalStore((state) => state);
-  const { account, setAccountInfo, getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setAccountInfo, getLocalAccountInfo } = useAccountStore((state) => state);
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag, reset } = useCountDown(60);

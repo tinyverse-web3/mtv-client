@@ -4,7 +4,6 @@ interface Props {
   address?: string;
 }
 export const Address = ({ address }: Props) => {
-  console.log(address);
   const [_, copyToClipboard] = useCopyToClipboard();
   const shortAddress = useMemo(() => {
     return `${address?.substring(0, 5)}*****${address?.substring(

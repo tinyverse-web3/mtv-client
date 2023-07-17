@@ -14,6 +14,7 @@ const FileItem = ({ item }: FileItemProps) => {
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const formatTime = (time: number) => {
+    if (!time) return;
     if (time.toString().length === 10) {
       time = time * 1000;
     }

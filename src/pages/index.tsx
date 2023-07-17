@@ -5,12 +5,12 @@ import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import wallet from '@/lib/account/wallet';
 import { useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function Index() {
-  const { account,getLocalAccountInfo } = useAccountStore((state) => state);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();

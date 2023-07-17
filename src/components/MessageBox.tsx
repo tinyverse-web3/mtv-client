@@ -5,11 +5,12 @@ import { ChatList } from '@/components/ChatList';
 import { ChatInput } from '@/components/ChatInput';
 import { useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
+import account from '@/lib/account/account';
 
 export const MessageBox = ({ recipient }: any) => {
   const [allList, { set: setAllList }] = useList<any>([]);
   const [lastList, { set: setLastList, push }] = useList<any>([]);
-  const { account, accountInfo } = useAccountStore((state) => state);
+  const {  accountInfo } = useAccountStore((state) => state);
 
   const reciveMsg = useCallback(
     (msg: any) => {

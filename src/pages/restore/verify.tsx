@@ -5,11 +5,11 @@ import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import { useRequest } from '@/api';
 import { useNavigate } from 'react-router-dom';
-import { useQuestionStore, useAccountStore } from '@/store';
-import { toast } from 'react-hot-toast';
+import { useQuestionStore } from '@/store';
+import account from '@/lib/account/account';
+
 export default function RestoreVerifyEmail() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');

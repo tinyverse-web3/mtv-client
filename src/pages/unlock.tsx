@@ -7,13 +7,14 @@ import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const { account, getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
+  const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
   const { reset: resetGlobal } = useGlobalStore((state) => state);
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');

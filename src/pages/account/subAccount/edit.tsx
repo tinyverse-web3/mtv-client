@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
@@ -6,10 +6,9 @@ import { Select } from '@/components/form/Select';
 import { v4 as uuidv4 } from 'uuid';
 import LayoutThird from '@/layout/LayoutThird';
 import { Row, Button } from '@nextui-org/react';
-import { useAccountStore } from '@/store';
-import { ROUTE_PATH } from '@/router';
 import { useMap } from 'react-use';
 import { toast } from 'react-hot-toast';
+import account from '@/lib/account/account';
 
 export default function Edit() {
   const nav = useNavigate();
@@ -27,7 +26,6 @@ export default function Edit() {
     mnemonic: '',
     type: 'web3',
   });
-  const { account } = useAccountStore((state) => state);
   const types = [
     {
       label: 'Web3账户',
@@ -44,17 +42,17 @@ export default function Edit() {
   ];
 
   const getSubAccount = async () => {
-    const list = await account.getAllSubAccount();
-    const item = list.find((item) => item.id === id) as any;
-    if (item) {
-      setAll({
-        name: item.label,
-        key: item.privateKey,
-        mnemonic: item.mnemonic,
-        type: item.type,
-      });
-    }
-    console.log(data);
+    // const list = await account.getAllSubAccount();
+    // const item = list.find((item) => item.id === id) as any;
+    // if (item) {
+    //   setAll({
+    //     name: item.label,
+    //     key: item.privateKey,
+    //     mnemonic: item.mnemonic,
+    //     type: item.type,
+    //   });
+    // }
+    // console.log(data);
   };
   const typeChange = (e: any) => {
     data.type = e;
@@ -67,17 +65,17 @@ export default function Edit() {
   };
 
   const addSubAccount = async () => {
-    await account.addSubAccount({
-      id: uuidv4(),
-      type: 'web3',
-      label: data.name,
-      remark: '',
-      category: '',
-      address: data.name,
-      publicKey: '',
-      privateKey: '',
-      mnemonic: data.mnemonic,
-    });
+    // await account.addSubAccount({
+    //   id: uuidv4(),
+    //   type: 'web3',
+    //   label: data.name,
+    //   remark: '',
+    //   category: '',
+    //   address: data.name,
+    //   publicKey: '',
+    //   privateKey: '',
+    //   mnemonic: data.mnemonic,
+    // });
     toast.success('添加成功');
     nav(-1);
   };

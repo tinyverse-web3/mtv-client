@@ -8,7 +8,7 @@ import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { useRequest } from '@/api';
-import {useGunList} from './gundata';
+import { useGunStore, GunSummy } from '@/store';
 
 
 export default function GunRenew() {
@@ -23,8 +23,8 @@ export default function GunRenew() {
   const [selectedValid, setSelectedValid] = useState(VALID_YEAR);
   const { name } = useParams<{ name: string }>(); // 获取路由参数中的 gunname
   //const { mutate: modifyuser, loading: modifyLoading };
-  const renewGUN = useGunList((state) => state.renew);
-  const loadGUN = useGunList((state) => state.load);
+  const renewGUN = useGunStore((state) => state.renew);
+  const loadGUN = useGunStore((state) => state.load);
 
   const [nameValid, setnameValid] = useState("gunvalid");
 

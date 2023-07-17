@@ -1,5 +1,7 @@
 import { Button as NextButton } from '@nextui-org/react';
 import { useState, useMemo } from 'react';
+import { useCopyToClipboard } from 'react-use';
+import { toast } from 'react-hot-toast';
 
 export default function PasswordItem({ item, toDetail }: any) {
   const [showPassword, setShowPassword] = useState(false);
@@ -8,6 +10,12 @@ export default function PasswordItem({ item, toDetail }: any) {
   }, [item.Passowrd]);
   const showPasswordModal = () => {
     setShowPassword(!showPassword);
+  };
+  const [_, copyToClipboard] = useCopyToClipboard();
+  const copy = (text: string) => {
+    if (!text) return;
+    copyToClipboard(text);
+    toast.success('复制成功');
   };
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2'>
@@ -39,13 +47,13 @@ export default function PasswordItem({ item, toDetail }: any) {
         </div>
       </div>
       <div className='flex justify-around'>
-        <NextButton auto flat size='xs' className=''>
+        <NextButton auto flat size='xs' className='' onPress={() => copy(item.Account)}>
           复制账号
         </NextButton>
-        <NextButton auto flat size='xs' className=''>
+        <NextButton auto flat size='xs'  onPress={() => copy(item.Password)}>
           复制密码
         </NextButton>
-        <NextButton auto flat size='xs' className=''>
+        <NextButton auto flat size='xs'  onPress={() => copy(item.Url)}>
           复制网址
         </NextButton>
       </div>

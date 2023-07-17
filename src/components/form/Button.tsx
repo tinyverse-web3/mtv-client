@@ -21,7 +21,7 @@ export const Button = ({
   };
   return (
     <NextButton
-      className={`h-50px rounded-2 text-4 ${className}`}
+      className={`rounded-2 text-4 ${className}`}
       disabled={disabled}
       {...rest}
       onPressEnd={pressHandler}>

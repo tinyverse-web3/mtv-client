@@ -4,10 +4,10 @@ import { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);

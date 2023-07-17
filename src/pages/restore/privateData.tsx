@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
-import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function Unlock() {
   const nav = useNavigate();
@@ -14,7 +13,6 @@ export default function Unlock() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { account } = useAccountStore((state) => state);
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];

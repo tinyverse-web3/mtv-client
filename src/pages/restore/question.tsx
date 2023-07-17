@@ -6,10 +6,11 @@ import {
 import { QuestionRestore } from '@/pages/restore/components/QuestionRestore';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function Restore() {
   const nav = useNavigate();
-  const { account, getLocalAccountInfo } = useAccountStore((state) => state);
+  const {  getLocalAccountInfo } = useAccountStore((state) => state);
   const {
     list: questionList,
     sssData: serverShare,

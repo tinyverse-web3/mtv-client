@@ -1,27 +1,26 @@
 import { Card, Text, Button } from '@nextui-org/react';
 6;
-import { useAccountStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useEffect, useState } from 'react';
 import { useList } from 'react-use';
 import { toast } from 'react-hot-toast';
+import account from '@/lib/account/account';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const [list, { set: setList }] = useList<any>([]);
   const getSubAccount = async () => {
-    const list = await account.getAllSubAccount();
-    setList(list);
+    // const list = await account.getAllSubAccount();
+    // setList(list);
   };
   const toAdd = () => {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_EDIT);
   };
   const deleteHandler = async (item: any) => {
     console.log('删除');
-    await account.deleteSubAccount(item);
+    // await account.deleteSubAccount(item);
     await getSubAccount();
     toast.success('删除成功');
   };

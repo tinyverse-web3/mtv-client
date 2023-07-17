@@ -15,74 +15,6 @@ export enum STATUS_CODE {
   CHANGE_PASSWORD_ERROR,
 }
 
-interface Guardian {
-  name: string;
-  type: string;
-  hash: string;
-  id?: string;
-}
-interface NostrInfo {
-  pk: string;
-  sk: string;
-}
-interface SubAccountWeb3 {
-  id: string;
-  type: 'web3';
-  label: string;
-  remark?: string;
-  category: string;
-  address: string;
-  publicKey?: string;
-  privateKey?: string;
-  mnemonic: string;
-}
-interface SubAccountWeb2 {
-  id: string;
-  type: 'web2';
-  label: string;
-  category: string;
-  remark?: string;
-  service_name: string;
-  service_url: string;
-  account: string;
-  password: string;
-}
-interface SubAccountLocal {
-  id: string;
-  type: 'local';
-  label: string;
-  remark?: string;
-  category: string;
-  account: string;
-  service_type: string;
-  publicKey: string;
-  privateKey: string;
-}
-interface PointAccount {
-  type: 'point';
-  label: string;
-  address: string;
-}
-export type SubAccount = SubAccountWeb3 | SubAccountWeb2 | SubAccountLocal;
-export interface AccountInfo {
-  publicKey: string;
-  avatar: string;
-  name: string;
-  address: string;
-  safeLevel: number;
-  bindStatus: boolean;
-  isDefaultPwd: boolean;
-  maintainPhrase: boolean;
-  maintainProtector: boolean;
-  maintainQuestion: boolean;
-  privacyInfo: any;
-  featureData?: any[];
-  guardians: Guardian[];
-  note_ipfs: string;
-  subAccount: SubAccount[];
-  pointAccount: PointAccount;
-}
-
 /* SafeLevel 用户等级
 0级：临时账户，账户无法恢复，数据随时会丢失，请尽快做账户维护。
 1级：账户存在单点故障，请尽快做账户维护。
@@ -98,32 +30,8 @@ interface Response {
 }
 export class Account {
   private readonly dauth = new Dauth();
-  private getAccountStatus: boolean = false;
-  private textPrivateData = '';
   private account = '';
   private passwordPrivateData = '';
-  public accountInfo: AccountInfo = {
-    publicKey: '',
-    avatar: '',
-    name: '',
-    address: '',
-    safeLevel: 0,
-    featureData: undefined,
-    bindStatus: false,
-    isDefaultPwd: true,
-    maintainPhrase: false,
-    maintainProtector: false,
-    maintainQuestion: false,
-    privacyInfo: {},
-    guardians: [],
-    subAccount: [],
-    note_ipfs: '',
-    pointAccount: {
-      type: 'point',
-      label: 'point',
-      address: '',
-    },
-  };
   constructor() {}
   /**
    * 创建账户
@@ -169,7 +77,6 @@ export class Account {
    */
   async getAccountInfo() {
     const result = await this.dauth.loadLocalAccount();
-    this.getAccountStatus = true;
     const { code, data } = result.data;
     if (code === '000000') {
       return data;
@@ -227,32 +134,6 @@ export class Account {
   async getAppPrivateData() {
     const privateData = '';
     // this.privateData = privateData;
-  }
-  /**
-   * 添加子账户
-   * @param sub - 子账户信息
-   */
-  async addSubAccount(sub: SubAccount) {
-    this.accountInfo.subAccount.push(sub);
-  }
-  /**
-   * 移除子账户
-   * @param sub - 子账户信息
-   */
-  async deleteSubAccount(sub: SubAccount) {
-    const index = this.accountInfo.subAccount.findIndex(
-      (item) => item.id === sub.id,
-    );
-    if (index > -1) {
-      this.accountInfo.subAccount.splice(index, 1);
-    }
-  }
-  /**
-   * 获取所有子账户信息
-   * @returns {SubAccount[]} - 返回子账户信息数组
-   */
-  async getAllSubAccount(): Promise<SubAccount[]> {
-    return this.accountInfo.subAccount;
   }
   /**
    * 设置私有数据
@@ -325,30 +206,7 @@ export class Account {
     });
     return result.data;
   }
-  resetAccountInfo() {
-    this.accountInfo = {
-      publicKey: '',
-      avatar: '',
-      name: '',
-      address: '',
-      safeLevel: 0,
-      featureData: undefined,
-      bindStatus: false,
-      isDefaultPwd: true,
-      maintainPhrase: false,
-      maintainProtector: false,
-      maintainQuestion: false,
-      privacyInfo: {},
-      guardians: [],
-      subAccount: [],
-      note_ipfs: '',
-      pointAccount: {
-        type: 'point',
-        label: 'point',
-        address: '',
-      },
-    };
-  }
+
   /**
    * 检查账户状态
    * @returns {Promise<STATUS_CODE>} - 返回状态码
@@ -380,7 +238,6 @@ export class Account {
    */
   async lock() {
     await this.dauth.lock();
-    this.resetAccountInfo();
     // this.mtvStorage = undefined;
     // this.crypto = undefined;
     // this.keySha = undefined;
@@ -513,7 +370,6 @@ export class Account {
     verifyCode: string;
     type?: string;
   }) {
-    const { publicKey } = this.accountInfo;
     const res = await this.dauth.addGuardian({
       account,
       verifyCode,
@@ -527,31 +383,10 @@ export class Account {
    * @param {string} options.type - 守护者类型
    * @returns {Promise<STATUS_CODE>} - 返回状态码
    */
-  async delGuardian({
-    account,
-    type = 'email',
-  }: {
-    account: string;
-    type?: string;
-  }) {
-    const { publicKey } = this.accountInfo;
+  async delGuardian({ account }: { account: string }) {
     const res = await this.dauth.delGuardian({
-      publicKey,
       account,
-      privateData: this.accountInfo.featureData,
     });
-    console.log(res);
-    console.log(this.accountInfo);
-    if (res.data.code === '000000') {
-      const index = this.accountInfo.guardians.findIndex(
-        (v) => v.name === account,
-      );
-      if (index > -1) {
-        this.accountInfo.guardians.splice(index, 1);
-        console.log(this.accountInfo);
-      }
-      return STATUS_CODE.SUCCESS;
-    }
     return res;
   }
   /**
@@ -559,7 +394,7 @@ export class Account {
    * @returns {Promise<void>} - 无返回值
    */
   async backupByPharse() {
-    this.accountInfo.maintainPhrase = true;
+    // this.accountInfo.maintainPhrase = true;
   }
 
   /**
@@ -657,13 +492,10 @@ export class Account {
    * @returns {Promise<STATUS_CODE>} - 返回状态码
    */
   async updateName({ name }: { name: string }) {
-    const { publicKey } = this.accountInfo;
     const res = await this.dauth.updateName({
-      publicKey,
       name,
     });
     if (res.data.code === '000000') {
-      this.accountInfo.name = name;
       return STATUS_CODE.SUCCESS;
     }
     return res;
@@ -724,22 +556,13 @@ export class Account {
     });
     return result.data.data;
   }
-  /**
-   * 保存问答问题到服务器
-   * @param {Array} questions - 要保存的问答问题
-   * @returns {Promise<any>} - 返回保存结果
-   */
-  async saveQuestions({ questions }: any) {
-    const { publicKey } = this.accountInfo;
-    return this.dauth.saveQuestions({ publicKey, questions });
-  }
+
   /**
    * 获取问答问题
    * @returns {Promise<any>} - 返回问答问题
    */
   async getQuestions() {
-    const { publicKey } = this.accountInfo;
-    const res = await this.dauth.getQuestions({ publicKey });
+    const res = await this.dauth.getQuestions();
     return res.data.data;
   }
   /**
@@ -747,9 +570,12 @@ export class Account {
    * @returns {Promise<any>} - 返回联系人列表数据
    */
   async getContacts() {
-    const { publicKey } = this.accountInfo;
     const res = await this.dauth.getContacts();
     return res.data.data;
+  }
+  async createContact(destPubkey: string) {
+    const res = await this.dauth.createContact({ destPubkey });
+    return res.data;
   }
   async setContactAlias({ destPubkey, alias }: any) {
     const res = await this.dauth.setContactAlias({
@@ -764,7 +590,6 @@ export class Account {
    * @returns {Promise<any>} - 返回接收到的消息数据
    */
   async receiveMsgs(destPubkey: string) {
-    const { publicKey } = this.accountInfo;
     const res = await this.dauth.receiveMsgs({
       destPubkey,
     });
@@ -776,9 +601,7 @@ export class Account {
    * @returns {Promise<any>} - 返回所有消息数据
    */
   async getAllMsgs(destPubkey: string) {
-    const { publicKey } = this.accountInfo;
     const res = await this.dauth.getAllMsgs({
-      publicKey,
       destPubkey,
     });
     return res.data.data;
@@ -794,6 +617,31 @@ export class Account {
       destPubkey,
       content,
     });
+    return res.data;
+  }
+  async applyNewGun({
+    GunName,
+    ValidTime,
+  }: {
+    GunName: string;
+    ValidTime: any;
+  }) {
+    const res = await this.dauth.applyNewGun({ GunName, ValidTime });
+    return res.data;
+  }
+
+  async renewGun({ GunName, ValidTime }: { GunName: string; ValidTime: any }) {
+    const res = await this.dauth.renewGun({ GunName, ValidTime });
+    return res.data;
+  }
+
+  async getGun({ GunName }: { GunName: string }) {
+    const res = await this.dauth.getGun({ GunName });
+    return res.data;
+  }
+
+  async getGunList() {
+    const res = await this.dauth.getGunList();
     return res.data;
   }
 }

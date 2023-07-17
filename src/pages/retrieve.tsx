@@ -5,11 +5,10 @@ import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useRequest } from '@/api';
 import { useAccountStore } from '@/store';
 import { validatePassword } from '@/lib/utils';
 import toast from 'react-hot-toast';
-import wallet, { STATUS_CODE, Password } from '@/lib/account/wallet';
+import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
 // import { SendEmail } from '@/components/SendEmail';
 
@@ -19,7 +18,6 @@ export default function Retrieve() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [pwd, setPwd] = useState('');
-  const { account } = useAccountStore((state) => state);
   const [confirmPwd, setConfirmPwd] = useState('');
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);

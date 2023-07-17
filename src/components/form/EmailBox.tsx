@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useAccountStore, useWalletStore } from '@/store';
-import { useRequest } from '@/api';
+import account from '@/lib/account/account';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
 interface Props {
@@ -13,7 +13,6 @@ export const EmailBox = ({ onChange }: Props) => {
   const [codeLoading, setCodeLoading] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
-  const { account } = useAccountStore((state) => state);
   const emailChange = (e: any) => {
     setEmail(e.target.value);
   };

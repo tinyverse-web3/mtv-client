@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
-import { ROUTE_PATH } from '@/router';
 import { Card, Text, Input } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useAccountStore } from '@/store';
@@ -12,7 +11,7 @@ enum MtvEnum {
 }
 export default function UserQrcode() {
   const qrBoxRef = useRef<any>();
-  const { account, accountInfo } = useAccountStore((state) => state);
+  const { accountInfo } = useAccountStore((state) => state);
   const { publicKey } = accountInfo;
   const loadQrcode = () => {
     if (qrBoxRef.current) {

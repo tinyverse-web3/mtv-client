@@ -4,6 +4,7 @@ import { Popover, Button, Radio } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { useAccountStore } from '@/store';
 import { Address } from '@/components/Address';
+import account from '@/lib/account/account';
 interface Props {
   label: string;
   value?: string | any;
@@ -11,7 +12,7 @@ interface Props {
 }
 export const HeaderAccount = () => {
   const nav = useNavigate();
-  const { account, web3AccountSelect, setWeb3Select, accountInfo } = useAccountStore(
+  const {  web3AccountSelect, setWeb3Select, accountInfo } = useAccountStore(
     (state) => state,
   );
   const list = useMemo(() => {

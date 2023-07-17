@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import { useGlobalStore, useAccountStore } from '@/store';
-import { Image, Badge } from '@nextui-org/react';
+import { useAccountStore } from '@/store';
+import { Image, Badge } from '@nextui-org/react';import account from '@/lib/account/account';
 interface Props {
   className?: string;
 }
 export const UserAvatar = ({ className }: Props) => {
-  const { account, accountInfo, getLocalAccountInfo } = useAccountStore(
+  const { accountInfo, getLocalAccountInfo } = useAccountStore(
     (state) => state,
   );
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;

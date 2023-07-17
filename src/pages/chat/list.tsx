@@ -4,6 +4,7 @@ import LayoutTwo from '@/layout/LayoutTwo';
 import { Button } from '@/components/form/Button';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
+import account from '@/lib/account/account';
 import { useChatStore, useWalletStore, useAccountStore } from '@/store';
 import {
   Card,
@@ -38,19 +39,21 @@ export default function ChatList() {
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const [friendList, setFriendList] = useState<any[]>([]);
-  const { account } = useAccountStore((state) => state);
   const { wallet } = useWalletStore((state) => state);
   const { setRecipient } = useChatStore((state) => state);
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
   const getContacts = async () => {
     const list = await account.getContacts();
-    setFriendList(list);
+    if (list.length !== friendList.length) {
+      setFriendList(list);
+    }
   };
 
   const toSender = async () => {
+    await account.createContact(searchText);
     setSearchText('');
-    await toDetail({ DAuthKey: searchText });
+    // await toDetail({ DAuthKey: searchText });
   };
   const toDetail = async (item: any) => {
     await setRecipient(item);
@@ -101,6 +104,7 @@ export default function ChatList() {
     }
   };
   const formatTime = (time: number) => {
+    if (!time) return;
     if (time.toString().length === 10) {
       time = time * 1000;
     }
@@ -109,6 +113,7 @@ export default function ChatList() {
   useEffect(() => {
     getContacts();
   }, []);
+
   useInterval(() => {
     getContacts();
   }, 2000);
@@ -134,7 +139,7 @@ export default function ChatList() {
             size='xs'
             className='ml-4 h-10'
             onPress={toSender}>
-            发送消息
+            添加联系人
           </NextButton>
         </div>
         <div>

@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import AlbumItem from './components/AlbumItem';
-import { useAccountStore } from '@/store';
+import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useList } from 'react-use';
 
 export default function Album() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const [list, { set: setList }] = useList<any>([]);
   const imageChange = async (e: any) => {
     const image = e.target.files[0];

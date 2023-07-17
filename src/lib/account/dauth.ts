@@ -308,13 +308,11 @@ export class Dauth {
    * @param account 账户
    * @param publicKey 公钥
    */
-  async delGuardian({ privateData, account, publicKey }: any) {
+  async delGuardian({ account}: any) {
     return this.invoke({
       name: 'delGuardian',
       data: {
-        account,
-        publicKey,
-        privateData,
+        Account: account,
       },
     });
   }
@@ -462,10 +460,9 @@ export class Dauth {
    * @param appName 应用名称
    * @param publicKey 公钥
    */
-  async getQuestions({ privateData, appName = 'mtv', publicKey }: any) {
+  async getQuestions() {
     return this.invoke({
       name: 'getQuestions',
-      data: {},
     });
   }
 
@@ -589,6 +586,14 @@ export class Dauth {
   /**
    * 获取联系人列表
    */
+  async createContact({ destPubkey }: any) {
+    return this.invoke({
+      name: 'msg/createContact',
+      data: {
+        DestPubkey: destPubkey,
+      },
+    });
+  }
   async getContacts() {
     return this.invoke({
       name: 'msg/getContacts',
@@ -650,7 +655,50 @@ export class Dauth {
       },
     });
   }
+  async applyNewGun({
+    GunName,
+    ValidTime,
+  }: {
+    GunName: string;
+    ValidTime: any;
+  }) {
+    return this.invoke({
+      name: 'gun/applyGun',
+      method: 'post',
+      data: {
+        gunname: GunName,
+        validtime: ValidTime,
+      },
+    });
+  }
 
+  async renewGun({ GunName, ValidTime }: { GunName: string; ValidTime: any }) {
+    return this.invoke({
+      name: 'gun/renewGun',
+      method: 'post',
+      data: {
+        gunname: GunName,
+        validtime: ValidTime,
+      },
+    });
+  }
+
+  async getGun({ GunName }: { GunName: string }) {
+    return this.invoke({
+      name: 'gun/getGunDetails',
+      method: 'post',
+      data: {
+        gunname: GunName,
+      },
+    });
+  }
+
+  async getGunList() {
+    return this.invoke({
+      name: 'gun/getGunList',
+      method: 'post',
+    });
+  }
   /**
    * 调用接口
    * @param name 接口名称
@@ -679,7 +727,6 @@ export class Dauth {
       console.log(url);
       return this.request({ url, method, data: formData, headers });
     } else {
-      data.appName = this.app;
       if (method === 'get') {
         return this.request({
           url,

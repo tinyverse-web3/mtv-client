@@ -6,6 +6,7 @@ import { useAccountStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
+import account from '@/lib/account/account';
 
 export default function Unlock() {
   const nav = useNavigate();
@@ -13,7 +14,7 @@ export default function Unlock() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { account, setAccountInfo, accountInfo } = useAccountStore((state) => state);
+  const { setAccountInfo, accountInfo } = useAccountStore((state) => state);
 
   const add = async () => {
     setLoading(true);

@@ -1,15 +1,15 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import FileItem from './components/FileItem';
 import { useAccountStore } from '@/store';
 import toast from 'react-hot-toast';
 import { useList } from 'react-use';
 import { PublicPasswordModal } from './components/PublicPasswordModal';
+import account from '@/lib/account/account';
+
 export default function Album() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File>();
   const [securityList, { set: setSecurityList }] = useList<any>([]);

@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useEffect, useMemo, useState } from 'react';
 import { cloneDeep } from 'lodash';
+import account from '@/lib/account/account';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const [emptyList, setEmptyList] = useState<number[]>([]);
   const [list, { updateAt, set }] = useList<string>(
     Array.from<string>({ length: 12 }).fill(''),

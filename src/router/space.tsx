@@ -9,6 +9,13 @@ import PasswordAdd from '@/pages/space/password/add';
 import Album from '@/pages/space/album/list';
 import FileIndex from '@/pages/space/file/list';
 
+
+import GunList from '@/pages/space/gun/list';
+import GunApply from '@/pages/space/gun/apply';
+import GunDetail from '@/pages/space/gun/detail';
+import GunRenew from '@/pages/space/gun/renew';
+import GunSearch from '@/pages/space/gun/search';
+
 export const ROUTE_PATH_SPACE = {
   NOTE: '/space/note',
   NOTE_EDIT: '/space/note/:id',
@@ -19,6 +26,11 @@ export const ROUTE_PATH_SPACE = {
   SPACE_PASSWORD_ADD: '/space/password/add',
   SPACE_ALBUM: '/space/album',
   SPACE_FILE: '/space/file',
+  SPACE_GUN_LIST: '/space/gun/list',
+  SPACE_GUN_APPLY: '/space/gun/apply',
+  SPACE_GUN_DETAIL: '/space/gun/detail/:name',
+  SPACE_GUN_RENEW: '/space/gun/renew/:name',
+  SPACE_GUN_SEARCH: '/space/gun/search/:name',
 };
 
 export const spaceRoutes: RouteObject[] = [
@@ -58,4 +70,25 @@ export const spaceRoutes: RouteObject[] = [
     path: ROUTE_PATH_SPACE.SPACE_FILE,
     element: <FileIndex />,
   },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_GUN_LIST,
+    element: <GunList />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_GUN_APPLY,
+    element: <GunApply />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_GUN_DETAIL,
+    element: <GunDetail/>,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_GUN_SEARCH,
+    element: <GunSearch />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_GUN_RENEW,
+    element: <GunRenew />,
+  },
+  
 ];

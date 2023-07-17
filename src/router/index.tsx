@@ -29,11 +29,7 @@ import Retrieve from '@/pages/retrieve';
 
 import { spaceRoutes, ROUTE_PATH_SPACE } from './space';
 import { accountRoutes, ROUTE_PATH_ACCOUNT } from './account';
-import GunListPage from '@/pages/gun/gunlistpage';
-import GunApplyPage from '@/pages/gun/gunapplypage';
-import GunDetailsPage from '@/pages/gun/gundetailspage';
-import GunRenewPage from '@/pages/gun/gunrenewpage';
-import GunSearchPage from '@/pages/gun/gunsearchpage';
+
 const resolveHashPath = (path: string) => {
   return `/#${path}`;
 };
@@ -64,12 +60,6 @@ export const ROUTE_PATH = {
   CHAT_SHARE: '/chat/imShare',
   ...ROUTE_PATH_SPACE,
   ...ROUTE_PATH_ACCOUNT,
-  GUN_GUNLISTPAGE: '/gun/gunlistpage',
-  GUN_GUNAPPLYPAGE: '/gun/gunapplypage',
-  GUN_DETAILSPAGE: '/gun/get/:name',
-  GUN_RENEWPAGE: '/gun/renew/:name',
-  GUN_SEARCHPAGE: '/gun/search/:name',
-
 };
 const hashPath: any = {};
 Object.keys(ROUTE_PATH).forEach((k: any) => {
@@ -164,26 +154,6 @@ export const routes: RouteObject[] = [
       },
       ...spaceRoutes,
       ...accountRoutes,
-      {
-        path: ROUTE_PATH.GUN_GUNLISTPAGE,
-        element: <GunListPage />,
-      },
-      {
-        path: ROUTE_PATH.GUN_GUNAPPLYPAGE,
-        element: <GunApplyPage />,
-      },
-      {
-        path: ROUTE_PATH.GUN_DETAILSPAGE,
-        element: <GunDetailsPage />,
-      },
-      {
-        path: ROUTE_PATH.GUN_RENEWPAGE,
-        element: <GunRenewPage />,
-      },
-      {
-        path: ROUTE_PATH.GUN_SEARCHPAGE,
-        element: <GunSearchPage />,
-      },
     ],
   },
 ];

@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalStore, useWalletStore, useAccountStore } from '@/store';
-import { useRequest } from '@/api';
+import account from '@/lib/account/account';
 import LayoutThird from '@/layout/LayoutThird';
 
 export default function ChangePwd() {
@@ -17,7 +17,7 @@ export default function ChangePwd() {
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
-  const { account, accountInfo, setAccountInfo } = useAccountStore((state) => state);
+  const { accountInfo, setAccountInfo } = useAccountStore((state) => state);
   const wallet = useWalletStore((state) => state.wallet);
 
   const changePassword = async () => {

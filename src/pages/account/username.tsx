@@ -2,18 +2,17 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
-import { ROUTE_PATH } from '@/router';
+
 import { useAccountStore } from '@/store';
-import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
-import { useRequest } from '@/api';
+import account from '@/lib/account/account';
 
 export default function Userinfo() {
   const nicknameRef = useRef('');
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(false);
   const timer = useRef<any>();
-  const { account, accountInfo, setAccountInfo } = useAccountStore((state) => state);
+  const { accountInfo, setAccountInfo } = useAccountStore((state) => state);
   const infoChange = async () => {
     setLoading(true);
     await account.updateName({ name: nickname });

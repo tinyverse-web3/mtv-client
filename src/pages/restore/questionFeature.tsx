@@ -7,6 +7,7 @@ import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function QuestionFeature() {
   const nav = useNavigate();
@@ -14,7 +15,6 @@ export default function QuestionFeature() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { account } = useAccountStore((state) => state);
   const { setPublicKey, setList, setSssData, setType } = useQuestionStore(
     (state) => state,
   );

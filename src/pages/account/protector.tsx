@@ -4,9 +4,8 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
-import { useRequest } from '@/api';
-import { useWalletStore, useGlobalStore, useAccountStore } from '@/store';
-import { KeySha } from '@/lib/account';
+import { useGlobalStore, useAccountStore } from '@/store';
+import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 interface GuardItem {
   type: string;
@@ -33,13 +32,9 @@ const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
 
 export default function AccountProtector() {
   const nav = useNavigate();
-  // const [shareA, setShareA] = useState('');
-  const [shares, setShares] = useState<string[]>([]);
-  const [delId, setDelId] = useState('');
-  const wallet = useWalletStore((state) => state.wallet);
   const { protectorStatus, changeProtectorStatus } =
     useGlobalStore((state) => state);
-  const { account, accountInfo } = useAccountStore((state) => state);
+  const {  accountInfo } = useAccountStore((state) => state);
   console.log(accountInfo)
   const list = useMemo(() => accountInfo.guardians, [accountInfo]);
 

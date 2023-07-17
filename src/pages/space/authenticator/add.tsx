@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
 import { Select } from '@/components/form/Select';
-import { v4 as uuidv4 } from 'uuid';
 import LayoutThird from '@/layout/LayoutThird';
 import { Text, Container, Row, Button } from '@nextui-org/react';
-import { useNoteStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function Edit() {
   const nav = useNavigate();
   const [name, setName] = useState('');
   const [key, setKey] = useState('');
   
-  const { account } = useAccountStore((state) => state);
+
   const types = [
     {
       label: '基于时间',

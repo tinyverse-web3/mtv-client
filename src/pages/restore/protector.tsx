@@ -1,21 +1,14 @@
 import { useState, useMemo } from 'react';
-import { Checkbox, Text, Card } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
-import { STATUS_CODE } from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
-import {
-  useAccountStore,
-} from '@/store';
-import { useRequest } from '@/api';
-import { KeySha } from '@/lib/account';
+import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 
 export default function Protector() {
   const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const { account } = useAccountStore((state) => state);
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');

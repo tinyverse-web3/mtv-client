@@ -8,13 +8,13 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useMount } from 'react-use';
 import { useNavigate } from 'react-router-dom';
+import account from '@/lib/account/account';
 
 export default function UserScan() {
   const nav = useNavigate();
   const html5Qrcode = useRef<any>();
   const [text, setText] = useState('');
   const cameraId = useRef('');
-  const { account } = useAccountStore((state) => state);
   const nativeScan = (result: any) => {
     console.log(result);
     // console.log(typeof result);
@@ -71,15 +71,13 @@ export default function UserScan() {
       start();
     }
   });
-  const toScan = () => {};
   const parseText = async () => {
     if (text) {
-      console.log(text);
       const searchParams = new URLSearchParams(text);
       const type = searchParams.get('type') as any;
       const value = searchParams.get('value');
       if (Number(type) === QrType.ADD_FRIEND && value) {
-        // await account.publishMsg(value);
+        await account.createContact(value);
         toast.success('添加好友成功');
       } else {
         toast.success('没有得到任何结果');
@@ -96,7 +94,7 @@ export default function UserScan() {
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center' onClick={toScan}>
+        <div className='text-center'>
           扫一扫
         </div>
         {/* <div>扫描结果：{text}</div> */}

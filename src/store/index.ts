@@ -7,3 +7,4 @@ export * from './chain';
 export * from './account';  
 export * from './restore';  
 export * from './password';  
+export * from './gun';  

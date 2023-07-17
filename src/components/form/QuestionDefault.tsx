@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
 import { useAccountStore } from '@/store';
 import { useDebounce } from 'react-use';
+import account from '@/lib/account/account';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -41,7 +42,7 @@ export const QuestionDefault = ({
   const [localList, setLocalList] = useState([]);
   const [tmpList, setTmpList] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
-  const { account, accountInfo } = useAccountStore((state) => state);
+  const {  accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
     [type],

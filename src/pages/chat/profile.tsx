@@ -4,10 +4,10 @@ import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
 import { useChatStore, useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
+import account from '@/lib/account/account';
 
 const Profile: React.FC = () => {
   const { recipient } = useChatStore((state) => state);
-  const { account } = useAccountStore((state) => state);
   const [alias, setAlias] = React.useState('');
   const changeAlias = async () => {
     const res = await account.setContactAlias({

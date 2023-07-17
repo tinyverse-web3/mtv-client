@@ -2,13 +2,12 @@ import { Button, Text } from '@nextui-org/react';
 import { QuestionSelect } from '@/components/form/QuestionSelect';
 import { useList } from 'react-use';
 import { useEffect, useMemo, useState } from 'react';
-import { Shamir, KeySha } from '@/lib/account';
 import { useRequest } from '@/api';
 import { useAccountStore } from '@/store';
 import { differenceBy } from 'lodash';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
-
+import account from '@/lib/account/account';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -40,7 +39,6 @@ export const Question = ({
   buttonText = '备份',
   children,
 }: Props) => {
-  const { account } = useAccountStore((state) => state);
   const [tmpList, setTmpList] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);

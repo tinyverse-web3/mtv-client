@@ -1,19 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { Image, Button } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import { KeySha } from '@/lib/account';
-import { useRequest } from '@/api';
+import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { cloneDeep } from 'lodash';
 import {
   useQuestionStore,
-  useWalletStore,
-  useGlobalStore,
-  useAccountStore,
 } from '@/store';
-
+import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
 import imageError from '@/assets/images/icon-error.png';
 
@@ -21,7 +15,6 @@ export default function QuestionVerifyResult() {
   const nav = useNavigate();
 
   const { state } = useLocation();
-  const { account } = useAccountStore((state) => state);
   const { list: initList, type } = useQuestionStore((state) => state);
 
   const toAccount = async () => {

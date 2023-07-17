@@ -5,9 +5,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-import { useGlobalStore, useAccountStore } from '@/store';
+import account from '@/lib/account/account';
+import { useGlobalStore } from '@/store';
+
 export default function ProtectorAdd() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
@@ -15,7 +16,6 @@ export default function ProtectorAdd() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const { changeProtectorStatus } = useGlobalStore((state) => state);
-  const { account } = useAccountStore((state) => state);
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);

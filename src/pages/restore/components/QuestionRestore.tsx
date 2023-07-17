@@ -18,11 +18,7 @@ export const QuestionRestore = ({
   type,
 }: Props) => {
   const [selectValue, setSelectValue] = useState('1');
-  const { account } = useAccountStore((state) => state);
   const [kvError, setKvError] = useState<string[]>([]);
-  const { publicKey } = useQuestionStore((state) => state);
-  const userInfo = useGlobalStore((state) => state.userInfo);
-  // const [shareA, setShareA] = useState('');
   const [shareB, setShareB] = useState('');
 
   const toastErr = () => {

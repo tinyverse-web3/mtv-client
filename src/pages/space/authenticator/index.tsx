@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
 import { useList } from 'react-use';
+import account from '@/lib/account/account';
 
 export default function SpaceIndex() {
   const nav = useNavigate();
-  const { account } = useAccountStore((state) => state);
   const [subAccounts, { set: setList }] = useList<any>([]);
   const list: any[] = [
     {
@@ -21,8 +21,8 @@ export default function SpaceIndex() {
     },
   ];
   const getSubAccount = async () => {
-    const list = await account.getAllSubAccount();
-    setList(list);
+    // const list = await account.getAllSubAccount();
+    // setList(list);
   };
   const itemClick = ({ path, url }: any) => {};
   const toAdd = () => {
