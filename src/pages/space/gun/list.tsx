@@ -47,6 +47,7 @@ export default function GunListShow() {
             className='py-2 relative border-b border-b-solid border-b-gray-300'>
             <div onClick={() => toDetail(item.key)}>
               <GunItem
+                key={item.key}
                 name={item.name}
                 expired={item.expired}
                 owner={item.owner}
