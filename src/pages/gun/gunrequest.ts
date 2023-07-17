@@ -4,7 +4,7 @@ export class GunRequest {
 
   async applyNewGun({ GunName, ValidTime }: { GunName : string, ValidTime : any }) {
     return this.invoke({
-      name: 'applygun',
+      name: 'applyGun',
       method: 'post',
       data: {
         gunname: GunName,
@@ -16,7 +16,7 @@ export class GunRequest {
   
   async renewGun({ GunName, ValidTime }: { GunName : string, ValidTime : any }) {
     return this.invoke({
-      name: 'renewgun',
+      name: 'renewGun',
       method: 'post',
       data: {
         gunname: GunName,
@@ -27,7 +27,7 @@ export class GunRequest {
 
   async getGun({ GunName }: { GunName : string}) {
     return this.invoke({
-      name: 'getgundetails',
+      name: 'getGunDetails',
       method: 'post',
       data: {
         gunname: GunName,
@@ -37,7 +37,7 @@ export class GunRequest {
 
   async getGunList() {
     return this.invoke({
-      name: 'getgunlist',
+      name: 'getGunList',
       method: 'post',
     });
   }
