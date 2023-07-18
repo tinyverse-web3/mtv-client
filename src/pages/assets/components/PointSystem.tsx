@@ -6,7 +6,7 @@ interface Props {
   value?: string | any;
   onPress?: () => void;
 }
-export const HeaderAccount = () => {
+export const PointSystem = () => {
   const nav = useNavigate();
   const subAccount = {
     label: '子账户',

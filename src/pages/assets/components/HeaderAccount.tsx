@@ -12,7 +12,7 @@ interface Props {
 }
 export const HeaderAccount = () => {
   const nav = useNavigate();
-  const {  web3AccountSelect, setWeb3Select, accountInfo } = useAccountStore(
+  const { web3AccountSelect, setWeb3Select, accountInfo } = useAccountStore(
     (state) => state,
   );
   const list = useMemo(() => {
@@ -56,10 +56,12 @@ export const HeaderAccount = () => {
                     size='xs'
                     onChange={subAccountChange}
                     value={subAccount.address}>
-                    {list.map((v: any) => (
-                      <Radio key={v.address} value={v.address}>
-                        {v.label}
-                      </Radio>
+                    {list.map((v: any, i:number) => (
+                      <div key={i}>
+                        <Radio key={v.address} value={v.address}>
+                          {v.label}
+                        </Radio>
+                      </div>
                     ))}
                   </Radio.Group>
                 </div>

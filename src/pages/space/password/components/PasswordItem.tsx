@@ -2,14 +2,19 @@ import { Button as NextButton } from '@nextui-org/react';
 import { useState, useMemo } from 'react';
 import { useCopyToClipboard } from 'react-use';
 import { toast } from 'react-hot-toast';
-
+import { ValidPassword } from './ValidPassword';
 export default function PasswordItem({ item, toDetail }: any) {
   const [showPassword, setShowPassword] = useState(false);
+  const [showStatus, setShowStatus] = useState(false);
   const hidePassword = useMemo(() => {
     return item.Password.replace(/./g, '*');
   }, [item.Passowrd]);
   const showPasswordModal = () => {
-    setShowPassword(!showPassword);
+    if (!showPassword) {
+      setShowStatus(true);
+    } else {
+      setShowPassword(false);
+    }
   };
   const [_, copyToClipboard] = useCopyToClipboard();
   const copy = (text: string) => {
@@ -17,6 +22,11 @@ export default function PasswordItem({ item, toDetail }: any) {
     copyToClipboard(text);
     toast.success('复制成功');
   };
+  const passwordConfirm = (password: string) => {
+    if (password) {
+      setShowPassword(true);
+    }
+  }
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2'>
       <div className='text-4 font-600 mb-1'>{item.Title}</div>
@@ -42,21 +52,29 @@ export default function PasswordItem({ item, toDetail }: any) {
             <div>{item.Url}</div>
           </div>
         </div>
-        <div className='flex items-center pr-6 w-20 h-full' onClick={() => toDetail(item.Id)}>
+        <div
+          className='flex items-center pr-6 w-20 h-full'
+          onClick={() => toDetail(item.Id)}>
           <div className='i-mdi-chevron-right w-6 h-6'></div>
         </div>
       </div>
       <div className='flex justify-around'>
-        <NextButton auto flat size='xs' className='' onPress={() => copy(item.Account)}>
+        <NextButton
+          auto
+          flat
+          size='xs'
+          className=''
+          onPress={() => copy(item.Account)}>
           复制账号
         </NextButton>
-        <NextButton auto flat size='xs'  onPress={() => copy(item.Password)}>
+        <NextButton auto flat size='xs' onPress={() => copy(item.Password)}>
           复制密码
         </NextButton>
-        <NextButton auto flat size='xs'  onPress={() => copy(item.Url)}>
+        <NextButton auto flat size='xs' onPress={() => copy(item.Url)}>
           复制网址
         </NextButton>
       </div>
+      <ValidPassword show={showStatus} onChange={passwordConfirm}/>
     </div>
   );
 }
