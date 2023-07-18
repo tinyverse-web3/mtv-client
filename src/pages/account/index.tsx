@@ -27,14 +27,7 @@ export default function Account() {
   };
 
   const toChangeNickname = async () => {
-    if (!accountInfo.hasFeatureData) {
-      toast('请先设置加密保险箱');
-      return;
-    }
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_NAME);
-    }
+    nav(ROUTE_PATH.ACCOUNT_NAME);
   };
   const toPharse = async () => {
     if (!accountInfo.hasFeatureData) {
@@ -65,7 +58,7 @@ export default function Account() {
     const loginStatus = await useCheckLogin();
     if (!loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
-    } 
+    }
   };
   const toPrivateData = async () => {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
@@ -114,10 +107,7 @@ export default function Account() {
           value={accountInfo.maintainQuestion ? '已备份' : ''}
           onPress={toQuestion}
         />
-        <ListRow
-          label='子账号'
-          onPress={toSubAccount}
-        />
+        <ListRow label='子账号' onPress={toSubAccount} />
         <ListRow label='退出' onPress={deleteUser} />
       </div>
     </LayoutThird>

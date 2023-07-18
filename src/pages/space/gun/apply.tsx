@@ -63,7 +63,7 @@ export default function GunRenew() {
     try {
       await applyGUN(gunname, validTime);
       toast.success('申请成功了');
-      nav(ROUTE_PATH.SPACE_GUN_LIST);
+      nav(-1);
     } catch (error) {
       console.log(error)
     }

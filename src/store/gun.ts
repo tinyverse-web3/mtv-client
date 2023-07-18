@@ -69,14 +69,13 @@ export const useGunStore = create<GunState>()(
       });
       if (code === '000000') {
         await get().load();
-
       } else {
         toast.error(msg);
         throw new Error(msg);
       }
     },
 
-    renew: async (gunname, validperiod) => {
+    renew: async (gunname, unixTimeInSeconds) => {
       console.log('Test for Apply a new GUN...');
       const GunName = gunname;
       const list = get().list;
@@ -84,37 +83,11 @@ export const useGunStore = create<GunState>()(
       if (summy == undefined) {
         return false;
       }
-
-      const ValidTime = new Date(summy.expired);
-      console.log('The GUN current ValidTime is', ValidTime);
-      const newValidTime = new Date(ValidTime);
-      if (validperiod == 0) {
-        // valid period is 1 month
-        console.log('Add 1 month...');
-        newValidTime.setMonth(ValidTime.getMonth() + 1); // 延长1个月的有效期
-      } else if (validperiod == 1) {
-        // valid period is 1 year
-        console.log('Add 1 year...');
-        newValidTime.setFullYear(ValidTime.getFullYear() + 1); // 延长1年的有效期
-      } else if (validperiod == 2) {
-        // valid period is 2 year
-        console.log('Add 2 year...');
-        newValidTime.setFullYear(ValidTime.getFullYear() + 2); // 延长2年的有效期
-      }
-
-      //ValidTime.setDate(today.getDate() + 100);  // 1 day valid
-
-      console.log('New ValidTime is', newValidTime);
-      //const unixTime = ValidTime.getTime() / 1000;
-      const unixTimeInSeconds = Math.floor(newValidTime.getTime() / 1000);
-      console.log('newValidTime unix is', unixTimeInSeconds);
-
       try {
         const res = await account.renewGun({
           GunName,
           ValidTime: unixTimeInSeconds,
         });
-
         console.log(JSON.stringify(res.data));
         return true;
       } catch (error) {

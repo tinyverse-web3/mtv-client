@@ -23,7 +23,7 @@ export default function Album() {
   const getList = async () => {
     const { code, msg, data } = await account.getAlbumList();
     if (code === '000000') {
-      setList(data);
+      setList(data || []);
     } else {
       toast.error(msg);
     }

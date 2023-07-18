@@ -194,6 +194,10 @@ export class Account {
     const result = await this.dauth.getMnemonic();
     return result.data.data;
   }
+  async saveMnemonic() {
+    const result = await this.dauth.saveMnemonic();
+    return result.data;
+  }
   async retrieveAccountByMnemonic({
     mnemonic,
     textPrivateData,
@@ -222,7 +226,7 @@ export class Account {
     if (result.data.code === '000000') {
       this.getAccountInfo();
     }
-    return result.data.data;
+    return result.data.code === '000000';
   }
   /**
    * 删除账户信息，包括密码和密钥管理器
@@ -495,10 +499,7 @@ export class Account {
     const res = await this.dauth.updateName({
       name,
     });
-    if (res.data.code === '000000') {
-      return STATUS_CODE.SUCCESS;
-    }
-    return res;
+    return res.data;
   }
   /**
    * 更新用户头像

@@ -42,6 +42,11 @@ export class Dauth {
       method: 'get',
     });
   }
+  async saveMnemonic() {
+    return this.invoke({
+      name: 'saveMnemonic',
+    });
+  }
   async getNotes() {
     return this.invoke({
       name: 'getNotes',
@@ -308,7 +313,7 @@ export class Dauth {
    * @param account 账户
    * @param publicKey 公钥
    */
-  async delGuardian({ account}: any) {
+  async delGuardian({ account }: any) {
     return this.invoke({
       name: 'delGuardian',
       data: {

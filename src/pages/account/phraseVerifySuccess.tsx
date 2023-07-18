@@ -9,7 +9,7 @@ import account from '@/lib/account/account';
 export default function UserPhrase() {
   const nav = useNavigate();
   const toAccount = async () => {
-    await account.backupByPharse();
+    await account.saveMnemonic();
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (

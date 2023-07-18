@@ -1,6 +1,8 @@
+import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { GunSummy } from '@/store';
 import { add, getTime } from 'date-fns';
+
 export const GunItem = (item: GunSummy) => {
   let color = '';
   const today = new Date();
@@ -14,26 +16,20 @@ export const GunItem = (item: GunSummy) => {
   }
   const style = { color: color };
 
-  let expired = '';
-  if (item.expired != 0) {
-    expired = 'Expired data :' + format(item.expired, 'yyyy-MM-dd');
-  }
-
+  const exporedText = useMemo(() => {
+    return format(item.expired, 'yyyy-MM-dd');
+  }, [item.expired]);
   return (
-    <div>
-      <div className='absolute left top-1/2 -translate-1/2 w-6 h-6'>
-        <img src='/icon-restore.png' />
-      </div>
+    <div className='px-2 flex justify-between items-center'>
+      <div className=''>
+        <div className='flex items-center text-4 mb-1'>{item.name}</div>
 
-      <div className=' px-4'>
-        <div className='flex items-center text-4'>{item.name}</div>
-
-        <div>
-          <div className='text-3' style={style}>
-            {expired}
-          </div>
+        <div className='text-3 text-gray-800'>
+          <span className='font-600'>过期时间：</span>
+          {exporedText}
         </div>
       </div>
+      <div className='i-mdi-chevron-right w-6 h-6'></div>
     </div>
   );
 };

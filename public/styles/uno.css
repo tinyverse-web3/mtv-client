@@ -262,6 +262,7 @@
 .text-gray-600,
 [text-gray-600=""]{--un-text-opacity:1;color:rgba(75,85,99,var(--un-text-opacity));}
 .text-gray-700{--un-text-opacity:1;color:rgba(55,65,81,var(--un-text-opacity));}
+.text-gray-800{--un-text-opacity:1;color:rgba(31,41,55,var(--un-text-opacity));}
 .text-white{--un-text-opacity:1;color:rgba(255,255,255,var(--un-text-opacity));}
 .underline{text-decoration-line:underline;}
 .underline-solid{text-decoration-style:solid;}

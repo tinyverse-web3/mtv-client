@@ -20,7 +20,7 @@ export default function GunListShow() {
   const toDetail = (key: string) => {
     console.log(' The key is', key);
     if (key != EMPTY_GUN_NAME) {
-      nav(`/space/gun/detail/${encodeURIComponent(key)}`);
+      nav(`/space/gun/detail/${key}`);
     }
   };
   const removeItem = async (e: any, id: string) => {
@@ -45,7 +45,7 @@ export default function GunListShow() {
           <div
             key={item.key}
             className='py-2 relative border-b border-b-solid border-b-gray-300'>
-            <div onClick={() => toDetail(item.key)}>
+            <div onClick={() => toDetail(item.name)}>
               <GunItem
                 key={item.key}
                 name={item.name}
