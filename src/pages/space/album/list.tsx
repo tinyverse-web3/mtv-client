@@ -12,7 +12,10 @@ export default function Album() {
   const [list, { set: setList }] = useList<any>([]);
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
-    const { code, msg } = await account.uploadAlbum({ file: image });
+    const filepath = e.target.value;
+    const newFile = new File([image], filepath, { type: image.type });
+    const { code, msg } = await account.uploadAlbum({ file: newFile });
+
     if (code === '000000') {
       toast.success('上传成功');
       getList();
@@ -48,11 +51,10 @@ export default function Album() {
       }>
       <div className='p-4'>
         <div className='grid grid-cols-3 gap-4 ustify-items-center'>
-        {list.map((item: any) => (
-          <AlbumItem item={item} key={item.URL} />
-        ))}
+          {list.map((item: any) => (
+            <AlbumItem item={item} key={item.URL} />
+          ))}
         </div>
-        
       </div>
     </LayoutThird>
   );

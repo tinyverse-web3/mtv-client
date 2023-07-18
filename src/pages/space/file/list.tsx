@@ -22,8 +22,10 @@ export default function Album() {
   };
   const fileChange = async (e: any) => {
     const _file = e.target.files[0];
+    const filepath = e.target.value;
+    const newFile = new File([_file], filepath, { type: _file.type });
     if (fileType === 'security') {
-      await upload({ file: _file, type: fileType });
+      await upload({ file: newFile, type: fileType });
     } else {
       setFile(_file);
       setShowModal(true);
@@ -55,7 +57,7 @@ export default function Album() {
     } else {
       toast.error(msg);
     }
-  }
+  };
   const getPublicList = async () => {
     const { code, msg, data } = await account.getFileList({ type: 'public' });
     if (code === '000000') {
@@ -63,7 +65,7 @@ export default function Album() {
     } else {
       toast.error(msg);
     }
-  }
+  };
   const list = useMemo(() => {
     return fileType === 'security' ? securityList : publicList;
   }, [fileType, securityList, publicList]);
@@ -83,7 +85,7 @@ export default function Album() {
   }, []);
   return (
     <LayoutThird
-      title='相册'
+      title='文件'
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
           <div className='i-mdi-plus-circle-outline text-5'></div>

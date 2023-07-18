@@ -26,10 +26,8 @@ export default function Edit() {
   const saveHandler = async (e: any) => {
     if (type === 'add') {
       await add(data);
-      toast.success('添加成功');
     } else {
       await update(data);
-      toast.success('更新成功');
     }
     nav(-1);
   };

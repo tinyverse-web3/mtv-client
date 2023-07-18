@@ -1,5 +1,6 @@
 body {
   position: static !important;
+  -webkit-text-size-adjust: none !important;
 }
 html,
 body,
