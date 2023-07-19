@@ -10,7 +10,7 @@ const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 const MenuItem = ({ text, path, icon, className }: any) => {
   const nav = useNavigate();
   const menuClick = () => {
-    path && nav(path);
+    path && nav(path, { replace: true });
   };
   return (
     <div
@@ -55,7 +55,7 @@ export default function LayoutTwo({
   return (
     <main className={'h-full relative'}>
       <header className='w-full h-24 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200'>
-        <HeaderUser />
+        <HeaderUser key='layout-two' />
       </header>
       <section className='h-full pb-15 pt-24'>{children}</section>
       <footer className='w-full h-15 absolute bottom-0 left-0 w-full border-t border-t-solid border-t-gray-200'>

@@ -48,7 +48,7 @@ export default function Album() {
             className='invisible w-0 h-0'
           />
         </label>
-      }>
+      }> 
       <div className='p-4'>
         <div className='grid grid-cols-3 gap-4 ustify-items-center'>
           {list.map((item: any) => (

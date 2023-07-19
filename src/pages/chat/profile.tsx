@@ -5,8 +5,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import { useChatStore, useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { useNavigate } from 'react-router-dom';
 
 const Profile: React.FC = () => {
+  const nav = useNavigate();
   const { recipient } = useChatStore((state) => state);
   const [alias, setAlias] = React.useState('');
   const changeAlias = async () => {
@@ -16,6 +18,7 @@ const Profile: React.FC = () => {
     });
     if (res.code === '000000') {
       toast.success('修改成功');
+      nav(-1);
     } else {
       toast.error(res.msg);
     }

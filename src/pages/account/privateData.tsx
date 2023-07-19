@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Input, Dropdown } from '@nextui-org/react';
+import { Input } from '@/components/form/Input';
+import { Dropdown } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import { useAccountStore } from '@/store';
@@ -53,12 +54,11 @@ export default function Unlock() {
     setCustomText(e.target.value?.trim());
   };
   useEffect(() => {
-    if (accountInfo) {
-      // setText(accountInfo.textPrivateData || '');
-      // setPassword(accountInfo.passwordPrivateData || '');
-      // setCustomText(accountInfo.customFeatureData || '');
+    if (accountInfo.textPrivateData) {
+      setText(accountInfo.textPrivateData || '');
+      setPassword(accountInfo.passwordPrivateData || '');
     }
-  }, [accountInfo]);
+  }, [accountInfo.textPrivateData]);
   return (
     <LayoutThird title='设置加密保险箱'>
       <div className='pt-8 px-6'>

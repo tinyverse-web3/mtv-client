@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useList } from 'react-use';
 import { PublicPasswordModal } from './components/PublicPasswordModal';
 import account from '@/lib/account/account';
+import { ROUTE_PATH } from '@/router';
 
 export default function Album() {
   const nav = useNavigate();
@@ -86,6 +87,7 @@ export default function Album() {
   return (
     <LayoutThird
       title='文件'
+      path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
           <div className='i-mdi-plus-circle-outline text-5'></div>

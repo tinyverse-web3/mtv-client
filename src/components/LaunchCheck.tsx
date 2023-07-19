@@ -70,12 +70,12 @@ export const WalletCheck = ({ children }: any) => {
   useEffect(() => {
     checkStatus();
   }, []);
-  useEffect(() => {
-    if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
-      console.log('router change');
-      // checkStatus();
-    }
-  }, [routerLocation]);
+  // useEffect(() => {
+  //   if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+  //     console.log('router change');
+  //     // checkStatus();
+  //   }
+  // }, [routerLocation]);
   return (
     <>
       {checkLoading ? (

@@ -37,6 +37,7 @@ export default function GunListShow() {
   return (
     <LayoutThird
       title='你拥有的GUN域名'
+      path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>

@@ -6,6 +6,8 @@ interface AccountInfo {
   avatar: string;
   name: string;
   address: string;
+  passwordPrivateData: string;
+  textPrivateData: string;
   safeLevel: number;
   isDefaultPwd: boolean;
   bindStatus: boolean;
@@ -39,6 +41,8 @@ export const useAccountStore = create<AccountState>()(
           avatar: '',
           name: '',
           address: '',
+          passwordPrivateData: '',
+          textPrivateData: '',
           safeLevel: 0,
           isDefaultPwd: true,
           bindStatus: false,
@@ -61,6 +65,8 @@ export const useAccountStore = create<AccountState>()(
           accountInfo = Object.assign(accountInfo, {
             publicKey: localInfo.PublicKey,
             address: localInfo.Address,
+            passwordPrivateData: localInfo.PasswordPrivateData || '',
+            textPrivateData: localInfo.TextPrivateData || '',
             hasFeatureData: localInfo.IsSetVault || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
@@ -82,6 +88,8 @@ export const useAccountStore = create<AccountState>()(
               avatar: '',
               name: '',
               address: '',
+              passwordPrivateData: '',
+              textPrivateData: '',
               safeLevel: 0,
               isDefaultPwd: true,
               bindStatus: false,
@@ -95,8 +103,8 @@ export const useAccountStore = create<AccountState>()(
               guardians: [],
               pointAccount: {},
             },
-          })
-        }
+          });
+        },
       }),
       {
         name: 'account-store',
