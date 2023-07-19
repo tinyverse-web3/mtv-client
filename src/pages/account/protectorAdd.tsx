@@ -7,12 +7,13 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import account from '@/lib/account/account';
-import { useGlobalStore } from '@/store';
+import { useAccountStore, useGlobalStore } from '@/store';
 
 export default function ProtectorAdd() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const { changeProtectorStatus } = useGlobalStore((state) => state);
@@ -26,12 +27,19 @@ export default function ProtectorAdd() {
   };
   const submit = async () => {
     try {
-      await account.addGuardian({
-        type: 'email',
+      const { code: resCode, msg } = await account.addGuardian({
         account: email,
         verifyCode: code,
+        type: 'email',
       });
-      changeProtectorStatus(true);
+      if (resCode === '000000') {
+        changeProtectorStatus(true);
+        await getLocalAccountInfo();
+        toast.success('绑定成功');
+      } else {
+        toast.error(msg || '绑定失败');
+      }
+
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     } catch (error) {
       await toast.error('添加失败');

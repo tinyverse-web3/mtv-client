@@ -30,7 +30,7 @@ export const BindMail = () => {
     }
 
     setLoginLoading(true);
-    const { code, msg, data } = await account.addGuardian({
+    const { code, msg } = await account.addGuardian({
       account: email,
       verifyCode: verifyCode,
       type: 'email',
@@ -40,7 +40,7 @@ export const BindMail = () => {
       await getLocalAccountInfo();
       setLoginLoading(false);
       closeHandler();
-      toast.success('绑定成功');
+      toast.success(msg || '绑定成功');
     } else {
       toast.error('绑定失败');
     }
