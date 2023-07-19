@@ -80,7 +80,7 @@ export default function GunRenew() {
     }
 
     console.log('name = ', name);
-    nav(`/gun/search/${name}`);
+    nav(`/space/gun/search/${name}`);
     //nav(`/gun/gunsearchpage`);
   };
 
