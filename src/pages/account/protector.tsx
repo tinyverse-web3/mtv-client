@@ -69,7 +69,7 @@ export default function AccountProtector() {
         </Text>
         <div>
           <div>
-            {list?.length &&
+            {!!list?.length &&
               list.map((v, i) => (
                 <ProtectorItem
                   key={v.Account}

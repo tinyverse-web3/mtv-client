@@ -4,11 +4,14 @@ import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { useCountDown } from '@/lib/hooks';
 import account from '@/lib/account/account';
+import toast from 'react-hot-toast';
 
 export const BindMail = () => {
   const [loginLoading, setLoginLoading] = useState(false);
   const { showLogin, setShowLogin } = useGlobalStore((state) => state);
-  const { setAccountInfo, getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setAccountInfo, getLocalAccountInfo } = useAccountStore(
+    (state) => state,
+  );
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag, reset } = useCountDown(60);
@@ -27,21 +30,20 @@ export const BindMail = () => {
     }
 
     setLoginLoading(true);
-    const status = await account.addGuardian({
+    const { code, msg, data } = await account.addGuardian({
       account: email,
       verifyCode: verifyCode,
       type: 'email',
     });
-    setAccountInfo({ bindStatus: true });
-    await getLocalAccountInfo();
-    // if (!!status) {
-    //   setShowLogin(false);
-    //   changeProtectorStatus(true);
-    // } else {
-    //   toast.error('绑定失败');
-    // }
-    setLoginLoading(false);
-    closeHandler()
+    if (code === '000000') {
+      setAccountInfo({ bindStatus: true });
+      await getLocalAccountInfo();
+      setLoginLoading(false);
+      closeHandler();
+      toast.success('绑定成功');
+    } else {
+      toast.error('绑定失败');
+    }
   };
   const emailChange = (e: any) => {
     setEmail(e.target.value);

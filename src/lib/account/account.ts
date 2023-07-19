@@ -387,6 +387,7 @@ export class Account {
       verifyCode,
       type,
     });
+    return res.data;
   }
   /**
    * 删除守护者
