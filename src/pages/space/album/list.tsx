@@ -12,9 +12,7 @@ export default function Album() {
   const [list, { set: setList }] = useList<any>([]);
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
-    const filepath = e.target.value;
-    const newFile = new File([image], filepath, { type: image.type });
-    const { code, msg } = await account.uploadAlbum({ file: newFile });
+    const { code, msg } = await account.uploadAlbum({ file: image });
 
     if (code === '000000') {
       toast.success('上传成功');

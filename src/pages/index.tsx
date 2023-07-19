@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
-
+import toast from 'react-hot-toast';
 export default function Index() {
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,16 @@ export default function Index() {
   };
   const create = async () => {
     setLoading(true);
-    await account.create();
+    console.time('create account');
+    try {
+      await account.create();
+    } catch (error) {
+      toast.error('创建失败');
+      setLoading(false);
+      console.log(error);
+      return;
+    }
+
     await getLocalAccountInfo();
     setLoading(false);
     console.timeEnd('create account');

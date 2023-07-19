@@ -23,10 +23,8 @@ export default function Album() {
   };
   const fileChange = async (e: any) => {
     const _file = e.target.files[0];
-    const filepath = e.target.value;
-    const newFile = new File([_file], filepath, { type: _file.type });
     if (fileType === 'security') {
-      await upload({ file: newFile, type: fileType });
+      await upload({ file: _file, type: fileType });
     } else {
       setFile(_file);
       setShowModal(true);

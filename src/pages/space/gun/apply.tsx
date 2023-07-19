@@ -81,7 +81,6 @@ export default function GunRenew() {
 
     console.log('name = ', name);
     nav(`/space/gun/search/${name}`);
-    //nav(`/gun/gunsearchpage`);
   };
 
   const gunnameChange = (e: any) => {

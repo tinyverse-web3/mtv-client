@@ -759,6 +759,6 @@ export class Dauth {
    * @param headers 请求头
    */
   async request({ url, method, data, params, headers }: any) {
-    return axios({ url, method, data, params, headers, timeout: 30000 });
+    return axios({ url, method, data, params, headers, timeout: 10000 });
   }
 }

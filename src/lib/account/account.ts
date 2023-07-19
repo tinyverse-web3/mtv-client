@@ -38,7 +38,8 @@ export class Account {
    * @returns {Promise<STATUS_CODE>} - 返回状态码
    */
   async create() {
-    return this.dauth.createMasterAccount();
+    const res = await this.dauth.createMasterAccount();
+    return res.data;
   }
   async hasPassword() {
     try {
