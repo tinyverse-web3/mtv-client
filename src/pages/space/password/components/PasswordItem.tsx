@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import { useCopyToClipboard } from 'react-use';
 import { toast } from 'react-hot-toast';
 import { ValidPassword } from './ValidPassword';
+import account from '@/lib/account/account';
 export default function PasswordItem({ item, toDetail }: any) {
   const [showPassword, setShowPassword] = useState(false);
   const [showStatus, setShowStatus] = useState(false);
@@ -22,11 +23,15 @@ export default function PasswordItem({ item, toDetail }: any) {
     copyToClipboard(text);
     toast.success('复制成功');
   };
-  const passwordConfirm = (password: string) => {
-    if (password) {
+  const passwordConfirm = async (password: string) => {
+    const { code, msg} = await account.checkPassword(password);
+    if (code === '000000') {
       setShowPassword(true);
+    } else {
+      toast.error(msg);
     }
-  }
+    setShowStatus(false);
+  };
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2'>
       <div className='text-4 font-600 mb-1'>{item.Title}</div>
@@ -74,7 +79,7 @@ export default function PasswordItem({ item, toDetail }: any) {
           复制网址
         </NextButton>
       </div>
-      <ValidPassword show={showStatus} onChange={passwordConfirm}/>
+      <ValidPassword show={showStatus} onChange={passwordConfirm} />
     </div>
   );
 }

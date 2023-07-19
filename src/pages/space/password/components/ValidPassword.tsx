@@ -36,7 +36,7 @@ export const ValidPassword = ({ show, onChange }: Props) => {
         <Text id='modal-title' size={18}>
           验证账号密码
         </Text>
-      </Modal.Header>
+      </Modal.Header   >
       <Modal.Body>
         <Input.Password
           clearable

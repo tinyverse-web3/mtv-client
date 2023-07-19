@@ -13,7 +13,7 @@ export const HeaderUser = () => {
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const nav = useNavigate();
   const { accountInfo } = useAccountStore((state) => state);
-  
+
   const toUserInfo = () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
@@ -53,6 +53,7 @@ export const HeaderUser = () => {
     () => levelArr[accountInfo.safeLevel || 0],
     [accountInfo.safeLevel],
   );
+  console.log(accountInfo);
   const imageSrc = useMemo(() => {
     return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
   }, [accountInfo.avatar]);

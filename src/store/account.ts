@@ -66,6 +66,7 @@ export const useAccountStore = create<AccountState>()(
             bindStatus: !!localInfo.Guardians?.length,
             avatar: localInfo.ImgCid,
             isDefaultPwd: !localInfo.IsChangedPassword,
+            safeLevel: localInfo.SafeLevel || 0,
           });
           set({ accountInfo });
         },

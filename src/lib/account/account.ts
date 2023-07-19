@@ -41,12 +41,20 @@ export class Account {
     return this.dauth.createMasterAccount();
   }
   async hasPassword() {
-    const result = await this.dauth.hasPassword();
-    return result.data.data === true;
+    try {
+      const result = await this.dauth.hasPassword();
+      return result.data.data === true;
+    } catch (error) {
+      return false;
+    }
   }
   async hasLocalAccount() {
-    const result = await this.dauth.hasLocalAccount();
-    return result.data.data === true;
+    try {
+      const result = await this.dauth.hasLocalAccount();
+      return result.data.data === true;
+    } catch (error) {
+      return false;
+    }
   }
   /**
    * 验证账户
@@ -557,7 +565,10 @@ export class Account {
     });
     return result.data.data;
   }
-
+  async checkPassword(password: string) {
+    const res = await this.dauth.checkPassword({ password });
+    return res.data;
+  }
   /**
    * 获取问答问题
    * @returns {Promise<any>} - 返回问答问题

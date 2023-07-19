@@ -136,6 +136,12 @@ export class Dauth {
       data: {},
     });
   }
+  async checkPassword({ password }: any) {
+    return this.invoke({
+      name: 'checkPassword',
+      data: { Password: password },
+    });
+  }
   async updatePassword({ oldPassword, newPassword }: any) {
     return this.invoke({
       name: 'updatePassword',
