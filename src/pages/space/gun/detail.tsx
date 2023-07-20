@@ -97,11 +97,10 @@ export default function detailPage() {
         <div className='pt-1 px-4 text-16px mb-2 break-all'>
           拥有者： {detail?.owner}
         </div>
-        {loading && (
+        {!loading && (
           <div className='pt-1 px-4'>
             <div>
               <Button
-                disabled={changeDisabled}
                 disabled={changeDisabled}
                 //loading={modifyLoading}
                 className='mx-auto mb-2 w-full'

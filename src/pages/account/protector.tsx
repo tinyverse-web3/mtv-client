@@ -36,7 +36,7 @@ export default function AccountProtector() {
     useGlobalStore((state) => state);
   const {  accountInfo } = useAccountStore((state) => state);
   console.log(accountInfo)
-  const list = useMemo(() => accountInfo.guardians, [accountInfo]);
+  const list = useMemo(() => accountInfo.guardians, [accountInfo.guardians]);
 
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);

@@ -84,16 +84,16 @@ export const Question = ({
     if (userList && tmpList) {
       if (userList?.length && userList[0].type == 2) {
         const _list = userList.slice(0, 3).map((v, i) => {
-          const list = JSON.parse(v.content);
+          const list = v.Content;
           return {
             id: i,
             list: list.map((s: any) => ({
-              q: s.content,
+              q: s.Content,
               a: '',
-              l: Number(s.characters),
+              l: Number(s.Characters),
             })),
             template: list.map((s: any) => ({
-              q: s.content,
+              q: s.Content,
             })),
             unselectList: [],
           };
@@ -101,16 +101,16 @@ export const Question = ({
         set(_list);
       } else {
         const _list = tmpList.slice(0, 3).map((v, i) => {
-          const list = v.content;
+          const list = v.Content;
           return {
             id: i,
             list: list.map((s: any) => ({
-              q: s.content,
+              q: s.Content,
               a: '',
-              l: Number(s.characters),
+              l: Number(s.Characters),
             })),
             template: list.map((s: any) => ({
-              q: s.content,
+              q: s.Content,
             })),
             unselectList: [],
           };

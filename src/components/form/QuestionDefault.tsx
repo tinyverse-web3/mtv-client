@@ -90,18 +90,18 @@ export const QuestionDefault = ({
   useEffect(() => {
     if (tmpList) {
       const _list = tmpList.map((v, i) => {
-        const childrenList = v.content;
+        const childrenList = v.Content;
         return {
           id: i,
-          title: v.title,
+          title: v.Title,
           list: childrenList.map((s: any) => {
-            const q: string = s.content.replace(/\([\S\s]*\)/g, '');
+            const q: string = s.Content.replace(/\([\S\s]*\)/g, '');
             const a = accountInfo.privacyInfo[q] || ''
             return {
             q: q,
             a: a,
-            p: /\(([\S\s]*)\)/.exec(s.content)?.[1],
-            l: s.character,
+            p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
+            l: s.Character,
           }}),
         };
       });
@@ -144,8 +144,8 @@ export const QuestionDefault = ({
   };
   useEffect(() => {
     if (!initList?.length) {
-      // getTmpQuestions();
-      getUserQuestions();
+      getTmpQuestions();
+      // getUserQuestions();
     } else {
       generateInitList();
     }
@@ -153,7 +153,7 @@ export const QuestionDefault = ({
   return (
     <div className={className}>
       <div className='mb-4'>
-        {list.map((val, i) => (
+        {list?.map((val, i) => (
           <div className='mb-4' key={i}>
             <div className='h-14 flex mb-2 items-center border-b-gray-200 border-b-solid border-b text-5 font-600'>
               {val.title}

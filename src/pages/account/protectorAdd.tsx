@@ -40,7 +40,7 @@ export default function ProtectorAdd() {
         toast.error(msg || '绑定失败');
       }
 
-      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+      nav(-1);
     } catch (error) {
       await toast.error('添加失败');
     }

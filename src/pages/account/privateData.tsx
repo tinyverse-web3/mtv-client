@@ -45,13 +45,13 @@ export default function Unlock() {
     }
   });
   const onChange = (e: any) => {
-    setText(e.target.value?.trim());
+    setText(e.trim());
   };
   const onPasswordChange = (e: any) => {
-    setPassword(e.target.value?.trim());
+    setPassword(e.trim());
   };
   const onCustomChange = (e: any) => {
-    setCustomText(e.target.value?.trim());
+    setCustomText(e.trim());
   };
   useEffect(() => {
     if (accountInfo.textPrivateData) {
