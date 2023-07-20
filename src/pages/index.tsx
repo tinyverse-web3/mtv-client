@@ -43,7 +43,7 @@ export default function Index() {
         <HeaderLogo />
         <Button
           size='xl'
-          className='m-auto mb-2 w-full bg-blue-4'
+          className='m-auto mb-2 w-full h-50px bg-blue-4'
           onPress={toCreate}
           loading={loading}>
           一键创建

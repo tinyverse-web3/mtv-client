@@ -1,5 +1,6 @@
 import { Image } from '@nextui-org/react';
 import { useMemo } from 'react';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 interface AlbumItemProps {
   item: {
     FileSize: number;
@@ -15,9 +16,9 @@ const AlbumItem = ({item}: AlbumItemProps) => {
     return `${apiHost}/sdk/album/get?Url=${item.URL}&FileName=${item.FileName}`;
   }, [item.URL]);
   return (
-    <div className='w-20 h-20'>
+    <PhotoView src={url}>
       <Image src={url} className='w-full h-full'/>
-    </div>
+    </PhotoView>
   );
 };
 export default AlbumItem;

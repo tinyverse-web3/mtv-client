@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Text } from '@nextui-org/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/form/Button';
@@ -16,8 +16,9 @@ export default function detailPage() {
   const nav = useNavigate();
   const gunnameRef = useRef('');
   const [changeDisabled, setApplyDisable] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState<any>({});
-  const { setAccountInfo } = useAccountStore((state) => state);
+  const { setAccountInfo, accountInfo } = useAccountStore((state) => state);
   const { name } = useParams<{ name: string }>(); // 获取路由参数中的 gunname
 
   const ApplyNewValidPeriod = async () => {
@@ -27,20 +28,26 @@ export default function detailPage() {
 
   const getDetail = async () => {
     if (name) {
-      const { code, msg, data } = await account.getGun({
-        GunName: name,
-      });
-      if (code === '000000') {
-        const summy: GunSummy = {
-          key: data.Gun_Key,
-          name: data.Gun_Name,
-          expired: data.ValidTime,
-          owner: data.OwnerID,
-        };
-        setDetail(summy);
-      } else {
-        toast.error(msg);
+      setLoading(true);
+      try {
+        const { code, msg, data } = await account.getGun({
+          GunName: name,
+        });
+        if (code === '000000') {
+          const summy: GunSummy = {
+            key: data.Gun_Key,
+            name: data.Gun_Name,
+            expired: data.ValidTime,
+            owner: data.OwnerID,
+          };
+          setDetail(summy);
+        } else {
+          toast.error(msg);
+        }
+      } catch (error) {
+        toast.error('获取GUN信息失败');
       }
+      setLoading(false);
     }
   };
   const setAccountName = async () => {
@@ -50,6 +57,22 @@ export default function detailPage() {
       setAccountInfo({ name: detail.name });
     } else {
       toast.error(msg);
+    }
+  };
+  console.log(detail?.owner);
+  console.log(accountInfo?.publicKey);
+  const isOwner = useMemo(() => {
+    return detail?.owner === accountInfo?.publicKey;
+  }, [detail.owner, accountInfo.publicKey]);
+  console.log(isOwner);
+  const addOwner = async () => {
+    if (detail?.owner) {
+      const { code, msg, data } = await account.createContact(detail?.owner);
+      if (code === '000000') {
+        toast.success('添加好友成功');
+      } else {
+        toast.error(msg || '添加好友失败');
+      }
     }
   };
   useEffect(() => {
@@ -74,27 +97,40 @@ export default function detailPage() {
         <div className='pt-1 px-4 text-16px mb-2 break-all'>
           拥有者： {detail?.owner}
         </div>
-
-        <div className='pt-1 px-4'>
-          <div>
-            <Button
-              disabled={changeDisabled}
-              //loading={modifyLoading}
-              className='mx-auto mb-2 w-full'
-              size='lg'
-              onPress={ApplyNewValidPeriod}>
-              续期
-            </Button>
-            <Button
-              disabled={changeDisabled}
-              //loading={modifyLoading}
-              className='mx-auto mb-2 w-full'
-              size='lg'
-              onPress={setAccountName}>
-              设置为用户名
-            </Button>
+        {loading && (
+          <div className='pt-1 px-4'>
+            <div>
+              <Button
+                disabled={changeDisabled}
+                disabled={changeDisabled}
+                //loading={modifyLoading}
+                className='mx-auto mb-2 w-full'
+                size='lg'
+                onPress={ApplyNewValidPeriod}>
+                续期
+              </Button>
+              {isOwner ? (
+                <Button
+                  disabled={changeDisabled}
+                  //loading={modifyLoading}
+                  className='mx-auto mb-2 w-full'
+                  size='lg'
+                  onPress={setAccountName}>
+                  设置为用户名
+                </Button>
+              ) : (
+                <Button
+                  disabled={changeDisabled}
+                  //loading={modifyLoading}
+                  className='mx-auto mb-2 w-full'
+                  size='lg'
+                  onPress={addOwner}>
+                  加所有者为好友
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </LayoutThird>
   );

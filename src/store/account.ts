@@ -64,6 +64,7 @@ export const useAccountStore = create<AccountState>()(
           console.log('localInfo', localInfo);
           accountInfo = Object.assign(accountInfo, {
             publicKey: localInfo.PublicKey,
+            name: localInfo.Name,
             address: localInfo.Address,
             passwordPrivateData: localInfo.PasswordPrivateData || '',
             textPrivateData: localInfo.TextPrivateData || '',

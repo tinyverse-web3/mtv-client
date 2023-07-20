@@ -34,7 +34,7 @@ export default function SpaceIndex() {
     },
     {
       icon: 'i-mdi-key-variant',
-      label: '密码本',
+      label: '密码箱',
       path: ROUTE_PATH.SPACE_PASSWORD,
     },
     {
@@ -52,7 +52,7 @@ export default function SpaceIndex() {
     },
     {
       icon: 'i-mdi-database-settings-outline',
-      label: '身份验证器',
+      label: '谷歌验证器',
       path: ROUTE_PATH.SPACE_AUTHENTICATOR,
     },
   ];

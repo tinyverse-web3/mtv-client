@@ -22,31 +22,11 @@ export default function GunSearch() {
         GunName: gunname,
       });
       if (code === '000000') {
-
+        nav(`/space/gun/detail/${data.Gun_Name}`);
       } else {
         toast.error(msg);
       }
-      // console.log('Get Gun Details Success : ', res.data);
-      // console.log(JSON.stringify(res.data));
-      // const result = JSON.stringify(res.data.data.gundetails);
-      // const gundetailsContent = JSON.parse(result);
-      // nav(`/gun/get/${gundetailsContent.Gun_Name}`);
     }
-    // try {
-    //   const res = await account.getGun({
-    //     GunName: gunname,
-    //   });
-    //   console.log("Get Gun Details Success : ", res.data)
-    //   console.log(JSON.stringify(res.data));
-    //   const result = JSON.stringify(res.data.data.gundetails);
-    //   const gundetailsContent = JSON.parse(result);
-    //   nav(`/gun/get/${gundetailsContent.Gun_Name}`);
-    //   //return gundetailsContent.Gun_Key;
-    // } catch (error) {
-    //   console.log(" Get Gun Details Error : ", error);
-    //   toast('你查找的GUN域名还没有人使用！！');
-    //   //return "";
-    // }
   };
 
   const gunnameChange = (e: any) => {

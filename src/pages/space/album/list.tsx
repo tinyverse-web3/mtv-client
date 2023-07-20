@@ -6,6 +6,7 @@ import AlbumItem from './components/AlbumItem';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useList } from 'react-use';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 export default function Album() {
   const nav = useNavigate();
@@ -46,13 +47,15 @@ export default function Album() {
             className='invisible w-0 h-0'
           />
         </label>
-      }> 
+      }>
       <div className='p-4'>
-        <div className='grid grid-cols-3 gap-4 ustify-items-center'>
-          {list.map((item: any) => (
-            <AlbumItem item={item} key={item.URL} />
-          ))}
-        </div>
+        <PhotoProvider>
+          <div className='grid grid-cols-3 gap-4 ustify-items-center'>
+            {list.map((item: any) => (
+              <AlbumItem item={item} key={item.URL} />
+            ))}
+          </div>
+        </PhotoProvider>
       </div>
     </LayoutThird>
   );
