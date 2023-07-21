@@ -4,9 +4,11 @@ import { useCopyToClipboard } from 'react-use';
 import { toast } from 'react-hot-toast';
 import { ValidPassword } from './ValidPassword';
 import account from '@/lib/account/account';
+import { usePasswordStore } from '@/store';
 export default function PasswordItem({ item, toDetail }: any) {
   const [showPassword, setShowPassword] = useState(false);
   const [showStatus, setShowStatus] = useState(false);
+  const { remove } = usePasswordStore((state) => state);
   const hidePassword = useMemo(() => {
     return item.Password.replace(/./g, '*');
   }, [item.Passowrd]);
@@ -23,8 +25,14 @@ export default function PasswordItem({ item, toDetail }: any) {
     copyToClipboard(text);
     toast.success('复制成功');
   };
+  const removeItem = async (e: any, id?: string) => {
+    e.stopPropagation();
+    if (id) {
+      await remove(id);
+    }
+  };
   const passwordConfirm = async (password: string) => {
-    const { code, msg} = await account.checkPassword(password);
+    const { code, msg } = await account.checkPassword(password);
     if (code === '000000') {
       setShowPassword(true);
     } else {
@@ -33,7 +41,10 @@ export default function PasswordItem({ item, toDetail }: any) {
     setShowStatus(false);
   };
   return (
-    <div className='border-b-gray-200 border-b-solid border-b py-2'>
+    <div className='border-b-gray-200 relative border-b-solid border-b py-2'>
+      <div
+        className='i-mdi-close absolute right-2 top-6 -translate-1/2 w-6 h-6 text-red'
+        onClick={(e) => removeItem(e, item?.Id)}></div>
       <div className='text-4 font-600 mb-1'>{item.Title}</div>
       <div className='flex text-3 mb-2'>
         <div className='flex-1'>

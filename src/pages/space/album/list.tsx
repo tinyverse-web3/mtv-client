@@ -7,6 +7,7 @@ import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useList } from 'react-use';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { Empty } from '@/components/Empty';
 
 export default function Album() {
   const nav = useNavigate();
@@ -50,11 +51,15 @@ export default function Album() {
       }>
       <div className='p-4'>
         <PhotoProvider>
-          <div className='grid grid-cols-3 gap-4 ustify-items-center'>
-            {list.map((item: any) => (
-              <AlbumItem item={item} key={item.URL} />
-            ))}
-          </div>
+          {list.length ? (
+            <div className='grid grid-cols-3 gap-4 ustify-items-center'>
+              {list.map((item) => (
+                <AlbumItem key={item.URL} item={item} />
+              ))}
+            </div>
+          ) : (
+            <Empty />
+          )}
         </PhotoProvider>
       </div>
     </LayoutThird>

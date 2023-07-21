@@ -32,10 +32,13 @@ const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
 
 export default function AccountProtector() {
   const nav = useNavigate();
-  const { protectorStatus, changeProtectorStatus } =
-    useGlobalStore((state) => state);
-  const {  accountInfo } = useAccountStore((state) => state);
-  console.log(accountInfo)
+  const { protectorStatus, changeProtectorStatus } = useGlobalStore(
+    (state) => state,
+  );
+  const { accountInfo, getLocalAccountInfo } = useAccountStore(
+    (state) => state,
+  );
+  console.log(accountInfo);
   const list = useMemo(() => accountInfo.guardians, [accountInfo.guardians]);
 
   const add = () => {
@@ -48,6 +51,7 @@ export default function AccountProtector() {
   };
   const delHandler = async (name: string) => {
     await account.delGuardian({ account: name });
+    await getLocalAccountInfo();
   };
   useEffect(() => {
     if (protectorStatus) {

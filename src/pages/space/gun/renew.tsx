@@ -52,8 +52,6 @@ export default function GunRenew() {
   };
   const calcValidTime = () => {
     let validTime: Date = new Date(detail.expired);
-    console.log(detail.expired);
-    console.log(validTime);
     switch (selectedValid) {
       case '0':
         validTime = add(new Date(), { years: 1 });
@@ -72,8 +70,8 @@ export default function GunRenew() {
     console.log('RenewGun...');
     const validTime = calcValidTime();
     try {
-      // await renewGUN(gunname, validTime);
-      toast.success('申请成功了');
+      await renewGUN(gunname, validTime);
+      toast.success('续期成功了');
       nav(-1);
     } catch (error) {
       console.log(error);

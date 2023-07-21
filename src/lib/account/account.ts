@@ -543,9 +543,23 @@ export class Account {
     const res = await this.dauth.getFileList({ type });
     return res.data;
   }
+  async downloadFile({ Filename, Type, Password }: any) {
+    const res = await this.dauth.downloadFile({
+      FileName: Filename,
+      Type,
+      Password,
+    });
+    return res.data;
+  }
   async uploadAlbum({ file }: { file: File }) {
     const res = await this.dauth.uploadAlbum({
       file,
+    });
+    return res.data;
+  }
+  async downloadAlbum(fileName: string) {
+    const res = await this.dauth.downloadAlbum({
+      FileName: fileName,
     });
     return res.data;
   }

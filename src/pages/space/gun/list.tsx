@@ -3,9 +3,7 @@ import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
-import { format } from 'date-fns';
-import { useEvent } from 'react-use';
-import toast from 'react-hot-toast';
+import { Empty } from '@/components/Empty';
 import { useGunStore, EMPTY_GUN_NAME } from '@/store';
 import { GunItem } from './components/GunItem';
 
@@ -42,7 +40,7 @@ export default function GunListShow() {
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
       <div className='pt-1 px-6'>
-        {list.map((item) => (
+        {list.length ? list.map((item) => (
           <div
             key={item.key}
             className='py-2 relative border-b border-b-solid border-b-gray-300'>
@@ -55,7 +53,7 @@ export default function GunListShow() {
               />
             </div>
           </div>
-        ))}
+        )): <Empty />}
       </div>
     </LayoutThird>
   );

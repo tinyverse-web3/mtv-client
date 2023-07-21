@@ -5,6 +5,7 @@ import { useNoteStore, usePasswordStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import PasswordItem from './components/PasswordItem';
+import { Empty } from '@/components/Empty';
 
 export default function NoteList() {
   const nav = useNavigate();
@@ -15,16 +16,11 @@ export default function NoteList() {
   const toDetail = (id?: string) => {
     nav(`${ROUTE_PATH.SPACE_PASSWORD_ADD}?type=edit&id=${id}`);
   };
-  const removeItem = async (e: any, id?: string) => {
-    e.stopPropagation();
-    if (id) {
-      await remove(id);
-    }
-  };
+  
   useEffect(() => {
     getList();
   }, []);
-  console.log(list)
+  console.log(list);
   return (
     <LayoutThird
       title='密码箱'
@@ -33,9 +29,17 @@ export default function NoteList() {
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
       <div className='p-4'>
-        {list.map((item) => (
-          <PasswordItem item={item} key={item.Id} toDetail={toDetail}/>
-        ))}
+        {list.length ? (
+          list.map((item) => (
+            <PasswordItem
+              item={item}
+              key={item.Id}
+              toDetail={toDetail}
+            />
+          ))
+        ) : (
+          <Empty />
+        )}
       </div>
     </LayoutThird>
   );

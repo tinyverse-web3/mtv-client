@@ -5,9 +5,14 @@ import { useGlobalStore, useAccountStore } from '@/store';
 
 interface Props {
   show: boolean;
+  btnText?: string;
   onChange: (password: string) => void;
 }
-export const PublicPasswordModal = ({ show, onChange }: Props) => {
+export const PublicPasswordModal = ({
+  show,
+  onChange,
+  btnText = '上传',
+}: Props) => {
   const [showModal, setShowModal] = useState(show);
   const [password, setPassword] = useState('');
   const closeHandler = () => {
@@ -57,7 +62,7 @@ export const PublicPasswordModal = ({ show, onChange }: Props) => {
           取消
         </Button>
         <Button auto onPress={confirmHandler}>
-          上传
+          {btnText}
         </Button>
       </Modal.Footer>
     </Modal>

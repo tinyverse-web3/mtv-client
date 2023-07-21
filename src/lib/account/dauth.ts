@@ -550,6 +550,15 @@ export class Dauth {
       method: 'get',
     });
   }
+  async downloadAlbum({ FileName }: any) {
+    return this.invoke({
+      name: 'album/download',
+      method: 'get',
+      data: {
+        FileName,
+      },
+    });
+  }
   async uploadFile({
     file,
     type,
@@ -577,6 +586,17 @@ export class Dauth {
       method: 'get',
       data: {
         Type: type,
+      },
+    });
+  }
+  async downloadFile({ FileName, Type, Password }: any) {
+    return this.invoke({
+      name: 'file/download',
+      method: 'get',
+      data: {
+        FileName,
+        Type,
+        Password,
       },
     });
   }

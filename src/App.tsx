@@ -25,7 +25,7 @@ export default function App() {
           <Container>
             <BindMail />
             <Toaster
-              containerStyle={{ zIndex: 9999999 }}
+              containerStyle={{ zIndex: 9999999, wordBreak: 'break-all' }}
               position='top-center'
               reverseOrder={false}
               toastOptions={{

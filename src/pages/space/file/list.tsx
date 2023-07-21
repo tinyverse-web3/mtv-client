@@ -8,6 +8,7 @@ import { useList } from 'react-use';
 import { PublicPasswordModal } from './components/PublicPasswordModal';
 import account from '@/lib/account/account';
 import { ROUTE_PATH } from '@/router';
+import { Empty } from '@/components/Empty';
 
 export default function Album() {
   const nav = useNavigate();
@@ -16,9 +17,16 @@ export default function Album() {
   const [securityList, { set: setSecurityList }] = useList<any>([]);
   const [publicList, { set: setPublicList }] = useList<any>([]);
   const [fileType, setFileType] = useState('security' as any);
+  const [delItem, setDelItem] = useState<any>(null);
+  const [passwordType, setPasswordType] = useState('upload');
 
   const passwordChange = async (pwd: string) => {
-    await upload({ file, type: fileType, password: pwd });
+    if (passwordType === 'upload') {
+      await upload({ file, type: fileType, password: pwd });
+    } else {
+      console.log('downloadHandler', delItem);
+      await downloadFile({ Filename: delItem?.Filename, Password: pwd });
+    }
     setShowModal(false);
   };
   const fileChange = async (e: any) => {
@@ -27,6 +35,7 @@ export default function Album() {
       await upload({ file: _file, type: fileType });
     } else {
       setFile(_file);
+      setPasswordType('upload');
       setShowModal(true);
     }
   };
@@ -68,7 +77,30 @@ export default function Album() {
   const list = useMemo(() => {
     return fileType === 'security' ? securityList : publicList;
   }, [fileType, securityList, publicList]);
-
+  const downloadHandler = async (item: any) => {
+    if (fileType === 'security') {
+      console.log(item);
+      await downloadFile({ Filename: item.Filename, Type: fileType });
+    } else {
+      setDelItem(item);
+      setPasswordType('download');
+      setShowModal(true);
+    }
+  };
+  const downloadFile = async ({ Filename, Password = '' }: any) => {
+    if (Filename) {
+      const { code, msg, data } = await account.downloadFile({
+        Filename,
+        Type: fileType,
+        Password,
+      });
+      if (code === '000000') {
+        toast.success(`下载地址: ${data}`);
+      } else {
+        toast.error(msg);
+      }
+    }
+  };
   const fileTypes = [
     {
       label: '个人文件',
@@ -114,12 +146,24 @@ export default function Album() {
           ))}
         </div>
         <div className=''>
-          {list.map((item: any) => (
-            <FileItem key={item.URL} item={item} />
-          ))}
+          {list.length ? (
+            list.map((item: any) => (
+              <FileItem
+                key={item.URL}
+                item={item}
+                onDownload={() => downloadHandler(item)}
+              />
+            ))
+          ) : (
+            <Empty />
+          )}
         </div>
       </div>
-      <PublicPasswordModal show={showModal} onChange={passwordChange} />
+      <PublicPasswordModal
+        btnText={passwordType === 'upload' ? '上传' : '下载'}
+        show={showModal}
+        onChange={passwordChange}
+      />
     </LayoutThird>
   );
 }
