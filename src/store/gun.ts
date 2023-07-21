@@ -21,7 +21,7 @@ interface GunState {
   get: (gunname: string | undefined) => Promise<GunSummy | undefined>;
   load: () => void;
   apply: (gunname: any, validperiod: number) => void;
-  renew: (gunname: any, validperiod: number) => Promise<boolean>;
+  renew: (gunname: any, validperiod: number) => void;
 }
 
 export const useGunStore = create<GunState>()(
@@ -69,6 +69,7 @@ export const useGunStore = create<GunState>()(
       });
       if (code === '000000') {
         await get().load();
+        toast.success('申请成功');
       } else {
         toast.error(msg);
         throw new Error(msg);
@@ -83,15 +84,16 @@ export const useGunStore = create<GunState>()(
       if (summy == undefined) {
         return false;
       }
-      try {
-        const res = await account.renewGun({
-          GunName,
-          ValidTime: unixTimeInSeconds,
-        });
-        console.log(JSON.stringify(res.data));
-        return true;
-      } catch (error) {
-        return false;
+      const { code, data, msg } = await account.renewGun({
+        GunName,
+        ValidTime: unixTimeInSeconds,
+      });
+      if (code === '000000') {
+        await get().load();
+        toast.success('续期成功');
+      } else {
+        toast.error(msg);
+        throw new Error(msg);
       }
     },
 

@@ -62,7 +62,6 @@ export default function GunRenew() {
     const validTime = calcValidTime();
     try {
       await applyGUN(gunname, validTime);
-      toast.success('申请成功了');
       nav(-1);
     } catch (error) {
       console.log(error)
