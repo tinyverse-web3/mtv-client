@@ -55,6 +55,7 @@ export default function detailPage() {
     if (code === '000000') {
       toast.success('设置成功');
       setAccountInfo({ name: detail.name });
+      nav(ROUTE_PATH.SPACE_INDEX)
     } else {
       toast.error(msg);
     }
