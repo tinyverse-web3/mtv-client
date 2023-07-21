@@ -38,7 +38,7 @@ export default function Edit() {
     }
   }, [id]);
   return (
-    <LayoutThird title={`${type ==='add' ? '新建' : '编辑'}密码本`}>
+    <LayoutThird title={`${type ==='add' ? '新建' : '编辑'}密码箱`}>
       <div className='p-6'>
         <Row className='mb-8' justify='center' align='center'>
           <span className='w-16'>标题</span>

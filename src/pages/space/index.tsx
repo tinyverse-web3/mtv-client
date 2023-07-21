@@ -52,7 +52,7 @@ export default function SpaceIndex() {
     },
     {
       icon: 'i-mdi-database-settings-outline',
-      label: '谷歌验证器',
+      label: 'Google验证器',
       path: ROUTE_PATH.SPACE_AUTHENTICATOR,
     },
   ];

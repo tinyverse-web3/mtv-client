@@ -27,7 +27,7 @@ export default function NoteList() {
   console.log(list)
   return (
     <LayoutThird
-      title='密码本'
+      title='密码箱'
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
