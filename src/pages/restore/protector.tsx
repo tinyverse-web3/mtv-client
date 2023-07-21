@@ -44,7 +44,7 @@ export default function Protector() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      await toast.error('恢复失败');
+      toast.error('恢复失败');
     }
   };
   const disabled = useMemo(() => !(email && code), [email, code]);

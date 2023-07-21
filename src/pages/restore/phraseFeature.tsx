@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore, useRestoreStore } from '@/store';
+import { useAccountStore, useRestoreStore, useGlobalStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
@@ -16,6 +16,7 @@ export default function QuestionFeature() {
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setLockStatus } = useGlobalStore((state) => state);
   const { mnemonic } = useRestoreStore((state) => state);
   const add = async () => {
     setLoading(true);
@@ -34,7 +35,8 @@ export default function QuestionFeature() {
       });
       if (result.code === '000000') {
         await getLocalAccountInfo();
-        nav(ROUTE_PATH.SPACE_INDEX);
+        setLockStatus(false);
+        nav(ROUTE_PATH.SPACE_INDEX, {replace: true});
       } else {
         toast.error(result.msg);
       }

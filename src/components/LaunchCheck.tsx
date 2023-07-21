@@ -12,14 +12,19 @@ const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
 export const WalletCheck = ({ children }: any) => {
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
-  const { checkLoading, setCheckLoading } = useGlobalStore((state) => state);
-  const {  getLocalAccountInfo } = useAccountStore((state) => state);
+  const { checkLoading, setCheckLoading, lockStatus, setLockStatus, reset: resetGlobal } =
+    useGlobalStore((state) => state);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
 
   const logout = async () => {
     const { href } = location;
     if (stay_path.some((p) => href?.indexOf(p) > -1)) {
       await account.lock();
-      location.reload();
+      await resetGlobal();
+      setLockStatus(true);
+      location.href = `${
+        ROUTE_HASH_PATH.UNLOCK
+      }?redirect=${encodeURIComponent(location.href)}`;
     }
   };
   const onIdle = () => {
@@ -42,7 +47,10 @@ export const WalletCheck = ({ children }: any) => {
     }
     // setCheckLoading(true);
     const status = await account.checkStatus();
-    const [accountStatus, passwordStatus] = await Promise.all([account.hasLocalAccount(), account.hasPassword()]);
+    const [accountStatus, passwordStatus] = await Promise.all([
+      account.hasLocalAccount(),
+      account.hasPassword(),
+    ]);
     console.log('accountStatus', accountStatus);
     console.log('passwordStatus', passwordStatus);
     if (!accountStatus) {
@@ -57,9 +65,12 @@ export const WalletCheck = ({ children }: any) => {
       }
     } else if (!passwordStatus) {
       if (!(pathname.indexOf('unlock') > -1)) {
-        location.href = `${ROUTE_HASH_PATH.UNLOCK}?redirect=${encodeURIComponent(location.href)}`;
+        location.href = `${
+          ROUTE_HASH_PATH.UNLOCK
+        }?redirect=${encodeURIComponent(location.href)}`;
       }
     } else {
+      setLockStatus(false);
       getLocalAccountInfo();
       if (!stay_path.some((p) => pathname?.indexOf(p) > -1)) {
         location.replace(ROUTE_HASH_PATH.SPACE_INDEX);
@@ -70,12 +81,16 @@ export const WalletCheck = ({ children }: any) => {
   useEffect(() => {
     checkStatus();
   }, []);
-  // useEffect(() => {
-  //   if (!checkLoading && stay_path.some((p) => pathname?.indexOf(p) > -1)) {
-  //     console.log('router change');
-  //     // checkStatus();
-  //   }
-  // }, [routerLocation]);
+  useEffect(() => {
+    if (
+      !checkLoading &&
+      stay_path.some((p) => pathname?.indexOf(p) > -1) &&
+      lockStatus
+    ) {
+      console.log('router change check');
+      checkStatus();
+    }
+  }, [routerLocation]);
   return (
     <>
       {checkLoading ? (

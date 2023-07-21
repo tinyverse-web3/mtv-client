@@ -6,10 +6,12 @@ import { useCheckLogin } from '@/components/BindMail';
 import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import { toast } from 'react-hot-toast';
-
+import account from '@/lib/account/account';
 export default function Account() {
   const nav = useNavigate();
-  const { reset: resetGlobal } = useGlobalStore((state) => state);
+  const { reset: resetGlobal, setLockStatus } = useGlobalStore(
+    (state) => state,
+  );
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toChangePwd = async () => {
@@ -64,9 +66,11 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
   };
   const deleteUser = async () => {
-    await Promise.all([resetGlobal(), delAccount()]);
-    localStorage.clear();
-    location.reload();
+    await resetGlobal();
+    await account.lock();
+    setLockStatus(true);
+    nav(ROUTE_PATH.UNLOCK);
+
   };
   const toSubAccount = () => {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);

@@ -4,8 +4,10 @@ import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
+import { ROUTE_PATH } from '@/router';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { useAccountStore, useGlobalStore } from '@/store';
 
 export default function Unlock() {
   const nav = useNavigate();
@@ -13,10 +15,12 @@ export default function Unlock() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setLockStatus } = useGlobalStore((state) => state);
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
-    const privateFilter= privateArr.filter((v) => !!v);
+    const privateFilter = privateArr.filter((v) => !!v);
     if (privateFilter.length < 2) {
       toast.error('请至少输入两种内容');
       setLoading(false);
@@ -27,6 +31,9 @@ export default function Unlock() {
         textPrivateData: text,
         passwordPrivateData: password,
       });
+      await getLocalAccountInfo();
+      setLockStatus(false);
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       toast.success('恢复成功');
       // nav(ROUTE_PATH.RESTORE);
     } catch (error) {

@@ -15,7 +15,7 @@ export default function Unlock() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
-  const { reset: resetGlobal } = useGlobalStore((state) => state);
+  const { reset: resetGlobal, setLockStatus } = useGlobalStore((state) => state);
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
   const unlock = async () => {
@@ -31,6 +31,7 @@ export default function Unlock() {
     } else {
       setErr(true);
     }
+    setLockStatus(false);
     setLoading(false);
   };
   const pressHandler = async () => {

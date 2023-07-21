@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   useQuestionStore,
   useAccountStore,
+  useGlobalStore,
 } from '@/store';
 import { QuestionRestore } from '@/pages/restore/components/QuestionRestore';
 import LayoutThird from '@/layout/LayoutThird';
@@ -11,6 +12,7 @@ import account from '@/lib/account/account';
 export default function Restore() {
   const nav = useNavigate();
   const {  getLocalAccountInfo } = useAccountStore((state) => state);
+  const {  setLockStatus } = useGlobalStore((state) => state);
   const {
     list: questionList,
     sssData: serverShare,
@@ -20,6 +22,7 @@ export default function Restore() {
   const questionSubmit = async (list: any[]) => {
     const result = await account.restoreByQuestions(list, type);
     await getLocalAccountInfo();
+    setLockStatus(false);
     nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
   };
   return (

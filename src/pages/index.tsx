@@ -5,12 +5,13 @@ import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useAccountStore } from '@/store';
+import { useAccountStore, useGlobalStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 export default function Index() {
   const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setLockStatus } = useGlobalStore((state) => state);
   const [loading, setLoading] = useState(false);
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
   const nav = useNavigate();
@@ -31,7 +32,7 @@ export default function Index() {
       console.log(error);
       return;
     }
-
+    setLockStatus(false);
     await getLocalAccountInfo();
     setLoading(false);
     console.timeEnd('create account');

@@ -40,12 +40,12 @@ interface GlobalState {
   // maintainProtector: boolean;
   // maintainQuestion: boolean;
   checkLoading: boolean;
+  lockStatus: boolean;
   userInfo: UserInfo;
   nostr?: NostrInfo;
 
   logout: () => void;
   // setUserLevel: (l: number) => void;
-  calcUserLevel: () => void;
   // setMaintainPhrase: (v: boolean) => void;
   // setMaintainProtector: (v: boolean) => void;
   // setMaintainQuestion: (v: boolean) => void;
@@ -53,10 +53,9 @@ interface GlobalState {
   // setBindStatus: (status: boolean) => void;
   setShowLogin: (visibly: boolean) => void;
   setCheckLoading: (visibly: boolean) => void;
-  setNostr: (n: NostrInfo) => void;
-  createNostr: () => NostrInfo;
   reset: () => void;
   saveUserInfo: () => void;
+  setLockStatus: (b: boolean) => void;
   getLocalUserInfo: () => void;
   changeProtectorStatus: (v: boolean) => void;
 }
@@ -67,6 +66,7 @@ export const useGlobalStore = create<GlobalState>()(
       (set, get) => ({
         showLogin: false,
         checkLoading: false,
+        lockStatus: true,
         protectorStatus: false,
         // userLevel: 0,
         // maintainPhrase: false,
@@ -95,6 +95,9 @@ export const useGlobalStore = create<GlobalState>()(
           console.log('mtvStorage put userInfo', userInfo);
           window?.mtvStorage?.put('userInfo', userInfo);
         },
+        setLockStatus(b) {
+          set({ lockStatus: b });
+        },
         getLocalUserInfo: async () => {
           const userInfo = await window?.mtvStorage?.get('userInfo');
           console.log('获取mtvStorage的userInfo');
@@ -108,41 +111,18 @@ export const useGlobalStore = create<GlobalState>()(
           }
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
-        calcUserLevel: () => {
-          const { userInfo, setUserInfo } = get();
-          const { maintainPhrase, maintainProtector, maintainQuestion } =
-            userInfo;
-          let level = 0;
-          if (maintainPhrase) {
-            level = 1;
-          }
-          if (maintainProtector) {
-            level = 2;
-          }
-          if (maintainQuestion || (maintainPhrase && maintainProtector)) {
-            level = 3;
-          }
-          setUserInfo({ userLevel: level });
-          // set({ userInfo: { ...userInfo, userLevel: level } });
-        },
+
         logout: () => set(() => ({ bindStatus: false, showLogin: false })),
         // setBindStatus: (v) => set({ bindStatus: v }),
         // setMaintain: (v) => set(() => ({ maintain: v })),
         setCheckLoading: (v) => set(() => ({ checkLoading: v })),
-        createNostr: () => {
-          const user = generateKeys();
-          set({ nostr: user });
-          return user;
-        },
-        setNostr: (n) => {
-          set({ nostr: n });
-        },
         reset: () => {
           set({
             // bindStatus: false,
             showLogin: false,
             // maintain: false,
             checkLoading: false,
+            lockStatus: true,
             // userLevel: 0,
             // maintainPhrase: false,
             // maintainProtector: false,
