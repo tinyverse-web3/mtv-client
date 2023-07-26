@@ -10,19 +10,25 @@ interface AlbumItemProps {
     TimeStamp: number;
     URL: string;
   };
+  delSuccess: () => void;
 }
 
-const AlbumItem = ({ item }: AlbumItemProps) => {
+const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const url = useMemo(() => {
     return `${apiHost}/sdk/album/get?Url=${item.URL}&Filename=${item.Filename}`;
   }, [item.URL]);
-  const removeItem = async (e: any, id?: string) => {
+  const removeItem = async (e: any, Filename?: string) => {
     e.stopPropagation();
-    if (id) {
-      console.log('removeItem', id);
-      // await remove(id);
+    if (Filename) {
+      const { code, msg } = await account.delAlbum({ Filename });
+      if (code === '000000') {
+        toast.success(`删除成功`);
+        delSuccess?.();
+      } else {
+        toast.error(msg);
+      }
     }
   };
   const downloadItem = async (e: any, Filename?: string) => {

@@ -111,6 +111,9 @@ export default function Album() {
       value: 'public',
     },
   ];
+  const delSuccess = () => {
+    getList();
+  };
   useEffect(() => {
     getList(true);
   }, []);
@@ -151,6 +154,8 @@ export default function Album() {
               <FileItem
                 key={item.URL}
                 item={item}
+                type={fileType}
+                delSuccess={delSuccess}
                 onDownload={() => downloadHandler(item)}
               />
             ))

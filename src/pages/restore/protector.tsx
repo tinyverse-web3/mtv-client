@@ -30,22 +30,20 @@ export default function Protector() {
   const submit = async () => {
     setLoading(true);
     try {
-      const status = await account.verifyEmail({
+      const { code: resCode, msg} = await account.verifyEmail({
         account: email,
         verifyCode: code,
       });
-      // if (status === STATUS_CODE.SUCCESS) {
-      //   toast.success('恢复成功')
-      //   nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      // } else {
-      //   toast.success('恢复失败')
-      // }
-      nav(ROUTE_PATH.RESTORE_PRIVATEDATA);
-      setLoading(false);
+      if (resCode === '000000') {
+        nav(ROUTE_PATH.RESTORE_PRIVATEDATA);
+      } else {
+        toast.error(msg);
+      }
     } catch (error) {
       setLoading(false);
       toast.error('恢复失败');
     }
+    setLoading(false);
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (

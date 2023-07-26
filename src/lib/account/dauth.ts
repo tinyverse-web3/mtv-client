@@ -559,6 +559,15 @@ export class Dauth {
       },
     });
   }
+  async delAlbum({ FileName }: any) {
+    return this.invoke({
+      name: 'album/del',
+      method: 'post',
+      data: {
+        FileName,
+      },
+    });
+  }
   async uploadFile({
     file,
     type,
@@ -586,6 +595,16 @@ export class Dauth {
       method: 'get',
       data: {
         Type: type,
+      },
+    });
+  }
+  async delFile({ FileName, Type }: any) {
+    return this.invoke({
+      name: 'file/del',
+      method: 'post',
+      data: {
+        FileName,
+        Type,
       },
     });
   }

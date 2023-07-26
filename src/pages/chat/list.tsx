@@ -51,7 +51,13 @@ export default function ChatList() {
   };
 
   const toSender = async () => {
-    await account.createContact(searchText);
+    const { code, msg } = await account.createContact(searchText);
+
+    if (code === '000000') {
+      toast.success('添加好友成功');
+    } else {
+      toast.error(msg || '添加好友失败');
+    }
     setSearchText('');
     // await toDetail({ DAuthKey: searchText });
   };

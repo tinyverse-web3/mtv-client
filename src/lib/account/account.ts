@@ -63,7 +63,8 @@ export class Account {
    */
   async verifyEmail({ account, verifyCode }: any) {
     this.account = account;
-    return this.dauth.verifyEmail({ account, verifyCode });
+    const res = await this.dauth.verifyEmail({ account, verifyCode });
+    return res.data;
   }
   async updatePasswordByGuardian({ account, verifyCode, password }: any) {
     this.account = account;
@@ -291,11 +292,12 @@ export class Account {
     textPrivateData: string;
     passwordPrivateData: string;
   }) {
-    return this.dauth.retrieveAccountByGuardian({
+    const res = await this.dauth.retrieveAccountByGuardian({
       account: this.account,
       textPrivateData,
       passwordPrivateData,
     });
+    return res.data;
   }
   async getQuestions4Retrieve({
     // account,
@@ -543,6 +545,10 @@ export class Account {
     const res = await this.dauth.getFileList({ type });
     return res.data;
   }
+  async delFile({ Filename, Type }: any) {
+    const res = await this.dauth.delFile({ FileName: Filename, Type });
+    return res.data;
+  }
   async downloadFile({ Filename, Type, Password }: any) {
     const res = await this.dauth.downloadFile({
       FileName: Filename,
@@ -561,6 +567,10 @@ export class Account {
     const res = await this.dauth.downloadAlbum({
       FileName: fileName,
     });
+    return res.data;
+  }
+  async delAlbum({ Filename }: any) {
+    const res = await this.dauth.delAlbum({ FileName: Filename });
     return res.data;
   }
   async getAlbumList() {

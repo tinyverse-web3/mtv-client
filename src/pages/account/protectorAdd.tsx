@@ -35,7 +35,7 @@ export default function ProtectorAdd() {
       if (resCode === '000000') {
         changeProtectorStatus(true);
         await getLocalAccountInfo();
-        toast.success('绑定成功');
+        // toast.success('绑定成功');
       } else {
         toast.error(msg || '绑定失败');
       }

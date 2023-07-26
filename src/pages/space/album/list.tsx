@@ -31,6 +31,9 @@ export default function Album() {
       toast.error(msg);
     }
   };
+  const delSuccess = () => {
+    getList();
+  };
   useEffect(() => {
     getList();
   }, []);
@@ -54,7 +57,7 @@ export default function Album() {
           {list.length ? (
             <div className='grid grid-cols-3 gap-4 ustify-items-center'>
               {list.map((item) => (
-                <AlbumItem key={item.URL} item={item} />
+                <AlbumItem key={item.URL} item={item} delSuccess={delSuccess} />
               ))}
             </div>
           ) : (

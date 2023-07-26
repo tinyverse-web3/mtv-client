@@ -9,9 +9,11 @@ interface FileItemProps {
     TimeStamp: number;
     URL: string;
   };
+  type: string;
   onDownload?: () => void;
+  delSuccess?: () => void;
 }
-const FileItem = ({ item, onDownload }: FileItemProps) => {
+const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const formatTime = (time: number) => {
@@ -26,11 +28,16 @@ const FileItem = ({ item, onDownload }: FileItemProps) => {
     console.log('downloadItem', item);
     onDownload && onDownload();
   };
-  const removeItem = async (e: any, id?: string) => {
+  const removeItem = async (e: any, Filename?: string) => {
     e.stopPropagation();
-    if (id) {
-      console.log('removeItem', id);
-      // await remove(id);
+    if (Filename) {
+      const { code, msg } = await account.delFile({ Filename, Type: type });
+      if (code === '000000') {
+        toast.success(`删除成功`);
+        delSuccess?.();
+      } else {
+        toast.error(msg);
+      }
     }
   };
   return (

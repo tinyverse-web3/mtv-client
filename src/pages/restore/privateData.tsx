@@ -27,15 +27,18 @@ export default function Unlock() {
       return;
     }
     try {
-      await account.restoreByGuardian({
+      const { code, msg } = await account.restoreByGuardian({
         textPrivateData: text,
         passwordPrivateData: password,
       });
-      await getLocalAccountInfo();
-      setLockStatus(false);
-      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      toast.success('恢复成功');
-      // nav(ROUTE_PATH.RESTORE);
+      if (code === '000000') {
+        await getLocalAccountInfo();
+        setLockStatus(false);
+        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+        toast.success('恢复成功');
+      } else {
+        toast.error(msg);
+      }
     } catch (error) {
       toast.error('恢复失败');
     }
