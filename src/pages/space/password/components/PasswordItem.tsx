@@ -31,14 +31,18 @@ export default function PasswordItem({ item, toDetail }: any) {
       await remove(id);
     }
   };
+  const modalClose = () => {
+    setShowStatus(false);
+  };
   const passwordConfirm = async (password: string) => {
     const { code, msg } = await account.checkPassword(password);
     if (code === '000000') {
       setShowPassword(true);
+      setShowStatus(false);
     } else {
       toast.error(msg);
+      throw new Error(msg);
     }
-    setShowStatus(false);
   };
   return (
     <div className='border-b-gray-200 relative border-b-solid border-b py-2'>
@@ -90,7 +94,11 @@ export default function PasswordItem({ item, toDetail }: any) {
           复制网址
         </NextButton>
       </div>
-      <ValidPassword show={showStatus} onChange={passwordConfirm} />
+      <ValidPassword
+        show={showStatus}
+        onChange={passwordConfirm}
+        onClose={modalClose}
+      />
     </div>
   );
 }

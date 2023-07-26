@@ -403,7 +403,7 @@ export class Account {
     const res = await this.dauth.delGuardian({
       account,
     });
-    return res;
+    return res.data;
   }
   /**
    * 通过助记词备份账户信息
@@ -589,7 +589,7 @@ export class Account {
       oldPassword: oldPwd,
       newPassword: newPwd,
     });
-    return result.data.data;
+    return result.data;
   }
   async checkPassword(password: string) {
     const res = await this.dauth.checkPassword({ password });

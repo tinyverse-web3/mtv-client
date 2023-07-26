@@ -87,6 +87,9 @@ export default function Album() {
       setShowModal(true);
     }
   };
+  const modalClose = () => {
+    setShowModal(false);
+  };
   const downloadFile = async ({ Filename, Password = '' }: any) => {
     if (Filename) {
       const { code, msg, data } = await account.downloadFile({
@@ -167,6 +170,7 @@ export default function Album() {
       <PublicPasswordModal
         btnText={passwordType === 'upload' ? '上传' : '下载'}
         show={showModal}
+        onClose={modalClose}
         onChange={passwordChange}
       />
     </LayoutThird>

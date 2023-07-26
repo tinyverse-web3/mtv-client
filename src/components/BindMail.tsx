@@ -38,6 +38,7 @@ export const BindMail = () => {
     if (code === '000000') {
       setAccountInfo({ bindStatus: true });
       await getLocalAccountInfo();
+      changeProtectorStatus(true);
       setLoginLoading(false);
       closeHandler();
       toast.success(msg || '绑定成功');

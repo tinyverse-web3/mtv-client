@@ -5,23 +5,24 @@ import { useGlobalStore, useAccountStore } from '@/store';
 
 interface Props {
   show: boolean;
+  btnText?: string;
+  onConfirm: () => void;
   onClose?: () => void;
-  onChange: (password: string) => void;
 }
-export const ValidPassword = ({ show, onChange, onClose }: Props) => {
+export const ConfirmDelModel = ({
+  show,
+  onConfirm,
+  onClose,
+  btnText = '确定',
+}: Props) => {
   const [showModal, setShowModal] = useState(show);
-  const [password, setPassword] = useState('');
   const closeHandler = () => {
-    setPassword('');
-    onClose?.();
     setShowModal(false);
+    onClose?.();
   };
   const confirmHandler = async () => {
-    await onChange(password);
-    closeHandler();
-  };
-  const passwordChange = (e: any) => {
-    setPassword(e.target.value);
+    await onConfirm();
+    onClose?.();
   };
   useEffect(() => {
     setShowModal(show);
@@ -36,30 +37,15 @@ export const ValidPassword = ({ show, onChange, onClose }: Props) => {
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={18}>
-          验证账号密码
+          是否删除守护者？
         </Text>
-      </Modal.Header   >
-      <Modal.Body>
-        <Input.Password
-          clearable
-          bordered
-          fullWidth
-          maxLength={6}
-          aria-label='密码'
-          color='primary'
-          size='lg'
-          value={password}
-          onChange={passwordChange}
-          placeholder='密码'
-          contentLeft={<div className='i-mdi-shield-outline color-current' />}
-        />
-      </Modal.Body>
+      </Modal.Header>
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>
           取消
         </Button>
         <Button auto onPress={confirmHandler}>
-          确定
+          {btnText}
         </Button>
       </Modal.Footer>
     </Modal>

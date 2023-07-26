@@ -7,6 +7,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useGlobalStore, useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { ConfirmDelModel } from './components/ConfirmDelModel';
 interface GuardItem {
   type: string;
   account: string;
@@ -38,7 +39,8 @@ export default function AccountProtector() {
   const { accountInfo, getLocalAccountInfo } = useAccountStore(
     (state) => state,
   );
-  console.log(accountInfo);
+  const [delName, setDelName] = useState('');
+  const [showStatus, setShowStatus] = useState(false);
   const list = useMemo(() => accountInfo.guardians, [accountInfo.guardians]);
 
   const add = () => {
@@ -50,15 +52,30 @@ export default function AccountProtector() {
     toast.success('备份成功');
   };
   const delHandler = async (name: string) => {
-    await account.delGuardian({ account: name });
-    await getLocalAccountInfo();
+    setShowStatus(true);
+    setDelName(name);
+  };
+  const delGuardian = async (name: string) => {
+    const { code, msg } = await account.delGuardian({ account: name });
+    if (code === '000000') {
+      toast.success(msg || '删除成功');
+      await getLocalAccountInfo();
+    } else {
+      toast.error(msg || '删除失败');
+      throw new Error(msg);
+    }
+  };
+  const delConfirm = async () => {
+    await delGuardian(delName);
+  };
+  const closeShow = () => {
+    setShowStatus(false);
   };
   useEffect(() => {
     if (protectorStatus) {
       backup();
     }
   }, [protectorStatus]);
-  console.log(list);
   return (
     <LayoutThird
       title='守护者'
@@ -72,30 +89,22 @@ export default function AccountProtector() {
           请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。
         </Text>
         <div>
-          <div>
-            {!!list?.length &&
-              list.map((v, i) => (
-                <ProtectorItem
-                  key={v.Account}
-                  showDel={list.length !== 1}
-                  type='email'
-                  account={v.AccountMask}
-                  onDel={() => delHandler(v.Account)}
-                />
-              ))}
-            {/* <Button
-                size='lg'
-                className='mx-auto mb-6 w-full'
-                onPress={backup}>
-                备份
-              </Button> */}
-          </div>
-          {/* ) : (
-            <div className='h-20 flex justify-center'>
-              还未设置守护者。点击设置守护者。
-            </div>
-          )} */}
+          {!!list?.length &&
+            list.map((v, i) => (
+              <ProtectorItem
+                key={v.Account}
+                showDel={list.length !== 1}
+                type='email'
+                account={v.AccountMask}
+                onDel={() => delHandler(v.Account)}
+              />
+            ))}
         </div>
+        <ConfirmDelModel
+          onConfirm={delConfirm}
+          onClose={closeShow}
+          show={showStatus}
+        />
       </div>
     </LayoutThird>
   );

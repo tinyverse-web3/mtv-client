@@ -6,11 +6,13 @@ import { useGlobalStore, useAccountStore } from '@/store';
 interface Props {
   show: boolean;
   btnText?: string;
+  onClose?: () => void;
   onChange: (password: string) => void;
 }
 export const PublicPasswordModal = ({
   show,
   onChange,
+  onClose,
   btnText = '上传',
 }: Props) => {
   const [showModal, setShowModal] = useState(show);
@@ -18,6 +20,7 @@ export const PublicPasswordModal = ({
   const closeHandler = () => {
     setPassword('');
     setShowModal(false);
+    onClose?.()
   };
   const confirmHandler = async () => {
     await onChange(password);

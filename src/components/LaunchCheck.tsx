@@ -45,8 +45,6 @@ export const WalletCheck = ({ children }: any) => {
       setCheckLoading(false);
       return;
     }
-    // setCheckLoading(true);
-    const status = await account.checkStatus();
     const [accountStatus, passwordStatus] = await Promise.all([
       account.hasLocalAccount(),
       account.hasPassword(),

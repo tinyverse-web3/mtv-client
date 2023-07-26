@@ -4,7 +4,7 @@ import { STATUS_CODE } from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalStore, useWalletStore, useAccountStore } from '@/store';
+import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import LayoutThird from '@/layout/LayoutThird';
 
@@ -18,7 +18,6 @@ export default function ChangePwd() {
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [err, setErr] = useState(false);
   const { accountInfo, setAccountInfo } = useAccountStore((state) => state);
-  const wallet = useWalletStore((state) => state.wallet);
 
   const changePassword = async () => {
     if (oldPwd === pwd) {
@@ -34,18 +33,18 @@ export default function ChangePwd() {
       setValidStatus(false);
       return;
     }
-    const status = await account.changePassword({
+    const { code, msg } = await account.changePassword({
       oldPwd,
       newPwd: pwd,
       saveStatus: checked,
     });
-    if (status === STATUS_CODE.INVALID_PASSWORD) {
-      setErr(true);
-    } else {
-      await wallet?.changePwd(oldPwd, pwd);
+    if (code === '000000') {
       setAccountInfo({ isDefaultPwd: false });
       toast.success('密码修改成功');
       nav(-1);
+    } else {
+      setErr(true);
+      toast.error(msg);
     }
   };
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
