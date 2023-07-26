@@ -50,6 +50,7 @@ export default function AccountProtector() {
     await account.backupByGuardian();
     changeProtectorStatus(false);
     toast.success('备份成功');
+    await getLocalAccountInfo();
   };
   const delHandler = async (name: string) => {
     setShowStatus(true);
