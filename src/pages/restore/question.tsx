@@ -3,27 +3,41 @@ import {
   useQuestionStore,
   useAccountStore,
   useGlobalStore,
+  useRestoreStore,
 } from '@/store';
 import { QuestionRestore } from '@/pages/restore/components/QuestionRestore';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
+import toast from 'react-hot-toast';
 
 export default function Restore() {
   const nav = useNavigate();
-  const {  getLocalAccountInfo } = useAccountStore((state) => state);
-  const {  setLockStatus } = useGlobalStore((state) => state);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setLockStatus } = useGlobalStore((state) => state);
   const {
     list: questionList,
     sssData: serverShare,
     type,
   } = useQuestionStore((state) => state);
-
+  const { passwordPrivateData, textPrivateData } = useRestoreStore(
+    (state) => state,
+  );
   const questionSubmit = async (list: any[]) => {
-    const result = await account.restoreByQuestions(list, type);
-    await getLocalAccountInfo();
+    const { code, msg } = await account.restoreByQuestions({
+      list,
+      type,
+      passwordPrivateData,
+      textPrivateData,
+    });
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+      toast.success('恢复成功');
+    } else {
+      toast.error(msg);
+    }
     setLockStatus(false);
-    nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
   };
   return (
     <LayoutThird title='智能隐私恢复'>

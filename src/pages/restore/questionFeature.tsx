@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore, useQuestionStore } from '@/store';
+import { useRestoreStore, useQuestionStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
@@ -18,6 +18,7 @@ export default function QuestionFeature() {
   const { setPublicKey, setList, setSssData, setType } = useQuestionStore(
     (state) => state,
   );
+  const { setPasswordPrivateData, setTextPrivateData } = useRestoreStore((state) => state);
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
@@ -28,11 +29,17 @@ export default function QuestionFeature() {
       return;
     }
     try {
-      const result = await account.getQuestions4Retrieve({
+      const { code, msg, data: result } = await account.getQuestions4Retrieve({
         textPrivateData: text,
         passwordPrivateData: password,
       });
-      console.log(result);
+      if (code !== '000000') {
+        toast.error(msg);
+        setLoading(false);
+        return;
+      }
+      setPasswordPrivateData(password);
+      setTextPrivateData(password);
       const questionType = result[0].Type;
       setType(questionType);
       const _list = result.map((v: any, i: number) => {

@@ -39,12 +39,13 @@ export const BindMail = () => {
       setAccountInfo({ bindStatus: true });
       await getLocalAccountInfo();
       changeProtectorStatus(true);
-      setLoginLoading(false);
+
       closeHandler();
-      toast.success(msg || '绑定成功');
+      toast.success('绑定成功');
     } else {
-      toast.error('绑定失败');
+      toast.error(msg || '绑定失败');
     }
+    setLoginLoading(false);
   };
   const emailChange = (e: any) => {
     setEmail(e.target.value);
@@ -54,8 +55,16 @@ export const BindMail = () => {
   };
   const sendVerify = async () => {
     if (email && flag) {
-      await account.sendVerifyCode({ type: 'email', account: email });
-      start();
+      const { code, msg } = await account.sendVerifyCode({
+        type: 'email',
+        account: email,
+      });
+      if (code === '000000') {
+        toast.success('验证码已发送');
+        start();
+      } else {
+        toast.error(msg);
+      }
     }
   };
   const emailBlur = () => {};
@@ -117,7 +126,11 @@ export const BindMail = () => {
         <Button auto flat color='error' onPress={closeHandler}>
           关闭
         </Button>
-        <Button auto onPress={loginHandler} loading={loginLoading}>
+        <Button
+          auto
+          onPress={loginHandler}
+          disabled={!email || !verifyCode}
+          loading={loginLoading}>
           绑定邮箱
         </Button>
       </Modal.Footer>

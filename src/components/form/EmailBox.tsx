@@ -24,7 +24,15 @@ export const EmailBox = ({ onChange }: Props) => {
   const sendVerify = async () => {
     if (email && flag) {
       setCodeLoading(true);
-      await account.sendVerifyCode({ type: 'email', account: email });
+      const { code, msg } = await account.sendVerifyCode({
+        type: 'email',
+        account: email,
+      });
+      if (code !== '000000') {
+        toast.error(msg);
+        setCodeLoading(false);
+        return;
+      }
       start();
       toast.success('验证码已发送');
       setCodeLoading(false);

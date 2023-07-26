@@ -312,7 +312,7 @@ export class Account {
       textPrivateData,
       passwordPrivateData,
     });
-    return result.data.data;
+    return result.data;
   }
   /**
    * 通过密保问题恢复账户信息
@@ -320,10 +320,20 @@ export class Account {
    * @param {Array} options.list - 密保问题列表
    * @returns {Promise<STATUS_CODE>} - 返回状态码
    */
-  async restoreByQuestions(list: any[], type = 1) {
+  async restoreByQuestions({
+    list,
+    type = 1,
+    textPrivateData,
+    passwordPrivateData,
+  }: {
+    list: any[];
+    type: number;
+    textPrivateData: string;
+    passwordPrivateData: string;
+  }) {
     let serverList = [];
     if (type == 1) {
-      serverList = list.map((val) => ({
+      serverList = list.map((val: any) => ({
         Content: val.list.map((s: any) => ({
           Content: s.q,
           Characters: s.l,
@@ -353,9 +363,12 @@ export class Account {
         Type: type,
       }));
     }
-    await this.dauth.retrieveAccountBySmartPrivacy({
+    const res = await this.dauth.retrieveAccountBySmartPrivacy({
       questions: serverList,
+      passwordPrivateData,
+      textPrivateData,
     });
+    return res.data;
   }
   /**
    * 发送验证码
@@ -365,7 +378,8 @@ export class Account {
    * @returns {Promise<Object>} - 返回包含状态码和数据的对象
    */
   async sendVerifyCode({ type, account }: any) {
-    return await this.dauth.sendVerifyCode({ account, type });
+    const res= await this.dauth.sendVerifyCode({ account, type });
+    return res.data
   }
 
   /**

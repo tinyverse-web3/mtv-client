@@ -56,8 +56,8 @@ export default function Account() {
       toast('请先设置加密保险箱');
       return;
     }
-    nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     const loginStatus = await useCheckLogin();
+    console.log('loginStatus', loginStatus);
     if (!loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     }
