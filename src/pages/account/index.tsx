@@ -58,7 +58,7 @@ export default function Account() {
     }
     const loginStatus = await useCheckLogin();
     console.log('loginStatus', loginStatus);
-    if (!loginStatus) {
+    if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     }
   };
