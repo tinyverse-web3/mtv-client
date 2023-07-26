@@ -220,11 +220,17 @@ export class Dauth {
       },
     });
   }
-  async retrieveAccountBySmartPrivacy({ questions }: any) {
+  async retrieveAccountBySmartPrivacy({
+    Questions,
+    TextPrivateData,
+    PasswordPrivateData,
+  }: any) {
     return this.invoke({
       name: 'retrieveAccountBySmartPrivacy',
       data: {
-        questions,
+        Questions,
+        TextPrivateData,
+        PasswordPrivateData,
       },
     });
   }

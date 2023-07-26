@@ -364,9 +364,9 @@ export class Account {
       }));
     }
     const res = await this.dauth.retrieveAccountBySmartPrivacy({
-      questions: serverList,
-      passwordPrivateData,
-      textPrivateData,
+      Questions: serverList,
+      PasswordPrivateData: passwordPrivateData,
+      TextPrivateData: textPrivateData,
     });
     return res.data;
   }

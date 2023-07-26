@@ -20,76 +20,14 @@ export default function RestoreVerifyEmail() {
     setEmail(email);
     setCode(code);
   };
-  // const { mutate: verifyBindEmail } = useRequest({
-  //   url: '/user/getsssdata4question',
-  //   arg: {
-  //     auth: true,
-  //     method: 'post',
-  //     query: { email, confirmCode: code },
-  //   },
-  // });
   const submit = async () => {
-    // const { data, code, msg } = await verifyBindEmail();
-    const res = await account.verifyEmail({
+    const { code: resCode, data, msg } = await account.verifyEmail({
       account: email,
       verifyCode: code,
     });
-    const { code: resCode, data, msg } = res.data;
     if (resCode === '000000') {
       nav(ROUTE_PATH.RESTORE_QUESTION_FEATURE)
-      // await setPublicKey(publicKey);
-      // await setSssData(sssData);
-      // const questionType = data.questions[0].type;
-      // setType(questionType);
-      // const _list = data.questions.map((v: any, i: number) => {
-      //   const list = JSON.parse(v.content);
-      //   return {
-      //     id: i,
-      //     title: v.title,
-      //     list: list.map((s: any) => ({
-      //       q: s.content,
-      //       a: '',
-      //       l: Number(s.characters),
-      //     })),
-      //     template: list.map((s: any) => ({
-      //       q: s.content,
-      //     })),
-      //     unselectList: [],
-      //   };
-      // });
-      // await setList(_list);
-      // nav(ROUTE_PATH.RESTORE_QUESTION);
     }
-    // if (code === '000000') {
-    //   if (data?.questionSssData) {
-    //     await setPublicKey(data.publicKey);
-    //     await setSssData(data.questionSssData);
-    //     const questionType = data.questions[0].type;
-    //     setType(questionType);
-    //     const _list = data.questions.map((v: any, i: number) => {
-    //       const list = JSON.parse(v.content);
-    //       return {
-    //         id: i,
-    //         title: v.title,
-    //         list: list.map((s: any) => ({
-    //           q: s.content,
-    //           a: '',
-    //           l: Number(s.characters),
-    //         })),
-    //         template: list.map((s: any) => ({
-    //           q: s.content,
-    //         })),
-    //         unselectList: [],
-    //       };
-    //     });
-    //     await setList(_list);
-    //     nav(ROUTE_PATH.RESTORE_QUESTION);
-    //   } else {
-    //     toast.error('该邮箱未进行智能隐私备份');
-    //   }
-    // } else {
-    //   toast.error(msg);
-    // }
     setLoading(false);
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
