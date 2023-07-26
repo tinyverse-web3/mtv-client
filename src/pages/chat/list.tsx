@@ -65,23 +65,9 @@ export default function ChatList() {
     await setRecipient(item);
     nav(ROUTE_PATH.CHAT_MESSAGE);
   };
-  const toProfile = async (item: any) => {
-    await setRecipient(item);
-    nav(ROUTE_PATH.CHAT_PROFILE);
-  };
-  const checkImNotifyTick = async () => {
-    // const res = await requestImNotify();
-    // const _list = res.data || [];
-    // for (let i = 0; i < _list.length; i++) {
-    //   const { toPublicKey } = _list[i];
-    //   addFriend({ pk: toPublicKey });
-    // }
-    // setTimeout(checkImNotifyTick, 2000);
-  };
+  
 
-  const refreshShareIm = async () => {
-    const data = await createShareIm();
-  };
+  const refreshShareIm = async () => {};
 
   const copyShareImLink = async () => {
     let link =
@@ -89,19 +75,15 @@ export default function ChatList() {
     copyToClipboard(link);
   };
 
-  const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
-    url: '/im/createshareim',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: {
-        // fromPublicKey: nostr?.pk,
-      },
-    },
-  });
   const removeItem = async (e: any, pk: string) => {
     e.stopPropagation();
-    // await removeFrient(pk);
+    const { code, msg } = await account.delContact(pk);
+    if (code === '000000') {
+      toast.success('删除成功');
+      getContacts();
+    } else {
+      toast.error(msg || '删除失败');
+    }
   };
 
   const searchHandler = async (e: any) => {
@@ -167,16 +149,9 @@ export default function ChatList() {
                 </div>
                 <div className='text-12px'>{item.LastMessage}</div>
               </div>
-              {item.DAuthKey && (
-                <NextButton
-                  auto
-                  flat
-                  size='xs'
-                  className='ml-4 h-10'
-                  onPress={() => toProfile(item)}>
-                  编辑
-                </NextButton>
-              )}
+              <div
+                className='i-mdi-close ml-4 w-6 h-6 text-red'
+                onClick={(e) => removeItem(e, item?.DAuthKey)}></div>
             </div>
           ))}
         </div>
@@ -208,7 +183,6 @@ export default function ChatList() {
                   auto
                   className='ml-4 min-w-20'
                   color='secondary'
-                  loading={refreshImConnecting}
                   onPress={refreshShareIm}>
                   刷新分享链接
                 </Button>

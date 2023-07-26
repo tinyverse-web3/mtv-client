@@ -34,7 +34,6 @@ interface NostrInfo {
 }
 interface GlobalState {
   showLogin: boolean;
-  protectorStatus: boolean;
   // userLevel: number;
   // maintainPhrase: boolean;
   // maintainProtector: boolean;
@@ -57,7 +56,6 @@ interface GlobalState {
   saveUserInfo: () => void;
   setLockStatus: (b: boolean) => void;
   getLocalUserInfo: () => void;
-  changeProtectorStatus: (v: boolean) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()(
@@ -67,7 +65,6 @@ export const useGlobalStore = create<GlobalState>()(
         showLogin: false,
         checkLoading: false,
         lockStatus: true,
-        protectorStatus: false,
         // userLevel: 0,
         // maintainPhrase: false,
         // maintainProtector: false,
@@ -79,9 +76,6 @@ export const useGlobalStore = create<GlobalState>()(
           maintainProtector: false,
           maintainQuestion: false,
           guardians: [],
-        },
-        changeProtectorStatus(v) {
-          set({ protectorStatus: v });
         },
         setUserInfo: (v) => {
           const _user = get().userInfo;

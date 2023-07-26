@@ -16,7 +16,6 @@ export default function ProtectorAdd() {
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const { changeProtectorStatus } = useGlobalStore((state) => state);
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
@@ -33,9 +32,8 @@ export default function ProtectorAdd() {
         type: 'email',
       });
       if (resCode === '000000') {
-        changeProtectorStatus(true);
         await getLocalAccountInfo();
-        // toast.success('绑定成功');
+        toast.success('绑定成功');
       } else {
         toast.error(msg || '绑定失败');
       }

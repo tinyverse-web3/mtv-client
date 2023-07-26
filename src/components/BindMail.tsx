@@ -15,7 +15,6 @@ export const BindMail = () => {
   const [email, setEmail] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag, reset } = useCountDown(60);
-  const { changeProtectorStatus } = useGlobalStore((state) => state);
   const closeHandler = () => {
     reset();
     setEmail('');
@@ -38,7 +37,6 @@ export const BindMail = () => {
     if (code === '000000') {
       setAccountInfo({ bindStatus: true });
       await getLocalAccountInfo();
-      changeProtectorStatus(true);
 
       closeHandler();
       toast.success('绑定成功');

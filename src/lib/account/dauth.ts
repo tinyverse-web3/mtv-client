@@ -650,6 +650,14 @@ export class Dauth {
       },
     });
   }
+  async delContact({ destPubkey }: any) {
+    return this.invoke({
+      name: 'msg/delContact',
+      data: {
+        DestPubkey: destPubkey,
+      },
+    });
+  }
   async getContacts() {
     return this.invoke({
       name: 'msg/getContacts',

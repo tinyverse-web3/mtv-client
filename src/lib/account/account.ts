@@ -629,6 +629,10 @@ export class Account {
     const res = await this.dauth.createContact({ destPubkey });
     return res.data;
   }
+  async delContact(destPubkey: string) {
+    const res = await this.dauth.delContact({ destPubkey });
+    return res.data;
+  }
   async setContactAlias({ destPubkey, alias }: any) {
     const res = await this.dauth.setContactAlias({
       destPubkey,

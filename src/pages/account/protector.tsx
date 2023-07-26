@@ -33,9 +33,6 @@ const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
 
 export default function AccountProtector() {
   const nav = useNavigate();
-  const { protectorStatus, changeProtectorStatus } = useGlobalStore(
-    (state) => state,
-  );
   const { accountInfo, getLocalAccountInfo } = useAccountStore(
     (state) => state,
   );
@@ -45,12 +42,6 @@ export default function AccountProtector() {
 
   const add = () => {
     nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
-  };
-  const backup = async () => {
-    await account.backupByGuardian();
-    changeProtectorStatus(false);
-    toast.success('备份成功');
-    await getLocalAccountInfo();
   };
   const delHandler = async (name: string) => {
     setShowStatus(true);
@@ -72,11 +63,6 @@ export default function AccountProtector() {
   const closeShow = () => {
     setShowStatus(false);
   };
-  useEffect(() => {
-    if (protectorStatus) {
-      backup();
-    }
-  }, [protectorStatus]);
   return (
     <LayoutThird
       title='守护者'
