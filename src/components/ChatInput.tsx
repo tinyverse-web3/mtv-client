@@ -1,7 +1,8 @@
-import { Text, Button } from '@nextui-org/react';
+import { Loading, Button } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
+import { toast } from 'react-hot-toast';
 
 const keys = ['Enter'];
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 }
 export const ChatInput = ({ onSend }: Props) => {
   const [text, setText] = useState('');
-
+  const [loading, setLoading] = useState(false);
   useKeyPressEvent('Enter', () => {
     if (text) {
       pressHandler();
@@ -19,8 +20,15 @@ export const ChatInput = ({ onSend }: Props) => {
     setText(e?.trim());
   };
   const pressHandler = async () => {
-    await onSend(text);
-    setText('');
+    if (loading) return;
+    setLoading(true);
+    try {
+      await onSend(text);
+      setText('');
+    } catch (error) {
+      toast.error('发送失败');
+    }
+    setLoading(false);
   };
   return (
     <div className='flex'>
@@ -28,7 +36,11 @@ export const ChatInput = ({ onSend }: Props) => {
         <Input value={text} onChange={textChange} />
       </div>
       <Button auto className='ml-4' onPress={pressHandler}>
-        发送
+        {loading ? (
+          <Loading type='spinner' size='sm' color='currentColor' />
+        ) : (
+          '发送'
+        )}
       </Button>
     </div>
   );

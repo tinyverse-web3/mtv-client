@@ -8,18 +8,10 @@ import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
 
 export const MessageBox = ({ recipient }: any) => {
-  const [allList, { set: setAllList }] = useList<any>([]);
-  const [lastList, { set: setLastList, push }] = useList<any>([]);
+  const [allList, { set: setAllList, push }] = useList<any>([]);
+  // const [lastList, { set: setLastList, push }] = useList<any>([]);
   const { accountInfo } = useAccountStore((state) => state);
 
-  const reciveMsg = useCallback(
-    (msg: any) => {
-      console.log(msg);
-      push(msg);
-    },
-    [recipient],
-  );
-  console.log(recipient);
   const sendHandler = async (msg: string) => {
     if (msg === undefined || msg === '' || msg === null) {
       return;
@@ -39,7 +31,6 @@ export const MessageBox = ({ recipient }: any) => {
     const list = await account.getAllMsgs(
       recipient.DAuthKey || recipient.MessageKey,
     );
-    console.log(list);
     if (list?.length) {
       setAllList(list);
     }
@@ -48,13 +39,15 @@ export const MessageBox = ({ recipient }: any) => {
     const list = await account.receiveMsgs(
       recipient.DAuthKey || recipient.MessageKey,
     );
-    if (list) {
-      setLastList(list);
+    if (list?.length) {
+      for (let i = 0; i < list.length; i++) {
+        const e = list[i];
+        push(e);
+      }
     }
-    console.log(list);
   };
   const list = useMemo(() => {
-    return [...allList, ...lastList].map((v) => ({
+    return [...allList].map((v) => ({
       ...v,
       publicKey:
         v.Direction === 'to'
@@ -62,7 +55,7 @@ export const MessageBox = ({ recipient }: any) => {
           : recipient.Alias || recipient.DAuthKey || recipient.MessageKey,
       isMe: v.Direction === 'to',
     }));
-  }, [allList, lastList]);
+  }, [allList]);
   useInterval(
     () => {
       getMsgs();
