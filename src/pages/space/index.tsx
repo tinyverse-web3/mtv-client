@@ -1,7 +1,5 @@
-import { useMemo } from 'react';
-import LayoutTwo from '@/layout/LayoutTwo';
-import { ROUTE_PATH, routes } from '@/router';
-import { useNavigate, matchRoutes, useLocation } from 'react-router-dom';
+import { ROUTE_PATH } from '@/router';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const MenuItem = ({ text, icon }: any) => {
@@ -65,14 +63,12 @@ export default function SpaceIndex() {
   };
 
   return (
-    <LayoutTwo>
-      <div className='grid grid-cols-3 gap-6 justify-items-center pt-10'>
-        {list.map((v) => (
-          <div key={v.label} className='' onClick={(e) => menuClick(v)}>
-            <MenuItem text={v.label} icon={v.icon} />
-          </div>
-        ))}
-      </div>
-    </LayoutTwo>
+    <div className='grid grid-cols-3 gap-6 justify-items-center pt-10'>
+      {list.map((v) => (
+        <div key={v.label} className='' onClick={(e) => menuClick(v)}>
+          <MenuItem text={v.label} icon={v.icon} />
+        </div>
+      ))}
+    </div>
   );
 }

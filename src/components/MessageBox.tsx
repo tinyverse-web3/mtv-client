@@ -10,7 +10,7 @@ import account from '@/lib/account/account';
 export const MessageBox = ({ recipient }: any) => {
   const [allList, { set: setAllList }] = useList<any>([]);
   const [lastList, { set: setLastList, push }] = useList<any>([]);
-  const {  accountInfo } = useAccountStore((state) => state);
+  const { accountInfo } = useAccountStore((state) => state);
 
   const reciveMsg = useCallback(
     (msg: any) => {
@@ -21,6 +21,10 @@ export const MessageBox = ({ recipient }: any) => {
   );
   console.log(recipient);
   const sendHandler = async (msg: string) => {
+    if (msg === undefined || msg === '' || msg === null) {
+      return;
+    }
+
     const res = await account.sendMsg(
       recipient.DAuthKey || recipient.MessageKey,
       msg,

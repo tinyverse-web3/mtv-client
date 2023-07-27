@@ -1,6 +1,5 @@
 import { Button } from '@/components/form/Button';
 import { Image } from '@nextui-org/react';
-import LayoutTwo from '@/layout/LayoutTwo';
 import { useMemo, useState } from 'react';
 import { ethers } from 'ethers';
 import { useAccountStore } from '@/store';
@@ -39,7 +38,7 @@ export default function AssetsIndex() {
   //   },
   // ];
   return (
-    <LayoutTwo title='私密聊天'>
+    <div>
       <HeaderAccount />
       {subAccount.type === 'point' ? <Point /> : 123}
 
@@ -81,6 +80,6 @@ export default function AssetsIndex() {
           )}
         </div>
       </div> */}
-    </LayoutTwo>
+    </div>
   );
 }

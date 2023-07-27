@@ -12,6 +12,7 @@ import ChatProfile from '@/pages/chat/profile';
 import Home from '@/pages/home';
 import Index from '@/pages/index';
 import AssetsIndex from '@/pages/assets';
+import SpaceIndex from '@/pages/space';
 
 import Restore from '@/pages/restore';
 import RestorePhrase from '@/pages/restore/phrase';
@@ -37,8 +38,10 @@ const resolveHashPath = (path: string) => {
 export const ROUTE_PATH = {
   INDEX: '/index',
   HOME: '/home',
+  SPACE_INDEX: '/home/space',
+  CHAT_INDEX: '/home/chat',
+  ASSETS_INDEX: '/home/assets',
   CREATE: '/create',
-
   RESTORE: '/restore',
   RESTORE_PHRASE: '/restore/phrase',
   RESTORE_PHRASE_FEATURE: '/restore/phraseFeature',
@@ -47,14 +50,12 @@ export const ROUTE_PATH = {
   RESTORE_QUESTION: '/restore/question',
   RESTORE_PRIVATEDATA: '/restore/privateData',
   RESTORE_QUESTION_FEATURE: '/restore/questionFeature',
-  ASSETS_INDEX: '/assets',
+ 
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
 
   TEST: '/test',
   APP_TEST: '/app',
-
-  CHAT_LIST: '/chat/list',
   CHAT_MESSAGE: '/chat/message',
   CHAT_PROFILE: '/chat/profile',
   CHAT_SHARE: '/chat/imShare',
@@ -81,6 +82,20 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.HOME,
         element: <Home />,
+        children: [
+          {
+            path: ROUTE_PATH.CHAT_INDEX,
+            element: <ChatList />,
+          },
+          {
+            path: ROUTE_PATH.SPACE_INDEX,
+            element: <SpaceIndex />,
+          },
+          {
+            path: ROUTE_PATH.ASSETS_INDEX,
+            element: <AssetsIndex />,
+          },
+        ],
       },
       {
         path: ROUTE_PATH.APP_TEST,
@@ -127,15 +142,10 @@ export const routes: RouteObject[] = [
         element: <Retrieve />,
       },
 
-      {
-        path: ROUTE_PATH.ASSETS_INDEX,
-        element: <AssetsIndex />,
-      },
-
-      {
-        path: ROUTE_PATH.CHAT_LIST,
-        element: <ChatList />,
-      },
+      // {
+      //   path: ROUTE_PATH.CHAT_INDEX,
+      //   element: <ChatList />,
+      // },
       {
         path: ROUTE_PATH.CHAT_MESSAGE,
         element: <ChatMessage />,

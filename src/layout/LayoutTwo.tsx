@@ -40,7 +40,7 @@ export default function LayoutTwo({
     { text: '空间', path: ROUTE_PATH.SPACE_INDEX, icon: 'i-mdi-cube' },
     {
       text: '密信',
-      path: ROUTE_PATH.CHAT_LIST,
+      path: ROUTE_PATH.CHAT_INDEX,
       icon: 'i-mdi-message-reply-text',
     },
     {

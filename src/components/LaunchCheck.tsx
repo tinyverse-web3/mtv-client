@@ -7,37 +7,38 @@ import account from '@/lib/account/account';
 import { useIdleTimer } from 'react-idle-timer';
 import { Outlet } from 'react-router-dom';
 import { useAccountStore, useGlobalStore } from '@/store';
-const stay_path = ['space', 'note', 'account', 'chat', 'test', 'asset'];
+const stay_path = ['home', 'space', 'note', 'account', 'chat', 'test', 'asset'];
 
-export const WalletCheck = ({ children }: any) => {
+export const LaunchCheck = ({ children }: any) => {
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
-  const { checkLoading, setCheckLoading, lockStatus, setLockStatus, reset: resetGlobal } =
-    useGlobalStore((state) => state);
+  const {
+    checkLoading,
+    setCheckLoading,
+    lockStatus,
+    setLockStatus,
+    reset: resetGlobal,
+  } = useGlobalStore((state) => state);
   const { getLocalAccountInfo } = useAccountStore((state) => state);
 
   const logout = async () => {
-    const { href } = location;
-    if (stay_path.some((p) => href?.indexOf(p) > -1)) {
-      await account.lock();
-      await resetGlobal();
-      setLockStatus(true);
-      location.href = `${
-        ROUTE_HASH_PATH.UNLOCK
-      }?redirect=${encodeURIComponent(location.href)}`;
-    }
+    await account.lock();
+    await resetGlobal();
+    setLockStatus(true);
+    location.href = `${ROUTE_HASH_PATH.UNLOCK}?redirect=${encodeURIComponent(
+      location.href,
+    )}`;
   };
   const onIdle = () => {
-    if (['unlock', 'retrieve'].some((p) => pathname?.indexOf(p) > -1)) {
-      return;
-    }
     console.log(`window idle, user is level`);
-    logout();
+    if (stay_path.some((p) => pathname?.indexOf(p) > -1)) {
+      logout();
+    }
   };
 
   useIdleTimer({
     onIdle,
-    timeout: 60 * 10 * 1000,
+    timeout: 10 * 1000 * 60,
     throttle: 2000,
   });
   const checkStatus = async () => {
@@ -61,7 +62,7 @@ export const WalletCheck = ({ children }: any) => {
       } else {
         location.replace(ROUTE_HASH_PATH.INDEX);
       }
-    } else if (!passwordStatus) {
+    } else if (accountStatus && !passwordStatus) {
       if (!(pathname.indexOf('unlock') > -1)) {
         location.href = `${
           ROUTE_HASH_PATH.UNLOCK

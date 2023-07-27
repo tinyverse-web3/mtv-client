@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from '@nextui-org/react';
+import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
@@ -53,13 +53,13 @@ export default function Unlock() {
     }
   });
   const onChange = (e: any) => {
-    setText(e.target.value?.trim());
+    setText(e?.trim());
   };
   const onPasswordChange = (e: any) => {
-    setPassword(e.target.value?.trim());
+    setPassword(e?.trim());
   };
   const onCustomChange = (e: any) => {
-    setCustomText(e.target.value?.trim());
+    setCustomText(e?.trim());
   };
   return (
     <LayoutThird title='恢复加密保险箱'>
@@ -70,7 +70,6 @@ export default function Unlock() {
           bordered
           fullWidth
           maxLength={20}
-          type='number'
           value={text}
           className='h-50px mb-6'
           onChange={onChange}
@@ -82,7 +81,6 @@ export default function Unlock() {
           bordered
           fullWidth
           maxLength={20}
-          type='number'
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
@@ -94,7 +92,6 @@ export default function Unlock() {
           bordered
           fullWidth
           maxLength={20}
-          type='number'
           value={customText}
           className='h-50px mb-6'
           onChange={onCustomChange}

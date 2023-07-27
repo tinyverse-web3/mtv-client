@@ -53,7 +53,6 @@ export const HeaderUser = () => {
     () => levelArr[accountInfo.safeLevel || 0],
     [accountInfo.safeLevel],
   );
-  console.log(accountInfo);
   const imageSrc = useMemo(() => {
     return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
   }, [accountInfo.avatar]);
