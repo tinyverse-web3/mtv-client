@@ -64,9 +64,8 @@ export default function UserScan() {
     }
   };
   useMount(() => {
-    console.log('native scan');
     if (window.JsBridge) {
-      alert('native scan');
+      console.log('native scan');
       window.JsBridge.startQrcodeScanActivity(nativeScan);
     } else if (!html5Qrcode.current) {
       start();

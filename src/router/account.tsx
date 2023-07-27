@@ -14,6 +14,7 @@ import AccountProtectorAdd from '@/pages/account/protectorAdd';
 import PrivateData from '@/pages/account/privateData';
 import Account from '@/pages/account/';
 import ChangePwd from '@/pages/account/changePwd';
+import Profile from '@/pages/account/profile';
 import SubAccountList from '@/pages/account/subAccount/list';
 import SubAccountEdit from '@/pages/account/subAccount/edit';
 
@@ -24,6 +25,7 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_QRCODE: '/account/qrcode',
   ACCOUNT_PUBLICKEY: '/account/publickey',
   ACCOUNT_SCAN: '/account/scan',
+  ACCOUNT_PROFILE: '/account/profile',
   ACCOUNT_PHRASE: '/account/phrase',
   ACCOUNT_PHRASE_VERIFY: '/account/phrase/verify',
   ACCOUNT_VERIFY_SUCCESS: '/account/phrase/success',
@@ -49,6 +51,10 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_PRIVATEDATA,
     element: <PrivateData />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_PROFILE,
+    element: <Profile />,
   },
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_NAME,
