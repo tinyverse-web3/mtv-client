@@ -18,7 +18,7 @@ export default function GunSearch() {
   const SearchGun = async () => {
     console.log('SearchGun...');
     if (gunname) {
-      const {code, data, msg} = await account.getGun({
+      const { code, data, msg } = await account.getGun({
         GunName: gunname,
       });
       if (code === '000000') {
@@ -52,15 +52,13 @@ export default function GunSearch() {
 
   return (
     <LayoutThird showBack title='查询GUN域名'>
-      <div>
-        <div className='pt-4 px-4'>
-          <Text className='text-14px mb-2'>
-            用户的全球唯一名称（Global Unique
-            Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。
-          </Text>
-        </div>
+      <div className='p-4'>
+        <Text className='text-14px mb-2'>
+          用户的全球唯一名称（Global Unique
+          Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。
+        </Text>
 
-        <div className='px-4 pt-1'>
+        <div className='pt-1 mb-2'>
           <Input
             id='gunnameInput'
             clearable
@@ -72,19 +70,19 @@ export default function GunSearch() {
             placeholder='输入你要查询的GUN名字'
           />
         </div>
-
-        <div className='pt-4 px-4'>
-          <div>
-            <Button
-              disabled={disabled}
-              //loading={modifyLoading}
-              className='mx-auto mb-2 w-full'
-              size='lg'
-              onPress={SearchGun}>
-              查询
-            </Button>
-          </div>
+        <div className='mb-4'>
+          <Text className='text-3 text-gray-400'>
+            名字不区分大小写，只能使用字母a-z和数字0-9，最少13位。
+          </Text>
         </div>
+        <Button
+          disabled={disabled}
+          //loading={modifyLoading}
+          className='mx-auto mb-2 w-full'
+          size='lg'
+          onPress={SearchGun}>
+          查询
+        </Button>
       </div>
     </LayoutThird>
   );

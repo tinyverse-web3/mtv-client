@@ -127,7 +127,7 @@ export default function GunRenew() {
         </div>
         <div className='mb-4 pl-18'>
           <Text className='text-3 text-gray-400'>
-            名字不区分大小写，只能使用字母a-z和数字0-9。
+            名字不区分大小写，只能使用字母a-z和数字0-9，最少13位。
           </Text>
         </div>
         <div className='flex mb-4'>

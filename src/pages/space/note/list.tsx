@@ -23,6 +23,9 @@ export default function NoteList() {
       await remove(id);
     }
   };
+  useEffect(() => {
+    getList();
+  }, []);
   return (
     <LayoutThird
       title='记事本'
