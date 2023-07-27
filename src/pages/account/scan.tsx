@@ -66,6 +66,7 @@ export default function UserScan() {
   useMount(() => {
     console.log('native scan');
     if (window.JsBridge) {
+      alert('native scan');
       window.JsBridge.startQrcodeScanActivity(nativeScan);
     } else if (!html5Qrcode.current) {
       start();
@@ -94,9 +95,7 @@ export default function UserScan() {
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center'>
-          扫一扫
-        </div>
+        <div className='text-center'>扫一扫</div>
         {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>
