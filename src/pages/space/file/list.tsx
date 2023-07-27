@@ -31,13 +31,13 @@ export default function Album() {
   };
   const fileChange = async (e: any) => {
     const _file = e.target.files[0];
-    if (fileType === 'security') {
-      await upload({ file: _file, type: fileType });
-    } else {
-      setFile(_file);
-      setPasswordType('upload');
-      setShowModal(true);
-    }
+    // if (fileType === 'security') {
+    await upload({ file: _file, type: fileType });
+    // } else {
+    //   setFile(_file);
+    //   setPasswordType('upload');
+    //   setShowModal(true);
+    // }
   };
   const upload = async ({ file, type, password }: any) => {
     const { code, msg } = await account.uploadFile({ file, type, password });
@@ -78,14 +78,14 @@ export default function Album() {
     return fileType === 'security' ? securityList : publicList;
   }, [fileType, securityList, publicList]);
   const downloadHandler = async (item: any) => {
-    if (fileType === 'security') {
-      console.log(item);
-      await downloadFile({ Filename: item.Filename, Type: fileType });
-    } else {
-      setDelItem(item);
-      setPasswordType('download');
-      setShowModal(true);
-    }
+    // if (fileType === 'security') {
+    console.log(item);
+    await downloadFile({ Filename: item.Filename, Type: fileType });
+    // } else {
+    //   setDelItem(item);
+    //   setPasswordType('download');
+    //   setShowModal(true);
+    // }
   };
   const modalClose = () => {
     setShowModal(false);

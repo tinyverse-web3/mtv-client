@@ -26,7 +26,6 @@ export const useNoteStore = create<NoteState>()(
       list: [],
       add: async (n) => {
         const list = cloneDeep(get().list);
-        // list.push(n);
         const { code, data, msg } = await account.addNote({
           Title: n.Title,
           Content: n.Content,
