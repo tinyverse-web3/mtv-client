@@ -27,7 +27,6 @@ export const ChatList = ({ messages = [] }: Porps) => {
     }
     nav(ROUTE_PATH.CHAT_PROFILE);
   };
-  const avatarSrc = useMemo(() => {}, []);
   useDebounce(handleScrollToBottom, 300, [list]);
   return (
     <div className='h-full overflow-y-auto' ref={containerRef}>
