@@ -79,11 +79,6 @@ export const useGunStore = create<GunState>()(
     renew: async (gunname, unixTimeInSeconds) => {
       console.log('Test for Apply a new GUN...');
       const GunName = gunname;
-      const list = get().list;
-      const summy = list.find((i) => i.name === gunname);
-      if (summy == undefined) {
-        return false;
-      }
       const { code, data, msg } = await account.renewGun({
         GunName,
         ValidTime: unixTimeInSeconds,

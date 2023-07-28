@@ -35,6 +35,7 @@ export const useNoteStore = create<NoteState>()(
           set({ list });
         } else {
           toast.error(msg);
+          throw new Error(msg);
         }
       },
       getList: async () => {
@@ -43,6 +44,7 @@ export const useNoteStore = create<NoteState>()(
           set({ list: data || [] });
         } else {
           toast.error(msg);
+          throw new Error(msg);
         }
       },
       remove: async (id) => {
@@ -53,6 +55,7 @@ export const useNoteStore = create<NoteState>()(
           set({ list });
         } else {
           toast.error(msg);
+          throw new Error(msg);
         }
       },
       update: async ({ Id, ...res }) => {
@@ -68,6 +71,7 @@ export const useNoteStore = create<NoteState>()(
             set({ list });
           } else {
             toast.error(msg);
+            throw new Error(msg);
           }
         }
       },

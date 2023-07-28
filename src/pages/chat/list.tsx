@@ -3,6 +3,7 @@ import { Button } from '@/components/form/Button';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
 import account from '@/lib/account/account';
+import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { useChatStore, useWalletStore, useAccountStore } from '@/store';
 import {
   Card,
@@ -41,6 +42,8 @@ export default function ChatList() {
   const { setRecipient } = useChatStore((state) => state);
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [showStatus, setShowStatus] = useState(false);
+  const [delItem, setDelItem] = useState('');
   const getContacts = async () => {
     const list = await account.getContacts();
     if (list.length !== friendList.length) {
@@ -72,8 +75,7 @@ export default function ChatList() {
     copyToClipboard(link);
   };
 
-  const removeItem = async (e: any, pk: string) => {
-    e.stopPropagation();
+  const removeItem = async (pk: string) => {
     const { code, msg } = await account.delContact(pk);
     if (code === '000000') {
       toast.success('删除成功');
@@ -94,6 +96,19 @@ export default function ChatList() {
       time = time * 1000;
     }
     return format(new Date(time), 'HH:mm');
+  };
+  const showDelModal = async (e: any, pk?: string) => {
+    e.stopPropagation();
+    if (pk) {
+      setDelItem(pk);
+      setShowStatus(true);
+    }
+  };
+  const delConfirm = async () => {
+    await removeItem(delItem);
+  };
+  const onClose = async () => {
+    setShowStatus(false);
   };
   useEffect(() => {
     getContacts();
@@ -147,9 +162,15 @@ export default function ChatList() {
             </div>
             <div
               className='i-mdi-close ml-4 w-6 h-6 text-red'
-              onClick={(e) => removeItem(e, item?.DAuthKey)}></div>
+              onClick={(e) => showDelModal(e, item?.DAuthKey)}></div>
           </div>
         ))}
+        <DelConfirmModel
+          text='联系人'
+          show={showStatus}
+          onConfirm={delConfirm}
+          onClose={onClose}
+        />
       </div>
       {/* <Button
           className='mx-auto w-full mt-6'

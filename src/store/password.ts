@@ -17,7 +17,7 @@ interface PasswordState {
   getList: () => void;
   remove: (id: string) => void;
   update: (Password: Password) => void;
-  getById: (id: string) => (Password | undefined);
+  getById: (id: string) => Password | undefined;
 }
 
 export const usePasswordStore = create<PasswordState>()(
@@ -38,6 +38,7 @@ export const usePasswordStore = create<PasswordState>()(
           set({ list });
         } else {
           toast.error(msg);
+          throw new Error(msg);
         }
       },
       getList: async () => {
@@ -46,6 +47,7 @@ export const usePasswordStore = create<PasswordState>()(
           set({ list: data || [] });
         } else {
           toast.error(msg);
+          throw new Error(msg);
         }
       },
       remove: async (id) => {
@@ -56,6 +58,7 @@ export const usePasswordStore = create<PasswordState>()(
           set({ list });
         } else {
           toast.error(msg);
+          throw new Error(msg);
         }
       },
       update: async ({ Id, ...res }) => {
@@ -71,6 +74,7 @@ export const usePasswordStore = create<PasswordState>()(
             set({ list });
           } else {
             toast.error(msg);
+            throw new Error(msg);
           }
         }
       },

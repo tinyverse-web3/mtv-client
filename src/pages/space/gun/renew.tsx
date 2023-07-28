@@ -11,7 +11,6 @@ import account from '@/lib/account/account';
 
 export default function GunRenew() {
   const nav = useNavigate();
-  const [gunname, setGunname] = useState('');
 
   const [selectedValid, setSelectedValid] = useState('0');
   const { name } = useParams<{ name: string }>();
@@ -70,8 +69,7 @@ export default function GunRenew() {
     console.log('RenewGun...');
     const validTime = calcValidTime();
     try {
-      await renewGUN(gunname, validTime);
-      toast.success('续期成功了');
+      await renewGUN(name, validTime);
       nav(-1);
     } catch (error) {
       console.log(error);

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Text } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { useNoteStore } from '@/store';
@@ -6,9 +6,12 @@ import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
 import { format } from 'date-fns';
 import { Empty } from '@/components/Empty';
+import { DelConfirmModel } from '@/components/DelConfirmModel';
 
 export default function NoteList() {
   const nav = useNavigate();
+  const [showStatus, setShowStatus] = useState(false);
+  const [delItem, setDelItem] = useState('');
   const { list, remove, getList } = useNoteStore((state) => state);
   const toAdd = () => {
     nav('/space/note/add');
@@ -20,8 +23,15 @@ export default function NoteList() {
   const removeItem = async (e: any, id?: string) => {
     e.stopPropagation();
     if (id) {
-      await remove(id);
+      setShowStatus(true);
+      setDelItem(id);
     }
+  };
+  const delConfirm = async () => {
+    await remove(delItem);
+  };
+  const onClose = async () => {
+    setShowStatus(false);
   };
   useEffect(() => {
     getList();
@@ -61,6 +71,12 @@ export default function NoteList() {
           <Empty />
         )}
       </div>
+      <DelConfirmModel
+        text='记事本'
+        show={showStatus}
+        onConfirm={delConfirm}
+        onClose={onClose}
+      />
     </LayoutThird>
   );
 }

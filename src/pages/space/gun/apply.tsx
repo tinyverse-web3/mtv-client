@@ -16,6 +16,7 @@ export default function GunRenew() {
   const [gunname, setGunname] = useState('');
 
   const [selectedValid, setSelectedValid] = useState('0');
+  const [loading, setLoading] = useState(false);
   //const { mutate: modifyuser, loading: modifyLoading };
   const { apply: applyGUN, load: loadGUN } = useGunStore((state) => state);
 
@@ -60,12 +61,14 @@ export default function GunRenew() {
   const ApplyGun = async () => {
     console.log('ApplyGun...');
     const validTime = calcValidTime();
+    setLoading(true);
     try {
       await applyGUN(gunname, validTime);
       nav(-1);
     } catch (error) {
       console.log(error)
     }
+    setLoading(false);
   };
 
 
@@ -151,7 +154,7 @@ export default function GunRenew() {
         </div>
         <Button
           disabled={disabled}
-          //loading={modifyLoading}
+          loading={loading}
           className='mx-auto mb-4 w-full'
           size='lg'
           onPress={ApplyGun}>

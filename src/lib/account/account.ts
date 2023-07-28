@@ -378,8 +378,8 @@ export class Account {
    * @returns {Promise<Object>} - 返回包含状态码和数据的对象
    */
   async sendVerifyCode({ type, account }: any) {
-    const res= await this.dauth.sendVerifyCode({ account, type });
-    return res.data
+    const res = await this.dauth.sendVerifyCode({ account, type });
+    return res.data;
   }
 
   /**

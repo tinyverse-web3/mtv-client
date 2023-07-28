@@ -788,7 +788,6 @@ export class Dauth {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-      console.log(url);
       return this.request({ url, method, data: formData, headers });
     } else {
       if (method === 'get') {
@@ -812,6 +811,6 @@ export class Dauth {
    * @param headers 请求头
    */
   async request({ url, method, data, params, headers }: any) {
-    return axios({ url, method, data, params, headers, timeout: 10000 });
+    return axios({ url, method, data, params, headers, timeout: 30000 });
   }
 }

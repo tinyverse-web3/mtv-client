@@ -5,9 +5,13 @@ import { toast } from 'react-hot-toast';
 import { ValidPassword } from './ValidPassword';
 import account from '@/lib/account/account';
 import { usePasswordStore } from '@/store';
+import { DelConfirmModel } from '@/components/DelConfirmModel';
+
 export default function PasswordItem({ item, toDetail }: any) {
   const [showPassword, setShowPassword] = useState(false);
   const [showStatus, setShowStatus] = useState(false);
+  const [showDelStatus, setShowDelStatus] = useState(false);
+  const [delItem, setDelItem] = useState('');
   const { remove } = usePasswordStore((state) => state);
   const hidePassword = useMemo(() => {
     return item.Password.replace(/./g, '*');
@@ -25,12 +29,6 @@ export default function PasswordItem({ item, toDetail }: any) {
     copyToClipboard(text);
     toast.success('复制成功');
   };
-  const removeItem = async (e: any, id?: string) => {
-    e.stopPropagation();
-    if (id) {
-      await remove(id);
-    }
-  };
   const modalClose = () => {
     setShowStatus(false);
   };
@@ -44,11 +42,24 @@ export default function PasswordItem({ item, toDetail }: any) {
       throw new Error(msg);
     }
   };
+  const showDelModal = async (e: any, Filename?: string) => {
+    e.stopPropagation();
+    if (Filename) {
+      setDelItem(Filename);
+      setShowDelStatus(true);
+    }
+  };
+  const delConfirm = async () => {
+    await remove(delItem);
+  };
+  const onClose = async () => {
+    setShowStatus(false);
+  };
   return (
     <div className='border-b-gray-200 relative border-b-solid border-b py-2'>
       <div
         className='i-mdi-close absolute right-2 top-6 -translate-1/2 w-6 h-6 text-red'
-        onClick={(e) => removeItem(e, item?.Id)}></div>
+        onClick={(e) => showDelModal(e, item?.Id)}></div>
       <div className='text-4 font-600 mb-1'>{item.Title}</div>
       <div className='flex text-3 mb-2'>
         <div className='flex-1'>
@@ -98,6 +109,12 @@ export default function PasswordItem({ item, toDetail }: any) {
         show={showStatus}
         onChange={passwordConfirm}
         onClose={modalClose}
+      />
+      <DelConfirmModel
+        text='密码本'
+        show={showDelStatus}
+        onConfirm={delConfirm}
+        onClose={onClose}
       />
     </div>
   );
