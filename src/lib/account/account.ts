@@ -651,6 +651,12 @@ export class Account {
     });
     return res.data.data;
   }
+  async getMsgAvatar(destPubkey: string) {
+    const res = await this.dauth.getMsgAvatar({
+      destPubkey,
+    });
+    return res.data.data;
+  }
   /**
    * 获取所有消息
    * @param {string} destPubkey - 目标公钥

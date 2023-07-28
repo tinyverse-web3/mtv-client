@@ -2,6 +2,7 @@ import { User, Card, Row } from '@nextui-org/react';
 import { useEffect, useMemo, useRef } from 'react';
 import { unionBy } from 'lodash';
 import { ROUTE_PATH } from '@/router';
+import { ProfileAvatar } from './ProfileAvatar';
 import { useThrottleFn, useDebounce } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,6 +27,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
     }
     nav(ROUTE_PATH.CHAT_PROFILE);
   };
+  const avatarSrc = useMemo(() => {}, []);
   useDebounce(handleScrollToBottom, 300, [list]);
   return (
     <div className='h-full overflow-y-auto' ref={containerRef}>
@@ -33,8 +35,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
         <div
           key={v.ID}
           className={`mb-4 flex ${v.isMe ? 'flex-row-reverse' : ''}`}>
-          <User
-            name=''
+          <ProfileAvatar
             onClick={() => toProfile(v)}
             text={v.name || v.publicKey.replace('0x', '')}
             className={`px-0 ${v.isMe ? 'ml-2' : ''}`}

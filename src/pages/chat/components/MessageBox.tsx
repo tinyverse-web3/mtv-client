@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useCallback } from 'react';
 import { useList } from 'react-use';
 import { useAccountStore } from '@/store';
-import { ChatList } from '@/components/ChatList';
-import { ChatInput } from '@/components/ChatInput';
+import { ChatList } from '@/pages/chat/components/ChatList';
+import { ChatInput } from '@/pages/chat/components/ChatInput';
 import { useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';

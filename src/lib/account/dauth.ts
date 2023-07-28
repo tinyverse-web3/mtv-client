@@ -678,7 +678,7 @@ export class Dauth {
       data: {
         content,
         destPubkey,
-      },
+      }, 
     });
   }
   async setContactAlias({ destPubkey, alias }: any) {
@@ -701,7 +701,16 @@ export class Dauth {
       name: 'msg/receiveMsgs',
       method: 'get',
       data: {
-        destPubkey,
+        DestPubkey: destPubkey,
+      },
+    });
+  }
+  async getMsgAvatar({ destPubkey }: any) {
+    return this.invoke({
+      name: 'msg/getMsgAvatar',
+      method: 'get',
+      data: {
+        DestPubkey: destPubkey,
       },
     });
   }

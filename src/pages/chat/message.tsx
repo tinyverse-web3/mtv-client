@@ -1,5 +1,5 @@
 import { useRequest } from '@/api';
-import { MessageBox } from '@/components/MessageBox';
+import { MessageBox } from '@/pages/chat/components/MessageBox';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useChatStore } from '@/store';
