@@ -9,6 +9,8 @@ import PasswordAdd from '@/pages/space/password/add';
 import Album from '@/pages/space/album/list';
 import FileIndex from '@/pages/space/file/list';
 
+import NetworIndex from '@/pages/space/network/index';
+import NetworkList from '@/pages/space/network/list';
 
 import GunList from '@/pages/space/gun/list';
 import GunApply from '@/pages/space/gun/apply';
@@ -31,6 +33,8 @@ export const ROUTE_PATH_SPACE = {
   SPACE_GUN_DETAIL: '/space/gun/detail/:name',
   SPACE_GUN_RENEW: '/space/gun/renew/:name',
   SPACE_GUN_SEARCH: '/space/gun/search/:name',
+  SPACE_NETWORK: '/space/network',
+  SPACE_NETWORK_LIST: '/space/network/list',
 };
 
 export const spaceRoutes: RouteObject[] = [
@@ -86,6 +90,14 @@ export const spaceRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_SPACE.SPACE_GUN_RENEW,
     element: <GunRenew />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_NETWORK,
+    element: <NetworIndex />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_NETWORK_LIST,
+    element: <NetworkList />,
   },
   
 ];

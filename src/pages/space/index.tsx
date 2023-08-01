@@ -41,6 +41,11 @@ export default function SpaceIndex() {
       path: ROUTE_PATH.SPACE_GUN_LIST,
     },
     {
+      icon: 'i-mdi-earth',
+      label: '网络数据',
+      path: ROUTE_PATH.SPACE_NETWORK,
+    },
+    {
       icon: 'i-mdi-book-open',
       label: '付费阅读',
     },

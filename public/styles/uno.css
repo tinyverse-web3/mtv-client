@@ -95,6 +95,7 @@
 .ml-2{margin-left:0.5rem;}
 .ml-4,
 [ml-4=""]{margin-left:1rem;}
+.ml-6{margin-left:1.5rem;}
 .ml-8{margin-left:2rem;}
 .mr-1{margin-right:0.25rem;}
 .mr-2{margin-right:0.5rem;}
@@ -110,7 +111,8 @@
 [h-14=""]{height:3.5rem;}
 .h-15{height:3.75rem;}
 .h-18{height:4.5rem;}
-.h-2{height:0.5rem;}
+.h-2,
+[h2=""]{height:0.5rem;}
 .h-20{height:5rem;}
 .h-22{height:5.5rem;}
 .h-24{height:6rem;}

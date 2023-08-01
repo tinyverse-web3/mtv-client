@@ -70,10 +70,15 @@ export default function Account() {
     await account.lock();
     setLockStatus(true);
     nav(ROUTE_PATH.UNLOCK);
-
   };
   const toSubAccount = () => {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
+  };
+  const setupBiometrics = () => {
+    window?.JsBridge.setupBiometrics('123', (e: any) => {
+      alert(JSON.stringify(e));
+      console.log(e);
+    });
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
@@ -94,8 +99,8 @@ export default function Account() {
         />
         <ListRow label='修改密码' onPress={toChangePwd} />
         <ListRow label='加密保险箱' onPress={toPrivateData} />
-        {/* <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
-        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} /> */}
+        <ListRow label='指纹识别' value='未开启' onPress={setupBiometrics} />
+        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} />
         <ListRow
           label='备份助记词'
           value={accountInfo.maintainPhrase ? '已备份' : ''}

@@ -42,6 +42,12 @@ export class Dauth {
       method: 'get',
     });
   }
+  async getBalance() {
+    return this.invoke({
+      name: 'getBalance',
+      method: 'get',
+    });
+  }
   async saveMnemonic() {
     return this.invoke({
       name: 'saveMnemonic',

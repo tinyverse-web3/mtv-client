@@ -93,7 +93,7 @@ export default function GunRenew() {
   const disabled = useMemo(() => {
     console.log(nameValid);
     console.log(gunname);
-    return gunname.length < 12;
+    return gunname.length <= 8;
   }, [gunname, nameValid]);
 
   return (
@@ -130,7 +130,7 @@ export default function GunRenew() {
         </div>
         <div className='mb-4 pl-18'>
           <Text className='text-3 text-gray-400'>
-            名字不区分大小写，只能使用字母a-z和数字0-9，最少13位。
+            名字不区分大小写，只能使用字母a-z和数字0-9，最少8位。
           </Text>
         </div>
         <div className='flex mb-4'>

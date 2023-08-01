@@ -204,6 +204,10 @@ export class Account {
     const result = await this.dauth.getMnemonic();
     return result.data.data;
   }
+  async getBalance() {
+    const result = await this.dauth.getBalance();
+    return result.data.data;
+  }
   async saveMnemonic() {
     const result = await this.dauth.saveMnemonic();
     return result.data;
