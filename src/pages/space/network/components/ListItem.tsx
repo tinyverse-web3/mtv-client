@@ -10,6 +10,7 @@ interface Props {
   expireTime: string;
   description: string;
   onDelete: () => void;
+  onClick: () => void;
 }
 export function ListItem({
   title,
@@ -19,6 +20,7 @@ export function ListItem({
   expireTime,
   description,
   onDelete,
+  onClick,
 }: Props) {
   const delHandler = (e: any) => {
     e.stopPropagation();
@@ -26,7 +28,7 @@ export function ListItem({
   };
   return (
     <Card className='mb-4'>
-      <Card.Body className='relative'>
+      <Card.Body className='relative' onClick={onClick}>
         <div className='text-4'>{title}</div>
         <div className='text-2'>
           <div>
@@ -51,7 +53,7 @@ export function ListItem({
           </div>
         </div>
         <div
-          className='i-mdi-close absolute right-1 top-2 w-6 h-6 text-red'
+          className='i-mdi-trash-can-outline absolute right-1 top-1/2 -translate-1/2 w-6 h-6 text-red'
           onClick={delHandler}></div>
       </Card.Body>
     </Card>

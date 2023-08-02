@@ -11,6 +11,7 @@ import FileIndex from '@/pages/space/file/list';
 
 import NetworIndex from '@/pages/space/network/index';
 import NetworkList from '@/pages/space/network/list';
+import NetworkDetail from '@/pages/space/network/detail';
 
 import GunList from '@/pages/space/gun/list';
 import GunApply from '@/pages/space/gun/apply';
@@ -35,6 +36,7 @@ export const ROUTE_PATH_SPACE = {
   SPACE_GUN_SEARCH: '/space/gun/search/:name',
   SPACE_NETWORK: '/space/network',
   SPACE_NETWORK_LIST: '/space/network/list',
+  SPACE_NETWORK_DETAIL: '/space/network/detail',
 };
 
 export const spaceRoutes: RouteObject[] = [
@@ -98,6 +100,10 @@ export const spaceRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_SPACE.SPACE_NETWORK_LIST,
     element: <NetworkList />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_NETWORK_DETAIL,
+    element: <NetworkDetail />,
   },
   
 ];

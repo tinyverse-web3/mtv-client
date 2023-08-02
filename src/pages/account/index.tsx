@@ -28,8 +28,8 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);
   };
 
-  const toChangeNickname = async () => {
-    nav(ROUTE_PATH.ACCOUNT_NAME);
+  const toProfile = async () => {
+    nav(ROUTE_PATH.ACCOUNT_PROFILE);
   };
   const toPharse = async () => {
     if (!accountInfo.hasFeatureData) {
@@ -88,19 +88,17 @@ export default function Account() {
           <UserLevel />
         </div>
         <ListRow
-          label='名字'
-          value={accountInfo.name}
-          onPress={toChangeNickname}
+          label='我的名片'
+          onPress={toProfile}
         />
-        <ListRow
+        {/* <ListRow
           label='我的公钥'
           value={<Address address={accountInfo.publicKey} />}
           onPress={toPublicKey}
-        />
+        /> */}
         <ListRow label='修改密码' onPress={toChangePwd} />
         <ListRow label='加密保险箱' onPress={toPrivateData} />
-        <ListRow label='指纹识别' value='未开启' onPress={setupBiometrics} />
-        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} />
+        <ListRow label='生物识别' value='未开启' onPress={setupBiometrics} />
         <ListRow
           label='备份助记词'
           value={accountInfo.maintainPhrase ? '已备份' : ''}

@@ -8,10 +8,13 @@ import { useWalletBalance, usePoint } from '@/lib/hooks';
 import { HeaderAccount } from './components/HeaderAccount';
 import { Point } from './components/Point';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
-import { AssetsNftItem } from './components/AssetsNftItem';
+import { NftList } from './components/NftList';
 import account from '@/lib/account/account';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '@/router';
 
 export default function AssetsIndex() {
+  const nav = useNavigate();
   const [assetsType, setAssetsType] = useState('token');
 
   const { web3AccountSelect, accountInfo } = useAccountStore((state) => state);
@@ -38,27 +41,36 @@ export default function AssetsIndex() {
       value: 'NFT',
     },
   ];
+  const toAdd = () => {
+    nav(ROUTE_PATH.ASSETS_NFT_ADD);
+  };
   return (
     <div>
       {/* <HeaderAccount /> */}
       {/* {subAccount.type === 'point' ? <Point /> : 123} */}
 
       <div className='p-4'>
-        <div className='flex mb-6'>
-          {assetsTypes.map((item) => (
-            <div className='w-20 flex justify-center' key={item.value}>
-              <div
-                className={`${
-                  assetsType === item.value
-                    ? 'border-b-2 border-b-solid text-blue-5'
-                    : ''
-                } cursor-pointer`}
-                onClick={() => setAssetsType(item.value)}>
-                {item.label}
+        <div className='flex justify-between mb-6'>
+          <div className='flex'>
+            {assetsTypes.map((item) => (
+              <div className='w-20 flex justify-center' key={item.value}>
+                <div
+                  className={`${
+                    assetsType === item.value
+                      ? 'border-b-2 border-b-solid text-blue-5'
+                      : ''
+                  } cursor-pointer`}
+                  onClick={() => setAssetsType(item.value)}>
+                  {item.label}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div
+            onClick={toAdd}
+            className='i-mdi-plus-circle-outline text-5'></div>
         </div>
+
         <div>
           {assetsType === 'token' ? (
             <div>
@@ -78,9 +90,7 @@ export default function AssetsIndex() {
             </div>
           ) : (
             <div>
-              <div className='grid grid-cols-3 grid-gap-6'>
-                <AssetsNftItem icon='/logo.png' />
-              </div>
+              <NftList />
             </div>
           )}
         </div>

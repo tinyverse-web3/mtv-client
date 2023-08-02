@@ -48,6 +48,15 @@ export class Dauth {
       method: 'get',
     });
   }
+  async getMsgProfile({ destPubkey }: any) {
+    return this.invoke({
+      name: 'msg/getProfile',
+      method: 'get',
+      data: {
+        DestPubkey: destPubkey,
+      },
+    });
+  }
   async saveMnemonic() {
     return this.invoke({
       name: 'saveMnemonic',
@@ -526,6 +535,43 @@ export class Dauth {
   }
 
   /**
+   * 铸造NFT文件
+   * @param file 文件
+   */
+  async mintNftFile({ file }: { file: File }) {
+    const formData = new FormData();
+    formData.append('File', file);
+    return this.invoke({
+      name: 'nft/mintFile',
+      method: 'post',
+      formData: formData,
+    });
+  }
+  async getNftList() {
+    return this.invoke({
+      method: 'get',
+      name: 'nft/getNfts',
+    });
+  }
+  async getNftDetail({ NftName }: any) {
+    return this.invoke({
+      name: 'nft/getNftDetail',
+      method: 'get',
+      data: {
+        NftName,
+      },
+    });
+  }
+  async downloadNftFile({ NftName }: any) {
+    return this.invoke({
+      name: 'nft/download',
+      method: 'get',
+      data: {
+        NftName,
+      },
+    });
+  }
+  /**
    * 上传 IPFS 文件
    * @param file 文件
    */
@@ -684,7 +730,7 @@ export class Dauth {
       data: {
         content,
         destPubkey,
-      }, 
+      },
     });
   }
   async setContactAlias({ destPubkey, alias }: any) {

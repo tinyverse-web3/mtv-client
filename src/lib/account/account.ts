@@ -661,6 +661,12 @@ export class Account {
     });
     return res.data.data;
   }
+  async getMsgProfile(destPubkey: string) {
+    const res = await this.dauth.getMsgProfile({
+      destPubkey,
+    });
+    return res.data;
+  }
   /**
    * 获取所有消息
    * @param {string} destPubkey - 目标公钥
@@ -709,6 +715,22 @@ export class Account {
   async getGunList() {
     const res = await this.dauth.getGunList();
     return res.data;
+  }
+  async mintNftFile(file: File) {
+    const res = await this.dauth.mintNftFile({ file });
+    return res.data;
+  }
+  async getNftList() {
+    const { data } = await this.dauth.getNftList();
+    return data;
+  }
+  async getNftDetail(NftName: string) {
+    const { data } = await this.dauth.getNftDetail({ NftName });
+    return data;
+  }
+  async downloadNftFile({ NftName }: any) {
+    const { data } = await this.dauth.downloadNftFile({ NftName });
+    return data;
   }
 }
 

@@ -12,6 +12,7 @@ import ChatProfile from '@/pages/chat/profile';
 import Home from '@/pages/home';
 import Index from '@/pages/index';
 import AssetsIndex from '@/pages/assets';
+import AssetsNftAdd from '@/pages/assets/nft/add';
 import SpaceIndex from '@/pages/space';
 
 import Restore from '@/pages/restore';
@@ -41,6 +42,7 @@ export const ROUTE_PATH = {
   SPACE_INDEX: '/home/space',
   CHAT_INDEX: '/home/chat',
   ASSETS_INDEX: '/home/assets',
+  ASSETS_NFT_ADD: '/assets/nft/add',
   CREATE: '/create',
   RESTORE: '/restore',
   RESTORE_PHRASE: '/restore/phrase',
@@ -50,7 +52,7 @@ export const ROUTE_PATH = {
   RESTORE_QUESTION: '/restore/question',
   RESTORE_PRIVATEDATA: '/restore/privateData',
   RESTORE_QUESTION_FEATURE: '/restore/questionFeature',
- 
+
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
 
@@ -100,6 +102,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.APP_TEST,
         element: <AppTest />,
+      },
+      {
+        path: ROUTE_PATH.ASSETS_NFT_ADD,
+        element: <AssetsNftAdd />,
       },
       {
         path: ROUTE_PATH.RESTORE,
