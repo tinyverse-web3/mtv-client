@@ -1,13 +1,39 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { calcSize } from '@/lib/utils';
 import { Card, Button, Progress } from '@nextui-org/react';
+import { useMemo } from 'react';
 
 interface Props {
   title: string;
+  summary: any;
   toDetail?: () => void;
   toExpansion?: () => void;
 }
-export function IndexItem({ title, toDetail, toExpansion }: Props) {
+export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
+  const usedSize = useMemo(() => {
+    if (summary.used) {
+      return calcSize(summary.used);
+    }
+  }, [summary.used]);
+  const totalSpace = useMemo(() => {
+    if (summary.used) {
+      return calcSize(summary.totalSpace);
+    }
+  }, [summary.totalSpace]);
+  const sizePercent = useMemo(() => {
+    if (summary.used && summary.totalSpace) {
+      return Math.ceil((summary.used / summary.totalSpace) * 100);
+    } else {
+      return 0;
+    }
+  }, [summary.used, summary.totalSpace]);
+  const numPercent = useMemo(() => {
+    if (summary.usedItem && summary.total) {
+      return Math.ceil((summary.usedItem / summary.total) * 100);
+    } else {
+      return 0;
+    }
+  }, [summary.usedItem, summary.total]);
+  console.log(summary.usedItem / summary.total);
   return (
     <div>
       <div className='mb-2'>{title}</div>
@@ -15,9 +41,11 @@ export function IndexItem({ title, toDetail, toExpansion }: Props) {
         <Card.Body>
           <div className='flex'>
             <div className='flex-1'>
-              <div className='mb-4'>空间：0.5M/1M</div>
+              <div className='mb-4 text-3'>
+                空间：{usedSize}/{totalSpace}({sizePercent})%
+              </div>
               <div className='mb-4'>
-                <Progress color='primary' size='md' value={72} />
+                <Progress color='primary' size='md' value={sizePercent} />
               </div>
               <div>
                 <Button
@@ -31,9 +59,11 @@ export function IndexItem({ title, toDetail, toExpansion }: Props) {
               </div>
             </div>
             <div className='flex-1 ml-6'>
-              <div className='mb-4'>文件：19/20</div>
+              <div className='mb-4 text-3'>
+                文件：{summary.usedItem}/{summary.total}({numPercent})%
+              </div>
               <div className='mb-4'>
-                <Progress color='primary' size='md' value={72} />
+                <Progress color='primary' size='md' value={numPercent} />
               </div>
               <div className='flex'>
                 <Button

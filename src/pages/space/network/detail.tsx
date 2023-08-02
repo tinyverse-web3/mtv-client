@@ -1,11 +1,35 @@
+import { useEffect, useState, useMemo } from 'react';
 import { Card } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import account from '@/lib/account/account';
+import { calcSize } from '@/lib/utils';
 
 export default function NetworkDetail() {
-  const detail = {
-    cid: '',
+  const [params] = useSearchParams();
+  const type = params.get('type');
+  const id = params.get('id');
+  const [detail, setDetail] = useState<any>({});
+  const getDetail = async () => {
+    if (type && id) {
+      const { data, code } = await account.getDataDetail({
+        DataType: type,
+        Key: decodeURIComponent(id),
+      });
+      if (code === '000000') {
+        setDetail(data);
+      }
+    }
   };
+  const sizeText = useMemo(() => {
+    if (detail.Size) {
+      return calcSize(detail.Size);
+    }
+    return 0;
+  }, [detail.Size]);
+  useEffect(() => {
+    getDetail();
+  }, [type, id]);
   return (
     <LayoutThird>
       <div className='p-4'>
@@ -14,7 +38,17 @@ export default function NetworkDetail() {
           <Card>
             <Card.Body>
               <div className='flex'>
-                <div className='text-2'>{detail.cid}</div>
+                <div className='text-2'>{detail.Key}</div>
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
+        <div className='mb-4'>
+          <div className='mb-2'>大小</div>
+          <Card>
+            <Card.Body>
+              <div className='flex'>
+                <div className='text-2'>{sizeText}</div>
               </div>
             </Card.Body>
           </Card>

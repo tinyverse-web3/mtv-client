@@ -533,7 +533,31 @@ export class Dauth {
     const { code, data } = res.data;
     return data;
   }
-
+  async getDataSummary() {
+    return this.invoke({
+      method: 'get',
+      name: 'data/getSummary',
+    });
+  }
+  async getDataList({ DataType }: any) {
+    return this.invoke({
+      method: 'get',
+      name: 'data/getDatas',
+      data: {
+        DataType,
+      },
+    });
+  }
+  async getDataDetail({ DataType, Key }: any) {
+    return this.invoke({
+      method: 'get',
+      name: 'data/getDataDetail',
+      data: {
+        DataType,
+        Key,
+      },
+    });
+  }
   /**
    * 铸造NFT文件
    * @param file 文件

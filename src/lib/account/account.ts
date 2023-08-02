@@ -732,6 +732,18 @@ export class Account {
     const { data } = await this.dauth.downloadNftFile({ NftName });
     return data;
   }
+  async getDataSummary() {
+    const { data } = await this.dauth.getDataSummary();
+    return data;
+  }
+  async getDataList(DataType: string) {
+    const { data } = await this.dauth.getDataList({ DataType });
+    return data;
+  }
+  async getDataDetail({ DataType, Key }: any) {
+    const { data } = await this.dauth.getDataDetail({ DataType, Key });
+    return data;
+  }
 }
 
 export default new Account();
