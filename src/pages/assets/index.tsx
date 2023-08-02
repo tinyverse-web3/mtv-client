@@ -73,11 +73,13 @@ export default function AssetsIndex() {
 
         <div>
           {assetsType === 'token' ? (
-            <div>
-              <div className='flex px-4'>
-                <span>积分：</span>
-                <span>{pointBalance}</span>
-              </div>
+            <>
+              <AssetsTokenItem
+                icon='/logo.png'
+                symbol='积分'
+                key='point'
+                balance={pointBalance}
+              />
               {list.map((item) => (
                 <AssetsTokenItem
                   icon={item.icon}
@@ -87,7 +89,7 @@ export default function AssetsIndex() {
                   dollar={item.dollar}
                 />
               ))}
-            </div>
+            </>
           ) : (
             <div>
               <NftList />
