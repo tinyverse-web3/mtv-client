@@ -1,4 +1,5 @@
 import { Input } from '@/components/form/Input';
+import { Textarea } from '@/components/form/Textarea';
 import { Button } from '@/components/form/Button';
 import { useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
@@ -16,7 +17,7 @@ export default function NftAdd() {
       value: 'file',
     },
     {
-      label: '文本',
+      label: '内容',
       value: 'text',
     },
   ];
@@ -50,8 +51,9 @@ export default function NftAdd() {
             ))}
           </div>
         </div>
-        <div className='pt-10'>
+        
           {assetsType === 'file' ? (
+            <div className='pt-10'>
             <div>
               <div className='border border-solid border-gray-300 flex justify-center items-center p-8 rounded w-40 h-40 mx-auto mb-2'>
                 <label className='w-full h-full flex cursor-pointer'>
@@ -65,24 +67,24 @@ export default function NftAdd() {
               </div>
               <div className='text-center text-2 '>上传文件</div>
             </div>
+            </div>
           ) : (
-            <div>
-              <div className='mb-6'>
-                <Input
-                  clearable
-                  rounded
-                  fullWidth
-                  readOnly
-                  maxLength={20}
+            <div className='pt-2'>
+              
+              <div className='mb-2'>
+                <Textarea
+                  minRows={22}
+                  maxRows={100}
                   value={text}
                   onChange={(e: string) => setText(e?.trim())}
-                  placeholder='名字'
+                  placeholder='内容'
                 />
               </div>
+              <div className='text-3 mb-4 text-right'>最大内容8k字节</div>
               <Button className='w-full'>铸造</Button>
             </div>
           )}
-        </div>
+        
       </div>
     </LayoutThird>
   );
