@@ -13,6 +13,7 @@ export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
+  const [bioLoading, setBioLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
@@ -68,8 +69,9 @@ export default function Unlock() {
   const toRetrieve = () => {
     nav(ROUTE_PATH.RETRIEVE);
   };
-  const startBiometrics = async () => {
-    window?.JsBridge.startBiometrics((e: any) => {
+  const startBiometric = async () => {
+    setBioLoading(true);
+    window?.JsBridge.startBiometric((e: any) => {
       alert(JSON.stringify(e));
       const { code, data } = e;
       if (code === 0) {
@@ -79,6 +81,7 @@ export default function Unlock() {
       } else {
         toast.error('解锁失败');
       }
+      setBioLoading(false);
     });
   };
   return (
@@ -103,11 +106,10 @@ export default function Unlock() {
         />
       </Row>
       <Button
-        disabled={!pwd}
         size='lg'
-        loading={loading}
+        loading={bioLoading}
         className='mx-auto mb-2 w-full'
-        onPress={startBiometrics}>
+        onPress={startBiometric}>
         生物识别
       </Button>
       <Button
