@@ -71,15 +71,13 @@ export default function Unlock() {
   };
   const startBiometric = async () => {
     setBioLoading(true);
-    window?.JsBridge.startBiometric((e: any) => {
-      alert(JSON.stringify(e));
-      const { code, data } = e;
+    window?.JsBridge.startBiometric(({ code, message, data }: any) => {
       if (code === 0) {
-        const { password } = data;
-        setPwd(password);
+        setPwd(data);
+        toast.success(message);
         unlock();
       } else {
-        toast.error('解锁失败');
+        toast.error(message);
       }
       setBioLoading(false);
     });

@@ -78,9 +78,12 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
   };
   const setupBiometrics = async (password: string) => {
-    window?.JsBridge.setupBiometrics('123', (e: any) => {
-      alert(JSON.stringify(e));
-      console.log(e);
+    window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
+      if (code === 0) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
     });
   };
   const validPasswordSuccess = (password: string) => {
