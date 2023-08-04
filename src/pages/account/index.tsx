@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ export default function Account() {
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
+  const [isBiometricsSatus, setIsBiometricsSatus] = useState(false);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
@@ -54,6 +55,15 @@ export default function Account() {
       nav(ROUTE_PATH.ACCOUNT_QUESTION);
     }
   };
+  const getBiometricsSetUp = () => {
+    window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+      if (code === 0) {
+        setIsBiometricsSatus(true);
+      } else {
+        setIsBiometricsSatus(false);
+      }
+    });
+  };
   const toProtector = async () => {
     if (!accountInfo.hasFeatureData) {
       toast('请先设置加密保险箱');
@@ -89,6 +99,9 @@ export default function Account() {
   const validPasswordSuccess = (password: string) => {
     setupBiometrics(password);
   };
+  useEffect(() => {
+    getBiometricsSetUp();
+  }, []);
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='pt-4 px-4 text-14px'>
@@ -106,7 +119,7 @@ export default function Account() {
         <ListRow label='加密保险箱' onPress={toPrivateData} />
         <ListRow
           label='生物识别'
-          value='未开启'
+          value={isBiometricsSatus ? '已开启' : '未开启'}
           onPress={() => setShowPasswordStatus(true)}
         />
         <ListRow
