@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Row, Input } from '@nextui-org/react';
+import { Row, Input, Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAccountStore, useGlobalStore } from '@/store';
@@ -21,9 +21,9 @@ export default function Unlock() {
   );
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
-  const unlock = async () => {
+  const unlock = async (password: string) => {
     setLoading(true);
-    const result = await account.unlock(pwd);
+    const result = await account.unlock(password);
     if (result) {
       await getLocalAccountInfo();
       if (redirect) {
@@ -38,7 +38,7 @@ export default function Unlock() {
     setLoading(false);
   };
   const pressHandler = async () => {
-    await unlock();
+    await unlock(pwd);
   };
   useKeyPressEvent('Enter', () => {
     if (pwd) {
@@ -70,16 +70,13 @@ export default function Unlock() {
     nav(ROUTE_PATH.RETRIEVE);
   };
   const startBiometric = async () => {
-    setBioLoading(true);
     window?.JsBridge.startBiometric(({ code, message, data }: any) => {
       if (code === 0) {
-        setPwd(data);
-        toast.success(message);
-        unlock();
+        toast.success('解锁成功');
+        unlock(data);
       } else {
         toast.error(message);
       }
-      setBioLoading(false);
     });
   };
   return (
@@ -103,13 +100,13 @@ export default function Unlock() {
           initialValue=''
         />
       </Row>
-      <Button
+      {/* <Button
         size='lg'
         loading={bioLoading}
         className='mx-auto mb-2 w-full'
         onPress={startBiometric}>
         生物识别
-      </Button>
+      </Button> */}
       <Button
         disabled={!pwd}
         size='lg'
@@ -118,13 +115,18 @@ export default function Unlock() {
         onPress={unlock}>
         解锁
       </Button>
+      <Image
+        onClick={startBiometric}
+        src='/figer.png'
+        className='w-10 h-10 cursor-pointer'
+      />
       <Button
         light
         color='error'
         auto
         className='text-12px mx-auto'
         onPress={deleteUser}>
-        忘记密码，恢复账号或重新创建
+        恢复账号或重新创建
       </Button>
       <div className='flex justify-end'>
         <Button
