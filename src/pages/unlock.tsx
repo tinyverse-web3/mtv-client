@@ -112,7 +112,7 @@ export default function Unlock() {
         size='lg'
         loading={loading}
         className='mx-auto mb-2 w-full'
-        onPress={unlock}>
+        onPress={pressHandler}>
         解锁
       </Button>
       <Image
