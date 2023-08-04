@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
@@ -7,11 +8,13 @@ import { Address } from '@/components/Address';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { ValidPassword } from '@/components/ValidPassword';
 export default function Account() {
   const nav = useNavigate();
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
+  const [showPasswordStatus, setShowPasswordStatus] = useState(false);
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toChangePwd = async () => {
@@ -74,11 +77,14 @@ export default function Account() {
   const toSubAccount = () => {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
   };
-  const setupBiometrics = () => {
+  const setupBiometrics = async (password: string) => {
     window?.JsBridge.setupBiometrics('123', (e: any) => {
       alert(JSON.stringify(e));
       console.log(e);
     });
+  };
+  const validPasswordSuccess = (password: string) => {
+    setupBiometrics(password);
   };
   return (
     <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
@@ -87,10 +93,7 @@ export default function Account() {
           <UserAvatar className='mr-4' />
           <UserLevel />
         </div>
-        <ListRow
-          label='我的名片'
-          onPress={toProfile}
-        />
+        <ListRow label='我的名片' onPress={toProfile} />
         {/* <ListRow
           label='我的公钥'
           value={<Address address={accountInfo.publicKey} />}
@@ -98,7 +101,11 @@ export default function Account() {
         /> */}
         <ListRow label='修改密码' onPress={toChangePwd} />
         <ListRow label='加密保险箱' onPress={toPrivateData} />
-        <ListRow label='生物识别' value='未开启' onPress={setupBiometrics} />
+        <ListRow
+          label='生物识别'
+          value='未开启'
+          onPress={() => setShowPasswordStatus(true)}
+        />
         <ListRow
           label='备份助记词'
           value={accountInfo.maintainPhrase ? '已备份' : ''}
@@ -117,6 +124,11 @@ export default function Account() {
         <ListRow label='子账号' onPress={toSubAccount} />
         <ListRow label='退出' onPress={deleteUser} />
       </div>
+      <ValidPassword
+        onSuccess={validPasswordSuccess}
+        show={showPasswordStatus}
+        onClose={() => setShowPasswordStatus(false)}
+      />
     </LayoutThird>
   );
 }

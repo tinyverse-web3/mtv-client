@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useAccountStore } from '@/store';
-
+import account from '@/lib/account/account';
+import toast from 'react-hot-toast';
 interface Props {
   show: boolean;
   onClose?: () => void;
-  onChange: (password: string) => void;
+  onSuccess?: (password: string) => void;
 }
-export const ValidPassword = ({ show, onChange, onClose }: Props) => {
+export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
   const [showModal, setShowModal] = useState(show);
   const [password, setPassword] = useState('');
   const closeHandler = () => {
@@ -17,8 +17,14 @@ export const ValidPassword = ({ show, onChange, onClose }: Props) => {
     setShowModal(false);
   };
   const confirmHandler = async () => {
-    await onChange(password);
-    closeHandler();
+    const { code, msg } = await account.checkPassword(password);
+    if (code === '000000') {
+      onSuccess?.(password);
+      toast.success('验证成功');
+      closeHandler();
+    } else {
+      toast.error(msg);
+    }
   };
   const passwordChange = (e: any) => {
     setPassword(e.target.value);
@@ -38,7 +44,7 @@ export const ValidPassword = ({ show, onChange, onClose }: Props) => {
         <Text id='modal-title' size={18}>
           验证账号密码
         </Text>
-      </Modal.Header   >
+      </Modal.Header>
       <Modal.Body>
         <Input.Password
           clearable

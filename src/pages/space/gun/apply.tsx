@@ -12,9 +12,8 @@ import { add, getUnixTime } from 'date-fns';
 
 export default function GunRenew() {
   const nav = useNavigate();
-  const gunnameRef = useRef('');
   const [gunname, setGunname] = useState('');
-
+  const timer = useRef<any>(null);
   const [selectedValid, setSelectedValid] = useState('0');
   const [loading, setLoading] = useState(false);
   //const { mutate: modifyuser, loading: modifyLoading };
@@ -86,10 +85,15 @@ export default function GunRenew() {
   };
 
   const gunnameChange = (e: any) => {
-    gunnameRef.current = e;
     setGunname(e);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      const text = e.trim().replace(/[^A-Za-z0-9_]/g, '');
+      setGunname(text);
+    }, 100);
   };
-
   const disabled = useMemo(() => {
     console.log(nameValid);
     console.log(gunname);

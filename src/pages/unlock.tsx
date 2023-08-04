@@ -8,21 +8,23 @@ import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
-
+import { toast } from 'react-hot-toast';
 export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
-  const { reset: resetGlobal, setLockStatus } = useGlobalStore((state) => state);
+  const { reset: resetGlobal, setLockStatus } = useGlobalStore(
+    (state) => state,
+  );
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
   const unlock = async () => {
     setLoading(true);
     const result = await account.unlock(pwd);
     if (result) {
-      await getLocalAccountInfo()
+      await getLocalAccountInfo();
       if (redirect) {
         location.replace(decodeURIComponent(redirect));
         return;
@@ -64,8 +66,20 @@ export default function Unlock() {
     nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const toRetrieve = () => {
-
     nav(ROUTE_PATH.RETRIEVE);
+  };
+  const startBiometrics = async () => {
+    window?.JsBridge.startBiometrics((e: any) => {
+      alert(JSON.stringify(e));
+      const { code, data } = e;
+      if (code === 0) {
+        const { password } = data;
+        setPwd(password);
+        unlock();
+      } else {
+        toast.error('解锁失败');
+      }
+    });
   };
   return (
     <LayoutOne className='px-6 pt-14'>
@@ -88,6 +102,14 @@ export default function Unlock() {
           initialValue=''
         />
       </Row>
+      <Button
+        disabled={!pwd}
+        size='lg'
+        loading={loading}
+        className='mx-auto mb-2 w-full'
+        onPress={startBiometrics}>
+        生物识别
+      </Button>
       <Button
         disabled={!pwd}
         size='lg'

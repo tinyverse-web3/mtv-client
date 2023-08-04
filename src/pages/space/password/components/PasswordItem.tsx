@@ -2,7 +2,7 @@ import { Button as NextButton } from '@nextui-org/react';
 import { useState, useMemo } from 'react';
 import { useCopyToClipboard } from 'react-use';
 import { toast } from 'react-hot-toast';
-import { ValidPassword } from './ValidPassword';
+import { ValidPassword } from '@/components/ValidPassword';
 import account from '@/lib/account/account';
 import { usePasswordStore } from '@/store';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
@@ -32,15 +32,8 @@ export default function PasswordItem({ item, toDetail }: any) {
   const modalClose = () => {
     setShowStatus(false);
   };
-  const passwordConfirm = async (password: string) => {
-    const { code, msg } = await account.checkPassword(password);
-    if (code === '000000') {
+  const passwordConfirm = async () => {
       setShowPassword(true);
-      setShowStatus(false);
-    } else {
-      toast.error(msg);
-      throw new Error(msg);
-    }
   };
   const showDelModal = async (e: any, Filename?: string) => {
     e.stopPropagation();
@@ -107,7 +100,7 @@ export default function PasswordItem({ item, toDetail }: any) {
       </div>
       <ValidPassword
         show={showStatus}
-        onChange={passwordConfirm}
+        onSuccess={passwordConfirm}
         onClose={modalClose}
       />
       <DelConfirmModel
