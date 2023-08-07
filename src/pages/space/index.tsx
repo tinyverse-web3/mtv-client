@@ -1,13 +1,43 @@
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import account from '@/lib/account/account';
+import { text } from 'stream/consumers';
+const MenuItem = ({ text, icon, onClick }: any) => {
+  const imageChange = async (e: any) => {
+    const image = e.target.files[0];
+    const { code, msg } = await account.uploadAlbum({ file: image });
 
-const MenuItem = ({ text, icon }: any) => {
+    if (code === '000000') {
+      toast.success('拍照成功');
+    } else {
+      toast.error(msg);
+    }
+  };
   return (
     <div className='flex flex-col h-full items-center justify-center text-14px'>
       <div className='rounded-full bg-gray-100 p-3 mb-1'>
-        <div className={`${icon} h-14 w-14 text-gray-600`}></div>
+        {text === '拍照' ? (
+          <label className='w-full h-full flex items-center justify-center'>
+            <img
+              className={`h-14 w-14 text-gray-600`}
+              src={`/space/${icon}`}></img>
+            <input
+              type='file'
+              accept='image/*'
+              capture='environment'
+              onChange={imageChange}
+              className='invisible w-0 h-0'
+            />
+          </label>
+        ) : (
+          <img
+            onClick={onClick}
+            className={`h-14 w-14 text-gray-600`}
+            src={`/space/${icon}`}></img>
+        )}
       </div>
+
       <span>{text}</span>
     </div>
   );
@@ -16,52 +46,59 @@ export default function SpaceIndex() {
   const nav = useNavigate();
   const list = [
     {
-      icon: 'i-mdi-notebook-outline',
+      icon: 'icon-note.png',
       label: '记事本',
       path: ROUTE_PATH.NOTE,
     },
     {
-      icon: 'i-mdi-image-album',
+      icon: 'icon-album.png',
       label: '相册',
       path: ROUTE_PATH.SPACE_ALBUM,
     },
     {
-      icon: 'i-mdi-file-document-outline',
+      icon: 'icon-photo.png',
+      label: '拍照',
+    },
+    {
+      icon: 'icon-file.png',
       label: '文件',
       path: ROUTE_PATH.SPACE_FILE,
     },
     {
-      icon: 'i-mdi-key-variant',
+      icon: 'icon-password.png',
       label: '密码箱',
       path: ROUTE_PATH.SPACE_PASSWORD,
     },
     {
-      icon: 'i-mdi-earth',
+      icon: 'icon-gun.png',
       label: 'GUN',
       path: ROUTE_PATH.SPACE_GUN_LIST,
     },
     {
-      icon: 'i-mdi-earth',
+      icon: 'icon-network.png',
       label: '网络数据',
       path: ROUTE_PATH.SPACE_NETWORK,
     },
     {
-      icon: 'i-mdi-book-open',
+      icon: 'icon-read.png',
       label: '付费阅读',
     },
     {
-      icon: 'i-mdi-database-settings-outline',
+      icon: 'icon-ledger.png',
       label: '账本',
     },
     {
-      icon: 'i-mdi-database-settings-outline',
+      icon: 'icon-auth.png',
       label: 'Google验证器',
       path: ROUTE_PATH.SPACE_AUTHENTICATOR,
     },
   ];
-  const menuClick = ({ path, url }: any) => {
+  const menuClick = ({ path, url, label }: any) => {
+    console.log(label);
     if (path) {
       nav(path);
+    } else if (label === '拍照') {
+      return;
     } else {
       toast('即将发布');
     }
@@ -70,8 +107,8 @@ export default function SpaceIndex() {
   return (
     <div className='grid grid-cols-3 gap-6 justify-items-center pt-10'>
       {list.map((v) => (
-        <div key={v.label} className='' onClick={(e) => menuClick(v)}>
-          <MenuItem text={v.label} icon={v.icon} />
+        <div key={v.label} className=''>
+          <MenuItem text={v.label} icon={v.icon} onClick={() => menuClick(v)} />
         </div>
       ))}
     </div>
