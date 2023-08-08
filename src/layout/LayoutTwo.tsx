@@ -42,12 +42,12 @@ const FooterTabs = () => {
     () => list.findIndex((v) => v.path === pathname),
     [pathname],
   );
-  console.log(active);
   return (
     <div className='w-full rounded-6 relative h-full flex bg-gray-2 overflow-hidden'>
       {list.map(({ icon, path }) => (
         <div
           className='w-[25%] flex justify-center items-center relative z-2 cursor-pointer'
+          key={path}
           onClick={() => menuClick(path)}>
           <div className={`${icon} w-6 h-6 mb-1`}></div>
         </div>
@@ -80,7 +80,7 @@ export default function LayoutTwo({
         <HeaderUser key='layout-two' />
       </header> */}
       <section className='h-full overscroll-y-auto'>{children}</section>
-      <footer className='w-full h-15 absolute bottom-4 left-0  px-4 border-t-gray-200'>
+      <footer className='w-full h-13 absolute bottom-4 left-0  px-4 border-t-gray-200'>
         <FooterTabs />
       </footer>
     </main>

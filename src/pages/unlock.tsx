@@ -80,62 +80,59 @@ export default function Unlock() {
     });
   };
   return (
-    <LayoutOne className='px-6 pt-14'>
-      <HeaderLogo />
-      <Row className='mb-6 pt-8' justify='center'>
-        <Input.Password
-          clearable
-          bordered
-          aria-label='password'
-          fullWidth
-          maxLength={20}
-          type='password'
-          value={pwd}
-          className='h-50px'
-          helperColor={helper.color}
-          helperText={helper.text}
-          onChange={pwdChange}
-          status={err ? 'error' : 'default'}
-          placeholder='输入密码'
-          initialValue=''
+    <LayoutOne className='relative '>
+      <div className='px-6 pt-14 h-full'>
+        <HeaderLogo />
+        <Row className='mb-6 pt-8' justify='center'>
+          <Input.Password
+            clearable
+            bordered
+            aria-label='password'
+            fullWidth
+            maxLength={20}
+            type='password'
+            value={pwd}
+            className='h-50px'
+            helperColor={helper.color}
+            helperText={helper.text}
+            onChange={pwdChange}
+            status={err ? 'error' : 'default'}
+            placeholder='输入密码'
+            initialValue=''
+          />
+        </Row>
+        <Button
+          disabled={!pwd}
+          size='lg'
+          loading={loading}
+          className='mx-auto mb-2 w-full'
+          onPress={pressHandler}>
+          解锁
+        </Button>
+        <Image
+          onClick={startBiometric}
+          src='/figer.png'
+          className='w-10 h-10 cursor-pointer'
         />
-      </Row>
-      {/* <Button
-        size='lg'
-        loading={bioLoading}
-        className='mx-auto mb-2 w-full'
-        onPress={startBiometric}>
-        生物识别
-      </Button> */}
-      <Button
-        disabled={!pwd}
-        size='lg'
-        loading={loading}
-        className='mx-auto mb-2 w-full'
-        onPress={pressHandler}>
-        解锁
-      </Button>
-      <Image
-        onClick={startBiometric}
-        src='/figer.png'
-        className='w-10 h-10 cursor-pointer'
-      />
-      <Button
-        light
-        color='error'
-        auto
-        className='text-12px mx-auto'
-        onPress={deleteUser}>
-        恢复账号或重新创建
-      </Button>
-      <div className='flex justify-end'>
+        <div className='flex justify-end'>
+          <Button
+            light
+            auto
+            color='success'
+            className='text-14px px-0 text-blue-5'
+            onPress={toRetrieve}>
+            忘记密码
+          </Button>
+        </div>
+      </div>
+      <div className='absolute bottom-4 w-full flex justify-center'>
         <Button
           light
+          color='error'
           auto
-          color='success'
-          className='text-14px px-0 text-blue-5'
-          onPress={toRetrieve}>
-          忘记密码
+          className='text-12px mx-auto'
+          onPress={deleteUser}>
+          恢复账号或重新创建
         </Button>
       </div>
     </LayoutOne>

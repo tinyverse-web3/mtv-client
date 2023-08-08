@@ -109,48 +109,46 @@ export default function Account() {
     getBiometricsSetUp();
   }, []);
   return (
-    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
-      <div className='pt-4 px-4 text-14px'>
-        <div className='flex'>
-          <UserAvatar className='mr-4' />
-          <UserLevel />
-        </div>
-        <ListRow label='我的名片' onPress={toProfile} />
-        {/* <ListRow
+    <div className='pt-4 px-4 text-14px'>
+      <div className='flex'>
+        <UserAvatar className='mr-4' />
+        <UserLevel />
+      </div>
+      <ListRow label='我的名片' onPress={toProfile} />
+      {/* <ListRow
           label='我的公钥'
           value={<Address address={accountInfo.publicKey} />}
           onPress={toPublicKey}
         /> */}
-        <ListRow label='修改密码' onPress={toChangePwd} />
-        <ListRow label='加密保险箱' onPress={toPrivateData} />
-        <ListRow
-          label='生物识别'
-          value={isBiometricsSatus ? '已开启' : '未开启'}
-          onPress={() => setShowPasswordStatus(true)}
-        />
-        <ListRow
-          label='备份助记词'
-          value={accountInfo.maintainPhrase ? '已备份' : ''}
-          onPress={toPharse}
-        />
-        <ListRow
-          label='守护者备份'
-          value={accountInfo.maintainProtector ? '已备份' : ''}
-          onPress={toProtector}
-        />
-        <ListRow
-          label='智能隐私备份'
-          value={accountInfo.maintainQuestion ? '已备份' : ''}
-          onPress={toQuestion}
-        />
-        <ListRow label='子账号' onPress={toSubAccount} />
-        <ListRow label='退出' onPress={deleteUser} />
-      </div>
+      <ListRow label='修改密码' onPress={toChangePwd} />
+      <ListRow label='加密保险箱' onPress={toPrivateData} />
+      <ListRow
+        label='生物识别'
+        value={isBiometricsSatus ? '已开启' : '未开启'}
+        onPress={() => setShowPasswordStatus(true)}
+      />
+      <ListRow
+        label='备份助记词'
+        value={accountInfo.maintainPhrase ? '已备份' : ''}
+        onPress={toPharse}
+      />
+      <ListRow
+        label='守护者备份'
+        value={accountInfo.maintainProtector ? '已备份' : ''}
+        onPress={toProtector}
+      />
+      <ListRow
+        label='智能隐私备份'
+        value={accountInfo.maintainQuestion ? '已备份' : ''}
+        onPress={toQuestion}
+      />
+      <ListRow label='子账号' onPress={toSubAccount} />
+      <ListRow label='退出' onPress={deleteUser} />
       <ValidPassword
         onSuccess={validPasswordSuccess}
         show={showPasswordStatus}
         onClose={() => setShowPasswordStatus(false)}
       />
-    </LayoutThird>
+    </div>
   );
 }
