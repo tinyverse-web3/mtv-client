@@ -48,6 +48,18 @@ export class Dauth {
       method: 'get',
     });
   }
+  async applyDailyReward() {
+    return this.invoke({
+      name: 'applyDailyReward',
+      method: 'get',
+    });
+  }
+  async applyGuardianReward() {
+    return this.invoke({
+      name: 'applyGuardianReward',
+      method: 'get',
+    });
+  }
   async getMsgProfile({ destPubkey }: any) {
     return this.invoke({
       name: 'msg/getProfile',

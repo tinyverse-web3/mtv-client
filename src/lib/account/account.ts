@@ -208,6 +208,14 @@ export class Account {
     const result = await this.dauth.getBalance();
     return result.data.data;
   }
+  async applyDailyReward() {
+    const result = await this.dauth.applyDailyReward();
+    return result.data;
+  }
+  async applyGuardianReward() {
+    const result = await this.dauth.applyGuardianReward();
+    return result.data;
+  }
   async saveMnemonic() {
     const result = await this.dauth.saveMnemonic();
     return result.data;

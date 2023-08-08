@@ -94,12 +94,37 @@ export default function SpaceIndex() {
     },
     {
       icon: 'icon-point.png',
+      label: '获得每日积分',
+      type: 'function',
+      async handler() {
+        console.log(1);
+        const { code, data, msg } = await account.applyDailyReward();
+        if (code === '000000') {
+          toast.success('领取成功');
+        } else {
+          toast.error(msg);
+        }
+      },
+    },
+    {
+      icon: 'icon-point.png',
       label: '获得积分',
+      type: 'function',
+      async handler() {
+        const { code, data, msg } = await account.applyGuardianReward();
+        if (code === '000000') {
+          toast.success('领取成功');
+        } else {
+          toast.error(msg);
+        }
+      },
     },
   ];
-  const menuClick = ({ path, url, label }: any) => {
+  const menuClick = ({ path, url, label, type, handler }: any) => {
     console.log(label);
-    if (path) {
+    if (type === 'function') {
+      handler();
+    } else if (path) {
       nav(path);
     } else if (label === '拍照') {
       return;
