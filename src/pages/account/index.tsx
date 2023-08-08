@@ -56,13 +56,15 @@ export default function Account() {
     }
   };
   const getBiometricsSetUp = () => {
-    window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
-      if (code === 0) {
-        setIsBiometricsSatus(true);
-      } else {
-        setIsBiometricsSatus(false);
-      }
-    });
+    if (window?.JsBridge) {
+      window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+        if (code === 0) {
+          setIsBiometricsSatus(true);
+        } else {
+          setIsBiometricsSatus(false);
+        }
+      });
+    }
   };
   const toProtector = async () => {
     if (!accountInfo.hasFeatureData) {
@@ -88,6 +90,10 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
   };
   const setupBiometrics = async (password: string) => {
+    if (!window?.JsBridge) {
+      toast.error('请在APP中操作');
+      return;
+    }
     window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
       if (code === 0) {
         toast.success(message);

@@ -16,9 +16,9 @@ const MenuItem = ({ text, icon, onClick }: any) => {
   };
   return (
     <div className='flex flex-col h-full items-center justify-center text-14px'>
-      <div className='rounded-full bg-gray-100 p-3 mb-1'>
+      <div className='rounded-full bg-gray-100 p-3 mb-1 overflow-hidden flex'>
         {text === '拍照' ? (
-          <label className='w-full h-full flex items-center justify-center'>
+          <label className='w-full h-full flex items-center justify-center overflow-hidden'>
             <img
               className={`h-14 w-14 text-gray-600`}
               src={`/space/${icon}`}></img>
@@ -33,7 +33,7 @@ const MenuItem = ({ text, icon, onClick }: any) => {
         ) : (
           <img
             onClick={onClick}
-            className={`h-14 w-14 text-gray-600`}
+            className={`h-14 w-14 text-gray-600 overflow-hidden`}
             src={`/space/${icon}`}></img>
         )}
       </div>
@@ -91,6 +91,10 @@ export default function SpaceIndex() {
       icon: 'icon-auth.png',
       label: 'Google验证器',
       path: ROUTE_PATH.SPACE_AUTHENTICATOR,
+    },
+    {
+      icon: 'icon-point.png',
+      label: '获得积分',
     },
   ];
   const menuClick = ({ path, url, label }: any) => {

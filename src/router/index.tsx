@@ -26,7 +26,7 @@ import RestoreQuestionFeature from '@/pages/restore/questionFeature';
 import Test from '@/pages/test';
 import AppTest from '@/pages/app';
 import Unlock from '@/pages/unlock';
-
+import Account from '@/pages/account/';
 import Retrieve from '@/pages/retrieve';
 
 import { spaceRoutes, ROUTE_PATH_SPACE } from './space';
@@ -42,6 +42,7 @@ export const ROUTE_PATH = {
   SPACE_INDEX: '/home/space',
   CHAT_INDEX: '/home/chat',
   ASSETS_INDEX: '/home/assets',
+  ACCOUNT: '/home/account',
   ASSETS_NFT_ADD: '/assets/nft/add',
   CREATE: '/create',
   RESTORE: '/restore',
@@ -96,6 +97,10 @@ export const routes: RouteObject[] = [
           {
             path: ROUTE_PATH.ASSETS_INDEX,
             element: <AssetsIndex />,
+          },
+          {
+            path: ROUTE_PATH.ACCOUNT,
+            element: <Account />,
           },
         ],
       },

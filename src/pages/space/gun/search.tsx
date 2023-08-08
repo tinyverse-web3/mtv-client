@@ -12,6 +12,7 @@ import account from '@/lib/account/account';
 export default function GunSearch() {
   const nav = useNavigate();
   const [changeDisabled, setSearchDisable] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { name } = useParams<{ name: string }>(); // 获取路由参数中的 gunname
   const [gunname, setGunname] = useState(name);
   const timer = useRef<any>(null);
@@ -19,6 +20,7 @@ export default function GunSearch() {
   const SearchGun = async () => {
     console.log('SearchGun...');
     if (gunname) {
+      setLoading(true);
       const { code, data, msg } = await account.getGun({
         GunName: gunname,
       });
@@ -27,6 +29,7 @@ export default function GunSearch() {
       } else {
         toast.error(msg);
       }
+      setLoading(false);
     }
   };
 
@@ -88,7 +91,7 @@ export default function GunSearch() {
         </div>
         <Button
           disabled={disabled}
-          //loading={modifyLoading}
+          loading={loading}
           className='mx-auto mb-2 w-full'
           size='lg'
           onPress={SearchGun}>
