@@ -13,6 +13,7 @@ import AccountProtector from '@/pages/account/protector';
 import AccountProtectorAdd from '@/pages/account/protectorAdd';
 import AccountAward from '@/pages/account/award';
 import PrivateData from '@/pages/account/privateData';
+import PrivateDataVerify from '@/pages/account/privateDataVerify';
 
 import ChangePwd from '@/pages/account/changePwd';
 import AccountLocalSafe from '@/pages/account/localSafe';
@@ -43,6 +44,7 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_PROTECTOR_ADD: '/account/protector/add',
   ACCOUNT_PROTECTOR_VERIFY: '/account/protector/verify',
   ACCOUNT_PRIVATEDATA: '/account/privateData',
+  ACCOUNT_PRIVATEDATA_VERIFY: '/account/privateData/verify',
   ACCOUNT_SUBACCOUNT_LIST: '/account/subAccount/list',
   ACCOUNT_SUBACCOUNT_EDIT: '/account/subAccount/edit',
 };
@@ -66,6 +68,10 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_PRIVATEDATA,
     element: <PrivateData />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_PRIVATEDATA_VERIFY,
+    element: <PrivateDataVerify />,
   },
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_PROFILE,

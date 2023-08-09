@@ -19,6 +19,7 @@ interface UserInfo {
   maintainProtector?: boolean;
   maintainQuestion?: boolean;
   guardians?: Guardian[];
+  
 }
 /* userLevel 用户等级
 0级：临时账户，账户无法恢复，数据随时会丢失，请尽快做账户维护。

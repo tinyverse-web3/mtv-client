@@ -3,11 +3,12 @@ import { Input } from '@/components/form/Input';
 import { Dropdown } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore } from '@/store';
+import { useAccountStore, useRestoreStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { ROUTE_PATH } from '@/router';
 
 export default function Unlock() {
   const nav = useNavigate();
@@ -16,6 +17,7 @@ export default function Unlock() {
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const { setAccountInfo, accountInfo } = useAccountStore((state) => state);
+  const { setTextPrivateData, setPasswordPrivateData } = useRestoreStore((state) => state);
 
   const add = async () => {
     setLoading(true);
@@ -26,14 +28,17 @@ export default function Unlock() {
       setLoading(false);
       return;
     }
-    try {
-      await account.setPivateData(text, password, customText);
-      setAccountInfo({ hasFeatureData: true });
-      toast.success('设置成功');
-      nav(-1);
-    } catch (error) {
-      toast.error('设置失败');
-    }
+    setTextPrivateData(text);
+    setPasswordPrivateData(password);
+    nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA_VERIFY)
+    // try {
+    //   await account.setPivateData(text, password, customText);
+    //   setAccountInfo({ hasFeatureData: true });
+    //   toast.success('设置成功');
+    //   nav(-1);
+    // } catch (error) {
+    //   toast.error('设置失败');
+    // }
     setLoading(false);
   };
   const pressHandler = async () => {
@@ -112,7 +117,7 @@ export default function Unlock() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          设置
+          下一步
         </Button>
       </div>
     </LayoutThird>
