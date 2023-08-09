@@ -734,7 +734,7 @@ export class Dauth {
     return this.invoke({
       name: 'msg/createContactByMasterKey',
       data: {
-        DestPubkey: destPubkey,
+        DestWalletKey: destPubkey,
       },
     });
   }
@@ -742,7 +742,7 @@ export class Dauth {
     return this.invoke({
       name: 'msg/createContactByWalletKey',
       data: {
-        DestPubkey: destPubkey,
+        DestWalletKey: destPubkey,
       },
     });
   }
