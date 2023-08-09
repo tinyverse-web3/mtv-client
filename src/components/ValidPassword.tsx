@@ -64,7 +64,6 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
             clearable
             bordered
             fullWidth
-            maxLength={6}
             aria-label='密码'
             color='primary'
             size='lg'
