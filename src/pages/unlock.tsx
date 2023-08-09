@@ -83,7 +83,7 @@ export default function Unlock() {
     <LayoutOne className='relative '>
       <div className='px-6 pt-14 h-full'>
         <HeaderLogo />
-        <div className='flex justify-center'>
+        {/* <div className='flex justify-center'>
           <Button
             light
             color='error'
@@ -92,7 +92,7 @@ export default function Unlock() {
             onPress={deleteUser}>
             恢复账号或重新创建
           </Button>
-        </div>
+        </div> */}
         <Row className='mb-6 pt-8' justify='center'>
           <Input.Password
             clearable
@@ -130,7 +130,7 @@ export default function Unlock() {
             auto
             color='success'
             className='text-14px px-0 text-blue-5'
-            onPress={toRetrieve}>
+            onPress={deleteUser}>
             忘记密码
           </Button>
         </div>

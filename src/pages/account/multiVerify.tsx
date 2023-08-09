@@ -10,29 +10,24 @@ import { ValidPassword } from '@/components/ValidPassword';
 
 export default function MultiVerify() {
   const nav = useNavigate();
+  const [type, setType] = useState(0);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toPrivateData = async () => {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
   };
-  const validPasswordSuccess = (password: string) => {};
-  const toProtector = async () => {
-    if (!accountInfo.hasFeatureData) {
-      toast('请先设置加密保险箱');
-      return;
-    }
-    const loginStatus = await useCheckLogin();
-    console.log('loginStatus', loginStatus);
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
-    }
+  const validPasswordSuccess = (password: string) => {
+    toPrivateData();
+  };
+  const showVerifyPassword = (type: 1) => {
+    setShowPasswordStatus(true);
+    setType(type);
   };
   return (
     <LayoutThird showBack title='多因素验证'>
       <div className='p-4'>
-        <ListRow label='加密保险箱' onPress={toPrivateData} />
-        <ListRow label='守护者' onPress={toProtector} />
+        <ListRow label='加密保险箱' onPress={() => showVerifyPassword(1)} />
       </div>
       <ValidPassword
         onSuccess={validPasswordSuccess}

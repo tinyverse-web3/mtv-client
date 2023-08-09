@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import { Modal, Text, Input, Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
@@ -17,9 +17,12 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
     setShowModal(false);
   };
   const confirmHandler = async () => {
-    const { code, msg } = await account.checkPassword(password);
+    await verifyPassword(password);
+  };
+  const verifyPassword = async (pwd: string) => {
+    const { code, msg } = await account.checkPassword(pwd);
     if (code === '000000') {
-      onSuccess?.(password);
+      onSuccess?.(pwd);
       toast.success('验证成功');
       closeHandler();
     } else {
@@ -28,6 +31,16 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
   };
   const passwordChange = (e: any) => {
     setPassword(e.target.value);
+  };
+  const startBiometric = async () => {
+    window?.JsBridge.startBiometric(({ code, message, data }: any) => {
+      if (code === 0) {
+        toast.success('解锁成功');
+        verifyPassword(data);
+      } else {
+        toast.error(message);
+      }
+    });
   };
   useEffect(() => {
     setShowModal(show);
@@ -46,19 +59,26 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
         </Text>
       </Modal.Header>
       <Modal.Body>
-        <Input.Password
-          clearable
-          bordered
-          fullWidth
-          maxLength={6}
-          aria-label='密码'
-          color='primary'
-          size='lg'
-          value={password}
-          onChange={passwordChange}
-          placeholder='密码'
-          contentLeft={<div className='i-mdi-shield-outline color-current' />}
-        />
+        <div className='flex items-center'>
+          <Input.Password
+            clearable
+            bordered
+            fullWidth
+            maxLength={6}
+            aria-label='密码'
+            color='primary'
+            size='lg'
+            value={password}
+            onChange={passwordChange}
+            placeholder='密码'
+            contentLeft={<div className='i-mdi-shield-outline color-current' />}
+          />
+          <Image
+            onClick={startBiometric}
+            src='/figer.png'
+            className='w-10 h-10 cursor-pointer ml-4'
+          />
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>

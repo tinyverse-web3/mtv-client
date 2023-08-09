@@ -10,10 +10,19 @@ import { ValidPassword } from '@/components/ValidPassword';
 
 export default function MultiVerify() {
   const nav = useNavigate();
-  const [showPasswordStatus, setShowPasswordStatus] = useState(false);
+  const [type, setType] = useState(0);
+  const [showPasswordStatus, setShowPasswordStatus] = useState(true);
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
-  const validPasswordSuccess = (password: string) => {};
+  const validPasswordSuccess = (password: string) => {
+    if (type === 1) {
+      toPharse();
+    } else if (type === 2) {
+      toProtector();
+    } else if (type === 3) {
+      toQuestion();
+    }
+  };
   const toPharse = async () => {
     if (!accountInfo.hasFeatureData) {
       toast('请先设置加密保险箱');
@@ -23,6 +32,17 @@ export default function MultiVerify() {
     // if (loginStatus) {
     nav(ROUTE_PATH.ACCOUNT_PHRASE);
     // }·
+  };
+  const toProtector = async () => {
+    if (!accountInfo.hasFeatureData) {
+      toast('请先设置加密保险箱');
+      return;
+    }
+    const loginStatus = await useCheckLogin();
+    console.log('loginStatus', loginStatus);
+    if (loginStatus) {
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+    }
   };
   const toQuestion = async () => {
     if (!accountInfo.hasFeatureData) {
@@ -34,21 +54,29 @@ export default function MultiVerify() {
       nav(ROUTE_PATH.ACCOUNT_QUESTION);
     }
   };
+  const showVerifyPassword = (type: 1 | 2 | 3) => {
+    setShowPasswordStatus(true);
+    setType(type);
+  };
   return (
     <LayoutThird showBack title='恢复途径'>
       <div className='p-4'>
         <ListRow
           label='备份助记词'
           value={accountInfo.maintainPhrase ? '已备份' : ''}
-          onPress={toPharse}
+          onPress={() => showVerifyPassword(1)}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
           助记词非常重要，请妥善保管，注意不使用联网工具备份。
         </div>
+        <ListRow label='守护者' onPress={() => showVerifyPassword(2)} />
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+          采用2/2的SSS方案，一块加密保存在DAuth上，一块加密保存在DKVS上。分片数据需要通过保险箱保存。
+        </div>
         <ListRow
           label='智能隐私备份'
           value={accountInfo.maintainQuestion ? '已备份' : ''}
-          onPress={toQuestion}
+          onPress={() => showVerifyPassword(3)}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 text-[14px]'>
           智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。
