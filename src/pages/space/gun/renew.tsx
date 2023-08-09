@@ -53,13 +53,13 @@ export default function GunRenew() {
     let validTime: Date = new Date(detail.expired);
     switch (selectedValid) {
       case '0':
-        validTime = add(new Date(), { years: 1 });
+        validTime = add(validTime, { years: 1 });
         break;
       case '1':
-        validTime = add(new Date(), { years: 2 });
+        validTime = add(validTime, { years: 2 });
         break;
       case '2':
-        validTime = add(new Date(), { years: 2 });
+        validTime = add(validTime, { years: 2 });
         break;
     }
     console.log('validTime = ', validTime);
