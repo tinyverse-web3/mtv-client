@@ -77,7 +77,7 @@ export default function UserScan() {
       const type = searchParams.get('type') as any;
       const value = searchParams.get('value');
       if (Number(type) === QrType.ADD_FRIEND && value) {
-        await account.createContact(value);
+        await account.createContactByMasterKey(value);
         toast.success('添加好友成功');
       } else {
         toast.success('没有得到任何结果');

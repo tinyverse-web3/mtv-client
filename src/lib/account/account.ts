@@ -637,8 +637,12 @@ export class Account {
     const res = await this.dauth.getContacts();
     return res.data.data;
   }
-  async createContact(destPubkey: string) {
-    const res = await this.dauth.createContact({ destPubkey });
+  async createContactByMasterKey(destPubkey: string) {
+    const res = await this.dauth.createContactByMasterKey({ destPubkey });
+    return res.data;
+  }
+  async createContactByWalletKey(destPubkey: string) {
+    const res = await this.dauth.createContactByWalletKey({ destPubkey });
     return res.data;
   }
   async delContact(destPubkey: string) {

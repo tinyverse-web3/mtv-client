@@ -68,7 +68,7 @@ export default function detailPage() {
   console.log(isOwner);
   const addOwner = async () => {
     if (detail?.owner) {
-      const { code, msg, data } = await account.createContact(detail?.owner);
+      const { code, msg, data } = await account.createContactByWalletKey(detail?.owner);
       if (code === '000000') {
         toast.success('添加好友成功');
       } else {

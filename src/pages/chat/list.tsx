@@ -56,7 +56,7 @@ export default function ChatList() {
       toast('请输入对方公钥或者GUN名称');
       return;
     }
-    const { code, msg } = await account.createContact(searchText);
+    const { code, msg } = await account.createContactByMasterKey(searchText);
 
     if (code === '000000') {
       toast.success('添加好友成功');

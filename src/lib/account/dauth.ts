@@ -730,9 +730,17 @@ export class Dauth {
   /**
    * 获取联系人列表
    */
-  async createContact({ destPubkey }: any) {
+  async createContactByMasterKey({ destPubkey }: any) {
     return this.invoke({
-      name: 'msg/createContact',
+      name: 'msg/createContactByMasterKey',
+      data: {
+        DestPubkey: destPubkey,
+      },
+    });
+  }
+  async createContactByWalletKey({ destPubkey }: any) {
+    return this.invoke({
+      name: 'msg/createContactByWalletKey',
       data: {
         DestPubkey: destPubkey,
       },
