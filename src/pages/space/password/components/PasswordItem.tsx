@@ -51,7 +51,7 @@ export default function PasswordItem({ item, toDetail }: any) {
   return (
     <div className='border-b-gray-200 relative border-b-solid border-b py-2'>
       <div
-        className='i-mdi-close absolute right-2 top-6 -translate-1/2 w-6 h-6 text-red'
+        className='i-mdi-trash-can-outline absolute right-2 top-6 -translate-1/2 w-6 h-6 text-red'
         onClick={(e) => showDelModal(e, item?.Id)}></div>
       <div className='text-4 font-600 mb-1'>{item.Title}</div>
       <div className='flex text-3 mb-2'>

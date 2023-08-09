@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
-import { text } from 'stream/consumers';
+import { Image } from '@nextui-org/react';
 const MenuItem = ({ text, icon, onClick }: any) => {
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
@@ -94,30 +96,8 @@ export default function SpaceIndex() {
     },
     {
       icon: 'icon-point.png',
-      label: '获得每日积分',
-      type: 'function',
-      async handler() {
-        console.log(1);
-        const { code, data, msg } = await account.applyDailyReward();
-        if (code === '000000') {
-          toast.success('领取成功');
-        } else {
-          toast.error(msg);
-        }
-      },
-    },
-    {
-      icon: 'icon-point.png',
-      label: '获得积分',
-      type: 'function',
-      async handler() {
-        const { code, data, msg } = await account.applyGuardianReward();
-        if (code === '000000') {
-          toast.success('领取成功');
-        } else {
-          toast.error(msg);
-        }
-      },
+      label: '获取积分',
+      path: ROUTE_PATH.ACCOUNT_AWARD,
     },
   ];
   const menuClick = ({ path, url, label, type, handler }: any) => {
@@ -132,14 +112,43 @@ export default function SpaceIndex() {
       toast('即将发布');
     }
   };
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
+  const { accountInfo } = useAccountStore((state) => state);
+  const imageSrc = useMemo(() => {
+    return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
+  }, [accountInfo.avatar]);
 
+  const toAccount = () => {
+    nav(ROUTE_PATH.ACCOUNT);
+  };
+
+  const toScan = () => {
+    nav(ROUTE_PATH.ACCOUNT_SCAN);
+  };
   return (
-    <div className='grid grid-cols-3 gap-6 justify-items-center pt-10'>
-      {list.map((v) => (
-        <div key={v.label} className=''>
-          <MenuItem text={v.label} icon={v.icon} onClick={() => menuClick(v)} />
+    <div className='p-6'>
+      <div className='flex justify-between mb-6'>
+        <div className='flex items-center  cursor-pointer ' onClick={toAccount}>
+          <Image src={imageSrc} className='w-8 h-8 rounded-full mr-4' />
+          <span className='text-blue-5'>My Tiny Verse</span>
         </div>
-      ))}
+        <div
+          className='i-mdi-line-scan text-7  cursor-pointer text-blue-5'
+          onClick={toScan}></div>
+      </div>
+
+      <div className='grid grid-cols-3 gap-6 justify-items-center'>
+        {list.map((v) => (
+          <div key={v.label} className=''>
+            <MenuItem
+              text={v.label}
+              icon={v.icon}
+              onClick={() => menuClick(v)}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

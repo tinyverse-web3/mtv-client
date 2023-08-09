@@ -58,7 +58,7 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2 relative'>
       <div
-        className='i-mdi-close absolute right-1 top-2 w-6 h-6 text-red'
+        className='i-mdi-trash-can-outline absolute right-1 top-2 w-6 h-6 text-red'
         onClick={(e) => showDelModal(e, item?.Filename)}></div>
       <div
         className='i-mdi-box-download absolute right-1 bottom-1 w-6 h-6 text-blue'

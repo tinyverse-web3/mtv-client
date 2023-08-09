@@ -11,20 +11,27 @@ import AccountQuestionVerify from '@/pages/account/questionVerify';
 import AccountQuestionVerifyResult from '@/pages/account/questionVerifyResult';
 import AccountProtector from '@/pages/account/protector';
 import AccountProtectorAdd from '@/pages/account/protectorAdd';
+import AccountAward from '@/pages/account/award';
 import PrivateData from '@/pages/account/privateData';
 
 import ChangePwd from '@/pages/account/changePwd';
+import AccountLocalSafe from '@/pages/account/localSafe';
+import AccountMultiVerify from '@/pages/account/multiVerify';
+import AccountRestory from '@/pages/account/restory';
 import Profile from '@/pages/account/profile';
 import SubAccountList from '@/pages/account/subAccount/list';
 import SubAccountEdit from '@/pages/account/subAccount/edit';
 
 export const ROUTE_PATH_ACCOUNT = {
-  
   ACCOUNT_NAME: '/account/name',
   ACCOUNT_CHANGE_PWD: '/account/changePwd',
+  ACCOUNT_LOCAL_SAFE: '/account/safe/local',
+  ACCOUNT_RESTORY: '/account/safe/restory',
+  ACCOUNT_MULTI_VERIFY: '/account/safe/multi',
   ACCOUNT_QRCODE: '/account/qrcode',
   ACCOUNT_PUBLICKEY: '/account/publickey',
   ACCOUNT_SCAN: '/account/scan',
+  ACCOUNT_AWARD: '/account/award',
   ACCOUNT_PROFILE: '/account/profile',
   ACCOUNT_PHRASE: '/account/phrase',
   ACCOUNT_PHRASE_VERIFY: '/account/phrase/verify',
@@ -40,10 +47,21 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_SUBACCOUNT_EDIT: '/account/subAccount/edit',
 };
 export const accountRoutes: RouteObject[] = [
-  
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_CHANGE_PWD,
     element: <ChangePwd />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_LOCAL_SAFE,
+    element: <AccountLocalSafe />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_RESTORY,
+    element: <AccountRestory />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_MULTI_VERIFY,
+    element: <AccountMultiVerify />,
   },
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_PRIVATEDATA,
@@ -108,5 +126,9 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_SUBACCOUNT_EDIT,
     element: <SubAccountEdit />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_AWARD,
+    element: <AccountAward />,
   },
 ];

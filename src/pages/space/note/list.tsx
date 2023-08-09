@@ -63,7 +63,7 @@ export default function NoteList() {
                 )}
               </div>
               <div
-                className='i-mdi-close absolute right-2 top-1/2 -translate-1/2 w-6 h-6 text-red'
+                className='i-mdi-trash-can-outline absolute right-2 top-1/2 -translate-1/2 w-6 h-6 text-red'
                 onClick={(e) => removeItem(e, item?.Id)}></div>
             </div>
           ))

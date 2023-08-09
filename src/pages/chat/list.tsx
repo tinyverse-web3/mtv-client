@@ -52,6 +52,9 @@ export default function ChatList() {
   };
 
   const toSender = async () => {
+    if (!searchText) {
+      toast('请对方公钥或者GUN名称');
+    }
     const { code, msg } = await account.createContact(searchText);
 
     if (code === '000000') {
@@ -118,8 +121,8 @@ export default function ChatList() {
     getContacts();
   }, 2000);
   return (
-    <div className='p-6'>
-      <div className='flex items-center'>
+    <div className='p-4'>
+      <div className='flex items-center mb-4'>
         <div className='flex-1'>
           <Input
             value={searchText}
@@ -129,39 +132,33 @@ export default function ChatList() {
             fullWidth
             clearable
             onKeyUp={searchHandler}
-            placeholder='对方公钥'
+            placeholder='公钥/GUN'
           />
         </div>
-        <NextButton
-          auto
-          flat
-          size='xs'
-          className='ml-4 h-10'
-          onPress={toSender}>
-          添加联系人
-        </NextButton>
+        <div
+          className='i-mdi-account-search-outline ml-4 w-7 h-7 text-blue-5'
+          onClick={toSender}></div>
       </div>
       <div>
         {friendList?.filter(Boolean).map((item: any) => (
           <div
-            className='flex h-22 items-center px-4 border-b border-b-solid border-b-gray-200 cursor-pointer'
+            className='flex h-16 items-center px-4 cursor-pointer rounded-full bg-gray-1'
             key={item.DAuthKey}
             onClick={() => toDetail(item)}>
-            <Image
-              src={item.imgCid || '/logo.png'}
-              className='mr-6 w-12 h-12'
-            />
+            <Image src={item.imgCid || '/logo.png'} className='mr-6 w-8 h-8' />
             <div className='flex-1'>
               <div className='flex justify-between items-center mb-2'>
                 <span>{renderName(item)}</span>
+              </div>
+              <div className='flex justify-between items-center'>
+                <div className='text-12px'>{item.LastMessage}</div>
                 <span className='text-12px'>
                   {formatTime(item.LastMsgTime)}
                 </span>
               </div>
-              <div className='text-12px'>{item.LastMessage}</div>
             </div>
             <div
-              className='i-mdi-close ml-4 w-6 h-6 text-red'
+              className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
               onClick={(e) => showDelModal(e, item?.DAuthKey)}></div>
           </div>
         ))}
