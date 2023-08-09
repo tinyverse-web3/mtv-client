@@ -66,9 +66,11 @@ export default function AssetsIndex() {
               </div>
             ))}
           </div>
-          <div
-            onClick={toAdd}
-            className='i-mdi-plus-circle-outline text-5'></div>
+          {assetsType === 'NFT' && (
+            <div
+              onClick={toAdd}
+              className='i-mdi-plus-circle-outline text-5'></div>
+          )}
         </div>
 
         <div>
