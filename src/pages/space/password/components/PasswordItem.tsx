@@ -9,7 +9,7 @@ import { DelConfirmModel } from '@/components/DelConfirmModel';
 
 export default function PasswordItem({ item, toDetail }: any) {
   const [showPassword, setShowPassword] = useState(false);
-  const [showStatus, setShowStatus] = useState(false);
+  
   const [showDelStatus, setShowDelStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
   const { remove } = usePasswordStore((state) => state);
@@ -17,11 +17,12 @@ export default function PasswordItem({ item, toDetail }: any) {
     return item.Password.replace(/./g, '*');
   }, [item.Passowrd]);
   const showPasswordModal = () => {
-    if (!showPassword) {
-      setShowStatus(true);
-    } else {
-      setShowPassword(false);
-    }
+    setShowPassword(!showPassword);
+    // if (!showPassword) {
+    //   setShowStatus(true);
+    // } else {
+    //   setShowPassword(false);
+    // }
   };
   const [_, copyToClipboard] = useCopyToClipboard();
   const copy = (text: string) => {
@@ -29,12 +30,7 @@ export default function PasswordItem({ item, toDetail }: any) {
     copyToClipboard(text);
     toast.success('复制成功');
   };
-  const modalClose = () => {
-    setShowStatus(false);
-  };
-  const passwordConfirm = async () => {
-      setShowPassword(true);
-  };
+  
   const showDelModal = async (e: any, Filename?: string) => {
     e.stopPropagation();
     if (Filename) {
@@ -46,7 +42,7 @@ export default function PasswordItem({ item, toDetail }: any) {
     await remove(delItem);
   };
   const onClose = async () => {
-    setShowStatus(false);
+    setShowDelStatus(false);
   };
   return (
     <div className='border-b-gray-200 relative border-b-solid border-b py-2'>
@@ -98,11 +94,7 @@ export default function PasswordItem({ item, toDetail }: any) {
           复制网址
         </NextButton>
       </div>
-      <ValidPassword
-        show={showStatus}
-        onSuccess={passwordConfirm}
-        onClose={modalClose}
-      />
+      
       <DelConfirmModel
         text='密码本'
         show={showDelStatus}

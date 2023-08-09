@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Image, Button as NextButton, Card } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import LayoutThird from '@/layout/LayoutThird';
@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 import { CopyIcon } from '@/components/CopyIcon';
 import account from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
+import { QrType } from '@/type';
 
 const Profile: React.FC = () => {
   const nav = useNavigate();
@@ -30,11 +31,16 @@ const Profile: React.FC = () => {
       toast.error(msg);
     }
   };
+  const qrcodeValue = useMemo(() => {
+    if (!accountInfo.publicKey) return '';
+    return `type=${QrType.ADD_FRIEND}&value=${accountInfo.publicKey}`
+  }, [accountInfo.publicKey]);
   useEffect(() => {
     if (accountInfo.publicKey) {
       getProfile();
     }
   }, [accountInfo.publicKey]);
+  
   return (
     <LayoutThird title='我的名片'>
       <div className='p-4'>
@@ -104,7 +110,7 @@ const Profile: React.FC = () => {
         <Card>
           <Card.Body className='break-all text-2'>
             <div className='text-center'>
-              <QRCodeCanvas value={profile.publickey} size={200} />
+              <QRCodeCanvas value={qrcodeValue} size={200} />
               <div className='mt-2'>扫描二维码，加我为好友。</div>
             </div>
           </Card.Body>

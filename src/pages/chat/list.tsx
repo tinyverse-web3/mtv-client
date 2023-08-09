@@ -78,8 +78,8 @@ export default function ChatList() {
     copyToClipboard(link);
   };
 
-  const removeItem = async (pk: string) => {
-    const { code, msg } = await account.delContact(pk);
+  const removeItem = async ({ MessageKey }: any) => {
+    const { code, msg } = await account.delContact(MessageKey);
     if (code === '000000') {
       toast.success('删除成功');
       getContacts();
@@ -100,11 +100,10 @@ export default function ChatList() {
     }
     return format(new Date(time), 'HH:mm');
   };
-  const showDelModal = async (e: any, pk?: string) => {
+  const showDelModal = async (e: any, item?: any) => {
     e.stopPropagation();
-    console.log(pk);
-    if (pk) {
-      setDelItem(pk);
+    if (item) {
+      setDelItem(item);
       setShowStatus(true);
     }
   };
@@ -143,7 +142,7 @@ export default function ChatList() {
       <div>
         {friendList?.filter(Boolean).map((item: any) => (
           <div
-            className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1'
+            className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1 mb-2'
             key={item.DAuthKey}
             onClick={() => toDetail(item)}>
             <Image src={item.imgCid || '/logo.png'} className='mr-6 w-8 h-8' />
@@ -158,11 +157,9 @@ export default function ChatList() {
                 </span>
               </div>
             </div>
-            {item?.DAuthKey && (
-              <div
-                className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
-                onClick={(e) => showDelModal(e)}></div>
-            )}
+            <div
+              className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
+              onClick={(e) => showDelModal(e, item)}></div>
           </div>
         ))}
         <DelConfirmModel

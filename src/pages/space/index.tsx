@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
+import { ValidPassword } from '@/components/ValidPassword';
 import { Image } from '@nextui-org/react';
 const MenuItem = ({ text, icon, onClick }: any) => {
   const imageChange = async (e: any) => {
@@ -39,7 +40,6 @@ const MenuItem = ({ text, icon, onClick }: any) => {
             src={`/space/${icon}`}></img>
         )}
       </div>
-
       <span>{text}</span>
     </div>
   );
@@ -69,7 +69,10 @@ export default function SpaceIndex() {
     {
       icon: 'icon-password.png',
       label: '密码箱',
-      path: ROUTE_PATH.SPACE_PASSWORD,
+      type: 'function',
+      handler: () => {
+        setShowStatus(true);
+      },
     },
     {
       icon: 'icon-gun.png',
@@ -100,6 +103,7 @@ export default function SpaceIndex() {
       path: ROUTE_PATH.ACCOUNT_AWARD,
     },
   ];
+  const [showStatus, setShowStatus] = useState(false);
   const menuClick = ({ path, url, label, type, handler }: any) => {
     console.log(label);
     if (type === 'function') {
@@ -112,6 +116,7 @@ export default function SpaceIndex() {
       toast('即将发布');
     }
   };
+
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
@@ -125,6 +130,12 @@ export default function SpaceIndex() {
 
   const toScan = () => {
     nav(ROUTE_PATH.ACCOUNT_SCAN);
+  };
+  const modalClose = () => {
+    setShowStatus(false);
+  };
+  const validSuccess = () => {
+    nav(ROUTE_PATH.SPACE_PASSWORD);
   };
   return (
     <div className='p-6'>
@@ -149,6 +160,11 @@ export default function SpaceIndex() {
           </div>
         ))}
       </div>
+      <ValidPassword
+        show={showStatus}
+        onSuccess={validSuccess}
+        onClose={modalClose}
+      />
     </div>
   );
 }

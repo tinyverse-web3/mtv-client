@@ -17,10 +17,25 @@ export default function MultiVerify() {
   const toPrivateData = async () => {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
   };
-  const validPasswordSuccess = (password: string) => {
-    toPrivateData();
+  const toProtector = async () => {
+    if (!accountInfo.hasFeatureData) {
+      toast('请先设置加密保险箱');
+      return;
+    }
+    const loginStatus = await useCheckLogin();
+    console.log('loginStatus', loginStatus);
+    if (loginStatus) {
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+    }
   };
-  const showVerifyPassword = (type: 1) => {
+  const validPasswordSuccess = (password: string) => {
+    if (type === 1) {
+      toPrivateData();
+    } else if (type === 2) {
+      toProtector();
+    }
+  };
+  const showVerifyPassword = (type: 1 | 2) => {
     setShowPasswordStatus(true);
     setType(type);
   };
@@ -28,6 +43,7 @@ export default function MultiVerify() {
     <LayoutThird showBack title='多因素验证'>
       <div className='p-4'>
         <ListRow label='加密保险箱' onPress={() => showVerifyPassword(1)} />
+        <ListRow label='守护者' onPress={() => showVerifyPassword(2)} />
       </div>
       <ValidPassword
         onSuccess={validPasswordSuccess}

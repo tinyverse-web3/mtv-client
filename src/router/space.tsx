@@ -4,7 +4,7 @@ import SpaceAuthenticator from '@/pages/space/authenticator';
 import SpaceAuthenticatorAdd from '@/pages/space/authenticator/add';
 import NoteEdit from '@/pages/space/note/edit';
 import Note from '@/pages/space/note/list';
-import PasswordList from '@/pages/space/password/list';
+import PasswordList from '@/pages/space/list';
 import PasswordAdd from '@/pages/space/password/add';
 import Album from '@/pages/space/album/list';
 import FileIndex from '@/pages/space/file/list';

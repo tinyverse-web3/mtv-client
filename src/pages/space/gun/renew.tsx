@@ -59,7 +59,7 @@ export default function GunRenew() {
         validTime = add(validTime, { years: 2 });
         break;
       case '2':
-        validTime = add(validTime, { years: 2 });
+        validTime = add(validTime, { years: 3 });
         break;
     }
     console.log('validTime = ', validTime);
