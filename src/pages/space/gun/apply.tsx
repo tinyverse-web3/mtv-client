@@ -97,7 +97,7 @@ export default function GunRenew() {
   const disabled = useMemo(() => {
     console.log(nameValid);
     console.log(gunname);
-    return gunname.length <= 8;
+    return gunname.length < 8;
   }, [gunname, nameValid]);
 
   return (
