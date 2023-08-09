@@ -4,6 +4,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useChatStore, useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
+import { CopyIcon } from '@/components/CopyIcon';
 import account from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,31 +50,49 @@ const Profile: React.FC = () => {
                     <div className='mb-2'>GUN</div>
                     <Card>
                       <Card.Body className='break-all text-2 p-2'>
-                        {profile.gunname || '未设置'}
+                        <div>{profile.gunname || '未设置'}</div>
                       </Card.Body>
                     </Card>
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>公钥</div>
                     <Card>
-                      <Card.Body className='break-all text-2 p-2'>
-                        {profile.publickey}
+                      <Card.Body className='p-2'>
+                        <div className='flex items-center'>
+                          <div className='break-all text-2 flex-1'>
+                            {profile.publickey}
+                          </div>
+                          <CopyIcon text={profile.publickey} className='ml-4' />
+                        </div>
                       </Card.Body>
                     </Card>
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>消息公钥</div>
                     <Card>
-                      <Card.Body className='break-all text-2 p-2'>
-                        {profile.messagekey}
+                      <Card.Body className='p-2'>
+                        <div className='flex items-center'>
+                          <div className='break-all text-2 flex-1'>
+                            {profile.messagekey}
+                          </div>
+                          <CopyIcon
+                            text={profile.messagekey}
+                            className='ml-4'
+                          />
+                        </div>
                       </Card.Body>
                     </Card>
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>钱包公钥</div>
                     <Card>
-                      <Card.Body className='break-all text-2 p-2'>
-                        {profile.walletkey}
+                      <Card.Body className='p-2'>
+                        <div className='flex items-center'>
+                          <div className='break-all text-2 flex-1'>
+                            {profile.walletkey}
+                          </div>
+                          <CopyIcon text={profile.walletkey} className='ml-4' />
+                        </div>
                       </Card.Body>
                     </Card>
                   </div>
