@@ -29,7 +29,7 @@ export default function NetworIndex() {
     if (!ipfs) return {};
     return {
       type: 'ipfs',
-      totalSpace: 1024 * 1024,
+      totalSpace: 1024 * 1024 * 100,
       used: ipfs.UsedSpace,
       total: 20,
       usedItem: ipfs.totalItem,
