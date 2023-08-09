@@ -53,7 +53,7 @@ const FooterTabs = () => {
         </div>
       ))}
       <div
-        className='w-[25%] absolute h-full bg-gray-4 rounded-6 z-1 transition duration-300'
+        className='w-[25%] absolute h-full bg-blue-4 rounded-6 z-1 transition duration-300'
         style={{ transform: `translateX(${100 * active}%)` }}></div>
     </div>
   );
