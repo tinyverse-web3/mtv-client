@@ -75,7 +75,7 @@ export default function QuestionFeature() {
           value={text}
           className='h-50px mb-6'
           onChange={onChange}
-          placeholder='输入口令'
+          placeholder='身份证/社会保险号码/手机号码'
           initialValue=''
         />
         <Input
