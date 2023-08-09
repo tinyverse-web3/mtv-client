@@ -102,6 +102,7 @@ export default function ChatList() {
   };
   const showDelModal = async (e: any, pk?: string) => {
     e.stopPropagation();
+    console.log(pk);
     if (pk) {
       setDelItem(pk);
       setShowStatus(true);
@@ -157,9 +158,11 @@ export default function ChatList() {
                 </span>
               </div>
             </div>
-            <div
-              className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
-              onClick={(e) => showDelModal(e, item?.DAuthKey)}></div>
+            {item?.DAuthKey && (
+              <div
+                className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
+                onClick={(e) => showDelModal(e)}></div>
+            )}
           </div>
         ))}
         <DelConfirmModel
