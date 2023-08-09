@@ -49,7 +49,7 @@ export default function SpaceIndex() {
   const list = [
     {
       icon: 'icon-note.png',
-      label: '记事本',
+      label: '日记本',
       path: ROUTE_PATH.NOTE,
     },
     {

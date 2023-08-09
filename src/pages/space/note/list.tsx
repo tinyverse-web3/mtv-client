@@ -38,7 +38,7 @@ export default function NoteList() {
   }, []);
   return (
     <LayoutThird
-      title='记事本'
+      title='日记本'
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
@@ -72,7 +72,7 @@ export default function NoteList() {
         )}
       </div>
       <DelConfirmModel
-        text='记事本'
+        text='日记本'
         show={showStatus}
         onConfirm={delConfirm}
         onClose={onClose}

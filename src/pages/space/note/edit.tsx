@@ -46,14 +46,14 @@ export default function Edit() {
       getDetail(id);
   }, [id]);
   return (
-    <LayoutThird title='记事本'>
+    <LayoutThird title='日记本'>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Textarea
             value={note}
             maxLength={300}
             onChange={noteChange}
-            placeholder='记事本内容'
+            placeholder='日记本内容'
           />
         </Row>
         <Row className='' justify='center'>
