@@ -143,7 +143,7 @@ export default function ChatList() {
       <div>
         {friendList?.filter(Boolean).map((item: any) => (
           <div
-            className='flex h-16 items-center px-4 cursor-pointer rounded-full bg-gray-1'
+            className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1'
             key={item.DAuthKey}
             onClick={() => toDetail(item)}>
             <Image src={item.imgCid || '/logo.png'} className='mr-6 w-8 h-8' />
