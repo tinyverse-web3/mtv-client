@@ -622,7 +622,7 @@ export class Dauth {
   }
   async uploadAvatar({ file }: { file: File }) {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('File', file);
     return this.invoke({
       name: 'uploadAvatar',
       method: 'post',

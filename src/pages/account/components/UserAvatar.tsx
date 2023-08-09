@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useAccountStore } from '@/store';
-import { Image, Badge } from '@nextui-org/react';import account from '@/lib/account/account';
+import { Image, Badge } from '@nextui-org/react';
+import account from '@/lib/account/account';
+import { toast } from 'react-hot-toast';
 interface Props {
   className?: string;
 }
@@ -12,8 +14,13 @@ export const UserAvatar = ({ className }: Props) => {
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
-    await account.updateAvatar({ file: image });
-    await getLocalAccountInfo();
+    const { code, msg } = await account.updateAvatar({ file: image });
+    if (code === '000000') {
+      toast.success('头像上传成功');
+      await getLocalAccountInfo();
+    } else {
+      toast.error(msg);
+    }
   };
   const imageSrc = useMemo(() => {
     return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';

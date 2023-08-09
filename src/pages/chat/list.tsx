@@ -64,7 +64,6 @@ export default function ChatList() {
       toast.error(msg || '添加好友失败');
     }
     setSearchText('');
-    // await toDetail({ DAuthKey: searchText });
   };
   const toDetail = async (item: any) => {
     await setRecipient(item);

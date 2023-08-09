@@ -549,7 +549,7 @@ export class Account {
     const res = await this.dauth.uploadAvatar({
       file,
     });
-    return res;
+    return res.data;
   }
   async uploadFile({
     file,
