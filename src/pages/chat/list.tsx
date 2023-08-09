@@ -53,7 +53,8 @@ export default function ChatList() {
 
   const toSender = async () => {
     if (!searchText) {
-      toast('请对方公钥或者GUN名称');
+      toast('请输入对方公钥或者GUN名称');
+      return;
     }
     const { code, msg } = await account.createContact(searchText);
 
