@@ -17,6 +17,7 @@ export const SendEmail = ({ content }: Props) => {
 
   const closeHandler = () => {
     setVisible(false);
+    document.body.removeAttribute('style');
     console.log('closed');
   };
   const sendHandler = () => {

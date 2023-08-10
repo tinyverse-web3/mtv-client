@@ -21,6 +21,7 @@ export const BindMail = () => {
     setVerifyCode('');
     setShowLogin(false);
     setLoginLoading(false);
+    document.body.removeAttribute('style');
   };
   const loginHandler = async () => {
     if (!verifyCode) {

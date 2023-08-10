@@ -19,6 +19,7 @@ export const ConfirmDelModel = ({
   const closeHandler = () => {
     setShowModal(false);
     onClose?.();
+    document.body.removeAttribute('style');
   };
   const confirmHandler = async () => {
     await onConfirm();

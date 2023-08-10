@@ -55,6 +55,7 @@ export const VerifyMail = ({ visibly, onChange, onSubmit }: Props) => {
 
   const closeHandler = () => {
     onChange(false);
+    document.body.removeAttribute('style');
   };
   const loginHandler = async () => {
     if (!verifyCode) {

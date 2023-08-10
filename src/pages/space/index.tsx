@@ -126,7 +126,9 @@ export default function SpaceIndex() {
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
   const imageSrc = useMemo(() => {
-    return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
+    return accountInfo.avatar
+      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
+      : '/logo.png';
   }, [accountInfo.avatar]);
 
   const toAccount = () => {

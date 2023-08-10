@@ -14,6 +14,7 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
   const closeHandler = () => {
     setPassword('');
     onClose?.();
+    document.body.removeAttribute('style');
     setShowModal(false);
   };
   const confirmHandler = async () => {

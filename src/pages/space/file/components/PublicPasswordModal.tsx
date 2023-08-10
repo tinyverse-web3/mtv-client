@@ -20,7 +20,8 @@ export const PublicPasswordModal = ({
   const closeHandler = () => {
     setPassword('');
     setShowModal(false);
-    onClose?.()
+    onClose?.();
+    document.body.removeAttribute('style');
   };
   const confirmHandler = async () => {
     await onChange(password);

@@ -732,6 +732,10 @@ export class Account {
     const res = await this.dauth.mintNftFile({ file });
     return res.data;
   }
+  async mintNftText({ Name, Content, Description }: any) {
+    const res = await this.dauth.mintNftText({ Name, Content, Description });
+    return res.data;
+  }
   async getNftList() {
     const { data } = await this.dauth.getNftList();
     return data;

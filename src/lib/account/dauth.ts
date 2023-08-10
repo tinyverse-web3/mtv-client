@@ -589,6 +589,17 @@ export class Dauth {
       name: 'nft/getNfts',
     });
   }
+  async mintNftText({ Name, Content, Description }: any) {
+    return this.invoke({
+      method: 'post',
+      name: 'nft/mintText',
+      data: {
+        Name,
+        Content,
+        Description,
+      },
+    });
+  }
   async getNftDetail({ NftName }: any) {
     return this.invoke({
       name: 'nft/getNftDetail',
@@ -726,7 +737,7 @@ export class Dauth {
       },
     });
   }
-  
+
   /**
    * 获取联系人列表
    */
