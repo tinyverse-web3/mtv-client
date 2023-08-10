@@ -1,21 +1,20 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Card } from '@nextui-org/react';
+import { Card, Image } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import account from '@/lib/account/account';
 import { calcSize } from '@/lib/utils';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
-export default function NetworkDetail() {
+export default function NftDetail() {
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const [params] = useSearchParams();
-  const type = params.get('type');
   const id = params.get('id');
   const [detail, setDetail] = useState<any>({});
   const getDetail = async () => {
-    if (type && id) {
-      const { data, code } = await account.getDataDetail({
-        DataType: type,
-        Key: decodeURIComponent(id),
-      });
+    if (id) {
+      const { data, code } = await account.getNftDetail(id);
       if (code === '000000') {
         setDetail(data);
       }
@@ -27,78 +26,77 @@ export default function NetworkDetail() {
     }
     return 0;
   }, [detail.Size]);
+  const url = useMemo(() => {
+    return `${apiHost}/sdk/nft/getPicture?Cid=${detail.Cid}`;
+  }, [detail.Cid]);
   useEffect(() => {
     getDetail();
-  }, [type, id]);
+  }, [id]);
   return (
-    <LayoutThird>
+    <LayoutThird title='NFT详情'>
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>名称</div>
           <Card>
             <Card.Body>
               <div className='flex'>
-                <div className='text-2'>{detail.Name}</div>
+                <div className='text-2'>{detail.Nftname}</div>
               </div>
             </Card.Body>
           </Card>
         </div>
-        <div className='mb-4'>
-          <div className='mb-2'>CID</div>
-          <Card>
-            <Card.Body>
-              <div className='flex'>
-                <div className='text-2'>{detail.Cid}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className='mb-4'>
-          <div className='mb-2'>拥有者</div>
-          <Card>
-            <Card.Body>
-              <div className='flex'>
-                <div className='text-2'>{detail.Owner}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className='mb-4'>
-          <div className='mb-2'>大小</div>
-          <Card>
-            <Card.Body>
-              <div className='flex'>
-                <div className='text-2'>{sizeText}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className='mb-4'>
-          <div className='mb-2'>冗余度</div>
-          <Card>
-            <Card.Body>
-              <div className='flex justify-between'>
-                <div className='text-2'>156.251.179.110</div>
-                <div className='i-mdi-chevron-down-circle-outline'></div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className='mb-4'>
-          <div className='mb-2'>内容</div>
-          <Card>
-            <Card.Body>
-              <div className=''>
-                大漠烟孤飞长剑，长河日落几度圆。
-                沙场醉卧红旗裂，西风漫卷玉门关。
-                桃李春风人惯见。梧桐秋雨惹相思。
-                谁教竹斜难眠夜，两地沉吟一心知。
-                葡萄美酒人半醺，豪饮须当三千樽。
-                羌笛悠悠思杨柳，半至江南半入云。
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
+        {!!detail.Cid && (
+          <div className='mb-4'>
+            <div className='mb-2'>CID</div>
+            <Card>
+              <Card.Body>
+                <div className='flex'>
+                  <div className='text-2 break-all'>{detail.Cid}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        )}
+        {!!detail.Owner && (
+          <div className='mb-4'>
+            <div className='mb-2'>拥有者</div>
+            <Card>
+              <Card.Body>
+                <div className='flex'>
+                  <div className='text-2 break-all'>{detail.Owner}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        )}
+        {!!detail.Description && (
+          <div className='mb-4'>
+            <div className='mb-2'>描述</div>
+            <Card>
+              <Card.Body>
+                <div className='flex'>
+                  <div className='text-2 break-all'>{detail.Description}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        )}
+        {!!detail.DataType && (
+          <div className='mb-4'>
+            <div className='mb-2'>内容</div>
+            <div className='p-4'>
+              {detail.DataType?.indexOf('image') > -1 && (
+                <PhotoProvider>
+                  <div className='w-full'>
+                    <PhotoView src={url}>
+                      <Image src={url} className='w-full' objectFit='fill' />
+                    </PhotoView>
+                  </div>
+                </PhotoProvider>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </LayoutThird>
   );

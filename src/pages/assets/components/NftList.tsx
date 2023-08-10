@@ -27,9 +27,9 @@ export const NftList = () => {
     getList();
   }, []);
   return (
-    <div className='grid grid-cols-3 grid-gap-6'>
+    <div className=''>
       {list.map((item) => (
-        <AssetsNftItem icon={item.Cid} key={item.Cid} />
+        <AssetsNftItem item={item} key={item.Cid} />
       ))}
     </div>
   );

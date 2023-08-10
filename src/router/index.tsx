@@ -12,17 +12,8 @@ import ChatProfile from '@/pages/chat/profile';
 import Home from '@/pages/home';
 import Index from '@/pages/index';
 import AssetsIndex from '@/pages/assets';
-import AssetsNftAdd from '@/pages/assets/nft/add';
 import SpaceIndex from '@/pages/space';
 
-import Restore from '@/pages/restore';
-import RestorePhrase from '@/pages/restore/phrase';
-import RestorePhraseFeature from '@/pages/restore/phraseFeature';
-import RestoreProtector from '@/pages/restore/protector';
-import RestoreVerify from '@/pages/restore/verify';
-import RestoreQuestion from '@/pages/restore/question';
-import RestorePirvateData from '@/pages/restore/privateData';
-import RestoreQuestionFeature from '@/pages/restore/questionFeature';
 import Test from '@/pages/test';
 import AppTest from '@/pages/app';
 import Unlock from '@/pages/unlock';
@@ -31,6 +22,8 @@ import Retrieve from '@/pages/retrieve';
 
 import { spaceRoutes, ROUTE_PATH_SPACE } from './space';
 import { accountRoutes, ROUTE_PATH_ACCOUNT } from './account';
+import { assetsRoutes, ROUTE_PATH_ASSETS } from './assets';
+import { restoreRoutes, ROUTE_PATH_RESOTRE } from './restore';
 
 const resolveHashPath = (path: string) => {
   return `/#${path}`;
@@ -43,16 +36,9 @@ export const ROUTE_PATH = {
   CHAT_INDEX: '/home/chat',
   ASSETS_INDEX: '/home/assets',
   ACCOUNT: '/home/account',
-  ASSETS_NFT_ADD: '/assets/nft/add',
+  
   CREATE: '/create',
-  RESTORE: '/restore',
-  RESTORE_PHRASE: '/restore/phrase',
-  RESTORE_PHRASE_FEATURE: '/restore/phraseFeature',
-  RESTORE_PROTECTOR: '/restore/protector',
-  RESTORE_VERIFY: '/restore/verify',
-  RESTORE_QUESTION: '/restore/question',
-  RESTORE_PRIVATEDATA: '/restore/privateData',
-  RESTORE_QUESTION_FEATURE: '/restore/questionFeature',
+  
 
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
@@ -64,6 +50,8 @@ export const ROUTE_PATH = {
   CHAT_SHARE: '/chat/imShare',
   ...ROUTE_PATH_SPACE,
   ...ROUTE_PATH_ACCOUNT,
+  ...ROUTE_PATH_ASSETS,
+  ...ROUTE_PATH_RESOTRE,
 };
 const hashPath: any = {};
 Object.keys(ROUTE_PATH).forEach((k: any) => {
@@ -108,42 +96,8 @@ export const routes: RouteObject[] = [
         path: ROUTE_PATH.APP_TEST,
         element: <AppTest />,
       },
-      {
-        path: ROUTE_PATH.ASSETS_NFT_ADD,
-        element: <AssetsNftAdd />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE,
-        element: <Restore />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_PHRASE,
-        element: <RestorePhrase />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_PHRASE_FEATURE,
-        element: <RestorePhraseFeature />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_PROTECTOR,
-        element: <RestoreProtector />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_VERIFY,
-        element: <RestoreVerify />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_QUESTION,
-        element: <RestoreQuestion />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_PRIVATEDATA,
-        element: <RestorePirvateData />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_QUESTION_FEATURE,
-        element: <RestoreQuestionFeature />,
-      },
+      
+      
       {
         path: ROUTE_PATH.UNLOCK,
         element: <Unlock />,
@@ -175,8 +129,10 @@ export const routes: RouteObject[] = [
       },
       ...spaceRoutes,
       ...accountRoutes,
+      ...restoreRoutes,
+      ...assetsRoutes,
     ],
   },
 ];
-
+console.log(routes) 
 export const router = createHashRouter(routes);
