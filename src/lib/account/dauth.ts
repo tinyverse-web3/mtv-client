@@ -726,7 +726,7 @@ export class Dauth {
       },
     });
   }
-
+  
   /**
    * 获取联系人列表
    */
@@ -734,7 +734,7 @@ export class Dauth {
     return this.invoke({
       name: 'msg/createContactByMasterKey',
       data: {
-        DestWalletKey: destPubkey,
+        DestPubKey: destPubkey,
       },
     });
   }
