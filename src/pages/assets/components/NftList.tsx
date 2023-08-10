@@ -16,8 +16,9 @@ export const NftList = () => {
   ]);
   const getList = async () => {
     const { data, code } = await account.getNftList();
+    console.log(data);
     if (code === '000000') {
-      if (data?.length === 0) {
+      if (data?.length) {
         setList(data);
       }
     }

@@ -23,6 +23,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
   }, [messages]);
   const toProfile = async (item: any) => {
     if (item.isMe) {
+      nav(ROUTE_PATH.ACCOUNT_PROFILE)
       return;
     }
     nav(ROUTE_PATH.CHAT_PROFILE);

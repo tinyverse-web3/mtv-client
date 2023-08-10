@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useNoteStore, usePasswordStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
-import PasswordItem from './password/components/PasswordItem';
+import PasswordItem from './components/PasswordItem';
 import { Empty } from '@/components/Empty';
 
 export default function NoteList() {

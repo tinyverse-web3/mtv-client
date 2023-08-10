@@ -32,7 +32,7 @@ export default function NftAdd() {
     }
   };
   return (
-    <LayoutThird title='铸造NFT'>
+    <LayoutThird title='发行NFT'>
       <div className='p-4'>
         <div>
           <div className='flex mb-4'>

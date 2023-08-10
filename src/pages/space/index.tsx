@@ -102,6 +102,11 @@ export default function SpaceIndex() {
       label: '获取积分',
       path: ROUTE_PATH.ACCOUNT_AWARD,
     },
+    {
+      icon: 'icon-nft.png',
+      label: '发行NFT',
+      path: ROUTE_PATH.ASSETS_NFT_ADD,
+    },
   ];
   const [showStatus, setShowStatus] = useState(false);
   const menuClick = ({ path, url, label, type, handler }: any) => {
