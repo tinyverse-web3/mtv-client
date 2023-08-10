@@ -37,7 +37,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
           className={`mb-4 flex ${v.isMe ? 'flex-row-reverse' : ''}`}>
           <ProfileAvatar
             onClick={() => toProfile(v)}
-            text={v.name || v.publicKey.replace('0x', '')}
+            text={v.name}
             className={`px-0 ${v.isMe ? 'ml-2' : ''}`}
           />
           <Card className='max-w-60% w-fit'>

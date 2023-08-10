@@ -23,7 +23,7 @@ export const UserAvatar = ({ className }: Props) => {
     }
   };
   const imageSrc = useMemo(() => {
-    return accountInfo.avatar ? `${apiHost}/sdk/getAvatar` : '/logo.png';
+    return accountInfo.avatar ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}` : '/logo.png';
   }, [accountInfo.avatar]);
   return (
     <div className={`flex justify-center ${className}`}>

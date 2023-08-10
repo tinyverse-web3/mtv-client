@@ -71,7 +71,7 @@ export const useAccountStore = create<AccountState>()(
             hasFeatureData: localInfo.IsSetVault || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
-            avatar: localInfo.ImgCid,
+            avatar: localInfo.Avatar,
             isDefaultPwd: !localInfo.IsChangedPassword,
             safeLevel: localInfo.SafeLevel || 0,
           });

@@ -11,6 +11,8 @@ import { QrType } from '@/type';
 
 const Profile: React.FC = () => {
   const nav = useNavigate();
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
   const [profile, setProfile] = React.useState<any>({
     avatar: '',
@@ -33,14 +35,18 @@ const Profile: React.FC = () => {
   };
   const qrcodeValue = useMemo(() => {
     if (!accountInfo.publicKey) return '';
-    return `type=${QrType.ADD_FRIEND}&value=${accountInfo.publicKey}`
+    return `type=${QrType.ADD_FRIEND}&value=${accountInfo.publicKey}`;
   }, [accountInfo.publicKey]);
   useEffect(() => {
     if (accountInfo.publicKey) {
       getProfile();
     }
   }, [accountInfo.publicKey]);
-  
+  const imageSrc = useMemo(() => {
+    return accountInfo.avatar
+      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
+      : '/logo.png';
+  }, [accountInfo.avatar]);
   return (
     <LayoutThird title='我的名片'>
       <div className='p-4'>
@@ -49,7 +55,7 @@ const Profile: React.FC = () => {
             <Card.Body className='overflow-unset'>
               <div className='pt-10 relative px-2'>
                 <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-6'>
-                  <Image src='/logo.png' className='rounded w-full' />
+                  <Image src={imageSrc} className='rounded w-full' />
                 </div>
                 <div>
                   <div className='mb-4'>

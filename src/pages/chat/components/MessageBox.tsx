@@ -47,15 +47,27 @@ export const MessageBox = ({ recipient }: any) => {
     }
   };
   const list = useMemo(() => {
-    return [...allList].map((v) => ({
-      ...v,
-      publicKey:
-        v.Direction === 'to'
-          ? accountInfo.publicKey
-          : recipient.Alias || recipient.DAuthKey || recipient.MessageKey,
-      isMe: v.Direction === 'to',
-    }));
-  }, [allList]);
+    return [...allList].map((v) => {
+      const isMe = v.Direction === 'to';
+      const meName =
+        accountInfo.name ||
+        accountInfo.publicKey.substring(accountInfo.publicKey.length - 4);
+      const fromName =
+        recipient.Alias ||
+        recipient.DAuthKey?.substring(recipient.DAuthKey.length - 4) ||
+        recipient.MessageKey?.substring(recipient.MessageKey.length - 4);
+      const name = isMe ? meName : fromName;
+      return {
+        ...v,
+        publicKey:
+          v.Direction === 'to'
+            ? accountInfo.publicKey
+            : recipient.DAuthKey || recipient.MessageKey,
+        name: name,
+        isMe: v.Direction === 'to',
+      };
+    });
+  }, [allList, accountInfo.publicKey]);
   useInterval(
     () => {
       getMsgs();
