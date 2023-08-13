@@ -33,7 +33,7 @@ export default function ChatMessage() {
   }, [recipient]);
   console.log('recipient', recipient)
   return (
-    <LayoutThird className='h-full' title={fromName} path={ROUTE_PATH.CHAT_INDEX}>
+    <LayoutThird className='h-full' title={fromName}>
       {<MessageBox recipient={recipient} />}
     </LayoutThird>
   );

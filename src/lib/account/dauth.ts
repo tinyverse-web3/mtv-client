@@ -589,6 +589,18 @@ export class Dauth {
       name: 'nft/getNfts',
     });
   }
+  async transferPoint({ WalletAddr, Amount, Gas, Comment }: any) {
+    return this.invoke({
+      method: 'post',
+      name: 'transferScore',
+      data: {
+        WalletAddr,
+        Amount,
+        Gas,
+        Comment,
+      },
+    });
+  }
   async mintNftText({ Name, Content, Description }: any) {
     return this.invoke({
       method: 'post',

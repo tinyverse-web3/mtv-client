@@ -27,7 +27,6 @@ const Profile: React.FC = () => {
       accountInfo.publicKey,
     );
     if (code === '000000') {
-      console.log(data);
       setProfile(data);
     } else {
       toast.error(msg);

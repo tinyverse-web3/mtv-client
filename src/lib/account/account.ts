@@ -728,6 +728,16 @@ export class Account {
     const res = await this.dauth.getGunList();
     return res.data;
   }
+  async transferPoint({ WalletAddr, Amount, Gas, Comment }: any) {
+    const res = await this.dauth.transferPoint({
+      WalletAddr,
+      Amount,
+      Gas,
+      Comment,
+    });
+    return res.data;
+  }
+
   async mintNftFile(file: File) {
     const res = await this.dauth.mintNftFile({ file });
     return res.data;

@@ -44,6 +44,9 @@ export default function AssetsIndex() {
   const toAdd = () => {
     nav(ROUTE_PATH.ASSETS_NFT_ADD);
   };
+  const toTransfer = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER);
+  };
   return (
     <div>
       {/* <HeaderAccount /> */}
@@ -76,21 +79,24 @@ export default function AssetsIndex() {
         <div>
           {assetsType === 'token' ? (
             <>
-              <AssetsTokenItem
-                icon='/logo.png'
-                symbol='积分'
-                key='point'
-                balance={pointBalance}
-              />
-              {list.map((item) => (
+              <div className='mb-20'>
                 <AssetsTokenItem
-                  icon={item.icon}
-                  symbol={item.symbol}
-                  key={item.symbol}
-                  balance={item.balance}
-                  dollar={item.dollar}
+                  icon='/logo.png'
+                  symbol='积分'
+                  key='point'
+                  balance={pointBalance}
                 />
-              ))}
+                {list.map((item) => (
+                  <AssetsTokenItem
+                    icon={item.icon}
+                    symbol={item.symbol}
+                    key={item.symbol}
+                    balance={item.balance}
+                    dollar={item.dollar}
+                  />
+                ))}
+              </div>
+              <Button onClick={toTransfer} className="mx-auto">转账</Button>
             </>
           ) : (
             <div>
