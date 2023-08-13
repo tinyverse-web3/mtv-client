@@ -6,12 +6,12 @@ import LayoutThird from '@/layout/LayoutThird';
 import { Text, Container, Row, Button } from '@nextui-org/react';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
+import { toast } from 'react-hot-toast';
 
 export default function Edit() {
   const nav = useNavigate();
   const [name, setName] = useState('');
   const [key, setKey] = useState('');
-  
 
   const types = [
     {
@@ -30,7 +30,17 @@ export default function Edit() {
     setKey(e?.trim());
   };
 
-  const addNote = async () => {};
+  const add = async () => {
+    const { code, msg } = await account.addAuthenticator({
+      Account: name,
+      Secret: key,
+    });
+    if (code === '000000') {
+      toast.success('添加成功');
+    } else {
+      toast.error(msg);
+    }
+  };
   return (
     <LayoutThird title='添加账号' path={ROUTE_PATH.SPACE_INDEX}>
       <div className='p-6'>
@@ -58,7 +68,7 @@ export default function Edit() {
             color='secondary'
             disabled={!name}
             className='m-auto mb-6'
-            onPress={addNote}
+            onPress={add}
             size='md'>
             确定
           </Button>

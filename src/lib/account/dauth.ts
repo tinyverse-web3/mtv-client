@@ -891,6 +891,64 @@ export class Dauth {
       method: 'post',
     });
   }
+  async addAuthenticator({ Account, Secret }: any) {
+    return this.invoke({
+      name: 'authenticator/add',
+      method: 'post',
+      data: {
+        Account,
+        Secret,
+      },
+    });
+  }
+  async getAuthenticatorCodes() {
+    return this.invoke({
+      name: 'authenticator/getAllCodes',
+      method: 'get',
+    });
+  }
+  async getAuthenticatorAccounts() {
+    return this.invoke({
+      name: 'authenticator/getAllAccounts',
+      method: 'get',
+    });
+  }
+  async getAuthenticatorCode({ AccountName }: any) {
+    return this.invoke({
+      name: 'authenticator/getAccountCode',
+      method: 'get',
+      data: {
+        AccountName,
+      },
+    });
+  }
+  async getAuthenticatorSecret({ AccountName }: any) {
+    return this.invoke({
+      name: 'authenticator/getAccountSecret',
+      method: 'get',
+      data: {
+        AccountName,
+      },
+    });
+  }
+  async delAuthenticatorAccount({ AccountName }: any) {
+    return this.invoke({
+      name: 'authenticator/delAccount',
+      method: 'get',
+      data: {
+        AccountName,
+      },
+    });
+  }
+  async refreshAuthenticatorTime({ AccountName }: any) {
+    return this.invoke({
+      name: 'authenticator/getRefreshTime',
+      method: 'get',
+      data: {
+        AccountName,
+      },
+    });
+  }
   /**
    * 调用接口
    * @param name 接口名称

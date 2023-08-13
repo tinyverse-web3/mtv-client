@@ -770,6 +770,34 @@ export class Account {
     const { data } = await this.dauth.getDataDetail({ DataType, Key });
     return data;
   }
+  async addAuthenticator({ Account, Secret }: any) {
+    const { data } = await this.dauth.addAuthenticator({ Account, Secret });
+    return data;
+  }
+  async getAuthenticatorCodes() {
+    const { data } = await this.dauth.getAuthenticatorCodes();
+    return data;
+  }
+  async getAuthenticatorAccounts() {
+    const { data } = await this.dauth.getAuthenticatorAccounts();
+    return data;
+  }
+  async getAuthenticatorCode({ AccountName }: any) {
+    const { data } = await this.dauth.getAuthenticatorCode({ AccountName });
+    return data;
+  }
+  async getAuthenticatorSecret({ AccountName }: any) {
+    const { data } = await this.dauth.getAuthenticatorSecret({ AccountName });
+    return data;
+  }
+  async delAuthenticatorAccount({ AccountName }: any) {
+    const { data } = await this.dauth.delAuthenticatorAccount({ AccountName });
+    return data;
+  }
+  async refreshAuthenticatorTime({ AccountName }: any) {
+    const { data } = await this.dauth.refreshAuthenticatorTime({ AccountName });
+    return data;
+  }
 }
 
 export default new Account();
