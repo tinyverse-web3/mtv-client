@@ -3,61 +3,48 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH, routes } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useAccountStore } from '@/store';
+import { Button } from '@/components/form/Button';
 import { toast } from 'react-hot-toast';
 import { useList } from 'react-use';
 import account from '@/lib/account/account';
+import { IndexItem } from './components/IndexItem';
 
 export default function SpaceIndex() {
   const nav = useNavigate();
-  const [subAccounts, { set: setList }] = useList<any>([]);
-  const list: any[] = [
-    {
-      label: 'Google',
-      code: 378899,
-    },
-    {
-      label: 'mtv',
-      code: 378899,
-    },
-  ];
-  const getSubAccount = async () => {
-    // const list = await account.getAllSubAccount();
+  const [list, { set: setList }] = useList<any>([]);
+
+  const getAuthenticatorCodes = async () => {
+    const { code, data = [], msg } = await account.getAuthenticatorCodes();
     // setList(list);
+    if (code === '000000') {
+      setList(data);
+    } else {
+      toast.error(msg);
+    }
   };
   const itemClick = ({ path, url }: any) => {};
   const toAdd = () => {
     nav(ROUTE_PATH.SPACE_AUTHENTICATOR_ADD);
   };
+  const toCreate = () => {
+    nav(ROUTE_PATH.SPACE_AUTHENTICATOR_CREATE);
+  };
+
   useEffect(() => {
-    getSubAccount();
+    getAuthenticatorCodes();
   }, []);
+  console.log(list);
   return (
     <LayoutThird
       title='身份验证器'
-      path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
       <div className='px-6'>
         {list.map((v) => (
-          <div
-            key={v.label}
-            className='h-18 border-b-gray-200 border-b-solid border-b flex items-center hover:bg-gray-100 cursor-pointer px-2'
-            onClick={(e) => itemClick(v)}>
-            <div className='flex justify-between items-center w-full'>
-              <div>
-                <div className='text-6'>{v.label}</div>
-                <div>{v.code}</div>
-              </div>
-              <svg viewBox='0 0 100 100' className='circular-progress'>
-                <path
-                  className='circular-progress-bar'
-                  d='M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98'
-                />
-              </svg>
-            </div>
-          </div>
+          <IndexItem key={v.Account} Account={v.Account} Code={v.Code} />
         ))}
+        <Button onClick={toCreate}>创建一个秘钥</Button>
       </div>
     </LayoutThird>
   );

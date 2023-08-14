@@ -42,7 +42,7 @@ export default function Edit() {
     }
   };
   return (
-    <LayoutThird title='添加账号' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title='添加账号'>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Input

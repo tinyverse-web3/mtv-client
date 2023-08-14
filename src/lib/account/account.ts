@@ -774,6 +774,10 @@ export class Account {
     const { data } = await this.dauth.addAuthenticator({ Account, Secret });
     return data;
   }
+  async generateGoogleSecret() {
+    const { data } = await this.dauth.generateGoogleSecret();
+    return data;
+  }
   async getAuthenticatorCodes() {
     const { data } = await this.dauth.getAuthenticatorCodes();
     return data;

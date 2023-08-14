@@ -9,7 +9,7 @@ export default function Transfer() {
   const [data, { set, setAll, remove, reset }] = useMap({
     WalletAddr: '',
     Amount: '',
-    Gas: '',
+    Gas: '3',
     Comment: '',
   });
 
@@ -50,6 +50,7 @@ export default function Transfer() {
           typ='number'
           placeholder='请输入转账小费'
           className='mb-4'
+          readOnly
           value={data.Gas}
           onChange={(e: string) => (data.Gas = e.trim())}
         />

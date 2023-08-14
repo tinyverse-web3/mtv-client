@@ -949,6 +949,12 @@ export class Dauth {
       },
     });
   }
+  async generateGoogleSecret() {
+    return this.invoke({
+      name: 'authenticator/generateGoogleSecret',
+      method: 'get',
+    });
+  }
   /**
    * 调用接口
    * @param name 接口名称
