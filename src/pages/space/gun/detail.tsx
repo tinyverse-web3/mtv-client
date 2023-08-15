@@ -61,8 +61,8 @@ export default function detailPage() {
     }
   };
   const isOwner = useMemo(() => {
-    return detail?.owner === accountInfo?.publicKey;
-  }, [detail.owner, accountInfo.publicKey]);
+    return detail?.owner === accountInfo?.address;
+  }, [detail.owner, accountInfo.address]);
   const addOwner = async () => {
     if (detail?.owner) {
       const { code, msg, data } = await account.createContactByWalletKey(
