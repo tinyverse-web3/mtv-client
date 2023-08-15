@@ -1,4 +1,5 @@
-import { Loading, Button } from '@nextui-org/react';
+import { Loading } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
@@ -35,7 +36,7 @@ export const ChatInput = ({ onSend }: Props) => {
       <div className='flex-1'>
         <Input value={text} onChange={textChange} />
       </div>
-      <Button auto className='ml-4' onPress={pressHandler}>
+      <Button auto className='ml-4' onClick={pressHandler}>
         {loading ? (
           <Loading type='spinner' size='sm' color='currentColor' />
         ) : (
