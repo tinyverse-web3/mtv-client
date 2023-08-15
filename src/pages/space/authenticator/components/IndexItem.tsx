@@ -1,12 +1,16 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import account from '@/lib/account/account';
+import { CopyIcon } from '@/components/CopyIcon';
 import { useTimeout } from 'react-use';
 import { CircleProgress } from './CircleProgress';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '@/router';
 interface IndexItemProps {
   Account: string;
   Code: string;
 }
 export const IndexItem = ({ Account, Code }: IndexItemProps) => {
+  const nav = useNavigate();
   const [code, setCode] = useState(Code);
   const timer = useRef<number>(0);
   const intervalTimer = useRef<number>(0);
@@ -35,9 +39,11 @@ export const IndexItem = ({ Account, Code }: IndexItemProps) => {
     }
   };
   const percent = useMemo(() => {
-    console.log(initTime);
     return ((30 - initTime) / 30) * 100;
   }, [initTime]);
+  const toDetail = () => {
+    nav(ROUTE_PATH.SPACE_AUTHENTICATOR_DETAIL + `?id=${Account}`);
+  };
   useEffect(() => {
     window.clearInterval(intervalTimer.current);
   }, []);
@@ -56,6 +62,12 @@ export const IndexItem = ({ Account, Code }: IndexItemProps) => {
     };
   }, [Account]);
   useEffect(() => {
+    if (initTime === 0) {
+      getCode();
+    }
+  }, [initTime]);
+
+  useEffect(() => {
     getRefreshTime();
   }, []);
   return (
@@ -63,9 +75,11 @@ export const IndexItem = ({ Account, Code }: IndexItemProps) => {
       key={Account}
       className='h-18 border-b-gray-200 border-b-solid border-b flex items-center hover:bg-gray-100 cursor-pointer px-2'>
       <div className='flex justify-between items-center w-full'>
-        <div>
-          <div className='text-6'>{Account}</div>
-          <div>{code}</div>
+        <div className='text-6 w-20' onClick={toDetail}>
+          {Account}
+        </div>
+        <div className='flex items-center'>
+          <span className='mr-4'>{code}</span> <CopyIcon text='code' />{' '}
         </div>
         <CircleProgress percent={percent} />
       </div>

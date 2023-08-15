@@ -1,11 +1,12 @@
-import { Button } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
+import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { useState } from 'react';
 import { useMap } from 'react-use';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 export default function Transfer() {
+  const [ loading , setLoading ] = useState(false)
   const [data, { set, setAll, remove, reset }] = useMap({
     WalletAddr: '',
     Amount: '',
@@ -14,6 +15,7 @@ export default function Transfer() {
   });
 
   const handleTransfer = async () => {
+    setLoading(true)
     const { code, msg } = await account.transferPoint({
       WalletAddr: data.WalletAddr,
       Amount: Number(data.Amount),
@@ -25,6 +27,7 @@ export default function Transfer() {
     } else {
       toast.error(msg);
     }
+    setLoading(false)
   };
 
   return (
@@ -61,7 +64,7 @@ export default function Transfer() {
           value={data.Comment}
           onChange={(e: string) => (data.Comment = e.trim())}
         />
-        <Button className='w-full' onClick={handleTransfer}>转账</Button>
+        <Button className='w-full' loading={loading} onClick={handleTransfer}>转账</Button>
       </div>
     </LayoutThird>
   );

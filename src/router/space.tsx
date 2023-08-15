@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import SpaceAuthenticator from '@/pages/space/authenticator';
 import SpaceAuthenticatorAdd from '@/pages/space/authenticator/add';
 import SpaceAuthenticatorCreate from '@/pages/space/authenticator/create';
+import SpaceAuthenticatorDetail from '@/pages/space/authenticator/detail';
 import NoteEdit from '@/pages/space/note/edit';
 import Note from '@/pages/space/note/list';
 import PasswordList from '@/pages/space/password/list';
@@ -27,6 +28,7 @@ export const ROUTE_PATH_SPACE = {
   SPACE_AUTHENTICATOR: '/space/authenticator',
   SPACE_AUTHENTICATOR_ADD: '/space/authenticator/add',
   SPACE_AUTHENTICATOR_CREATE: '/space/authenticator/create',
+  SPACE_AUTHENTICATOR_DETAIL: '/space/authenticator/detail',
   SPACE_PASSWORD: '/space/password',
   SPACE_PASSWORD_ADD: '/space/password/add',
   SPACE_ALBUM: '/space/album',
@@ -62,6 +64,10 @@ export const spaceRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_SPACE.SPACE_AUTHENTICATOR_CREATE,
     element: <SpaceAuthenticatorCreate />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_AUTHENTICATOR_DETAIL,
+    element: <SpaceAuthenticatorDetail />,
   },
   {
     path: ROUTE_PATH_SPACE.SPACE_PASSWORD,

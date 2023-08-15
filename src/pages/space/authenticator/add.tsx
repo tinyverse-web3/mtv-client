@@ -60,14 +60,14 @@ export default function Edit() {
             placeholder='您的秘钥'
           />
         </Row>
-        <Row className='mb-8' justify='center'>
+        {/* <Row className='mb-8' justify='center'>
           <Select list={types} placeholder='秘钥类型'></Select>
-        </Row>
+        </Row> */}
         <Row className='' justify='center'>
           <Button
             color='secondary'
             disabled={!name}
-            className='m-auto mb-6'
+            className='m-auto mb-6 w-full'
             onPress={add}
             size='md'>
             确定
