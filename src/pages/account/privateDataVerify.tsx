@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/form/Input';
-import { Dropdown } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import { useAccountStore, useRestoreStore } from '@/store';
@@ -9,7 +8,7 @@ import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
 
-export default function Unlock() {
+export default function PrivateDataVerify() {
   const nav = useNavigate();
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
@@ -60,12 +59,6 @@ export default function Unlock() {
   const onCustomChange = (e: any) => {
     setCustomText(e.trim());
   };
-  useEffect(() => {
-    if (accountInfo.textPrivateData) {
-      setText(accountInfo.textPrivateData || '');
-      setPassword(accountInfo.passwordPrivateData || '');
-    }
-  }, [accountInfo.textPrivateData]);
   return (
     <LayoutThird title='验证加密保险箱'>
       <div className='pt-8 px-6'>
@@ -94,7 +87,7 @@ export default function Unlock() {
           placeholder='常用口令'
           initialValue=''
         />
-        <Input
+        {/* <Input
           clearable
           bordered
           fullWidth
@@ -104,7 +97,7 @@ export default function Unlock() {
           onChange={onCustomChange}
           placeholder='自定义特征数据'
           initialValue=''
-        />
+        /> */}
         <Button
           disabled={true}
           size='lg'

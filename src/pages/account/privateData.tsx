@@ -1,23 +1,27 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Input } from '@/components/form/Input';
-import { Dropdown } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import { useAccountStore, useRestoreStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
-import account from '@/lib/account/account';
 import { ROUTE_PATH } from '@/router';
+import { hideHalfString } from '@/lib/utils';
 
-export default function Unlock() {
+export default function PrivateData() {
   const nav = useNavigate();
+  const [textPlaceholder, setTextPlaceholder] =
+    useState('身份证/社会保险号码/手机号码');
+  const [passwordPlaceholder, setPasswordPlaceholder] = useState('常用口令');
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setAccountInfo, accountInfo } = useAccountStore((state) => state);
-  const { setTextPrivateData, setPasswordPrivateData } = useRestoreStore((state) => state);
+  const { accountInfo } = useAccountStore((state) => state);
+  const { setTextPrivateData, setPasswordPrivateData } = useRestoreStore(
+    (state) => state,
+  );
 
   const add = async () => {
     setLoading(true);
@@ -30,15 +34,7 @@ export default function Unlock() {
     }
     setTextPrivateData(text);
     setPasswordPrivateData(password);
-    nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA_VERIFY)
-    // try {
-    //   await account.setPivateData(text, password, customText);
-    //   setAccountInfo({ hasFeatureData: true });
-    //   toast.success('设置成功');
-    //   nav(-1);
-    // } catch (error) {
-    //   toast.error('设置失败');
-    // }
+    nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA_VERIFY);
     setLoading(false);
   };
   const pressHandler = async () => {
@@ -60,10 +56,12 @@ export default function Unlock() {
   };
   useEffect(() => {
     if (accountInfo.textPrivateData) {
-      setText(accountInfo.textPrivateData || '');
-      setPassword(accountInfo.passwordPrivateData || '');
+      setTextPlaceholder(hideHalfString(accountInfo.textPrivateData));
     }
-  }, [accountInfo.textPrivateData]);
+    if (accountInfo.passwordPrivateData) {
+      setPasswordPlaceholder(hideHalfString(accountInfo.passwordPrivateData));
+    }
+  }, [accountInfo.textPrivateData, accountInfo.textPrivateData]);
   return (
     <LayoutThird title='设置加密保险箱'>
       <div className='pt-8 px-6'>
@@ -78,7 +76,7 @@ export default function Unlock() {
           value={text}
           className='h-50px mb-6'
           onChange={onChange}
-          placeholder='身份证/社会保险号码/手机号码'
+          placeholder={textPlaceholder}
           initialValue=''
         />
         <Input
@@ -89,10 +87,10 @@ export default function Unlock() {
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
-          placeholder='常用口令'
+          placeholder={passwordPlaceholder}
           initialValue=''
         />
-        <Input
+        {/* <Input
           clearable
           bordered
           fullWidth
@@ -102,7 +100,7 @@ export default function Unlock() {
           onChange={onCustomChange}
           placeholder='自定义特征数据'
           initialValue=''
-        />
+        /> */}
         <Button
           disabled={true}
           size='lg'

@@ -87,7 +87,7 @@ export default function Unlock() {
           placeholder='常用口令'
           initialValue=''
         />
-        <Input
+        {/* <Input
           clearable
           bordered
           fullWidth
@@ -97,7 +97,7 @@ export default function Unlock() {
           onChange={onCustomChange}
           placeholder='自定义特征数据'
           initialValue=''
-        />
+        /> */}
         <Button
           disabled={true}
           size='lg'

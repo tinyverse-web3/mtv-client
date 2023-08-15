@@ -55,20 +55,19 @@ export default function detailPage() {
     if (code === '000000') {
       toast.success('设置成功');
       setAccountInfo({ name: detail.name });
-      nav(ROUTE_PATH.SPACE_INDEX)
+      nav(ROUTE_PATH.SPACE_INDEX);
     } else {
       toast.error(msg);
     }
   };
-  console.log(detail?.owner);
-  console.log(accountInfo?.publicKey);
   const isOwner = useMemo(() => {
     return detail?.owner === accountInfo?.publicKey;
   }, [detail.owner, accountInfo.publicKey]);
-  console.log(isOwner);
   const addOwner = async () => {
     if (detail?.owner) {
-      const { code, msg, data } = await account.createContactByWalletKey(detail?.owner);
+      const { code, msg, data } = await account.createContactByWalletKey(
+        detail?.owner,
+      );
       if (code === '000000') {
         toast.success('添加好友成功');
       } else {
@@ -76,6 +75,7 @@ export default function detailPage() {
       }
     }
   };
+  
   useEffect(() => {
     getDetail();
   }, []);
@@ -101,23 +101,25 @@ export default function detailPage() {
         {!loading && (
           <div className='pt-1 px-4'>
             <div>
-              <Button
-                disabled={changeDisabled}
-                //loading={modifyLoading}
-                className='mx-auto mb-2 w-full'
-                size='lg'
-                onPress={ApplyNewValidPeriod}>
-                续期
-              </Button>
               {isOwner ? (
-                <Button
-                  disabled={changeDisabled}
-                  //loading={modifyLoading}
-                  className='mx-auto mb-2 w-full'
-                  size='lg'
-                  onPress={setAccountName}>
-                  设置为用户名
-                </Button>
+                <>
+                  <Button
+                    disabled={changeDisabled}
+                    //loading={modifyLoading}
+                    className='mx-auto mb-2 w-full'
+                    size='lg'
+                    onPress={ApplyNewValidPeriod}>
+                    续期
+                  </Button>
+                  <Button
+                    disabled={changeDisabled}
+                    //loading={modifyLoading}
+                    className='mx-auto mb-2 w-full'
+                    size='lg'
+                    onPress={setAccountName}>
+                    设置为用户名
+                  </Button>
+                </>
               ) : (
                 <Button
                   disabled={changeDisabled}

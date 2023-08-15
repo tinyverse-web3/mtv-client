@@ -107,7 +107,7 @@ export default function QuestionFeature() {
           placeholder='常用口令'
           initialValue=''
         />
-        <Input
+        {/* <Input
           clearable
           bordered
           fullWidth
@@ -117,7 +117,7 @@ export default function QuestionFeature() {
           onChange={onCustomChange}
           placeholder='自定义特征数据'
           initialValue=''
-        />
+        /> */}
         <Button
           disabled={true}
           size='lg'
