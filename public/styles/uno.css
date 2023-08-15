@@ -185,6 +185,7 @@
 .overflow-unset{overflow:unset;}
 .overflow-y-auto{overflow-y:auto;}
 .overscroll-y-auto{overscroll-behavior-y:auto;}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .text-ellipsis{text-overflow:ellipsis;}
 .break-all{word-break:break-all;}
 .break-keep{word-break:keep-all;}

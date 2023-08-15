@@ -147,11 +147,11 @@ export default function ChatList() {
             onClick={() => toDetail(item)}>
             <Image src={item.imgCid || '/logo.png'} className='mr-6 w-8 h-8' />
             <div className='flex-1'>
-              <div className='flex justify-between items-center mb-2'>
+              <div className='flex justify-between items-center mb-2 truncate'>
                 <span>{renderName(item)}</span>
               </div>
               <div className='flex justify-between items-center'>
-                <div className='text-12px'>{item.LastMessage}</div>
+                <div className='text-12px w-40 truncate'>{item.LastMessage}</div>
                 <span className='text-12px'>
                   {formatTime(item.LastMsgTime)}
                 </span>
