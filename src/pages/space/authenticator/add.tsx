@@ -29,7 +29,14 @@ export default function Edit() {
   const keyChange = (e: any) => {
     setKey(e?.trim());
   };
-
+  const generateGoogleSecret = async () => {
+    const { code, msg, data } = await account.generateGoogleSecret();
+    if (code === '000000') {
+      setKey(data);
+    } else {
+      toast.error(msg);
+    }
+  };
   const add = async () => {
     const { code, msg } = await account.addAuthenticator({
       Account: name,
@@ -52,13 +59,16 @@ export default function Edit() {
             placeholder='账户名'
           />
         </Row>
-        <Row className='mb-8' justify='center'>
+        <Row className='mb-8' align='center'>
           <Input
             value={key}
             maxLength={300}
             onChange={keyChange}
             placeholder='您的秘钥'
           />
+          <div
+            className='i-mdi-plus text-blue-5 w-6 h-6 ml-4'
+            onClick={generateGoogleSecret}></div>
         </Row>
         {/* <Row className='mb-8' justify='center'>
           <Select list={types} placeholder='秘钥类型'></Select>
@@ -77,3 +87,4 @@ export default function Edit() {
     </LayoutThird>
   );
 }
+ 

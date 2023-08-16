@@ -48,10 +48,10 @@ export default function SpaceIndex() {
           ))}
         </div>
         <div className='flex items-center h-18'>
-          <Button auto onClick={toCreate} className='flex-1'>
+          {/* <Button auto onClick={toCreate} className='flex-1'>
             创建一个秘钥
-          </Button>
-          <Button auto onClick={toAdd} className='ml-6 flex-1'>
+          </Button> */}
+          <Button auto onClick={toAdd} className=' flex-1'>
             导入一个秘钥
           </Button>
         </div>
