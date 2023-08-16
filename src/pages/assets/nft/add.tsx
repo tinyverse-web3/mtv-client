@@ -1,7 +1,7 @@
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
 import { Button } from '@/components/form/Button';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useNavigate } from 'react-router-dom';
 import account from '@/lib/account/account';
@@ -22,7 +22,7 @@ export default function NftAdd() {
       value: 'text',
     },
   ];
-  const [data, { set, setAll, remove, reset }] = useMap({
+  const [data, { set }] = useMap({
     Content: '',
     Name: '',
     Description: '',
@@ -102,14 +102,15 @@ export default function NftAdd() {
               <Input
                 placeholder='标题'
                 value={data.Name}
-                onChange={(e: string) => (data.Name = e.trim())}></Input>
+                onChange={(e: string) => set('Name', e.trim()) as any}
+              />
             </div>
             <div className='mb-4'>
               <Textarea
                 minRows={3}
                 maxRows={4}
                 value={data.Description}
-                onChange={(e: string) => (data.Description = e.trim())}
+                onChange={(e: string) => set('Description', e.trim()) as any}
                 placeholder='描述'
               />
             </div>
@@ -118,13 +119,14 @@ export default function NftAdd() {
                 minRows={18}
                 maxRows={100}
                 value={data.Content}
-                onChange={(e: string) => (data.Content = e.trim())}
+                onChange={(e: string) => set('Content', e.trim()) as any}
                 placeholder='内容'
               />
             </div>
             <div className='text-3 mb-4 text-right'>最大内容8k字节</div>
             <Button
               className='w-full'
+              disabled={textMintDisabled}
               loading={textLoading}
               onClick={mintText}>
               铸造

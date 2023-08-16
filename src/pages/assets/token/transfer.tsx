@@ -38,7 +38,7 @@ export default function Transfer() {
           placeholder='请输入目标地址'
           className='mb-4'
           value={data.WalletAddr}
-          onChange={(e: string) => (data.WalletAddr = e.trim())}
+          onChange={(e: string) => set('WalletAddr', e.trim())}
         />
         <Input
           label='转账金额'
@@ -46,7 +46,7 @@ export default function Transfer() {
           className='mb-4'
           typ='number'
           value={data.Amount}
-          onChange={(e: string) => (data.Amount = e.trim())}
+          onChange={(e: string) => set('Amount', e.trim())}
         />
         <Input
           label='转账小费'
@@ -55,14 +55,14 @@ export default function Transfer() {
           className='mb-4'
           readOnly
           value={data.Gas}
-          onChange={(e: string) => (data.Gas = e.trim())}
+          onChange={(e: string) => set('Gas', e.trim())}
         />
         <Input
           label='转账备注'
           placeholder='请输入转账备注'
           className='mb-4'
           value={data.Comment}
-          onChange={(e: string) => (data.Comment = e.trim())}
+          onChange={(e: string) => set('Comment', e.trim())}
         />
         <Button className='w-full' loading={loading} onClick={handleTransfer}>转账</Button>
       </div>
