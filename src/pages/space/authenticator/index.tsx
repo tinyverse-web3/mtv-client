@@ -52,7 +52,7 @@ export default function SpaceIndex() {
             创建一个秘钥
           </Button> */}
           <Button auto onClick={toAdd} className=' flex-1'>
-            导入一个秘钥
+            添加一个验证器
           </Button>
         </div>
       </div>
