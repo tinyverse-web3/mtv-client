@@ -11,7 +11,7 @@ const stay_path = ['home', 'space', 'note', 'account', 'chat', 'test', 'asset'];
 
 export const LaunchCheck = ({ children }: any) => {
   const routerLocation = useLocation();
-  const { pathname } = routerLocation;
+  
   const {
     checkLoading,
     setCheckLoading,
@@ -30,6 +30,7 @@ export const LaunchCheck = ({ children }: any) => {
     )}`;
   };
   const onIdle = () => {
+    const { pathname } = routerLocation;
     console.log(`window idle, user is level`);
     if (stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       logout();
@@ -42,6 +43,7 @@ export const LaunchCheck = ({ children }: any) => {
     throttle: 2000,
   });
   const checkStatus = async () => {
+    const { pathname } = routerLocation;
     if (pathname.indexOf('test') > -1 || pathname.indexOf('app') > -1) {
       setCheckLoading(false);
       return;
@@ -63,10 +65,14 @@ export const LaunchCheck = ({ children }: any) => {
         location.replace(ROUTE_HASH_PATH.INDEX);
       }
     } else if (accountStatus && !passwordStatus) {
-      if (!(pathname.indexOf('unlock') > -1)) {
-        location.href = `${
-          ROUTE_HASH_PATH.UNLOCK
-        }?redirect=${encodeURIComponent(location.href)}`;
+      console.log(pathname);
+      console.log(pathname.indexOf('unlock') < 0);
+      if (location.href.indexOf('unlock') < 0) {
+        const _href = location.href;
+        console.log('location.href', _href);
+        location.replace(
+          `${ROUTE_HASH_PATH.UNLOCK}?redirect=${encodeURIComponent(_href)}`,
+        );
       }
     } else {
       setLockStatus(false);
@@ -81,6 +87,7 @@ export const LaunchCheck = ({ children }: any) => {
     checkStatus();
   }, []);
   useEffect(() => {
+    const { pathname } = routerLocation;
     if (
       !checkLoading &&
       stay_path.some((p) => pathname?.indexOf(p) > -1) &&

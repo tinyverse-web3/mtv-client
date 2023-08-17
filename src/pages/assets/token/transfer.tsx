@@ -35,7 +35,7 @@ export default function Transfer() {
       <div className='p-4'>
         <Input
           label='目标地址'
-          placeholder='请输入目标地址'
+          placeholder='请输入对方钱包公钥'
           className='mb-4'
           value={data.WalletAddr}
           onChange={(e: string) => set('WalletAddr', e.trim())}

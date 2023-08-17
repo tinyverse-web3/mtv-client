@@ -245,9 +245,6 @@ export class Account {
    */
   async unlock(password: string) {
     const result = await this.dauth.unlock(password);
-    if (result.data.code === '000000') {
-      this.getAccountInfo();
-    }
     return result.data.code === '000000';
   }
   /**

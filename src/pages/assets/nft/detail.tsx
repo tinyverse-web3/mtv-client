@@ -40,7 +40,7 @@ export default function NftDetail() {
           <Card>
             <Card.Body>
               <div className='flex'>
-                <div className='text-2'>{detail.Nftname}</div>
+                <div className='text-2 break-all'>{detail.Nftname}</div>
               </div>
             </Card.Body>
           </Card>

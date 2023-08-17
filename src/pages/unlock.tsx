@@ -24,13 +24,15 @@ export default function Unlock() {
   const unlock = async (password: string) => {
     setLoading(true);
     const result = await account.unlock(password);
+    console.log(result);
     if (result) {
       await getLocalAccountInfo();
       if (redirect) {
+        console.log(redirect);
         location.replace(decodeURIComponent(redirect));
         return;
       }
-      nav(ROUTE_PATH.SPACE_INDEX);
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
     } else {
       setErr(true);
     }
