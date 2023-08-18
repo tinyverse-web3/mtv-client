@@ -583,6 +583,17 @@ export class Dauth {
       formData: formData,
     });
   }
+  async transferNft({ WalletAddr, NftName, Amount }: any) {
+    return this.invoke({
+      name: 'nft/transferNFT',
+      method: 'post',
+      data: {
+        WalletAddr,
+        NftName,
+        Amount,
+      },
+    });
+  }
   async getNftList() {
     return this.invoke({
       method: 'get',

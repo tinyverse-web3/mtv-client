@@ -1,12 +1,15 @@
 import { useEffect, useState, useMemo } from 'react';
+import { Button } from '@/components/form/Button';
 import { Card, Image } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import account from '@/lib/account/account';
 import { calcSize } from '@/lib/utils';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { ROUTE_PATH } from '@/router';
 
 export default function NftDetail() {
+  const nav = useNavigate();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const [params] = useSearchParams();
@@ -19,6 +22,9 @@ export default function NftDetail() {
         setDetail(data);
       }
     }
+  };
+  const toTransfer = () => {
+    nav(ROUTE_PATH.ASSETS_NFT_TRANSFER + `?id=${id}`);
   };
   const sizeText = useMemo(() => {
     if (detail.Size) {
@@ -97,6 +103,9 @@ export default function NftDetail() {
             </div>
           </div>
         )}
+        <Button className='w-full' onClick={toTransfer}>
+          转移
+        </Button>
       </div>
     </LayoutThird>
   );
