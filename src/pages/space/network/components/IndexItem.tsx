@@ -39,10 +39,10 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
       <div className='mb-2'>{title}</div>
       <Card>
         <Card.Body>
-          <div className='flex'>
-            <div className='flex-1'>
-              <div className='mb-4 text-3'>
-                空间：{usedSize}/{totalSpace}({sizePercent})%
+          <div className=''>
+            <div className='mb-4'>
+              <div className='mb-4 text-3 break-keep '>
+                空间：{usedSize}/{totalSpace}({sizePercent}%)
               </div>
               <div className='mb-4'>
                 <Progress color='primary' size='md' value={sizePercent} />
@@ -58,9 +58,9 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
                 </Button>
               </div>
             </div>
-            <div className='flex-1 ml-6'>
+            <div className=''>
               <div className='mb-4 text-3'>
-                文件：{summary.usedItem}/{summary.total}({numPercent})%
+                文件：{summary.usedItem}/{summary.total}({numPercent}%)
               </div>
               <div className='mb-4'>
                 <Progress color='primary' size='md' value={numPercent} />

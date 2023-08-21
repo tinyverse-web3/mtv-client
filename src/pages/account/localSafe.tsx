@@ -32,6 +32,7 @@ export default function LocalSafe() {
     window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
       if (code === 0) {
         toast.success(message);
+        setIsBiometricsSatus(true);
       } else {
         toast.error(message);
       }

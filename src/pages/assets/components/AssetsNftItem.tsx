@@ -42,7 +42,7 @@ export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
       )}
 
       <div className='flex-1'>
-        <div className='break-all text-2'>
+        <div className='break-all'>
           {item.DataType === 'GUN' && <span className='text-blue-5'>【GUN】</span>}
           <span>{item.Nftname}</span>
         </div>

@@ -26,11 +26,8 @@ export default function GunListShow() {
     await remove(id);
   };
   useEffect(() => {
-    if (!list?.length) {
-      // Should load GUN list first in page init
-      loadGUN();
-    }
-  }, [list]);
+    loadGUN();
+  }, []);
 
   return (
     <LayoutThird
@@ -40,20 +37,24 @@ export default function GunListShow() {
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
       <div className='pt-1 px-6'>
-        {list.length ? list.map((item) => (
-          <div
-            key={item.key}
-            className='py-2 relative border-b border-b-solid border-b-gray-300'>
-            <div onClick={() => toDetail(item.name)}>
-              <GunItem
-                key={item.key}
-                name={item.name}
-                expired={item.expired}
-                owner={item.owner}
-              />
+        {list.length ? (
+          list.map((item) => (
+            <div
+              key={item.key}
+              className='py-2 relative border-b border-b-solid border-b-gray-300'>
+              <div onClick={() => toDetail(item.name)}>
+                <GunItem
+                  key={item.key}
+                  name={item.name}
+                  expired={item.expired}
+                  owner={item.owner}
+                />
+              </div>
             </div>
-          </div>
-        )): <Empty />}
+          ))
+        ) : (
+          <Empty />
+        )}
       </div>
     </LayoutThird>
   );

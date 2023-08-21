@@ -81,7 +81,6 @@ export const MessageBox = ({ recipient }: any) => {
       getAllMsgs();
     }
   }, [recipient]);
-  console.log(list);
   return (
     <div className='h-full relative overflow-hidden p-2'>
       <div className='h-full pb-12'>

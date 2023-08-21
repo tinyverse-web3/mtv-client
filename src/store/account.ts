@@ -61,7 +61,6 @@ export const useAccountStore = create<AccountState>()(
         getLocalAccountInfo: async () => {
           const localInfo = await account.getAccountInfo();
           let { accountInfo } = get();
-          console.log('localInfo', localInfo);
           accountInfo = Object.assign(accountInfo, {
             publicKey: localInfo.PublicKey,
             name: localInfo.Name,
