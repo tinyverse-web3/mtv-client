@@ -1046,7 +1046,7 @@ export class Dauth {
         data,
         params,
         headers,
-        timeout: 4000,
+        timeout: 30000,
       });
       return res;
     } catch (error) {
