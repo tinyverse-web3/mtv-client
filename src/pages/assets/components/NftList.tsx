@@ -1,13 +1,15 @@
 import account from '@/lib/account/account';
 import { useEffect, useState } from 'react';
 import { AssetsNftItem } from './AssetsNftItem';
+import { Empty } from '@/components/Empty';
+
 export const NftList = () => {
   const [list, setList] = useState<any[]>([
     // {
     //   Nftname:
     //     '659f0ecbdfcad86b50c02176f978836ab33707d512f7855fab7e840974675cf5',
     //   Name: 'IMG_20230801_175247.PNG',
-    //   DataType: 'image/png',
+    //   DataType: 'GUN',
     //   Cid: 'QmfUM8m4sZrRxwkdYEzL29Yj8UwSCmyx1ZQ5TnkPFfnKe6',
     //   Data: null,
     //   Owner: 'CAESIOhjkWkNhpuTxoCjwmVl8dALULDJDrhP9r6ZdqVj4dKO',
@@ -28,6 +30,7 @@ export const NftList = () => {
   }, []);
   return (
     <div className=''>
+      {!list.length && <Empty />}
       {list.map((item) => (
         <AssetsNftItem item={item} key={item.Cid} />
       ))}
