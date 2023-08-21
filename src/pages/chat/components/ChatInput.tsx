@@ -10,7 +10,7 @@ interface Props {
   onSend: (text: string) => void;
 }
 export const ChatInput = ({ onSend }: Props) => {
-  const [text, setText] = useState('ss');
+  const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   useKeyPressEvent('Enter', () => {
     if (text) {
