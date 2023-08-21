@@ -10,7 +10,7 @@ interface Props {
   onSend: (text: string) => void;
 }
 export const ChatInput = ({ onSend }: Props) => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState('ss');
   const [loading, setLoading] = useState(false);
   useKeyPressEvent('Enter', () => {
     if (text) {
@@ -36,13 +36,17 @@ export const ChatInput = ({ onSend }: Props) => {
       <div className='flex-1'>
         <Input value={text} onChange={textChange} />
       </div>
-      <Button auto className='ml-4' onClick={pressHandler}>
-        {loading ? (
-          <Loading type='spinner' size='sm' color='currentColor' />
-        ) : (
-          '发送'
-        )}
-      </Button>
+      {!!text && (
+        <div
+          className='cursor-pointer w-16 flex justify-center items-center px-2 rounded-3 bg-blue-5 text-white ml-2'
+          onClick={pressHandler}>
+          {loading ? (
+            <Loading type='spinner' size='sm' color='currentColor' />
+          ) : (
+            '发送'
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,16 +1,19 @@
 import { Card, Text, Checkbox, Modal } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
-import toast from 'react-hot-toast';
+import { useHost } from '@/lib/hooks';
+import { download } from '@/lib/utils';
+
 export default function UserPhrase() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const host = useHost();
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
   };
@@ -33,14 +36,12 @@ export default function UserPhrase() {
     setShowModal(false);
     setChecked(false);
   };
-  const download = async () => {
+  const url = useMemo(() => {
+    return `${host}/sdk/downloadMnemonic`;
+  }, [host]);
+  const downloadFile = async () => {
     setLoading(true);
-    const { code, msg } = await account.downloadMnemonic();
-    if (code === '000000') {
-      await toast.success('下载成功');
-    } else {
-      toast.error(msg);
-    }
+    await download(url, 'mnemonic.txt');
     setLoading(false);
   };
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function UserPhrase() {
         {checked ? (
           <>
             <Button
-              onClick={download}
+              onClick={downloadFile}
               loading={loading}
               className='w-full'
               size='lg'>

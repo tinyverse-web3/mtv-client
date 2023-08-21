@@ -26,7 +26,7 @@ export const Button = ({
       className={`rounded-2 text-4 ${className}`}
       disabled={disabled}
       {...rest}
-      onPressStart={pressHandler}>
+      onPressUp={pressHandler}>
       {loading ? (
         <Loading type='spinner' size='sm' color='currentColor' />
       ) : (

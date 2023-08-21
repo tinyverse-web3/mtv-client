@@ -45,7 +45,7 @@ export class Dauth {
   async downloadMnemonic() {
     return this.invoke({
       name: 'downloadMnemonic',
-      method: 'post',
+      method: 'get',
     });
   }
   async retrieveAccountByUploadMnemonic({
