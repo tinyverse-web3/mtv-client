@@ -67,6 +67,7 @@ export default function LocalSafe() {
       <ValidPassword
         onSuccess={validPasswordSuccess}
         show={showPasswordStatus}
+        showBiometric={false}
         onClose={() => setShowPasswordStatus(false)}
       />
     </LayoutThird>

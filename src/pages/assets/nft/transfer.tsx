@@ -17,9 +17,6 @@ export default function Transfer() {
     WalletAddr: '',
     Amount: '',
   });
-  // if (id) {
-  //   set('NftName', id);
-  // }
   const handleTransfer = async () => {
     setLoading(true);
     const { code, msg } = await account.transferNft({

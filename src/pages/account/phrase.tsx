@@ -1,14 +1,16 @@
-import { Card, Text, Button } from '@nextui-org/react';
-import { useAccountStore } from '@/store';
-import { useEffect, useState} from 'react';
+import { Card, Text, Checkbox, Modal } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
-
+import toast from 'react-hot-toast';
 export default function UserPhrase() {
   const nav = useNavigate();
-  
+  const [checked, setChecked] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
   };
@@ -17,23 +19,92 @@ export default function UserPhrase() {
     const _mnemonic = await account.getMnemonic();
     setMnemonic(_mnemonic);
   };
+  const checkboxChange = (e: boolean) => {
+    if (!e) {
+      setShowModal(true);
+    } else {
+      setChecked(e);
+    }
+  };
+  const closeHandler = () => {
+    setShowModal(false);
+  };
+  const confirmHandler = () => {
+    setShowModal(false);
+    setChecked(false);
+  };
+  const download = async () => {
+    setLoading(true);
+    const { code, msg } = await account.downloadMnemonic();
+    if (code === '000000') {
+      await toast.success('下载成功');
+    } else {
+      toast.error(msg);
+    }
+    setLoading(false);
+  };
   useEffect(() => {
-    getMnemonic()
+    getMnemonic();
   }, []);
   return (
     <LayoutThird title='助记词备份'>
       <div className='p-4'>
-        <Text className='text-4 mb-4'>
-          助记词非常重要，请妥善保管，注意不使用联网工具备份。
-        </Text>
-        <Card className='mb-4'>
-          <Card.Body>
-            <Text>{mnemonic}</Text>
-          </Card.Body>
-        </Card>
-        <Button onPress={toVerify} className='w-full' size='lg'>
-          下一步
-        </Button>
+        <div>
+          <Checkbox
+            className='mb-3'
+            aria-label='checkbox'
+            isSelected={checked}
+            onChange={checkboxChange}>
+            <Text className='text-3'>是否使用加密保险箱加密助记词</Text>
+          </Checkbox>
+        </div>
+        <Modal
+          className='max-w-70% mx-auto'
+          blur
+          autoMargin
+          closeButton
+          open={showModal}
+          onClose={closeHandler}>
+          <Modal.Body>
+            <Text size={16} className='text-center'>
+              直接显示和抄写助记词很危险，需要您投入更多的精力去保管助记词
+            </Text>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button auto flat color='error' onPress={closeHandler}>
+              取消
+            </Button>
+            <Button auto onPress={confirmHandler}>
+              确定
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        {checked ? (
+          <>
+            <Button
+              onClick={download}
+              loading={loading}
+              className='w-full'
+              size='lg'>
+              下载加密文件
+            </Button>
+          </>
+        ) : (
+          <>
+            <Text className='text-4 mb-4'>
+              助记词非常重要，请妥善保管，注意不使用联网工具备份。
+            </Text>
+            <Card className='mb-4'>
+              <Card.Body>
+                <Text>{mnemonic}</Text>
+              </Card.Body>
+            </Card>
+            <Button onClick={toVerify} className='w-full' size='lg'>
+              下一步
+            </Button>
+          </>
+        )}
       </div>
     </LayoutThird>
   );

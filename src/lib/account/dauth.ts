@@ -42,6 +42,31 @@ export class Dauth {
       method: 'get',
     });
   }
+  async downloadMnemonic() {
+    return this.invoke({
+      name: 'downloadMnemonic',
+      method: 'post',
+    });
+  }
+  async retrieveAccountByUploadMnemonic({
+    file,
+    TextPrivateData,
+    PasswordPrivateData,
+  }: {
+    file: File;
+    TextPrivateData: string;
+    PasswordPrivateData: string;
+  }) {
+    const formData = new FormData();
+    formData.append('File', file);
+    formData.append('TextPrivateData', TextPrivateData);
+    formData.append('PasswordPrivateData', PasswordPrivateData);
+    return this.invoke({
+      name: 'retrieveAccountByUploadMnemonic',
+      method: 'post',
+      formData: formData,
+    });
+  }
   async getBalance() {
     return this.invoke({
       name: 'getBalance',
@@ -1014,6 +1039,19 @@ export class Dauth {
    * @param headers 请求头
    */
   async request({ url, method, data, params, headers }: any) {
-    return axios({ url, method, data, params, headers, timeout: 30000 });
+    try {
+      const res = await axios({
+        url,
+        method,
+        data,
+        params,
+        headers,
+        timeout: 4000,
+      });
+      return res;
+    } catch (error) {
+      console.error(error);
+      return { data: { code: '500000', msg: '请求失败' } };
+    }
   }
 }

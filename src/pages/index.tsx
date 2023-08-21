@@ -24,12 +24,10 @@ export default function Index() {
   const create = async () => {
     setLoading(true);
     console.time('create account');
-    try {
-      await account.create();
-    } catch (error) {
-      toast.error('创建失败');
+    const { code, msg } = await account.create();
+    if (code !== '000000') {
+      toast.error(msg);
       setLoading(false);
-      console.log(error);
       return;
     }
     setLockStatus(false);

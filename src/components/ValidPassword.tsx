@@ -5,12 +5,19 @@ import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 interface Props {
   show: boolean;
+  showBiometric?: boolean;
   onClose?: () => void;
   onSuccess?: (password: string) => void;
 }
-export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
+export const ValidPassword = ({
+  show,
+  onSuccess,
+  onClose,
+  showBiometric = true,
+}: Props) => {
   const [showModal, setShowModal] = useState(show);
   const [password, setPassword] = useState('');
+  const [setupBiometric, setSetupBiometric] = useState(false);
   const closeHandler = () => {
     setPassword('');
     onClose?.();
@@ -43,6 +50,20 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
       }
     });
   };
+  const getBiometricsSetUp = () => {
+    if (window?.JsBridge) {
+      window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+        if (code === 0) {
+          setSetupBiometric(true);
+        } else {
+          setSetupBiometric(false);
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    getBiometricsSetUp();
+  }, []);
   useEffect(() => {
     setShowModal(show);
   }, [show]);
@@ -73,11 +94,13 @@ export const ValidPassword = ({ show, onSuccess, onClose }: Props) => {
             placeholder='密码'
             contentLeft={<div className='i-mdi-shield-outline color-current' />}
           />
-          <Image
-            onClick={startBiometric}
-            src='/figer.png'
-            className='w-10 h-10 cursor-pointer ml-4'
-          />
+          {showBiometric && setupBiometric && (
+            <Image
+              onClick={startBiometric}
+              src='/figer.png'
+              className='w-10 h-10 cursor-pointer ml-4'
+            />
+          )}
         </div>
       </Modal.Body>
       <Modal.Footer>

@@ -17,7 +17,9 @@ export default function QuestionFeature() {
   const [loading, setLoading] = useState(false);
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const { setLockStatus } = useGlobalStore((state) => state);
-  const { mnemonic } = useRestoreStore((state) => state);
+  const { mnemonic, mnemonicType, mnemonicFile } = useRestoreStore(
+    (state) => state,
+  );
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
@@ -27,21 +29,27 @@ export default function QuestionFeature() {
       setLoading(false);
       return;
     }
-    try {
-      const result = await account.retrieveAccountByMnemonic({
+    let result;
+    console.log(mnemonicType);
+    if (mnemonicType === 'text') {
+      result = await account.retrieveAccountByMnemonic({
         mnemonic,
         textPrivateData: text,
         passwordPrivateData: password,
       });
-      if (result.code === '000000') {
-        await getLocalAccountInfo();
-        setLockStatus(false);
-        nav(ROUTE_PATH.SPACE_INDEX, {replace: true});
-      } else {
-        toast.error(result.msg);
-      }
-    } catch (error) {
-      toast.error('特征数据错误');
+    } else {
+      result = await account.retrieveAccountByUploadMnemonic({
+        file: mnemonicFile,
+        TextPrivateData: text,
+        PasswordPrivateData: password,
+      });
+    }
+    if (result.code === '000000') {
+      await getLocalAccountInfo();
+      setLockStatus(false);
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+    } else {
+      toast.error(result.msg);
     }
     setLoading(false);
   };
@@ -116,6 +124,9 @@ export default function QuestionFeature() {
           onPress={add}>
           恢复
         </Button>
+        <div className='text-center text-11px mt-2'>
+          使用默认密码恢复，之后请及时修改
+        </div>
       </div>
     </LayoutThird>
   );

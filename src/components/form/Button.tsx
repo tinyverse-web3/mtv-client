@@ -16,6 +16,8 @@ export const Button = ({
   ...rest
 }: ButtonProps & any) => {
   const pressHandler = (e: any) => {
+    // e.stopPropagation();
+    // e.nativeEvent.stopImmediatePropagation();
     if (loading || disabled) return;
     onPress?.();
   };
@@ -24,7 +26,7 @@ export const Button = ({
       className={`rounded-2 text-4 ${className}`}
       disabled={disabled}
       {...rest}
-      onPressEnd={pressHandler}>
+      onPressStart={pressHandler}>
       {loading ? (
         <Loading type='spinner' size='sm' color='currentColor' />
       ) : (
