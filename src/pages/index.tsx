@@ -3,17 +3,21 @@ import { Button } from '@/components/form/Button';
 // import { useRouter } from 'next/navigation';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
+import { LanguageIcon } from '@/components/SettingIcon';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAccountStore, useGlobalStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+
 export default function Index() {
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const { setLockStatus } = useGlobalStore((state) => state);
   const [loading, setLoading] = useState(false);
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
+  const { t, i18n } = useTranslation();
   const nav = useNavigate();
   const toRestore = () => {
     nav(ROUTE_PATH.RESTORE);
@@ -37,7 +41,11 @@ export default function Index() {
     nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
   };
   return (
-    <LayoutOne>
+    <LayoutOne className='relative'>
+      <div className='absolute right-2 top-2'>
+        <LanguageIcon />
+      </div>
+
       <div className='pt-16 px-6'>
         <HeaderLogo />
         <Button

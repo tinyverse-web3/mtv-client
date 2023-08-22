@@ -13,7 +13,7 @@ export default function Award() {
   const applyDailyReward = async () => {
     const { code, data, msg } = await account.applyDailyReward();
     if (code === '000000') {
-      toast.success('领取成功');
+      toast.success('申请已提交');
     } else {
       toast.error(msg);
     }
@@ -21,7 +21,7 @@ export default function Award() {
   const applyGuardianReward = async () => {
     const { code, data, msg } = await account.applyGuardianReward();
     if (code === '000000') {
-      toast.success('领取成功');
+      toast.success('申请已提交');
     } else {
       toast.error(msg);
     }

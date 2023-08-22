@@ -32,7 +32,7 @@ export const ChatInput = ({ onSend }: Props) => {
     setLoading(false);
   };
   return (
-    <div className='flex'>
+    <div className='flex '>
       <div className='flex-1'>
         <Input value={text} onChange={textChange} />
       </div>

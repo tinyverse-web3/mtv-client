@@ -7,6 +7,7 @@ import App from './App';
 import '@/styles/index.css';
 import 'react-photo-view/dist/react-photo-view.css';
 
+import '@/locale'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
     <App />

@@ -24,6 +24,7 @@ import { spaceRoutes, ROUTE_PATH_SPACE } from './space';
 import { accountRoutes, ROUTE_PATH_ACCOUNT } from './account';
 import { assetsRoutes, ROUTE_PATH_ASSETS } from './assets';
 import { restoreRoutes, ROUTE_PATH_RESOTRE } from './restore';
+import { settingRoutes, ROUTE_PATH_SETTING } from './setting';
 
 const resolveHashPath = (path: string) => {
   return `/#${path}`;
@@ -36,9 +37,8 @@ export const ROUTE_PATH = {
   CHAT_INDEX: '/home/chat',
   ASSETS_INDEX: '/home/assets',
   ACCOUNT: '/home/account',
-  
+
   CREATE: '/create',
-  
 
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
@@ -52,6 +52,7 @@ export const ROUTE_PATH = {
   ...ROUTE_PATH_ACCOUNT,
   ...ROUTE_PATH_ASSETS,
   ...ROUTE_PATH_RESOTRE,
+  ...ROUTE_PATH_SETTING,
 };
 const hashPath: any = {};
 Object.keys(ROUTE_PATH).forEach((k: any) => {
@@ -96,8 +97,7 @@ export const routes: RouteObject[] = [
         path: ROUTE_PATH.APP_TEST,
         element: <AppTest />,
       },
-      
-      
+
       {
         path: ROUTE_PATH.UNLOCK,
         element: <Unlock />,
@@ -131,8 +131,8 @@ export const routes: RouteObject[] = [
       ...accountRoutes,
       ...restoreRoutes,
       ...assetsRoutes,
+      ...settingRoutes,
     ],
   },
 ];
-console.log(routes) 
 export const router = createHashRouter(routes);
