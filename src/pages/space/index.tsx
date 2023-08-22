@@ -110,7 +110,7 @@ export default function SpaceIndex() {
   ];
   const [showStatus, setShowStatus] = useState(false);
   const menuClick = ({ path, url, label, type, handler }: any) => {
-    console.log(label);
+    
     if (type === 'function') {
       handler();
     } else if (path) {
