@@ -1,3 +1,15 @@
 {
-  "app_title": "芥子空间"
+  "app": {
+    "title": "芥子空间",
+    "subtitle": "我的私人超级账户",
+    "description": "进入Web3的快速通道"
+  },
+  "pages": {
+    "index": {
+      "btn_create": "一键创建",
+      "create_hint": "使用默认密码创建，创建之后请及时修改",
+      "btn_restore": "恢复账号",
+      "btn_more": "了解更多"
+    }
+  }
 }

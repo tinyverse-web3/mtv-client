@@ -3,7 +3,7 @@ import { Button } from '@/components/form/Button';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
 import account from '@/lib/account/account';
-import { DelConfirmModel } from '@/components/DelConfirmModel';
+
 import { useChatStore, useWalletStore, useAccountStore } from '@/store';
 import {
   Card,
@@ -78,16 +78,6 @@ export default function ChatList() {
     copyToClipboard(link);
   };
 
-  const removeItem = async ({ MessageKey }: any) => {
-    const { code, msg } = await account.delContact(MessageKey);
-    if (code === '000000') {
-      toast.success('删除成功');
-      getContacts();
-    } else {
-      toast.error(msg || '删除失败');
-    }
-  };
-
   const searchHandler = async (e: any) => {
     if (e.key === 'Enter') {
       toSender();
@@ -100,19 +90,7 @@ export default function ChatList() {
     }
     return format(new Date(time), 'HH:mm');
   };
-  const showDelModal = async (e: any, item?: any) => {
-    e.stopPropagation();
-    if (item) {
-      setDelItem(item);
-      setShowStatus(true);
-    }
-  };
-  const delConfirm = async () => {
-    await removeItem(delItem);
-  };
-  const onClose = async () => {
-    setShowStatus(false);
-  };
+
   useEffect(() => {
     getContacts();
   }, []);
@@ -151,23 +129,19 @@ export default function ChatList() {
                 <span>{renderName(item)}</span>
               </div>
               <div className='flex justify-between items-center'>
-                <div className='text-12px w-40 truncate'>{item.LastMessage}</div>
+                <div className='text-12px w-40 truncate'>
+                  {item.LastMessage}
+                </div>
                 <span className='text-12px'>
                   {formatTime(item.LastMsgTime)}
                 </span>
               </div>
             </div>
-            <div
+            {/* <div
               className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
-              onClick={(e) => showDelModal(e, item)}></div>
+              onClick={(e) => showDelModal(e, item)}></div> */}
           </div>
         ))}
-        <DelConfirmModel
-          text='联系人'
-          show={showStatus}
-          onConfirm={delConfirm}
-          onClose={onClose}
-        />
       </div>
       {/* <Button
           className='mx-auto w-full mt-6'
