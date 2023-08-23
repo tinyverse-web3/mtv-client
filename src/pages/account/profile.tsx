@@ -48,7 +48,7 @@ const Profile: React.FC = () => {
   }, [accountInfo.avatar]);
   return (
     <LayoutThird title='我的名片'>
-      <div className='p-4'>
+      <div className='p-4 h-full overflow-y-auto'>
         <div className='pt-16 mb-4'>
           <Card variant='flat' className='overflow-unset'>
             <Card.Body className='overflow-unset'>
