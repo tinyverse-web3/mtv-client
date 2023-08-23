@@ -32,6 +32,7 @@ export default function NftAdd() {
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
     set('File', image);
+    set('Name', image.name);
     const reader = new FileReader();
     reader.onload = function () {
       if (typeof reader.result === 'string') {
