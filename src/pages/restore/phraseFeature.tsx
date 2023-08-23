@@ -33,7 +33,7 @@ export default function QuestionFeature() {
     console.log(mnemonicType);
     if (mnemonicType === 'text') {
       result = await account.retrieveAccountByMnemonic({
-        mnemonic,
+        mnemonic: mnemonic?.trim(),
         textPrivateData: text,
         passwordPrivateData: password,
       });

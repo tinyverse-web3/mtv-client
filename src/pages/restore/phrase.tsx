@@ -37,7 +37,7 @@ export default function Phrase() {
     }
   };
   const phraseChange = (e: any) => {
-    setPhrase(e.target.value?.trim());
+    setPhrase(e.target.value);
   };
 
   return (
