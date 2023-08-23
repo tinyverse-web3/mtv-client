@@ -41,6 +41,9 @@ export default function Account() {
   const toRestory = () => {
     nav(ROUTE_PATH.ACCOUNT_RESTORY);
   };
+  const toSetting = () => {
+    nav(ROUTE_PATH.SETTING_INDEX);
+  };
 
   return (
     <div className='pt-4 px-4 text-14px'>
@@ -53,6 +56,7 @@ export default function Account() {
       <ListRow label='本地安全策略' onPress={toLocalSafe} />
       <ListRow label='多因素验证' onPress={toMultiVerify} />
       <ListRow label='恢复途径' onPress={toRestory} />
+      <ListRow label='系统设置' onPress={toSetting} />
 
       <ListRow label='退出' onPress={deleteUser} />
     </div>

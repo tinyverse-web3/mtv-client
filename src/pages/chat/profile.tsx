@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Image, Button as NextButton } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
@@ -48,13 +48,34 @@ const Profile: React.FC = () => {
   const onClose = async () => {
     setShowStatus(false);
   };
+  const fromName = useMemo(() => {
+    if (!recipient) {
+      return '对方';
+    } else if (recipient?.Alias) {
+      return recipient.Alias;
+    } else if (recipient?.DAuthKey) {
+      return `${recipient.DAuthKey?.substring(
+        0,
+        5,
+      )}*****${recipient.DAuthKey?.substring(recipient.DAuthKey?.length - 5)}`;
+    } else if (recipient.MessageKey) {
+      return `${recipient.MessageKey?.substring(
+        0,
+        5,
+      )}*****${recipient.MessageKey?.substring(
+        recipient.MessageKey?.length - 5,
+      )}`;
+    } else {
+      return '对方';
+    }
+  }, [recipient]);
   useEffect(() => {
     if (recipient) {
       setAlias(recipient?.Alias || '');
     }
   }, [recipient]);
   return (
-    <LayoutThird className='h-full' title=''>
+    <LayoutThird title={fromName} className='h-full'>
       <div className='p-4'>
         <div className='flex items-center mb-4'>
           <Image src='/logo.png' className='rounded w-20' />

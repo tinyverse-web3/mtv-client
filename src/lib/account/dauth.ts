@@ -599,9 +599,11 @@ export class Dauth {
    * 铸造NFT文件
    * @param file 文件
    */
-  async mintNftFile({ file }: { file: File }) {
+  async mintNftFile({ file, Name, Description }: { file: File, Name: string, Description: string }) {
     const formData = new FormData();
     formData.append('File', file);
+    formData.append('Name', Name);
+    formData.append('Description', Description);
     return this.invoke({
       name: 'nft/mintFile',
       method: 'post',
