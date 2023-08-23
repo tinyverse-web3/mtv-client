@@ -38,7 +38,7 @@ export default function NetworkDetail() {
           <Card>
             <Card.Body>
               <div className='flex'>
-                <div className='text-2'>{detail.Key}</div>
+                <div className=''>{detail.Key}</div>
               </div>
             </Card.Body>
           </Card>
@@ -48,7 +48,7 @@ export default function NetworkDetail() {
           <Card>
             <Card.Body>
               <div className='flex'>
-                <div className='text-2'>{sizeText}</div>
+                <div className=''>{sizeText}</div>
               </div>
             </Card.Body>
           </Card>
@@ -58,7 +58,7 @@ export default function NetworkDetail() {
           <Card>
             <Card.Body>
               <div className='flex justify-between'>
-                <div className='text-2'>156.251.179.110</div>
+                <div className=''>156.251.179.110</div>
                 <div className='i-mdi-chevron-down-circle-outline'></div>
               </div>
             </Card.Body>

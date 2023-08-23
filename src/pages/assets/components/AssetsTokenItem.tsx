@@ -24,7 +24,7 @@ export const AssetsTokenItem = ({
       </div>
       <div>
         <div className='text-3.5 font-600 text-right'>{balance}</div>
-        {dollar && <div className='text-2  text-right'>${dollar}</div>}
+        {dollar && <div className='  text-right'>${dollar}</div>}
       </div>
     </div>
   );

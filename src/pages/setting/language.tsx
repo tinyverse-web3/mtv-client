@@ -7,16 +7,23 @@ import { toast } from 'react-hot-toast';
 export default function Language() {
   const nav = useNavigate();
   const { i18n } = useTranslation();
-  const setLanguage =  async (l: string) => {
-    console.log('toLanguage');
+  const setLanguage = async (l: string) => {
     await i18n.changeLanguage(l);
     toast.success('语言切换成功');
   };
   return (
     <LayoutThird showBack title='语言'>
       <div className='p-4'>
-        <ListRow label='中文' onPress={() => setLanguage('zh-CN')}/>
-        <ListRow label='English' onPress={() => setLanguage('en')}/>
+        <ListRow
+          label='English'
+          value={i18n.language === 'en' ? '√' : ''}
+          onPress={() => setLanguage('en')}
+        />
+        <ListRow
+          label='中文'
+          value={i18n.language === 'zh-CN' ? '√' : ''}
+          onPress={() => setLanguage('zh-CN')}
+        />
       </div>
     </LayoutThird>
   );

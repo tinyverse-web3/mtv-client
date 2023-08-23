@@ -143,7 +143,7 @@ export default function NftAdd() {
                   />
                 </label>
               </div>
-              <div className='text-center text-2 '>{t('pages.assets.nft.mint_file_hint')}</div>
+              <div className='text-center  '>{t('pages.assets.nft.mint_file_hint')}</div>
             </div>
           ) : (
             <>

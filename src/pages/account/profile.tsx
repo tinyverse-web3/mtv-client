@@ -60,7 +60,7 @@ const Profile: React.FC = () => {
                   <div className='mb-4'>
                     <div className='mb-2'>GUN</div>
                     <Card variant='bordered'>
-                      <Card.Body className='break-all text-2 p-2'>
+                      <Card.Body className='break-all p-2'>
                         <div>{profile.gunname || '未设置'}</div>
                       </Card.Body>
                     </Card>
@@ -70,7 +70,7 @@ const Profile: React.FC = () => {
                     <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
-                          <div className='break-all text-2 flex-1'>
+                          <div className='break-all flex-1'>
                             {profile.publickey}
                           </div>
                           <CopyIcon text={profile.publickey} className='ml-4' />
@@ -83,7 +83,7 @@ const Profile: React.FC = () => {
                     <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
-                          <div className='break-all text-2 flex-1'>
+                          <div className='break-all flex-1'>
                             {profile.messagekey}
                           </div>
                           <CopyIcon
@@ -99,7 +99,7 @@ const Profile: React.FC = () => {
                     <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
-                          <div className='break-all text-2 flex-1'>
+                          <div className='break-all flex-1'>
                             {profile.walletkey}
                           </div>
                           <CopyIcon text={profile.walletkey} className='ml-4' />
@@ -113,7 +113,7 @@ const Profile: React.FC = () => {
           </Card>
         </div>
         <Card>
-          <Card.Body className='break-all text-2'>
+          <Card.Body className='break-all'>
             <div className='text-center'>
               <QRCodeCanvas value={qrcodeValue} size={200} />
               <div className='mt-2'>扫描二维码，加我为好友。</div>

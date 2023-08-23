@@ -71,7 +71,7 @@ export default function Phrase() {
                 />
               </label>
             </div>
-            <div className='text-center text-2 '>上传助记词加密文件</div>
+            <div className='text-center  '>上传助记词加密文件</div>
           </div>
         ) : (
           <>

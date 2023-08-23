@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { RouterProvider, BrowserRouter as Router } from 'react-router-dom';
@@ -10,8 +11,13 @@ import { BindMail } from '@/components/BindMail';
 
 import Container from '@/layout/container';
 import { useGlobalStore } from '@/store';
-
+import { useTranslation } from 'react-i18next';
 export default function App() {
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    document.title = t('app.title');
+  }, []);
   return (
     <main className='sm:pt-20 h-full'>
       <NextThemesProvider

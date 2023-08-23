@@ -106,6 +106,12 @@ const Profile: React.FC = () => {
             </span>
             <span className='break-all'>{recipient?.MessageKey}</span>
           </div>
+          <div className='flex mb-2'>
+            <span className='w-14 min-w-20'>
+              {t('pages.chat.profile.gun')}：
+            </span>
+            <span className='break-all'>{recipient?.GUNName}</span>
+          </div>
           <div className='flex mb-4'>
             <span className='w-14 min-w-20'>
               {t('pages.chat.profile.alias.title')}：

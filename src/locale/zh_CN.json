@@ -114,6 +114,7 @@
       "profile": {
         "public_key": "公钥",
         "message_key": "消息公钥",
+        "gun": "GUN",
         "btn_change": "修改",
         "btn_clear": "清除历史消息",
         "btn_delete": "删除联系人",

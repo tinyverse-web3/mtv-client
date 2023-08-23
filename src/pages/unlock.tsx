@@ -13,7 +13,6 @@ export default function Unlock() {
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
-  const [bioLoading, setBioLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(

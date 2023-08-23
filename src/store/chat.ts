@@ -11,6 +11,7 @@ interface Friend {
 
 interface Recipinet {
   Alias?: string;
+  GUNName?: string;
   CreateTime?: number;
   DAuthKey?: string;
   LastMessage?: string;

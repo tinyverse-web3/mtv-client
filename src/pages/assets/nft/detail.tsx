@@ -46,7 +46,7 @@ export default function NftDetail() {
           <Card>
             <Card.Body>
               <div className='flex'>
-                <div className='text-2 break-all'>{detail.Nftname}</div>
+                <div className=' break-all'>{detail.Nftname}</div>
               </div>
             </Card.Body>
           </Card>
@@ -81,7 +81,7 @@ export default function NftDetail() {
             <Card>
               <Card.Body>
                 <div className='flex'>
-                  <div className='text-2 break-all'>{detail.Description}</div>
+                  <div className=' break-all'>{detail.Description}</div>
                 </div>
               </Card.Body>
             </Card>
@@ -104,7 +104,7 @@ export default function NftDetail() {
                 <Card>
                   <Card.Body>
                     <div className='flex'>
-                      <div className='text-2 break-all'>{detail.Content}</div>
+                      <div className=' break-all'>{detail.Content}</div>
                     </div>
                   </Card.Body>
                 </Card>

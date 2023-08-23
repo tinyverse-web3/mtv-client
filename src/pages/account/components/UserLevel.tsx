@@ -53,7 +53,7 @@ export const UserLevel = ({ className }: Props) => {
       <div className='text-gray-6'>
         <p className='text-12px'>{levelItem.text}</p>
         <p className='text-12px'>
-          只有名字和公钥暴露在外，其他所有数据完全由用户个人控制，保存在个人数字空间。
+          只有我的名片暴露在外，其他所有数据完全由用户个人控制，保存在个人数字空间。
         </p>
       </div>
     </div>

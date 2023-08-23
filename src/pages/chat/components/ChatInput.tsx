@@ -37,17 +37,15 @@ export const ChatInput = ({ onSend }: Props) => {
       <div className='flex-1'>
         <Input value={text} onChange={textChange} />
       </div>
-      {!!text && (
-        <div
-          className='cursor-pointer w-16 flex justify-center items-center px-2 rounded-3 bg-blue-5 text-white ml-2'
-          onClick={pressHandler}>
-          {loading ? (
-            <Loading type='spinner' size='sm' color='currentColor' />
-          ) : (
-            t('pages.chat.message.btn_send')
-          )}
-        </div>
-      )}
+      <div
+        className='cursor-pointer w-16 flex justify-center items-center px-2 rounded-3 bg-blue-5 text-white ml-2'
+        onClick={pressHandler}>
+        {loading ? (
+          <Loading type='spinner' size='sm' color='currentColor' />
+        ) : (
+          t('pages.chat.message.btn_send')
+        )}
+      </div>
     </div>
   );
 };

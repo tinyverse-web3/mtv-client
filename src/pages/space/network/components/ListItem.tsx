@@ -44,7 +44,7 @@ export function ListItem({
     <Card className='mb-4'>
       <Card.Body className='relative' onClick={onClick}>
         <div className='text-4 break-all'>{Key}</div>
-        <div className='text-2'>
+        <div className=''>
           <div>
             <span>大小：</span>
             <span>{sizeText}</span>
