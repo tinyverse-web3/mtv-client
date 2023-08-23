@@ -16,15 +16,11 @@ export default function Account() {
   const toProfile = async () => {
     nav(ROUTE_PATH.ACCOUNT_PROFILE);
   };
-
   const deleteUser = async () => {
     await resetGlobal();
     await account.lock();
     setLockStatus(true);
     nav(ROUTE_PATH.UNLOCK);
-  };
-  const toSubAccount = () => {
-    nav(ROUTE_PATH.ACCOUNT_SUBACCOUNT_LIST);
   };
   const toLocalSafe = () => {
     nav(ROUTE_PATH.ACCOUNT_LOCAL_SAFE);

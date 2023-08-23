@@ -57,7 +57,7 @@ export default function NftDetail() {
             <Card>
               <Card.Body>
                 <div className='flex'>
-                  <div className='text-2 break-all'>{detail.Cid}</div>
+                  <div className='break-all'>{detail.Cid}</div>
                 </div>
               </Card.Body>
             </Card>
@@ -69,7 +69,7 @@ export default function NftDetail() {
             <Card>
               <Card.Body>
                 <div className='flex'>
-                  <div className='text-2 break-all'>{detail.Owner}</div>
+                  <div className='break-all'>{detail.Owner}</div>
                 </div>
               </Card.Body>
             </Card>
@@ -99,6 +99,15 @@ export default function NftDetail() {
                     </PhotoView>
                   </div>
                 </PhotoProvider>
+              )}
+              {!!detail.Content && (
+                <Card>
+                  <Card.Body>
+                    <div className='flex'>
+                      <div className='text-2 break-all'>{detail.Content}</div>
+                    </div>
+                  </Card.Body>
+                </Card>
               )}
             </div>
           </div>

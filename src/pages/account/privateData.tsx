@@ -24,7 +24,6 @@ export default function PrivateData() {
   );
 
   const add = async () => {
-    setLoading(true);
     const privateArr = [text, password, customText];
     const privateFilter = privateArr.filter((v) => !!v);
     if (privateFilter.length < 2) {
@@ -32,10 +31,13 @@ export default function PrivateData() {
       setLoading(false);
       return;
     }
+    if (text?.length >= 12) {
+      toast.error('最多输入三种内容');
+      return;
+    }
     setTextPrivateData(text);
     setPasswordPrivateData(password);
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA_VERIFY);
-    setLoading(false);
   };
   const pressHandler = async () => {
     await add();

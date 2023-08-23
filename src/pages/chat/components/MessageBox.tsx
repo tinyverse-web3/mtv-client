@@ -52,7 +52,7 @@ export const MessageBox = ({ recipient }: any) => {
     // const meName =
     //   accountInfo.name ||
     //   accountInfo.publicKey.substring(accountInfo.publicKey.length - 4);
-    const meName = t('pages.chat.me_name');
+    const meName = t('pages.chat.message.me_name');
     const fromName =
       recipient.Alias ||
       recipient.DAuthKey?.substring(recipient.DAuthKey.length - 4) ||
