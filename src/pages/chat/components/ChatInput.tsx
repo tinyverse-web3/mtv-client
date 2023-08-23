@@ -4,12 +4,13 @@ import { Input } from '@/components/form/Input';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { toast } from 'react-hot-toast';
-
+import { useTranslation } from 'react-i18next';
 const keys = ['Enter'];
 interface Props {
   onSend: (text: string) => void;
 }
 export const ChatInput = ({ onSend }: Props) => {
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   useKeyPressEvent('Enter', () => {
@@ -27,7 +28,7 @@ export const ChatInput = ({ onSend }: Props) => {
       await onSend(text);
       setText('');
     } catch (error) {
-      toast.error('发送失败');
+      toast.error(t('pages.chat.message.send_error'));
     }
     setLoading(false);
   };
@@ -43,7 +44,7 @@ export const ChatInput = ({ onSend }: Props) => {
           {loading ? (
             <Loading type='spinner' size='sm' color='currentColor' />
           ) : (
-            '发送'
+            t('pages.chat.message.btn_send')
           )}
         </div>
       )}

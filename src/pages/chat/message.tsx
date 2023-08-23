@@ -5,14 +5,15 @@ import { ROUTE_PATH } from '@/router';
 import { useChatStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
-import { divide } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export default function ChatMessage() {
   const nav = useNavigate();
   const { recipient } = useChatStore((state) => state);
+  const { t } = useTranslation();
   const fromName = useMemo(() => {
     if (!recipient) {
-      return '对方';
+      return t('pages.chat.recipient.unknow');
     } else if (recipient?.Alias) {
       return recipient.Alias;
     } else if (recipient?.DAuthKey) {
@@ -28,7 +29,7 @@ export default function ChatMessage() {
         recipient.MessageKey?.length - 5,
       )}`;
     } else {
-      return '对方';
+      return t('pages.chat.recipient.unknow');
     }
   }, [recipient]);
   const toProfile = () => {

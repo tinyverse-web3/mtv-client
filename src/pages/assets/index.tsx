@@ -12,9 +12,11 @@ import { NftList } from './components/NftList';
 import account from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
 export default function AssetsIndex() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const [assetsType, setAssetsType] = useState('token');
 
   const { web3AccountSelect, accountInfo } = useAccountStore((state) => state);
@@ -33,11 +35,11 @@ export default function AssetsIndex() {
   const [list] = useWalletBalance();
   const assetsTypes = [
     {
-      label: '代币',
+      label: t('pages.assets.token.title'),
       value: 'token',
     },
     {
-      label: 'NFT',
+      label: t('pages.assets.nft.title'),
       value: 'NFT',
     },
   ];
@@ -82,7 +84,7 @@ export default function AssetsIndex() {
               <div className='mb-20'>
                 <AssetsTokenItem
                   icon='/logo.png'
-                  symbol='积分'
+                  symbol={t('pages.assets.token.point_name')}
                   key='point'
                   balance={pointBalance}
                 />
@@ -96,7 +98,8 @@ export default function AssetsIndex() {
                   />
                 ))}
               </div>
-              <Button onClick={toTransfer} className="mx-auto">转账</Button>
+              <Button onClick={toTransfer} className="mx-auto">{
+              t('pages.assets.btn_transfer')}</Button>
             </>
           ) : (
             <div>

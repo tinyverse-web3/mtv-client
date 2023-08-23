@@ -17,7 +17,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
-
+import { useTranslation } from 'react-i18next';
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
   const newTime = addMinutes(currentTime, 10);
@@ -25,16 +25,18 @@ function addMinute(minute: number) {
   return formatDate;
 }
 
-const renderName = (item: any) => {
-  if (item.Alias) {
-    return item.Alias;
-  } else if (item.DAuthKey) {
-    return <Address address={item.DAuthKey}></Address>;
-  } else {
-    return '匿名';
-  }
-};
 export default function ChatList() {
+  const { t } = useTranslation();
+  const renderName = (item: any) => {
+    if (item.Alias) {
+      return item.Alias;
+    } else if (item.DAuthKey) {
+      return <Address address={item.DAuthKey}></Address>;
+    } else {
+      return t('pages.chat.contact.unknown');
+    }
+  };
+
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const [friendList, setFriendList] = useState<any[]>([]);
@@ -53,15 +55,15 @@ export default function ChatList() {
 
   const toSender = async () => {
     if (!searchText) {
-      toast('请输入对方公钥或者GUN名称');
+      toast('pages.chat.search.empty');
       return;
     }
     const { code, msg } = await account.createContactByMasterKey(searchText);
 
     if (code === '000000') {
-      toast.success('添加好友成功');
+      toast.success(t('pages.chat.search.success'));
     } else {
-      toast.error(msg || '添加好友失败');
+      toast.error(msg || t('pages.chat.search.error'));
     }
     setSearchText('');
   };
@@ -110,7 +112,7 @@ export default function ChatList() {
             fullWidth
             clearable
             onKeyUp={searchHandler}
-            placeholder='公钥/GUN'
+            placeholder={t('pages.chat.search.placeholder')}
           />
         </div>
         <div

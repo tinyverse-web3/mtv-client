@@ -7,8 +7,10 @@ import { useMap } from 'react-use';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Transfer() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [params] = useSearchParams();
@@ -25,18 +27,18 @@ export default function Transfer() {
       NftName: id,
     });
     if (code === '000000') {
-      await toast.success('转账成功');
-      nav(-2)
+      await toast.success(t('pages.assets.token.transfer_success'));
+      nav(-2);
     } else {
       toast.error(msg);
     }
     setLoading(false);
   };
   return (
-    <LayoutThird className='h-full' title='转账'>
+    <LayoutThird className='h-full' title={t('pages.assets.transfer.title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>NFT名称</div>
+          <div className='mb-2'>{t('pages.assets.transfer.nft_name')}</div>
           <Card>
             <Card.Body>
               <div className='flex'>
@@ -46,24 +48,24 @@ export default function Transfer() {
           </Card>
         </div>
         <Input
-          label='目标地址'
-          placeholder='请输入对方钱包公钥'
+          label={t('pages.assets.transfer.to_address')}
+          placeholder={t('pages.assets.transfer.to_placeholder')}
           className='mb-4'
           value={data.WalletAddr}
           onChange={(e: string) => set('WalletAddr', e.trim())}
         />
 
         <Input
-          label='转移的NFT的积分收入'
+          label={t('pages.assets.transfer.nft_point')}
+          placeholder={t('pages.assets.transfer.nft_point_placeholder')}
           typ='number'
-          placeholder='请输入转移的NFT的积分收入'
           className='mb-4'
           value={data.Amount}
           onChange={(e: string) => set('Amount', e.trim())}
         />
 
         <Button className='w-full' loading={loading} onClick={handleTransfer}>
-          转账
+          {t('pages.assets.btn_transfer')}
         </Button>
       </div>
     </LayoutThird>

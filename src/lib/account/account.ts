@@ -663,6 +663,10 @@ export class Account {
     const res = await this.dauth.delContact({ destPubkey });
     return res.data;
   }
+  async clearContactMessage(DestPubkey: string) {
+    const res = await this.dauth.clearContactMessage({ DestPubkey });
+    return res.data;
+  }
   async setContactAlias({ destPubkey, alias }: any) {
     const res = await this.dauth.setContactAlias({
       destPubkey,

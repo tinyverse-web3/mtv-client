@@ -6,13 +6,16 @@ import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import { ValidPassword } from '@/components/ValidPassword';
 import { Image } from '@nextui-org/react';
+import { useTranslation } from 'react-i18next';
+
 const MenuItem = ({ text, icon, onClick }: any) => {
+  const { t } = useTranslation();
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
     const { code, msg } = await account.uploadAlbum({ file: image });
 
     if (code === '000000') {
-      toast.success('拍照成功');
+      toast.success(t('pages.space.photo.upload_success'));
     } else {
       toast.error(msg);
     }
@@ -46,29 +49,30 @@ const MenuItem = ({ text, icon, onClick }: any) => {
 };
 export default function SpaceIndex() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const list = [
     {
       icon: 'icon-note.png',
-      label: '日记本',
+      label: t('pages.space.note.title'),
       path: ROUTE_PATH.NOTE,
     },
     {
       icon: 'icon-album.png',
-      label: '相册',
+      label: t('pages.space.album.title'),
       path: ROUTE_PATH.SPACE_ALBUM,
     },
     {
       icon: 'icon-photo.png',
-      label: '拍照',
+      label: t('pages.space.photo.title'),
     },
     {
       icon: 'icon-file.png',
-      label: '文件',
+      label: t('pages.space.file.title'),
       path: ROUTE_PATH.SPACE_FILE,
     },
     {
       icon: 'icon-password.png',
-      label: '密码箱',
+      label: t('pages.space.password.title'),
       type: 'function',
       handler: () => {
         setShowStatus(true);
@@ -76,35 +80,35 @@ export default function SpaceIndex() {
     },
     {
       icon: 'icon-gun.png',
-      label: 'GUN',
+      label: t('pages.space.gun.title'),
       path: ROUTE_PATH.SPACE_GUN_LIST,
     },
     {
       icon: 'icon-network.png',
-      label: '网络数据',
+      label: t('pages.space.data.title'),
       path: ROUTE_PATH.SPACE_NETWORK,
     },
     {
       icon: 'icon-read.png',
-      label: '付费阅读',
+      label: t('pages.space.read.title'),
     },
     {
       icon: 'icon-ledger.png',
-      label: '账本',
+      label: t('pages.space.ledger.title'),
     },
     {
       icon: 'icon-auth.png',
-      label: 'Google验证器',
+      label: t('pages.space.authenticator.title'),
       path: ROUTE_PATH.SPACE_AUTHENTICATOR,
     },
     {
       icon: 'icon-point.png',
-      label: '获取积分',
+      label: t('pages.space.award.title'),
       path: ROUTE_PATH.ACCOUNT_AWARD,
     },
     {
       icon: 'icon-nft.png',
-      label: '发行NFT',
+      label: t('pages.space.nft.title'),
       path: ROUTE_PATH.ASSETS_NFT_ADD,
     },
   ];
@@ -118,7 +122,7 @@ export default function SpaceIndex() {
     } else if (label === '拍照') {
       return;
     } else {
-      toast('即将发布');
+      toast(t('pages.space.hint.coming_soon'));
     }
   };
 

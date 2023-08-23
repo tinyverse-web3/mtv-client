@@ -599,7 +599,15 @@ export class Dauth {
    * 铸造NFT文件
    * @param file 文件
    */
-  async mintNftFile({ file, Name, Description }: { file: File, Name: string, Description: string }) {
+  async mintNftFile({
+    file,
+    Name,
+    Description,
+  }: {
+    file: File;
+    Name: string;
+    Description: string;
+  }) {
     const formData = new FormData();
     formData.append('File', file);
     formData.append('Name', Name);
@@ -820,6 +828,13 @@ export class Dauth {
       name: 'msg/getContacts',
       method: 'get',
       data: {},
+    });
+  }
+  async clearContactMessage({ DestPubkey }: any) {
+    return this.invoke({
+      name: 'msg/clearContactMessage',
+      method: 'post',
+      data: { DestPubkey },
     });
   }
 

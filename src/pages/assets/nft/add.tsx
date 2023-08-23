@@ -7,23 +7,25 @@ import { useNavigate } from 'react-router-dom';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { useMap } from 'react-use';
+import { useTranslation } from 'react-i18next';
 
 export default function NftAdd() {
+  const { t} = useTranslation();
   const [assetsType, setAssetsType] = useState('file');
   const [textLoading, setTextLoading] = useState(false);
   const [previewSrc, setPreviewSrc] = useState('');
   const nav = useNavigate();
   const assetsTypes = [
     {
-      label: '文件',
+      label: t('pages.assets.nft.tab_file'),
       value: 'file',
     },
     {
-      label: '内容',
+      label: t('pages.assets.nft.tab_text'),
       value: 'text',
     },
   ];
-  const [data, { set }] = useMap({
+  const [data, { set, reset }] = useMap({
     File: null,
     Content: '',
     Name: '',
@@ -55,17 +57,13 @@ export default function NftAdd() {
       Description: data.Description,
     });
     if (code === '000000') {
-      toast.success('铸造成功');
+      toast.success(t('pages.assets.nft.mint_success'));
       nav(-1);
     } else {
       toast.error(msg);
     }
   };
   const mintText = async () => {
-    if (!data.Content || !data.Name || !data.Description) {
-      toast.error('请填写完整');
-      return;
-    }
     setTextLoading(true);
     const { code, msg } = await account.mintNftText({
       Content: data.Content,
@@ -74,15 +72,14 @@ export default function NftAdd() {
     });
     setTextLoading(false);
     if (code === '000000') {
-      toast.success('铸造成功');
+      toast.success(t('pages.assets.nft.mint_success'));
       nav(-1);
     } else {
       toast.error(msg);
     }
   };
   const typeChange = (t: string) => {
-    set('Content', '');
-    set('File', null);
+    reset()
     setAssetsType(t);
   };
   const textMintDisabled = useMemo(() => {
@@ -97,7 +94,7 @@ export default function NftAdd() {
     return previewSrc || '/upload.png';
   }, [previewSrc]);
   return (
-    <LayoutThird title='发行NFT'>
+    <LayoutThird title={t('pages.assets.nft.mint_title')}>
       <div className='p-4'>
         <div>
           <div className='flex mb-4'>
@@ -120,7 +117,7 @@ export default function NftAdd() {
         <div className='pt-2'>
           <div className='mb-4'>
             <Input
-              placeholder='标题'
+              placeholder={t('pages.assets.nft.mint_name_placeholder')}
               value={data.Name}
               onChange={(e: string) => set('Name', e.trim()) as any}
             />
@@ -131,7 +128,7 @@ export default function NftAdd() {
               maxRows={4}
               value={data.Description}
               onChange={(e: string) => set('Description', e.trim()) as any}
-              placeholder='描述'
+              placeholder={t('pages.assets.nft.mint_description_placeholder')}
             />
           </div>
           {assetsType === 'file' ? (
@@ -146,7 +143,7 @@ export default function NftAdd() {
                   />
                 </label>
               </div>
-              <div className='text-center text-2 '>上传图片</div>
+              <div className='text-center text-2 '>{t('pages.assets.nft.mint_file_hint')}</div>
             </div>
           ) : (
             <>
@@ -156,10 +153,10 @@ export default function NftAdd() {
                   maxRows={100}
                   value={data.Content}
                   onChange={(e: string) => set('Content', e.trim()) as any}
-                  placeholder='内容'
+                  placeholder={t('pages.assets.nft.mint_content_placeholder')}
                 />
               </div>
-              <div className='text-3 mb-4 text-right'>最大内容8k字节</div>
+              <div className='text-3 mb-4 text-right'>{t('pages.assets.nft.mint_text_hint')}</div>
             </>
           )}
           <Button
@@ -167,7 +164,7 @@ export default function NftAdd() {
             disabled={textMintDisabled}
             loading={textLoading}
             onClick={mint}>
-            铸造
+            {t('pages.assets.nft.btn_mint')}
           </Button>
         </div>
       </div>

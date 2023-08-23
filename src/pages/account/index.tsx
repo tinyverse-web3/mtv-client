@@ -1,19 +1,13 @@
-import { useEffect, useState } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalStore, useAccountStore } from '@/store';
-import { useCheckLogin } from '@/components/BindMail';
 import { UserAvatar, ListRow, UserLevel } from './components';
-import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
-import { ValidPassword } from '@/components/ValidPassword';
 export default function Account() {
   const nav = useNavigate();
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
-
-  const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toPublicKey = () => {
     nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);
@@ -52,12 +46,11 @@ export default function Account() {
         <UserLevel />
       </div>
       <ListRow label='我的名片' onPress={toProfile} />
-
       <ListRow label='本地安全策略' onPress={toLocalSafe} />
       <ListRow label='多因素验证' onPress={toMultiVerify} />
       <ListRow label='恢复途径' onPress={toRestory} />
       <ListRow label='系统设置' onPress={toSetting} />
-
+      <ListRow label='关于' />
       <ListRow label='退出' onPress={deleteUser} />
     </div>
   );

@@ -6,8 +6,10 @@ import { ChatInput } from '@/pages/chat/components/ChatInput';
 import { useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export const MessageBox = ({ recipient }: any) => {
+  const { t } = useTranslation();
   const [allList, { set: setAllList, push }] = useList<any>([]);
   // const [lastList, { set: setLastList, push }] = useList<any>([]);
   const { accountInfo } = useAccountStore((state) => state);
@@ -50,7 +52,7 @@ export const MessageBox = ({ recipient }: any) => {
     // const meName =
     //   accountInfo.name ||
     //   accountInfo.publicKey.substring(accountInfo.publicKey.length - 4);
-    const meName = '我';
+    const meName = t('pages.chat.me_name');
     const fromName =
       recipient.Alias ||
       recipient.DAuthKey?.substring(recipient.DAuthKey.length - 4) ||

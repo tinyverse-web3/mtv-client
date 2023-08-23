@@ -10,6 +10,120 @@
       "create_hint": "使用默认密码创建，创建之后请及时修改",
       "btn_restore": "恢复账号",
       "btn_more": "了解更多"
+    },
+    "assets": {
+      "nft": {
+        "title": "NFT",
+        "tab_file": "文件",
+        "tab_text": "内容",
+        "btn_mint": "发行",
+        "mint_title": "发行NFT",
+        "mint_success": "发行成功",
+        "mint_name_placeholder": "标题",
+        "mint_description_placeholder": "描述",
+        "mint_content_placeholder": "内容",
+        "mint_file_hint": "上传图片",
+        "mint_text_hint": "最大内容8k字节"
+      },
+      "token": {
+        "title": "代币",
+        "point_name": "积分",
+        "transfer_successs": "转账成功"
+      },
+      "transfer": {
+        "title": "转账",
+        "to_address": "目标地址",
+        "to_placeholder": "请输入对方钱包公钥",
+        "amount": "转账金额",
+        "amount_placeholder": "请输入转账金额",
+        "gas": "转账小费",
+        "gas_placeholder": "请输入转账小费",
+        "remark": "转账备注",
+        "remark_placeholder": "请输入转账备注",
+        "nft_name": "NFT名称",
+        "nft_point": "转移的NFT的积分收入",
+        "nft_point_placeholder": "请输入转移的NFT的积分收入"
+      },
+      "btn_transfer": "转账"
+    },
+    "space": {
+      "hint": {
+        "coming_soon": "即将发布"
+      },
+      "note": {
+        "title": "日记本"
+      },
+      "album": {
+        "title": "相册"
+      },
+      "photo": {
+        "title": "拍照",
+        "upload_success": "拍照完成"
+      },
+      "file": {
+        "title": "文件"
+      },
+      "password": {
+        "title": "密码箱"
+      },
+      "gun": {
+        "title": "GUN"
+      },
+      "data": {
+        "title": "网络数据"
+      },
+      "read": {
+        "title": "付费阅读"
+      },
+      "ledger": {
+        "title": "账本"
+      },
+      "authenticator": {
+        "title": "Google验证器"
+      },
+      "award": {
+        "title": "获取积分"
+      },
+      "nft": {
+        "title": "发行NFT"
+      }
+    },
+    "chat": {
+      "title": "密信",
+      "search": {
+        "placeholder": "公钥/GUN",
+        "empty": "请输入对方公钥或者GUN名称",
+        "success": "添加好友成功",
+        "error": "添加好友失败"
+      },
+      "contact": {
+        "title": "联系人",
+        "unknow": "匿名",
+        "delete_success": "删除成功",
+        "delete_error": "删除成功"
+        
+      },
+      "recipient": {
+        "unknow": "对方"
+      },
+      "message": {
+        "me_name": "我",
+        "btn_send": "发送",
+        "send_error": "发送失败"
+      },
+      "profile": {
+        "public_key": "公钥",
+        "message_key": "消息公钥",
+        "btn_change": "修改",
+        "btn_clear": "清除历史消息",
+        "btn_delete": "删除联系人",
+        "clear_success": "清除成功",
+        "clear_error": "清除成功",
+        "alias": {
+          "title": "别名",
+          "change_success": "修改成功"
+        }
+      }
     }
   }
 }

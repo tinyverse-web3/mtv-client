@@ -7,10 +7,12 @@ import { useChatStore, useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 
 const Profile: React.FC = () => {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const { recipient } = useChatStore((state) => state);
   const [alias, setAlias] = React.useState('');
   const [showStatus, setShowStatus] = useState(false);
@@ -21,7 +23,7 @@ const Profile: React.FC = () => {
       alias,
     });
     if (res.code === '000000') {
-      toast.success('修改成功');
+      toast.success(t('pages.chat.profile.alias.change_success'));
       nav(-1);
     } else {
       toast.error(res.msg);
@@ -30,15 +32,26 @@ const Profile: React.FC = () => {
   const showDelModal = async () => {
     setShowStatus(true);
   };
-
+  const claer = async () => {
+    if (recipient?.MessageKey) {
+      const { code, msg } = await account.clearContactMessage(
+        recipient?.MessageKey,
+      );
+      if (code === '000000') {
+        toast.success(t('pages.chat.profile.clear_success'));
+      } else {
+        toast.error(msg || t('pages.chat.profile.clear_error'));
+      }
+    }
+  };
   const removeItem = async () => {
     if (recipient?.MessageKey) {
       const { code, msg } = await account.delContact(recipient.MessageKey);
       if (code === '000000') {
-        toast.success('删除成功');
+        toast.success(t('pages.chat.contact.delete_success'));
         nav(-2);
       } else {
-        toast.error(msg || '删除失败');
+        toast.error(msg || t('pages.chat.contact.delete_error'));
       }
     }
   };
@@ -50,7 +63,7 @@ const Profile: React.FC = () => {
   };
   const fromName = useMemo(() => {
     if (!recipient) {
-      return '对方';
+      return t('pages.chat.profile.recipient.unknow');
     } else if (recipient?.Alias) {
       return recipient.Alias;
     } else if (recipient?.DAuthKey) {
@@ -66,7 +79,7 @@ const Profile: React.FC = () => {
         recipient.MessageKey?.length - 5,
       )}`;
     } else {
-      return '对方';
+      return t('pages.chat.profile.recipient.unknow');
     }
   }, [recipient]);
   useEffect(() => {
@@ -82,15 +95,21 @@ const Profile: React.FC = () => {
         </div>
         <div>
           <div className='flex mb-2'>
-            <span className='w-14 min-w-20'>公钥：</span>
+            <span className='w-14 min-w-20'>
+              {t('pages.chat.profile.public_key')}：
+            </span>
             <span className='break-all'>{recipient?.DAuthKey}</span>
           </div>
           <div className='flex mb-2'>
-            <span className='w-14 min-w-20'>消息key：</span>
+            <span className='w-14 min-w-20'>
+              {t('pages.chat.profile.message_key')}：
+            </span>
             <span className='break-all'>{recipient?.MessageKey}</span>
           </div>
           <div className='flex mb-4'>
-            <span className='w-14 min-w-20'>别名：</span>
+            <span className='w-14 min-w-20'>
+              {t('pages.chat.profile.alias.title')}：
+            </span>
             <Input value={alias} onChange={(e: string) => setAlias(e)} />
             <NextButton
               auto
@@ -98,19 +117,21 @@ const Profile: React.FC = () => {
               size='xs'
               className='ml-4 h-10'
               onPress={changeAlias}>
-              修改
+              {t('pages.chat.profile.btn_change')}
             </NextButton>
           </div>
           <div>
-            <Button className='w-full mb-2'>清楚历史消息</Button>
+            <Button className='w-full mb-2' onPress={claer}>
+              {t('pages.chat.profile.btn_clear')}
+            </Button>
             <Button className='w-full mb-2' onPress={showDelModal}>
-              删除联系人
+              {t('pages.chat.profile.btn_delete')}
             </Button>
           </div>
         </div>
       </div>
       <DelConfirmModel
-        text='联系人'
+        text={t('pages.chat.contact.title')}
         show={showStatus}
         onConfirm={delConfirm}
         onClose={onClose}
