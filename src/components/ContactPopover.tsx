@@ -32,7 +32,7 @@ export const ContactPopover = ({ onChange }: Props) => {
     <Popover isOpen={popverOpen} onClose={() => setPopverOpen(false)}>
       <Popover.Trigger>
         <div
-          className='i-mdi-account-search-outline ml-4 w-7 h-7 text-blue-5 mt-2'
+          className='i-mdi-account-box ml-4 w-7 h-7 text-blue-5 mt-2'
           onClick={() => setPopverOpen(true)}></div>
       </Popover.Trigger>
       <Popover.Content>

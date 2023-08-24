@@ -44,16 +44,17 @@ const FooterTabs = () => {
   );
   return (
     <div className='w-full rounded-6 relative h-full flex bg-gray-2 overflow-hidden'>
-      {list.map(({ icon, path }) => (
+      {list.map(({ icon, path,text }, i) => (
         <div
-          className='w-[25%] flex justify-center items-center relative z-2 cursor-pointer'
+          className={`w-[25%] flex flex-col justify-center items-center relative z-2 cursor-pointer ${active === i ? 'text-blue-5' : ''}`}
           key={path}
           onClick={() => menuClick(path)}>
-          <div className={`${icon} w-6 h-6 mb-1`}></div>
+          <div className={`${icon} w-5 h-5`}></div>
+          <div className='text-12px'>{text}</div>
         </div>
       ))}
       <div
-        className='w-[25%] absolute h-full bg-blue-4 rounded-6 z-1 transition duration-300'
+        className='w-[25%] absolute h-full bg-blue-2 rounded-6 z-1 transition duration-300'
         style={{ transform: `translateX(${100 * active}%)` }}></div>
     </div>
   );
