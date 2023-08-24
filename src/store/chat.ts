@@ -1,16 +1,22 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { remove, cloneDeep } from 'lodash';
-interface Friend {
-  Id: number;
-  publicKey: string;
-  name: string;
-  avatar: string;
-  time?: Date | number;
+import account from '@/lib/account/account';
+
+interface Contact {
+  Alias: string;
+  Address: string;
+  CreateTime: number;
+  DAuthKey: string;
+  GUNName: string;
+  LastMessage: string;
+  LastMsgTime: number;
+  MessageKey: string;
 }
 
 interface Recipinet {
   Alias?: string;
+  Address?: string;
   GUNName?: string;
   CreateTime?: number;
   DAuthKey?: string;
@@ -19,10 +25,10 @@ interface Recipinet {
   MessageKey?: string;
 }
 interface ChatState {
-  list: Friend[];
+  contacts: Contact[];
   recipient?: Recipinet;
-  add: (friend: Friend) => void;
-  remove: (publicKey: string) => void;
+  getContacts: () => void;
+  remove: (MessageKey: string) => void;
   setRecipient: (r: Recipinet) => void;
   reset: () => void;
 }
@@ -31,32 +37,31 @@ export const useChatStore = create<ChatState>()(
   devtools(
     persist(
       (set, get) => ({
-        list: [],
+        contacts: [],
         recipient: undefined,
-        add: async (n) => {
-          const list = cloneDeep(get().list);
-          if (!list.find((s) => s.publicKey === n.publicKey)) {
-            list.push({ ...n, time: +new Date() });
-            set({ list });
-          }
+        remove: async (MessageKey) => {
+          const list = cloneDeep(get().contacts);
+          remove(list, (i) => i.MessageKey === MessageKey);
+          set({ contacts: list });
         },
-        remove: async (publicKey) => {
-          const list = cloneDeep(get().list);
-          remove(list, (i) => i.publicKey === publicKey);
-          set({ list });
+        getContacts: async () => {
+          const list = await account.getContacts();
+          if (get().contacts.length !== list.length) {
+            set({ contacts: list });
+          }
         },
         setRecipient: async (n) => {
           set({ recipient: n });
         },
         reset: () => {
           set({
-            list: [],
+            contacts: [],
             recipient: undefined,
           });
         },
       }),
       {
-        name: 'nostr-store',
+        name: 'chat-store',
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(

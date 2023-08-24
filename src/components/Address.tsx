@@ -18,7 +18,7 @@ export const Address = ({ address }: Props) => {
   };
   return (
     <div
-      className='cursor-pointer h-6 flex justify-center items-center text-4'
+      className='cursor-pointer h-6 flex items-center text-4'
       onClick={clickHandler}>
       {shortAddress}
     </div>

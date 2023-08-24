@@ -8,6 +8,7 @@ import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ContactPopover } from '@/components/ContactPopover';
 
 export default function Transfer() {
   const { t } = useTranslation();
@@ -19,6 +20,9 @@ export default function Transfer() {
     WalletAddr: '',
     Amount: '',
   });
+  const selectContact = (item: any) => {
+    set('WalletAddr', item.Address);
+  };
   const handleTransfer = async () => {
     setLoading(true);
     const { code, msg } = await account.transferNft({
@@ -47,13 +51,16 @@ export default function Transfer() {
             </Card.Body>
           </Card>
         </div>
-        <Input
-          label={t('pages.assets.transfer.to_address')}
-          placeholder={t('pages.assets.transfer.to_placeholder')}
-          className='mb-4'
-          value={data.WalletAddr}
-          onChange={(e: string) => set('WalletAddr', e.trim())}
-        />
+        <div className='flex items-center'>
+          <Input
+            label={t('pages.assets.transfer.to_address')}
+            placeholder={t('pages.assets.transfer.to_placeholder')}
+            className='mb-4'
+            value={data.WalletAddr}
+            onChange={(e: string) => set('WalletAddr', e.trim())}
+          />
+          <ContactPopover onChange={selectContact} />
+        </div>
 
         <Input
           label={t('pages.assets.transfer.nft_point')}

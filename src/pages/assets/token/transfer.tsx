@@ -1,7 +1,8 @@
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
+import { ContactPopover } from '@/components/ContactPopover';
 import LayoutThird from '@/layout/LayoutThird';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap } from 'react-use';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
@@ -16,7 +17,9 @@ export default function Transfer() {
     Gas: '3',
     Comment: '',
   });
-
+  const selectContact = (item: any) => {
+    set('WalletAddr', item.Address);
+  };
   const handleTransfer = async () => {
     setLoading(true);
     const { code, msg } = await account.transferPoint({
@@ -32,17 +35,20 @@ export default function Transfer() {
     }
     setLoading(false);
   };
-
   return (
     <LayoutThird className='h-full' title={t('pages.assets.btn_transfer')}>
       <div className='p-4'>
-        <Input
-          label={t('pages.assets.transfer.to_address')}
-          placeholder={t('pages.assets.transfer.to_placeholder')}
-          className='mb-4'
-          value={data.WalletAddr}
-          onChange={(e: string) => set('WalletAddr', e.trim())}
-        />
+        <div className='flex items-center'>
+          <Input
+            label={t('pages.assets.transfer.to_address')}
+            placeholder={t('pages.assets.transfer.to_placeholder')}
+            className='mb-4'
+            value={data.WalletAddr}
+            onChange={(e: string) => set('WalletAddr', e.trim())}
+          />
+          <ContactPopover onChange={selectContact}/>
+        </div>
+
         <Input
           label={t('pages.assets.transfer.amount')}
           placeholder={t('pages.assets.transfer.amount_placeholder')}

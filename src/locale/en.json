@@ -101,6 +101,7 @@
         "unknow": "匿名",
         "delete_success": "删除成功",
         "delete_error": "删除成功"
+        
       },
       "recipient": {
         "unknow": "对方"
@@ -113,9 +114,12 @@
       "profile": {
         "public_key": "公钥",
         "message_key": "消息公钥",
+        "gun": "GUN",
         "btn_change": "修改",
-        "btn_clear": "清楚历史消息",
+        "btn_clear": "清除历史消息",
         "btn_delete": "删除联系人",
+        "clear_success": "清除成功",
+        "clear_error": "清除成功",
         "alias": {
           "title": "别名",
           "change_success": "修改成功"

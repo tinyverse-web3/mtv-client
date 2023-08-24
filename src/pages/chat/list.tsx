@@ -3,7 +3,7 @@ import { Button } from '@/components/form/Button';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
 import account from '@/lib/account/account';
-
+import { ProfileAvatar } from '@/components/ProfileAvatar';
 import { useChatStore, useWalletStore, useAccountStore } from '@/store';
 import {
   Card,
@@ -92,7 +92,9 @@ export default function ChatList() {
     }
     return format(new Date(time), 'HH:mm');
   };
-
+  const toScan = () => {
+    nav(ROUTE_PATH.ACCOUNT_SCAN);
+  };
   useEffect(() => {
     getContacts();
   }, []);
@@ -101,7 +103,15 @@ export default function ChatList() {
     getContacts();
   }, 2000);
   return (
-    <div className='p-4'>
+    <div className='p-4 py-3'>
+      <div className='flex justify-between mb-3'>
+        <div className='flex items-center  cursor-pointer '>
+          <span className='text-blue-5'>消息</span>
+        </div>
+        <div
+          className='i-mdi-line-scan text-6  cursor-pointer text-blue-5'
+          onClick={toScan}></div>
+      </div>
       <div className='flex items-center mb-4'>
         <div className='flex-1'>
           <Input
@@ -125,7 +135,7 @@ export default function ChatList() {
             className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1 mb-2'
             key={item.MessageKey}
             onClick={() => toDetail(item)}>
-            <Image src={item.imgCid || '/logo.png'} className='mr-6 w-8 h-8' />
+              <ProfileAvatar DestPubkey={item.DAuthKey} className='w-10 h-10 mr-4'/>
             <div className='flex-1'>
               <div className='flex justify-between items-center mb-2 truncate'>
                 <span>{renderName(item)}</span>
