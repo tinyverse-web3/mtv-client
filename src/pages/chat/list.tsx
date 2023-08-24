@@ -33,7 +33,7 @@ export default function ChatList() {
     } else if (item.DAuthKey) {
       return <Address address={item.DAuthKey}></Address>;
     } else {
-      return t('pages.chat.contact.unknown');
+      return t('pages.chat.contact.unknow');
     }
   };
 
