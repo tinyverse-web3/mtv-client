@@ -43,7 +43,7 @@ export default function NftDetail() {
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>名称</div>
-          <Card>
+          <Card variant="bordered" >
             <Card.Body>
               <div className='flex'>
                 <div className=' break-all'>{detail.Nftname}</div>
@@ -54,7 +54,7 @@ export default function NftDetail() {
         {!!detail.Cid && (
           <div className='mb-4'>
             <div className='mb-2'>CID</div>
-            <Card>
+            <Card variant="bordered" >
               <Card.Body>
                 <div className='flex'>
                   <div className='break-all'>{detail.Cid}</div>
@@ -66,7 +66,7 @@ export default function NftDetail() {
         {!!detail.Owner && (
           <div className='mb-4'>
             <div className='mb-2'>拥有者</div>
-            <Card>
+            <Card variant="bordered" >
               <Card.Body>
                 <div className='flex'>
                   <div className='break-all'>{detail.Owner}</div>
@@ -78,7 +78,7 @@ export default function NftDetail() {
         {!!detail.Description && (
           <div className='mb-4'>
             <div className='mb-2'>描述</div>
-            <Card>
+            <Card variant="bordered" >
               <Card.Body>
                 <div className='flex'>
                   <div className=' break-all'>{detail.Description}</div>
@@ -101,7 +101,7 @@ export default function NftDetail() {
                 </PhotoProvider>
               )}
               {!!detail.Content && (
-                <Card>
+                <Card variant="bordered" >
                   <Card.Body>
                     <div className='flex'>
                       <div className=' break-all'>{detail.Content}</div>

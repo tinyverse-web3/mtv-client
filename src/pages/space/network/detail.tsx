@@ -35,7 +35,7 @@ export default function NetworkDetail() {
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>CID</div>
-          <Card>
+          <Card variant="bordered" >
             <Card.Body>
               <div className='flex'>
                 <div className=''>{detail.Key}</div>
@@ -45,7 +45,7 @@ export default function NetworkDetail() {
         </div>
         <div className='mb-4'>
           <div className='mb-2'>大小</div>
-          <Card>
+          <Card variant="bordered" >
             <Card.Body>
               <div className='flex'>
                 <div className=''>{sizeText}</div>
@@ -55,7 +55,7 @@ export default function NetworkDetail() {
         </div>
         <div className='mb-4'>
           <div className='mb-2'>冗余度</div>
-          <Card>
+          <Card variant="bordered" >
             <Card.Body>
               <div className='flex justify-between'>
                 <div className=''>156.251.179.110</div>
@@ -66,7 +66,7 @@ export default function NetworkDetail() {
         </div>
         <div className='mb-4'>
           <div className='mb-2'>内容</div>
-          <Card>
+          <Card variant="bordered" >
             <Card.Body>
               <div className=''>
                 大漠烟孤飞长剑，长河日落几度圆。

@@ -37,7 +37,7 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
   return (
     <div>
       <div className='mb-2'>{title}</div>
-      <Card>
+      <Card variant="bordered">
         <Card.Body>
           <div className=''>
             <div className='mb-4'>

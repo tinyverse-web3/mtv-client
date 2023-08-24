@@ -163,7 +163,7 @@ export default function ChatList() {
       {showShare && (
         <div>
           <div>
-            <Card className='w-fit m-auto'>
+            <Card variant="bordered"  className='w-fit m-auto'>
               <Card.Body>
                 <QRCodeCanvas
                   size={200}

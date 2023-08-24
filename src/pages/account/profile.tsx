@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
     <LayoutThird title='我的名片'>
       <div className='p-4 h-full overflow-y-auto'>
         <div className='pt-16 mb-4'>
-          <Card variant='flat' className='overflow-unset'>
+          <Card variant="bordered" className='overflow-unset'>
             <Card.Body className='overflow-unset'>
               <div className='pt-10 relative px-2'>
                 <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-6'>
@@ -59,7 +59,7 @@ const Profile: React.FC = () => {
                 <div>
                   <div className='mb-4'>
                     <div className='mb-2'>GUN</div>
-                    <Card variant='bordered'>
+                    <Card variant="bordered">
                       <Card.Body className='break-all p-2'>
                         <div>{profile.gunname || '未设置'}</div>
                       </Card.Body>
@@ -67,7 +67,7 @@ const Profile: React.FC = () => {
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>公钥</div>
-                    <Card variant='bordered'>
+                    <Card variant="bordered">
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
@@ -80,7 +80,7 @@ const Profile: React.FC = () => {
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>消息公钥</div>
-                    <Card variant='bordered'>
+                    <Card variant="bordered">
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
@@ -96,7 +96,7 @@ const Profile: React.FC = () => {
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>钱包公钥</div>
-                    <Card variant='bordered'>
+                    <Card variant="bordered">
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
@@ -112,7 +112,7 @@ const Profile: React.FC = () => {
             </Card.Body>
           </Card>
         </div>
-        <Card>
+        <Card variant="bordered" >
           <Card.Body className='break-all'>
             <div className='text-center'>
               <QRCodeCanvas value={qrcodeValue} size={200} />

@@ -40,7 +40,7 @@ export const ChatList = ({ messages = [] }: Porps) => {
             text={v.name}
             className={`px-0 ${v.isMe ? 'ml-2' : ''}`}
           />
-          <Card className='max-w-60% w-fit'>
+          <Card variant="bordered"  className='max-w-60% w-fit'>
             <Card.Body className='py-2'>{v.Content}</Card.Body>
           </Card>
         </div>

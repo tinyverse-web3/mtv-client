@@ -39,7 +39,7 @@ export default function UserPhrase() {
       }>
       <div className='p-4'>
         {list.map((item) => (
-          <Card key={item.id} className='mb-4'>
+          <Card variant="bordered"  key={item.id} className='mb-4'>
             <div className='flex justify-between items-center py-2 px-4'>
               <div>
                 <Text h5>{item.label}</Text>

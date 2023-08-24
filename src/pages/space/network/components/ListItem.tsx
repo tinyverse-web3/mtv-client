@@ -41,7 +41,7 @@ export function ListItem({
     return;
   }, [Size]);
   return (
-    <Card className='mb-4'>
+    <Card variant="bordered"  className='mb-4'>
       <Card.Body className='relative' onClick={onClick}>
         <div className='text-4 break-all'>{Key}</div>
         <div className=''>

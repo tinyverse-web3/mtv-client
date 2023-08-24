@@ -96,7 +96,7 @@ export default function UserPhrase() {
             <Text className='text-4 mb-4'>
               助记词非常重要，请妥善保管，注意不使用联网工具备份。
             </Text>
-            <Card className='mb-4'>
+            <Card variant="bordered"  className='mb-4'>
               <Card.Body>
                 <Text>{mnemonic}</Text>
               </Card.Body>

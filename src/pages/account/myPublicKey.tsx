@@ -38,7 +38,7 @@ export default function UserQrcode() {
             <QRCodeCanvas value={publicKey} size={200} />
           </div>
         )}
-        <Card className='w-full m-auto text-12px mb-6'>
+        <Card variant="bordered"  className='w-full m-auto text-12px mb-6'>
           <Card.Body className='break-all'>{publicKey}</Card.Body>
         </Card>
         <Button className='w-full mb-6 bg-cyan-5' size='lg' onPress={copy}>

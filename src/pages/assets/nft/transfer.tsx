@@ -43,7 +43,7 @@ export default function Transfer() {
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>{t('pages.assets.transfer.nft_name')}</div>
-          <Card>
+          <Card variant="bordered" >
             <Card.Body>
               <div className='flex'>
                 <div className='text-4 break-all'>{id}</div>
