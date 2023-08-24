@@ -2,6 +2,7 @@ import { RouteObject } from 'react-router-dom';
 import AssetsNftAdd from '@/pages/assets/nft/add';
 import AssetsNftDetail from '@/pages/assets/nft/detail';
 import AssetsTokenTransfer from '@/pages/assets/token/transfer';
+import AssetsTokenDetail from '@/pages/assets/token/detail';
 import AssetsNftTransfer from '@/pages/assets/nft/transfer';
 
 export const ROUTE_PATH_ASSETS = {
@@ -9,6 +10,7 @@ export const ROUTE_PATH_ASSETS = {
   ASSETS_NFT_DETAIL: '/assets/nft/detail',
   ASSETS_NFT_TRANSFER: '/assets/nft/transfer',
   ASSETS_TOKEN_TRANSFER: '/assets/token/transfer',
+  ASSETS_TOKEN_DETAIL: '/assets/token/detail',
 };
 
 export const assetsRoutes: RouteObject[] = [
@@ -27,5 +29,9 @@ export const assetsRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_TRANSFER,
     element: <AssetsTokenTransfer />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_DETAIL,
+    element: <AssetsTokenDetail />,
   },
 ];

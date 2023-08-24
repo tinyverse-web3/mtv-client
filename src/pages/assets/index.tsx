@@ -49,6 +49,9 @@ export default function AssetsIndex() {
   const toTransfer = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER);
   };
+  const toTokenDetail = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+  }
   return (
     <div>
       {/* <HeaderAccount /> */}
@@ -86,6 +89,7 @@ export default function AssetsIndex() {
                   icon='/logo.png'
                   symbol={t('pages.assets.token.point_name')}
                   key='point'
+                  onClick={() => toTokenDetail()}
                   balance={pointBalance}
                 />
                 {list.map((item) => (

@@ -5,32 +5,34 @@ import { ThemeSwitch } from '@/components/ThemeSwitch';
 import { LogoutIcon } from '@/components/LogoutIcon';
 import { HeaderUser } from '@/components/header/HeaderUser';
 import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
 const FooterTabs = () => {
+  const { t} = useTranslation();
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
   const nav = useNavigate();
   const list = [
     {
-      text: '空间',
+      text: t('pages.space.title'),
       path: ROUTE_PATH.SPACE_INDEX,
       icon: 'i-mdi-cube',
       value: 0,
     },
     {
-      text: '密信',
+      text: t('pages.chat.title'),
       path: ROUTE_PATH.CHAT_INDEX,
       icon: 'i-mdi-message-reply-text',
     },
     {
-      text: '资产',
+      text: t('pages.assets.title'),
       path: ROUTE_PATH.ASSETS_INDEX,
       icon: 'i-mdi-database-settings-outline',
     },
     {
-      text: '我的',
+      text: t('pages.account.title'),
       path: ROUTE_PATH.ACCOUNT,
       icon: 'i-mdi-card-account-details-outline',
     },

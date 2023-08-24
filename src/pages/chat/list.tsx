@@ -106,7 +106,7 @@ export default function ChatList() {
     <div className='p-4 py-3'>
       <div className='flex justify-between mb-3'>
         <div className='flex items-center  cursor-pointer '>
-          <span className='text-blue-5'>消息</span>
+          <span className='text-blue-5'>{t('pages.chat.title')}</span>
         </div>
         <div
           className='i-mdi-line-scan text-6  cursor-pointer text-blue-5'
@@ -135,7 +135,10 @@ export default function ChatList() {
             className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1 mb-2'
             key={item.MessageKey}
             onClick={() => toDetail(item)}>
-              <ProfileAvatar DestPubkey={item.DAuthKey} className='w-10 h-10 mr-4'/>
+            <ProfileAvatar
+              DestPubkey={item.DAuthKey}
+              className='w-10 h-10 mr-4'
+            />
             <div className='flex-1'>
               <div className='flex justify-between items-center mb-2 truncate'>
                 <span>{renderName(item)}</span>
@@ -163,7 +166,7 @@ export default function ChatList() {
       {showShare && (
         <div>
           <div>
-            <Card variant="bordered"  className='w-fit m-auto'>
+            <Card variant='bordered' className='w-fit m-auto'>
               <Card.Body>
                 <QRCodeCanvas
                   size={200}

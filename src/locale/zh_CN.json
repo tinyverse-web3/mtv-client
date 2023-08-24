@@ -12,6 +12,7 @@
       "btn_more": "了解更多"
     },
     "assets": {
+      "title": "资产",
       "nft": {
         "title": "NFT",
         "tab_file": "文件",
@@ -47,6 +48,7 @@
       "btn_transfer": "转账"
     },
     "space": {
+      "title": "空间",
       "hint": {
         "coming_soon": "即将发布"
       },
@@ -88,8 +90,11 @@
         "title": "发行NFT"
       }
     },
+    "account": {
+      "title": "我的"
+    },
     "chat": {
-      "title": "密信",
+      "title": "消息",
       "search": {
         "placeholder": "公钥/GUN",
         "empty": "请输入对方公钥或者GUN名称",
@@ -101,7 +106,6 @@
         "unknow": "匿名",
         "delete_success": "删除成功",
         "delete_error": "删除成功"
-        
       },
       "recipient": {
         "unknow": "对方"
