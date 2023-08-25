@@ -96,19 +96,19 @@ const Profile: React.FC = () => {
         <div>
           <div className='flex mb-2'>
             <span className='w-14 min-w-20'>
-              {t('pages.chat.profile.public_key')}：
+              {t('pages.account.public_key')}：
             </span>
             <span className='break-all'>{recipient?.DAuthKey}</span>
           </div>
           <div className='flex mb-2'>
             <span className='w-14 min-w-20'>
-              {t('pages.chat.profile.message_key')}：
+              {t('pages.account.message_key')}：
             </span>
             <span className='break-all'>{recipient?.MessageKey}</span>
           </div>
           <div className='flex mb-2'>
             <span className='w-14 min-w-20'>
-              {t('pages.chat.profile.gun')}：
+              {t('pages.account.gun')}：
             </span>
             <span className='break-all'>{recipient?.GUNName}</span>
           </div>

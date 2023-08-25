@@ -9,7 +9,9 @@ import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 export default function Unlock() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ export default function Unlock() {
         color: 'default',
       };
     return {
-      text: '密码错误',
+      text: t('common.password.error'),
       color: 'error',
     };
   }, [err]);
@@ -73,7 +75,7 @@ export default function Unlock() {
   const startBiometric = async () => {
     window?.JsBridge.startBiometric(({ code, message, data }: any) => {
       if (code === 0) {
-        toast.success('解锁成功');
+        toast.success(t('pages.unlock.success'));
         unlock(data);
       } else {
         toast.error(message);
@@ -108,7 +110,7 @@ export default function Unlock() {
             helperText={helper.text}
             onChange={pwdChange}
             status={err ? 'error' : 'default'}
-            placeholder='输入密码'
+            placeholder={t('common.password.input')}
             initialValue=''
           />
         </Row>
@@ -118,7 +120,7 @@ export default function Unlock() {
           loading={loading}
           className='mx-auto mb-2 w-full'
           onPress={pressHandler}>
-          解锁
+          {t('pages.unlock.btn_unlock')}
         </Button>
         <Image
           onClick={startBiometric}
@@ -132,7 +134,7 @@ export default function Unlock() {
             color='success'
             className='text-14px px-0 text-blue-5'
             onPress={deleteUser}>
-            忘记密码
+            {t('pages.unlock.forget_password')}
           </Button>
         </div>
       </div>

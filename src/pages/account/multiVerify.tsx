@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { useCheckLogin } from '@/components/BindMail';
 import { ROUTE_PATH } from '@/router';
@@ -7,8 +7,10 @@ import { ListRow } from './components';
 import { toast } from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { ValidPassword } from '@/components/ValidPassword';
+import { useTranslation } from 'react-i18next';
 
 export default function MultiVerify() {
+  const { t } = useTranslation()
   const nav = useNavigate();
   const [type, setType] = useState(0);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
@@ -19,7 +21,7 @@ export default function MultiVerify() {
   };
   const toProtector = async () => {
     if (!accountInfo.hasFeatureData) {
-      toast('请先设置加密保险箱');
+      toast(t('pages.account.toast.no_private'));
       return;
     }
     const loginStatus = await useCheckLogin();
@@ -40,10 +42,10 @@ export default function MultiVerify() {
     setType(type);
   };
   return (
-    <LayoutThird showBack title='多因素验证'>
+    <LayoutThird showBack title={t('pages.account.multi_verify.title')}>
       <div className='p-4'>
-        <ListRow label='加密保险箱' onPress={() => showVerifyPassword(1)} />
-        <ListRow label='守护者' onPress={() => showVerifyPassword(2)} />
+        <ListRow label={t('pages.account.encrypted_safe.title')} onPress={() => showVerifyPassword(1)} />
+        <ListRow label={t('pages.account.protector.title')} onPress={() => showVerifyPassword(2)} />
       </div>
       <ValidPassword
         onSuccess={validPasswordSuccess}

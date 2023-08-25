@@ -3,10 +3,12 @@ import { useAccountStore } from '@/store';
 import { Image, Badge } from '@nextui-org/react';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 interface Props {
   className?: string;
 }
 export const UserAvatar = ({ className }: Props) => {
+  const { t } = useTranslation();
   const { accountInfo, getLocalAccountInfo } = useAccountStore(
     (state) => state,
   );
@@ -16,7 +18,7 @@ export const UserAvatar = ({ className }: Props) => {
     const image = e.target.files[0];
     const { code, msg } = await account.updateAvatar({ file: image });
     if (code === '000000') {
-      toast.success('头像上传成功');
+      toast.success(t('pages.common.upload.avatar_success'));
       await getLocalAccountInfo();
     } else {
       toast.error(msg);

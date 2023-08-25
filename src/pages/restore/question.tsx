@@ -10,8 +10,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export default function Restore() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const { setLockStatus } = useGlobalStore((state) => state);
@@ -33,14 +35,14 @@ export default function Restore() {
     if (code === '000000') {
       await getLocalAccountInfo();
       nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      toast.success('恢复成功');
+      toast.success(t('pages.restore.toast.restore_success'));
     } else {
       toast.error(msg);
     }
     setLockStatus(false);
   };
   return (
-    <LayoutThird title='智能隐私恢复'>
+    <LayoutThird title={t('pages.restore.question.title')}>
       <div className='p-6'>
         <QuestionRestore
           type={type}

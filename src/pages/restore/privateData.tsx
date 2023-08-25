@@ -8,9 +8,11 @@ import { ROUTE_PATH } from '@/router';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
 import { useAccountStore, useGlobalStore } from '@/store';
+import { useTranslation } from 'react-i18next';
 
 export default function Unlock() {
   const nav = useNavigate();
+  const { t } = useTranslation()
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
@@ -21,11 +23,11 @@ export default function Unlock() {
     setLoading(true);
     const privateArr = [text, password, customText];
     const privateFilter = privateArr.filter((v) => !!v);
-    if (privateFilter.length < 2) {
-      toast.error('请至少输入两种内容');
-      setLoading(false);
-      return;
-    }
+    // if (privateFilter.length < 2) {
+    //   toast.error('请至少输入两种内容');
+    //   setLoading(false);
+    //   return;
+    // }
     try {
       const { code, msg } = await account.restoreByGuardian({
         textPrivateData: text,
@@ -34,13 +36,13 @@ export default function Unlock() {
       if (code === '000000') {
         await getLocalAccountInfo();
         setLockStatus(false);
+        toast.error(t('pages.restore.toast.restore_success'));
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-        toast.success('恢复成功');
       } else {
         toast.error(msg);
       }
     } catch (error) {
-      toast.error('恢复失败');
+      toast.error(t('pages.restore.toast.restore_error'));
     }
     setLoading(false);
   };
@@ -62,9 +64,9 @@ export default function Unlock() {
     setCustomText(e?.trim());
   };
   return (
-    <LayoutThird title='恢复加密保险箱'>
+    <LayoutThird title={t('pages.restore.encrypted_safe.title')}>
       <div className='pt-8 px-6'>
-        <div className='text-center mb-8'>请先恢复加密保险箱，在恢复账号</div>
+        {/* <div className='text-center mb-8'>请先恢复加密保险箱，在恢复账号</div> */}
         <Input
           clearable
           bordered
@@ -73,7 +75,7 @@ export default function Unlock() {
           value={text}
           className='h-50px mb-6'
           onChange={onChange}
-          placeholder='身份证/社会保险号码/手机号码'
+          placeholder={t('pages.account.encrypted_safe.text')}
           initialValue=''
         />
         <Input
@@ -84,10 +86,10 @@ export default function Unlock() {
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
-          placeholder='常用口令'
+          placeholder={t('pages.account.encrypted_safe.passwrod')}
           initialValue=''
         />
-        {/* <Input
+        <Input
           clearable
           bordered
           fullWidth
@@ -95,16 +97,16 @@ export default function Unlock() {
           value={customText}
           className='h-50px mb-6'
           onChange={onCustomChange}
-          placeholder='自定义特征数据'
+          placeholder={t('pages.account.encrypted_safe.custom')}
           initialValue=''
-        /> */}
+        />
         <Button
           disabled={true}
           size='lg'
           loading={loading}
           className='mx-auto mb-6 w-full'
           onPress={add}>
-          指纹
+           {t('common.fingerprint.title')}
         </Button>
         <Button
           disabled={!text && !password && !customText}
@@ -112,7 +114,7 @@ export default function Unlock() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          确认
+          {t('common.confirm')}
         </Button>
       </div>
     </LayoutThird>

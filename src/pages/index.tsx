@@ -55,9 +55,7 @@ export default function Index() {
           loading={loading}>
           {t('pages.index.btn_create')}
         </Button>
-        <Text className='text-13px mb-4'>
-          使用默认密码创建，创建之后请及时修改
-        </Text>
+        <Text className='text-13px mb-4'>{t('pages.index.create_hint')}</Text>
         <Button
           color='secondary'
           className='m-auto mb-4 w-full h-50px bg-blue-6'

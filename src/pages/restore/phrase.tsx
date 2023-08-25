@@ -7,19 +7,22 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+
 export default function Phrase() {
   const nav = useNavigate();
+  const { t} = useTranslation();
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
   const { setMnemonic, setMnemonicFile } = useRestoreStore((state) => state);
   const [type, setType] = useState('file');
   const types = [
     {
-      label: '助记词加密文件',
+      label: t('pages.restore.phrase.tab_file'),
       value: 'file',
     },
     {
-      label: '助记词',
+      label: t('pages.restore.phrase.tab_text'),
       value: 'text',
     },
   ];
@@ -41,7 +44,7 @@ export default function Phrase() {
   };
 
   return (
-    <LayoutThird title='助记词恢复'>
+    <LayoutThird title={t('pages.restore.phrase.title')}>
       <div className='pt-6 px-6'>
         <div className='flex mb-6'>
           {types.map((item) => (
@@ -71,7 +74,7 @@ export default function Phrase() {
                 />
               </label>
             </div>
-            <div className='text-center  '>上传助记词加密文件</div>
+            <div className='text-center  '>{t('pages.restore.phrase.upload_hint')}</div>
           </div>
         ) : (
           <>
@@ -82,7 +85,7 @@ export default function Phrase() {
                 rows={3}
                 value={phrase}
                 onChange={phraseChange}
-                placeholder='助记词'
+                placeholder={t('pages.restore.phrase.input_placeholder')}
                 initialValue=''
               />
             </Row>
@@ -91,7 +94,7 @@ export default function Phrase() {
               disabled={!phrase}
               loading={loading}
               onPress={importHandler}>
-              下一步
+              {t('common.next_step')}
             </Button>
           </>
         )}

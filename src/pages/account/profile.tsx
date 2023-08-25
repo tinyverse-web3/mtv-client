@@ -6,11 +6,11 @@ import { useChatStore, useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
 import { CopyIcon } from '@/components/CopyIcon';
 import account from '@/lib/account/account';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { QrType } from '@/type';
 
 const Profile: React.FC = () => {
-  const nav = useNavigate();
+  const { t } = useTranslation();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
@@ -47,10 +47,10 @@ const Profile: React.FC = () => {
       : '/logo.png';
   }, [accountInfo.avatar]);
   return (
-    <LayoutThird title='我的名片'>
+    <LayoutThird title={t('pages.account.profile.title')}>
       <div className='p-4 h-full overflow-y-auto'>
         <div className='pt-16 mb-4'>
-          <Card variant="bordered" className='overflow-unset'>
+          <Card variant='bordered' className='overflow-unset'>
             <Card.Body className='overflow-unset'>
               <div className='pt-10 relative px-2'>
                 <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-6'>
@@ -58,16 +58,16 @@ const Profile: React.FC = () => {
                 </div>
                 <div>
                   <div className='mb-4'>
-                    <div className='mb-2'>GUN</div>
-                    <Card variant="bordered">
+                    <div className='mb-2'>{t('pages.account.gun')}</div>
+                    <Card variant='bordered'>
                       <Card.Body className='break-all p-2'>
                         <div>{profile.gunname || '未设置'}</div>
                       </Card.Body>
                     </Card>
                   </div>
                   <div className='mb-4'>
-                    <div className='mb-2'>公钥</div>
-                    <Card variant="bordered">
+                    <div className='mb-2'>{t('pages.account.public_key')}</div>
+                    <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
@@ -79,8 +79,8 @@ const Profile: React.FC = () => {
                     </Card>
                   </div>
                   <div className='mb-4'>
-                    <div className='mb-2'>消息公钥</div>
-                    <Card variant="bordered">
+                    <div className='mb-2'>{t('pages.account.message_key')}</div>
+                    <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
@@ -95,8 +95,8 @@ const Profile: React.FC = () => {
                     </Card>
                   </div>
                   <div className='mb-4'>
-                    <div className='mb-2'>钱包公钥</div>
-                    <Card variant="bordered">
+                    <div className='mb-2'>{t('pages.account.message_key')}</div>
+                    <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
@@ -112,11 +112,13 @@ const Profile: React.FC = () => {
             </Card.Body>
           </Card>
         </div>
-        <Card variant="bordered" >
+        <Card variant='bordered'>
           <Card.Body className='break-all'>
             <div className='text-center'>
               <QRCodeCanvas value={qrcodeValue} size={200} />
-              <div className='mt-2'>扫描二维码，加我为好友。</div>
+              <div className='mt-2'>
+                {t('pages.account.profile.qrcode_add')}
+              </div>
             </div>
           </Card.Body>
         </Card>

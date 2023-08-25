@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
+
 export default function Account() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
@@ -41,13 +44,13 @@ export default function Account() {
         <UserAvatar className='mr-4' />
         <UserLevel />
       </div>
-      <ListRow label='我的名片' onPress={toProfile} />
-      <ListRow label='本地安全策略' onPress={toLocalSafe} />
-      <ListRow label='多因素验证' onPress={toMultiVerify} />
-      <ListRow label='恢复途径' onPress={toRestory} />
-      <ListRow label='系统设置' onPress={toSetting} />
-      <ListRow label='关于' />
-      <ListRow label='退出' onPress={deleteUser} />
+      <ListRow label={t('pages.account.profile.title')} onPress={toProfile} />
+      <ListRow label={t('pages.account.local_safe.title')} onPress={toLocalSafe} />
+      <ListRow label={t('pages.account.multi_verify.title')} onPress={toMultiVerify} />
+      <ListRow label={t('pages.account.restore.title')} onPress={toRestory} />
+      <ListRow label={t('pages.account.setting.title')} onPress={toSetting} />
+      <ListRow label={t('pages.account.about.title')} />
+      <ListRow label={t('pages.account.exit.title')} onPress={deleteUser} />
     </div>
   );
 }

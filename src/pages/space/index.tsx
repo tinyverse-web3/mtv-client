@@ -43,7 +43,7 @@ const MenuItem = ({ text, icon, onClick }: any) => {
             src={`/space/${icon}`}></img>
         )}
       </div>
-      <span>{text}</span>
+      <span className='text-center'>{text}</span>
     </div>
   );
 };
@@ -119,7 +119,7 @@ export default function SpaceIndex() {
       handler();
     } else if (path) {
       nav(path);
-    } else if (label === '拍照') {
+    } else if (label === t('pages.space.photo.title')) {
       return;
     } else {
       toast(t('pages.space.hint.coming_soon'));

@@ -7,8 +7,10 @@ import { ListRow } from './components';
 import { toast } from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import { ValidPassword } from '@/components/ValidPassword';
+import { useTranslation } from 'react-i18next';
 
 export default function LocalSafe() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [isBiometricsSatus, setIsBiometricsSatus] = useState(false);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
@@ -16,7 +18,7 @@ export default function LocalSafe() {
 
   const toChangePwd = async () => {
     if (!accountInfo.hasFeatureData) {
-      toast('请先设置加密保险箱');
+      toast(t('pages.account.toast.no_private'));
       return;
     }
     const loginStatus = await useCheckLogin();
@@ -25,10 +27,6 @@ export default function LocalSafe() {
     }
   };
   const setupBiometrics = async (password: string) => {
-    if (!window?.JsBridge) {
-      toast.error('请在APP中操作');
-      return;
-    }
     window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
       if (code === 0) {
         toast.success(message);
@@ -56,12 +54,12 @@ export default function LocalSafe() {
     getBiometricsSetUp();
   }, []);
   return (
-    <LayoutThird showBack title='本地安全策略'>
+    <LayoutThird showBack title={t('pages.account.local_safe.title')}>
       <div className='p-4'>
-        <ListRow label='修改密码' onPress={toChangePwd} />
+        <ListRow label={t('common.password.change')} onPress={toChangePwd} />
         <ListRow
-          label='生物识别'
-          value={isBiometricsSatus ? '已开启' : '未开启'}
+          label={t('common.biometrics.title')} 
+          value={isBiometricsSatus ? t('common.turn_on') : t('common.turn_off')}
           onPress={() => setShowPasswordStatus(true)}
         />
       </div>

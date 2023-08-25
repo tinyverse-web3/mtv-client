@@ -5,14 +5,16 @@ import { useAccountStore, useWalletStore } from '@/store';
 import account from '@/lib/account/account';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 interface Props {
   onChange: (data: { email: string; code: string }) => void;
 }
 export const EmailBox = ({ onChange }: Props) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [codeLoading, setCodeLoading] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
-  const { start, text, flag } = useCountDown(60);
+  const { start, text, flag } = useCountDown(60, t('common.code_text'));
   const emailChange = (e: any) => {
     setEmail(e.target.value);
   };
@@ -34,7 +36,7 @@ export const EmailBox = ({ onChange }: Props) => {
         return;
       }
       start();
-      toast.success('验证码已发送');
+      toast.success(t('common.send_code_success'));
       setCodeLoading(false);
     }
   };
@@ -52,7 +54,7 @@ export const EmailBox = ({ onChange }: Props) => {
         onBlur={emailBlur}
         value={email}
         onChange={emailChange}
-        placeholder='邮箱'
+        placeholder={t('common.email')}
         className='mb-6'
         contentLeft={<div className='i-mdi-email color-current' />}
       />
@@ -69,7 +71,7 @@ export const EmailBox = ({ onChange }: Props) => {
           size='lg'
           value={verifyCode}
           onChange={verifyCodeChange}
-          placeholder='验证码'
+          placeholder={t('common.code')}
           contentLeft={<div className='i-mdi-shield-outline color-current' />}
         />
         <Button

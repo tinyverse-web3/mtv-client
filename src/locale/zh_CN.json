@@ -4,6 +4,33 @@
     "subtitle": "我的私人超级账户",
     "description": "进入Web3的快速通道"
   },
+  "common": {
+    "email": "邮箱",
+    "code": "验证码",
+    "code_text": "获取验证码",
+    "send_code_success": "验证码已发送",
+    "next_step": "下一步",
+    "confirm": "确定",
+    "cancel": "取消",
+
+    "fingerprint": {
+      "title": "指纹"
+    },
+    "password": {
+      "title": "密码",
+      "input": "输入密码",
+      "error": "密码错误",
+      "change": "修改密码"
+    },
+    "biometrics": {
+      "title": "生物识别"
+    },
+    "upload": {
+      "avatar_success": "头像上传成功"
+    },
+    "turn_on": "已开启",
+    "turn_off": "未开启"
+  },
   "pages": {
     "index": {
       "btn_create": "一键创建",
@@ -91,7 +118,81 @@
       }
     },
     "account": {
-      "title": "我的"
+      "title": "我的",
+      "public_key": "公钥",
+      "wallet_key": "钱包公钥",
+      "message_key": "消息公钥",
+      "gun": "GUN",
+      "level": {
+        "title": "安全等级",
+        "hint": "只有我的名片暴露在外，其他所有数据完全由用户个人控制，保存在个人数字空间。",
+        "zero": "临时账户，账户无法恢复，数据随时会丢失，请尽快做账户维护。",
+        "one": "账户存在单点故障，请尽快做账户维护。",
+        "two": "账户依赖其他账户的安全，请尽快做账户维护。",
+        "three": "低标准账户，建议提升安全级别。",
+        "four": "标准账户，您的账户已经很安全，但还有提升空间。",
+        "five": "高标准账户，您的账户已经得到完全的保护。"
+      },
+      "toast": {
+        "no_private": "请先设置加密保险箱"
+      },
+      "profile": {
+        "title": "我的名片",
+        "qrcode_add": "扫描二维码，加我为好友。"
+      },
+      "local_safe": {
+        "title": "本地安全策略"
+      },
+      "encrypted_safe": {
+        "title": "加密保险箱",
+        "text": "身份证/社会保险号码/手机号码",
+        "password": "常用口令",
+        "custom": "自定义特征数据",
+        "toast": {
+          "one": ""
+        }
+      },
+      "protector": {
+        "title": "守护者",
+        "hint": "采用2/2的SSS方案，一块加密保存在DAuth上，一块加密保存在DKVS上。分片数据需要通过保险箱保存。"
+      },
+      "backup": {
+        "on": "已备份"
+      },
+      "phrase": {
+        "title": "助记词",
+        "backup": "助记词备份",
+        "hint": "助记词非常重要，请妥善保管，注意不使用联网工具备份。"
+      },
+      "question": {
+        "title": "智能隐私",
+        "backup": "智能隐私备份",
+        "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。"
+      },
+      "multi_verify": {
+        "title": "多因素验证"
+      },
+      "restore": {
+        "title": "恢复途径"
+      },
+      "setting": {
+        "title": "系统设置",
+        "language": {
+          "title": "语言",
+          "change_success": "语言切换成功"
+        }
+      },
+      "about": {
+        "title": "关于"
+      },
+      "exit": {
+        "title": "退出"
+      }
+    },
+    "unlock": {
+      "btn_unlock": "解锁",
+      "success": "解锁成功",
+      "forget_password": "忘记密码"
     },
     "chat": {
       "title": "消息",
@@ -116,9 +217,6 @@
         "send_error": "发送失败"
       },
       "profile": {
-        "public_key": "公钥",
-        "message_key": "消息公钥",
-        "gun": "GUN",
         "btn_change": "修改",
         "btn_clear": "清除历史消息",
         "btn_delete": "删除联系人",
@@ -128,6 +226,32 @@
           "title": "别名",
           "change_success": "修改成功"
         }
+      }
+    },
+    "restore": {
+      "title": "账号恢复",
+      "btn_restore": "恢复",
+      "hint_password": "使用默认密码恢复，之后请及时修改",
+      "toast": {
+        "restore_error": "恢复失败",
+        "restore_success": "恢复失败"
+      },
+      "phrase": {
+        "title": "助记词恢复",
+        "tab_file": "助记词加密文件",
+        "tab_text": "助记词",
+        "input_placeholder": "请输入助记词",
+        "upload_hint": "上传助记词加密文件"
+      },
+      "protector": {
+        "title": "守护者恢复"
+      },
+      "encrypted_safe": {
+        "title": "恢复加密保险箱"
+      },
+      "question": {
+        "title": "智能隐私恢复",
+        "verify": "智能隐私身份验证"
       }
     }
   }

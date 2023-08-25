@@ -6,14 +6,14 @@ import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export default function Protector() {
-  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-
 
   const query = useMemo(() => {
     return {
@@ -22,7 +22,6 @@ export default function Protector() {
     };
   }, [email, code]);
 
-
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
     setCode(code);
@@ -30,7 +29,7 @@ export default function Protector() {
   const submit = async () => {
     setLoading(true);
     try {
-      const { code: resCode, msg} = await account.verifyEmail({
+      const { code: resCode, msg } = await account.verifyEmail({
         account: email,
         verifyCode: code,
       });
@@ -41,13 +40,13 @@ export default function Protector() {
       }
     } catch (error) {
       setLoading(false);
-      toast.error('恢复失败');
+      toast.error(t('pages.restore.toast.restore_error'));
     }
     setLoading(false);
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title='守护者恢复'>
+    <LayoutThird title={t('pages.restore.title')}>
       <div className='p-4'>
         <div>
           <div className='mb-6'>
@@ -59,7 +58,7 @@ export default function Protector() {
             loading={loading}
             className='mx-auto mb-2 w-full'
             onPress={submit}>
-            确定
+            {t('common.confirm')}
           </Button>
         </div>
       </div>
