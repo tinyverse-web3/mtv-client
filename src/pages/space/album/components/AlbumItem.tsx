@@ -4,6 +4,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 interface AlbumItemProps {
   item: {
     FileSize: number;
@@ -15,6 +16,7 @@ interface AlbumItemProps {
 }
 
 const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
+  const { t } = useTranslation();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const [showStatus, setShowStatus] = useState(false);
@@ -26,7 +28,7 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
     if (Filename) {
       const { code, msg } = await account.delAlbum({ Filename });
       if (code === '000000') {
-        toast.success(`删除成功`);
+        toast.success(t('common.toast.delete_success'));
         delSuccess?.();
       } else {
         toast.error(msg);
@@ -53,7 +55,7 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
     if (Filename) {
       const { code, msg, data } = await account.downloadAlbum(Filename);
       if (code === '000000') {
-        toast.success(`下载地址: ${data}`);
+        toast.success(`${t('pages.space.album.download_text')}: ${data}`);
       } else {
         toast.error(msg);
       }
@@ -72,7 +74,7 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
         className='i-mdi-box-download absolute right-1 bottom-1 w-6 h-6 text-blue'
         onClick={(e) => downloadItem(e, item?.Filename)}></div>
       <DelConfirmModel
-        text='照片'
+        text={t('common.photo')}
         show={showStatus}
         onConfirm={delConfirm}
         onClose={onClose}

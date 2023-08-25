@@ -4,8 +4,10 @@ import { Textarea } from '@/components/form/Textarea';
 import LayoutThird from '@/layout/LayoutThird';
 import { Row, Button } from '@nextui-org/react';
 import { useNoteStore } from '@/store';
+import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
+  const { t }  = useTranslation();
   const nav = useNavigate();
   const [note, setNote] = useState('');
   const { id } = useParams();
@@ -46,14 +48,14 @@ export default function Edit() {
       getDetail(id);
   }, [id]);
   return (
-    <LayoutThird title='日记本'>
+    <LayoutThird title={t('pages.space.note.title')}>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Textarea
             value={note}
             maxLength={300}
             onChange={noteChange}
-            placeholder='日记本内容'
+            placeholder={t('pages.space.note.input_placeholder')}
           />
         </Row>
         <Row className='' justify='center'>
@@ -63,7 +65,7 @@ export default function Edit() {
             className='m-auto mb-6'
             onPress={addNote}
             size='md'>
-            确定
+            {t('common.confirm')}
           </Button>
         </Row>
       </div>

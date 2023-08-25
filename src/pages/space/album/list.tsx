@@ -8,8 +8,10 @@ import toast from 'react-hot-toast';
 import { useList } from 'react-use';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { Empty } from '@/components/Empty';
+import { useTranslation } from 'react-i18next';
 
 export default function Album() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [list, { set: setList }] = useList<any>([]);
   const imageChange = async (e: any) => {
@@ -17,7 +19,7 @@ export default function Album() {
     const { code, msg } = await account.uploadAlbum({ file: image });
 
     if (code === '000000') {
-      toast.success('上传成功');
+      toast.success(t('pages.space.album.upload_success'));
       getList();
     } else {
       toast.error(msg);
@@ -39,7 +41,7 @@ export default function Album() {
   }, []);
   return (
     <LayoutThird
-      title='相册'
+      title={t('pages.space.album.title')}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>

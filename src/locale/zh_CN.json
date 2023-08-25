@@ -12,10 +12,11 @@
     "next_step": "下一步",
     "confirm": "确定",
     "cancel": "取消",
-
+    "empty_data": "暂无数据",
     "fingerprint": {
       "title": "指纹"
     },
+    "photo": "照片",
     "password": {
       "title": "密码",
       "input": "输入密码",
@@ -27,6 +28,9 @@
     },
     "upload": {
       "avatar_success": "头像上传成功"
+    },
+    "toast": {
+      "delete_success": "删除成功"
     },
     "turn_on": "已开启",
     "turn_off": "未开启"
@@ -80,10 +84,13 @@
         "coming_soon": "即将发布"
       },
       "note": {
-        "title": "日记本"
+        "title": "日记本",
+        "input_placeholder": "日记本内容"
       },
       "album": {
-        "title": "相册"
+        "title": "相册",
+        "upload_success": "上传成功",
+        "download_text": "下载地址"
       },
       "photo": {
         "title": "拍照",

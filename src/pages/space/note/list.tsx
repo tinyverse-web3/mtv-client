@@ -7,8 +7,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import { format } from 'date-fns';
 import { Empty } from '@/components/Empty';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
+import { useTranslation } from 'react-i18next';
 
 export default function NoteList() {
+  const { t} = useTranslation();
   const nav = useNavigate();
   const [showStatus, setShowStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
@@ -38,7 +40,7 @@ export default function NoteList() {
   }, []);
   return (
     <LayoutThird
-      title='日记本'
+      title={t('pages.space.note.title')}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
@@ -72,7 +74,7 @@ export default function NoteList() {
         )}
       </div>
       <DelConfirmModel
-        text='日记本'
+        text={t('pages.space.note.title')}
         show={showStatus}
         onConfirm={delConfirm}
         onClose={onClose}
