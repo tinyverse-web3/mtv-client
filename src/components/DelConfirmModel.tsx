@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   show: boolean;
@@ -13,9 +14,10 @@ export const DelConfirmModel = ({
   show,
   onConfirm,
   onClose,
-  btnText = '确定',
-  text, 
+  btnText,
+  text,
 }: Props) => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(show);
   const closeHandler = () => {
     setShowModal(false);
@@ -39,16 +41,18 @@ export const DelConfirmModel = ({
       onClose={closeHandler}>
       {text && (
         <Modal.Body>
-          <Text size={16} className='text-center'>是否删除{text}？</Text>
+          <Text size={16} className='text-center'>
+          {t('common.delete_hint')}{text}？
+          </Text>
         </Modal.Body>
       )}
 
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>
-          取消
+         {t('common.cancel')}
         </Button>
         <Button auto onPress={confirmHandler}>
-          {btnText}
+          {btnText || t('common.confirm')}
         </Button>
       </Modal.Footer>
     </Modal>

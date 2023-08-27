@@ -8,12 +8,15 @@ import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
 import { ROUTE_PATH } from '@/router';
 import { hideHalfString } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export default function PrivateData() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [textPlaceholder, setTextPlaceholder] =
-    useState('身份证/社会保险号码/手机号码');
-  const [passwordPlaceholder, setPasswordPlaceholder] = useState('常用口令');
+    useState(t('pages.account.encrypted_safe.text_placeholder'));
+  const [passwordPlaceholder, setPasswordPlaceholder] = useState(t('pages.account.encrypted_safe.password_placeholder'));
+  const [customPlaceholder, setCustomPlaceholder] = useState(t('pages.account.encrypted_safe.custom_placeholder'));
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
@@ -65,10 +68,10 @@ export default function PrivateData() {
     }
   }, [accountInfo.textPrivateData, accountInfo.textPrivateData]);
   return (
-    <LayoutThird title='设置加密保险箱'>
+    <LayoutThird title={t('pages.account.encrypted_safe.set_text')}>
       <div className='pt-8 px-6'>
         <div className='mb-8 text-3'>
-          保险箱用来保护无法用私钥加密，但是又必须保存在网络上的数据，比如账户的恢复信息。保险箱的原理是使用特征数据来保护秘密，特征数据是用户个人特有的，可以用来识别个人身份的，具备一定隐私性又不用依赖用户记忆的数据，其最佳来源是用户的生物特征，比如指纹和虹膜；另外是一辈子不会改变的数字，比如身份号码，甚至是个人常用的不容易忘记口令。恢复数据时，采集任意一组特征数据就可以正常恢复数据。提供更多的特征数据，账户越容易恢复，请至少提供两组不同的特征数据，形成双保险。特征数据保存在用户账户中，任何人都无法拿到数据。
+          {t('pages.account.encrypted_safe.hint')}
         </div>
         <Input
           clearable
@@ -92,7 +95,7 @@ export default function PrivateData() {
           placeholder={passwordPlaceholder}
           initialValue=''
         />
-        {/* <Input
+        <Input
           clearable
           bordered
           fullWidth
@@ -100,16 +103,16 @@ export default function PrivateData() {
           value={customText}
           className='h-50px mb-6'
           onChange={onCustomChange}
-          placeholder='自定义特征数据'
+          placeholder={customPlaceholder}
           initialValue=''
-        /> */}
+        />
         <Button
           disabled={true}
           size='lg'
           loading={loading}
           className='mx-auto mb-6 w-full'
           onPress={add}>
-          采集指纹
+          {t('common.fingerprint.title')} 
         </Button>
         <Button
           disabled={!text && !password && !customText}
@@ -117,7 +120,7 @@ export default function PrivateData() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          下一步
+          {t('common.next_step')} 
         </Button>
       </div>
     </LayoutThird>

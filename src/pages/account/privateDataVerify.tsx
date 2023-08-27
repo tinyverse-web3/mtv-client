@@ -7,8 +7,10 @@ import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function PrivateDataVerify() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
@@ -27,18 +29,18 @@ export default function PrivateDataVerify() {
       return;
     }
     if (textPrivateData !== text || passwordPrivateData !== password) {
-      toast.error('验证失败');
+      toast.error(t('pages.account.encrypted_safe.verify_error'));
       setLoading(false);
       return;
     }
     try {
       await account.setPivateData(text, password, customText);
       setAccountInfo({ hasFeatureData: true });
-      toast.success('验证成功，已设置保险箱');
+      toast.success(t('pages.account.encrypted_safe.set_success'));
       await getLocalAccountInfo();
       nav(-2);
     } catch (error) {
-      toast.error('设置失败');
+      toast.error(t('pages.account.encrypted_safe.set_error'));
     }
     setLoading(false);
   };
@@ -60,7 +62,7 @@ export default function PrivateDataVerify() {
     setCustomText(e.trim());
   };
   return (
-    <LayoutThird title='验证加密保险箱'>
+    <LayoutThird title={t('pages.account.encrypted_safe.verify_text')}>
       <div className='pt-8 px-6'>
         {/* <div className='mb-8 text-3'>
           保险箱用来保护无法用私钥加密，但是又必须保存在网络上的数据，比如账户的恢复信息。保险箱的原理是使用特征数据来保护秘密，特征数据是用户个人特有的，可以用来识别个人身份的，具备一定隐私性又不用依赖用户记忆的数据，其最佳来源是用户的生物特征，比如指纹和虹膜；另外是一辈子不会改变的数字，比如身份号码，甚至是个人常用的不容易忘记口令。恢复数据时，采集任意一组特征数据就可以正常恢复数据。提供更多的特征数据，账户越容易恢复，请至少提供两组不同的特征数据，形成双保险。特征数据保存在用户账户中，任何人都无法拿到数据。
@@ -73,7 +75,7 @@ export default function PrivateDataVerify() {
           value={text}
           className='h-50px mb-6'
           onChange={onChange}
-          placeholder='身份证/社会保险号码/手机号码'
+          placeholder={t('pages.account.encrypted_safe.text_placeholder')}
           initialValue=''
         />
         <Input
@@ -84,10 +86,10 @@ export default function PrivateDataVerify() {
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
-          placeholder='常用口令'
+          placeholder={t('pages.account.encrypted_safe.password_placeholder')}
           initialValue=''
         />
-        {/* <Input
+        <Input
           clearable
           bordered
           fullWidth
@@ -95,16 +97,16 @@ export default function PrivateDataVerify() {
           value={customText}
           className='h-50px mb-6'
           onChange={onCustomChange}
-          placeholder='自定义特征数据'
+          placeholder={t('pages.account.encrypted_safe.custom_placeholder')}
           initialValue=''
-        /> */}
+        />
         <Button
           disabled={true}
           size='lg'
           loading={loading}
           className='mx-auto mb-6 w-full'
           onPress={add}>
-          采集指纹
+          {t('common.fingerprint.title')} 
         </Button>
         <Button
           disabled={!text && !password && !customText}
@@ -112,7 +114,7 @@ export default function PrivateDataVerify() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          设置
+          {t('common.set_text')} 
         </Button>
       </div>
     </LayoutThird>

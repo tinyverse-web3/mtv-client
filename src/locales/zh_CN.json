@@ -11,17 +11,41 @@
     "send_code_success": "验证码已发送",
     "next_step": "下一步",
     "confirm": "确定",
+    "change": "修改",
+    "scan": "扫一扫",
+    "copy_success": "复制成功",
+    "init_scan_error": "扫一扫",
+    "set_text": "设置",
     "cancel": "取消",
+    "default": "默认",
+    "custom": "自定义",
+    "backup": "备份",
+    "add": "增加",
+    "delete_hint": "是否删除",
+    "question": "问题",
+    "file": "文件",
+    "sub_question": "子问题",
     "empty_data": "暂无数据",
+    "no_result": "没有得到任何结果",
     "fingerprint": {
       "title": "指纹"
     },
     "photo": "照片",
     "password": {
       "title": "密码",
+      "rule_text": "密码至少8位，包括数字、大小写字母和符号至少2种",
+      "default_text": "默认密码",
+      "change_text": "默认密码",
+      "new_text": "新密码",
       "input": "输入密码",
       "error": "密码错误",
-      "change": "修改密码"
+      "change": "修改密码",
+      "change_success": "修改成功",
+      "old_error": "旧密码错误",
+      "unanimous_error": "密码不一致",
+      "old_text": "旧密码",
+      "save_hint": "是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。",
+      "confirm_error": "新密码不能与旧密码相同"
     },
     "biometrics": {
       "title": "生物识别"
@@ -30,7 +54,12 @@
       "avatar_success": "头像上传成功"
     },
     "toast": {
-      "delete_success": "删除成功"
+      "delete_success": "删除成功",
+      "delete_error": "删除成功",
+      "backup_error": "删除成功",
+      "backup_success": "删除成功",
+      "bind_success": "绑定成功",
+      "bind_error": "绑定成功"
     },
     "turn_on": "已开启",
     "turn_off": "未开启"
@@ -129,6 +158,7 @@
       "public_key": "公钥",
       "wallet_key": "钱包公钥",
       "message_key": "消息公钥",
+      "my_qrcode": "我的二维码",
       "gun": "GUN",
       "level": {
         "title": "安全等级",
@@ -151,7 +181,13 @@
         "title": "本地安全策略"
       },
       "encrypted_safe": {
+        "hint": "保险箱用来保护无法用私钥加密，但是又必须保存在网络上的数据，比如账户的恢复信息。保险箱的原理是使用特征数据来保护秘密，特征数据是用户个人特有的，可以用来识别个人身份的，具备一定隐私性又不用依赖用户记忆的数据，其最佳来源是用户的生物特征，比如指纹和虹膜；另外是一辈子不会改变的数字，比如身份号码，甚至是个人常用的不容易忘记口令。恢复数据时，采集任意一组特征数据就可以正常恢复数据。提供更多的特征数据，账户越容易恢复，请至少提供两组不同的特征数据，形成双保险。特征数据保存在用户账户中，任何人都无法拿到数据。",
         "title": "加密保险箱",
+        "set_text": "设置加密保险箱",
+        "verify_text": "验证加密保险箱",
+        "verify_error": "验证失败",
+        "set_success": "设置成功",
+        "set_error": "设置失败",
         "text": "身份证/社会保险号码/手机号码",
         "password": "常用口令",
         "custom": "自定义特征数据",
@@ -161,7 +197,9 @@
       },
       "protector": {
         "title": "守护者",
-        "hint": "采用2/2的SSS方案，一块加密保存在DAuth上，一块加密保存在DKVS上。分片数据需要通过保险箱保存。"
+        "add_title": "添加守护者",
+        "hint": "采用2/2的SSS方案，一块加密保存在DAuth上，一块加密保存在DKVS上。分片数据需要通过保险箱保存。",
+        "hint_two": "我已阅读并同意《隐私政策》及《用户服务协议》"
       },
       "backup": {
         "on": "已备份"
@@ -169,11 +207,20 @@
       "phrase": {
         "title": "助记词",
         "backup": "助记词备份",
-        "hint": "助记词非常重要，请妥善保管，注意不使用联网工具备份。"
+        "verify_title": "助记词恢复测试",
+        "verify_text": "恢复测试",
+        "toast_error": "助记词错误",
+        "hint": "助记词非常重要，请妥善保管，注意不使用联网工具备份。",
+        "hint_one": "是否使用加密保险箱加密助记词",
+        "hint_two": "直接显示和抄写助记词很危险，需要您投入更多的精力去保管助记词",
+        "download_text": "下载加密文件"
       },
       "question": {
         "title": "智能隐私",
         "backup": "智能隐私备份",
+        "test_title": "智能隐私恢复测试",
+        "test_text": "恢复测试",
+        "retry_text": "重新设置",
         "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。"
       },
       "multi_verify": {
@@ -260,6 +307,12 @@
         "title": "智能隐私恢复",
         "verify": "智能隐私身份验证"
       }
+    },
+    "retrieve": {
+      "title": "找回密码",
+      "one_step": "验证身份",
+      "two_step": "设置新密码",
+      "three_step": "完成"
     }
   }
 }

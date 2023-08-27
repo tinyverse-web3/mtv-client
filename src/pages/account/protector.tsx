@@ -8,6 +8,7 @@ import { useGlobalStore, useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { ConfirmDelModel } from './components/ConfirmDelModel';
+import { useTranslation } from 'react-i18next';
 interface GuardItem {
   type: string;
   account: string;
@@ -33,6 +34,7 @@ const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
 
 export default function AccountProtector() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const { accountInfo, getLocalAccountInfo } = useAccountStore(
     (state) => state,
   );
@@ -50,10 +52,10 @@ export default function AccountProtector() {
   const delGuardian = async (name: string) => {
     const { code, msg } = await account.delGuardian({ account: name });
     if (code === '000000') {
-      toast.success(msg || '删除成功');
+      toast.success(msg || t('common.toast.delete_success'));
       await getLocalAccountInfo();
     } else {
-      toast.error(msg || '删除失败');
+      toast.error(msg || t('common.toast.delete_error'));
       throw new Error(msg);
     }
   };
@@ -65,15 +67,13 @@ export default function AccountProtector() {
   };
   return (
     <LayoutThird
-      title='守护者'
+      title={t('pages.account.protector.title')}
       rightContent={
         <div onClick={add} className='i-mdi-plus-circle-outline text-5'></div>
       }>
       <div className='p-4'>
         <Text className='text-14px mb-6'>
-          守护者可用于身份验证、社交恢复等。增加多个守护者让你的账户更安全。
-          <br />
-          请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。
+          {t('pages.account.protector.hint')}
         </Text>
         <div>
           {!!list?.length &&

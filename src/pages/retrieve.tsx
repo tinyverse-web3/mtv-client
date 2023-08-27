@@ -10,9 +10,11 @@ import { validatePassword } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
+import { useTranslation } from 'react-i18next';
 // import { SendEmail } from '@/components/SendEmail';
 
 export default function Retrieve() {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const nav = useNavigate();
   const [email, setEmail] = useState('');
@@ -32,6 +34,7 @@ export default function Retrieve() {
   };
 
   const changePassword = async () => {
+   
     if (pwd !== confirmPwd) {
       setConfirmStatus(false);
       return;
@@ -40,14 +43,14 @@ export default function Retrieve() {
     if (!validStatus.value) {
       setValidStatus(false);
       return;
-    }
+    } 
     const { code: resultCode, msg } = await account.updatePasswordByGuardian({
       account: email,
       verifyCode: code,
       password: pwd,
     });
     if (resultCode === '000000') {
-      toast.success('修改成功');
+      toast.success(t('common.password.change_success'));
       setStep(3);
     } else {
       toast.error(msg);
@@ -68,10 +71,10 @@ export default function Retrieve() {
 
   const setArr = [
     {
-      text: '验证身份',
+      text: t('pages.retrieve.one_step'),
     },
     {
-      text: '设置新密码',
+      text: t('pages.retrieve.two_step'),
     },
     {
       text: '完成',

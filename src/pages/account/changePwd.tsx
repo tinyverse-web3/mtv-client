@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import LayoutThird from '@/layout/LayoutThird';
+import { useTranslation } from 'react-i18next';
 
 export default function ChangePwd() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
@@ -21,7 +23,7 @@ export default function ChangePwd() {
 
   const changePassword = async () => {
     if (oldPwd === pwd) {
-      toast.error('新密码不能与旧密码相同');
+      toast.error('common.password.confirm_error');
       return;
     }
     if (pwd !== confirmPwd) {
@@ -40,7 +42,7 @@ export default function ChangePwd() {
     });
     if (code === '000000') {
       setAccountInfo({ isDefaultPwd: false });
-      toast.success('密码修改成功');
+      toast.success(t('common.password.change_success'));
       nav(-1);
     } else {
       setErr(true);
@@ -50,11 +52,11 @@ export default function ChangePwd() {
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
     if (!err)
       return {
-        text: '默认密码：123456',
+        text: `${t('common.password.default_text')}：123456`,
         color: 'default',
       };
     return {
-      text: '旧密码错误',
+      text: t('common.password.old_error'),
       color: 'error',
     };
   }, [err]);
@@ -66,7 +68,7 @@ export default function ChangePwd() {
     setChecked(e);
   };
   return (
-    <LayoutThird showBack title='修改密码'>
+    <LayoutThird showBack title={t('common.password.change_text')} >
       <div className='pt-6 px-6'>
         <Row className='mb-8' justify='center'>
           <Input.Password
@@ -81,7 +83,7 @@ export default function ChangePwd() {
             helperText={helper.text}
             onChange={oldPwdChange}
             status={err ? 'error' : 'default'}
-            placeholder='旧密码'
+            placeholder={t('common.password.old_text')}
             initialValue=''
           />
         </Row>
@@ -95,9 +97,9 @@ export default function ChangePwd() {
             disabled={!oldPwd}
             helperColor={validStatus ? 'default' : 'error'}
             status={validStatus ? 'default' : 'error'}
-            helperText='密码至少8位，包括数字、大小写字母和符号至少2种'
+            helperText={t('common.password.rule_text')}
             onChange={(e) => setPwd(e.target.value?.trim())}
-            placeholder='新密码'
+            placeholder={t('common.password.new_text')}
           />
         </Row>
         <Row className='mb-4' justify='center'>
@@ -110,7 +112,7 @@ export default function ChangePwd() {
             value={confirmPwd}
             helperColor={confirmStatus ? 'default' : 'error'}
             status={confirmStatus ? 'default' : 'error'}
-            helperText={confirmStatus ? '' : '密码不一致'}
+            helperText={confirmStatus ? '' : t('common.password.unanimous_error')}
             onChange={(e) => setConfirmPwd(e.target.value.trim())}
             placeholder='确认密码'
             initialValue=''
@@ -123,7 +125,7 @@ export default function ChangePwd() {
             // isSelected={checked}
             onChange={checkboxChange}>
             <Text className='text-3'>
-              是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。
+              {t('common.password.save_hint')}
             </Text>
           </Checkbox>
         )}
@@ -132,7 +134,7 @@ export default function ChangePwd() {
           disabled={!(pwd && oldPwd && confirmPwd)}
           className='mx-auto'
           onPress={changePassword}>
-          修改
+          {t('common.password.change')}
         </Button>
       </div>
     </LayoutThird>

@@ -10,10 +10,11 @@ import {
 import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
 import imageError from '@/assets/images/icon-error.png';
+import { useTranslation } from 'react-i18next';
 
 export default function QuestionVerifyResult() {
   const nav = useNavigate();
-
+  const { t } = useTranslation();
   const { state } = useLocation();
   const { list: initList, type } = useQuestionStore((state) => state);
 
@@ -25,11 +26,11 @@ export default function QuestionVerifyResult() {
     console.log(initList);
     try {
       await account.backupByQuestion({ list: initList, type });
-      toast.success('备份成功');
+      toast.success(t('common.toast.backup_success'));
       toAccount();
     } catch (error) {
       console.log(error);
-      toast.error('备份失败');
+      toast.error(t('common.toast.backup_error'));
     }
   };
 
@@ -39,25 +40,26 @@ export default function QuestionVerifyResult() {
     }
   }, []);
   return (
-    <LayoutThird title='智能隐私备份'>
+    <LayoutThird title={t('pages.account.question.backup')}>
       {state ? (
         <div className='px-6 pt-10'>
           <Image src={imageSuccess} className='w-40 mb-10' />
           <Button className='w-full' size='lg' onPress={onSubmit}>
-            完成
+            {t('common.confirm')}
           </Button>
         </div>
       ) : (
         <div className='px-6 pt-10'>
           <Image src={imageError} className='w-40 mb-10' />
           <Button className='w-full mb-6' size='lg' onPress={() => nav(-1)}>
-            恢复测试
+          {t('pages.account.question.test_text')}
           </Button>
           <Button
             className='w-full'
             size='lg'
             onPress={() => nav(ROUTE_PATH.ACCOUNT_QUESTION)}>
-            重新设置
+            
+            {t('pages.account.question.retry_text')}
           </Button>
         </div>
       )}

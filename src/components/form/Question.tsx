@@ -8,6 +8,7 @@ import { differenceBy } from 'lodash';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -36,9 +37,10 @@ export const Question = ({
   type,
   className,
   initList = [],
-  buttonText = '备份',
+  buttonText,
   children,
 }: Props) => {
+  const { t } = useTranslation()
   const [tmpList, setTmpList] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
@@ -252,7 +254,7 @@ export const Question = ({
         {unSelectList.map((val, i) => (
           <div className='mb-4' key={i}>
             <div className='flex mb-2 items-center'>
-              <Text>问题{chineseNumMap[i]}</Text>
+              <Text>{t('common.question')}{chineseNumMap[i]}</Text>
               {!disabled && (
                 <Button
                   light
@@ -282,7 +284,7 @@ export const Question = ({
                 auto
                 className='w-full'
                 onPress={() => addQuestionChildren(i)}>
-                <div className='i-mdi-plus-circle-outline text-5'></div> 子问题
+                <div className='i-mdi-plus-circle-outline text-5'></div> {t('common.sub_question')}
               </Button>
             )}
           </div>
@@ -292,7 +294,7 @@ export const Question = ({
       <div className='flex'>
         {list.length > 0 && (
           <Button className='flex-1' auto onPress={submitQuestion}>
-            {buttonText}
+            {buttonText || t('common.backup')}
           </Button>
         )}
 
@@ -301,7 +303,7 @@ export const Question = ({
             auto
             className={list.length > 0 ? 'w-30 ml-4' : 'w-full'}
             onPress={addQuestion}>
-            增加
+            {t('common.add')}
           </Button>
         )}
       </div>

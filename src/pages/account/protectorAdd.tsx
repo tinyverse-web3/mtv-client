@@ -9,7 +9,10 @@ import toast from 'react-hot-toast';
 import account from '@/lib/account/account';
 import { useAccountStore, useGlobalStore } from '@/store';
 
+import { useTranslation } from 'react-i18next';
+
 export default function ProtectorAdd() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,14 +36,14 @@ export default function ProtectorAdd() {
       });
       if (resCode === '000000') {
         await getLocalAccountInfo();
-        toast.success('绑定成功');
+        toast.success(t('common.toast.bind_success'));
       } else {
-        toast.error(msg || '绑定失败');
+        toast.error(msg || t('common.toast.bind_error'));
       }
 
       nav(-1);
     } catch (error) {
-      await toast.error('添加失败');
+      await toast.error(t('common.toast.bind_error'));
     }
   };
   const disabled = useMemo(
@@ -48,12 +51,10 @@ export default function ProtectorAdd() {
     [checked, email, code],
   );
   return (
-    <LayoutThird title='添加守护者'>
+    <LayoutThird title={t('pages.account.protector.add_title')}>
       <div className='p-4'>
         <Text className='text-14px mb-6'>
-          守护者可用于身份验证、社交恢复等。
-          <br />
-          请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。
+          {t('pages.account.protector.hint')}
         </Text>
         <div>
           <div className='mb-6'>
@@ -65,7 +66,7 @@ export default function ProtectorAdd() {
             // isSelected={checked}
             onChange={checkboxChange}>
             <Text className='text-3'>
-              我已阅读并同意《隐私政策》及《用户服务协议》
+              {t('pages.account.protector.hint_two')}
             </Text>
           </Checkbox>
           <Button
@@ -74,7 +75,7 @@ export default function ProtectorAdd() {
             loading={loading}
             className='mx-auto mb-2 w-full'
             onPress={submit}>
-            确定
+            {t('pages.account.protector.confirm')}
           </Button>
         </div>
       </div>

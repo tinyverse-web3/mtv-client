@@ -5,19 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import imageSuccess from '@/assets/images/icon-success.png';
 import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function UserPhrase() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const toAccount = async () => {
     await account.saveMnemonic();
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (
-    <LayoutThird title='助记词备份'>
+    <LayoutThird title={t('pages.account.phrase.backup')}>
       <div className='px-6 pt-10'>
         <Image src={imageSuccess} className='w-40 mb-10' />
         <Button className='w-full' size='lg' onPress={toAccount}>
-          完成
+          {t('common.confirm')}
         </Button>
       </div>
     </LayoutThird>

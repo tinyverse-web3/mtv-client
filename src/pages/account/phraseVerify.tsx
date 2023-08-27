@@ -8,9 +8,11 @@ import { toast } from 'react-hot-toast';
 import { useEffect, useMemo, useState } from 'react';
 import { cloneDeep } from 'lodash';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function UserPhrase() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const [emptyList, setEmptyList] = useState<number[]>([]);
   const [list, { updateAt, set }] = useList<string>(
     Array.from<string>({ length: 12 }).fill(''),
@@ -31,7 +33,7 @@ export default function UserPhrase() {
     if (_phrase === mnemonic) {
       nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     } else {
-      toast.error('助记词错误');
+      toast.error(t('pages.account.phrase.toast_error'));
     }
   };
   const phrase = useMemo(() => mnemonic?.split(' ') || [], [mnemonic]);
@@ -57,7 +59,7 @@ export default function UserPhrase() {
   }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
-    <LayoutThird title='助记词恢复测试'>
+    <LayoutThird title={t('pages.account.phrase.verify_title')}>
       <div className='p-4'>
         <div className='grid grid-cols-4 gap-4 mb-4'>
           {list.map((v, i) => (
@@ -76,7 +78,7 @@ export default function UserPhrase() {
           className='w-full'
           size='lg'
           onPress={verify}>
-          恢复测试
+          {t('pages.account.phrase.verify_text')}
         </Button>
       </div>
     </LayoutThird>

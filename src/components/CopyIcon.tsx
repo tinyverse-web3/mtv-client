@@ -1,12 +1,14 @@
 import { useCopyToClipboard } from 'react-use';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export const CopyIcon = ({ text, className }: { text: string, className?:string }) => {
+  const {t} = useTranslation()
   const [_, copyToClipboard] = useCopyToClipboard();
   const clickHandler = () => {
     if (text) {
       copyToClipboard(text);
-      toast.success('复制成功');
+      toast.success(t('common.copy_success'));
     }
   };
   return (

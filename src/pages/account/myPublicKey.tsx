@@ -8,8 +8,11 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { toast } from 'react-hot-toast';
 import { download } from '@/lib/utils';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 export default function UserQrcode() {
+  const { t } = useTranslation();
   const qrBoxRef = useRef<any>();
   const { accountInfo } = useAccountStore((state) => state);
   const { publicKey } = accountInfo;
@@ -17,7 +20,7 @@ export default function UserQrcode() {
   const copy = () => {
     if (!publicKey) return;
     copyToClipboard(publicKey);
-    toast.success('复制成功');
+    toast.success(t('common.copy_success'));
   };
   const loadQrcode = () => {
     if (qrBoxRef.current) {

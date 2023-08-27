@@ -7,9 +7,11 @@ import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import { useHost } from '@/lib/hooks';
 import { download } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export default function UserPhrase() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const [checked, setChecked] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,7 +50,7 @@ export default function UserPhrase() {
     getMnemonic();
   }, []);
   return (
-    <LayoutThird title='助记词备份'>
+    <LayoutThird title={t('pages.account.phrase.backup')}>
       <div className='p-4'>
         <div>
           <Checkbox
@@ -56,7 +58,7 @@ export default function UserPhrase() {
             aria-label='checkbox'
             isSelected={checked}
             onChange={checkboxChange}>
-            <Text className='text-3'>是否使用加密保险箱加密助记词</Text>
+            <Text className='text-3'>{t('pages.account.phrase.hint_one')}</Text>
           </Checkbox>
         </div>
         <Modal
@@ -68,16 +70,16 @@ export default function UserPhrase() {
           onClose={closeHandler}>
           <Modal.Body>
             <Text size={16} className='text-center'>
-              直接显示和抄写助记词很危险，需要您投入更多的精力去保管助记词
+              {t('pages.account.phrase.hint_two')}
             </Text>
           </Modal.Body>
 
           <Modal.Footer>
             <Button auto flat color='error' onPress={closeHandler}>
-              取消
+              {t('common.cancel')}
             </Button>
             <Button auto onPress={confirmHandler}>
-              确定
+              {t('common.confirm')}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -88,21 +90,21 @@ export default function UserPhrase() {
               loading={loading}
               className='w-full'
               size='lg'>
-              下载加密文件
+              {t('pages.account.phrase.download_text')}
             </Button>
           </>
         ) : (
           <>
             <Text className='text-4 mb-4'>
-              助记词非常重要，请妥善保管，注意不使用联网工具备份。
+              {t('pages.account.phrase.hint_three')}
             </Text>
-            <Card variant="bordered"  className='mb-4'>
+            <Card variant='bordered' className='mb-4'>
               <Card.Body>
                 <Text>{mnemonic}</Text>
               </Card.Body>
             </Card>
             <Button onClick={toVerify} className='w-full' size='lg'>
-              下一步
+              {t('common.next_step')}
             </Button>
           </>
         )}

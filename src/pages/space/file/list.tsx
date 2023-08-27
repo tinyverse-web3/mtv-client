@@ -9,8 +9,10 @@ import { PublicPasswordModal } from './components/PublicPasswordModal';
 import account from '@/lib/account/account';
 import { ROUTE_PATH } from '@/router';
 import { Empty } from '@/components/Empty';
+import { useTranslation } from 'react-i18next';
 
 export default function Album() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File>();
@@ -122,7 +124,7 @@ export default function Album() {
   }, []);
   return (
     <LayoutThird
-      title='文件'
+      title={t('common.file')}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>

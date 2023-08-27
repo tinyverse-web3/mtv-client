@@ -4,6 +4,7 @@ import { calcSize } from '@/lib/utils';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
+import { useTranslation } from 'react-i18next';
 interface FileItemProps {
   item: {
     FileSize: number;
@@ -16,6 +17,7 @@ interface FileItemProps {
   delSuccess?: () => void;
 }
 const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
+  const { t } = useTranslation()
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const [showStatus, setShowStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
@@ -35,7 +37,7 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
   const removeItem = async (Filename?: string) => {
     const { code, msg } = await account.delFile({ Filename, Type: type });
     if (code === '000000') {
-      toast.success(`删除成功`);
+      toast.success(t('common.toast.delete_success'));
       delSuccess?.();
     } else {
       toast.error(msg);
@@ -69,7 +71,7 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
         <span>{calcSize(item.FileSize)}</span>
       </div>
       <DelConfirmModel
-        text='文件'
+        text={t('common.file')}
         show={showStatus}
         onConfirm={delConfirm}
         onClose={onClose}

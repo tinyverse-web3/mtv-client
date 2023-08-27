@@ -5,11 +5,13 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { useAccountStore } from '@/store';
 import { download } from '@/lib/utils';
 import { QrType } from '@/type';
+import { useTranslation } from 'react-i18next';
 
 enum MtvEnum {
   TEST,
 }
 export default function UserQrcode() {
+  const { t } = useTranslation();
   const qrBoxRef = useRef<any>();
   const { accountInfo } = useAccountStore((state) => state);
   const { publicKey } = accountInfo;

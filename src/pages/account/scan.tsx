@@ -9,8 +9,10 @@ import { toast } from 'react-hot-toast';
 import { useMount } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function UserScan() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const html5Qrcode = useRef<any>();
   const [text, setText] = useState('');
@@ -59,7 +61,7 @@ export default function UserScan() {
           // Start failed, handle it.
         });
     } catch (error) {
-      console.log('初始化扫码错误');
+      console.log(t('common.init_scan_error'));
       console.log(error);
     }
   };
@@ -78,9 +80,9 @@ export default function UserScan() {
       const value = searchParams.get('value');
       if (Number(type) === QrType.ADD_FRIEND && value) {
         await account.createContactByMasterKey(value);
-        toast.success('添加好友成功');
+        toast.success(t('pages.chat.search.success'));
       } else {
-        toast.success('没有得到任何结果');
+        toast.success(t('common.no_result'));
       }
       nav(-1);
     }
@@ -89,12 +91,12 @@ export default function UserScan() {
     parseText();
   }, [text]);
   return (
-    <LayoutThird title='我的二维码'>
+    <LayoutThird title={t('pages.account.my_qrcode')}>
       <div className='pt-30'>
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center'>扫一扫</div>
+        <div className='text-center'>{t('common.sacn')}</div>
         {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>
