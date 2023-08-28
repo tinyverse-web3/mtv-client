@@ -52,7 +52,7 @@ export default function Account() {
     }
   };
   return (
-    <div className='pt-4 px-4 text-14px'>
+    <div className='p-4 text-14px'>
       <div className='flex mb-4'>
         <UserAvatar className='mr-4' />
         <UserLevel />

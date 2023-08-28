@@ -40,7 +40,7 @@ export const UserLevel = ({ className }: Props) => {
   );
   return (
     <div className={`${className}`}>
-      <div className='flex items-center mb-1'>
+      <div className='flex items-center mb-1 flex-wrap'>
         <span>{t('pages.account.level.title')}：</span>
         <div className='flex-1 overflow-hidden'>
           <div className='h-5 bg-gray-100 w-50 max-w-full rounded-full overflow-hidden'>
