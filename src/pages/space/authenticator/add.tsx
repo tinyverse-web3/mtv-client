@@ -46,6 +46,7 @@ export default function Edit() {
     });
     if (code === '000000') {
       toast.success(t('common.toast.add_success'));
+      nav(-1);
     } else {
       toast.error(msg);
     }

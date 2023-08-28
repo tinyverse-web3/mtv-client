@@ -60,7 +60,7 @@ const Profile: React.FC = () => {
   return (
     <LayoutThird title={t('pages.account.profile.title')}>
       <div className='p-4 h-full overflow-y-auto'>
-        <div className='pt-16 mb-4'>
+        <div className='pt-10 mb-4'>
           <Card variant='bordered' className='overflow-unset'>
             <Card.Body className='overflow-unset'>
               <div className='pt-10 relative px-2'>

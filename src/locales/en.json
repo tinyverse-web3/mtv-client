@@ -24,7 +24,7 @@
     "change": "Change",
     "scan": "Scan",
     "copy_success": "Copied",
-    "init_scan_error": "Scan",
+    "init_scan_error": "Init Error",
     "set_text": "Set",
     "cancel": "Cancel",
     "default": "Default",

@@ -91,12 +91,12 @@ export default function UserScan() {
     parseText();
   }, [text]);
   return (
-    <LayoutThird title={t('pages.account.my_qrcode')}>
+    <LayoutThird title={t('common.scan')}>
       <div className='pt-30'>
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center'>{t('common.sacn')}</div>
+        <div className='text-center'>{t('common.scan')}</div>
         {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>

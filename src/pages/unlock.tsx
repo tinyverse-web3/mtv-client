@@ -83,8 +83,8 @@ export default function Unlock() {
     });
   };
   return (
-    <LayoutOne className='relative '>
-      <div className='px-6 pt-14 h-full'>
+    <LayoutOne className='relative'>
+      <div className='px-6 pt-14 h-full '>
         <HeaderLogo />
         {/* <div className='flex justify-center'>
           <Button
@@ -122,11 +122,7 @@ export default function Unlock() {
           onPress={pressHandler}>
           {t('pages.unlock.btn_unlock')}
         </Button>
-        <Image
-          onClick={startBiometric}
-          src='/figer.png'
-          className='w-10 h-10 cursor-pointer'
-        />
+
         <div className='flex justify-end'>
           <Button
             light
@@ -138,6 +134,11 @@ export default function Unlock() {
           </Button>
         </div>
       </div>
+      <Image
+        onClick={startBiometric}
+        src='/figer.png'
+        className='w-10 h-10 cursor-pointer absolute bottom-26 left-1/2 transform -translate-x-1/2'
+      />
     </LayoutOne>
   );
 }
