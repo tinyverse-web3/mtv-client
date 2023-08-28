@@ -13,29 +13,41 @@ import { useTranslation } from 'react-i18next';
 export default function PrivateData() {
   const { t } = useTranslation();
   const nav = useNavigate();
-  const [textPlaceholder, setTextPlaceholder] =
-    useState(t('pages.account.encrypted_safe.text'));
-  const [passwordPlaceholder, setPasswordPlaceholder] = useState(t('pages.account.encrypted_safe.password'));
-  const [customPlaceholder, setCustomPlaceholder] = useState(t('pages.account.encrypted_safe.custom'));
+  const [textPlaceholder, setTextPlaceholder] = useState(
+    t('pages.account.encrypted_safe.text'),
+  );
+  const [passwordPlaceholder, setPasswordPlaceholder] = useState(
+    t('pages.account.encrypted_safe.password'),
+  );
+  const [customPlaceholder, setCustomPlaceholder] = useState(
+    t('pages.account.encrypted_safe.custom'),
+  );
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const { accountInfo } = useAccountStore((state) => state);
-  const { setTextPrivateData, setPasswordPrivateData, setCustomPrivateData } = useRestoreStore(
-    (state) => state,
-  );
+  const { setTextPrivateData, setPasswordPrivateData, setCustomPrivateData } =
+    useRestoreStore((state) => state);
 
   const add = async () => {
     const privateArr = [text, password, customText];
     const privateFilter = privateArr.filter((v) => !!v);
     if (privateFilter.length < 2) {
-      toast.error('请至少输入两种内容');
+      toast.error(t('pages.account.encrypted_safe.toast.error_1'));
       setLoading(false);
       return;
     }
-    if (text?.length >= 12) {
-      toast.error('最多输入三种内容');
+    if (text?.length < 12) {
+      toast.error(t('pages.account.encrypted_safe.toast.error_2'));
+      return;
+    }
+    if (password?.length < 12) {
+      toast.error(t('pages.account.encrypted_safe.toast.error_3'));
+      return;
+    }
+    if (customText?.length < 12) {
+      toast.error(t('pages.account.encrypted_safe.toast.error_4'));
       return;
     }
     setTextPrivateData(text);
@@ -70,10 +82,14 @@ export default function PrivateData() {
     if (accountInfo.customPrivateData) {
       setCustomPlaceholder(hideHalfString(accountInfo.customPrivateData));
     }
-  }, [accountInfo.textPrivateData, accountInfo.textPrivateData, accountInfo.textPrivateData]);
+  }, [
+    accountInfo.textPrivateData,
+    accountInfo.textPrivateData,
+    accountInfo.textPrivateData,
+  ]);
   return (
     <LayoutThird title={t('pages.account.encrypted_safe.set_text')}>
-      <div className='pt-8 px-6'>
+      <div className='p-6'>
         <div className='mb-8 text-3'>
           {t('pages.account.encrypted_safe.hint')}
         </div>
@@ -116,7 +132,7 @@ export default function PrivateData() {
           loading={loading}
           className='mx-auto mb-6 w-full'
           onPress={add}>
-          {t('common.fingerprint.title')} 
+          {t('common.fingerprint.title')}
         </Button>
         <Button
           disabled={!text && !password && !customText}
@@ -124,7 +140,7 @@ export default function PrivateData() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          {t('common.next_step')} 
+          {t('common.next_step')}
         </Button>
       </div>
     </LayoutThird>
