@@ -1,8 +1,8 @@
 {
   "app": {
     "title": "TinyVerse Space",
-    "subtitle": "Focusing on secure storage of your privacy", 
-    "description": "making your private keys more secure"
+    "subtitle": "Focusing on secure storage of your privacy, making your private keys more secure", 
+    "description": ""
   },
   "common": {
     "title": "Title",
@@ -144,7 +144,7 @@
         "download_text": "Download Link"
       },
       "photo": {
-        "title": "Photograph",
+        "title": "Take Photo",
         "upload_success": "Photo Taken"
       },
       "file": {
@@ -157,15 +157,15 @@
       },
       "gun": {
         "title": "GUN",
-        "list_title": "GUN LIST",
+        "list_title": "Your GUN list",
         "apply_name": "Name",
         "apply": "Apply",
+        "apply_title": "Apply for your GUN",
         "apply_success": "Application succeeded",
-        "apply_title": "Apply for your GUN domain",
         "search": "Search",
-        "search_title": "Search GUN domain",
-        "search_input": "Enter the GUN name you want to search",
-        "search_hint": "User's globally unique name (GUN) can be used anywhere. For example, friends can find you by name, and the name will also show in other apps supporting GUN protocol.",
+        "search_title": "Search GUN",
+        "search_input": "Enter the GUN you want to search",
+        "search_hint": "User's global unique name (GUN) can be used anywhere. For example, friends can find you by name, and the name will also show in other apps supporting GUN protocol.",
         "rule_text": "Name is case insensitive, can only use letters a-z and numbers 0-9, at least 8 characters.",
         "expired_text": "Valid Period",
         "price_text": "Pricing",
@@ -174,7 +174,7 @@
         "three_year": "3 years",
         "renew": "Renew",
         "renew_success": "Renewal succeeded",
-        "detail_title": "View GUN Domain Info",
+        "detail_title": "View GUN Info",
         "detail_name": "GUN Name",
         "detail_key": "Key",
         "owner": "Owner",
@@ -199,10 +199,19 @@
         "title": "Ledger"
       },
       "authenticator": {
-        "title": "Google Authenticator"
+        "title": "Google Authenticator",
+        "btn_add": "Add an authenticator",
+        "detail_title": "Details",
+        "detail_name": "Account name",
+        "detail_key": "Secret key",
+        "add_title": "Add Account",
+        "create_title": "Create Secret key"
       },
       "award": {
-        "title": "Earn Points"
+        "title": "Earn Points",
+        "apply_success": "Application submitted",
+        "daily": "Earn daily points",
+        "guardian": "Obtain Guardian Points"
       },
       "nft": {
         "title": "Issue NFT"
