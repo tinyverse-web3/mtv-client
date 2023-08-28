@@ -23,7 +23,7 @@ const MenuItem = ({ text, icon, onClick }: any) => {
   return (
     <div className='flex flex-col h-full items-center justify-center text-14px'>
       <div className='rounded-full bg-gray-100 p-3 mb-1 overflow-hidden flex'>
-        {text === '拍照' ? (
+        {text === t('pages.space.photo.title') ? (
           <label className='w-full h-full flex items-center justify-center overflow-hidden'>
             <img
               className={`h-14 w-14 text-gray-600`}
