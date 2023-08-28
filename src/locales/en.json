@@ -299,9 +299,9 @@
       },
       "multi_verify": {
         "title": "Multi-factor Authentication",
-        "private_hint": "Set personal privacy data as template to protect user data.",
-        "protector_hint": "Bind identity, verify account.",
-        "hint": "The account backup can only be performed after the settings of the safe and guardian are completed."
+        "private_hint": "Using personal private data to set up a encrypted vault for storing key shards.",
+        "protector_hint": "Binding personal additional accounts for identity verification when retrieving key shards.",
+        "hint": "The account backup can only be performed after the settings of the vault and guardian are completed."
       },
       "restore": {
         "title": "Recovery Paths"
