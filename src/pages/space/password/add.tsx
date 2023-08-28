@@ -42,26 +42,26 @@ export default function Edit() {
   return (
     <LayoutThird title={`${type === 'add' ? t('common.create') : t('common.edit')}${t('pages.space.password.title')}`}>
       <div className='p-6'>
-        <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>{t('common.title')}</span>
+        <div className='mb-4'>
+          <div className='mb-2'>{t('common.title')}</div>
           <Input
             value={data.Title}
             maxLength={300}
             onChange={(e: string) => set('Title', e?.trim())}
             placeholder={t('common.title')}
           />
-        </Row>
-        <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>{t('common.account')}</span>
+        </div>
+        <div className='mb-4'>
+          <div className='mb-1'>{t('common.account')}</div>
           <Input
             value={data.Account}
             maxLength={300}
             onChange={(e: string) => set('Account', e?.trim())}
             placeholder={t('common.account')}
           />
-        </Row>
-        <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>{t('common.password.title')}</span>
+        </div>
+        <div className='mb-4'>
+          <div className='mb-1'>{t('common.password.title')}</div>
           <NextInput.Password
             value={data.Password}
             fullWidth
@@ -70,18 +70,18 @@ export default function Edit() {
             onChange={(e: any) => set('Password', e.target.value?.trim())}
             placeholder={t('common.password.title')}
           />
-        </Row>
-        <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>{t('common.link')}</span>
+        </div>
+        <div className='mb-4'>
+          <div className='mb-1'>{t('common.link')}</div>
           <Input
             value={data.Url}
             maxLength={300}
             onChange={(e: string) => set('Url', e?.trim())}
             placeholder={t('common.link')}
           />
-        </Row>
+        </div>
         {/* <Row className='mb-8' justify='center'>
-          <span className='w-16'>备注</span>
+          <span className='mb-2'>备注</span>
           <Textarea
             value={data.remark}
             maxLength={300}

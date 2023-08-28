@@ -87,7 +87,6 @@ export default function GunSearch() {
         </div>
         <div className='mb-4'>
           <Text className='text-3 text-gray-400'>
-            rule_text
             {t('pages.space.gun.rule_text')}
           </Text>
         </div>
