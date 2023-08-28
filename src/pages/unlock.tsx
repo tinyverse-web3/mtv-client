@@ -123,7 +123,7 @@ export default function Unlock() {
           {t('pages.unlock.btn_unlock')}
         </Button>
 
-        <div className='flex justify-end'>
+        <div className='flex justify-end mb-26'>
           <Button
             light
             auto
@@ -133,12 +133,12 @@ export default function Unlock() {
             {t('pages.unlock.forget_password')}
           </Button>
         </div>
+        <Image
+          onClick={startBiometric}
+          src='/figer.png'
+          className='w-10 h-10 cursor-pointer'
+        />
       </div>
-      <Image
-        onClick={startBiometric}
-        src='/figer.png'
-        className='w-10 h-10 cursor-pointer absolute bottom-26 left-1/2 transform -translate-x-1/2'
-      />
     </LayoutOne>
   );
 }
