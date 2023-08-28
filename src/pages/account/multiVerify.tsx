@@ -21,7 +21,7 @@ export default function MultiVerify() {
   };
   const toProtector = async () => {
     const loginStatus = await useCheckLogin();
-    console.log('loginStatus', loginStatus);
+    
     if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
     }
@@ -55,8 +55,11 @@ export default function MultiVerify() {
           label={t('pages.account.protector.title')}
           onPress={toProtector}
         />
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-26 text-[14px]'>
           {t('pages.account.multi_verify.protector_hint')}
+        </div>
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+          {t('pages.account.multi_verify.hint')}
         </div>
       </div>
       <ValidPassword

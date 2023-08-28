@@ -22,6 +22,7 @@ import AccountRestory from '@/pages/account/restory';
 import Profile from '@/pages/account/profile';
 import SubAccountList from '@/pages/account/subAccount/list';
 import SubAccountEdit from '@/pages/account/subAccount/edit';
+import About from '@/pages/account/about';
 
 export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_NAME: '/account/name',
@@ -47,6 +48,7 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_PRIVATEDATA_VERIFY: '/account/privateData/verify',
   ACCOUNT_SUBACCOUNT_LIST: '/account/subAccount/list',
   ACCOUNT_SUBACCOUNT_EDIT: '/account/subAccount/edit',
+  ACCOUNT_ABOUT: '/account/about',
 };
 export const accountRoutes: RouteObject[] = [
   {
@@ -136,5 +138,9 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_AWARD,
     element: <AccountAward />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_ABOUT,
+    element: <About />,
   },
 ];

@@ -17,10 +17,10 @@ export default function LocalSafe() {
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toChangePwd = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
+    // const loginStatus = await useCheckLogin();
+    // if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
-    }
+    // }
   };
   const setupBiometrics = async (password: string) => {
     window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {

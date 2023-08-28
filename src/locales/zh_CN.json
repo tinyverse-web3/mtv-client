@@ -299,7 +299,8 @@
       "multi_verify": {
         "title": "多因素验证",
         "private_hint": "设置个人隐私数据作为保护模板，用于保护用户数据。",
-        "protector_hint": "绑定身份，验证账号。"
+        "protector_hint": "绑定身份，验证账号。",
+        "hint": "保险箱和守护者设置完成后，才能进行账号备份。"
       },
       "restore": {
         "title": "恢复途径"
@@ -312,7 +313,13 @@
         }
       },
       "about": {
-        "title": "关于"
+        "title": "关于",
+        "version": "TinyVerse Space V1.0.0",
+        "description": "开源的、基于IPFS的、去中心化的个人隐私数据的安全存储和管理软件，用户自我管理所有数据，任何第三方都无法访问用户数据。",
+        "btn_1": "服务条款",
+        "btn_2": "隐私政策",
+        "btn_3": "开源代码",
+        "btn_4": "官网主页"
       },
       "exit": {
         "title": "退出"

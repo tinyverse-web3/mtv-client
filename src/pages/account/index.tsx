@@ -37,6 +37,9 @@ export default function Account() {
   const toRestory = () => {
     nav(ROUTE_PATH.ACCOUNT_RESTORY);
   };
+  const toAbout = () => {
+    nav(ROUTE_PATH.ACCOUNT_ABOUT);
+  };
   const toSetting = () => {
     nav(ROUTE_PATH.SETTING_INDEX);
   };
@@ -68,7 +71,7 @@ export default function Account() {
       />
       <ListRow label={t('pages.account.restore.title')} onPress={() => showVerifyPassword(2)} />
       <ListRow label={t('pages.account.setting.title')} onPress={toSetting} />
-      <ListRow label={t('pages.account.about.title')} />
+      <ListRow label={t('pages.account.about.title')} onPress={toAbout} />
       <ListRow label={t('pages.account.exit.title')} onPress={deleteUser} />
       <ValidPassword
         onSuccess={validPasswordSuccess}

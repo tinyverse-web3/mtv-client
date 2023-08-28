@@ -292,7 +292,8 @@
       "multi_verify": {
         "title": "Multi-factor Authentication",
         "private_hint": "Set personal privacy data as template to protect user data.",
-        "protector_hint": "Bind identity, verify account."
+        "protector_hint": "Bind identity, verify account.",
+        "hint": "The account backup can only be performed after the settings of the safe and guardian are completed."
       },
       "restore": {
         "title": "Recovery Paths"
@@ -305,7 +306,13 @@
         }
       },
       "about": {
-        "title": "About"
+        "title": "About",
+        "version": "TinyVerse Space V1.0.0",
+        "description": "Open source, IPFS-based, decentralized secure storage and management software for personal privacy data. Users self-manage all data, no third party can access user data.",
+        "btn_1": "Terms of Service",
+        "btn_2": "Privacy Policy",
+        "btn_3": "Open Source Code",
+        "btn_4": "Official Website"
       },
       "exit": {
         "title": "Sign Out"

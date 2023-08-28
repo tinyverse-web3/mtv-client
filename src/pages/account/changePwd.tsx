@@ -118,7 +118,7 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        {accountInfo.bindStatus && (
+        {/* {accountInfo.bindStatus && (
           <Checkbox
             className='mb-3'
             aria-label='checkbox'
@@ -128,7 +128,7 @@ export default function ChangePwd() {
               {t('common.password.save_hint')}
             </Text>
           </Checkbox>
-        )}
+        )} */}
 
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}
