@@ -106,7 +106,7 @@ const Profile: React.FC = () => {
                     </Card>
                   </div>
                   <div className='mb-4'>
-                    <div className='mb-2'>{t('pages.account.message_key')}</div>
+                    <div className='mb-2'>{t('pages.account.wallet_key')}</div>
                     <Card variant='bordered'>
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
