@@ -24,7 +24,7 @@ export default function Page({
         <div className='flex-1 text-center font-600'>{title}</div>
         <div className='w-10'>{rightContent && rightContent}</div>
       </header>
-      <section className='pt-12 h-full'>{children}</section>
+      <section className='pt-12 h-full overflow-y-auto'>{children}</section>
     </main>
   );
 }

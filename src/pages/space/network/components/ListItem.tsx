@@ -48,23 +48,23 @@ export function ListItem({
         <div className='text-4 break-all'>{Key}</div>
         <div className=''>
           <div>
-            <span>{t('pages.space.size_text')}：</span>
+            <span>{t('pages.space.data.size_text')}：</span>
             <span>{sizeText}</span>
           </div>
           <div>
-            <span>{t('pages.space.redundancy_text')}：</span>
+            <span>{t('pages.space.data.redundancy_text')}：</span>
             <span>{Redundancy}</span>
           </div>
           <div>
-            <span>{t('pages.space.save_time')}：</span>
+            <span>{t('pages.space.data.save_time')}：</span>
             <span>{createTimeText}</span>
           </div>
           <div>
-            <span>{t('pages.space.expired_time')}：</span>
+            <span>{t('pages.space.data.expired_time')}：</span>
             {/* <span>{expireTime}</span> */}
           </div>
           <div>
-            <span>{t('pages.space.description')}：</span>
+            <span>{t('pages.space.data.description')}：</span>
             {/* <span>{description}</span> */}
           </div>
         </div>
