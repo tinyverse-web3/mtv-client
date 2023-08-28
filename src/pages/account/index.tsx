@@ -66,7 +66,7 @@ export default function Account() {
         label={t('pages.account.multi_verify.title')}
         onPress={() => showVerifyPassword(1)}
       />
-      <ListRow label={t('pages.account.restore.title')} onPress={() => showVerifyPassword(1)} />
+      <ListRow label={t('pages.account.restore.title')} onPress={() => showVerifyPassword(2)} />
       <ListRow label={t('pages.account.setting.title')} onPress={toSetting} />
       <ListRow label={t('pages.account.about.title')} />
       <ListRow label={t('pages.account.exit.title')} onPress={deleteUser} />

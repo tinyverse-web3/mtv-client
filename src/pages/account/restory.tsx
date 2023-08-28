@@ -24,7 +24,6 @@ export default function MultiVerify() {
     }
   };
   const toPharse = async () => {
-    
     // const loginStatus = await useCheckLogin();
     // if (loginStatus) {
     nav(ROUTE_PATH.ACCOUNT_PHRASE);
@@ -51,7 +50,7 @@ export default function MultiVerify() {
         <ListRow
           label={t('pages.account.phrase.backup')}
           value={accountInfo.maintainPhrase ? t('pages.account.backup.on') : ''}
-          onPress={() => showVerifyPassword(1)}
+          onPress={toPharse}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
           {t('pages.account.phrase.hint')}
@@ -70,7 +69,7 @@ export default function MultiVerify() {
           value={
             accountInfo.maintainQuestion ? t('pages.account.backup.on') : ''
           }
-          onPress={() => showVerifyPassword(2)}
+          onPress={toQuestion}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 text-[14px]'>
           {t('pages.account.question.hint')}

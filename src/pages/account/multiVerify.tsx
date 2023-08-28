@@ -46,14 +46,14 @@ export default function MultiVerify() {
       <div className='p-4'>
         <ListRow
           label={t('pages.account.encrypted_safe.title')}
-          onPress={() => showVerifyPassword(1)}
+          onPress={toPrivateData}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
           {t('pages.account.multi_verify.private_hint')}
         </div>
         <ListRow
           label={t('pages.account.protector.title')}
-          onPress={() => showVerifyPassword(2)}
+          onPress={toProtector}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
           {t('pages.account.multi_verify.protector_hint')}

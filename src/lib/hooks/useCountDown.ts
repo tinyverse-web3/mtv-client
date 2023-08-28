@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-export function useCountDown(initCount = 10, initText = '获取验证码') {
+export function useCountDown(initCount = 10, initText?: string) {
+  const { t } = useTranslation();
+  initText = initText || t('common.code_text');
   const timeId = useRef<number>(0);
   const [flag, setFlag] = useState(true);
   const [count, setCount] = useState(initCount);
