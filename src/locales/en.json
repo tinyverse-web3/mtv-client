@@ -49,6 +49,7 @@
       "title": "Password",
       "rule_text": "At least 8 characters, including digits, uppercase and lowercase letters and symbols",
       "default_text": "Default Password",
+      "confirm_text": "Confirm Password",
       "verify_text": "Verify password",
       "verify_success": "Verification succeeded",
       "verify_error": "Verification failed",

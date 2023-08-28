@@ -68,7 +68,7 @@ export default function ChangePwd() {
     setChecked(e);
   };
   return (
-    <LayoutThird showBack title={t('common.password.change_text')} >
+    <LayoutThird showBack title={t('common.password.change_text')}>
       <div className='pt-6 px-6'>
         <Row className='mb-8' justify='center'>
           <Input.Password
@@ -87,7 +87,7 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        <Row className='mb-8' justify='center'>
+        <div className='mb-3'>
           <Input.Password
             clearable
             bordered
@@ -95,13 +95,14 @@ export default function ChangePwd() {
             fullWidth
             value={pwd}
             disabled={!oldPwd}
+            className='mb-1'
             helperColor={validStatus ? 'default' : 'error'}
             status={validStatus ? 'default' : 'error'}
-            helperText={t('common.password.rule_text')}
             onChange={(e) => setPwd(e.target.value?.trim())}
             placeholder={t('common.password.new_text')}
           />
-        </Row>
+          <div className='text-12px pl-8px'>{t('common.password.rule_text')}</div>
+        </div>
         <Row className='mb-4' justify='center'>
           <Input.Password
             clearable
@@ -112,9 +113,11 @@ export default function ChangePwd() {
             value={confirmPwd}
             helperColor={confirmStatus ? 'default' : 'error'}
             status={confirmStatus ? 'default' : 'error'}
-            helperText={confirmStatus ? '' : t('common.password.unanimous_error')}
+            helperText={
+              confirmStatus ? '' : t('common.password.unanimous_error')
+            }
             onChange={(e) => setConfirmPwd(e.target.value.trim())}
-            placeholder='确认密码'
+            placeholder={t('common.password.confirm_text')}
             initialValue=''
           />
         </Row>

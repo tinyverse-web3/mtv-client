@@ -45,7 +45,7 @@ export const ValidPassword = ({
   const startBiometric = async () => {
     window?.JsBridge.startBiometric(({ code, message, data }: any) => {
       if (code === 0) {
-        toast.success(t('common.password.verify_success'));
+        // toast.success(t('common.password.verify_success'));
         verifyPassword(data);
       } else {
         toast.error(message);
