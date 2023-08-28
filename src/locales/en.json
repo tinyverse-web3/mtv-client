@@ -31,11 +31,12 @@
     "custom": "Custom",
     "backup": "Backup",
     "add": "Add",
-    "create": "create",
-    "edit": "edit",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
     "delete_hint": "Delete?",
     "question": "Question",
-    "file": "file",
+    "file": "File",
     "sub_question": "Sub Question",
     "empty_data": "No Data",
     "no_result": "No Result",
@@ -72,12 +73,18 @@
       "avatar_success": "Avatar Uploaded Successfully"
     },
     "toast": {
-      "delete_success": "Deleted Successfully",
-      "delete_error": "Deleted failed",
+      "delete_success": "Delete Successful",
+      "delete_error": "Delete failed",
       "backup_error": "Backup failed",
-      "backup_success": "Backup Successfully",
-      "bind_success": "Bound Successfully",
-      "bind_error": "Bound failed"
+      "backup_success": "Backup Successful",
+      "bind_success": "Bingding Successful",
+      "bind_error": "Binding failed",
+      "add_success": "Add Successful",
+      "add_error": "Add failed",
+      "edit_success": "Edit Successful",
+      "edit_error": "Edit failed",
+      "set_success": "Setting Successful",
+      "set_error": "Setting failed"
     },
     "turn_on": "On",
     "turn_off": "Off"
@@ -255,7 +262,7 @@
         "set_success": "Set Vault Successfully",
         "set_error": "Set Vault Failed",
         "text": "ID Number/Social Security Number/Phone Number",
-        "password": "Frequently sed passwords",
+        "password": "Frequently used passwords",
         "custom": "Custom Feature Data",
         "toast": {
           "one": ""
