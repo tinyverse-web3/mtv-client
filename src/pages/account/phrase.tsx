@@ -96,7 +96,7 @@ export default function UserPhrase() {
         ) : (
           <>
             <Text className='text-4 mb-4'>
-              {t('pages.account.phrase.hint_three')}
+              {t('pages.account.phrase.hint_two')}
             </Text>
             <Card variant='bordered' className='mb-4'>
               <Card.Body>
