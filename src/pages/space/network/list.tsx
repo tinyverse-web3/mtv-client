@@ -5,8 +5,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
 const NetworkList: React.FC = () => {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [searchText, setSearchText] = useState('');
   const [params] = useSearchParams();
@@ -28,13 +30,17 @@ const NetworkList: React.FC = () => {
     setNetworkItems(newNetworkItems);
   };
   const toDetail = (e: any) => {
-    nav(`${ROUTE_PATH.SPACE_NETWORK_DETAIL}?type=${type}&id=${encodeURIComponent(e.Key)}`);
+    nav(
+      `${ROUTE_PATH.SPACE_NETWORK_DETAIL}?type=${type}&id=${encodeURIComponent(
+        e.Key,
+      )}`,
+    );
   };
   useEffect(() => {
     getList();
   }, [type]);
   return (
-    <LayoutThird title='网络数据'>
+    <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
         {/* <div className='mb-4'>
           <Input

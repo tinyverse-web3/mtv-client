@@ -24,10 +24,7 @@ export default function MultiVerify() {
     }
   };
   const toPharse = async () => {
-    if (!accountInfo.hasFeatureData) {
-      toast(t('pages.account.toast.no_private'));
-      return;
-    }
+    
     // const loginStatus = await useCheckLogin();
     // if (loginStatus) {
     nav(ROUTE_PATH.ACCOUNT_PHRASE);
@@ -35,16 +32,16 @@ export default function MultiVerify() {
   };
 
   const toQuestion = async () => {
-    if (!accountInfo.hasFeatureData) {
-      toast(t('pages.account.toast.no_private'));
-      return;
-    }
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_QUESTION);
     }
   };
   const showVerifyPassword = (type: 1 | 2 | 3) => {
+    if (!accountInfo.hasFeatureData) {
+      toast(t('pages.account.toast.no_private'));
+      return;
+    }
     setShowPasswordStatus(true);
     setType(type);
   };

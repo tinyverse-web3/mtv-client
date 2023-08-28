@@ -19,11 +19,13 @@ interface RestoreState {
   mnemonicFile?: File;
   textPrivateData: string;
   passwordPrivateData: string;
+  customPrivateData: string;
   setQuestionList: (list: QuestionList[]) => void;
   setMnemonic: (e: string) => void;
   setMnemonicFile: (e: File) => void;
   setType: (e: number) => void;
   setTextPrivateData: (e: string) => void;
+  setCustomPrivateData: (e: string) => void;
   setPasswordPrivateData: (e: string) => void;
 }
 
@@ -36,6 +38,7 @@ export const useRestoreStore = create<RestoreState>()(
     mnemonicFile: undefined,
     mnemonicType: 'file',
     passwordPrivateData: '',
+    customPrivateData: '',
     setQuestionList: (list) => {
       set({ questionList: list });
     },
@@ -53,6 +56,9 @@ export const useRestoreStore = create<RestoreState>()(
     },
     setPasswordPrivateData: (e) => {
       set({ passwordPrivateData: e });
+    },
+    setCustomPrivateData: (e) => {
+      set({ customPrivateData: e });
     },
   })),
 );

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Image } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
 interface AssetsNftItemProps {
   item: {
@@ -20,6 +21,7 @@ const NftItem = ({ item }: AssetsNftItemProps) => {
   }
 };
 export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
@@ -43,7 +45,11 @@ export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
 
       <div className='flex-1'>
         <div className='break-all'>
-          {item.DataType === 'GUN' && <span className='text-blue-5'>【GUN】</span>}
+          {item.DataType === 'GUN' && (
+            <span className='text-blue-5'>
+              【{t('pages.space.gun.title')}】
+            </span>
+          )}
           <span>{item.Name}</span>
         </div>
         {/* <div className='flex justify-between items-center'>

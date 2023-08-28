@@ -1,10 +1,20 @@
 {
   "app": {
     "title": "TinyVerse",
-    "subtitle": "My personal super account", 
+    "subtitle": "My personal super account",
     "description": "Fast lane to Web3"
   },
   "common": {
+    "title": "Title",
+    "account": "Account",
+    "link": "Link",
+    "save": "Save",
+    "space": "Space",
+    "description": "Description",
+    "content": "Content",
+    "code_sended": "Verification code sent",
+    "bind_email": "Bind email",
+    "verify_text": "Verify password",
     "email": "Email",
     "code": "Code",
     "code_text": "Get Code",
@@ -21,12 +31,15 @@
     "custom": "Custom",
     "backup": "Backup",
     "add": "Add",
+    "create": "新增",
+    "edit": "编辑",
     "delete_hint": "Delete?",
     "question": "Question",
     "file": "file",
     "sub_question": "Sub Question",
     "empty_data": "No Data",
     "no_result": "No Result",
+    "request_error": "Request failed",
     "fingerprint": {
       "title": "Fingerprint"
     },
@@ -35,8 +48,11 @@
       "title": "Password",
       "rule_text": "At least 8 characters, including digits, uppercase and lowercase letters and symbols",
       "default_text": "Default Password",
+      "verify_text": "Verify password",
+      "verify_success": "Verification succeeded",
+      "verify_error": "Verification failed",
       "change_text": "Default Password",
-      "new_text": "New Password",  
+      "new_text": "New Password",
       "input": "Input Password",
       "error": "Wrong Password",
       "change": "Change Password",
@@ -45,12 +61,14 @@
       "unanimous_error": "Passwords Do Not Match",
       "old_text": "Old Password",
       "save_hint": "Save local password to service node for password retrieval? Note that the local password is only used to encrypt data stored locally.",
-      "confirm_error": "New password cannot be the same as old password" 
+      "confirm_error": "New password cannot be the same as old password"
     },
     "biometrics": {
       "title": "Biometrics"
-    }, 
+    },
     "upload": {
+      "success": "Upload succeeded",
+      "error": "Upload failed",
       "avatar_success": "Avatar Uploaded Successfully"
     },
     "toast": {
@@ -84,12 +102,16 @@
         "mint_description_placeholder": "Description",
         "mint_content_placeholder": "Content",
         "mint_file_hint": "Upload Image",
-        "mint_text_hint": "Max content 8k bytes"
+        "mint_text_hint": "Max content 8k bytes",
+        "detail_name": "Name",
+        "btn_transfer": "Transfer",
+        "detail_title": "Token Details"
       },
       "token": {
         "title": "Token",
         "point_name": "Points",
-        "transfer_successs": "Transfer Successful"  
+        "transfer_successs": "Transfer Successful",
+        "detail_title": "Token Detail"
       },
       "transfer": {
         "title": "Transfer",
@@ -113,7 +135,7 @@
         "coming_soon": "Coming Soon"
       },
       "note": {
-        "title": "Notebook", 
+        "title": "Notebook",
         "input_placeholder": "Notebook Content"
       },
       "album": {
@@ -126,16 +148,49 @@
         "upload_success": "Photo Taken"
       },
       "file": {
-        "title": "File"
+        "title": "File",
+        "tab_security": "Personal File",
+        "tab_public": "Public File"
       },
       "password": {
         "title": "Password Box"
       },
       "gun": {
-        "title": "GUN"
+        "title": "GUN",
+        "list_title": "GUN LIST",
+        "apply_name": "Name",
+        "apply": "Apply",
+        "apply_success": "Application succeeded",
+        "apply_title": "Apply for your GUN domain",
+        "search": "Search",
+        "search_title": "Search GUN domain",
+        "search_input": "Enter the GUN name you want to search",
+        "search_hint": "User's globally unique name (GUN) can be used anywhere. For example, friends can find you by name, and the name will also show in other apps supporting GUN protocol.",
+        "rule_text": "Name is case insensitive, can only use letters a-z and numbers 0-9, at least 8 characters.",
+        "expired_text": "Valid Period",
+        "price_text": "Pricing",
+        "one_year": "1 year",
+        "two_year": "2 years",
+        "three_year": "3 years",
+        "renew": "Renew",
+        "renew_success": "Renewal succeeded",
+        "detail_title": "View GUN Domain Info",
+        "detail_name": "GUN Name",
+        "detail_key": "Key",
+        "owner": "Owner",
+        "set_name": "Set as username",
+        "add_frient": "Add owner as friend",
+        "detail_error": "Failed to get GUN info"
       },
       "data": {
-        "title": "Network Data"
+        "title": "Network Data",
+        "btn_expansion": "Expand",
+        "btn_detail": "Details",
+        "size_text": "Size",
+        "redundancy_text": "Redundancy",
+        "save_time": "Save time",
+        "expired_time": "Expire time",
+        "description": "Description"
       },
       "read": {
         "title": "Paid Reading"
@@ -159,7 +214,7 @@
       "wallet_key": "Wallet Public Key",
       "message_key": "Message Public Key",
       "my_qrcode": "My QR Code",
-      "gun": "GUN", 
+      "gun": "GUN",
       "level": {
         "title": "Security Level",
         "hint": "Only my business card is exposed externally, all other data is completely controlled by the user and stored in personal digital space.",
@@ -168,13 +223,15 @@
         "two": "Account relies on other accounts for security, please do account maintenance ASAP.",
         "three": "Low standard account, recommend upgrading security level.",
         "four": "Standard account, your account is already very secure, but there is still room for improvement.",
-        "five": "High standard account, your account is fully protected."  
+        "five": "High standard account, your account is fully protected."
       },
       "toast": {
         "no_private": "Please set encrypted safe first"
       },
       "profile": {
         "title": "My Business Card",
+        "save_qrcode": "Save QRcode",
+        "unset_text": "Unset",
         "qrcode_add": "Scan QR code to add me as friend."
       },
       "local_safe": {
@@ -192,7 +249,7 @@
         "password": "Common Password",
         "custom": "Custom Feature Data",
         "toast": {
-          "one": ""  
+          "one": ""
         }
       },
       "protector": {
@@ -202,7 +259,7 @@
         "hint_two": "I have read and agree to the Privacy Policy and User Agreement"
       },
       "backup": {
-        "on": "Backed Up" 
+        "on": "Backed Up"
       },
       "phrase": {
         "title": "Recovery Phrase",
@@ -224,16 +281,18 @@
         "hint": "Smart privacy backup is a self-custodial private key backup solution. User's personal privacy information is used to generate shards via MPC-SSS, which are kept in distributed storage network. All computation happens locally, all data is kept in user's own digital space, ensuring data security. Please fill out the form correctly, can leave blank (synced with personal info). If personal info changes, account maintenance is needed to prevent loss."
       },
       "multi_verify": {
-        "title": "Multi-factor Authentication"
+        "title": "Multi-factor Authentication",
+        "private_hint": "Set personal privacy data as template to protect user data.",
+        "protector_hint": "Bind identity, verify account."
       },
       "restore": {
         "title": "Recovery Methods"
-      },  
+      },
       "setting": {
         "title": "Settings",
         "language": {
           "title": "Language",
-          "change_success": "Language Switched Successfully" 
+          "change_success": "Language Switched Successfully"
         }
       },
       "about": {
@@ -245,7 +304,7 @@
     },
     "unlock": {
       "btn_unlock": "Unlock",
-      "success": "Unlocked Successfully", 
+      "success": "Unlocked Successfully",
       "forget_password": "Forgot Password"
     },
     "chat": {
@@ -270,7 +329,7 @@
         "btn_send": "Send",
         "send_error": "Send Failed"
       },
-      "profile": {  
+      "profile": {
         "btn_change": "Change",
         "btn_clear": "Clear History",
         "btn_delete": "Delete Contact",
@@ -278,7 +337,7 @@
         "clear_error": "Cleared Successfully",
         "alias": {
           "title": "Alias",
-          "change_success": "Changed Successfully" 
+          "change_success": "Changed Successfully"
         }
       }
     },
@@ -298,7 +357,7 @@
         "upload_hint": "Upload encrypted recovery phrase file"
       },
       "protector": {
-        "title": "Protector Recovery" 
+        "title": "Protector Recovery"
       },
       "encrypted_safe": {
         "title": "Recover Encrypted Safe"

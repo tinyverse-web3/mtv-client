@@ -44,7 +44,7 @@ export default function Album() {
   const upload = async ({ file, type, password }: any) => {
     const { code, msg } = await account.uploadFile({ file, type, password });
     if (code === '000000') {
-      toast.success('上传成功');
+      toast.success(t('common.upload.success'));
       getList();
     } else {
       toast.error(msg);
@@ -100,7 +100,7 @@ export default function Album() {
         Password,
       });
       if (code === '000000') {
-        toast.success(`下载地址: ${data}`);
+        toast.success(`${t('pages.space.album.download_text')}: ${data}`);
       } else {
         toast.error(msg);
       }
@@ -108,11 +108,11 @@ export default function Album() {
   };
   const fileTypes = [
     {
-      label: '个人文件',
+      label: t('pages.space.file.tab_security'),
       value: 'security',
     },
     {
-      label: '共享文件',
+      label: t('pages.space.file.tab_public'),
       value: 'public',
     },
   ];
@@ -124,7 +124,7 @@ export default function Album() {
   }, []);
   return (
     <LayoutThird
-      title={t('common.file')}
+      title={t('pages.space.file.title')}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>

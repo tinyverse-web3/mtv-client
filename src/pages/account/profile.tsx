@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Image, Button as NextButton, Card } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import LayoutThird from '@/layout/LayoutThird';
@@ -8,9 +8,11 @@ import { CopyIcon } from '@/components/CopyIcon';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 import { QrType } from '@/type';
+import { download } from '@/lib/utils';
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
+  const qrBoxRef = useRef<any>();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
@@ -36,6 +38,15 @@ const Profile: React.FC = () => {
     if (!accountInfo.publicKey) return '';
     return `type=${QrType.ADD_FRIEND}&value=${accountInfo.publicKey}`;
   }, [accountInfo.publicKey]);
+  const loadQrcode = () => {
+    if (qrBoxRef.current) {
+      const canvas = qrBoxRef.current.querySelector('canvas');
+      const url = canvas?.toDataURL();
+      if (url) {
+        download(url, `qrcode_${accountInfo.publicKey}.png`);
+      }
+    }
+  };
   useEffect(() => {
     if (accountInfo.publicKey) {
       getProfile();
@@ -61,7 +72,7 @@ const Profile: React.FC = () => {
                     <div className='mb-2'>{t('pages.account.gun')}</div>
                     <Card variant='bordered'>
                       <Card.Body className='break-all p-2'>
-                        <div>{profile.gunname || '未设置'}</div>
+                        <div>{profile.gunname || t('pages.account.profile.unset_text')}</div>
                       </Card.Body>
                     </Card>
                   </div>
@@ -114,10 +125,15 @@ const Profile: React.FC = () => {
         </div>
         <Card variant='bordered'>
           <Card.Body className='break-all'>
-            <div className='text-center'>
+            <div className='text-center' ref={qrBoxRef}>
               <QRCodeCanvas value={qrcodeValue} size={200} />
               <div className='mt-2'>
                 {t('pages.account.profile.qrcode_add')}
+              </div>
+              <div
+                className='cursor-pointer text-blue-9 underline underline-solid text-center '
+                onClick={loadQrcode}>
+                {t('pages.account.profile.save_qrcode')}
               </div>
             </div>
           </Card.Body>

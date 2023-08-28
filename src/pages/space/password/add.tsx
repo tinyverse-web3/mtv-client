@@ -9,9 +9,11 @@ import { ROUTE_PATH } from '@/router';
 import { useSearchParams } from 'react-router-dom';
 import { useMap } from 'react-use';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const { add, getById, list, update } = usePasswordStore((state) => state);
   const [searchParams] = useSearchParams();
   const type = searchParams.get('type');
@@ -38,44 +40,44 @@ export default function Edit() {
     }
   }, [id]);
   return (
-    <LayoutThird title={`${type ==='add' ? '新建' : '编辑'}密码箱`}>
+    <LayoutThird title={`${type === 'add' ? t('common.create') : t('common.edit')}${t('pages.space.password.title')}`}>
       <div className='p-6'>
         <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>标题</span>
+          <span className='w-16'>{t('common.title')}</span>
           <Input
             value={data.Title}
             maxLength={300}
             onChange={(e: string) => set('Title', e?.trim())}
-            placeholder='标题'
+            placeholder={t('common.title')}
           />
         </Row>
         <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>账号</span>
+          <span className='w-16'>{t('common.account')}</span>
           <Input
             value={data.Account}
             maxLength={300}
             onChange={(e: string) => set('Account', e?.trim())}
-            placeholder='账号'
+            placeholder={t('common.account')}
           />
         </Row>
         <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>密码</span>
+          <span className='w-16'>{t('common.password.title')}</span>
           <NextInput.Password
             value={data.Password}
             fullWidth
             maxLength={300}
             className=''
             onChange={(e: any) => set('Password', e.target.value?.trim())}
-            placeholder='密码'
+            placeholder={t('common.password.title')}
           />
         </Row>
         <Row className='mb-8' justify='center' align='center'>
-          <span className='w-16'>网址</span>
+          <span className='w-16'>{t('common.link')}</span>
           <Input
             value={data.Url}
             maxLength={300}
             onChange={(e: string) => set('Url', e?.trim())}
-            placeholder='网址'
+            placeholder={t('common.link')}
           />
         </Row>
         {/* <Row className='mb-8' justify='center'>
@@ -94,7 +96,7 @@ export default function Edit() {
             className='m-auto w-full'
             onPress={saveHandler}
             size='md'>
-            保存
+            {t('common.save')}
           </Button>
         </Row>
       </div>

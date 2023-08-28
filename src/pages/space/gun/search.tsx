@@ -8,8 +8,10 @@ import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function GunSearch() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [changeDisabled, setSearchDisable] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -65,11 +67,10 @@ export default function GunSearch() {
   // }, []);
 
   return (
-    <LayoutThird showBack title='查询GUN域名'>
+    <LayoutThird showBack title={t('pages.space.gun.search_title')}>
       <div className='p-4'>
         <Text className='text-14px mb-2'>
-          用户的全球唯一名称（Global Unique
-          Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。
+          {t('pages.space.gun.search_hint')}
         </Text>
 
         <div className='pt-1 mb-2'>
@@ -81,12 +82,13 @@ export default function GunSearch() {
             maxLength={64}
             value={gunname}
             onChange={gunnameChange}
-            placeholder='输入你要查询的GUN名字'
+            placeholder={t('pages.space.gun.search_input')}
           />
         </div>
         <div className='mb-4'>
           <Text className='text-3 text-gray-400'>
-            名字不区分大小写，只能使用字母a-z和数字0-9，最少8位。
+            rule_text
+            {t('pages.space.gun.rule_text')}
           </Text>
         </div>
         <Button
@@ -95,7 +97,7 @@ export default function GunSearch() {
           className='mx-auto mb-2 w-full'
           size='lg'
           onPress={SearchGun}>
-          查询
+           {t('pages.space.gun.search')}
         </Button>
       </div>
     </LayoutThird>

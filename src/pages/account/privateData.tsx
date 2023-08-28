@@ -14,15 +14,15 @@ export default function PrivateData() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const [textPlaceholder, setTextPlaceholder] =
-    useState(t('pages.account.encrypted_safe.text_placeholder'));
-  const [passwordPlaceholder, setPasswordPlaceholder] = useState(t('pages.account.encrypted_safe.password_placeholder'));
-  const [customPlaceholder, setCustomPlaceholder] = useState(t('pages.account.encrypted_safe.custom_placeholder'));
+    useState(t('pages.account.encrypted_safe.text'));
+  const [passwordPlaceholder, setPasswordPlaceholder] = useState(t('pages.account.encrypted_safe.password'));
+  const [customPlaceholder, setCustomPlaceholder] = useState(t('pages.account.encrypted_safe.custom'));
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const { accountInfo } = useAccountStore((state) => state);
-  const { setTextPrivateData, setPasswordPrivateData } = useRestoreStore(
+  const { setTextPrivateData, setPasswordPrivateData, setCustomPrivateData } = useRestoreStore(
     (state) => state,
   );
 
@@ -40,6 +40,7 @@ export default function PrivateData() {
     }
     setTextPrivateData(text);
     setPasswordPrivateData(password);
+    setCustomPrivateData(customText);
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA_VERIFY);
   };
   const pressHandler = async () => {
@@ -66,7 +67,10 @@ export default function PrivateData() {
     if (accountInfo.passwordPrivateData) {
       setPasswordPlaceholder(hideHalfString(accountInfo.passwordPrivateData));
     }
-  }, [accountInfo.textPrivateData, accountInfo.textPrivateData]);
+    if (accountInfo.customPrivateData) {
+      setCustomPlaceholder(hideHalfString(accountInfo.customPrivateData));
+    }
+  }, [accountInfo.textPrivateData, accountInfo.textPrivateData, accountInfo.textPrivateData]);
   return (
     <LayoutThird title={t('pages.account.encrypted_safe.set_text')}>
       <div className='pt-8 px-6'>

@@ -155,39 +155,40 @@ export class Account {
   async setPivateData(
     textPrivateData: string,
     passwordPrivateData: string,
-    customFeatureData: string,
+    CustomPrivateData: string,
   ) {
     const arr = [
       textPrivateData,
       passwordPrivateData,
-      customFeatureData,
+      CustomPrivateData,
     ].filter(Boolean);
     const res = await this.dauth.generateFeatureData({
       textPrivateData,
       passwordPrivateData,
+      CustomPrivateData,
     });
-    console.log(res);
   }
   /**
    * 恢复私有数据
    * @param textPrivateData - 文本私有数据
    * @param passwordPrivateData - 密码私有数据
-   * @param customFeatureData - 自定义特征数据
+   * @param CustomPrivateData - 自定义特征数据
    * @returns {Promise<void>}
    */
   async restorePivateData(
     textPrivateData: string,
     passwordPrivateData: string,
-    customFeatureData: string,
+    CustomPrivateData: string,
   ) {
     const arr = [
       textPrivateData,
       passwordPrivateData,
-      customFeatureData,
+      CustomPrivateData,
     ].filter(Boolean);
     const res = await this.dauth.generateFeatureData({
       textPrivateData,
       passwordPrivateData,
+      CustomPrivateData,
     });
     const { code, data } = res.data;
   }
@@ -212,11 +213,13 @@ export class Account {
     file,
     TextPrivateData,
     PasswordPrivateData,
+    CustomPrivateData,
   }: any) {
     const result = await this.dauth.retrieveAccountByUploadMnemonic({
       file,
       TextPrivateData,
       PasswordPrivateData,
+      CustomPrivateData,
     });
     return result.data;
   }
@@ -241,11 +244,13 @@ export class Account {
     mnemonic,
     textPrivateData,
     passwordPrivateData,
+    CustomPrivateData,
   }: any) {
     const result = await this.dauth.retrieveAccountByMnemonic({
       mnemonic,
       textPrivateData,
       passwordPrivateData,
+      CustomPrivateData,
     });
     return result.data;
   }
@@ -313,15 +318,18 @@ export class Account {
     // account,
     textPrivateData,
     passwordPrivateData,
+    CustomPrivateData,
   }: {
     // account: string;
     textPrivateData: string;
     passwordPrivateData: string;
+    CustomPrivateData: string;
   }) {
     const res = await this.dauth.retrieveAccountByGuardian({
       account: this.account,
       textPrivateData,
       passwordPrivateData,
+      CustomPrivateData,
     });
     return res.data;
   }
@@ -329,14 +337,17 @@ export class Account {
     // account,
     textPrivateData,
     passwordPrivateData,
+    CustomPrivateData,
   }: {
     // account: string;
     textPrivateData: string;
     passwordPrivateData: string;
+    CustomPrivateData: string;
   }) {
     const result = await this.dauth.getQuestions4Retrieve({
       textPrivateData,
       passwordPrivateData,
+      CustomPrivateData,
     });
     return result.data;
   }
@@ -351,11 +362,13 @@ export class Account {
     type = 1,
     textPrivateData,
     passwordPrivateData,
+    CustomPrivateData,
   }: {
     list: any[];
     type: number;
     textPrivateData: string;
     passwordPrivateData: string;
+    CustomPrivateData: string;
   }) {
     let serverList = [];
     if (type == 1) {
@@ -393,6 +406,7 @@ export class Account {
       Questions: serverList,
       PasswordPrivateData: passwordPrivateData,
       TextPrivateData: textPrivateData,
+      CustomPrivateData: CustomPrivateData,
     });
     return res.data;
   }

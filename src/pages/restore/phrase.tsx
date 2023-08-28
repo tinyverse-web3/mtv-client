@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Text, Row, Textarea } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
-import { useRestoreStore } from '@/store';
+import { useRestoreStore, useAccountStore, useGlobalStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
@@ -15,6 +15,8 @@ export default function Phrase() {
   const [phrase, setPhrase] = useState('');
   const [loading, setLoading] = useState(false);
   const { setMnemonic, setMnemonicFile } = useRestoreStore((state) => state);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setLockStatus } = useGlobalStore((state) => state);
   const [type, setType] = useState('file');
   const types = [
     {
@@ -29,7 +31,17 @@ export default function Phrase() {
   const importHandler = async () => {
     if (phrase) {
       setMnemonic(phrase);
-      nav(ROUTE_PATH.RESTORE_PHRASE_FEATURE);
+      const result = await account.retrieveAccountByMnemonic({
+        mnemonic: phrase?.trim(),
+      });
+      if (result.code === '000000') {
+        await getLocalAccountInfo();
+        setLockStatus(false);
+        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+      } else {
+        toast.error(result.msg);
+      }
+      setLoading(false);
     }
   };
   const fileChange = async (e: any) => {
@@ -94,7 +106,7 @@ export default function Phrase() {
               disabled={!phrase}
               loading={loading}
               onPress={importHandler}>
-              {t('common.next_step')}
+              {t('pages.restore.btn_restore')}
             </Button>
           </>
         )}

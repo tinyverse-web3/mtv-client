@@ -7,8 +7,10 @@ import account from '@/lib/account/account';
 import { calcSize } from '@/lib/utils';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
 export default function NftDetail() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
@@ -39,11 +41,11 @@ export default function NftDetail() {
     getDetail();
   }, [id]);
   return (
-    <LayoutThird title='NFT详情'>
+    <LayoutThird title={t('pages.space.assets.detail_title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>名称</div>
-          <Card variant="bordered" >
+          <div className='mb-2'>{t('pages.space.assets.detail_name')}</div>
+          <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
                 <div className=' break-all'>{detail.Nftname}</div>
@@ -54,7 +56,7 @@ export default function NftDetail() {
         {!!detail.Cid && (
           <div className='mb-4'>
             <div className='mb-2'>CID</div>
-            <Card variant="bordered" >
+            <Card variant='bordered'>
               <Card.Body>
                 <div className='flex'>
                   <div className='break-all'>{detail.Cid}</div>
@@ -65,8 +67,8 @@ export default function NftDetail() {
         )}
         {!!detail.Owner && (
           <div className='mb-4'>
-            <div className='mb-2'>拥有者</div>
-            <Card variant="bordered" >
+            <div className='mb-2'>{t('pages.space.assets.owner')}</div>
+            <Card variant='bordered'>
               <Card.Body>
                 <div className='flex'>
                   <div className='break-all'>{detail.Owner}</div>
@@ -77,8 +79,8 @@ export default function NftDetail() {
         )}
         {!!detail.Description && (
           <div className='mb-4'>
-            <div className='mb-2'>描述</div>
-            <Card variant="bordered" >
+            <div className='mb-2'>{t('common.description')}</div>
+            <Card variant='bordered'>
               <Card.Body>
                 <div className='flex'>
                   <div className=' break-all'>{detail.Description}</div>
@@ -89,7 +91,7 @@ export default function NftDetail() {
         )}
         {!!detail.DataType && (
           <div className='mb-4'>
-            <div className='mb-2'>内容</div>
+            <div className='mb-2'>{t('common.content')}</div>
             <div className='p-4'>
               {detail.DataType?.indexOf('image') > -1 && (
                 <PhotoProvider>
@@ -101,7 +103,7 @@ export default function NftDetail() {
                 </PhotoProvider>
               )}
               {!!detail.Content && (
-                <Card variant="bordered" >
+                <Card variant='bordered'>
                   <Card.Body>
                     <div className='flex'>
                       <div className=' break-all'>{detail.Content}</div>
@@ -113,7 +115,7 @@ export default function NftDetail() {
           </div>
         )}
         <Button className='w-full' onClick={toTransfer}>
-          转移
+          {t('pages.space.assets.nft.btn_transfer')}
         </Button>
       </div>
     </LayoutThird>

@@ -7,8 +7,10 @@ import { Text, Container, Row, Button } from '@nextui-org/react';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [name, setName] = useState('');
   const [key, setKey] = useState('');
@@ -43,20 +45,20 @@ export default function Edit() {
       Secret: key,
     });
     if (code === '000000') {
-      toast.success('添加成功');
+      toast.success(t('common.toast.add_success'));
     } else {
       toast.error(msg);
     }
   };
   return (
-    <LayoutThird title='添加账号'>
+    <LayoutThird title={t('pages.space.authenticator.add_title')}>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
           <Input
             value={name}
             maxLength={300}
             onChange={nameChange}
-            placeholder='账户名'
+            placeholder={t('pages.space.authenticator.detail_name')}
           />
         </Row>
         <Row className='mb-8' align='center'>
@@ -64,7 +66,7 @@ export default function Edit() {
             value={key}
             maxLength={300}
             onChange={keyChange}
-            placeholder='您的秘钥'
+            placeholder={t('pages.space.authenticator.detail_key')}
           />
           <div
             className='i-mdi-plus text-blue-5 w-6 h-6 ml-4'
@@ -80,11 +82,10 @@ export default function Edit() {
             className='m-auto mb-6 w-full'
             onPress={add}
             size='md'>
-            确定
+            {t('common.confirm')}
           </Button>
         </Row>
       </div>
     </LayoutThird>
   );
 }
- 

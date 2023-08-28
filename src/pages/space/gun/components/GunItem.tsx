@@ -2,8 +2,10 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { GunSummy } from '@/store';
 import { add, getTime } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 export const GunItem = (item: GunSummy) => {
+  const { t } = useTranslation();
   let color = '';
   const today = new Date();
   const tomorrow = getTime(add(today, { days: 1 }));
@@ -25,7 +27,7 @@ export const GunItem = (item: GunSummy) => {
         <div className='flex items-center text-4 mb-1'>{item.name}</div>
 
         <div className='text-3 text-gray-800'>
-          <span className='font-600'>过期时间：</span>
+          <span className='font-600'>{t('pages.space.gun.expired_text')}：</span>
           {exporedText}
         </div>
       </div>

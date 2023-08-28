@@ -6,8 +6,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import { Empty } from '@/components/Empty';
 import { useGunStore, EMPTY_GUN_NAME } from '@/store';
 import { GunItem } from './components/GunItem';
+import { useTranslation } from 'react-i18next';
 
 export default function GunListShow() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const { list, load: loadGUN } = useGunStore((state) => state);
   const remove = useGunStore((state) => state.remove);
@@ -31,7 +33,7 @@ export default function GunListShow() {
 
   return (
     <LayoutThird
-      title='你拥有的GUN域名'
+      title={t('pages.space.gun.list_title')}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>

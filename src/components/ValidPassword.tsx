@@ -3,6 +3,7 @@ import { Modal, Text, Input, Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 interface Props {
   show: boolean;
   showBiometric?: boolean;
@@ -15,6 +16,7 @@ export const ValidPassword = ({
   onClose,
   showBiometric = true,
 }: Props) => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(show);
   const [password, setPassword] = useState('');
   const [setupBiometric, setSetupBiometric] = useState(false);
@@ -31,7 +33,7 @@ export const ValidPassword = ({
     const { code, msg } = await account.checkPassword(pwd);
     if (code === '000000') {
       onSuccess?.(pwd);
-      toast.success('验证成功');
+      toast.success(t('common.password.verify_success'));
       closeHandler();
     } else {
       toast.error(msg);
@@ -43,7 +45,7 @@ export const ValidPassword = ({
   const startBiometric = async () => {
     window?.JsBridge.startBiometric(({ code, message, data }: any) => {
       if (code === 0) {
-        toast.success('解锁成功');
+        toast.success(t('common.password.verify_success'));
         verifyPassword(data);
       } else {
         toast.error(message);
@@ -53,6 +55,8 @@ export const ValidPassword = ({
   const getBiometricsSetUp = () => {
     if (window?.JsBridge) {
       window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+        console.log('系统是否设置了生物识别');
+        console.log(code, message);
         if (code === 0) {
           setSetupBiometric(true);
         } else {
@@ -77,7 +81,7 @@ export const ValidPassword = ({
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={18}>
-          验证账号密码
+          {t('common.password.verify_text')}
         </Text>
       </Modal.Header>
       <Modal.Body>
@@ -86,12 +90,12 @@ export const ValidPassword = ({
             clearable
             bordered
             fullWidth
-            aria-label='密码'
+            aria-label={t('common.password.title')}
             color='primary'
             size='lg'
             value={password}
             onChange={passwordChange}
-            placeholder='密码'
+            placeholder={t('common.password.title')}
             contentLeft={<div className='i-mdi-shield-outline color-current' />}
           />
           {showBiometric && setupBiometric && (
@@ -105,10 +109,10 @@ export const ValidPassword = ({
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>
-          取消
+          {t('common.cancel')}
         </Button>
         <Button auto onPress={confirmHandler}>
-          确定
+          {t('common.confirm')}
         </Button>
       </Modal.Footer>
     </Modal>

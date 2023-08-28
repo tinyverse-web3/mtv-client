@@ -5,9 +5,11 @@ import { Row } from '@nextui-org/react';
 import { CopyIcon } from '@/components/CopyIcon';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const [key, setKey] = useState('');
 
   const generateGoogleSecret = async () => {
@@ -22,7 +24,7 @@ export default function Edit() {
     generateGoogleSecret();
   }, []);
   return (
-    <LayoutThird title='创建秘钥'>
+    <LayoutThird title={t('pages.space.authenticator.create_title')}>
       <div className='p-6'>
         <Row className='mb-8' justify='center' align='center'>
           <div className='mr-4'>{key}</div>

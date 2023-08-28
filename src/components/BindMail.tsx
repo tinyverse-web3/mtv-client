@@ -5,8 +5,10 @@ import { useGlobalStore, useAccountStore } from '@/store';
 import { useCountDown } from '@/lib/hooks';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export const BindMail = () => {
+  const { t } = useTranslation();
   const [loginLoading, setLoginLoading] = useState(false);
   const { showLogin, setShowLogin } = useGlobalStore((state) => state);
   const { setAccountInfo, getLocalAccountInfo } = useAccountStore(
@@ -40,9 +42,9 @@ export const BindMail = () => {
       await getLocalAccountInfo();
 
       closeHandler();
-      toast.success('绑定成功');
+      toast.success(t('common.toast.bind_success'));
     } else {
-      toast.error(msg || '绑定失败');
+      toast.error(msg || t('common.toast.bind_error'));
     }
     setLoginLoading(false);
   };
@@ -59,7 +61,7 @@ export const BindMail = () => {
         account: email,
       });
       if (code === '000000') {
-        toast.success('验证码已发送');
+        toast.success(t('common.code_sended'));
         start();
       } else {
         toast.error(msg);
@@ -77,7 +79,7 @@ export const BindMail = () => {
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={18}>
-          绑定邮箱
+          {t('common.bind_email')}
         </Text>
       </Modal.Header>
       <Modal.Body>
@@ -93,7 +95,7 @@ export const BindMail = () => {
           onBlur={emailBlur}
           value={email}
           onChange={emailChange}
-          placeholder='邮箱'
+          placeholder={t('common.email')}
           contentLeft={<div className='i-mdi-email color-current' />}
         />
         <div className='flex'>
@@ -103,13 +105,13 @@ export const BindMail = () => {
             fullWidth
             type='number'
             maxLength={6}
-            aria-label='验证码'
+            aria-label={t('common.code')}
             className='flex-1 50px'
             color='primary'
             size='lg'
             value={verifyCode}
             onChange={verifyCodeChange}
-            placeholder='验证码'
+            placeholder={t('common.code')}
             contentLeft={<div className='i-mdi-shield-outline color-current' />}
           />
           <Button
@@ -123,14 +125,14 @@ export const BindMail = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>
-          关闭
+          {t('common.cancel')}
         </Button>
         <Button
           auto
           onPress={loginHandler}
           disabled={!email || !verifyCode}
           loading={loginLoading}>
-          绑定邮箱
+          {t('common.confirm')}
         </Button>
       </Modal.Footer>
     </Modal>

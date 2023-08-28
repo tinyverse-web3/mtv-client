@@ -8,6 +8,7 @@ interface AccountInfo {
   address: string;
   passwordPrivateData: string;
   textPrivateData: string;
+  customPrivateData: string;
   safeLevel: number;
   isDefaultPwd: boolean;
   bindStatus: boolean;
@@ -43,6 +44,7 @@ export const useAccountStore = create<AccountState>()(
           address: '',
           passwordPrivateData: '',
           textPrivateData: '',
+          customPrivateData: '',
           safeLevel: 0,
           isDefaultPwd: true,
           bindStatus: false,
@@ -67,6 +69,7 @@ export const useAccountStore = create<AccountState>()(
             address: localInfo.Address,
             passwordPrivateData: localInfo.PasswordPrivateData || '',
             textPrivateData: localInfo.TextPrivateData || '',
+            customPrivateData: localInfo.CustomPrivateData || '',
             hasFeatureData: localInfo.IsSetVault || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
@@ -90,6 +93,7 @@ export const useAccountStore = create<AccountState>()(
               address: '',
               passwordPrivateData: '',
               textPrivateData: '',
+              customPrivateData: '',
               safeLevel: 0,
               isDefaultPwd: true,
               bindStatus: false,

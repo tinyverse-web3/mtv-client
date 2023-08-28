@@ -1,6 +1,7 @@
 import { calcSize } from '@/lib/utils';
 import { Card, Button, Progress } from '@nextui-org/react';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   title: string;
@@ -9,6 +10,7 @@ interface Props {
   toExpansion?: () => void;
 }
 export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
+  const { t } = useTranslation();
   const usedSize = useMemo(() => {
     if (summary.used) {
       return calcSize(summary.used);
@@ -37,12 +39,12 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
   return (
     <div>
       <div className='mb-2'>{title}</div>
-      <Card variant="bordered">
+      <Card variant='bordered'>
         <Card.Body>
           <div className=''>
             <div className='mb-4'>
               <div className='mb-4 text-3 break-keep '>
-                空间：{usedSize}/{totalSpace}({sizePercent}%)
+                {t('common.space')}：{usedSize}/{totalSpace}({sizePercent}%)
               </div>
               <div className='mb-4'>
                 <Progress color='primary' size='md' value={sizePercent} />
@@ -54,13 +56,14 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
                   auto
                   className='w-full'
                   onClick={() => toExpansion?.()}>
-                  扩容
+                  {t('pages.space.data.btn_expansion')}
                 </Button>
               </div>
             </div>
             <div className=''>
               <div className='mb-4 text-3'>
-                文件：{summary.usedItem}/{summary.total}({numPercent}%)
+                {t('common.file')}：{summary.usedItem}/{summary.total}(
+                {numPercent}%)
               </div>
               <div className='mb-4'>
                 <Progress color='primary' size='md' value={numPercent} />
@@ -71,7 +74,7 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
                   className='w-full'
                   auto
                   onClick={() => toDetail?.()}>
-                  详情
+                  {t('pages.space.data.btn_detail')}
                 </Button>
               </div>
             </div>

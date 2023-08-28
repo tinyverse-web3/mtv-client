@@ -5,11 +5,12 @@ import { AssetsTokenItem } from '../components/AssetsTokenItem';
 import { useTranslation } from 'react-i18next';
 
 export default function TokenDetail() {
+
   const nav = useNavigate();
   const { t } = useTranslation();
   const { balance: pointBalance } = usePoint();
   return (
-    <LayoutThird title='代币详情'>
+    <LayoutThird title={t('pages.assets.token.detail_title')}>
       <div className='px-4'>
         <AssetsTokenItem
           icon='/logo.png'

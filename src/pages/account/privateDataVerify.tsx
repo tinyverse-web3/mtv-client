@@ -17,7 +17,7 @@ export default function PrivateDataVerify() {
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const { setAccountInfo, accountInfo, getLocalAccountInfo } = useAccountStore((state) => state);
-  const { textPrivateData, passwordPrivateData } = useRestoreStore((state) => state);
+  const { textPrivateData, passwordPrivateData, customPrivateData } = useRestoreStore((state) => state);
 
   const add = async () => {
     setLoading(true);
@@ -28,7 +28,7 @@ export default function PrivateDataVerify() {
       setLoading(false);
       return;
     }
-    if (textPrivateData !== text || passwordPrivateData !== password) {
+    if (textPrivateData !== text || passwordPrivateData !== password || customText !== customPrivateData) {
       toast.error(t('pages.account.encrypted_safe.verify_error'));
       setLoading(false);
       return;
@@ -75,7 +75,7 @@ export default function PrivateDataVerify() {
           value={text}
           className='h-50px mb-6'
           onChange={onChange}
-          placeholder={t('pages.account.encrypted_safe.text_placeholder')}
+          placeholder={t('pages.account.encrypted_safe.text')}
           initialValue=''
         />
         <Input
@@ -86,7 +86,7 @@ export default function PrivateDataVerify() {
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
-          placeholder={t('pages.account.encrypted_safe.password_placeholder')}
+          placeholder={t('pages.account.encrypted_safe.password')}
           initialValue=''
         />
         <Input
@@ -97,7 +97,7 @@ export default function PrivateDataVerify() {
           value={customText}
           className='h-50px mb-6'
           onChange={onCustomChange}
-          placeholder={t('pages.account.encrypted_safe.custom_placeholder')}
+          placeholder={t('pages.account.encrypted_safe.custom')}
           initialValue=''
         />
         <Button

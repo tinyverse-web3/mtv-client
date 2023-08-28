@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, Button, Progress } from '@nextui-org/react';
 import { calcSize } from '@/lib/utils';
 import { format } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 interface Props {
   Key: string;
   Size: number;
@@ -23,6 +24,7 @@ export function ListItem({
   onDelete,
   onClick,
 }: Props) {
+  const { t} = useTranslation()
   const delHandler = (e: any) => {
     e.stopPropagation();
     onDelete?.();
@@ -46,23 +48,23 @@ export function ListItem({
         <div className='text-4 break-all'>{Key}</div>
         <div className=''>
           <div>
-            <span>大小：</span>
+            <span>{t('pages.space.size_text')}：</span>
             <span>{sizeText}</span>
           </div>
           <div>
-            <span>冗余度：</span>
+            <span>{t('pages.space.redundancy_text')}：</span>
             <span>{Redundancy}</span>
           </div>
           <div>
-            <span>保存时间：</span>
+            <span>{t('pages.space.save_time')}：</span>
             <span>{createTimeText}</span>
           </div>
           <div>
-            <span>过期时间：</span>
+            <span>{t('pages.space.expired_time')}：</span>
             {/* <span>{expireTime}</span> */}
           </div>
           <div>
-            <span>说明：</span>
+            <span>{t('pages.space.description')}：</span>
             {/* <span>{description}</span> */}
           </div>
         </div>

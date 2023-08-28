@@ -9,8 +9,10 @@ import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
 import { add, getUnixTime } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 export default function GunRenew() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [gunname, setGunname] = useState('');
   const timer = useRef<any>(null);
@@ -23,15 +25,15 @@ export default function GunRenew() {
   const validityList = [
     {
       value: '0',
-      label: '1年',
+      label: t('pages.space.gun.one_year'),
     },
     {
       value: '1',
-      label: '2年',
+      label: t('pages.space.gun.two_year'),
     },
     {
       value: '2',
-      label: '3年',
+      label: t('pages.space.gun.three_year'),
     },
   ];
   //const changeDisabled ;
@@ -42,7 +44,7 @@ export default function GunRenew() {
 */
   const calcValidTime = () => {
     let validTime: Date = new Date();
-    console.log(selectedValid)
+    console.log(selectedValid);
     switch (selectedValid) {
       case '0':
         validTime = add(new Date(), { years: 1 });
@@ -54,7 +56,7 @@ export default function GunRenew() {
         validTime = add(new Date(), { years: 3 });
         break;
     }
-    console.log('validTime = ', validTime)
+    console.log('validTime = ', validTime);
     return getUnixTime(validTime);
   };
   const ApplyGun = async () => {
@@ -65,11 +67,10 @@ export default function GunRenew() {
       await applyGUN(gunname, validTime);
       nav(-1);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     setLoading(false);
   };
-
 
   const CheckGun = async () => {
     console.log('CheckGun...');
@@ -101,7 +102,7 @@ export default function GunRenew() {
   }, [gunname, nameValid]);
 
   return (
-    <LayoutThird showBack title='申请你的GUN域名'>
+    <LayoutThird showBack title={t('pages.space.gun.apply_title')}>
       <div className='p-6'>
         {/* <div className='pt-4 px-4'>
           <Text className='text-14px mb-4'>
@@ -117,7 +118,9 @@ export default function GunRenew() {
             </div>
         </div> */}
         <div className='flex items-center mb-4'>
-          <span className='w-18 min-w-18'>名字</span>
+          <span className='w-18 min-w-18'>
+            {t('pages.space.gun.apply_name')}
+          </span>
           <Input
             id='gunnameInput'
             clearable
@@ -126,19 +129,19 @@ export default function GunRenew() {
             maxLength={64}
             value={gunname}
             onChange={gunnameChange}
-            placeholder='名字'
+            placeholder={t('pages.space.gun.apply_name')}
           />
           <Button auto flat size='xs' className='ml-4 h-10' onPress={CheckGun}>
-            查找
+            {t('pages.space.gun.search')}
           </Button>
         </div>
         <div className='mb-4 pl-18'>
           <Text className='text-3 text-gray-400'>
-            名字不区分大小写，只能使用字母a-z和数字0-9，最少8位。
+            {t('pages.space.gun.rule_text')}
           </Text>
         </div>
         <div className='flex mb-4'>
-          <span className='w-18'>有效期</span>
+          <span className='w-18'>{t('pages.space.gun.expired_text')}</span>
           <div>
             <Radio.Group
               size='xs'
@@ -154,7 +157,7 @@ export default function GunRenew() {
           </div>
         </div>
         <div className='mb-4 pl-18'>
-          <Text className='text-3 text-gray-400'>费用说明</Text>
+          <Text className='text-3 text-gray-400'>{t('pages.space.gun.price_text')}</Text>
         </div>
         <Button
           disabled={disabled}
@@ -162,7 +165,7 @@ export default function GunRenew() {
           className='mx-auto mb-4 w-full'
           size='lg'
           onPress={ApplyGun}>
-          申请
+          {t('pages.space.gun.apply')}
         </Button>
       </div>
     </LayoutThird>

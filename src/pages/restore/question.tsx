@@ -22,7 +22,7 @@ export default function Restore() {
     sssData: serverShare,
     type,
   } = useQuestionStore((state) => state);
-  const { passwordPrivateData, textPrivateData } = useRestoreStore(
+  const { passwordPrivateData, textPrivateData, customPrivateData } = useRestoreStore(
     (state) => state,
   );
   const questionSubmit = async (list: any[]) => {
@@ -31,6 +31,7 @@ export default function Restore() {
       type,
       passwordPrivateData,
       textPrivateData,
+      CustomPrivateData: customPrivateData,
     });
     if (code === '000000') {
       await getLocalAccountInfo();

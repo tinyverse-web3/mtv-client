@@ -17,10 +17,6 @@ export default function LocalSafe() {
   const { accountInfo, delAccount } = useAccountStore((state) => state);
 
   const toChangePwd = async () => {
-    if (!accountInfo.hasFeatureData) {
-      toast(t('pages.account.toast.no_private'));
-      return;
-    }
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
       nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);

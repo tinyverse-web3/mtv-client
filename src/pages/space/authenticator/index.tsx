@@ -8,9 +8,11 @@ import { toast } from 'react-hot-toast';
 import { useList } from 'react-use';
 import account from '@/lib/account/account';
 import { IndexItem } from './components/IndexItem';
+import { useTranslation } from 'react-i18next';
 
 export default function SpaceIndex() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const [list, { set: setList }] = useList<any>([]);
 
   const getAuthenticatorCodes = async () => {
@@ -36,7 +38,7 @@ export default function SpaceIndex() {
   console.log(list);
   return (
     <LayoutThird
-      title='身份验证器'
+      title={t('pages.space.authenticator.title')}
       // rightContent={
       //   <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       // }
@@ -52,7 +54,7 @@ export default function SpaceIndex() {
             创建一个秘钥
           </Button> */}
           <Button auto onClick={toAdd} className=' flex-1'>
-            添加一个验证器
+            {t('pages.space.authenticator.btn_add')}
           </Button>
         </div>
       </div>

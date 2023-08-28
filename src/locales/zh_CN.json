@@ -5,6 +5,17 @@
     "description": "进入Web3的快速通道"
   },
   "common": {
+    "title": "标题",
+    "account": "账号",
+    "link": "网址",
+    "save": "保存",
+    "space": "空间",
+    "description": "描述",
+    "content": "内容",
+    "code_sended": "验证码已发送",
+    "bind_email": "绑定邮箱",
+
+
     "email": "邮箱",
     "code": "验证码",
     "code_text": "获取验证码",
@@ -21,12 +32,16 @@
     "custom": "自定义",
     "backup": "备份",
     "add": "增加",
+    "create": "新增",
+    "edit": "编辑",
+    "delete": "编辑",
     "delete_hint": "是否删除",
     "question": "问题",
     "file": "文件",
     "sub_question": "子问题",
     "empty_data": "暂无数据",
     "no_result": "没有得到任何结果",
+    "request_error": "请求失败",
     "fingerprint": {
       "title": "指纹"
     },
@@ -35,6 +50,9 @@
       "title": "密码",
       "rule_text": "密码至少8位，包括数字、大小写字母和符号至少2种",
       "default_text": "默认密码",
+      "verify_text": "验证密码",
+      "verify_success": "验证成功",
+      "verify_error": "验证失败",
       "change_text": "默认密码",
       "new_text": "新密码",
       "input": "输入密码",
@@ -51,6 +69,8 @@
       "title": "生物识别"
     },
     "upload": {
+      "success": "上传成功",
+      "error": "上传失败",
       "avatar_success": "头像上传成功"
     },
     "toast": {
@@ -59,7 +79,13 @@
       "backup_error": "删除成功",
       "backup_success": "删除成功",
       "bind_success": "绑定成功",
-      "bind_error": "绑定成功"
+      "bind_error": "绑定失败",
+      "add_success": "新增成功",
+      "add_error": "新增失败",
+      "edit_success": "新增成功",
+      "edit_error": "新增失败",
+      "set_success": "设置成功",
+      "set_error": "设置失败"
     },
     "turn_on": "已开启",
     "turn_off": "未开启"
@@ -73,6 +99,7 @@
     },
     "assets": {
       "title": "资产",
+      "owner": "拥有者",
       "nft": {
         "title": "NFT",
         "tab_file": "文件",
@@ -84,12 +111,16 @@
         "mint_description_placeholder": "描述",
         "mint_content_placeholder": "内容",
         "mint_file_hint": "上传图片",
-        "mint_text_hint": "最大内容8k字节"
+        "mint_text_hint": "最大内容8k字节",
+        "detail_text": "NFT详情",
+        "detail_name": "名称",
+        "btn_transfer": "转移"
       },
       "token": {
         "title": "代币",
         "point_name": "积分",
-        "transfer_successs": "转账成功"
+        "transfer_successs": "转账成功",
+        "detail_title": "代币详情"
       },
       "transfer": {
         "title": "转账",
@@ -126,16 +157,49 @@
         "upload_success": "拍照完成"
       },
       "file": {
-        "title": "文件"
+        "title": "文件",
+        "tab_security": "个人文件",
+        "tab_public": "共享文件"
       },
       "password": {
         "title": "密码箱"
       },
       "gun": {
-        "title": "GUN"
+        "title": "GUN",
+        "list_title": "你拥有的GUN域名",
+        "apply_name": "名字",
+        "apply": "申请",
+        "apply_title": "申请你的GUN域名",
+        "apply_success": "申请成功",
+        "search": "查找",
+        "search_title": "查找GUN域名",
+        "search_input": "输入你要查询的GUN名字",
+        "search_hint": "用户的全球唯一名称（Global Unique Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。",
+        "rule_text": "名字不区分大小写，只能使用字母a-z和数字0-9，最少8位。",
+        "expired_text": "有效期",
+        "price_text": "费用说明",
+        "one_year": "1年",
+        "two_year": "2年",
+        "three_year": "3年",
+        "renew": "续期",
+        "renew_success": "续期成功",
+        "detail_title": "查看GUN域名信息",
+        "detail_name": "GUN名称",
+        "detail_key": "Key",
+        "owner": "拥有者",
+        "set_name": "设置为用户名",
+        "add_frient": "加所有者为好友",
+        "detail_error": "获取GUN信息失败"
       },
       "data": {
-        "title": "网络数据"
+        "title": "网络数据",
+        "btn_expansion": "扩容",
+        "btn_detail": "详情",
+        "size_text": "大小",
+        "redundancy_text": "大小",
+        "save_time": "保存时间",
+        "expired_time": "过期时间",
+        "description": "说明"
       },
       "read": {
         "title": "付费阅读"
@@ -144,10 +208,19 @@
         "title": "账本"
       },
       "authenticator": {
-        "title": "Google验证器"
+        "title": "Google验证器",
+        "btn_add": "添加一个验证器",
+        "detail_title": "账号详情",
+        "detail_name": "账户名",
+        "detail_key": "您的秘钥",
+        "add_title": "添加账号",
+        "create_title": "创建秘钥"
       },
       "award": {
-        "title": "获取积分"
+        "title": "获取积分",
+        "apply_success": "申请已提交",
+        "daily": "获取每日积分",
+        "guardian": "获取守护者积分"
       },
       "nft": {
         "title": "发行NFT"
@@ -175,6 +248,8 @@
       },
       "profile": {
         "title": "我的名片",
+        "save_qrcode": "保存二维码",
+        "unset_text": "未设置",
         "qrcode_add": "扫描二维码，加我为好友。"
       },
       "local_safe": {
@@ -224,7 +299,9 @@
         "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。"
       },
       "multi_verify": {
-        "title": "多因素验证"
+        "title": "多因素验证",
+        "private_hint": "设置个人隐私数据作为保护模板，用于保护用户数据。",
+        "protector_hint": "绑定身份，验证账号。"
       },
       "restore": {
         "title": "恢复途径"

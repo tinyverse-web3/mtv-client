@@ -5,8 +5,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
 import { IndexItem } from './components/IndexItem';
 import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
 export default function NetworIndex() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [summary, setSummary] = useState<any>([]);
   useEffect(() => {}, []);
@@ -51,7 +53,7 @@ export default function NetworIndex() {
     getSummary();
   }, []);
   return (
-    <LayoutThird title='网络数据'>
+    <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
         <div className='mb-4'>
           <IndexItem

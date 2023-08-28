@@ -7,8 +7,10 @@ import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+
 export default function Detail() {
-  const nav = useNavigate();
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [key, setKey] = useState('');
   const [searchParams] = useSearchParams();
@@ -31,7 +33,7 @@ export default function Detail() {
     });
 
     if (code === '000000') {
-      toast.success('删除成功');
+      toast.success(t('common.toast.delete_success'));
     } else {
       toast.error(msg);
     }
@@ -49,21 +51,31 @@ export default function Detail() {
     }
   }, [id]);
   return (
-    <LayoutThird title='账号详情'>
+    <LayoutThird title={t('pages.space.authenticator.detail_title')}>
       <div className='p-6'>
         <Row className='mb-8' justify='center'>
-          <Input value={name} maxLength={300} readOnly placeholder='账户名' />
+          <Input
+            value={name}
+            maxLength={300}
+            readOnly
+            placeholder={t('pages.space.authenticator.detail_name')}
+          />
         </Row>
         <Row className='mb-8' justify='center'>
-          <Input value={key} maxLength={300} readOnly placeholder='您的秘钥' />
+          <Input
+            value={key}
+            maxLength={300}
+            readOnly
+            placeholder={t('pages.space.authenticator.detail_key')}
+          />
         </Row>
         <div>
           <Button className='w-full' onClick={showDelModal}>
-            删除
+            {t('common.delete')}
           </Button>
         </div>
         <DelConfirmModel
-          text='谷歌验证器'
+          text={t('pages.space.authenticator.title')}
           show={showStatus}
           onConfirm={delConfirm}
           onClose={onClose}

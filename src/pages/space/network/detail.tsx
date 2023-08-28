@@ -4,8 +4,10 @@ import LayoutThird from '@/layout/LayoutThird';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import account from '@/lib/account/account';
 import { calcSize } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export default function NetworkDetail() {
+  const { t } = useTranslation();
   const [params] = useSearchParams();
   const type = params.get('type');
   const id = params.get('id');
@@ -31,11 +33,11 @@ export default function NetworkDetail() {
     getDetail();
   }, [type, id]);
   return (
-    <LayoutThird>
+    <LayoutThird  title={t('pages.space.data.title')}>
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>CID</div>
-          <Card variant="bordered" >
+          <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
                 <div className=''>{detail.Key}</div>
@@ -44,8 +46,8 @@ export default function NetworkDetail() {
           </Card>
         </div>
         <div className='mb-4'>
-          <div className='mb-2'>大小</div>
-          <Card variant="bordered" >
+          <div className='mb-2'>{t('pages.space.size_text')}</div>
+          <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
                 <div className=''>{sizeText}</div>
@@ -54,8 +56,8 @@ export default function NetworkDetail() {
           </Card>
         </div>
         <div className='mb-4'>
-          <div className='mb-2'>冗余度</div>
-          <Card variant="bordered" >
+          <div className='mb-2'>{t('pages.space.redundancy_text')}</div>
+          <Card variant='bordered'>
             <Card.Body>
               <div className='flex justify-between'>
                 <div className=''>156.251.179.110</div>

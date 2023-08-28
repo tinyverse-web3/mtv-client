@@ -8,10 +8,12 @@ import { add, getUnixTime } from 'date-fns';
 import { useGunStore, GunSummy } from '@/store';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
+
 
 export default function GunRenew() {
   const nav = useNavigate();
-
+  const { t} = useTranslation();
   const [selectedValid, setSelectedValid] = useState('0');
   const { name } = useParams<{ name: string }>();
   const renewGUN = useGunStore((state) => state.renew);
@@ -19,15 +21,15 @@ export default function GunRenew() {
   const validityList = [
     {
       value: '0',
-      label: '1年',
+      label: t('pages.space.gun.one_year'),
     },
     {
       value: '1',
-      label: '2年',
+      label: t('pages.space.gun.two_year'),
     },
     {
       value: '2',
-      label: '3年',
+      label: t('pages.space.gun.three_year'),
     },
   ];
 
@@ -81,14 +83,14 @@ export default function GunRenew() {
   }, []);
 
   return (
-    <LayoutThird showBack title='续期'>
+    <LayoutThird showBack title={t('pages.space.gun.renew')}>
       <div className='p-6'>
         <div className='flex items-center mb-4'>
-          <span className='w-18 min-w-18'>名字</span>
+          <span className='w-18 min-w-18'>{t('pages.space.gun.apply_name')}</span>
           <span>{detail.name}</span>
         </div>
         <div className='flex mb-4'>
-          <span className='w-18'>有效期</span>
+          <span className='w-18'>{t('pages.space.gun.expired_text')}</span>
           <div>
             <Radio.Group
               size='xs'
@@ -104,14 +106,14 @@ export default function GunRenew() {
           </div>
         </div>
         <div className='mb-4 pl-18'>
-          <Text className='text-3 text-gray-400'>费用说明</Text>
+          <Text className='text-3 text-gray-400'>{t('pages.space.gun.price_text')}</Text>
         </div>
         <Button
           //loading={modifyLoading}
           className='mx-auto mb-4 w-full'
           size='lg'
           onPress={RenewGun}>
-          续期
+          {t('pages.space.gun.renew')}
         </Button>
       </div>
     </LayoutThird>

@@ -34,6 +34,7 @@ export default function QuestionFeature() {
       const { code, msg, data: result } = await account.getQuestions4Retrieve({
         textPrivateData: text,
         passwordPrivateData: password,
+        CustomPrivateData: customText,
       });
       if (code !== '000000') {
         toast.error(msg);

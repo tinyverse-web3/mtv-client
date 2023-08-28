@@ -11,9 +11,11 @@ import { useRequest } from '@/api';
 import { useAccountStore, GunSummy } from '@/store';
 import { format } from 'date-fns';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function detailPage() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const gunnameRef = useRef('');
   const [changeDisabled, setApplyDisable] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,7 +47,7 @@ export default function detailPage() {
           toast.error(msg);
         }
       } catch (error) {
-        toast.error('获取GUN信息失败');
+        toast.error(t('pages.space.gun.detail_error'));
       }
       setLoading(false);
     }
@@ -53,7 +55,7 @@ export default function detailPage() {
   const setAccountName = async () => {
     const { code, msg } = await account.updateName({ name: detail.name });
     if (code === '000000') {
-      toast.success('设置成功');
+      toast.success(t('common.toast.set_success'));
       setAccountInfo({ name: detail.name });
       nav(ROUTE_PATH.SPACE_INDEX);
     } else {
@@ -69,34 +71,34 @@ export default function detailPage() {
         detail?.owner,
       );
       if (code === '000000') {
-        toast.success('添加好友成功');
+        toast.success(t('pages.chat.search_success'));
       } else {
-        toast.error(msg || '添加好友失败');
+        toast.error(msg || t('pages.chat.search_error'));
       }
     }
   };
-  
+
   useEffect(() => {
     getDetail();
   }, []);
 
   return (
-    <LayoutThird showBack title='查看GUN域名信息'>
+    <LayoutThird showBack title={t('pages.space.gun.detail_title')}>
       <div>
         <div className='pt-4 px-4 text-16px mb-2 break-all'>
-          GUN名称： {detail?.name}
+        {t('pages.space.gun.detail_name')}： {detail?.name}
         </div>
         <div className='pt-1 px-4 text-16px mb-2 break-all'>
-          Key： {detail?.key}
+        {t('pages.space.gun.detail_key')}： {detail?.key}
         </div>
         {detail.expired && (
           <div className='pt-1 px-4 text-16px mb-2 break-all'>
-            过期时间：{format(detail.expired, 'yyyy-MM-dd')}
+             {t('pages.space.gun.expired_text')}：{format(detail.expired, 'yyyy-MM-dd')}
           </div>
         )}
 
         <div className='pt-1 px-4 text-16px mb-2 break-all'>
-          拥有者： {detail?.owner}
+          {t('pages.space.gun.owner')}： {detail?.owner}
         </div>
         {!loading && (
           <div className='pt-1 px-4'>
@@ -109,7 +111,7 @@ export default function detailPage() {
                     className='mx-auto mb-2 w-full'
                     size='lg'
                     onPress={ApplyNewValidPeriod}>
-                    续期
+                    {t('pages.space.gun.renew')}
                   </Button>
                   <Button
                     disabled={changeDisabled}
@@ -117,7 +119,7 @@ export default function detailPage() {
                     className='mx-auto mb-2 w-full'
                     size='lg'
                     onPress={setAccountName}>
-                    设置为用户名
+                    {t('pages.space.gun.set_name')}
                   </Button>
                 </>
               ) : (
@@ -127,7 +129,7 @@ export default function detailPage() {
                   className='mx-auto mb-2 w-full'
                   size='lg'
                   onPress={addOwner}>
-                  加所有者为好友
+                 {t('pages.space.gun.add_frient')}
                 </Button>
               )}
             </div>

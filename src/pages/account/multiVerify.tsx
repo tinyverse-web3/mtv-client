@@ -10,7 +10,7 @@ import { ValidPassword } from '@/components/ValidPassword';
 import { useTranslation } from 'react-i18next';
 
 export default function MultiVerify() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [type, setType] = useState(0);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
@@ -20,10 +20,6 @@ export default function MultiVerify() {
     nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
   };
   const toProtector = async () => {
-    if (!accountInfo.hasFeatureData) {
-      toast(t('pages.account.toast.no_private'));
-      return;
-    }
     const loginStatus = await useCheckLogin();
     console.log('loginStatus', loginStatus);
     if (loginStatus) {
@@ -38,14 +34,30 @@ export default function MultiVerify() {
     }
   };
   const showVerifyPassword = (type: 1 | 2) => {
+    if (type === 2 && !accountInfo.hasFeatureData) {
+      toast(t('pages.account.toast.no_private'));
+      return;
+    }
     setShowPasswordStatus(true);
     setType(type);
   };
   return (
     <LayoutThird showBack title={t('pages.account.multi_verify.title')}>
       <div className='p-4'>
-        <ListRow label={t('pages.account.encrypted_safe.title')} onPress={() => showVerifyPassword(1)} />
-        <ListRow label={t('pages.account.protector.title')} onPress={() => showVerifyPassword(2)} />
+        <ListRow
+          label={t('pages.account.encrypted_safe.title')}
+          onPress={() => showVerifyPassword(1)}
+        />
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+          {t('pages.account.multi_verify.private_hint')}
+        </div>
+        <ListRow
+          label={t('pages.account.protector.title')}
+          onPress={() => showVerifyPassword(2)}
+        />
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+          {t('pages.account.multi_verify.protector_hint')}
+        </div>
       </div>
       <ValidPassword
         onSuccess={validPasswordSuccess}

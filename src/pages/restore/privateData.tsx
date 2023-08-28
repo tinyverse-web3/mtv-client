@@ -32,6 +32,7 @@ export default function Unlock() {
       const { code, msg } = await account.restoreByGuardian({
         textPrivateData: text,
         passwordPrivateData: password,
+        CustomPrivateData: customText,
       });
       if (code === '000000') {
         await getLocalAccountInfo();

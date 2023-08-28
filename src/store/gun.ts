@@ -3,7 +3,7 @@ import { devtools, persist } from 'zustand/middleware';
 import { remove, cloneDeep } from 'lodash';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
-
+import i18n from '@/locales';
 export const EMPTY_GUN_NAME = 'No any gun name';
 export interface GunSummy {
   key: string;
@@ -69,7 +69,7 @@ export const useGunStore = create<GunState>()(
       });
       if (code === '000000') {
         await get().load();
-        toast.success('申请成功');
+        toast.success(i18n.t('pages.space.apply_success'));
       } else {
         toast.error(msg);
         throw new Error(msg);
@@ -85,7 +85,7 @@ export const useGunStore = create<GunState>()(
       });
       if (code === '000000') {
         await get().load();
-        toast.success('续期成功');
+        toast.success(i18n.t('pages.space.renew_success'));
       } else {
         toast.error(msg);
         throw new Error(msg);

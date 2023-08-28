@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import i18n from '@/locales'
 export class Dauth {
   private readonly app;
   constructor(app = 'mtv') {
@@ -52,15 +52,18 @@ export class Dauth {
     file,
     TextPrivateData,
     PasswordPrivateData,
+    CustomPrivateData,
   }: {
     file: File;
     TextPrivateData: string;
     PasswordPrivateData: string;
+    CustomPrivateData: string;
   }) {
     const formData = new FormData();
     formData.append('File', file);
     formData.append('TextPrivateData', TextPrivateData);
     formData.append('PasswordPrivateData', PasswordPrivateData);
+    formData.append('CustomPrivateData', CustomPrivateData);
     return this.invoke({
       name: 'retrieveAccountByUploadMnemonic',
       method: 'post',
@@ -239,13 +242,15 @@ export class Dauth {
     account,
     textPrivateData,
     passwordPrivateData,
+    CustomPrivateData,
   }: any) {
     return this.invoke({
       name: 'retrieveAccountByGuardian',
       data: {
         account,
-        textPrivateData,
-        passwordPrivateData,
+        TextPrivateData: textPrivateData,
+        PasswordPrivateData: passwordPrivateData,
+        CustomPrivateData: CustomPrivateData,
       },
     });
   }
@@ -253,6 +258,7 @@ export class Dauth {
     mnemonic,
     textPrivateData,
     passwordPrivateData,
+    CustomPrivateData
   }: any) {
     return this.invoke({
       name: 'retrieveAccountByMnemonic',
@@ -260,15 +266,17 @@ export class Dauth {
         Mnemonic: mnemonic,
         TextPrivateData: textPrivateData,
         PasswordPrivateData: passwordPrivateData,
+        CustomPrivateData: CustomPrivateData,
       },
     });
   }
-  async getQuestions4Retrieve({ textPrivateData, passwordPrivateData }: any) {
+  async getQuestions4Retrieve({ textPrivateData, passwordPrivateData, CustomPrivateData }: any) {
     return this.invoke({
       name: 'getQuestions4Retrieve',
       data: {
         textPrivateData,
         passwordPrivateData,
+        CustomPrivateData,
       },
     });
   }
@@ -276,6 +284,7 @@ export class Dauth {
     Questions,
     TextPrivateData,
     PasswordPrivateData,
+    CustomPrivateData,
   }: any) {
     return this.invoke({
       name: 'retrieveAccountBySmartPrivacy',
@@ -283,6 +292,7 @@ export class Dauth {
         Questions,
         TextPrivateData,
         PasswordPrivateData,
+        CustomPrivateData,
       },
     });
   }
@@ -301,12 +311,13 @@ export class Dauth {
   /**
    * 生成个人特征数据
    */
-  async generateFeatureData({ textPrivateData, passwordPrivateData }: any) {
+  async generateFeatureData({ textPrivateData, passwordPrivateData, CustomPrivateData }: any) {
     return this.invoke({
       name: 'generateFeatureData',
       data: {
         textPrivateData,
         passwordPrivateData,
+        CustomPrivateData,
       },
     });
   }
@@ -1068,7 +1079,7 @@ export class Dauth {
       return res;
     } catch (error) {
       console.error(error);
-      return { data: { code: '500000', msg: '请求失败' } };
+      return { data: { code: '500000', msg: i18n.t('common.request_error') } };
     }
   }
 }

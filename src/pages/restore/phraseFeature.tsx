@@ -44,6 +44,7 @@ export default function QuestionFeature() {
         file: mnemonicFile,
         TextPrivateData: text,
         PasswordPrivateData: password,
+        CustomPrivateData: customText,
       });
     }
     if (result.code === '000000') {
@@ -96,7 +97,7 @@ export default function QuestionFeature() {
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
-          placeholder={t('pages.account.encrypted_safe.passwrod')}
+          placeholder={t('pages.account.encrypted_safe.password')}
           initialValue=''
         />
         <Input
@@ -124,10 +125,10 @@ export default function QuestionFeature() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          {t('pages.account.restore.btn_restore')}
+          {t('pages.restore.btn_restore')}
         </Button>
         <div className='text-center text-11px mt-2'>
-          {t('pages.account.restore.hint_password')}
+          {t('pages.restore.hint_password')}
         </div>
       </div>
     </LayoutThird>

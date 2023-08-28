@@ -9,11 +9,13 @@ import { useAccountStore, useGlobalStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 export default function Award() {
+  const { t } = useTranslation();
   const applyDailyReward = async () => {
     const { code, data, msg } = await account.applyDailyReward();
     if (code === '000000') {
-      toast.success('申请已提交');
+      toast.success(t('pages.space.award.apply_success'));
     } else {
       toast.error(msg);
     }
@@ -21,25 +23,25 @@ export default function Award() {
   const applyGuardianReward = async () => {
     const { code, data, msg } = await account.applyGuardianReward();
     if (code === '000000') {
-      toast.success('申请已提交');
+      toast.success(t('pages.space.award.apply_success'));
     } else {
       toast.error(msg);
     }
   };
   return (
-    <LayoutThird title="获取奖励积分">
+    <LayoutThird title={t('pages.space.award.title')}>
       <div className='p-6'>
         <Button
           size='lg'
           className='m-auto mb-4 w-full'
           onPress={applyDailyReward}>
-          获取每日积分
+          {t('pages.space.award.daily')}
         </Button>
         <Button
           size='lg'
           className='m-auto mb-4 w-full'
           onPress={applyGuardianReward}>
-          获取守护者积分
+          {t('pages.space.award.guardian')}
         </Button>
       </div>
     </LayoutThird>
