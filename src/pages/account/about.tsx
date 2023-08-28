@@ -3,16 +3,13 @@ import { Image } from '@nextui-org/react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { ListRow } from './components';
-import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 import LayoutThird from '@/layout/LayoutThird';
-import { ValidPassword } from '@/components/ValidPassword';
 
 export default function Account() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { VITE_TINY_WEB } = import.meta.env;
-  const [loading, setLoading] = useState(false);
   const toWebsit = () => {
     location.href = VITE_TINY_WEB;
   }
@@ -34,7 +31,7 @@ export default function Account() {
             <ListRow label={t('pages.account.about.btn_4')} onPress={toWebsit}/>
           </div>
         </div>
-        <div className='absolute text-center w-full text-12px'>
+        <div className='absolute text-center w-full text-12px bottom-6'>
           Copyright © 2023 TinyVerse Ltd. All Rights Reserved.
         </div>
       </div>
