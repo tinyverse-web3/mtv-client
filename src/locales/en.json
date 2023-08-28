@@ -238,7 +238,7 @@
         "no_private": "Please set a vault first"
       },
       "profile": {
-        "title": "My Business Card",
+        "title": "My Profile",
         "save_qrcode": "Save QRcode",
         "unset_text": "Unset",
         "qrcode_add": "Scan QR code to add me as friend."
