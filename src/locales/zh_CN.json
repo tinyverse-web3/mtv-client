@@ -1,8 +1,8 @@
 {
   "app": {
     "title": "芥子空间",
-    "subtitle": "我的私人超级账户",
-    "description": "进入Web3的快速通道"
+    "subtitle": "聚焦个人隐私的安全存储",
+    "description": "让您的密钥更加安全"
   },
   "common": {
     "title": "标题",
@@ -14,8 +14,6 @@
     "content": "内容",
     "code_sended": "验证码已发送",
     "bind_email": "绑定邮箱",
-
-
     "email": "邮箱",
     "code": "验证码",
     "code_text": "获取验证码",
@@ -75,9 +73,9 @@
     },
     "toast": {
       "delete_success": "删除成功",
-      "delete_error": "删除成功",
-      "backup_error": "删除成功",
-      "backup_success": "删除成功",
+      "delete_error": "删除失败",
+      "backup_error": "备份失败",
+      "backup_success": "备份成功",
       "bind_success": "绑定成功",
       "bind_error": "绑定失败",
       "add_success": "新增成功",
@@ -118,7 +116,7 @@
       },
       "token": {
         "title": "代币",
-        "point_name": "积分",
+        "point_name": "TVS",
         "transfer_successs": "转账成功",
         "detail_title": "代币详情"
       },
@@ -128,13 +126,13 @@
         "to_placeholder": "请输入对方钱包公钥",
         "amount": "转账金额",
         "amount_placeholder": "请输入转账金额",
-        "gas": "转账小费",
-        "gas_placeholder": "请输入转账小费",
+        "gas": "转账费用",
+        "gas_placeholder": "请输入转账费用",
         "remark": "转账备注",
         "remark_placeholder": "请输入转账备注",
         "nft_name": "NFT名称",
-        "nft_point": "转移的NFT的积分收入",
-        "nft_point_placeholder": "请输入转移的NFT的积分收入"
+        "nft_point": "转移的NFT的费用",
+        "nft_point_placeholder": "请输入转移的NFT的费用"
       },
       "btn_transfer": "转账"
     },
@@ -227,21 +225,21 @@
       }
     },
     "account": {
-      "title": "我的",
+      "title": "我",
       "public_key": "公钥",
       "wallet_key": "钱包公钥",
       "message_key": "消息公钥",
       "my_qrcode": "我的二维码",
-      "gun": "GUN",
+      "gun": "全球唯一名字（GUN）",
       "level": {
         "title": "安全等级",
         "hint": "只有我的名片暴露在外，其他所有数据完全由用户个人控制，保存在个人数字空间。",
-        "zero": "临时账户，账户无法恢复，数据随时会丢失，请尽快做账户维护。",
-        "one": "账户存在单点故障，请尽快做账户维护。",
-        "two": "账户依赖其他账户的安全，请尽快做账户维护。",
-        "three": "低标准账户，建议提升安全级别。",
-        "four": "标准账户，您的账户已经很安全，但还有提升空间。",
-        "five": "高标准账户，您的账户已经得到完全的保护。"
+        "zero": "临时账户，无法恢复，数据随时会丢失，请尽快做账户维护。",
+        "one": "账户依赖高风险的明文助记词，请使用保险箱安全存储助记词，并增加恢复路径。",
+        "two": "账户只有助记词恢复路径，请尽快增加恢复路径，避免单点故障。",
+        "three": "账户只有守护者恢复路径，请尽快增加恢复路径，避免单点故障。",
+        "four": "低标准账户，请增加验证因素，提升账户安全等级。",
+        "five": "标准账户，您的账户已经得到完全的保护。"
       },
       "toast": {
         "no_private": "请先设置加密保险箱"
@@ -337,7 +335,7 @@
         "title": "联系人",
         "unknow": "匿名",
         "delete_success": "删除成功",
-        "delete_error": "删除成功"
+        "delete_error": "删除失败"
       },
       "recipient": {
         "unknow": "对方"
@@ -352,7 +350,7 @@
         "btn_clear": "清除历史消息",
         "btn_delete": "删除联系人",
         "clear_success": "清除成功",
-        "clear_error": "清除成功",
+        "clear_error": "清除失败",
         "alias": {
           "title": "别名",
           "change_success": "修改成功"
@@ -365,7 +363,7 @@
       "hint_password": "使用默认密码恢复，之后请及时修改",
       "toast": {
         "restore_error": "恢复失败",
-        "restore_success": "恢复失败"
+        "restore_success": "恢复成功"
       },
       "phrase": {
         "title": "助记词恢复",

@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "TinyVerse",
-    "subtitle": "My personal super account",
-    "description": "Fast lane to Web3"
+    "title": "TinyVerse Space",
+    "subtitle": "Focusing on secure storage of your privacy", 
+    "description": "making your private keys more secure"
   },
   "common": {
     "title": "Title",
@@ -73,11 +73,11 @@
     },
     "toast": {
       "delete_success": "Deleted Successfully",
-      "delete_error": "Deleted Successfully",
-      "backup_error": "Deleted Successfully",
-      "backup_success": "Deleted Successfully",
+      "delete_error": "Deleted failed",
+      "backup_error": "Backup failed",
+      "backup_success": "Backup Successfully",
       "bind_success": "Bound Successfully",
-      "bind_error": "Bound Successfully"
+      "bind_error": "Bound failed"
     },
     "turn_on": "On",
     "turn_off": "Off"
@@ -85,7 +85,7 @@
   "pages": {
     "index": {
       "btn_create": "Create with One Click",
-      "create_hint": "Use default password to create, please change password after creation",
+      "create_hint": "Use default password to create your account, please change password after creation",
       "btn_restore": "Restore Account",
       "btn_more": "Learn More"
     },
@@ -109,9 +109,9 @@
       },
       "token": {
         "title": "Token",
-        "point_name": "Points",
-        "transfer_successs": "Transfer Successful",
-        "detail_title": "Token Detail"
+        "detail_title": "Token Detail",
+        "point_name": "TVS",
+        "transfer_successs": "Transfer Successful"  
       },
       "transfer": {
         "title": "Transfer",
@@ -119,13 +119,13 @@
         "to_placeholder": "Please enter recipient public key",
         "amount": "Transfer Amount",
         "amount_placeholder": "Please enter transfer amount",
-        "gas": "Transfer Tip",
-        "gas_placeholder": "Please enter transfer tip",
+        "gas": "Transfer gas",
+        "gas_placeholder": "Please enter transfer gas",
         "remark": "Transfer Memo",
         "remark_placeholder": "Please enter transfer memo",
         "nft_name": "NFT Name",
-        "nft_point": "Transferred NFT Points Income",
-        "nft_point_placeholder": "Please enter transferred NFT points income"
+        "nft_point": "The Fee of Transferred NFT",
+        "nft_point_placeholder": "Please enter the fee of transferred NFT"
       },
       "btn_transfer": "Transfer"
     },
@@ -135,8 +135,8 @@
         "coming_soon": "Coming Soon"
       },
       "note": {
-        "title": "Notebook",
-        "input_placeholder": "Notebook Content"
+        "title": "Diary", 
+        "input_placeholder": "Diary Content"
       },
       "album": {
         "title": "Album",
@@ -144,7 +144,7 @@
         "download_text": "Download Link"
       },
       "photo": {
-        "title": "Take Photo",
+        "title": "Photograph",
         "upload_success": "Photo Taken"
       },
       "file": {
@@ -209,24 +209,24 @@
       }
     },
     "account": {
-      "title": "Mine",
+      "title": "Me",
       "public_key": "Public Key",
       "wallet_key": "Wallet Public Key",
       "message_key": "Message Public Key",
       "my_qrcode": "My QR Code",
-      "gun": "GUN",
+      "gun": "Global Unique Name(GUN)", 
       "level": {
         "title": "Security Level",
-        "hint": "Only my business card is exposed externally, all other data is completely controlled by the user and stored in personal digital space.",
-        "zero": "Temporary account, account cannot be recovered, data may be lost at any time, please do account maintenance ASAP.",
-        "one": "Account has single point of failure, please do account maintenance ASAP.",
-        "two": "Account relies on other accounts for security, please do account maintenance ASAP.",
-        "three": "Low standard account, recommend upgrading security level.",
-        "four": "Standard account, your account is already very secure, but there is still room for improvement.",
-        "five": "High standard account, your account is fully protected."
+        "hint": "Only my profile is exposed externally, all other data is completely controlled by the user and stored in personal digital space.",
+        "zero": "Temporary account, cannot be recovered, data may be lost at any time, please do account maintenance ASAP.",
+        "one": "The account relies on high-risk plaintext mnemonics. Please use a vault to securely store mnemonics and add a recovery path.",
+        "two": "The account only has a mnemonic recovery path. Please add a recovery path to avoid a single point of failure ASAP.",
+        "three": "The account only has a guardian recovery path. Please add a recovery path to avoid a single point of failure ASAP.",
+        "four": "Low standard accounts, please add Authentication factors to improve account security level.",
+        "five": "Standard account, your account has been fully protected."  
       },
       "toast": {
-        "no_private": "Please set encrypted safe first"
+        "no_private": "Please set a vault first"
       },
       "profile": {
         "title": "My Business Card",
@@ -238,38 +238,38 @@
         "title": "Local Security Policy"
       },
       "encrypted_safe": {
-        "hint": "The safe is used to protect data that cannot be encrypted with private key but must be kept on the network, such as account recovery information. The safe works by using feature data to protect secrets. Feature data is unique to each individual, can be used to identify a person, has certain privacy, but does not rely on user memory. Biometrics like fingerprints and iris are best sources. Other options are digits that won't change for life, like ID number, or even commonly used memorable passwords. To recover data, any set of feature data can be used. More feature data means easier account recovery. Please provide at least 2 different sets of feature data for dual insurance. Feature data is kept in user account, inaccessible to anyone.",
-        "title": "Encrypted Safe",
-        "set_text": "Set Encrypted Safe",
-        "verify_text": "Verify Encrypted Safe",
+        "hint": "The vault is used to protect data that cannot be encrypted with private key but must be kept on the network, such as account recovery information. The vault works by using feature data to protect secrets. Feature data is unique to each individual, can be used to identify a person, has certain privacy, but does not rely on user memory. Biometrics like fingerprints and iris are best sources. Other options are digits that won't change for life, like ID number, or even commonly used memorable passwords. To recover data, any set of feature data can be used. More feature data means easier account recovery. Please provide at least 2 different sets of feature data for dual insurance. Feature data is kept in user account, inaccessible to anyone.",
+        "title": "Encrypted Vault",
+        "set_text": "Set Encrypted Vault",
+        "verify_text": "Verify Encrypted Vault",
         "verify_error": "Verification Failed",
-        "set_success": "Set Successfully",
-        "set_error": "Set Failed",
+        "set_success": "Set Vault Successfully",
+        "set_error": "Set Vault Failed",
         "text": "ID Number/Social Security Number/Phone Number",
-        "password": "Common Password",
+        "password": "Frequently sed passwords",
         "custom": "Custom Feature Data",
         "toast": {
           "one": ""
         }
       },
       "protector": {
-        "title": "Protector",
-        "add_title": "Add Protector",
-        "hint": "Adopt 2/2 SSS scheme, one shard encrypted and kept in DAuth, the other encrypted and kept in DKVS. Shard data needs to be kept in the safe.",
+        "title": "Guardian",
+        "add_title": "Add Guardian",
+        "hint": "Adopt 2/2 SSS scheme, one shard encrypted and kept in DAuth, the other encrypted and kept in DKVS. Shard data needs to be kept in the vault.",
         "hint_two": "I have read and agree to the Privacy Policy and User Agreement"
       },
       "backup": {
         "on": "Backed Up"
       },
       "phrase": {
-        "title": "Recovery Phrase",
-        "backup": "Backup Recovery Phrase",
-        "verify_title": "Recovery Phrase Test",
-        "verify_text": "Recovery Test",
-        "toast_error": "Wrong Recovery Phrase",
-        "hint": "Recovery phrase is very important, please keep it safe and do not backup online.",
-        "hint_one": "Encrypt recovery phrase with encrypted safe?",
-        "hint_two": "Displaying and writing down recovery phrase directly is dangerous, you need to put in more effort to keep it safe",
+        "title": "Mnemonic Phrase",
+        "backup": "Backup Mnemonic Phrase",
+        "verify_title": "Mnemonic Phrase Recovery Test",
+        "verify_text": "Mnemonic Phrase Test",
+        "toast_error": "Wrong Mnemonic Phrase",
+        "hint": "Mnemonic phrase is very important, please keep it safe and do not backup online.",
+        "hint_one": "Encrypt mnemonic phrase with encrypted vault?",
+        "hint_two": "Displaying and writing down mnemonic phrase directly is dangerous, you need to put in more effort to keep it safe",
         "download_text": "Download Encrypted File"
       },
       "question": {
@@ -286,8 +286,8 @@
         "protector_hint": "Bind identity, verify account."
       },
       "restore": {
-        "title": "Recovery Methods"
-      },
+        "title": "Recovery Paths"
+      },  
       "setting": {
         "title": "Settings",
         "language": {
@@ -319,7 +319,7 @@
         "title": "Contact",
         "unknow": "Anonymous",
         "delete_success": "Deleted Successfully",
-        "delete_error": "Deleted Successfully"
+        "delete_error": "Deleted failed"
       },
       "recipient": {
         "unknow": "Recipient"
@@ -330,11 +330,11 @@
         "send_error": "Send Failed"
       },
       "profile": {
-        "btn_change": "Change",
+        "btn_change": "Modify",
         "btn_clear": "Clear History",
         "btn_delete": "Delete Contact",
         "clear_success": "Cleared Successfully",
-        "clear_error": "Cleared Successfully",
+        "clear_error": "Cleared failed",
         "alias": {
           "title": "Alias",
           "change_success": "Changed Successfully"
@@ -347,20 +347,20 @@
       "hint_password": "Restore with default password, please change password later",
       "toast": {
         "restore_error": "Restore Failed",
-        "restore_success": "Restore Failed"
+        "restore_success": "Restore Successfully"
       },
       "phrase": {
-        "title": "Recovery Phrase",
+        "title": "Mnemonic Phrase Recovery",
         "tab_file": "Encrypted File",
-        "tab_text": "Recovery Phrase",
-        "input_placeholder": "Please enter recovery phrase",
-        "upload_hint": "Upload encrypted recovery phrase file"
+        "tab_text": "Mnemonic Phrase",
+        "input_placeholder": "Please enter mnemonic phrase",
+        "upload_hint": "Upload encrypted mnemonic phrase file"
       },
       "protector": {
-        "title": "Protector Recovery"
+        "title": "Guardian Recovery" 
       },
       "encrypted_safe": {
-        "title": "Recover Encrypted Safe"
+        "title": "Recover Encrypted Vault"
       },
       "question": {
         "title": "Smart Privacy Recovery",
