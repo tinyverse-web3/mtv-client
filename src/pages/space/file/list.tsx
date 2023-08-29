@@ -140,7 +140,7 @@ export default function Album() {
       <div className='p-4'>
         <div className='flex mb-4'>
           {fileTypes.map((item) => (
-            <div className='w-20 flex justify-center' key={item.value}>
+            <div className='min-w-20 px-2 flex justify-center' key={item.value}>
               <div
                 className={`${
                   fileType === item.value
