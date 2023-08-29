@@ -55,7 +55,7 @@ export default function NetworkDetail() {
             </Card.Body>
           </Card>
         </div>
-        <div className='mb-4'>
+        {/* <div className='mb-4'>
           <div className='mb-2'>{t('pages.space.redundancy_text')}</div>
           <Card variant='bordered'>
             <Card.Body>
@@ -65,7 +65,7 @@ export default function NetworkDetail() {
               </div>
             </Card.Body>
           </Card>
-        </div>
+        </div> */}
         {/* <div className='mb-4'>
           <div className='mb-2'>内容</div>
           <Card variant="bordered" >
