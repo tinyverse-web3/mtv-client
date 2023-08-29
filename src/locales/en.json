@@ -266,7 +266,11 @@
         "password": "Frequently used passwords",
         "custom": "Custom Feature Data",
         "toast": {
-          "one": ""
+          "error_1": "Please enter at least two types of content",
+          "error_2": "First item minimum 12 characters",
+          "error_3": "Second item minimum 12 characters", 
+          "error_4": "Third item minimum 12 characters",
+          "error_5": "Please enter at least one item"
         }
       },
       "protector": {

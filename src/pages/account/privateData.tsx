@@ -38,15 +38,15 @@ export default function PrivateData() {
       setLoading(false);
       return;
     }
-    if (text?.length < 12) {
+    if (text && text?.length < 6) {
       toast.error(t('pages.account.encrypted_safe.toast.error_2'));
       return;
     }
-    if (password?.length < 12) {
+    if (password && password?.length < 12) {
       toast.error(t('pages.account.encrypted_safe.toast.error_3'));
       return;
     }
-    if (customText?.length < 12) {
+    if (customText && customText?.length < 12) {
       toast.error(t('pages.account.encrypted_safe.toast.error_4'));
       return;
     }

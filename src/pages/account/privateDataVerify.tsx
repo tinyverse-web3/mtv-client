@@ -23,23 +23,23 @@ export default function PrivateDataVerify() {
     setLoading(true);
     const privateArr = [text, password, customText];
     const privateFilter = privateArr.filter((v) => !!v);
-    if (privateFilter.length < 2) {
-      toast.error(t('pages.account.encrypted_safe.toast.error_1'));
-      setLoading(false);
-      return;
-    }
-    if (text?.length < 12) {
-      toast.error(t('pages.account.encrypted_safe.toast.error_2'));
-      return;
-    }
-    if (password?.length < 12) {
-      toast.error(t('pages.account.encrypted_safe.toast.error_3'));
-      return;
-    }
-    if (customText?.length < 12) {
-      toast.error(t('pages.account.encrypted_safe.toast.error_4'));
-      return;
-    }
+    // if (privateFilter.length < 2) {
+    //   toast.error(t('pages.account.encrypted_safe.toast.error_1'));
+    //   setLoading(false);
+    //   return;
+    // }
+    // if (text?.length < 12) {
+    //   toast.error(t('pages.account.encrypted_safe.toast.error_2'));
+    //   return;
+    // }
+    // if (password?.length < 12) {
+    //   toast.error(t('pages.account.encrypted_safe.toast.error_3'));
+    //   return;
+    // }
+    // if (customText?.length < 12) {
+    //   toast.error(t('pages.account.encrypted_safe.toast.error_4'));
+    //   return;
+    // }
     if (textPrivateData !== text || passwordPrivateData !== password || customText !== customPrivateData) {
       toast.error(t('pages.account.encrypted_safe.verify_error'));
       setLoading(false);
