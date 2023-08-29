@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "TinyVerse Space",
-    "subtitle": "Focusing on secure storage of your privacy, making your private keys more secure", 
+    "subtitle": "Focusing on secure storage of your privacy, making your private keys more secure",
     "description": ""
   },
   "common": {
@@ -119,7 +119,7 @@
         "title": "Token",
         "detail_title": "Token Detail",
         "point_name": "TVS",
-        "transfer_successs": "Transfer Successful"  
+        "transfer_successs": "Transfer Successful"
       },
       "transfer": {
         "title": "Transfer",
@@ -143,7 +143,7 @@
         "coming_soon": "Coming Soon"
       },
       "note": {
-        "title": "Diary", 
+        "title": "Diary",
         "input_placeholder": "Diary Content"
       },
       "album": {
@@ -231,7 +231,7 @@
       "wallet_key": "Wallet Public Key",
       "message_key": "Message Public Key",
       "my_qrcode": "My QR Code",
-      "gun": "Global Unique Name(GUN)", 
+      "gun": "Global Unique Name(GUN)",
       "level": {
         "title": "Security Level",
         "hint": "Only my profile is exposed externally, all other data is completely controlled by the user and stored in personal digital space.",
@@ -240,7 +240,7 @@
         "two": "The account only has a mnemonic recovery path. Please add a recovery path to avoid a single point of failure ASAP.",
         "three": "The account only has a guardian recovery path. Please add a recovery path to avoid a single point of failure ASAP.",
         "four": "Low standard accounts, please add Authentication factors to improve account security level.",
-        "five": "Standard account, your account has been fully protected."  
+        "five": "Standard account, your account has been fully protected."
       },
       "toast": {
         "no_private": "Please set a vault first"
@@ -269,7 +269,7 @@
         "toast": {
           "error_1": "Please enter at least two types of content",
           "error_2": "First item minimum 12 characters",
-          "error_3": "Second item minimum 12 characters", 
+          "error_3": "Second item minimum 12 characters",
           "error_4": "Third item minimum 12 characters",
           "error_5": "Please enter at least one item"
         }
@@ -301,7 +301,53 @@
         "test_title": "Smart Privacy Recovery Test",
         "test_text": "Recovery Test",
         "retry_text": "Reset",
-        "hint": "Smart privacy backup is a self-custodial private key backup solution. User's personal privacy information is used to generate shards via MPC-SSS, which are kept in distributed storage network. All computation happens locally, all data is kept in user's own digital space, ensuring data security. Please fill out the form correctly, can leave blank (synced with personal info). If personal info changes, account maintenance is needed to prevent loss."
+        "hint": "Smart privacy backup is a self-custodial private key backup solution. User's personal privacy information is used to generate shards via MPC-SSS, which are kept in distributed storage network. All computation happens locally, all data is kept in user's own digital space, ensuring data security. Please fill out the form correctly, can leave blank (synced with personal info). If personal info changes, account maintenance is needed to prevent loss.",
+        "default": {
+          "one": {
+            "title": "Basic Information",
+            "name": "Name",
+            "gender": "Gender",
+            "birth_date": "Date of Birth (yyyymmdd)",
+            "birth_city": "Place of Birth (City Name)",
+            "id": "ID Number",
+            "social_number": "Social Security Number",
+            "blood": "Blood Type",
+            "university": "University Name",
+            "enrollment": "Enrollment Time"
+          },
+          "two": {
+            "title": "Online Identity",
+            "phone": "Phone Number",
+            "email": "Email",
+            "apple": "Apple ID",
+            "google": "Google Account",
+            "tw": "Twitter Account",
+            "fb": "Facebook Account",
+            "wx": "WeChat Account",
+            "qq": "QQ Account",
+            "tb": "Taobao Account",
+            "wb": "Weibo Account"
+          },
+          "three": {
+            "title": "Financial Information",
+            "card_one_bank": "Savings Card 1 Issuing Bank",
+            "card_one_num": "Savings Card 1 Number",
+            "card_two_bank": "Savings Card 2 Issuing Bank",
+            "card_two_num": "Savings Card 2 Number",
+            "credit_card_bank": "Credit Card Issuing Bank",
+            "credit_card_num": "Credit Card Number"
+          },
+          "four": {
+            "title": "Additional Information",
+            "contact": "Emergency Contact",
+            "contact_phone": "Emergency Contact Number",
+            "first_car_brand": "First Car Brand",
+            "first_car_plate": "First Car License Plate",
+            "elementary_school": "Elementary School Name",
+            "middle_school": "Middle School Name",
+            "high_school": "High School Name"
+          }
+        }
       },
       "multi_verify": {
         "title": "Multi-factor Authentication",
@@ -311,7 +357,7 @@
       },
       "restore": {
         "title": "Recovery Paths"
-      },  
+      },
       "setting": {
         "title": "Settings",
         "language": {
@@ -387,7 +433,7 @@
         "upload_hint": "Upload encrypted mnemonic phrase file"
       },
       "protector": {
-        "title": "Guardian Recovery" 
+        "title": "Guardian Recovery"
       },
       "encrypted_safe": {
         "title": "Recover Encrypted Vault"

@@ -302,7 +302,53 @@
         "test_title": "智能隐私恢复测试",
         "test_text": "恢复测试",
         "retry_text": "重新设置",
-        "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。"
+        "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。",
+        "default": {
+          "one": {
+            "title": "基本信息",
+            "name": "姓名",
+            "gender": "性别",
+            "birth_date": "出生时间(yyyymmdd)",
+            "birth_city": "出生地点(城市名称)",
+            "id": "身份证",
+            "social_number": "社保号码",
+            "blood": "血型",
+            "university": "大学名称",
+            "enrollment": "入学时间"
+          },
+          "two": {
+            "title": "网络身份",
+            "phone": "手机号码",
+            "email": "邮箱",
+            "apple": "Apple ID",
+            "google": "Google账号",
+            "tw": "Twitter账号",
+            "fb": "Facebook账号",
+            "wx": "微信账号",
+            "qq": "QQ账号",
+            "tb": "淘宝账号",
+            "wb": "微博账号"
+          },
+          "three": {
+            "title": "金融信息",
+            "card_one_bank": "储蓄卡1开户行",
+            "card_one_num": "储蓄卡1卡号",
+            "card_two_bank": "储蓄卡2开户行",
+            "card_two_num": "储蓄卡2卡号",
+            "credit_card_bank": "信用卡开户行",
+            "credit_card_num": "信用卡卡号"
+          },
+          "four": {
+            "title": "额外信息",
+            "contact": "紧急联系人",
+            "contact_phone": "紧急联系人电话",
+            "first_car_brand": "第一辆汽车品牌",
+            "first_car_plate": "第一辆汽车车牌",
+            "elementary_school": "小学名称",
+            "middle_school": "初中名称",
+            "high_school": "高中名称"
+          }
+        }
       },
       "multi_verify": {
         "title": "多因素验证",
