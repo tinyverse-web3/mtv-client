@@ -117,31 +117,36 @@ export default function GunRenew() {
               </div>
             </div>
         </div> */}
-        <div className='flex items-center mb-4'>
-          <span className='w-18 min-w-18'>
-            {t('pages.space.gun.apply_name')}
-          </span>
-          <Input
-            id='gunnameInput'
-            clearable
-            bordered
-            fullWidth
-            maxLength={64}
-            value={gunname}
-            onChange={gunnameChange}
-            placeholder={t('pages.space.gun.apply_name')}
-          />
-          <Button auto flat size='xs' className='ml-4 h-10' onPress={CheckGun}>
-            {t('pages.space.gun.search')}
-          </Button>
+        <div className='mb-2'>
+          <div className='w-18 min-w-18 mb-2'>{t('pages.space.gun.apply_name')}</div>
+          <div className='flex items-center'>
+            <Input
+              id='gunnameInput'
+              clearable
+              bordered
+              fullWidth
+              maxLength={64}
+              value={gunname}
+              onChange={gunnameChange}
+              placeholder={t('pages.space.gun.apply_name')}
+            />
+            <Button
+              auto
+              flat
+              size='xs'
+              className='ml-4 h-10'
+              onPress={CheckGun}>
+              {t('pages.space.gun.search')}
+            </Button>
+          </div>
         </div>
-        <div className='mb-4 pl-18'>
+        <div className='mb-4'>
           <Text className='text-3 text-gray-400'>
             {t('pages.space.gun.rule_text')}
           </Text>
         </div>
-        <div className='flex mb-4'>
-          <span className='w-18'>{t('pages.space.gun.expired_text')}</span>
+        <div className='mb-4'>
+          <div className='mb-2'>{t('pages.space.gun.expired_text')}</div>
           <div>
             <Radio.Group
               size='xs'
@@ -156,8 +161,10 @@ export default function GunRenew() {
             </Radio.Group>
           </div>
         </div>
-        <div className='mb-4 pl-18'>
-          <Text className='text-3 text-gray-400'>{t('pages.space.gun.price_text')}</Text>
+        <div className='mb-4'>
+          <Text className='text-3 text-gray-400'>
+            {t('pages.space.gun.price_text')}
+          </Text>
         </div>
         <Button
           disabled={disabled}

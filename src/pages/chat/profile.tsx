@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Image, Button as NextButton } from '@nextui-org/react';
+import { Image, Button as NextButton, Card } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
+import { CopyIcon } from '@/components/CopyIcon';
 import LayoutThird from '@/layout/LayoutThird';
 import { useChatStore, useAccountStore } from '@/store';
 import { toast } from 'react-hot-toast';
@@ -94,46 +95,66 @@ const Profile: React.FC = () => {
           <Image src='/logo.png' className='rounded w-20' />
         </div>
         <div>
-          <div className='flex mb-2'>
-            <span className='w-14 min-w-20'>
-              {t('pages.account.public_key')}：
-            </span>
-            <span className='break-all'>{recipient?.DAuthKey}</span>
+          <div className='mb-4'>
+            <div className='mb-2'>{t('pages.account.gun')}</div>
+            <Card variant='bordered'>
+              <Card.Body className='break-all p-2'>
+                <div>
+                  {recipient?.GUNName || t('pages.account.profile.unset_text')}
+                </div>
+              </Card.Body>
+            </Card>
           </div>
-          <div className='flex mb-2'>
-            <span className='w-14 min-w-20'>
-              {t('pages.account.message_key')}：
-            </span>
-            <span className='break-all'>{recipient?.MessageKey}</span>
+          <div className='mb-4'>
+            <div className='mb-2'>{t('pages.account.public_key')}</div>
+            <Card variant='bordered'>
+              <Card.Body className='p-2'>
+                <div className='flex items-center'>
+                  <div className='break-all flex-1'>{recipient?.DAuthKey}</div>
+                  {!!recipient?.DAuthKey && (
+                    <CopyIcon text={recipient?.DAuthKey} className='ml-4' />
+                  )}
+                </div>
+              </Card.Body>
+            </Card>
           </div>
-          <div className='flex mb-2'>
-            <span className='w-14 min-w-20'>
-              {t('pages.account.gun')}：
-            </span>
-            <span className='break-all'>{recipient?.GUNName}</span>
+          <div className='mb-4'>
+            <div className='mb-2'>{t('pages.account.message_key')}</div>
+            <Card variant='bordered'>
+              <Card.Body className='p-2'>
+                <div className='flex items-center'>
+                  <div className='break-all flex-1'>
+                    {recipient?.MessageKey}
+                  </div>
+                  {!!recipient?.MessageKey && (
+                    <CopyIcon text={recipient?.MessageKey} className='ml-4' />
+                  )}
+                </div>
+              </Card.Body>
+            </Card>
           </div>
-          <div className='flex mb-4'>
-            <span className='w-14 min-w-20'>
-              {t('pages.chat.profile.alias.title')}：
-            </span>
-            <Input value={alias} onChange={(e: string) => setAlias(e)} />
-            <NextButton
-              auto
-              flat
-              size='xs'
-              className='ml-4 h-10'
-              onPress={changeAlias}>
-              {t('pages.chat.profile.btn_change')}
-            </NextButton>
+          <div className='mb-4'>
+            <div className='mb-2'>{t('pages.chat.profile.alias.title')}</div>
+            <div className='flex items-center'>
+              <Input value={alias} onChange={(e: string) => setAlias(e)} />
+              <NextButton
+                auto
+                flat
+                size='xs'
+                className='ml-4 h-10'
+                onPress={changeAlias}>
+                {t('pages.chat.profile.btn_change')}
+              </NextButton>
+            </div>
           </div>
-          <div>
-            <Button className='w-full mb-2' onPress={claer}>
-              {t('pages.chat.profile.btn_clear')}
-            </Button>
-            <Button className='w-full mb-2' onPress={showDelModal}>
-              {t('pages.chat.profile.btn_delete')}
-            </Button>
-          </div>
+        </div>
+        <div>
+          <Button className='w-full mb-2' onPress={claer}>
+            {t('pages.chat.profile.btn_clear')}
+          </Button>
+          <Button className='w-full mb-2' onPress={showDelModal}>
+            {t('pages.chat.profile.btn_delete')}
+          </Button>
         </div>
       </div>
       <DelConfirmModel

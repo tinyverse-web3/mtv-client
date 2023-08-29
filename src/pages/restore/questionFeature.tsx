@@ -119,7 +119,7 @@ export default function QuestionFeature() {
           value={password}
           className='h-50px mb-6'
           onChange={onPasswordChange}
-          placeholder={t('pages.account.encrypted_safe.passwrod')}
+          placeholder={t('pages.account.encrypted_safe.password')}
           initialValue=''
         />
         <Input
