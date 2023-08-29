@@ -29,7 +29,13 @@ export default function MultiVerify() {
     nav(ROUTE_PATH.ACCOUNT_PHRASE);
     // }·
   };
-
+  const toProtector = async () => {
+    const loginStatus = await useCheckLogin();
+    
+    if (loginStatus) {
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+    }
+  };
   const toQuestion = async () => {
     const loginStatus = await useCheckLogin();
     if (loginStatus) {
@@ -60,6 +66,7 @@ export default function MultiVerify() {
           value={
             accountInfo.guardians?.length ? t('pages.account.backup.on') : ''
           }
+          onPress={toProtector}
         />
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
           {t('pages.account.protector.hint')}

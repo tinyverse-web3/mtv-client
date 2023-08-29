@@ -42,17 +42,138 @@ export const QuestionDefault = ({
   const [localList, setLocalList] = useState([]);
   const [tmpList, setTmpList] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
-  const {  accountInfo } = useAccountStore((state) => state);
+  const { accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
     [type],
   );
 
   const getTmpQuestions = async () => {
-    const data = await account.getTmpQuestions(1);
-    if (data?.length) {
-      setTmpList(data);
-    }
+    // const data = await account.getTmpQuestions(1);
+    // if (data?.length) {
+    setTmpList([
+      {
+        Title: '基本信息',
+        Content: [
+          {
+            Content: '姓名',
+          },
+          {
+            Content: '性别',
+          },
+          {
+            Content: '出生时间(yyyymmdd)',
+          },
+          {
+            Content: '出生地点(城市名称)',
+          },
+          {
+            Content: '身份证',
+          },
+          {
+            Content: '社保号码',
+          },
+          {
+            Content: '血型',
+          },
+          {
+            Content: '大学名称',
+          },
+          {
+            Content: '入学时间',
+          },
+        ],
+        Type: 1,
+      },
+      {
+        Title: '网络身份',
+        Content: [
+          {
+            Content: '手机号码',
+          },
+          {
+            Content: '邮箱',
+          },
+          {
+            Content: 'Apple ID',
+          },
+          {
+            Content: 'Google账号',
+          },
+          {
+            Content: 'Twitter账号',
+          },
+          {
+            Content: 'Facebook账号',
+          },
+          {
+            Content: '微信账号',
+          },
+          {
+            Content: 'QQ账号',
+          },
+          {
+            Content: '淘宝账号',
+          },
+          {
+            Content: '微博账号',
+          },
+        ],
+        Type: 1,
+      },
+      {
+        Title: '金融信息',
+        Content: [
+          {
+            Content: '储蓄卡1开户行',
+          },
+          {
+            Content: '储蓄卡1卡号',
+          },
+          {
+            Content: '储蓄卡2开户行',
+          },
+          {
+            Content: '储蓄卡2卡号',
+          },
+          {
+            Content: '信用卡开户行',
+          },
+          {
+            Content: '信用卡卡号',
+          },
+        ],
+        Type: 1,
+      },
+      {
+        Title: '额外信息',
+        Content: [
+          {
+            Content: '紧急联系人',
+          },
+          {
+            Content: '紧急联系人电话',
+          },
+          {
+            Content: '第一辆汽车品牌',
+          },
+          {
+            Content: '第一辆汽车车牌',
+          },
+          {
+            Content: '小学名称',
+          },
+          {
+            Content: '初中名称',
+          },
+          {
+            Content: '高中名称',
+          },
+        ],
+        Type: 1,
+      },
+    ]);
+    // }
   };
   const getUserQuestions = async () => {
     const data = await account.getQuestions();
@@ -96,13 +217,14 @@ export const QuestionDefault = ({
           title: v.Title,
           list: childrenList.map((s: any) => {
             const q: string = s.Content.replace(/\([\S\s]*\)/g, '');
-            const a = accountInfo.privacyInfo[q] || ''
+            const a = accountInfo.privacyInfo[q] || '';
             return {
-            q: q,
-            a: a,
-            p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
-            l: s.Character,
-          }}),
+              q: q,
+              a: a,
+              p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
+              l: s.Character,
+            };
+          }),
         };
       });
       set(_list);

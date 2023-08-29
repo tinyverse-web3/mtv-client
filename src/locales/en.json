@@ -277,6 +277,7 @@
       "protector": {
         "title": "Guardian",
         "add_title": "Add Guardian",
+        "confirm": "Add",
         "hint": "Adopt 2/2 SSS scheme, one shard encrypted and kept in DAuth, the other encrypted and kept in DKVS. Shard data needs to be kept in the vault.",
         "hint_two": "I have read and agree to the Privacy Policy and User Agreement"
       },
