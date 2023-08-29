@@ -217,10 +217,10 @@
         "create_title": "创建秘钥"
       },
       "award": {
-        "title": "获取积分",
+        "title": "获取积分奖励",
         "apply_success": "申请已提交",
-        "daily": "获取每日积分",
-        "guardian": "获取守护者积分"
+        "daily": "获取每日使用积分",
+        "guardian": "获取绑定守护者积分"
       },
       "nft": {
         "title": "发行NFT"

@@ -216,10 +216,10 @@
         "create_title": "Create Secret key"
       },
       "award": {
-        "title": "Earn Points",
+        "title": "Earn Rewards",
         "apply_success": "Application submitted",
-        "daily": "Earn daily points",
-        "guardian": "Obtain Guardian Points"
+        "daily": "Earn Daily Usage Reward",
+        "guardian": "Earn Binding Guardian Reward"
       },
       "nft": {
         "title": "Issue NFT"
