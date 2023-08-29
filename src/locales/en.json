@@ -322,7 +322,7 @@
       "about": {
         "title": "About",
         "version": "TinyVerse Space V1.0.0",
-        "description": "Open source, IPFS-based, decentralized secure storage and management software for personal privacy data. Users self-manage all data, no third party can access user data.",
+        "description": "An open-source, IPFS-based, decentralized tool for secure storage and management of personal privacy data where users have full control over their data and no third party can access user data.",
         "btn_1": "Terms of Service",
         "btn_2": "Privacy Policy",
         "btn_3": "Open Source Code",
