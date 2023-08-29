@@ -34,7 +34,7 @@
     "create": "Create",
     "edit": "Edit",
     "delete": "Delete",
-    "delete_hint": "Delete?",
+    "delete_hint": "Delete ",
     "question": "Question",
     "file": "File",
     "sub_question": "Sub Question",
@@ -265,6 +265,7 @@
         "text": "ID Number/Social Security Number/Phone Number",
         "password": "Frequently used passwords",
         "custom": "Custom Feature Data",
+        "feature_error": "特征数据错误",
         "toast": {
           "error_1": "Please enter at least two types of content",
           "error_2": "First item minimum 12 characters",

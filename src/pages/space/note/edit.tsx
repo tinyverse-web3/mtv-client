@@ -53,7 +53,8 @@ export default function Edit() {
         <Row className='mb-8' justify='center'>
           <Textarea
             value={note}
-            maxLength={300}
+            minRows={20}
+            maxRows={100}
             onChange={noteChange}
             placeholder={t('pages.space.note.input_placeholder')}
           />

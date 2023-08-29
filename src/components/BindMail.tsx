@@ -44,12 +44,14 @@ export const BindMail = () => {
       closeHandler();
       toast.success(t('common.toast.bind_success'));
     } else {
+      reset();
       toast.error(msg || t('common.toast.bind_error'));
     }
     setLoginLoading(false);
   };
   const emailChange = (e: any) => {
     setEmail(e.target.value);
+    reset();
   };
   const verifyCodeChange = (e: any) => {
     setVerifyCode(e.target.value);
@@ -64,6 +66,7 @@ export const BindMail = () => {
         toast.success(t('common.code_sended'));
         start();
       } else {
+        
         toast.error(msg);
       }
     }

@@ -55,7 +55,7 @@ export default function ChatList() {
 
   const toSender = async () => {
     if (!searchText) {
-      toast('pages.chat.search.empty');
+      toast(t('pages.chat.search.empty'));
       return;
     }
     const { code, msg } = await account.createContactByMasterKey(searchText);

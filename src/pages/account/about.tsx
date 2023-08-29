@@ -8,10 +8,20 @@ import LayoutThird from '@/layout/LayoutThird';
 
 export default function Account() {
   const nav = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { VITE_TINY_WEB } = import.meta.env;
+  const toService = () => {
+    const url = i18n.language === 'en' ? "https://tinyverse.space/service.html" : "https://cn.tinyverse.space/service.html"
+    location.href = url;
+  }
   const toWebsit = () => {
-    location.href = VITE_TINY_WEB;
+    console.log(i18n.language);
+    const url = i18n.language === 'en' ? "https://tinyverse.space" : "https://cn.tinyverse.space"
+    location.href = url;
+  }
+  const toPrivacy = () => {
+    const url = i18n.language === 'en' ? "https://tinyverse.space/privacy.html" : "https://cn.tinyverse.space/privacy.html"
+    location.href = url;
   }
   return (
     <LayoutThird showBack title={t('pages.account.about.title')}>
@@ -25,8 +35,8 @@ export default function Account() {
             </div>
           </div>
           <div>
-            <ListRow label={t('pages.account.about.btn_1')} />
-            <ListRow label={t('pages.account.about.btn_2')} />
+            <ListRow label={t('pages.account.about.btn_1')} onPress={toService} />
+            <ListRow label={t('pages.account.about.btn_2')} onPress={toPrivacy}/>
             <ListRow label={t('pages.account.about.btn_3')} />
             <ListRow label={t('pages.account.about.btn_4')} onPress={toWebsit}/>
           </div>

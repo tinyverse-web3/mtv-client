@@ -46,7 +46,7 @@ export default function NetworkDetail() {
           </Card>
         </div>
         <div className='mb-4'>
-          <div className='mb-2'>{t('pages.space.size_text')}</div>
+          <div className='mb-2'>{t('pages.space.data.size_text')}</div>
           <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>

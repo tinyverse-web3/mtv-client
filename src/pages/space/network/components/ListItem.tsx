@@ -9,6 +9,7 @@ interface Props {
   Size: number;
   Redundancy: string;
   CreateTime: number;
+  type?: string;
   // expireTime: string;
   // description: string;
   onDelete: () => void;
@@ -19,6 +20,7 @@ export function ListItem({
   Size = 0,
   Redundancy,
   CreateTime,
+  type,
   // expireTime,
   // description,
   onDelete,
@@ -59,10 +61,13 @@ export function ListItem({
             <span>{t('pages.space.data.save_time')}：</span>
             <span>{createTimeText}</span>
           </div>
-          <div>
+          {
+            type !== 'ipfs' &&  <div>
             <span>{t('pages.space.data.expired_time')}：</span>
             {/* <span>{expireTime}</span> */}
           </div>
+          }
+         
           <div>
             <span>{t('pages.space.data.description')}：</span>
             {/* <span>{description}</span> */}

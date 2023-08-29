@@ -59,6 +59,7 @@ const NetworkList: React.FC = () => {
           <ListItem
             key={index}
             Key={item.Key}
+            type={type as string}
             Size={item.Size}
             Redundancy={item.Redundancy}
             CreateTime={item.CreateTime}

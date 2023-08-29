@@ -34,7 +34,7 @@
     "create": "新增",
     "edit": "编辑",
     "delete": "删除",
-    "delete_hint": "是否删除",
+    "delete_hint": "是否删除 ",
     "question": "问题",
     "file": "文件",
     "sub_question": "子问题",
@@ -266,6 +266,7 @@
         "text": "身份证/社会保险号码/手机号码",
         "password": "常用口令",
         "custom": "自定义特征数据",
+        "feature_error": "特征数据错误",
         "toast": {
           "error_1": "请至少输入两种内容",
           "error_2": "第一项最少12个字符",

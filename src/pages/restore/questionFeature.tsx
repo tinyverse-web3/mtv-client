@@ -75,7 +75,7 @@ export default function QuestionFeature() {
       await setList(_list);
       nav(ROUTE_PATH.RESTORE_QUESTION);
     } catch (error) {
-      toast.error('特征数据错误');
+      toast.error(t('pages.account.encrypted_safe.toast.feature_error'));
     }
     setLoading(false);
   };
