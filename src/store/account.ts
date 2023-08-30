@@ -16,6 +16,8 @@ interface AccountInfo {
   maintainProtector: boolean;
   maintainQuestion: boolean;
   hasFeatureData: boolean;
+  isBackupMnemonic: boolean;
+  isBackupQuestion: boolean;
   privacyInfo: any;
   note_ipfs: string;
   pointAccount: any;
@@ -52,6 +54,8 @@ export const useAccountStore = create<AccountState>()(
           maintainProtector: false,
           maintainQuestion: false,
           hasFeatureData: false,
+          isBackupMnemonic: false,
+          isBackupQuestion: false,
           privacyInfo: {},
           note_ipfs: '',
           subAccount: [],
@@ -71,6 +75,8 @@ export const useAccountStore = create<AccountState>()(
             textPrivateData: localInfo.TextPrivateData || '',
             customPrivateData: localInfo.CustomPrivateData || '',
             hasFeatureData: localInfo.IsSetVault || false,
+            isBackupMnemonic: !!localInfo?.IsGenerateMnemonic || false,
+            isBackupQuestion: !!localInfo?.QuestionSets.length || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
             avatar: localInfo.Avatar,
@@ -100,6 +106,8 @@ export const useAccountStore = create<AccountState>()(
               maintainProtector: false,
               maintainQuestion: false,
               hasFeatureData: false,
+              isBackupMnemonic: false,
+              isBackupQuestion: false,
               privacyInfo: {},
               note_ipfs: '',
               subAccount: [],
