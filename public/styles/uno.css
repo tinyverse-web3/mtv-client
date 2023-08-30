@@ -210,7 +210,8 @@
 .border-b-gray-200{--un-border-opacity:1;--un-border-bottom-opacity:var(--un-border-opacity);border-bottom-color:rgba(229,231,235,var(--un-border-bottom-opacity));}
 .border-b-gray-300{--un-border-opacity:1;--un-border-bottom-opacity:var(--un-border-opacity);border-bottom-color:rgba(209,213,219,var(--un-border-bottom-opacity));}
 .border-t-gray-200{--un-border-opacity:1;--un-border-top-opacity:var(--un-border-opacity);border-top-color:rgba(229,231,235,var(--un-border-top-opacity));}
-.rounded{border-radius:0.25rem;}
+.rounded,
+[rounded=""]{border-radius:0.25rem;}
 .rounded-2{border-radius:0.5rem;}
 .rounded-3{border-radius:0.75rem;}
 .rounded-4{border-radius:1rem;}

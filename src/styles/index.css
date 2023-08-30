@@ -1,5 +1,5 @@
 body {
-  position: static !important;
+  transform: translate3d(0, 0, 0);
   -webkit-text-size-adjust: none !important;
 }
 html,
