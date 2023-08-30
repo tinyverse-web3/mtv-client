@@ -60,7 +60,7 @@ export default function Phrase() {
       <div className='pt-6 px-6'>
         <div className='flex mb-6'>
           {types.map((item) => (
-            <div className='w-30 flex justify-center' key={item.value}>
+            <div className='min-w-30 px-4 flex justify-center' key={item.value}>
               <div
                 className={`${
                   type === item.value
