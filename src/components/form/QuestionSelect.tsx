@@ -3,6 +3,7 @@ import { Dropdown, Text, Button } from '@nextui-org/react';
 import toast from 'react-hot-toast';
 import { Textarea } from '@/components/form/Textarea';
 import { Input } from '@/components/form/Input';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   list: any[];
@@ -13,7 +14,7 @@ interface Props {
   onChange?: ({ q, a }: any) => void;
   onRemove?: () => void;
 }
-const CUSTOM_QUESTION = '自定义';
+
 export const QuestionSelect = ({
   list = [],
   index,
@@ -23,6 +24,8 @@ export const QuestionSelect = ({
   select,
   onRemove,
 }: Props) => {
+  const { t } = useTranslation();
+  const CUSTOM_QUESTION = t('common.custom');
   const [selected, setSelected] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);
   const [answerLen, setAnswerLen] = useState(select.l);
@@ -70,21 +73,25 @@ export const QuestionSelect = ({
     onChange && onChange(data);
   }, [selectedValue, answer, customQuestion]);
 
-
   const RendText = ({ num }: any) => {
-    return disabled && num && <Text className='break-keep text-12px'>{num}个字符</Text>;
+    return (
+      disabled &&
+      num && <Text className='break-keep text-12px'>{num}{t('pages.account.question.toast.error_3_end')}</Text>
+    );
   };
   return (
     <div className={className}>
       <div className='flex items-center mb-4'>
-        <div className='w-5 min-h-5 rounded-full border border-gray-300 border-solid mr-1 flex items-center justify-center text-12px'>{index + 1}</div>
+        <div className='w-5 min-h-5 rounded-full border border-gray-300 border-solid mr-1 flex items-center justify-center text-12px'>
+          {index + 1}
+        </div>
         <div className='flex-1'>
           <Dropdown isDisabled={disabled}>
             <Dropdown.Button
               color='secondary'
               className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
               <div className='text-ellipsis overflow-hidden max-w-200px'>
-                {selectedValue || '请选择一个问题'}
+                {selectedValue || t('pages.account.question.input.placeholder_select')}
               </div>
             </Dropdown.Button>
             <Dropdown.Menu
@@ -121,8 +128,8 @@ export const QuestionSelect = ({
             maxLength={30}
             minRows={1}
             readOnly={!selectedValue || disabled}
-            placeholder='请输入问题'
-            helperText={answerLen ? `答案共${answerLen}个字符` : undefined}
+            placeholder={t('pages.account.question.input.placeholder')}
+            helperText={answerLen ? `${t('pages.account.question.toast.error_3_first')}${answerLen}${t('pages.account.question.toast.error_3_end')}` : undefined}
             value={customQuestion}
             onChange={(e: any) => setCustomQuestion(e?.trim())}
           />
@@ -132,7 +139,7 @@ export const QuestionSelect = ({
         clearable
         maxLength={30}
         readOnly={answerDisabled}
-        placeholder='请输入答案'
+        placeholder={t('pages.account.question.input.placeholder_answer')}
         labelRight={<RendText num={answer.length} />}
         value={answer}
         onChange={inputChange}

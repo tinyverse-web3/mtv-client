@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Dropdown, Text } from '@nextui-org/react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   list: any[];
@@ -15,9 +16,11 @@ export const Select = ({
   onChange,
   disabled,
   value,
-  placeholder = '请选择',
+  placeholder,
   keys = { label: 'label', value: 'value' },
 }: Props) => {
+  const { t} = useTranslation()
+  placeholder = placeholder || t('common.select');
   const [selected, setSelected] = useState(new Set([value]));
 
   const selectedValue = useMemo(() => Array.from(selected)[0], [selected]);

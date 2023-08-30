@@ -180,7 +180,7 @@ export const Question = ({
           const q = question.list[j];
           if (!q.a) {
             toast.error(
-              `问题${chineseNumMap[i]}的第${j + 1}个子问题答案未输入`,
+              `${t('common.question')}${chineseNumMap[i]}${t('pages.account.question.toast.error_5_1')}${j + 1}${t('pages.account.question.toast.error_5_2')}`,
             );
             validStatus = false;
             break;
@@ -189,7 +189,7 @@ export const Question = ({
         if (!validStatus) break;
       }
       if (list.length < 1) {
-        toast.error(`最少填写一个问题`);
+        toast.error(t('pages.account.question.toast.error_4'));
         validStatus = false;
       }
     }

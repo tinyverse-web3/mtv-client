@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   show: boolean;
@@ -15,6 +16,7 @@ export const ConfirmDelModel = ({
   onClose,
   btnText = '确定',
 }: Props) => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(show);
   const closeHandler = () => {
     setShowModal(false);
@@ -37,15 +39,15 @@ export const ConfirmDelModel = ({
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={18}>
-          是否删除守护者？
+          {t('pages.account.protector.delete_hint')}
         </Text>
       </Modal.Header>
       <Modal.Footer>
         <Button auto flat color='error' onPress={closeHandler}>
-          取消
+          {t('common.cancel')}
         </Button>
         <Button auto onPress={confirmHandler}>
-          {btnText}
+          {t('common.confirm')}
         </Button>
       </Modal.Footer>
     </Modal>

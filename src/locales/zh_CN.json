@@ -37,6 +37,7 @@
     "delete_hint": "是否删除 ",
     "question": "问题",
     "file": "文件",
+    "select": "请选择",
     "sub_question": "子问题",
     "empty_data": "暂无数据",
     "no_result": "没有得到任何结果",
@@ -280,6 +281,7 @@
       "protector": {
         "title": "守护者",
         "add_title": "添加守护者",
+        "delete_hint": "Do you want to delete the guardian?",
         "confirm": "添加",
         "hint": "守护者可用于身份验证、社交恢复等。增加多个守护者让你的账户更安全。请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。",
         "hint_two": "我已阅读并同意《隐私政策》及《用户服务协议》"
@@ -305,6 +307,20 @@
         "test_text": "恢复测试",
         "retry_text": "重新设置",
         "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。",
+        "input": {
+          "placeholder": "请输入问题",
+          "placeholder_select": "请选择一个问题",
+          "placeholder_answer": "请输入答案"
+        },
+        "toast": {
+          "error_1": "答案最少16位,请在多输入一些内容",
+          "error_2": "请至少填写两个分类的问题答案",
+          "error_3_first": "答案共",
+          "error_3_end": "个字符",
+          "error_4": "最少填写一个问题",
+          "error_5_1": "的第",
+          "error_5_2": "个子问题答案未输入"
+        },
         "default": {
           "one": {
             "title": "基本信息",

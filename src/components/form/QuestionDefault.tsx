@@ -36,14 +36,17 @@ export const QuestionDefault = ({
   type,
   className,
   initList = [],
-  buttonText = '备份',
+  buttonText,
   children,
 }: Props) => {
   const { t } = useTranslation();
-  const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
+  buttonText = buttonText || t('common.backup');
+  const [list, { set, updateAt }] = useList<QuestionList>([]);
+  const [tmpList, { set: setTmpList }] = useList<any>([]);
+  const [userList, { set: setUserList }] = useList<any>([]);
   const [localList, setLocalList] = useState([]);
-  const [tmpList, setTmpList] = useState<any[]>([]);
-  const [userList, setUserList] = useState<any[]>([]);
+  // const [tmpList, setTmpList] = useState<any[]>([]);
+  // const [userList, setUserList] = useState<any[]>([]);
   const { accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
@@ -63,7 +66,7 @@ export const QuestionDefault = ({
           {
             Content: t('pages.account.question.default.one.gender'),
           },
-          
+
           {
             Content: t('pages.account.question.default.one.birth_date'),
           },
@@ -212,7 +215,28 @@ export const QuestionDefault = ({
   useDebounce(saveLocalList, 300, [list]);
 
   useEffect(() => {
-    if (tmpList) {
+    console.log(userList);
+    if (userList.length) {
+      const _list = userList.map((v, i) => {
+        const childrenList = v.Content;
+        return {
+          id: i,
+          title: v.Title,
+          list: childrenList.map((s: any) => {
+            const q: string = s.Content.replace(/\([\S\s]*\)/g, '');
+            const a = s.Answer || '';
+            return {
+              q: q,
+              a: a,
+              p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
+              l: s.Character,
+            };
+          }),
+        };
+      });
+      console.log(_list);
+      set(_list);
+    } else if (tmpList) {
       const _list = tmpList.map((v, i) => {
         const childrenList = v.Content;
         return {
@@ -232,7 +256,7 @@ export const QuestionDefault = ({
       });
       set(_list);
     }
-  }, [tmpList, accountInfo]);
+  }, [tmpList, userList]);
 
   const validList = () => {
     let validStatus = true;
@@ -248,14 +272,14 @@ export const QuestionDefault = ({
           0,
         );
         if (keyLen < 16) {
-          toast.error(`答案长度不足,请在多输入一些内容`);
+          toast.error(t('pages.account.question.toast.error_1'));
           validStatus = false;
           break;
         }
       }
     }
     if (answerLen < 2 && validStatus) {
-      toast.error('请至少填写两个分类的问题答案');
+      toast.error(t('pages.account.question.toast.error_2'));
       validStatus = false;
     }
     return validStatus;
@@ -270,7 +294,7 @@ export const QuestionDefault = ({
   useEffect(() => {
     if (!initList?.length) {
       getTmpQuestions();
-      // getUserQuestions();
+      getUserQuestions();
     } else {
       generateInitList();
     }
@@ -284,11 +308,15 @@ export const QuestionDefault = ({
               {val.title}
             </div>
             {val?.list.map((v, j) => (
-              <div className='break-keep mb-2' key={v.q}>
+              <div className='break-keep mb-2' key={j}>
                 <div className='mb-2'>
                   <div>{v.q}</div>
                   {type !== 'maintain' && !!(v.l && !isNaN(v.l)) && (
-                    <div className='text-12px'>答案共{v.l}个字符</div>
+                    <div className='text-12px'>
+                      {t('pages.account.question.toast.error_3_first')}
+                      {v.l}
+                      {t('pages.account.question.toast.error_3_end')}
+                    </div>
                   )}
                 </div>
                 <div className='flex-1'>
