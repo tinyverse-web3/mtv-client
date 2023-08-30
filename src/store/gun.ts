@@ -22,12 +22,12 @@ interface GunState {
   load: () => void;
   apply: (gunname: any, validperiod: number) => void;
   renew: (gunname: any, validperiod: number) => void;
+  reset: () => void;
 }
 
 export const useGunStore = create<GunState>()(
   devtools((set, get) => ({
     list: [],
-
     add: async (n) => {
       const list = cloneDeep(get().list);
       list.push(n);
@@ -107,6 +107,9 @@ export const useGunStore = create<GunState>()(
           set({ list });
         }
       }
+    },
+    reset: () => {
+      set({ list: [] });
     },
   })),
 );

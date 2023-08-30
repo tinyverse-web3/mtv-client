@@ -19,7 +19,7 @@ export default function LocalSafe() {
   const toChangePwd = async () => {
     // const loginStatus = await useCheckLogin();
     // if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
+    nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
     // }
   };
   const setupBiometrics = async (password: string) => {
@@ -54,11 +54,15 @@ export default function LocalSafe() {
       <div className='p-4'>
         <ListRow label={t('common.password.change')} onPress={toChangePwd} />
         <ListRow
-          label={t('common.biometrics.title')} 
+          label={t('common.biometrics.title')}
           value={isBiometricsSatus ? t('common.turn_on') : t('common.turn_off')}
           onPress={() => setShowPasswordStatus(true)}
         />
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px] mt-40'>
+          {t('pages.account.local_safe.hint')}
+        </div>
       </div>
+
       <ValidPassword
         onSuccess={validPasswordSuccess}
         show={showPasswordStatus}

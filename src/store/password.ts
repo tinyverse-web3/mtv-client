@@ -18,6 +18,7 @@ interface PasswordState {
   remove: (id: string) => void;
   update: (Password: Password) => void;
   getById: (id: string) => Password | undefined;
+  reset: () => void;
 }
 
 export const usePasswordStore = create<PasswordState>()(
@@ -81,6 +82,9 @@ export const usePasswordStore = create<PasswordState>()(
       getById: (id) => {
         const list = get().list;
         return list.find((i) => i.Id === id);
+      },
+      reset: () => {
+        set({ list: [] })
       },
     }),
     // {

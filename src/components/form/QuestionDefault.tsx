@@ -8,6 +8,7 @@ import { cloneDeep, divide, map } from 'lodash';
 import { useAccountStore } from '@/store';
 import { useDebounce } from 'react-use';
 import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -38,6 +39,7 @@ export const QuestionDefault = ({
   buttonText = '备份',
   children,
 }: Props) => {
+  const { t } = useTranslation();
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const [localList, setLocalList] = useState([]);
   const [tmpList, setTmpList] = useState<any[]>([]);
@@ -53,121 +55,122 @@ export const QuestionDefault = ({
     // if (data?.length) {
     setTmpList([
       {
-        Title: '基本信息',
+        Title: t('pages.account.question.default.one.title'),
         Content: [
           {
-            Content: '姓名',
+            Content: t('pages.account.question.default.one.name'),
           },
           {
-            Content: '性别',
+            Content: t('pages.account.question.default.one.gender'),
+          },
+          
+          {
+            Content: t('pages.account.question.default.one.birth_date'),
           },
           {
-            Content: '出生时间(yyyymmdd)',
+            Content: t('pages.account.question.default.one.birth_city'),
           },
           {
-            Content: '出生地点(城市名称)',
+            Content: t('pages.account.question.default.one.id'),
           },
           {
-            Content: '身份证',
+            Content: t('pages.account.question.default.one.social_number'),
           },
           {
-            Content: '社保号码',
+            Content: t('pages.account.question.default.one.blood'),
           },
           {
-            Content: '血型',
+            Content: t('pages.account.question.default.one.university'),
           },
           {
-            Content: '大学名称',
-          },
-          {
-            Content: '入学时间',
+            Content: t('pages.account.question.default.one.enrollment'),
           },
         ],
         Type: 1,
       },
       {
-        Title: '网络身份',
+        Title: t('pages.account.question.default.two.title'),
         Content: [
           {
-            Content: '手机号码',
+            Content: t('pages.account.question.default.two.phone'),
           },
           {
-            Content: '邮箱',
+            Content: t('pages.account.question.default.two.email'),
           },
           {
-            Content: 'Apple ID',
+            Content: t('pages.account.question.default.two.apple'),
           },
           {
-            Content: 'Google账号',
+            Content: t('pages.account.question.default.two.google'),
           },
           {
-            Content: 'Twitter账号',
+            Content: t('pages.account.question.default.two.tw'),
           },
           {
-            Content: 'Facebook账号',
+            Content: t('pages.account.question.default.two.fb'),
           },
           {
-            Content: '微信账号',
+            Content: t('pages.account.question.default.two.wx'),
           },
           {
-            Content: 'QQ账号',
+            Content: t('pages.account.question.default.two.qq'),
           },
           {
-            Content: '淘宝账号',
+            Content: t('pages.account.question.default.two.tb'),
           },
           {
-            Content: '微博账号',
+            Content: t('pages.account.question.default.two.wx'),
           },
         ],
         Type: 1,
       },
       {
-        Title: '金融信息',
+        Title: t('pages.account.question.default.three.title'),
         Content: [
           {
-            Content: '储蓄卡1开户行',
+            Content: t('pages.account.question.default.three.card_one_bank'),
           },
           {
-            Content: '储蓄卡1卡号',
+            Content: t('pages.account.question.default.three.card_one_num'),
           },
           {
-            Content: '储蓄卡2开户行',
+            Content: t('pages.account.question.default.three.card_two_bank'),
           },
           {
-            Content: '储蓄卡2卡号',
+            Content: t('pages.account.question.default.three.card_two_num'),
           },
           {
-            Content: '信用卡开户行',
+            Content: t('pages.account.question.default.three.credit_card_bank'),
           },
           {
-            Content: '信用卡卡号',
+            Content: t('pages.account.question.default.three.credit_card_num'),
           },
         ],
         Type: 1,
       },
       {
-        Title: '额外信息',
+        Title: t('pages.account.question.default.four.title'),
         Content: [
           {
-            Content: '紧急联系人',
+            Content: t('pages.account.question.default.four.contact'),
           },
           {
-            Content: '紧急联系人电话',
+            Content: t('pages.account.question.default.four.contact_phone'),
           },
           {
-            Content: '第一辆汽车品牌',
+            Content: t('pages.account.question.default.four.first_car_brand'),
           },
           {
-            Content: '第一辆汽车车牌',
+            Content: t('pages.account.question.default.four.first_car_plate'),
           },
           {
-            Content: '小学名称',
+            Content: t('pages.account.question.default.four.elementary_school'),
           },
           {
-            Content: '初中名称',
+            Content: t('pages.account.question.default.four.middle_school'),
           },
           {
-            Content: '高中名称',
+            Content: t('pages.account.question.default.four.high_school'),
           },
         ],
         Type: 1,
@@ -281,8 +284,8 @@ export const QuestionDefault = ({
               {val.title}
             </div>
             {val?.list.map((v, j) => (
-              <div className='flex break-keep items-center  mb-2' key={v.q}>
-                <div className='w-30'>
+              <div className='break-keep mb-2' key={v.q}>
+                <div className='mb-2'>
                   <div>{v.q}</div>
                   {type !== 'maintain' && !!(v.l && !isNaN(v.l)) && (
                     <div className='text-12px'>答案共{v.l}个字符</div>

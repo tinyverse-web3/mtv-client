@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import { Input } from '@/components/form/Input';
+import { Modal, Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { useCountDown } from '@/lib/hooks';

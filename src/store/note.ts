@@ -18,6 +18,7 @@ interface NoteState {
   remove: (id: string) => void;
   update: (note: Note) => void;
   get: (id: string) => Promise<Note | undefined>;
+  reset: () => void;
 }
 
 export const useNoteStore = create<NoteState>()(
@@ -79,10 +80,10 @@ export const useNoteStore = create<NoteState>()(
         const list = get().list;
         return list.find((i) => i.Id === id);
       },
+      reset: () => {
+        set({ list: [] });
+      }
     }),
-    {
-      name: 'note-store',
-    },
   ),
 );
 // useNoteStore.subscribe(async (state, prevdata) => {

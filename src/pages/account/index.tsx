@@ -1,7 +1,16 @@
-import  {useState} from 'react';
+import { useState } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalStore, useAccountStore } from '@/store';
+import {
+  useGlobalStore,
+  useAccountStore,
+  useChatStore,
+  useNoteStore,
+  useGunStore,
+  usePasswordStore,
+  useRestoreStore,
+  useQuestionStore,
+} from '@/store';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +22,13 @@ export default function Account() {
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
+  const { delAccount: resetAccount } = useAccountStore((state) => state);
+  const { reset: resetChat } = useChatStore((state) => state);
+  const { reset: resetNote } = useNoteStore((state) => state);
+  const { reset: resetGun } = useGunStore((state) => state);
+  const { reset: resetpassword } = usePasswordStore((state) => state);
+  const { reset: resetRestore } = useRestoreStore((state) => state);
+  const { reset: resetQuestion } = useQuestionStore((state) => state);
   const [type, setType] = useState(0);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
   const toPublicKey = () => {
@@ -23,7 +39,16 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PROFILE);
   };
   const deleteUser = async () => {
-    await resetGlobal();
+    await Promise.all([
+      resetGlobal(),
+      resetAccount(),
+      resetChat(),
+      resetNote(),
+      resetGun(),
+      resetpassword(),
+      resetRestore(),
+      resetQuestion(),
+    ]);
     await account.lock();
     setLockStatus(true);
     nav(ROUTE_PATH.UNLOCK);
@@ -69,7 +94,10 @@ export default function Account() {
         label={t('pages.account.multi_verify.title')}
         onPress={() => showVerifyPassword(1)}
       />
-      <ListRow label={t('pages.account.restore.title')} onPress={() => showVerifyPassword(2)} />
+      <ListRow
+        label={t('pages.account.restore.title')}
+        onPress={() => showVerifyPassword(2)}
+      />
       <ListRow label={t('pages.account.setting.title')} onPress={toSetting} />
       <ListRow label={t('pages.account.about.title')} onPress={toAbout} />
       <ListRow label={t('pages.account.exit.title')} onPress={deleteUser} />

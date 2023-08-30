@@ -7,6 +7,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useGlobalStore, useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { Empty } from '@/components/Empty';
 import { ConfirmDelModel } from './components/ConfirmDelModel';
 import { useTranslation } from 'react-i18next';
 interface GuardItem {
@@ -72,10 +73,11 @@ export default function AccountProtector() {
         <div onClick={add} className='i-mdi-plus-circle-outline text-5'></div>
       }>
       <div className='p-4'>
-        <Text className='text-14px mb-6'>
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
           {t('pages.account.protector.hint')}
-        </Text>
+        </div>
         <div>
+          {!list?.length && <Empty />}
           {!!list?.length &&
             list.map((v, i) => (
               <ProtectorItem

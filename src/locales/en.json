@@ -252,7 +252,8 @@
         "qrcode_add": "Scan QR code to add me as friend."
       },
       "local_safe": {
-        "title": "Local Security Policy"
+        "title": "Local Security Policy",
+        "hint": "The local security policy is used to verify the user's identity when unlocking the APP and using some sensitive functions, and it is only saved locally. Users must change the default password before activating biometrics. If the user forgets the password and cannot use biometrics such as fingerprint recognition or face recognition to verify the user's identity, he can reset the password by recovering the account."
       },
       "encrypted_safe": {
         "hint": "The vault is used to protect data that cannot be encrypted with private key but must be kept on the network, such as account recovery information. The vault works by using feature data to protect secrets. Feature data is unique to each individual, can be used to identify a person, has certain privacy, but does not rely on user memory. Biometrics like fingerprints and iris are best sources. Other options are digits that won't change for life, like ID number, or even commonly used memorable passwords. To recover data, any set of feature data can be used. More feature data means easier account recovery. Please provide at least 2 different sets of feature data for dual insurance. Feature data is kept in user account, inaccessible to anyone.",

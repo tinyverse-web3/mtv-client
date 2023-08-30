@@ -11,18 +11,30 @@ export default function Account() {
   const { t, i18n } = useTranslation();
   const { VITE_TINY_WEB } = import.meta.env;
   const toService = () => {
-    const url = i18n.language === 'en' ? "https://tinyverse.space/service.html" : "https://cn.tinyverse.space/service.html"
+    const url =
+      i18n.language === 'en'
+        ? 'https://tinyverse.space/service.html'
+        : 'https://cn.tinyverse.space/service.html';
     location.href = url;
-  }
+  };
   const toWebsit = () => {
     console.log(i18n.language);
-    const url = i18n.language === 'en' ? "https://tinyverse.space" : "https://cn.tinyverse.space"
+    const url =
+      i18n.language === 'en'
+        ? 'https://tinyverse.space'
+        : 'https://cn.tinyverse.space';
     location.href = url;
-  }
+  };
+  const toGithub = () => {
+    location.href = 'https://github.com/tinyverse-web3/mtv-client';
+  };
   const toPrivacy = () => {
-    const url = i18n.language === 'en' ? "https://tinyverse.space/privacy.html" : "https://cn.tinyverse.space/privacy.html"
+    const url =
+      i18n.language === 'en'
+        ? 'https://tinyverse.space/privacy.html'
+        : 'https://cn.tinyverse.space/privacy.html';
     location.href = url;
-  }
+  };
   return (
     <LayoutThird showBack title={t('pages.account.about.title')}>
       <div className='h-full relative'>
@@ -35,10 +47,22 @@ export default function Account() {
             </div>
           </div>
           <div>
-            <ListRow label={t('pages.account.about.btn_1')} onPress={toService} />
-            <ListRow label={t('pages.account.about.btn_2')} onPress={toPrivacy}/>
-            <ListRow label={t('pages.account.about.btn_3')} />
-            <ListRow label={t('pages.account.about.btn_4')} onPress={toWebsit}/>
+            <ListRow
+              label={t('pages.account.about.btn_1')}
+              onPress={toService}
+            />
+            <ListRow
+              label={t('pages.account.about.btn_2')}
+              onPress={toPrivacy}
+            />
+            <ListRow
+              label={t('pages.account.about.btn_3')}
+              onPress={toGithub}
+            />
+            <ListRow
+              label={t('pages.account.about.btn_4')}
+              onPress={toWebsit}
+            />
           </div>
         </div>
         <div className='absolute text-center w-full text-12px bottom-6'>

@@ -11,10 +11,12 @@ import { QuestionDefault } from '@/components/form/QuestionDefault';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
+import { useTranslation } from 'react-i18next';
 interface Props {
   type: Number;
 }
 export const QuestionMaintain = ({ type }: Props) => {
+  const { t } = useTranslation()
   const nav = useNavigate();
   const { setList: setQuestionList, setType } = useQuestionStore(
     (state) => state,
@@ -39,13 +41,13 @@ export const QuestionMaintain = ({ type }: Props) => {
       {type == 1 ? (
         <QuestionDefault
           type='maintain'
-          buttonText='恢复测试'
+          buttonText={t('pages.account.question.test_text')}
           onSubmit={onSubmit}
         />
       ) : (
         <Question
           type='maintain'
-          buttonText='恢复测试'
+          buttonText={t('pages.account.question.test_text')}
           onSubmit={onSubmit}></Question>
       )}
     </>

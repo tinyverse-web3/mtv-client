@@ -84,7 +84,6 @@ export const useAccountStore = create<AccountState>()(
           set({ accountInfo: { ...accountInfo, ...data } });
         },
         delAccount: async () => {
-          await account.remove();
           set({
             accountInfo: {
               publicKey: '',
