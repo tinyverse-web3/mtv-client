@@ -16,6 +16,7 @@ import { UserAvatar, ListRow, UserLevel } from './components';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 import { ValidPassword } from '@/components/ValidPassword';
+import { PasswordWarnBadge } from '@/components/PasswordWarnBadge';
 
 export default function Account() {
   const nav = useNavigate();
@@ -90,6 +91,7 @@ export default function Account() {
   }, [accountInfo.avatar]);
   return (
     <div className='p-4 text-14px'>
+      <PasswordWarnBadge />
       <div className='flex mb-4'>
         <Image src={imageSrc} className='rounded w-20 h-20 mr-4 min-w-20 min-h-20 overflow-hidden' />
         <UserLevel />
