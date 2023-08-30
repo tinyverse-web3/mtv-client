@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Input } from '@/components/form/Input';
-import { Modal, Text } from '@nextui-org/react';
+import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { useCountDown } from '@/lib/hooks';
@@ -58,6 +57,8 @@ export const BindMail = () => {
     setVerifyCode(e.target.value);
   };
   const sendVerify = async () => {
+    console.log(email )
+    console.log(flag )
     if (email && flag) {
       const { code, msg } = await account.sendVerifyCode({
         type: 'email',

@@ -8,6 +8,7 @@ import account from '@/lib/account/account';
 import { useHost } from '@/lib/hooks';
 import { download } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { useAccountStore} from '@/store'
 
 export default function UserPhrase() {
   const nav = useNavigate();
@@ -15,6 +16,7 @@ export default function UserPhrase() {
   const [checked, setChecked] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
   const host = useHost();
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
@@ -44,6 +46,7 @@ export default function UserPhrase() {
   const downloadFile = async () => {
     setLoading(true);
     await download(url, 'mnemonic.txt');
+    await getLocalAccountInfo();
     setLoading(false);
   };
   useEffect(() => {

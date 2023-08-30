@@ -10,8 +10,10 @@ import { useTranslation } from 'react-i18next';
 export default function UserPhrase() {
   const { t } = useTranslation();
   const nav = useNavigate();
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
   const toAccount = async () => {
     await account.saveMnemonic();
+    await getLocalAccountInfo();
     nav(ROUTE_PATH.ACCOUNT);
   };
   return (
