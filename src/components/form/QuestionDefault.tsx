@@ -44,9 +44,7 @@ export const QuestionDefault = ({
   const [list, { set, updateAt }] = useList<QuestionList>([]);
   const [tmpList, { set: setTmpList }] = useList<any>([]);
   const [userList, { set: setUserList }] = useList<any>([]);
-  const [localList, setLocalList] = useState([]);
-  // const [tmpList, setTmpList] = useState<any[]>([]);
-  // const [userList, setUserList] = useState<any[]>([]);
+  const [localList, { set: setLocalList }] = useList<any>([]);
   const { accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
@@ -189,7 +187,6 @@ export const QuestionDefault = ({
     }
   };
   const generateInitList = () => {
-    console.log(initList);
     let _list = initList.map((v, i) => {
       return {
         id: i,
@@ -209,14 +206,19 @@ export const QuestionDefault = ({
   const saveLocalList = () => {
     if (type === 'maintain') {
       console.log('maintain save');
-      // mtvStorage?.put(LOCAL_QUESTION, list);
+      localStorage.setItem(
+        `local_privacy_${accountInfo.publicKey}`,
+        JSON.stringify(list),
+      );
     }
   };
   useDebounce(saveLocalList, 300, [list]);
 
   useEffect(() => {
     console.log(userList);
-    if (userList.length && userList[0].Type == 1) {
+    if (localList.length) {
+      set(localList);
+    } else if (userList.length && userList[0].Type == 1) {
       const _list = userList.map((v, i) => {
         const childrenList = v.Content;
         return {
@@ -236,7 +238,7 @@ export const QuestionDefault = ({
       });
       console.log(_list);
       set(_list);
-    } else if (tmpList) {
+    } else if (tmpList.length) {
       const _list = tmpList.map((v, i) => {
         const childrenList = v.Content;
         return {
@@ -256,7 +258,7 @@ export const QuestionDefault = ({
       });
       set(_list);
     }
-  }, [tmpList, userList]);
+  }, [tmpList, userList, localList]);
 
   const validList = () => {
     let validStatus = true;
@@ -293,6 +295,15 @@ export const QuestionDefault = ({
   };
   useEffect(() => {
     if (!initList?.length) {
+      const localListRes = localStorage.getItem(
+        `local_privacy_${accountInfo.publicKey}`,
+      );
+      try {
+        if (localListRes) {
+          const localList = JSON.parse(localListRes);
+          setLocalList(localList)
+        }
+      } catch (error) {}
       getTmpQuestions();
       getUserQuestions();
     } else {

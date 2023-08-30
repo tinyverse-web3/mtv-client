@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'react-use';
 interface QuestionItem {
   q: string;
   a?: string;
@@ -41,8 +42,10 @@ export const Question = ({
   children,
 }: Props) => {
   const { t } = useTranslation();
-  const [tmpList, setTmpList] = useState<any[]>([]);
-  const [userList, setUserList] = useState<any[]>([]);
+  const [tmpList, { set: setTmpList }] = useList<any>([]);
+  const [userList, { set: setUserList }] = useList<any>([]);
+  const [localList, { set: setLocalList }] = useList<any>([]);
+  const { accountInfo } = useAccountStore((state) => state);
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
@@ -76,9 +79,9 @@ export const Question = ({
   const chineseNumMap = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   useEffect(() => {
-    console.log(userList);
-    console.log(tmpList);
-    if (tmpList.length) {
+    if (localList.length) {
+      set(localList)
+    } else if (tmpList.length) {
       const _list = tmpList.slice(0, 3).map((v, i) => {
         const list = v.Content;
         return {
@@ -97,7 +100,7 @@ export const Question = ({
       console.log(_list);
       set(_list);
     }
-  }, [userList, tmpList]);
+  }, [userList, tmpList, localList]);
   const generateInitList = () => {
     const _list = initList.map((v, i) => {
       return {
@@ -219,9 +222,27 @@ export const Question = ({
     console.log(_list.list);
     updateAt(i, _list);
   };
+  const saveLocalList = () => {
+    if (type === 'maintain') {
+      console.log('maintain save');
+      localStorage.setItem(
+        `local_custom_${accountInfo.publicKey}`,
+        JSON.stringify(list),
+      );
+    }
+  };
+  useDebounce(saveLocalList, 300, [list]);
   useEffect(() => {
     if (!initList?.length) {
-      console.log(12313);
+      const localListRes = localStorage.getItem(
+        `local_custom_${accountInfo.publicKey}`,
+      );
+      try {
+        if (localListRes) {
+          const localList = JSON.parse(localListRes);
+          setLocalList(localList)
+        }
+      } catch (error) {}
       getTmpQuestions();
       getUserQuestions();
     } else {
@@ -235,8 +256,7 @@ export const Question = ({
           <div className='mb-4' key={i}>
             <div className='flex mb-2 items-center'>
               <Text>
-                {t('common.question')}-
-                {chineseNumMap[i]}
+                {t('common.question')}-{chineseNumMap[i]}
               </Text>
               {!disabled && (
                 <Button

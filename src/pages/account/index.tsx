@@ -1,17 +1,8 @@
 import { useState, useMemo } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { Image } from '@nextui-org/react'
-import {
-  useGlobalStore,
-  useAccountStore,
-  useChatStore,
-  useNoteStore,
-  useGunStore,
-  usePasswordStore,
-  useRestoreStore,
-  useQuestionStore,
-} from '@/store';
+import { Image } from '@nextui-org/react';
+import { useGlobalStore, useAccountStore } from '@/store';
 import { UserAvatar, ListRow, UserLevel } from './components';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
@@ -28,12 +19,7 @@ export default function Account() {
     (state) => state,
   );
   const { delAccount: resetAccount } = useAccountStore((state) => state);
-  const { reset: resetChat } = useChatStore((state) => state);
-  const { reset: resetNote } = useNoteStore((state) => state);
-  const { reset: resetGun } = useGunStore((state) => state);
-  const { reset: resetpassword } = usePasswordStore((state) => state);
-  const { reset: resetRestore } = useRestoreStore((state) => state);
-  const { reset: resetQuestion } = useQuestionStore((state) => state);
+
   const [type, setType] = useState(0);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
   const toPublicKey = () => {
@@ -44,16 +30,7 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PROFILE);
   };
   const deleteUser = async () => {
-    await Promise.all([
-      resetGlobal(),
-      resetAccount(),
-      resetChat(),
-      resetNote(),
-      resetGun(),
-      resetpassword(),
-      resetRestore(),
-      resetQuestion(),
-    ]);
+    await Promise.all([resetGlobal(), resetAccount()]);
     await account.lock();
     setLockStatus(true);
     nav(ROUTE_PATH.UNLOCK);
@@ -93,7 +70,10 @@ export default function Account() {
     <div className='p-4 text-14px'>
       <PasswordWarnBadge />
       <div className='flex mb-4'>
-        <Image src={imageSrc} className='rounded w-20 h-20 mr-4 min-w-20 min-h-20 overflow-hidden' />
+        <Image
+          src={imageSrc}
+          className='rounded w-20 h-20 mr-4 min-w-20 min-h-20 overflow-hidden'
+        />
         <UserLevel />
       </div>
       <ListRow label={t('pages.account.profile.title')} onPress={toProfile} />

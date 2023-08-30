@@ -11,13 +11,13 @@ import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
 import imageError from '@/assets/images/icon-error.png';
 import { useTranslation } from 'react-i18next';
-
+import { useAccountStore } from '@/store';
 export default function QuestionVerifyResult() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { state } = useLocation();
   const { list: initList, type } = useQuestionStore((state) => state);
-
+  const { accountInfo } = useAccountStore((state) => state);
   const toAccount = async () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
@@ -27,6 +27,12 @@ export default function QuestionVerifyResult() {
     try {
       await account.backupByQuestion({ list: initList, type });
       toast.success(t('common.toast.backup_success'));
+      localStorage.removeItem(
+        `local_privacy_${accountInfo.publicKey}`,
+      );
+      localStorage.removeItem(
+        `local_custom_${accountInfo.publicKey}`,
+      );
       toAccount();
     } catch (error) {
       console.log(error);

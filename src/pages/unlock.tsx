@@ -2,7 +2,16 @@ import { useState, useMemo } from 'react';
 import { Row, Input, Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAccountStore, useGlobalStore } from '@/store';
+import {
+  useGlobalStore,
+  useAccountStore,
+  useChatStore,
+  useNoteStore,
+  useGunStore,
+  usePasswordStore,
+  useRestoreStore,
+  useQuestionStore,
+} from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
@@ -16,7 +25,13 @@ export default function Unlock() {
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
+  const { getLocalAccountInfo, delAccount, accountInfo } = useAccountStore((state) => state);
+  const { reset: resetChat } = useChatStore((state) => state);
+  const { reset: resetNote } = useNoteStore((state) => state);
+  const { reset: resetGun } = useGunStore((state) => state);
+  const { reset: resetpassword } = usePasswordStore((state) => state);
+  const { reset: resetRestore } = useRestoreStore((state) => state);
+  const { reset: resetQuestion } = useQuestionStore((state) => state);
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
@@ -65,7 +80,16 @@ export default function Unlock() {
     setPwd(e.target.value?.trim());
   };
   const deleteUser = async (e: any) => {
-    await Promise.all([resetGlobal(), delAccount()]);
+    await Promise.all([
+      resetGlobal(),
+      delAccount(),
+      resetChat(),
+      resetNote(),
+      resetGun(),
+      resetpassword(),
+      resetRestore(),
+      resetQuestion(),
+    ]);
     localStorage.clear();
     nav(ROUTE_PATH.INDEX, { replace: true });
   };
