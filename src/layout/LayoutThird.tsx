@@ -15,7 +15,7 @@ export default function Page({
   };
   return (
     <main className='h-full relative'>
-      <header className='h-12 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-10 bg-white'>
+      <header className='h-12 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-10 bg-white z-9999'>
         <div className='w-10'>
           <div className='px-3 text-5' onClick={goBack}>
             <div className='i-mdi-arrow-left w-6 h-6 z-2'></div>
