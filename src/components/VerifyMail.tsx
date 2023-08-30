@@ -83,7 +83,6 @@ export const VerifyMail = ({ visibly, onChange, onSubmit }: Props) => {
   return (
     <Modal
       className='max-w-90% mx-auto'
-      blur
       autoMargin
       closeButton
       open={visibly}

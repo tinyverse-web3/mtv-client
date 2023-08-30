@@ -74,7 +74,6 @@ export const ValidPassword = ({
   return (
     <Modal
       className='max-w-90% mx-auto'
-      blur
       autoMargin
       closeButton
       open={showModal}

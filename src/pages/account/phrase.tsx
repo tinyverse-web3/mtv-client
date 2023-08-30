@@ -63,7 +63,6 @@ export default function UserPhrase() {
         </div>
         <Modal
           className='max-w-70% mx-auto'
-          blur
           autoMargin
           closeButton
           open={showModal}
