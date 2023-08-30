@@ -40,7 +40,7 @@ export const Question = ({
   buttonText,
   children,
 }: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [tmpList, setTmpList] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
   const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
@@ -50,6 +50,7 @@ export const Question = ({
   );
   const getTmpQuestions = async () => {
     const data = await account.getTmpQuestions(2);
+    console.log(123);
     if (data?.length) {
       setTmpList(data);
     }
@@ -70,55 +71,30 @@ export const Question = ({
       },
     },
   });
-  // const { data: userList, mutate: questionList } = useRequest<any[]>({
-  //   url: '/question/list',
-  //   arg: {
-  //     method: 'get',
-  //     auth: true,
-  //   },
-  // });
 
   const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 
   useEffect(() => {
-    console.log(userList)
-    console.log(tmpList)
-    if (userList && tmpList) {
-      if (userList?.length && userList[0].type == 2) {
-        const _list = userList.slice(0, 3).map((v, i) => {
-          const list = v.Content;
-          return {
-            id: i,
-            list: list.map((s: any) => ({
-              q: s.Content,
-              a: '',
-              l: Number(s.Characters),
-            })),
-            template: list.map((s: any) => ({
-              q: s.Content,
-            })),
-            unselectList: [],
-          };
-        });
-        set(_list);
-      } else {
-        const _list = tmpList.slice(0, 3).map((v, i) => {
-          const list = v.Content;
-          return {
-            id: i,
-            list: list.map((s: any) => ({
-              q: s.Content,
-              a: '',
-              l: Number(s.Characters),
-            })),
-            template: list.map((s: any) => ({
-              q: s.Content,
-            })),
-            unselectList: [],
-          };
-        });
-        set(_list);
-      }
+    console.log(userList);
+    console.log(tmpList);
+    if (tmpList.length) {
+      const _list = tmpList.slice(0, 3).map((v, i) => {
+        const list = v.Content;
+        return {
+          id: i,
+          list: list.map((s: any, j: number) => ({
+            q: s.Content,
+            a: userList[i]?.Content[j]?.Answer || '',
+            l: Number(s.Characters),
+          })),
+          template: list.map((s: any) => ({
+            q: s.Content,
+          })),
+          unselectList: [],
+        };
+      });
+      console.log(_list);
+      set(_list);
     }
   }, [userList, tmpList]);
   const generateInitList = () => {
@@ -171,7 +147,7 @@ export const Question = ({
   };
   const validList = () => {
     let validStatus = true;
-    console.log(type)
+    console.log(type);
     if (type !== 'restore') {
     } else {
       for (let i = 0; i < list.length; i++) {
@@ -180,7 +156,9 @@ export const Question = ({
           const q = question.list[j];
           if (!q.a) {
             toast.error(
-              `${t('common.question')}${chineseNumMap[i]}${t('pages.account.question.toast.error_5_1')}${j + 1}${t('pages.account.question.toast.error_5_2')}`,
+              `${t('common.question')}${chineseNumMap[i]}${t(
+                'pages.account.question.toast.error_5_1',
+              )}${j + 1}${t('pages.account.question.toast.error_5_2')}`,
             );
             validStatus = false;
             break;
@@ -242,6 +220,7 @@ export const Question = ({
   };
   useEffect(() => {
     if (!initList?.length) {
+      console.log(12313);
       getTmpQuestions();
       getUserQuestions();
     } else {
@@ -254,7 +233,10 @@ export const Question = ({
         {unSelectList.map((val, i) => (
           <div className='mb-4' key={i}>
             <div className='flex mb-2 items-center'>
-              <Text>{t('common.question')}{chineseNumMap[i]}</Text>
+              <Text>
+                {t('common.question')}
+                {chineseNumMap[i]}
+              </Text>
               {!disabled && (
                 <Button
                   light
@@ -284,7 +266,8 @@ export const Question = ({
                 auto
                 className='w-full'
                 onPress={() => addQuestionChildren(i)}>
-                <div className='i-mdi-plus-circle-outline text-5'></div> {t('common.sub_question')}
+                <div className='i-mdi-plus-circle-outline text-5'></div>{' '}
+                {t('common.sub_question')}
               </Button>
             )}
           </div>

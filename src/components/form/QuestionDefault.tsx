@@ -216,7 +216,7 @@ export const QuestionDefault = ({
 
   useEffect(() => {
     console.log(userList);
-    if (userList.length) {
+    if (userList.length && userList[0].Type == 1) {
       const _list = userList.map((v, i) => {
         const childrenList = v.Content;
         return {
