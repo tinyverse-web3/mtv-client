@@ -28,8 +28,8 @@ export const UserAvatar = ({ className }: Props) => {
     return accountInfo.avatar ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}` : '/logo.png';
   }, [accountInfo.avatar]);
   return (
-    <div className={`flex justify-center ${className}`}>
-      <label className='relative w-24 h-24'>
+    <div className={`flex justify-center w-full h-full ${className}`}>
+      <label className='relative w-full h-full'>
         <div className='rounded-full overflow-hidden w-full h-full'>
           <Image src={imageSrc} className='w-full h-full' />
         </div>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
+import { Image } from '@nextui-org/react'
 import {
   useGlobalStore,
   useAccountStore,
@@ -19,6 +20,9 @@ import { ValidPassword } from '@/components/ValidPassword';
 export default function Account() {
   const nav = useNavigate();
   const { t } = useTranslation();
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
+  const { accountInfo } = useAccountStore((state) => state);
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
@@ -79,10 +83,15 @@ export default function Account() {
       toRestory();
     }
   };
+  const imageSrc = useMemo(() => {
+    return accountInfo.avatar
+      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
+      : '/logo.png';
+  }, [accountInfo.avatar]);
   return (
     <div className='p-4 text-14px'>
       <div className='flex mb-4'>
-        <UserAvatar className='mr-4' />
+        <Image src={imageSrc} className='rounded w-20 h-20 mr-4 min-w-20 min-h-20 overflow-hidden' />
         <UserLevel />
       </div>
       <ListRow label={t('pages.account.profile.title')} onPress={toProfile} />

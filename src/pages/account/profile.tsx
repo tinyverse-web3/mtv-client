@@ -9,6 +9,7 @@ import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 import { QrType } from '@/type';
 import { download } from '@/lib/utils';
+import { UserAvatar } from './components/UserAvatar';
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -64,15 +65,18 @@ const Profile: React.FC = () => {
           <Card variant='bordered' className='overflow-unset'>
             <Card.Body className='overflow-unset'>
               <div className='pt-10 relative px-2'>
-                <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-6'>
-                  <Image src={imageSrc} className='rounded w-full' />
+                <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-2'>
+                  <UserAvatar />
                 </div>
                 <div>
                   <div className='mb-4'>
                     <div className='mb-2'>{t('pages.account.gun')}</div>
                     <Card variant='bordered'>
                       <Card.Body className='break-all p-2'>
-                        <div>{profile.gunname || t('pages.account.profile.unset_text')}</div>
+                        <div>
+                          {profile.gunname ||
+                            t('pages.account.profile.unset_text')}
+                        </div>
                       </Card.Body>
                     </Card>
                   </div>
