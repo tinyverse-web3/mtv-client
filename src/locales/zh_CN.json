@@ -59,6 +59,7 @@
       "error": "密码错误",
       "change": "修改密码",
       "change_success": "修改成功",
+      "change_default_hint": "请尽快修改本地默认密码",
       "old_error": "旧密码错误",
       "unanimous_error": "密码不一致",
       "old_text": "旧密码",

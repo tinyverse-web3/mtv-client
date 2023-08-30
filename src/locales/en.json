@@ -59,6 +59,7 @@
       "error": "Wrong Password",
       "change": "Change Password",
       "change_success": "Changed Successfully",
+      "change_default_hint": "Please change the local default password",
       "old_error": "Wrong Old Password",
       "unanimous_error": "Passwords Do Not Match",
       "old_text": "Old Password",
