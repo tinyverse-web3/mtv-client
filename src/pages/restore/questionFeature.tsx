@@ -20,7 +20,7 @@ export default function QuestionFeature() {
   const { setPublicKey, setList, setSssData, setType } = useQuestionStore(
     (state) => state,
   );
-  const { setPasswordPrivateData, setTextPrivateData } = useRestoreStore((state) => state);
+  const { setPasswordPrivateData, setTextPrivateData, setCustomPrivateData } = useRestoreStore((state) => state);
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
@@ -55,6 +55,7 @@ export default function QuestionFeature() {
       }
       setPasswordPrivateData(text);
       setTextPrivateData(password);
+      setCustomPrivateData(customText);
       const questionType = result[0].Type;
       setType(questionType);
       const _list = result.map((v: any, i: number) => {
