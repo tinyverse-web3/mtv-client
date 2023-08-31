@@ -84,8 +84,8 @@ export default function LayoutTwo({
       {/* <header className='w-full h-24 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200'>
         <HeaderUser key='layout-two' />
       </header> */}
-      <section className='h-full overflow-y-auto pb-15'>{children}</section>
-      <footer className='w-full h-15 absolute bottom-4 left-0  px-4 border-t-gray-200'>
+      <section className='h-full overflow-y-auto pb-12'>{children}</section>
+      <footer className='w-full h-12 absolute bottom-4 left-0  px-4 border-t-gray-200'>
         <div className='h-12'>
           <FooterTabs />
         </div>

@@ -31,7 +31,7 @@ export const LaunchCheck = ({ children }: any) => {
   };
   const onIdle = () => {
     const { pathname } = routerLocation;
-    console.log(`window idle, user is level`);
+    console.log(`window idle, user is level ${pathname}`);
     if (stay_path.some((p) => pathname?.indexOf(p) > -1)) {
       logout();
     }
