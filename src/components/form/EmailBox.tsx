@@ -16,7 +16,9 @@ export const EmailBox = ({ onChange }: Props) => {
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60, t('common.code_text'));
   const emailChange = (e: any) => {
-    setEmail(e.target.value);
+    const { value } = e.target;
+    setEmail(value);
+    onChange && onChange({ email: value, code: verifyCode });
   };
   const verifyCodeChange = async (e: any) => {
     const { value } = e.target;
