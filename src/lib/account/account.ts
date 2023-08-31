@@ -226,7 +226,7 @@ export class Account {
 
   async getBalance() {
     const result = await this.dauth.getBalance();
-    return result.data.data;
+    return result.data;
   }
   async applyDailyReward() {
     const result = await this.dauth.applyDailyReward();

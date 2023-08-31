@@ -53,7 +53,7 @@ export default function QuestionFeature() {
         setLoading(false);
         return;
       }
-      setPasswordPrivateData(password);
+      setPasswordPrivateData(text);
       setTextPrivateData(password);
       const questionType = result[0].Type;
       setType(questionType);

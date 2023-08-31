@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
 const FooterTabs = () => {
-  const { t} = useTranslation();
+  const { t } = useTranslation();
   const routerLocation = useLocation();
   const { pathname } = routerLocation;
   const nav = useNavigate();
@@ -46,9 +46,11 @@ const FooterTabs = () => {
   );
   return (
     <div className='w-full rounded-6 relative h-full flex bg-gray-2 overflow-hidden'>
-      {list.map(({ icon, path,text }, i) => (
+      {list.map(({ icon, path, text }, i) => (
         <div
-          className={`w-[25%] flex flex-col justify-center items-center relative z-2 cursor-pointer ${active === i ? 'text-blue-5' : ''}`}
+          className={`w-[25%] flex flex-col justify-center items-center relative z-2 cursor-pointer ${
+            active === i ? 'text-blue-5' : ''
+          }`}
           key={path}
           onClick={() => menuClick(path)}>
           <div className={`${icon} w-5 h-5`}></div>
@@ -82,9 +84,11 @@ export default function LayoutTwo({
       {/* <header className='w-full h-24 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200'>
         <HeaderUser key='layout-two' />
       </header> */}
-      <section className='h-full overflow-y-auto pb-13'>{children}</section>
-      <footer className='w-full h-13 absolute bottom-4 left-0  px-4 border-t-gray-200'>
-        <FooterTabs />
+      <section className='h-full overflow-y-auto pb-15'>{children}</section>
+      <footer className='w-full h-15 absolute bottom-4 left-0  px-4 border-t-gray-200'>
+        <div className='h-12'>
+          <FooterTabs />
+        </div>
       </footer>
     </main>
   );
