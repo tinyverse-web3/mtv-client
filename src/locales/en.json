@@ -6,6 +6,7 @@
   },
   "common": {
     "title": "Title",
+    "download": "Download",
     "account": "Account",
     "link": "Link",
     "save": "Save",
@@ -160,7 +161,8 @@
       "file": {
         "title": "File",
         "tab_security": "Personal File",
-        "tab_public": "Public File"
+        "tab_public": "Public File",
+        "download_toast": "Do you want to download the file?"
       },
       "password": {
         "title": "Password Box"

@@ -4,6 +4,7 @@ import { calcSize } from '@/lib/utils';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
+import { DownloadConfirmModel } from './DownloadConfirmModel';
 import { useTranslation } from 'react-i18next';
 interface FileItemProps {
   item: {
@@ -20,6 +21,7 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
   const { t } = useTranslation()
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const [showStatus, setShowStatus] = useState(false);
+  const [showDownloadStatus, setShowDownloadStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const formatTime = (time: number) => {
@@ -29,8 +31,7 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
     }
     return format(new Date(time), 'yyyy-MM-dd HH:mm:ss');
   };
-  const downloadItem = async (e: any, Filename?: string) => {
-    e.stopPropagation();
+  const downloadItem = async () => {
     console.log('downloadItem', item);
     onDownload && onDownload();
   };
@@ -51,21 +52,27 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
       setShowStatus(true);
     }
   };
+  const showDownloadModal = async (e: any, Filename?: string) => {
+    setShowDownloadStatus(true);
+  };
+  const downloadConfirm = async () => {
+    downloadItem()
+  }
   const delConfirm = async () => {
     await removeItem(delItem);
   };
   const onClose = async () => {
     setShowStatus(false);
   };
+  const onDownloadClose = async () => {
+    setShowDownloadStatus(false);
+  };
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2 relative'>
       <div
         className='i-mdi-trash-can-outline absolute right-1 top-2 w-6 h-6 text-red'
         onClick={(e) => showDelModal(e, item?.Filename)}></div>
-      <div
-        className='i-mdi-box-download absolute right-1 bottom-1 w-6 h-6 text-blue'
-        onClick={(e) => downloadItem(e, item?.Filename)}></div>
-      <div className='text-4 font-600 mb-2'>{item.Filename}</div>
+      <div className='text-4 font-600 mb-2' onClick={showDownloadModal}>{item.Filename}</div>
       <div className='text-3'>
         <span className='mr-4'>{formatTime(item.TimeStamp)}</span>
         <span>{calcSize(item.FileSize)}</span>
@@ -75,6 +82,11 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
         show={showStatus}
         onConfirm={delConfirm}
         onClose={onClose}
+      />
+      <DownloadConfirmModel
+        show={showDownloadStatus}
+        onConfirm={downloadConfirm}
+        onClose={onDownloadClose}
       />
     </div>
   );

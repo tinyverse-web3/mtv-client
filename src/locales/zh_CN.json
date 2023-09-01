@@ -6,6 +6,7 @@
   },
   "common": {
     "title": "标题",
+    "download": "下载",
     "account": "账号",
     "link": "网址",
     "save": "保存",
@@ -161,7 +162,8 @@
       "file": {
         "title": "文件",
         "tab_security": "个人文件",
-        "tab_public": "共享文件"
+        "tab_public": "共享文件",
+        "download_toast": "是否下载该文件"
       },
       "password": {
         "title": "密码箱"
