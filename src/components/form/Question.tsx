@@ -80,7 +80,7 @@ export const Question = ({
 
   useEffect(() => {
     if (localList.length) {
-      set(localList)
+      set(localList);
     } else if (tmpList.length) {
       const _list = tmpList.slice(0, 3).map((v, i) => {
         const list = v.Content;
@@ -240,7 +240,7 @@ export const Question = ({
       try {
         if (localListRes) {
           const localList = JSON.parse(localListRes);
-          setLocalList(localList)
+          setLocalList(localList);
         }
       } catch (error) {}
       getTmpQuestions();
@@ -254,21 +254,34 @@ export const Question = ({
       <div className='mb-4'>
         {unSelectList.map((val, i) => (
           <div className='mb-4' key={i}>
-            <div className='flex mb-2 items-center'>
+            <div className='flex mb-2 items-center justify-between'>
               <Text>
                 {t('common.question')}-{chineseNumMap[i]}
               </Text>
-              {!disabled && (
-                <Button
-                  light
-                  size='sm'
-                  auto
-                  disabled={disabled}
-                  className='px-3 text-4 ml-4'
-                  onPress={() => removeQuestion(i)}>
-                  <div className='i-mdi-close'></div>
-                </Button>
-              )}
+              <div className='flex items-center '>
+                {!isFull && type === 'maintain' && (
+                  <Button
+                    auto
+                    color={'success'}
+                    bordered
+                    className={list.length > 0 ? 'w-30 ml-4' : 'w-full'}
+                    onPress={addQuestion}>
+                    <div className='i-mdi-plus-circle-outline text-5 mr-2'></div>
+                    <span className='ml-2'>{t('common.question')}</span>
+                  </Button>
+                )}
+                {!disabled && (
+                  <Button
+                    light
+                    size='sm'
+                    auto
+                    disabled={disabled}
+                    className='px-3 text-4 ml-4'
+                    onPress={() => removeQuestion(i)}>
+                    <div className='i-mdi-close'></div>
+                  </Button>
+                )}
+              </div>
             </div>
             {val.list.map((v, j) => (
               <QuestionSelect
@@ -283,13 +296,16 @@ export const Question = ({
               />
             ))}
             {val.list.length < QUESTION_CHILDREN_MAX && type === 'maintain' && (
-              <Button
-                auto
-                className='w-full'
-                onPress={() => addQuestionChildren(i)}>
-                <div className='i-mdi-plus-circle-outline text-5'></div>{' '}
-                {t('common.sub_question')}
-              </Button>
+              <div className='flex justify-end'>
+                <Button
+                  auto
+                  bordered
+                  color={'warning'}
+                  onPress={() => addQuestionChildren(i)}>
+                  <div className='i-mdi-plus-circle-outline text-5'></div>{' '}
+                  {t('common.sub_question')}
+                </Button>
+              </div>
             )}
           </div>
         ))}
@@ -299,15 +315,6 @@ export const Question = ({
         {list.length > 0 && (
           <Button className='flex-1' auto onPress={submitQuestion}>
             {buttonText || t('common.backup')}
-          </Button>
-        )}
-
-        {!isFull && type === 'maintain' && (
-          <Button
-            auto
-            className={list.length > 0 ? 'w-30 ml-4' : 'w-full'}
-            onPress={addQuestion}>
-            {t('common.add')}
           </Button>
         )}
       </div>

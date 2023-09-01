@@ -88,7 +88,7 @@ export const QuestionSelect = ({
         <div className='flex-1'>
           <Dropdown isDisabled={disabled}>
             <Dropdown.Button
-              color='secondary'
+              bordered
               className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
               <div className='text-ellipsis overflow-hidden max-w-200px'>
                 {selectedValue || t('pages.account.question.input.placeholder_select')}
