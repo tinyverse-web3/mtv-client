@@ -83,20 +83,20 @@ export const LaunchCheck = ({ children }: any) => {
     }
     setCheckLoading(false);
   };
-  // useEffect(() => {
-  //   checkStatus();
-  // }, []);
-  // useEffect(() => {
-  //   const { pathname } = routerLocation;
-  //   if (
-  //     !checkLoading &&
-  //     stay_path.some((p) => pathname?.indexOf(p) > -1) &&
-  //     lockStatus
-  //   ) {
-  //     console.log('router change check');
-  //     checkStatus();
-  //   }
-  // }, [routerLocation]);
+  useEffect(() => {
+    checkStatus();
+  }, []);
+  useEffect(() => {
+    const { pathname } = routerLocation;
+    if (
+      !checkLoading &&
+      stay_path.some((p) => pathname?.indexOf(p) > -1) &&
+      lockStatus
+    ) {
+      console.log('router change check');
+      checkStatus();
+    }
+  }, [routerLocation]);
   return (
     <>
       {checkLoading ? (
