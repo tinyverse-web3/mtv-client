@@ -32,6 +32,7 @@ const Profile: React.FC = () => {
   };
   const showDelModal = async () => {
     setShowStatus(true);
+    console.log(showStatus)
   };
   const claer = async () => {
     if (recipient?.MessageKey) {
@@ -152,7 +153,7 @@ const Profile: React.FC = () => {
           <Button className='w-full mb-2' onPress={claer}>
             {t('pages.chat.profile.btn_clear')}
           </Button>
-          <Button className='w-full mb-2' onPress={showDelModal}>
+          <Button className='w-full mb-2' onClick={showDelModal}>
             {t('pages.chat.profile.btn_delete')}
           </Button>
         </div>
