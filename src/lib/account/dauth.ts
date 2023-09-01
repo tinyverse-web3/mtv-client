@@ -1,5 +1,5 @@
 import axios from 'axios';
-import i18n from '@/locales'
+import i18n from '@/locales';
 export class Dauth {
   private readonly app;
   constructor(app = 'mtv') {
@@ -258,7 +258,7 @@ export class Dauth {
     mnemonic,
     textPrivateData,
     passwordPrivateData,
-    CustomPrivateData
+    CustomPrivateData,
   }: any) {
     return this.invoke({
       name: 'retrieveAccountByMnemonic',
@@ -270,13 +270,19 @@ export class Dauth {
       },
     });
   }
-  async getQuestions4Retrieve({ textPrivateData, passwordPrivateData, CustomPrivateData }: any) {
+  async getQuestions4Retrieve({
+    textPrivateData,
+    passwordPrivateData,
+    CustomPrivateData,
+    Type,
+  }: any) {
     return this.invoke({
       name: 'getQuestions4Retrieve',
       data: {
         textPrivateData,
         passwordPrivateData,
         CustomPrivateData,
+        Type,
       },
     });
   }
@@ -311,7 +317,11 @@ export class Dauth {
   /**
    * 生成个人特征数据
    */
-  async generateFeatureData({ textPrivateData, passwordPrivateData, CustomPrivateData }: any) {
+  async generateFeatureData({
+    textPrivateData,
+    passwordPrivateData,
+    CustomPrivateData,
+  }: any) {
     return this.invoke({
       name: 'generateFeatureData',
       data: {
@@ -523,13 +533,12 @@ export class Dauth {
    * @param publicKey 公钥
    * @param questions 问题
    */
-  async saveQuestions({ privateData, publicKey, questions }: any) {
+  async saveQuestions({ Type, Questions }: any) {
     return this.invoke({
       name: 'saveQuestions',
       data: {
-        privateData,
-        publicKey,
-        questions,
+        Questions,
+        Type,
       },
     });
   }
@@ -540,9 +549,12 @@ export class Dauth {
    * @param appName 应用名称
    * @param publicKey 公钥
    */
-  async getQuestions() {
+  async getQuestions(Type: number) {
     return this.invoke({
       name: 'getQuestions',
+      data: {
+        Type,
+      },
     });
   }
 

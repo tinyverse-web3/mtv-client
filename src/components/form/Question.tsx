@@ -59,7 +59,7 @@ export const Question = ({
     }
   };
   const getUserQuestions = async () => {
-    const data = await account.getQuestions();
+    const data = await account.getQuestions(2);
     if (data?.length) {
       setUserList(data);
     }

@@ -339,16 +339,19 @@ export class Account {
     textPrivateData,
     passwordPrivateData,
     CustomPrivateData,
+    Type,
   }: {
     // account: string;
     textPrivateData: string;
     passwordPrivateData: string;
     CustomPrivateData: string;
+    Type: number;
   }) {
     const result = await this.dauth.getQuestions4Retrieve({
       textPrivateData,
       passwordPrivateData,
       CustomPrivateData,
+      Type,
     });
     return result.data;
   }
@@ -555,7 +558,8 @@ export class Account {
       }));
     }
     await this.dauth.saveQuestions({
-      questions: serverList,
+      Type: type,
+      Questions: serverList,
     });
   }
 
@@ -657,8 +661,8 @@ export class Account {
    * 获取问答问题
    * @returns {Promise<any>} - 返回问答问题
    */
-  async getQuestions() {
-    const res = await this.dauth.getQuestions();
+  async getQuestions(Type: number) {
+    const res = await this.dauth.getQuestions(Type);
     return res.data.data;
   }
   /**

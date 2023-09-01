@@ -43,6 +43,7 @@ export default function Restore() {
     setLockStatus(false);
   };
   return (
+    
     <LayoutThird title={t('pages.restore.question.title')}>
       <div className='p-6'>
         <QuestionRestore

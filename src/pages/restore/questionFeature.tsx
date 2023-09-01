@@ -17,10 +17,23 @@ export default function QuestionFeature() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setPublicKey, setList, setSssData, setType } = useQuestionStore(
+  const { setPublicKey, setList, setSssData, setType, type = 1 } = useQuestionStore(
     (state) => state,
   );
   const { setPasswordPrivateData, setTextPrivateData, setCustomPrivateData } = useRestoreStore((state) => state);
+  const tabs = [
+    {
+      label: t('common.default'),
+      value: 1,
+    },
+    {
+      label: t('common.custom'),
+      value: 2,
+    },
+  ];
+  const tabChange = (value: number) => {
+    setType(value);
+  };
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
@@ -47,6 +60,7 @@ export default function QuestionFeature() {
         textPrivateData: text,
         passwordPrivateData: password,
         CustomPrivateData: customText,
+        Type: type,
       });
       if (code !== '000000') {
         toast.error(msg);
@@ -57,7 +71,7 @@ export default function QuestionFeature() {
       setTextPrivateData(password);
       setCustomPrivateData(customText);
       const questionType = result[0].Type;
-      setType(questionType);
+      // setType(questionType);
       const _list = result.map((v: any, i: number) => {
         return {
           id: i,
@@ -100,6 +114,25 @@ export default function QuestionFeature() {
   return (
     <LayoutThird title={t('pages.restore.encrypted_safe.title')}>
       <div className='pt-8 px-6'>
+      <div className='flex mb-4'>
+        {tabs.map((item, index) => {
+          return (
+            <Button
+              key={index}
+              className={`w-20 mr-2 text-14px ${
+                type === item.value
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-200 text-gray-500'
+              }`}
+              auto
+              onClick={() => {
+                tabChange(item.value);
+              }}>
+              {item.label}
+            </Button>
+          );
+        })}
+      </div>
         {/* <div className='text-center mb-8'>请先恢复加密保险箱，在恢复账号</div> */}
         <Input
           clearable

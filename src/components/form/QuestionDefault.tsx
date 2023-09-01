@@ -180,7 +180,7 @@ export const QuestionDefault = ({
     // }
   };
   const getUserQuestions = async () => {
-    const data = await account.getQuestions();
+    const data = await account.getQuestions(1);
     if (data?.length) {
       setUserList(data);
       console.log(data);

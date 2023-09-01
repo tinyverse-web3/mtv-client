@@ -10,30 +10,39 @@ export default function Account() {
   const nav = useNavigate();
   const { t, i18n } = useTranslation();
   const { VITE_TINY_WEB } = import.meta.env;
+  const openUrl = (url: string) => {
+    if (window.JsBridge) {
+      window.JsBridge.accessLink('url', ({ code }: any) => {});
+    } else {
+      location.href = url;
+    }
+  };
   const toService = () => {
     const url =
       i18n.language === 'en'
         ? 'https://tinyverse.space/service.html'
         : 'https://cn.tinyverse.space/service.html';
-    location.href = url;
+    openUrl(url);
   };
+
   const toWebsit = () => {
     console.log(i18n.language);
     const url =
       i18n.language === 'en'
         ? 'https://tinyverse.space'
         : 'https://cn.tinyverse.space';
-    location.href = url;
+    openUrl(url);
   };
   const toGithub = () => {
-    location.href = 'https://github.com/tinyverse-web3/mtv-client';
+    const url = 'https://github.com/tinyverse-web3/mtv-client';
+    openUrl(url);
   };
   const toPrivacy = () => {
     const url =
       i18n.language === 'en'
         ? 'https://tinyverse.space/privacy.html'
         : 'https://cn.tinyverse.space/privacy.html';
-    location.href = url;
+    openUrl(url);
   };
   return (
     <LayoutThird showBack title={t('pages.account.about.title')}>

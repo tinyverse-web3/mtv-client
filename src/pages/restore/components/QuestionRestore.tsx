@@ -86,6 +86,7 @@ export const QuestionRestore = ({
   };
   return (
     <div className='pt-2'>
+      
       {type == 1 ? (
         <QuestionDefault
           onSubmit={submitHandler}
