@@ -12,7 +12,7 @@ export default function Account() {
   const { VITE_TINY_WEB } = import.meta.env;
   const openUrl = (url: string) => {
     if (window.JsBridge) {
-      window.JsBridge.accessLink('url', ({ code }: any) => {});
+      window.JsBridge.accessLink(url, ({ code }: any) => {});
     } else {
       location.href = url;
     }
