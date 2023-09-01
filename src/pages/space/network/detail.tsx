@@ -31,6 +31,14 @@ export default function NetworkDetail() {
     4: t('pages.space.data.status.pinned'),
     5: t('pages.space.data.status.timout'),
   };
+  const statusColorMap: any = {
+    0: '#808080',
+    1: '#FFFF00',
+    2: '#FF0000',
+    3: '#00FF00',
+    4: '#00BFFF',
+    5: '#FFA500',
+  }
   const sizeText = useMemo(() => {
     if (detail.Size) {
       return calcSize(detail.Size);
@@ -61,7 +69,7 @@ export default function NetworkDetail() {
               <Card variant='bordered'>
                 <Card.Body>
                   <div className='flex'>
-                    <div className=''>{pinStatusMap[detail.PinStatus]}</div>
+                    <div className='' style={{color: statusColorMap[detail.PinStatus]}}>{pinStatusMap[detail.PinStatus]}</div>
                   </div>
                 </Card.Body>
               </Card>

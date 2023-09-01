@@ -41,6 +41,14 @@ export function ListItem({
     4: t('pages.space.data.status.pinned'),
     5: t('pages.space.data.status.timout'),
   };
+  const statusColorMap: any = {
+    0: '#808080',
+    1: '#FFFF00',
+    2: '#FF0000',
+    3: '#00FF00',
+    4: '#00BFFF',
+    5: '#FFA500',
+  }
   const sizeText = useMemo(() => {
     return calcSize(Size);
   }, [Size]);
@@ -66,7 +74,7 @@ export function ListItem({
           {PinStatus !== null && PinStatus !== undefined && type === 'ipfs' && (
             <div>
               <span>{t('pages.space.data.status.title')}：</span>
-              <span>{pinStatusMap[PinStatus]}</span>
+              <span style={{color: statusColorMap[PinStatus]}}>{pinStatusMap[PinStatus]}</span>
             </div>
           )}
           <div>
