@@ -30,6 +30,7 @@ export default function QuestionVerify() {
     return status;
   };
   const onSubmit = async (_list: any[]) => {
+    console.log(initList);
     const status = verify(_list);
     nav(ROUTE_PATH.ACCOUNT_QUESTION_RESULT, { state: status });
   };

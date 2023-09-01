@@ -42,6 +42,7 @@ export default function NftAdd() {
       }
     };
     reader.readAsDataURL(image);
+    e.target.value = '';
   };
   const mint = async () => {
     if (assetsType === 'file') {

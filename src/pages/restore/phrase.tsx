@@ -50,6 +50,7 @@ export default function Phrase() {
       setMnemonicFile(image);
       nav(ROUTE_PATH.RESTORE_PHRASE_FEATURE);
     }
+    e.target.value = '';
   };
   const phraseChange = (e: any) => {
     setPhrase(e.target.value);

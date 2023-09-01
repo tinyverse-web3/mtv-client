@@ -305,11 +305,19 @@
         "test_text": "Recovery Test",
         "retry_text": "Reset",
         "hint": "Smart privacy backup is a self-custodial private key backup solution. User's personal privacy information is used to generate shards via MPC-SSS, which are kept in distributed storage network. All computation happens locally, all data is kept in user's own digital space, ensuring data security. Please fill out the form correctly, can leave blank (synced with personal info). If personal info changes, account maintenance is needed to prevent loss.",
+        "input": {
+          "placeholder": "please enter a question",
+          "placeholder_select": "Please select a question",
+          "placeholder_answer": "Please enter the answer"
+        },
         "toast": {
           "error_1": "The answer is at least 16 digits, please enter more content",
           "error_2": "Please fill in at least two categories of question answers",
           "error_3_first": "The answer has ",
-          "error_3_end": " characters in total"
+          "error_3_end": " characters in total",
+          "error_4": "Fill in at least one question",
+          "error_5_1": "of ",
+          "error_5_2": "some subquestions not entered"
         },
         "default": {
           "one": {

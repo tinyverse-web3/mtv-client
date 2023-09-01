@@ -17,7 +17,7 @@ export default function Album() {
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
     const { code, msg } = await account.uploadAlbum({ file: image });
-
+    e.target.value = '';
     if (code === '000000') {
       toast.success(t('pages.space.album.upload_success'));
       getList();

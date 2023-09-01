@@ -35,6 +35,7 @@ export default function Album() {
     const _file = e.target.files[0];
     // if (fileType === 'security') {
     await upload({ file: _file, type: fileType });
+    e.target.value = '';
     // } else {
     //   setFile(_file);
     //   setPasswordType('upload');

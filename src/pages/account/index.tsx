@@ -67,7 +67,7 @@ export default function Account() {
       : '/logo.png';
   }, [accountInfo.avatar]);
   return (
-    <div className='p-4 text-14px'>
+    <div className='p-4 pt-4 text-14px'>
       <PasswordWarnBadge />
       <div className='flex mb-4'>
         <Image

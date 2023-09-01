@@ -13,7 +13,7 @@ const MenuItem = ({ text, icon, onClick }: any) => {
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
     const { code, msg } = await account.uploadAlbum({ file: image });
-
+    e.target.value = '';
     if (code === '000000') {
       toast.success(t('pages.space.photo.upload_success'));
     } else {

@@ -1,6 +1,7 @@
 import { Password } from './wallet';
 import { Dauth } from './dauth';
 import axios from 'axios';
+import i18n from '@/locales'
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
   EMPTY_INPUT,
@@ -527,6 +528,7 @@ export class Account {
           Answer: s.a,
         })),
         Title: val.title,
+        Lang: i18n.language,
         Type: type,
       }));
     } else {
@@ -534,7 +536,8 @@ export class Account {
       _list = _list.map((v, i) => {
         return {
           id: i,
-          list: v.list.filter((s: any) => s.a),
+          // list: v.list.filter((s: any) => s.a),
+          list: v.list,
           title: v.title,
         };
       });
@@ -546,6 +549,7 @@ export class Account {
           Characters: s.l,
           Answer: s.a,
         })),
+        Lang: i18n.language,
         Title: val.title,
         Type: type,
       }));

@@ -17,7 +17,7 @@ export default function QuestionVerifyResult() {
   const { t } = useTranslation();
   const { state } = useLocation();
   const { list: initList, type } = useQuestionStore((state) => state);
-  const { accountInfo } = useAccountStore((state) => state);
+  const { accountInfo,getLocalAccountInfo } = useAccountStore((state) => state);
   const toAccount = async () => {
     nav(ROUTE_PATH.ACCOUNT);
   };
@@ -33,6 +33,7 @@ export default function QuestionVerifyResult() {
       localStorage.removeItem(
         `local_custom_${accountInfo.publicKey}`,
       );
+      await getLocalAccountInfo();
       toAccount();
     } catch (error) {
       console.log(error);
