@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react';
+import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import {
   useQuestionStore,
@@ -17,14 +19,25 @@ export default function Restore() {
   const nav = useNavigate();
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const { setLockStatus } = useGlobalStore((state) => state);
-  const {
-    list: questionList,
-    sssData: serverShare,
-    type,
-  } = useQuestionStore((state) => state);
-  const { passwordPrivateData, textPrivateData, customPrivateData } = useRestoreStore(
+  const [type, setType] = useState(1); // 1 默认 2 自定义
+  const { defaultQuestionList, customQuestionList } = useRestoreStore(
     (state) => state,
   );
+  const tabs = [
+    {
+      label: t('common.default'),
+      value: 1,
+    },
+    {
+      label: t('common.custom'),
+      value: 2,
+    },
+  ];
+  const tabChange = (value: number) => {
+    setType(value);
+  };
+  const { passwordPrivateData, textPrivateData, customPrivateData } =
+    useRestoreStore((state) => state);
   const questionSubmit = async (list: any[]) => {
     const { code, msg } = await account.restoreByQuestions({
       list,
@@ -42,13 +55,37 @@ export default function Restore() {
     }
     setLockStatus(false);
   };
+  const questionList = useMemo(() => {
+    if (type === 1) {
+      return defaultQuestionList;
+    } else {
+      return customQuestionList;
+    }
+  }, [type, customQuestionList, defaultQuestionList]);
   return (
-    
     <LayoutThird title={t('pages.restore.question.title')}>
       <div className='p-6'>
+        <div className='flex mb-4'>
+          {tabs.map((item, index) => {
+            return (
+              <Button
+                key={index}
+                className={`w-20 mr-2 text-14px ${
+                  type === item.value
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-200 text-gray-500'
+                }`}
+                auto
+                onClick={() => {
+                  tabChange(item.value);
+                }}>
+                {item.label}
+              </Button>
+            );
+          })}
+        </div>
         <QuestionRestore
           type={type}
-          serverShare={serverShare}
           questionList={questionList}
           onSubmit={questionSubmit}></QuestionRestore>
       </div>

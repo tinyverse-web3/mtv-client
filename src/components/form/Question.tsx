@@ -51,6 +51,7 @@ export const Question = ({
     () => type === 'restore' || type === 'verify',
     [type],
   );
+  console.log(initList);
   const getTmpQuestions = async () => {
     const data = await account.getTmpQuestions(2);
     console.log(123);
@@ -81,6 +82,23 @@ export const Question = ({
   useEffect(() => {
     if (localList.length) {
       set(localList);
+    } else if (userList.length) {
+      const _list = userList.slice(0, 3).map((v, i) => {
+        const list = v.Content;
+        return {
+          id: i,
+          list: list.map((s: any, j: number) => ({
+            q: s.Content,
+            a: s.Answer || '',
+            l: Number(s.Characters),
+          })),
+          template: list.map((s: any) => ({
+            q: s.Content,
+          })),
+          unselectList: [],
+        };
+      });
+      set(_list);
     } else if (tmpList.length) {
       const _list = tmpList.slice(0, 3).map((v, i) => {
         const list = v.Content;
@@ -88,7 +106,7 @@ export const Question = ({
           id: i,
           list: list.map((s: any, j: number) => ({
             q: s.Content,
-            a: userList[i]?.Content[j]?.Answer || '',
+            a: '',
             l: Number(s.Characters),
           })),
           template: list.map((s: any) => ({
@@ -113,11 +131,16 @@ export const Question = ({
     set(_list);
   };
   const answerChange = (i: number, j: number, { data }: any) => {
+    console.log(data)
     const _list = cloneDeep(list[i]);
     _list.list[j].a = data.a;
     _list.list[j].q = data.q;
     _list.list[j].l = data.l;
+    console.log(_list.list[j].a)
+    console.log(data.a)
+    console.log(_list)
     updateAt(i, _list);
+    console.log(list)
   };
   const questionTemplate = useMemo(
     () =>
@@ -152,28 +175,29 @@ export const Question = ({
   const validList = () => {
     let validStatus = true;
     console.log(type);
-    if (type !== 'restore') {
+    if (type === 'restore') {
     } else {
-      for (let i = 0; i < list.length; i++) {
-        const question = list[i];
-        for (let j = 0; j < question.list.length; j++) {
-          const q = question.list[j];
-          if (!q.a) {
-            toast.error(
-              `${t('common.question')}${chineseNumMap[i]}${t(
-                'pages.account.question.toast.error_5_1',
-              )}${j + 1}${t('pages.account.question.toast.error_5_2')}`,
-            );
-            validStatus = false;
-            break;
-          }
-        }
-        if (!validStatus) break;
-      }
-      if (list.length < 1) {
-        toast.error(t('pages.account.question.toast.error_4'));
-        validStatus = false;
-      }
+      // console.log(list);
+      // for (let i = 0; i < list.length; i++) {
+      //   const question = list[i];
+      //   for (let j = 0; j < question.list.length; j++) {
+      //     const q = question.list[j];
+      //     if (!q.a) {
+      //       toast.error(
+      //         `${t('common.question')}${chineseNumMap[i]}${t(
+      //           'pages.account.question.toast.error_5_1',
+      //         )}${j + 1}${t('pages.account.question.toast.error_5_2')}`,
+      //       );
+      //       validStatus = false;
+      //       break;
+      //     }
+      //   }
+      //   if (!validStatus) break;
+      // }
+      // if (list.length < 1) {
+      //   toast.error(t('pages.account.question.toast.error_4'));
+      //   validStatus = false;
+      // }
     }
     return validStatus;
   };

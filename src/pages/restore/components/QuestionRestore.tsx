@@ -3,23 +3,21 @@ import { useGlobalStore, useQuestionStore, useAccountStore } from '@/store';
 import toast from 'react-hot-toast';
 import { Question } from '@/components/form/Question';
 import { QuestionDefault } from '@/components/form/QuestionDefault';
+import { useTranslation } from 'react-i18next';
 
 const chineseNumMap = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
 interface Props {
   onSubmit: (shares: string[]) => void;
-  serverShare?: string;
   questionList?: any[];
   type: number | string;
 }
 export const QuestionRestore = ({
   onSubmit,
-  serverShare,
   questionList,
   type,
 }: Props) => {
-  const [selectValue, setSelectValue] = useState('1');
+  const { t } =useTranslation()
   const [kvError, setKvError] = useState<string[]>([]);
-  const [shareB, setShareB] = useState('');
 
   const toastErr = () => {
     for (let j = 0; j < kvError.length; j++) {
@@ -51,6 +49,7 @@ export const QuestionRestore = ({
   };
   const submitHandler = async (_list: any[]) => {
     let filterAnswer = [];
+    console.log(_list)
     if (type === 1) {
       const list = _list.map((v, i) => {
         return {
@@ -68,21 +67,13 @@ export const QuestionRestore = ({
       );
     }
     if (!filterAnswer.length) {
-      toast.error(`最少回答一个完整问题!`);
+      toast.error(t('pages.restore.question.toast.error_1'));
       return;
     }
     await restoreEntropy(_list);
   };
-  const userSharesSubmit = async () => {
-    const shares = [serverShare, shareB].filter(Boolean);
-    await restoreEntropy(shares as string[]);
-  };
   const restoreEntropy = async (shares: string[]) => {
     await onSubmit(shares);
-  };
-  const selectChange = (e: any) => {
-    setKvError([]);
-    setSelectValue(e);
   };
   return (
     <div className='pt-2'>
@@ -93,14 +84,14 @@ export const QuestionRestore = ({
           initList={questionList}
           type='restore'
           className='mb-8'
-          buttonText='恢复'></QuestionDefault>
+          buttonText={t('pages.restore.btn_restore')}></QuestionDefault>
       ) : (
         <Question
           onSubmit={submitHandler}
           initList={questionList}
           type='restore'
           className='mb-8'
-          buttonText='恢复'></Question>
+          buttonText={t('pages.restore.btn_restore')}></Question>
       )}
     </div>
   );

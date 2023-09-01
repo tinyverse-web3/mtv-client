@@ -25,7 +25,6 @@ export const QuestionSelect = ({
   onRemove,
 }: Props) => {
   const { t } = useTranslation();
-  console.log(select);
   const CUSTOM_QUESTION = t('common.custom');
   const [selected, setSelected] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);

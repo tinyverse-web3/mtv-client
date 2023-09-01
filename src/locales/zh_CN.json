@@ -459,7 +459,10 @@
       },
       "question": {
         "title": "智能隐私恢复",
-        "verify": "智能隐私身份验证"
+        "verify": "智能隐私身份验证",
+        "toast": {
+          "error_1": "最少回答一个完整问题!"
+        }
       }
     },
     "retrieve": {

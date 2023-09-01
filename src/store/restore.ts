@@ -12,7 +12,8 @@ interface QuestionList {
 }
 
 interface RestoreState {
-  questionList: QuestionList[];
+  customQuestionList: QuestionList[];
+  defaultQuestionList: QuestionList[];
   type: number;
   mnemonic: string;
   mnemonicType: 'file' | 'text';
@@ -20,7 +21,8 @@ interface RestoreState {
   textPrivateData: string;
   passwordPrivateData: string;
   customPrivateData: string;
-  setQuestionList: (list: QuestionList[]) => void;
+  setCustomQuestionList: (list: QuestionList[]) => void;
+  setDefaultQuestionList: (list: QuestionList[]) => void;
   setMnemonic: (e: string) => void;
   setMnemonicFile: (e: File) => void;
   setType: (e: number) => void;
@@ -32,7 +34,8 @@ interface RestoreState {
 
 export const useRestoreStore = create<RestoreState>()(
   devtools((set) => ({
-    questionList: [],
+    defaultQuestionList: [],
+    customQuestionList: [],
     type: 1,
     mnemonic: '',
     textPrivateData: '',
@@ -40,8 +43,11 @@ export const useRestoreStore = create<RestoreState>()(
     mnemonicType: 'file',
     passwordPrivateData: '',
     customPrivateData: '',
-    setQuestionList: (list) => {
-      set({ questionList: list });
+    setCustomQuestionList: (list) => {
+      set({ customQuestionList: list });
+    },
+    setDefaultQuestionList: (list) => {
+      set({ defaultQuestionList: list });
     },
     setMnemonic: (mnemonic) => {
       set({ mnemonic, mnemonicType: 'text' });
@@ -63,7 +69,8 @@ export const useRestoreStore = create<RestoreState>()(
     },
     reset: () => {
       set({
-        questionList: [],
+        defaultQuestionList: [],
+        customQuestionList: [],
         type: 1,
         mnemonic: '',
         mnemonicFile: undefined,

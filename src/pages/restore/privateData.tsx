@@ -49,7 +49,7 @@ export default function Unlock() {
       if (code === '000000') {
         await getLocalAccountInfo();
         setLockStatus(false);
-        toast.error(t('pages.restore.toast.restore_success'));
+        toast.success(t('pages.restore.toast.restore_success'));
         nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
       } else {
         toast.error(msg);

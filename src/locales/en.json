@@ -457,7 +457,10 @@
       },
       "question": {
         "title": "Smart Privacy Recovery",
-        "verify": "Smart Privacy Identity Verification"
+        "verify": "Smart Privacy Identity Verification",
+        "toast": {
+          "error_1": "Answer at least one full question!"
+        }
       }
     },
     "retrieve": {

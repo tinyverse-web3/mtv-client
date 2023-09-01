@@ -339,19 +339,16 @@ export class Account {
     textPrivateData,
     passwordPrivateData,
     CustomPrivateData,
-    Type,
   }: {
     // account: string;
     textPrivateData: string;
     passwordPrivateData: string;
     CustomPrivateData: string;
-    Type: number;
   }) {
     const result = await this.dauth.getQuestions4Retrieve({
       textPrivateData,
       passwordPrivateData,
       CustomPrivateData,
-      Type,
     });
     return result.data;
   }

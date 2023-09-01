@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
-import { useRestoreStore, useQuestionStore } from '@/store';
+import { useRestoreStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
@@ -12,28 +12,22 @@ import { useTranslation } from 'react-i18next';
 
 export default function QuestionFeature() {
   const nav = useNavigate();
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setPublicKey, setList, setSssData, setType, type = 1 } = useQuestionStore(
-    (state) => state,
-  );
-  const { setPasswordPrivateData, setTextPrivateData, setCustomPrivateData } = useRestoreStore((state) => state);
-  const tabs = [
-    {
-      label: t('common.default'),
-      value: 1,
-    },
-    {
-      label: t('common.custom'),
-      value: 2,
-    },
-  ];
-  const tabChange = (value: number) => {
-    setType(value);
-  };
+  // const { setList, setType, type = 1 } = useRestoreStore(
+  //   (state) => state,
+  // );
+  const {
+    setPasswordPrivateData,
+    setTextPrivateData,
+    setCustomPrivateData,
+    setCustomQuestionList,
+    setDefaultQuestionList,
+  } = useRestoreStore((state) => state);
+
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
@@ -56,11 +50,14 @@ export default function QuestionFeature() {
       return;
     }
     try {
-      const { code, msg, data: result } = await account.getQuestions4Retrieve({
+      const {
+        code,
+        msg,
+        data: result,
+      } = await account.getQuestions4Retrieve({
         textPrivateData: text,
         passwordPrivateData: password,
         CustomPrivateData: customText,
-        Type: type,
       });
       if (code !== '000000') {
         toast.error(msg);
@@ -70,27 +67,47 @@ export default function QuestionFeature() {
       setPasswordPrivateData(text);
       setTextPrivateData(password);
       setCustomPrivateData(customText);
-      const questionType = result[0].Type;
-      // setType(questionType);
-      const _list = result.map((v: any, i: number) => {
-        return {
-          id: i,
-          title: v.Title,
-          list: v.Content.map((s: any) => ({
-            q: s.Content,
-            a: '',
-            l: Number(s.Characters),
-          })),
-          template: result.map((s: any) => ({
-            q: s.Content,
-          })),
-          unselectList: [],
-        };
-      });
-      await setList(_list);
+      const defaultList =
+        result[0]?.map((v: any, i: number) => {
+          return {
+            id: i,
+            title: v.Title,
+            list: v.Content.map((s: any) => ({
+              q: s.Content,
+              a: '',
+              l: Number(s.Characters),
+            })),
+            template: result[0]?.map((s: any) => ({
+              q: s.Content,
+            })),
+            unselectList: [],
+          };
+        }) || [];
+
+      console.log(result[1]);
+      const customList =
+        result[1]?.map((v: any, i: number) => {
+          return {
+            id: i,
+            title: v.Title,
+            list: v.Content.map((s: any) => ({
+              q: s.Content,
+              a: '',
+              l: Number(s.Characters),
+            })),
+            template: result[1]?.map((s: any) => ({
+              q: s.Content,
+            })),
+            unselectList: [],
+          };
+        }) || [];
+      setDefaultQuestionList(defaultList);
+      setCustomQuestionList(customList);
+      // await setList(_list);
       nav(ROUTE_PATH.RESTORE_QUESTION);
     } catch (error) {
-      toast.error(t('pages.account.encrypted_safe.toast.feature_error'));
+      console.error(error);
+      toast.error(t('pages.account.encrypted_safe.feature_error'));
     }
     setLoading(false);
   };
@@ -114,25 +131,6 @@ export default function QuestionFeature() {
   return (
     <LayoutThird title={t('pages.restore.encrypted_safe.title')}>
       <div className='pt-8 px-6'>
-      <div className='flex mb-4'>
-        {tabs.map((item, index) => {
-          return (
-            <Button
-              key={index}
-              className={`w-20 mr-2 text-14px ${
-                type === item.value
-                  ? 'bg-primary text-white'
-                  : 'bg-gray-200 text-gray-500'
-              }`}
-              auto
-              onClick={() => {
-                tabChange(item.value);
-              }}>
-              {item.label}
-            </Button>
-          );
-        })}
-      </div>
         {/* <div className='text-center mb-8'>请先恢复加密保险箱，在恢复账号</div> */}
         <Input
           clearable
