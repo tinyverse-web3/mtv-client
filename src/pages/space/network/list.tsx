@@ -61,6 +61,7 @@ const NetworkList: React.FC = () => {
             Key={item.Key}
             type={type as string}
             Size={item.Size}
+            PinStatus={item.PinStatus}
             Redundancy={item.Redundancy}
             CreateTime={item.CreateTime}
             // expireTime={item.expireTime}
