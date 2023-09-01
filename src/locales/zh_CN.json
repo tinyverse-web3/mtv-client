@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "芥子空间",
-    "subtitle": "聚焦个人隐私的安全存储，让您的密钥更加安全",
+    "subtitle": "聚焦个人隐私的安全存储，让您的密钥更加安全。",
     "description": ""
   },
   "common": {
@@ -48,7 +48,7 @@
     "photo": "照片",
     "password": {
       "title": "密码",
-      "rule_text": "密码至少8位，包括数字、大小写字母和符号至少2种",
+      "rule_text": "密码至少8位，包括数字、大小写字母和符号至少2种。",
       "default_text": "默认密码",
       "confirm_text": "确认密码",
       "verify_text": "验证密码",
@@ -95,7 +95,7 @@
   "pages": {
     "index": {
       "btn_create": "一键创建",
-      "create_hint": "使用默认密码创建，创建之后请及时修改",
+      "create_hint": "使用默认密码创建，创建之后请及时修改。",
       "btn_restore": "恢复账号",
       "btn_more": "了解更多"
     },
@@ -361,7 +361,7 @@
             "contact": "紧急联系人",
             "contact_phone": "紧急联系人电话",
             "first_car_brand": "第一辆汽车品牌",
-            "first_car_plate": "第一辆汽车车牌",
+            "first_car_plate": "第一辆汽车车牌号码",
             "elementary_school": "小学名称",
             "middle_school": "初中名称",
             "high_school": "高中名称"
@@ -446,7 +446,7 @@
       },
       "phrase": {
         "title": "助记词恢复",
-        "tab_file": "助记词加密文件",
+        "tab_file": "加密文件",
         "tab_text": "助记词",
         "input_placeholder": "请输入助记词",
         "upload_hint": "上传助记词加密文件"
