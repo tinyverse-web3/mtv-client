@@ -14,10 +14,11 @@ export const EmailBox = ({ onChange }: Props) => {
   const [email, setEmail] = useState('');
   const [codeLoading, setCodeLoading] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
-  const { start, text, flag } = useCountDown(60, t('common.code_text'));
+  const { start, text, flag, reset } = useCountDown(60, t('common.code_text'));
   const emailChange = (e: any) => {
     const { value } = e.target;
     setEmail(value);
+    reset();
     onChange && onChange({ email: value, code: verifyCode });
   };
   const verifyCodeChange = async (e: any) => {

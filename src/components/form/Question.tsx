@@ -285,7 +285,7 @@ export const Question = ({
             </div>
             {val.list.map((v, j) => (
               <QuestionSelect
-                key={v.q}
+                key={j}
                 index={j}
                 list={val.unselectList}
                 disabled={disabled}

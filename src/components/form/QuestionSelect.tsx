@@ -25,6 +25,7 @@ export const QuestionSelect = ({
   onRemove,
 }: Props) => {
   const { t } = useTranslation();
+  console.log(select);
   const CUSTOM_QUESTION = t('common.custom');
   const [selected, setSelected] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);
@@ -52,6 +53,10 @@ export const QuestionSelect = ({
       setAnswerLen(e.length);
     }
   };
+  const questionChange = (e: any) => {
+    console.log(e)
+    setCustomQuestion(e?.trim());
+  };
   const qList = useMemo<any[]>(() => {
     return [...list, { q: CUSTOM_QUESTION, a: '' }];
   }, [list]);
@@ -72,11 +77,15 @@ export const QuestionSelect = ({
     };
     onChange && onChange(data);
   }, [selectedValue, answer, customQuestion]);
-
   const RendText = ({ num }: any) => {
     return (
       disabled &&
-      num && <Text className='break-keep text-12px'>{num}{t('pages.account.question.toast.error_3_end')}</Text>
+      num && (
+        <Text className='break-keep text-12px'>
+          {num}
+          {t('pages.account.question.toast.error_3_end')}
+        </Text>
+      )
     );
   };
   return (
@@ -91,7 +100,8 @@ export const QuestionSelect = ({
               bordered
               className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
               <div className='text-ellipsis overflow-hidden max-w-200px'>
-                {selectedValue || t('pages.account.question.input.placeholder_select')}
+                {selectedValue ||
+                  t('pages.account.question.input.placeholder_select')}
               </div>
             </Dropdown.Button>
             <Dropdown.Menu
@@ -124,14 +134,20 @@ export const QuestionSelect = ({
       {selectedValue && (
         <div className='mb-8'>
           <Textarea
-            clearable={!disabled}
-            maxLength={30}
+            maxLength={40}
             minRows={1}
-            readOnly={!selectedValue || disabled}
             placeholder={t('pages.account.question.input.placeholder')}
-            helperText={answerLen ? `${t('pages.account.question.toast.error_3_first')}${answerLen}${t('pages.account.question.toast.error_3_end')}` : undefined}
+            helperText={
+              answerLen
+                ? `${t(
+                    'pages.account.question.toast.error_3_first',
+                  )}${answerLen}${t(
+                    'pages.account.question.toast.error_3_end',
+                  )}`
+                : undefined
+            }
             value={customQuestion}
-            onChange={(e: any) => setCustomQuestion(e?.trim())}
+            onChange={(e: any) => questionChange(e)}
           />
         </div>
       )}
