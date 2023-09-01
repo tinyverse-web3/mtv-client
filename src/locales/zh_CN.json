@@ -200,7 +200,16 @@
         "btn_expansion": "扩容",
         "btn_detail": "详情",
         "size_text": "大小",
-        "redundancy_text": "大小",
+        "redundancy_text": "冗余",
+        "status": {
+          "title": "数据状态",
+          "unknow": "未知",
+          "init": "初始化",
+          "err": "错误",
+          "work": "数据拉取中",
+          "pinned": "已拉取完成",
+          "timout": "超时"
+        },
         "save_time": "保存时间",
         "expired_time": "过期时间",
         "description": "说明"

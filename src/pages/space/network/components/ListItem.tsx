@@ -10,6 +10,7 @@ interface Props {
   Redundancy: string;
   CreateTime: number;
   type?: string;
+  PinStatus: number;
   // expireTime: string;
   // description: string;
   onDelete: () => void;
@@ -21,15 +22,24 @@ export function ListItem({
   Redundancy,
   CreateTime,
   type,
+  PinStatus,
   // expireTime,
   // description,
   onDelete,
   onClick,
 }: Props) {
-  const { t} = useTranslation()
+  const { t } = useTranslation();
   const delHandler = (e: any) => {
     e.stopPropagation();
     onDelete?.();
+  };
+  const pinStatusMap: any = {
+    0: t('pages.space.data.status.unknow'),
+    1: t('pages.space.data.status.init'),
+    2: t('pages.space.data.status.err'),
+    3: t('pages.space.data.status.work'),
+    4: t('pages.space.data.status.pinned'),
+    5: t('pages.space.data.status.timout'),
   };
   const sizeText = useMemo(() => {
     return calcSize(Size);
@@ -39,13 +49,13 @@ export function ListItem({
       try {
         return format(new Date(CreateTime * 1000), 'yyyy-MM-dd HH:mm:ss');
       } catch (error) {
-        return
+        return;
       }
     }
     return;
   }, [Size]);
   return (
-    <Card variant="bordered"  className='mb-4'>
+    <Card variant='bordered' className='mb-4'>
       <Card.Body className='relative' onClick={onClick}>
         <div className='text-4 break-all'>{Key}</div>
         <div className=''>
@@ -53,6 +63,12 @@ export function ListItem({
             <span>{t('pages.space.data.size_text')}：</span>
             <span>{sizeText}</span>
           </div>
+          {PinStatus !== null && PinStatus !== undefined && type === 'ipfs' && (
+            <div>
+              <span>{t('pages.space.data.status.title')}：</span>
+              <span>{pinStatusMap[PinStatus]}</span>
+            </div>
+          )}
           <div>
             <span>{t('pages.space.data.redundancy_text')}：</span>
             <span>{Redundancy}</span>
@@ -61,13 +77,12 @@ export function ListItem({
             <span>{t('pages.space.data.save_time')}：</span>
             <span>{createTimeText}</span>
           </div>
-          {
-            type !== 'ipfs' &&  <div>
-            <span>{t('pages.space.data.expired_time')}：</span>
-            {/* <span>{expireTime}</span> */}
-          </div>
-          }
-         
+          {type !== 'ipfs' && (
+            <div>
+              <span>{t('pages.space.data.expired_time')}：</span>
+              {/* <span>{expireTime}</span> */}
+            </div>
+          )}
           <div>
             <span>{t('pages.space.data.description')}：</span>
             {/* <span>{description}</span> */}

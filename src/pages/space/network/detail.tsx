@@ -23,6 +23,14 @@ export default function NetworkDetail() {
       }
     }
   };
+  const pinStatusMap: any = {
+    0: t('pages.space.data.status.unknow'),
+    1: t('pages.space.data.status.init'),
+    2: t('pages.space.data.status.err'),
+    3: t('pages.space.data.status.work'),
+    4: t('pages.space.data.status.pinned'),
+    5: t('pages.space.data.status.timout'),
+  };
   const sizeText = useMemo(() => {
     if (detail.Size) {
       return calcSize(detail.Size);
@@ -33,7 +41,7 @@ export default function NetworkDetail() {
     getDetail();
   }, [type, id]);
   return (
-    <LayoutThird  title={t('pages.space.data.title')}>
+    <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>CID</div>
@@ -45,6 +53,21 @@ export default function NetworkDetail() {
             </Card.Body>
           </Card>
         </div>
+        {detail.PinStatus !== null &&
+          detail.PinStatus !== undefined &&
+          type === 'ipfs' && (
+            <div className='mb-4'>
+              <div className='mb-2'>{t('pages.space.data.status.title')}</div>
+              <Card variant='bordered'>
+                <Card.Body>
+                  <div className='flex'>
+                    <div className=''>{pinStatusMap[detail.PinStatus]}</div>
+                  </div>
+                </Card.Body>
+              </Card>
+            </div>
+          )}
+
         <div className='mb-4'>
           <div className='mb-2'>{t('pages.space.data.size_text')}</div>
           <Card variant='bordered'>

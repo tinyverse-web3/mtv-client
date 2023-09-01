@@ -200,6 +200,15 @@
         "btn_detail": "Details",
         "size_text": "Size",
         "redundancy_text": "Redundancy",
+        "status": {
+          "title": "Data Status",
+          "unknow": "Unknown",
+          "init": "Initializing",
+          "err": "Error",
+          "work": "Fetching Data",
+          "pinned": "Fetch Completed",
+          "timout": "Timeout"
+        },
         "save_time": "Save time",
         "expired_time": "Expire time",
         "description": "Description"
