@@ -98,10 +98,10 @@ export default function GunRenew() {
   const calcPoint = useMemo(() => {
     const len = gunname.length;
     const pointMap: any = {
-      8: '10000 TVS',
-      9: '1000 TVS',
-      10: '100 TVS',
-      11: '10 TVS',
+      8: '10006 TVS',
+      9: '1006 TVS',
+      10: '106 TVS',
+      11: '16 TVS',
     };
     if (len <= 7) {
       return pointMap[7];
