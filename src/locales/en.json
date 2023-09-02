@@ -207,12 +207,12 @@
           "unknow": "Unknown",
           "init": "Initializing",
           "err": "Error",
-          "work": "Fetching Data",
-          "pinned": "Fetch Completed",
+          "work": "Synchronizing",
+          "pinned": "Synchronized",
           "timout": "Timeout"
         },
         "save_time": "Save time",
-        "expired_time": "Expire time",
+        "expired_time": "Expired time",
         "description": "Description"
       },
       "read": {

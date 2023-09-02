@@ -208,8 +208,8 @@
           "unknow": "未知",
           "init": "初始化",
           "err": "错误",
-          "work": "数据拉取中",
-          "pinned": "已拉取完成",
+          "work": "同步中",
+          "pinned": "已同步",
           "timout": "超时"
         },
         "save_time": "保存时间",
