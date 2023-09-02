@@ -8,7 +8,8 @@ import account from '@/lib/account/account';
 import { useHost } from '@/lib/hooks';
 import { download } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { useAccountStore} from '@/store'
+import { useAccountStore } from '@/store';
+import { toast } from 'react-hot-toast';
 
 export default function UserPhrase() {
   const nav = useNavigate();
@@ -46,8 +47,19 @@ export default function UserPhrase() {
   const downloadFile = async () => {
     setLoading(true);
     await download(url, 'mnemonic.txt');
-    await getLocalAccountInfo();
-    setLoading(false);
+    if (window.JsBridge) {
+      window.JsBridge.getDownloadStatus(async ({ code }: any) => {
+        if (code == 0) {
+          await getLocalAccountInfo();
+          toast.success(t('pages.account.phrase.download_success'));
+        } else {
+          toast.success(t('pages.account.phrase.download_error'));
+        }
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     getMnemonic();

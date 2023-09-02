@@ -307,7 +307,9 @@
         "hint": "Mnemonic phrase is very important, please keep it safe and do not backup online.",
         "hint_one": "Encrypt mnemonic phrase with encrypted vault?",
         "hint_two": "Displaying and writing down mnemonic phrase directly is dangerous, you need to put in more effort to keep it safe",
-        "download_text": "Download Encrypted File"
+        "download_text": "Download Encrypted File",
+        "download_success": "Download Success",
+        "download_error": "Download Error"
       },
       "question": {
         "title": "Smart Privacy",

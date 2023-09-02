@@ -309,7 +309,9 @@
         "hint": "助记词非常重要，请妥善保管，注意不使用联网工具备份。",
         "hint_one": "是否使用加密保险箱加密助记词",
         "hint_two": "直接显示和抄写助记词很危险，需要您投入更多的精力去保管助记词",
-        "download_text": "下载加密文件"
+        "download_text": "下载加密文件",
+        "download_success": "下载成功",
+        "download_error": "下载失败"
       },
       "question": {
         "title": "智能隐私",

@@ -15,6 +15,7 @@ interface QuestionItem {
   p?: string;
   Id?: string;
   l?: number;
+  len?: number;
   error?: boolean;
 }
 interface QuestionList {
@@ -190,10 +191,17 @@ export const QuestionDefault = ({
     let _list = initList.map((v, i) => {
       return {
         id: i,
-        list: v.list.map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
+        list: v.list.map((s: any) => ({
+          q: s.q,
+          a: '',
+          l: s.l,
+          p: s.p,
+          len: s.l,
+        })),
         title: v.title,
       };
     });
+    console.log(_list);
     _list = _list.filter((v) => v.list.length);
     set(_list);
   };
@@ -215,11 +223,12 @@ export const QuestionDefault = ({
   useDebounce(saveLocalList, 300, [list]);
 
   useEffect(() => {
+    console.log(localList);
     console.log(userList);
     if (localList.length) {
       set(localList);
     } else if (userList.length && userList[0].Type == 1) {
-      const _list = userList.map((v, i) => {
+      const _list = cloneDeep(userList).map((v, i) => {
         const childrenList = v.Content;
         return {
           id: i,
@@ -229,9 +238,10 @@ export const QuestionDefault = ({
             const a = s.Answer || '';
             return {
               q: q,
-              a: a,
+              a: a || '',
               p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
-              l: s.Character,
+              l: s.Characters,
+              len: s.Characters,
             };
           }),
         };
@@ -239,7 +249,7 @@ export const QuestionDefault = ({
       console.log(_list);
       set(_list);
     } else if (tmpList.length) {
-      const _list = tmpList.map((v, i) => {
+      const _list = cloneDeep(tmpList).map((v, i) => {
         const childrenList = v.Content;
         return {
           id: i,
@@ -251,7 +261,7 @@ export const QuestionDefault = ({
               q: q,
               a: a,
               p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
-              l: s.Character,
+              l: s.Characters,
             };
           }),
         };
@@ -289,27 +299,44 @@ export const QuestionDefault = ({
   const submitQuestion = async () => {
     const validStatus = validList();
     console.log(validStatus);
+    console.log(list);
     if (validStatus) {
       await onSubmit(list);
     }
   };
+  const RendText = ({ num }: any) => {
+    return disabled && Number(num) ? (
+      <Text className='break-keep text-12px'>
+        {num}
+        {t('pages.account.question.toast.error_3_end')}
+      </Text>
+    ) : (
+      <></>
+    );
+  };
+  console.log(list);
   useEffect(() => {
     if (!initList?.length) {
-      const localListRes = localStorage.getItem(
-        `local_privacy_${accountInfo.publicKey}`,
-      );
-      try {
-        if (localListRes) {
-          const localList = JSON.parse(localListRes);
-          setLocalList(localList)
-        }
-      } catch (error) {}
       getTmpQuestions();
       getUserQuestions();
     } else {
       generateInitList();
     }
   }, []);
+  useEffect(() => {
+    if (!initList?.length && accountInfo.publicKey) {
+      const localListRes = localStorage.getItem(
+        `local_privacy_${accountInfo.publicKey}`,
+      );
+      try {
+        console.log(localListRes)
+        if (localListRes) {
+          const localList = JSON.parse(localListRes);
+          setLocalList(localList);
+        }
+      } catch (error) {}
+    }
+  }, [accountInfo.publicKey])
   return (
     <div className={className}>
       <div className='mb-4'>
@@ -322,10 +349,10 @@ export const QuestionDefault = ({
               <div className='break-keep mb-2' key={j}>
                 <div className='mb-2'>
                   <div>{v.q}</div>
-                  {type !== 'maintain' && !!(v.l && !isNaN(v.l)) && (
+                  {type !== 'maintain' && !!(v?.len && !isNaN(v?.len)) && (
                     <div className='text-12px'>
                       {t('pages.account.question.toast.error_3_first')}
-                      {v.l}
+                      {v?.len}
                       {t('pages.account.question.toast.error_3_end')}
                     </div>
                   )}
@@ -335,6 +362,7 @@ export const QuestionDefault = ({
                     value={v.a}
                     size='md'
                     placeholder={v.p}
+                    labelRight={<RendText num={v.a?.length} />}
                     rounded={false}
                     onChange={(e: any) => answerChange(i, j, e)}
                   />

@@ -69,7 +69,7 @@ export const useGunStore = create<GunState>()(
       });
       if (code === '000000') {
         await get().load();
-        toast.success(i18n.t('pages.space.apply_success'));
+        toast.success(i18n.t('pages.space.gun.apply_success'));
       } else {
         toast.error(msg);
         throw new Error(msg);
@@ -85,7 +85,7 @@ export const useGunStore = create<GunState>()(
       });
       if (code === '000000') {
         await get().load();
-        toast.success(i18n.t('pages.space.renew_success'));
+        toast.success(i18n.t('pages.space.gun.renew_success'));
       } else {
         toast.error(msg);
         throw new Error(msg);

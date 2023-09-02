@@ -5,6 +5,7 @@ interface QuestionItem {
   q: string;
   a: string;
   l: number;
+  len?: number;
 }
 interface QuestionList {
   list: QuestionItem[];

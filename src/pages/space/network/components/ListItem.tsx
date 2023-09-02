@@ -96,9 +96,9 @@ export function ListItem({
             {/* <span>{description}</span> */}
           </div>
         </div>
-        <div
+        {/* <div
           className='i-mdi-trash-can-outline absolute right-1 top-1/2 -translate-1/2 w-6 h-6 text-red'
-          onClick={delHandler}></div>
+          onClick={delHandler}></div> */}
       </Card.Body>
     </Card>
   );
