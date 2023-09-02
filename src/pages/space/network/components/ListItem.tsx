@@ -11,7 +11,7 @@ interface Props {
   CreateTime: number;
   type?: string;
   PinStatus: number;
-  ValidTime: string;
+  ValidTime: number;
   Cid: string;
   description: string;
   onDelete: () => void;
@@ -57,7 +57,7 @@ export function ListItem({
   const createTimeText = useMemo(() => {
     if (CreateTime) {
       try {
-        return format(new Date(CreateTime), 'yyyy-MM-dd HH:mm:ss');
+        return format(new Date(CreateTime * 1000), 'yyyy-MM-dd HH:mm:ss');
       } catch (error) {
         return;
       }
@@ -67,7 +67,7 @@ export function ListItem({
   const validTimeText = useMemo(() => {
     if (ValidTime) {
       try {
-        return format(new Date(ValidTime), 'yyyy-MM-dd HH:mm:ss');
+        return format(new Date(ValidTime * 1000), 'yyyy-MM-dd HH:mm:ss');
       } catch (error) {
         return;
       }
