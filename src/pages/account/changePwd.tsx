@@ -18,6 +18,7 @@ export default function ChangePwd() {
   const [confirmPwd, setConfirmPwd] = useState('');
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
+  const [isBiometricsSatus, setIsBiometricsSatus] = useState(false);
   const [err, setErr] = useState(false);
   const { accountInfo, setAccountInfo } = useAccountStore((state) => state);
 
@@ -42,12 +43,24 @@ export default function ChangePwd() {
     });
     if (code === '000000') {
       setAccountInfo({ isDefaultPwd: false });
+      if (isBiometricsSatus && window.JsBridge) {
+        setupBiometrics(pwd);
+      }
       toast.success(t('common.password.change_success'));
       nav(-1);
     } else {
       setErr(true);
       toast.error(msg);
     }
+  };
+  const setupBiometrics = async (password: string) => {
+    window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
+      if (code === 0) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+    });
   };
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
     if (!err)
@@ -64,9 +77,20 @@ export default function ChangePwd() {
     setErr(false);
     setOldPwd(e.target.value?.trim());
   };
-  const checkboxChange = (e: boolean) => {
-    setChecked(e);
+  const getBiometricsSetUp = () => {
+    if (window?.JsBridge) {
+      window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+        if (code === 0) {
+          setIsBiometricsSatus(true);
+        } else {
+          setIsBiometricsSatus(false);
+        }
+      });
+    }
   };
+  useEffect(() => {
+    getBiometricsSetUp();
+  }, []);
   return (
     <LayoutThird showBack title={t('common.password.change_text')}>
       <div className='pt-6 px-6'>
@@ -101,7 +125,9 @@ export default function ChangePwd() {
             onChange={(e) => setPwd(e.target.value?.trim())}
             placeholder={t('common.password.new_text')}
           />
-          <div className='text-12px pl-8px'>{t('common.password.rule_text')}</div>
+          <div className='text-12px pl-8px'>
+            {t('common.password.rule_text')}
+          </div>
         </div>
         <Row className='mb-4' justify='center'>
           <Input.Password
