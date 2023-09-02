@@ -14,10 +14,12 @@ export interface GunSummy {
 
 interface GunState {
   list: GunSummy[];
+  searchName: string;
   add: (n: GunSummy) => void;
   init: (list: GunSummy[]) => void;
   remove: (id: string) => void;
   update: (note: GunSummy) => void;
+  setName: (name: string) => void;
   get: (gunname: string | undefined) => Promise<GunSummy | undefined>;
   load: () => void;
   apply: (gunname: any, validperiod: number) => void;
@@ -28,10 +30,14 @@ interface GunState {
 export const useGunStore = create<GunState>()(
   devtools((set, get) => ({
     list: [],
+    searchName: '',
     add: async (n) => {
       const list = cloneDeep(get().list);
       list.push(n);
       set({ list });
+    },
+    setName: (n) => {
+      set({ searchName: n });
     },
     init: async (n) => {
       const list = cloneDeep(n);

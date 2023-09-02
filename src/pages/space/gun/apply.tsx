@@ -14,12 +14,11 @@ import { useTranslation } from 'react-i18next';
 export default function GunRenew() {
   const { t } = useTranslation();
   const nav = useNavigate();
-  const [gunname, setGunname] = useState('');
   const timer = useRef<any>(null);
   const [selectedValid, setSelectedValid] = useState('0');
   const [loading, setLoading] = useState(false);
   //const { mutate: modifyuser, loading: modifyLoading };
-  const { apply: applyGUN, load: loadGUN } = useGunStore((state) => state);
+  const { apply: applyGUN, load: loadGUN, searchName, setName } = useGunStore((state) => state);
 
   const [nameValid, setnameValid] = useState('gunvalid');
   const validityList = [
@@ -39,8 +38,8 @@ export default function GunRenew() {
   //const changeDisabled ;
   /*= useMemo(() => {
     console.log("changeDisabled.");
-    return gunname.length < 12 || nameValid == "gunvalid";
-  }, [gunname, nameValid]);
+    return searchName.length < 12 || nameValid == "gunvalid";
+  }, [searchName, nameValid]);
 */
   const calcValidTime = () => {
     let validTime: Date = new Date();
@@ -64,7 +63,7 @@ export default function GunRenew() {
     const validTime = calcValidTime();
     setLoading(true);
     try {
-      await applyGUN(gunname, validTime);
+      await applyGUN(searchName, validTime);
       nav(-1);
     } catch (error) {
       console.log(error);
@@ -76,7 +75,7 @@ export default function GunRenew() {
     console.log('CheckGun...');
     // Check the gun name is used or not
 
-    let name: string = gunname;
+    let name: string = searchName;
     if (name.length == 0) {
       name = '*';
     }
@@ -85,18 +84,18 @@ export default function GunRenew() {
     nav(`/space/gun/search/${name}`);
   };
 
-  const gunnameChange = (e: any) => {
-    setGunname(e);
+  const searchNameChange = (e: any) => {
+    setName(e);
     if (timer.current) {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
       const text = e.trim().replace(/[^A-Za-z0-9_]/g, '');
-      setGunname(text);
+      setName(text);
     }, 100);
   };
   const calcPoint = useMemo(() => {
-    const len = gunname.length;
+    const len = searchName.length;
     const pointMap: any = {
       8: '10006 TVS',
       9: '1006 TVS',
@@ -110,12 +109,12 @@ export default function GunRenew() {
     } else {
       return pointMap[len];
     }
-  }, [gunname]);
+  }, [searchName]);
   const disabled = useMemo(() => {
     console.log(nameValid);
-    console.log(gunname);
-    return gunname.length < 8;
-  }, [gunname, nameValid]);
+    console.log(searchName);
+    return searchName.length < 8;
+  }, [searchName, nameValid]);
 
   return (
     <LayoutThird showBack title={t('pages.space.gun.apply_title')}>
@@ -139,13 +138,13 @@ export default function GunRenew() {
           </div>
           <div className='flex items-center'>
             <Input
-              id='gunnameInput'
+              id='searchNameInput'
               clearable
               bordered
               fullWidth
               maxLength={64}
-              value={gunname}
-              onChange={gunnameChange}
+              value={searchName}
+              onChange={searchNameChange}
               placeholder={t('pages.space.gun.apply_name')}
             />
             <Button
@@ -183,9 +182,9 @@ export default function GunRenew() {
           <Text className=' text-gray-400'>
             <span>{t('pages.space.gun.price_text')}：</span>
           </Text>
-          {gunname.length > 0 && (
+          {searchName.length > 0 && (
             <Text className='text-blue-5 ml-4'>
-              {gunname.length < 8 ? (
+              {searchName.length < 8 ? (
                 <span>{t('pages.space.gun.price_soon')}</span>
               ) : (
                 <span>

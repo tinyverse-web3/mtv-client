@@ -11,10 +11,11 @@ import { useTranslation } from 'react-i18next';
 export default function GunListShow() {
   const { t } = useTranslation();
   const nav = useNavigate();
-  const { list, load: loadGUN } = useGunStore((state) => state);
+  const { list, load: loadGUN, setName } = useGunStore((state) => state);
   const remove = useGunStore((state) => state.remove);
   //const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const toAdd = () => {
+    setName('');
     nav(ROUTE_PATH.SPACE_GUN_APPLY);
   };
   const toDetail = (key: string) => {
