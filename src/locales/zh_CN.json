@@ -183,6 +183,8 @@
         "rule_text": "名字不区分大小写，只能使用字母a-z和数字0-9，最少8位。",
         "expired_text": "有效期",
         "price_text": "费用说明",
+        "price_soon": "未开放申请，敬请期待",
+        "price_hint": "需要",
         "one_year": "1年",
         "two_year": "2年",
         "three_year": "3年",

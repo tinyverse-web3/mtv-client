@@ -182,6 +182,8 @@
         "rule_text": "Name is case insensitive, can only use letters a-z and numbers 0-9, at least 8 characters.",
         "expired_text": "Valid Period",
         "price_text": "Pricing",
+        "price_soon": "This is not yet open, so stay tuned",
+        "price_hint": "Need ",
         "one_year": "1 year",
         "two_year": "2 years",
         "three_year": "3 years",

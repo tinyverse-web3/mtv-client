@@ -95,6 +95,22 @@ export default function GunRenew() {
       setGunname(text);
     }, 100);
   };
+  const calcPoint = useMemo(() => {
+    const len = gunname.length;
+    const pointMap: any = {
+      8: '10000 TVS',
+      9: '1000 TVS',
+      10: '100 TVS',
+      11: '10 TVS',
+    };
+    if (len <= 7) {
+      return pointMap[7];
+    } else if (len >= 11) {
+      return pointMap[11];
+    } else {
+      return pointMap[len];
+    }
+  }, [gunname]);
   const disabled = useMemo(() => {
     console.log(nameValid);
     console.log(gunname);
@@ -118,7 +134,9 @@ export default function GunRenew() {
             </div>
         </div> */}
         <div className='mb-2'>
-          <div className='w-18 min-w-18 mb-2'>{t('pages.space.gun.apply_name')}</div>
+          <div className='w-18 min-w-18 mb-2'>
+            {t('pages.space.gun.apply_name')}
+          </div>
           <div className='flex items-center'>
             <Input
               id='gunnameInput'
@@ -161,9 +179,16 @@ export default function GunRenew() {
             </Radio.Group>
           </div>
         </div>
-        <div className='mb-4'>
-          <Text className='text-3 text-gray-400'>
-            {t('pages.space.gun.price_text')}
+        <div className='mb-4 flex items-center text-[14px]'>
+          <Text className=' text-gray-400'>
+            <span>{t('pages.space.gun.price_text')}：</span>
+          </Text>
+          <Text className='text-blue-5 ml-4'>
+            {gunname.length < 8 ? (
+              <span>{t('pages.space.gun.price_soon')}</span>
+            ) : (
+              <span>{t('pages.space.gun.price_hint')}{calcPoint}</span>
+            )}
           </Text>
         </div>
         <Button
