@@ -64,8 +64,8 @@ const NetworkList: React.FC = () => {
             PinStatus={item.PinStatus}
             Redundancy={item.Redundancy}
             CreateTime={item.CreateTime}
-            // expireTime={item.expireTime}
-            // description={item.description}
+            expireTime={item.ExpireTime}
+            description={item.Description}
             onClick={() => toDetail(item)}
             onDelete={() => handleDelete(index)}
           />

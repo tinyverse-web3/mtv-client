@@ -86,6 +86,16 @@ export default function NetworkDetail() {
             </Card.Body>
           </Card>
         </div>
+        <div className='mb-4'>
+          <div className='mb-2'>{t('common.description')}</div>
+          <Card variant='bordered'>
+            <Card.Body>
+              <div className='flex'>
+                <div className=''>{detail.Description}</div>
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
         {/* <div className='mb-4'>
           <div className='mb-2'>{t('pages.space.redundancy_text')}</div>
           <Card variant='bordered'>

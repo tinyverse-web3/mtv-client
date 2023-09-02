@@ -11,8 +11,8 @@ interface Props {
   CreateTime: number;
   type?: string;
   PinStatus: number;
-  // expireTime: string;
-  // description: string;
+  expireTime: string;
+  description: string;
   onDelete: () => void;
   onClick: () => void;
 }
@@ -23,8 +23,8 @@ export function ListItem({
   CreateTime,
   type,
   PinStatus,
-  // expireTime,
-  // description,
+  expireTime,
+  description,
   onDelete,
   onClick,
 }: Props) {
@@ -48,7 +48,7 @@ export function ListItem({
     3: '#00FF00',
     4: '#00BFFF',
     5: '#FFA500',
-  }
+  };
   const sizeText = useMemo(() => {
     return calcSize(Size);
   }, [Size]);
@@ -74,7 +74,9 @@ export function ListItem({
           {PinStatus !== null && PinStatus !== undefined && type === 'ipfs' && (
             <div>
               <span>{t('pages.space.data.status.title')}：</span>
-              <span style={{color: statusColorMap[PinStatus]}}>{pinStatusMap[PinStatus]}</span>
+              <span style={{ color: statusColorMap[PinStatus] }}>
+                {pinStatusMap[PinStatus]}
+              </span>
             </div>
           )}
           <div>
@@ -85,16 +87,18 @@ export function ListItem({
             <span>{t('pages.space.data.save_time')}：</span>
             <span>{createTimeText}</span>
           </div>
-          {type !== 'ipfs' && (
+          {type !== 'ipfs' && !!expireTime && (
             <div>
               <span>{t('pages.space.data.expired_time')}：</span>
-              {/* <span>{expireTime}</span> */}
+              <span>{expireTime}</span>
             </div>
           )}
-          <div>
-            <span>{t('pages.space.data.description')}：</span>
-            {/* <span>{description}</span> */}
-          </div>
+          {!!description && (
+            <div>
+              <span>{t('pages.space.data.description')}：</span>
+              <span>{description}</span>
+            </div>
+          )}
         </div>
         {/* <div
           className='i-mdi-trash-can-outline absolute right-1 top-1/2 -translate-1/2 w-6 h-6 text-red'
