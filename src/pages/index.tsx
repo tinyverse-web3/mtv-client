@@ -25,6 +25,16 @@ export default function Index() {
   const toCreate = () => {
     create();
   };
+  const openUrl = (url: string) => {
+    if (window.JsBridge) {
+      window.JsBridge.accessLink(url, ({ code }: any) => {});
+    } else {
+      location.href = url;
+    }
+  };
+  const toWebsit = () => {
+    openUrl(VITE_TINY_WEB)
+  }
   const create = async () => {
     setLoading(true);
     console.time('create account');
@@ -64,9 +74,9 @@ export default function Index() {
           {t('pages.index.btn_restore')}
         </Button>
         <div className='flex justify-end'>
-          <Link href={VITE_TINY_WEB} target='_blank' className='text-blue-9'>
+          <div onClick={toWebsit} className='text-blue-9'>
             {t('pages.index.btn_more')}
-          </Link>
+          </div>
         </div>
       </div>
     </LayoutOne>
