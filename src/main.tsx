@@ -9,9 +9,6 @@ import 'react-photo-view/dist/react-photo-view.css';
 
 import '@/locales'
 
-if (window.JsBridge && window.VConsole) {
-  new window.VConsole();
-}
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
     <App />
