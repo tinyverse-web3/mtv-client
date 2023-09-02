@@ -143,6 +143,7 @@
     },
     "space": {
       "title": "空间",
+      "head_title": "我的芥子空间",
       "hint": {
         "coming_soon": "即将发布"
       },
@@ -200,6 +201,7 @@
         "btn_expansion": "扩容",
         "btn_detail": "详情",
         "size_text": "大小",
+        "cid": "Cid",
         "redundancy_text": "冗余",
         "status": {
           "title": "数据状态",

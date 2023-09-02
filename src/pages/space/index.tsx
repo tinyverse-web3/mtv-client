@@ -153,7 +153,7 @@ export default function SpaceIndex() {
       <div className='flex justify-between mb-6'>
         <div className='flex items-center  cursor-pointer ' onClick={toAccount}>
           <Image src={imageSrc} className='w-8 h-8 rounded-full mr-4' />
-          <span className='text-blue-5'>My TinyVerse Space</span>
+          <span className='text-blue-5'>{t('pages.space.head_title')}</span>
         </div>
         <div
           className='i-mdi-line-scan text-7  cursor-pointer text-blue-5'

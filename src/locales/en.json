@@ -142,6 +142,7 @@
     },
     "space": {
       "title": "Space",
+      "head_title": "My TinyVerse Space",
       "hint": {
         "coming_soon": "Coming Soon"
       },
@@ -199,6 +200,7 @@
         "btn_expansion": "Expand",
         "btn_detail": "Details",
         "size_text": "Size",
+        "cid": "Cid",
         "redundancy_text": "Redundancy",
         "status": {
           "title": "Data Status",

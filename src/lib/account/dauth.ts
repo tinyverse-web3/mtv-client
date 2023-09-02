@@ -608,13 +608,14 @@ export class Dauth {
       },
     });
   }
-  async getDataDetail({ DataType, Key }: any) {
+  async getDataDetail({ DataType, Key, Cid }: any) {
     return this.invoke({
       method: 'get',
       name: 'data/getDataDetail',
       data: {
         DataType,
         Key,
+        Cid,
       },
     });
   }

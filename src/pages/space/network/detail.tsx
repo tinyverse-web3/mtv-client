@@ -11,15 +11,17 @@ export default function NetworkDetail() {
   const [params] = useSearchParams();
   const type = params.get('type');
   const id = params.get('id');
+  const cid = params.get('cid');
   const [detail, setDetail] = useState<any>({});
   const getDetail = async () => {
-    if (type && id) {
+    if (type && id ) {
       const { data, code } = await account.getDataDetail({
         DataType: type,
         Key: decodeURIComponent(id),
+        Cid: cid ? decodeURIComponent(cid) : undefined,
       });
       if (code === '000000') {
-        setDetail(data);
+        setDetail(data || {});
       }
     }
   };
@@ -52,11 +54,21 @@ export default function NetworkDetail() {
     <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>{type === 'ipfs'? "CID" : 'Key'}            </div>
+          <div className='mb-2'>Key</div>
           <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
                 <div className=''>{detail.Key}</div>
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
+        <div className='mb-4'>
+          <div className='mb-2'>{t('pages.space.data.cid')}</div>
+          <Card variant='bordered'>
+            <Card.Body>
+              <div className='flex'>
+                <div className=''>{detail.Cid}</div>
               </div>
             </Card.Body>
           </Card>

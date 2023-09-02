@@ -41,10 +41,10 @@ export default function NftDetail() {
     getDetail();
   }, [id]);
   return (
-    <LayoutThird title={t('pages.space.assets.detail_title')}>
+    <LayoutThird title={t('pages.assets.detail_title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>{t('pages.space.assets.detail_name')}</div>
+          <div className='mb-2'>{t('pages.assets.detail_name')}</div>
           <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
@@ -67,7 +67,7 @@ export default function NftDetail() {
         )}
         {!!detail.Owner && (
           <div className='mb-4'>
-            <div className='mb-2'>{t('pages.space.assets.owner')}</div>
+            <div className='mb-2'>{t('pages.assets.owner')}</div>
             <Card variant='bordered'>
               <Card.Body>
                 <div className='flex'>
@@ -115,7 +115,7 @@ export default function NftDetail() {
           </div>
         )}
         <Button className='w-full' onClick={toTransfer}>
-          {t('pages.space.assets.nft.btn_transfer')}
+          {t('pages.assets.nft.btn_transfer')}
         </Button>
       </div>
     </LayoutThird>

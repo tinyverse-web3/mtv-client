@@ -33,7 +33,7 @@ const NetworkList: React.FC = () => {
     nav(
       `${ROUTE_PATH.SPACE_NETWORK_DETAIL}?type=${type}&id=${encodeURIComponent(
         e.Key,
-      )}`,
+      )}&cid=${e.Cid}`,
     );
   };
   useEffect(() => {
@@ -42,18 +42,6 @@ const NetworkList: React.FC = () => {
   return (
     <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
-        {/* <div className='mb-4'>
-          <Input
-            value={searchText}
-            aria-label='text'
-            onChange={(e: any) => setSearchText(e.target)}
-            fullWidth
-            clearable
-            rounded
-            onKeyUp={searchHandler}
-            placeholder='对方公钥'
-          />
-        </div> */}
 
         {networkItems.map((item, index) => (
           <ListItem
@@ -65,6 +53,7 @@ const NetworkList: React.FC = () => {
             Redundancy={item.Redundancy}
             CreateTime={item.CreateTime}
             expireTime={item.ExpireTime}
+            Cid={item.Cid}
             description={item.Description}
             onClick={() => toDetail(item)}
             onDelete={() => handleDelete(index)}

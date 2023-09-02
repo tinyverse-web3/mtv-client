@@ -12,6 +12,7 @@ interface Props {
   type?: string;
   PinStatus: number;
   expireTime: string;
+  Cid: string;
   description: string;
   onDelete: () => void;
   onClick: () => void;
@@ -22,6 +23,7 @@ export function ListItem({
   Redundancy,
   CreateTime,
   type,
+  Cid,
   PinStatus,
   expireTime,
   description,
@@ -67,6 +69,13 @@ export function ListItem({
       <Card.Body className='relative' onClick={onClick}>
         <div className='text-4 break-all'>{Key}</div>
         <div className=''>
+          {!!Cid && (
+            <div>
+              <span>{t('pages.space.data.cid')}：</span>
+              <span>{Cid}</span>
+            </div>
+          )}
+
           <div>
             <span>{t('pages.space.data.size_text')}：</span>
             <span>{sizeText}</span>

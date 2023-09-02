@@ -809,8 +809,8 @@ export class Account {
     const { data } = await this.dauth.getDataList({ DataType });
     return data;
   }
-  async getDataDetail({ DataType, Key }: any) {
-    const { data } = await this.dauth.getDataDetail({ DataType, Key });
+  async getDataDetail({ DataType, Key, Cid }: any) {
+    const { data } = await this.dauth.getDataDetail({ DataType, Key, Cid });
     return data;
   }
   async addAuthenticator({ Account, Secret }: any) {
