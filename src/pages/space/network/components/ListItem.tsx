@@ -11,7 +11,7 @@ interface Props {
   CreateTime: number;
   type?: string;
   PinStatus: number;
-  expireTime: string;
+  ValidTime: string;
   Cid: string;
   description: string;
   onDelete: () => void;
@@ -25,7 +25,7 @@ export function ListItem({
   type,
   Cid,
   PinStatus,
-  expireTime,
+  ValidTime,
   description,
   onDelete,
   onClick,
@@ -57,13 +57,23 @@ export function ListItem({
   const createTimeText = useMemo(() => {
     if (CreateTime) {
       try {
-        return format(new Date(CreateTime * 1000), 'yyyy-MM-dd HH:mm:ss');
+        return format(new Date(CreateTime), 'yyyy-MM-dd HH:mm:ss');
       } catch (error) {
         return;
       }
     }
     return;
-  }, [Size]);
+  }, [CreateTime]);
+  const validTimeText = useMemo(() => {
+    if (ValidTime) {
+      try {
+        return format(new Date(ValidTime), 'yyyy-MM-dd HH:mm:ss');
+      } catch (error) {
+        return;
+      }
+    }
+    return;
+  }, [ValidTime]);
   return (
     <Card variant='bordered' className='mb-4'>
       <Card.Body className='relative' onClick={onClick}>
@@ -75,11 +85,13 @@ export function ListItem({
               <span>{Cid}</span>
             </div>
           )}
+          {!!Size && (
+            <div>
+              <span>{t('pages.space.data.size_text')}：</span>
+              <span>{sizeText}</span>
+            </div>
+          )}
 
-          <div>
-            <span>{t('pages.space.data.size_text')}：</span>
-            <span>{sizeText}</span>
-          </div>
           {PinStatus !== null && PinStatus !== undefined && type === 'ipfs' && (
             <div>
               <span>{t('pages.space.data.status.title')}：</span>
@@ -90,16 +102,16 @@ export function ListItem({
           )}
           <div>
             <span>{t('pages.space.data.redundancy_text')}：</span>
-            <span>{Redundancy}</span>
+            <span>{Redundancy || 0}</span>
           </div>
           <div>
             <span>{t('pages.space.data.save_time')}：</span>
             <span>{createTimeText}</span>
           </div>
-          {type !== 'ipfs' && !!expireTime && (
+          {type !== 'ipfs' && !!ValidTime && (
             <div>
               <span>{t('pages.space.data.expired_time')}：</span>
-              <span>{expireTime}</span>
+              <span>{validTimeText}</span>
             </div>
           )}
           {!!description && (

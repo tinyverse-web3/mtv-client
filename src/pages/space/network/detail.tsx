@@ -14,7 +14,7 @@ export default function NetworkDetail() {
   const cid = params.get('cid');
   const [detail, setDetail] = useState<any>({});
   const getDetail = async () => {
-    if (type && id ) {
+    if (type && id) {
       const { data, code } = await account.getDataDetail({
         DataType: type,
         Key: decodeURIComponent(id),
@@ -40,7 +40,7 @@ export default function NetworkDetail() {
     3: '#00FF00',
     4: '#00BFFF',
     5: '#FFA500',
-  }
+  };
   const sizeText = useMemo(() => {
     if (detail.Size) {
       return calcSize(detail.Size);
@@ -63,16 +63,19 @@ export default function NetworkDetail() {
             </Card.Body>
           </Card>
         </div>
-        <div className='mb-4'>
-          <div className='mb-2'>{t('pages.space.data.cid')}</div>
-          <Card variant='bordered'>
-            <Card.Body>
-              <div className='flex'>
-                <div className=''>{detail.Cid}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
+        {!!detail.Cid && (
+          <div className='mb-4'>
+            <div className='mb-2'>{t('pages.space.data.cid')}</div>
+            <Card variant='bordered'>
+              <Card.Body>
+                <div className='flex'>
+                  <div className=''>{detail.Cid}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        )}
+
         {detail.PinStatus !== null &&
           detail.PinStatus !== undefined &&
           type === 'ipfs' && (
@@ -81,33 +84,42 @@ export default function NetworkDetail() {
               <Card variant='bordered'>
                 <Card.Body>
                   <div className='flex'>
-                    <div className='' style={{color: statusColorMap[detail.PinStatus]}}>{pinStatusMap[detail.PinStatus]}</div>
+                    <div
+                      className=''
+                      style={{ color: statusColorMap[detail.PinStatus] }}>
+                      {pinStatusMap[detail.PinStatus]}
+                    </div>
                   </div>
                 </Card.Body>
               </Card>
             </div>
           )}
+        {!!detail.Size && (
+          <div className='mb-4'>
+            <div className='mb-2'>{t('pages.space.data.size_text')}</div>
+            <Card variant='bordered'>
+              <Card.Body>
+                <div className='flex'>
+                  <div className=''>{sizeText}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        )}
 
-        <div className='mb-4'>
-          <div className='mb-2'>{t('pages.space.data.size_text')}</div>
-          <Card variant='bordered'>
-            <Card.Body>
-              <div className='flex'>
-                <div className=''>{sizeText}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className='mb-4'>
-          <div className='mb-2'>{t('common.description')}</div>
-          <Card variant='bordered'>
-            <Card.Body>
-              <div className='flex'>
-                <div className=''>{detail.Description}</div>
-              </div>
-            </Card.Body>
-          </Card>
-        </div>
+        {!!detail.Description && (
+          <div className='mb-4'>
+            <div className='mb-2'>{t('common.description')}</div>
+            <Card variant='bordered'>
+              <Card.Body>
+                <div className='flex'>
+                  <div className=''>{detail.Description}</div>
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        )}
+
         {/* <div className='mb-4'>
           <div className='mb-2'>{t('pages.space.redundancy_text')}</div>
           <Card variant='bordered'>

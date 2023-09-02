@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ListItem } from './components/ListItem';
-import { Input } from '@/components/form/Input';
+import { Empty } from '@/components/Empty';
 import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -33,7 +33,7 @@ const NetworkList: React.FC = () => {
     nav(
       `${ROUTE_PATH.SPACE_NETWORK_DETAIL}?type=${type}&id=${encodeURIComponent(
         e.Key,
-      )}&cid=${e.Cid}`,
+      )}${e.Cid ? '&cid=' + e.Cid : ''}`,
     );
   };
   useEffect(() => {
@@ -42,7 +42,7 @@ const NetworkList: React.FC = () => {
   return (
     <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
-
+        {!networkItems.length && networkItems}
         {networkItems.map((item, index) => (
           <ListItem
             key={index}
@@ -52,7 +52,7 @@ const NetworkList: React.FC = () => {
             PinStatus={item.PinStatus}
             Redundancy={item.Redundancy}
             CreateTime={item.CreateTime}
-            expireTime={item.ExpireTime}
+            ValidTime={item.ValidTime}
             Cid={item.Cid}
             description={item.Description}
             onClick={() => toDetail(item)}
