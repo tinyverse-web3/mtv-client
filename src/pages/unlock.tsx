@@ -153,7 +153,7 @@ export default function Unlock() {
             auto
             color='success'
             className='text-14px px-0 text-blue-5'
-            onPress={deleteUser}>
+            onClick={deleteUser}>
             {t('pages.unlock.forget_password')}
           </Button>
         </div>
