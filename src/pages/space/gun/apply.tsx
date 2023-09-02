@@ -183,13 +183,18 @@ export default function GunRenew() {
           <Text className=' text-gray-400'>
             <span>{t('pages.space.gun.price_text')}：</span>
           </Text>
-          <Text className='text-blue-5 ml-4'>
-            {gunname.length < 8 ? (
-              <span>{t('pages.space.gun.price_soon')}</span>
-            ) : (
-              <span>{t('pages.space.gun.price_hint')}{calcPoint}</span>
-            )}
-          </Text>
+          {gunname.length > 0 && (
+            <Text className='text-blue-5 ml-4'>
+              {gunname.length < 8 ? (
+                <span>{t('pages.space.gun.price_soon')}</span>
+              ) : (
+                <span>
+                  {t('pages.space.gun.price_hint')}
+                  {calcPoint}
+                </span>
+              )}
+            </Text>
+          )}
         </div>
         <Button
           disabled={disabled}
