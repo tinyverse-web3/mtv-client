@@ -76,7 +76,7 @@ export const useAccountStore = create<AccountState>()(
             customPrivateData: localInfo.CustomPrivateData || '',
             hasFeatureData: localInfo.IsSetVault || false,
             isBackupMnemonic: !!localInfo?.IsGenerateMnemonic || false,
-            isBackupQuestion: !!localInfo?.QuestionSets?.length || false,
+            isBackupQuestion: !!localInfo?.CustomQuestionSets?.length || !!localInfo?.StandardQuestionSets?.length  || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
             avatar: localInfo.Avatar,
