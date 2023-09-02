@@ -1,6 +1,5 @@
 import { Text, Row, Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';

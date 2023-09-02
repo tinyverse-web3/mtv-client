@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Text, Input } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useWalletStore } from '@/store';
+import { useGlobalStore } from '@/store';
 import { useRequest } from '@/api';
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';

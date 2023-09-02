@@ -4,7 +4,7 @@ import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
 import account from '@/lib/account/account';
 import { ProfileAvatar } from '@/components/ProfileAvatar';
-import { useChatStore, useWalletStore, useAccountStore } from '@/store';
+import { useChatStore, useAccountStore } from '@/store';
 import {
   Card,
   Text,
@@ -40,7 +40,6 @@ export default function ChatList() {
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const [friendList, setFriendList] = useState<any[]>([]);
-  const { wallet } = useWalletStore((state) => state);
   const { setRecipient } = useChatStore((state) => state);
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -75,8 +74,7 @@ export default function ChatList() {
   const refreshShareIm = async () => {};
 
   const copyShareImLink = async () => {
-    let link =
-      window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey;
+    let link = '';
     copyToClipboard(link);
   };
 
@@ -172,8 +170,7 @@ export default function ChatList() {
                   size={200}
                   value={
                     window.location.origin +
-                    '/#/chat/imShare?pk=' +
-                    wallet?.publicKey
+                    '/#/chat/imShare?pk='
                   }
                 />
               </Card.Body>

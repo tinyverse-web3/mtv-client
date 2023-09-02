@@ -1,6 +1,4 @@
-import { Password } from './wallet';
 import { Dauth } from './dauth';
-import axios from 'axios';
 import i18n from '@/locales'
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
@@ -287,7 +285,6 @@ export class Account {
     await this.dauth.lock();
     // this.mtvStorage = undefined;
     // this.crypto = undefined;
-    // this.keySha = undefined;
   }
   /**
    * 恢复账户信息

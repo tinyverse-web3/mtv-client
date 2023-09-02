@@ -1,6 +1,6 @@
 import LayoutThird from '@/layout/LayoutThird';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useWalletBalance, usePoint } from '@/lib/hooks';
+import { usePoint } from '@/lib/hooks';
 import { AssetsTokenItem } from '../components/AssetsTokenItem';
 import { useTranslation } from 'react-i18next';
 

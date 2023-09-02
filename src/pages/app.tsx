@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { createMemo, useEvent, useList } from 'react-use';
 // import { AppAccount } from '@/lib/account';
 
-// import { ethers } from 'ethers';
 // import EthCrypto from 'eth-crypto';
 export default function App() {
   const test = async () => {

@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import type { SWRConfiguration } from 'swr';
-import { useGlobalStore, useWalletStore } from '@/store';
-import { signMessage } from '@/lib/utils';
+import { useGlobalStore } from '@/store';
 import toast from 'react-hot-toast';
 // import { ROUTE_PATH } from '@/router';
 
@@ -32,7 +31,6 @@ export function useRequest<T>(
 ) {
   const [res, setRes] = useState<T>();
   const logout = useGlobalStore((state) => state.logout);
-  const wallet = useWalletStore((state) => state.wallet);
   const customSuccess = swrOptions?.onSuccess;
   const customError = swrOptions?.onError;
 
@@ -57,7 +55,7 @@ export function useRequest<T>(
   _swrConfig.onError = onError;
 
   const fetcher = async ({ url, arg }: any) => {
-    const { publicKey, address } = wallet || {};
+    const { publicKey, address }: any = {};
     const headers: any = {};
     const _method = arg?.method.toUpperCase();
     const options: any = {
@@ -80,10 +78,10 @@ export function useRequest<T>(
     }
     if (arg?.auth && publicKey) {
       const signStr = options.body || _url;
-      const sign = await wallet?.sign(signStr);
-      options.headers.public_key = publicKey;
-      options.headers.sign = sign;
-      options.headers.address = address;
+      // const sign = await wallet?.sign(signStr);
+      // options.headers.public_key = publicKey;
+      // options.headers.sign = sign;
+      // options.headers.address = address;
     }
     
     _url = `${baseUrl}/${apiVersion}${_url}`;

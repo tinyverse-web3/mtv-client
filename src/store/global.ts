@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { generateKeys } from '@/lib/utils/generateKeys';
 import { isEqual } from 'lodash';
 
 interface Guardian {

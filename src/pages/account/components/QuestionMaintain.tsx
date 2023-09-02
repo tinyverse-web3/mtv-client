@@ -1,11 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Card, Text } from '@nextui-org/react';
-import { Button } from '@/components/form/Button';
-import { KeySha } from '@/lib/account';
-import { useRequest } from '@/api';
-import { useWalletStore, useGlobalStore, useQuestionStore } from '@/store';
-import { useCopyToClipboard } from 'react-use';
-import toast from 'react-hot-toast';
+import { useQuestionStore } from '@/store';
 import { Question } from '@/components/form/Question';
 import { QuestionDefault } from '@/components/form/QuestionDefault';
 import { ROUTE_PATH } from '@/router';
@@ -16,7 +9,7 @@ interface Props {
   type: Number;
 }
 export const QuestionMaintain = ({ type }: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const nav = useNavigate();
   const { setList: setQuestionList, setType } = useQuestionStore(
     (state) => state,

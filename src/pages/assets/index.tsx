@@ -1,10 +1,9 @@
 import { Button } from '@/components/form/Button';
 import { Image } from '@nextui-org/react';
 import { useMemo, useState } from 'react';
-import { ethers } from 'ethers';
 import { useAccountStore } from '@/store';
 import { useList } from 'react-use';
-import { useWalletBalance, usePoint } from '@/lib/hooks';
+import { usePoint } from '@/lib/hooks';
 import { HeaderAccount } from './components/HeaderAccount';
 import { Point } from './components/Point';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
@@ -32,7 +31,7 @@ export default function AssetsIndex() {
   //   return list[index];
   // }, [web3AccountSelect, list]);
   const { balance: pointBalance } = usePoint();
-  const [list] = useWalletBalance();
+  // const [list] = useWalletBalance();
   const assetsTypes = [
     {
       label: t('pages.assets.token.title'),
@@ -92,7 +91,7 @@ export default function AssetsIndex() {
                   onClick={() => toTokenDetail()}
                   balance={pointBalance}
                 />
-                {list.map((item) => (
+                {/* {list.map((item) => (
                   <AssetsTokenItem
                     icon={item.icon}
                     symbol={item.symbol}
@@ -100,7 +99,7 @@ export default function AssetsIndex() {
                     balance={item.balance}
                     dollar={item.dollar}
                   />
-                ))}
+                ))} */}
               </div>
               <Button onClick={toTransfer} className="mx-auto">{
               t('pages.assets.btn_transfer')}</Button>
