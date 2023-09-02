@@ -232,7 +232,10 @@
         "title": "Earn Rewards",
         "apply_success": "Application submitted",
         "daily": "Earn Daily Usage Reward",
-        "guardian": "Earn Binding Guardian Reward"
+        "guardian": "Earn Binding Guardian Reward",
+        "hint": "Complete tasks and get points rewards: We will update the tasks that can get rewards from time to time, so that users can have enough points to use various functions. The basic condition for obtaining bonus points is that the identity verification has been completed and the account has been backed up.",
+        "hint_one": "Available every day.",
+        "hint_two": "You can only obtain it after completing the guardian binding."
       },
       "nft": {
         "title": "Issue NFT"

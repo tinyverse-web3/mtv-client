@@ -52,7 +52,7 @@ export default function NetworkDetail() {
     <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>CID</div>
+          <div className='mb-2'>{type === 'ipfs'? "CID" : 'Key'}            </div>
           <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
