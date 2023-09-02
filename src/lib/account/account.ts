@@ -168,6 +168,7 @@ export class Account {
       passwordPrivateData,
       CustomPrivateData,
     });
+    return res?.data
   }
   /**
    * 恢复私有数据

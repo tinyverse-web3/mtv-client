@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Image, Button } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import {
   useQuestionStore,
 } from '@/store';
+
 import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
 import imageError from '@/assets/images/icon-error.png';
@@ -16,6 +17,7 @@ export default function QuestionVerifyResult() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { state } = useLocation();
+  
   const { list: initList, type } = useQuestionStore((state) => state);
   const { accountInfo,getLocalAccountInfo } = useAccountStore((state) => state);
   const toAccount = async () => {
@@ -40,7 +42,7 @@ export default function QuestionVerifyResult() {
       toast.error(t('common.toast.backup_error'));
     }
   };
-
+  
   useEffect(() => {
     if (!initList.length) {
       nav(ROUTE_PATH.ACCOUNT_QUESTION);

@@ -7,6 +7,8 @@ import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
+import { useHost } from '@/lib/hooks';
+import { download, delay } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
 export default function PrivateDataVerify() {
@@ -16,41 +18,44 @@ export default function PrivateDataVerify() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setAccountInfo, accountInfo, getLocalAccountInfo } = useAccountStore((state) => state);
-  const { textPrivateData, passwordPrivateData, customPrivateData } = useRestoreStore((state) => state);
-
+  const { setAccountInfo, accountInfo, getLocalAccountInfo } = useAccountStore(
+    (state) => state,
+  );
+  const { textPrivateData, passwordPrivateData, customPrivateData } =
+    useRestoreStore((state) => state);
+  const host = useHost();
   const add = async () => {
     setLoading(true);
     const privateArr = [text, password, customText];
     const privateFilter = privateArr.filter((v) => !!v);
-    // if (privateFilter.length < 2) {
-    //   toast.error(t('pages.account.encrypted_safe.toast.error_1'));
-    //   setLoading(false);
-    //   return;
-    // }
-    // if (text?.length < 12) {
-    //   toast.error(t('pages.account.encrypted_safe.toast.error_2'));
-    //   return;
-    // }
-    // if (password?.length < 12) {
-    //   toast.error(t('pages.account.encrypted_safe.toast.error_3'));
-    //   return;
-    // }
-    // if (customText?.length < 12) {
-    //   toast.error(t('pages.account.encrypted_safe.toast.error_4'));
-    //   return;
-    // }
-    if (textPrivateData !== text || passwordPrivateData !== password || customText !== customPrivateData) {
+    if (
+      textPrivateData !== text ||
+      passwordPrivateData !== password ||
+      customText !== customPrivateData
+    ) {
       toast.error(t('pages.account.encrypted_safe.verify_error'));
       setLoading(false);
       return;
     }
     try {
-      await account.setPivateData(text, password, customText);
-      setAccountInfo({ hasFeatureData: true });
-      toast.success(t('pages.account.encrypted_safe.set_success'));
-      await getLocalAccountInfo();
-      nav(-2);
+      const { code, msg } = await account.setPivateData(
+        text,
+        password,
+        customText,
+      );
+      if (code === '000000') {
+        setAccountInfo({ hasFeatureData: true });
+        toast.success(t('pages.account.encrypted_safe.set_success'));
+        await getLocalAccountInfo();
+        if (accountInfo.hasFeatureData && accountInfo.isBackupMnemonic) {
+          await downloadFile();
+          await delay(1000)
+          toast(t('pages.account.encrypted_safe.set_success'));
+        }
+        nav(-2);
+      } else {
+        toast.error(msg || t('pages.account.encrypted_safe.set_error'));
+      }
     } catch (error) {
       toast.error(t('pages.account.encrypted_safe.set_error'));
     }
@@ -72,6 +77,28 @@ export default function PrivateDataVerify() {
   };
   const onCustomChange = (e: any) => {
     setCustomText(e.trim());
+  };
+  const url = useMemo(() => {
+    return `${host}/sdk/downloadMnemonic`;
+  }, [host]);
+  const downloadFile = async () => {
+    await download(url, 'mnemonic.txt');
+    if (window.JsBridge) {
+      await new Promise((resolve, reject) => {
+        window.JsBridge.getDownloadStatus(async ({ code }: any) => {
+          if (code == 0) {
+            await getLocalAccountInfo();
+            toast.success(t('pages.account.phrase.download_success'));
+            resolve(true);
+          } else {
+            toast.success(t('pages.account.phrase.download_error'));
+            reject(false);
+          }
+        });
+      });
+    } else {
+    }
+    console.log('下载完成');
   };
   return (
     <LayoutThird title={t('pages.account.encrypted_safe.verify_text')}>
@@ -118,7 +145,7 @@ export default function PrivateDataVerify() {
           loading={loading}
           className='mx-auto mb-6 w-full'
           onPress={add}>
-          {t('common.fingerprint.title')} 
+          {t('common.fingerprint.title')}
         </Button>
         <Button
           disabled={!text && !password && !customText}
@@ -126,7 +153,7 @@ export default function PrivateDataVerify() {
           loading={loading}
           className='mx-auto w-full'
           onPress={add}>
-          {t('common.set_text')} 
+          {t('common.set_text')}
         </Button>
       </div>
     </LayoutThird>

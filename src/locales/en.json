@@ -284,6 +284,7 @@
         "custom": "Custom Feature Data",
         "feature_error": "Incorrect feature data",
         "toast": {
+          "retry_download": "The mnemonic encrypted file has been modified. Please download it again. Please save it!",
           "error_1": "Please enter at least two types of content",
           "error_2": "First item minimum 12 characters",
           "error_3": "Second item minimum 12 characters",

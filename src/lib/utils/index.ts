@@ -13,3 +13,11 @@ export function hideHalfString(str: string) {
     str.substring((len - halfLen) / 2 + halfLen);
   return hiddenStr;
 }
+
+export function delay(num: number) {
+  return new Promise((resolve, rejcet) => {
+    setTimeout(() => {
+      resolve(true);
+    }, num);
+  });
+}
