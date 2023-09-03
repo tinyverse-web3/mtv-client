@@ -41,10 +41,10 @@ export default function NftDetail() {
     getDetail();
   }, [id]);
   return (
-    <LayoutThird title={t('pages.assets.detail_title')}>
+    <LayoutThird title={t('pages.assets.nft.detail_title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>{t('pages.assets.detail_name')}</div>
+          <div className='mb-2'>{t('pages.assets.nft.detail_name')}</div>
           <Card variant='bordered'>
             <Card.Body>
               <div className='flex'>
