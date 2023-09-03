@@ -41,7 +41,7 @@ export default function NftDetail() {
     getDetail();
   }, [id]);
   return (
-    <LayoutThird title={t('pages.assets.nft.detail_title')}>
+    <LayoutThird title={t('pages.assets.nft.detail_text')}>
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>{t('pages.assets.nft.detail_name')}</div>
