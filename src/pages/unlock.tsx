@@ -120,7 +120,7 @@ export default function Unlock() {
             恢复账号或重新创建
           </Button>
         </div> */}
-        <Row className='mb-6 pt-8' justify='center'>
+        <Row className='mb-8 pt-8' justify='center'>
           <Input.Password
             clearable
             bordered
@@ -142,8 +142,8 @@ export default function Unlock() {
           disabled={!pwd}
           size='lg'
           loading={loading}
-          className='mx-auto mb-2 w-full'
-          onPress={pressHandler}>
+          className='mx-auto mb-6 w-full'
+          onClick={pressHandler}>
           {t('pages.unlock.btn_unlock')}
         </Button>
 
