@@ -78,8 +78,12 @@ export default function Phrase() {
         {type === 'file' ? (
           <div>
             <div className='border border-solid border-gray-300 flex justify-center items-center p-8 rounded w-40 h-40 mx-auto mb-2'>
-              <label className='w-full h-full flex cursor-pointer'>
-                <img src='/upload.png' alt='' />
+              <label className='w-full h-full flex flex-col cursor-pointer items-center justify-center text-blue-5'>
+                {/* <img src='/upload.png' alt='' /> */}
+                <div className='i-mdi-cloud-upload-outline w-30 h-30'></div>
+                <div className='text-18px'>
+                  {t('common.upload.title')}
+                </div>
                 <input
                   type='file'
                   onChange={fileChange}

@@ -72,6 +72,7 @@
       "title": "Biometrics"
     },
     "upload": {
+      "title": "Upload",
       "success": "Upload succeeded",
       "error": "Upload failed",
       "avatar_success": "Avatar uploaded successfully"

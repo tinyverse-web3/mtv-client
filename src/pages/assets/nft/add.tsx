@@ -10,7 +10,7 @@ import { useMap } from 'react-use';
 import { useTranslation } from 'react-i18next';
 
 export default function NftAdd() {
-  const { t} = useTranslation();
+  const { t } = useTranslation();
   const [assetsType, setAssetsType] = useState('file');
   const [textLoading, setTextLoading] = useState(false);
   const [previewSrc, setPreviewSrc] = useState('');
@@ -80,7 +80,7 @@ export default function NftAdd() {
     }
   };
   const typeChange = (t: string) => {
-    reset()
+    reset();
     setAssetsType(t);
   };
   const textMintDisabled = useMemo(() => {
@@ -134,9 +134,19 @@ export default function NftAdd() {
           </div>
           {assetsType === 'file' ? (
             <div className='mb-2'>
-              <div className='border border-solid border-gray-300 flex justify-center items-center p-8 rounded w-40 h-40 mx-auto mb-2'>
-                <label className='w-full h-full flex cursor-pointer'>
-                  <img src={imgSrc} alt='' />
+              <div className='border border-solid border-gray-300 flex justify-center items-center p-2 rounded w-40 h-40 mx-auto mb-2'>
+                <label className='w-full h-full flex flex-col cursor-pointer items-center justify-center text-blue-5'>
+                  {!!previewSrc ? (
+                    <img src={previewSrc} className='w-full h-full' />
+                  ) : (
+                    <>
+                      <div className='i-mdi-cloud-upload-outline w-30 h-30'></div>
+                      <div className='text-18px'>
+                        {t('common.upload.title')}
+                      </div>
+                    </>
+                  )}
+
                   <input
                     type='file'
                     onChange={imageChange}
@@ -144,7 +154,9 @@ export default function NftAdd() {
                   />
                 </label>
               </div>
-              <div className='text-center  '>{t('pages.assets.nft.mint_file_hint')}</div>
+              <div className='text-center  '>
+                {t('pages.assets.nft.mint_file_hint')}
+              </div>
             </div>
           ) : (
             <>
@@ -157,7 +169,9 @@ export default function NftAdd() {
                   placeholder={t('pages.assets.nft.mint_content_placeholder')}
                 />
               </div>
-              <div className='text-3 mb-4 text-right'>{t('pages.assets.nft.mint_text_hint')}</div>
+              <div className='text-3 mb-4 text-right'>
+                {t('pages.assets.nft.mint_text_hint')}
+              </div>
             </>
           )}
           <Button
