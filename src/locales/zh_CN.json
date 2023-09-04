@@ -303,7 +303,7 @@
         "delete_hint": "Do you want to delete the guardian?",
         "confirm": "添加",
         "hint": "守护者可用于身份验证、社交恢复等。增加多个守护者让你的账户更安全。请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。",
-        "hint_two": "我已阅读并同意《隐私政策》及《用户服务协议》"
+        "hint_two": "我已阅读并同意《隐私政策》及《服务条款》"
       },
       "backup": {
         "on": "已备份"
