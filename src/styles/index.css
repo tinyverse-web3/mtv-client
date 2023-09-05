@@ -27,7 +27,13 @@ div[data-overlay-container='true'] {
 .circular-progress-bar {
   animation: circular-progress 1.2s linear infinite;
 }
-
+.nextui-button-text {
+  width: 100%;
+  height: 100%;
+}
+.nextui-c-iWjDFM-fbAdQA-size-lg {
+  
+}
 @keyframes circular-progress {
   0% {
     stroke-dashoffset: 307.716;

@@ -27,10 +27,10 @@ export const Button = ({
   };
   return (
     <NextButton
-      className={`rounded-2 text-4 ${className}`}
+      className={`rounded-2 text-4 p-0 ${className}`}
       disabled={disabled}
       {...rest}>
-      <div className='w-full h-full' onClick={pressHandler}>
+      <div className='w-full h-full px-2' onClick={pressHandler}>
         {loading ? (
           <Loading type='spinner' size='sm' color='currentColor' />
         ) : (
