@@ -30,7 +30,7 @@ export const Button = ({
       className={`rounded-2 text-4 p-0 ${className}`}
       disabled={disabled}
       {...rest}>
-      <div className='w-full h-full px-2' onClick={pressHandler}>
+      <div className='w-full h-full px-2 flex items-center justify-center' onClick={pressHandler}>
         {loading ? (
           <Loading type='spinner' size='sm' color='currentColor' />
         ) : (
