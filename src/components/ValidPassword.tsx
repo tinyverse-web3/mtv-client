@@ -30,6 +30,7 @@ export const ValidPassword = ({
     await verifyPassword(password);
   };
   const verifyPassword = async (pwd: string) => {
+    console.log(123);
     const { code, msg } = await account.checkPassword(pwd);
     if (code === '000000') {
       onSuccess?.(pwd);

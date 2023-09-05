@@ -206,6 +206,7 @@
         "btn_detail": "详情",
         "size_text": "大小",
         "cid": "Cid",
+        "hint": "网络数据列出用户所有备份在web3网络上的数据。在这里用户可以看到数据的相关信息和同步状态。",
         "redundancy_text": "冗余",
         "status": {
           "title": "数据状态",

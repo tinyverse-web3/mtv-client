@@ -17,7 +17,7 @@ export default function UserPhrase() {
   const [checked, setChecked] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { getLocalAccountInfo, accountInfo } = useAccountStore((state) => state);
   const host = useHost();
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
@@ -45,6 +45,10 @@ export default function UserPhrase() {
     return `${host}/sdk/downloadMnemonic`;
   }, [host]);
   const downloadFile = async () => {
+    if (!accountInfo.hasFeatureData) {
+      toast(t('pages.account.toast.no_private'));
+      return;
+    }
     setLoading(true);
     await download(url, 'mnemonic.txt');
     if (window.JsBridge) {

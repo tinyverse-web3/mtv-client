@@ -39,20 +39,20 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
   console.log(summary.usedItem / summary.total);
   return (
     <div>
-      <div className='mb-2'>{title}</div>
+      <div className='mb-1'>{title}</div>
       <Card variant='bordered'>
         <Card.Body>
           <div className=''>
-            <div className='mb-4'>
-              <div className='mb-4 text-3 break-keep '>
+            <div className='mb-2'>
+              <div className='mb-2 text-3 break-keep '>
                 {t('common.space')}：{usedSize}/{totalSpace}({sizePercent}%)
               </div>
-              <div className='mb-4'>
-                <Progress color='primary' size='md' value={sizePercent} />
+              <div className='mb-2'>
+                <Progress color='primary' size='sm' value={sizePercent} />
               </div>
               <div>
                 <Button
-                  size='md'
+                  size='sm'
                   bordered
                   auto
                   className='w-full'
@@ -62,19 +62,19 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
               </div>
             </div>
             <div className=''>
-              <div className='mb-4 text-3'>
+              <div className='mb-2 text-3'>
                 {t('common.file')}：{summary.usedItem}/{summary.total}(
                 {numPercent}%)
               </div>
-              <div className='mb-4'>
-                <Progress color='primary' size='md' value={numPercent} />
+              <div className='mb-2'>
+                <Progress color='primary' size='sm' value={numPercent} />
               </div>
               <div className='flex'>
                 <Button
-                  size='md'
+                  size='sm'
                   className='w-full'
                   auto
-                  onClick={() => toDetail?.()}>
+                  onPress={() => toDetail?.()}>
                   {t('pages.space.data.btn_detail')}
                 </Button>
               </div>

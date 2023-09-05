@@ -57,13 +57,16 @@ export default function NetworIndex() {
             toDetail={toIpfsList}
           />
         </div>
-        <div>
+        <div className='mb-4'>
           <IndexItem
             title='DKVS'
             summary={dkvsSummary}
             toExpansion={toDkvsExpansion}
             toDetail={toDkvsList}
           />
+        </div>
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+          {t('pages.space.data.hint')}
         </div>
       </div>
     </LayoutThird>

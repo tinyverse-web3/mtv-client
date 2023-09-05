@@ -2,6 +2,9 @@ body {
   transform: translate3d(0, 0, 0);
   -webkit-text-size-adjust: none !important;
 }
+html {
+  touch-action: manipulation;
+}
 html,
 body,
 #root,
@@ -22,14 +25,14 @@ div[data-overlay-container='true'] {
 }
 
 .circular-progress-bar {
-  animation: circular-progress 1.2s linear infinite; 
+  animation: circular-progress 1.2s linear infinite;
 }
 
 @keyframes circular-progress {
-  0% { 
+  0% {
     stroke-dashoffset: 307.716;
   }
-  
+
   100% {
     stroke-dashoffset: 0;
   }

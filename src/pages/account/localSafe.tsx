@@ -38,6 +38,8 @@ export default function LocalSafe() {
   const getBiometricsSetUp = () => {
     if (window?.JsBridge) {
       window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+        console.log('isBiometricsSetUp');
+        console.log(code, message);
         if (code === 0) {
           setIsBiometricsSatus(true);
         } else {
