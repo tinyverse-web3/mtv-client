@@ -5,7 +5,9 @@ import { toast } from 'react-hot-toast';
 import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import { ValidPassword } from '@/components/ValidPassword';
+import { DefaultPasswordModal } from '@/components/DefaultPasswordModal';
 import { Image } from '@nextui-org/react';
+import { DataStatusBadge } from './components/DataStatusBadge';
 import { useTranslation } from 'react-i18next';
 
 const MenuItem = ({ text, icon, onClick }: any) => {
@@ -21,8 +23,11 @@ const MenuItem = ({ text, icon, onClick }: any) => {
     }
   };
   return (
-    <div className='flex flex-col h-full items-center justify-center text-14px'>
-      <div className='rounded-full bg-gray-100 p-3 mb-1 overflow-hidden flex'>
+    <div className='flex flex-col h-full items-center  text-14px'>
+      <div className='rounded-full bg-gray-100 p-3 mb-1  flex relative'>
+        {text === t('pages.space.data.title') && (
+          <DataStatusBadge className='absolute bottom-0 right-2' />
+        )}
         {text === t('pages.space.photo.title') ? (
           <label className='w-full h-full flex items-center justify-center overflow-hidden'>
             <img
@@ -114,7 +119,6 @@ export default function SpaceIndex() {
   ];
   const [showStatus, setShowStatus] = useState(false);
   const menuClick = ({ path, url, label, type, handler }: any) => {
-    
     if (type === 'function') {
       handler();
     } else if (path) {
@@ -171,6 +175,7 @@ export default function SpaceIndex() {
           </div>
         ))}
       </div>
+      <DefaultPasswordModal />
       <ValidPassword
         show={showStatus}
         onSuccess={validSuccess}

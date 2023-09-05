@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button, Progress } from '@nextui-org/react';
+import { useNetworkStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
 import { IndexItem } from './components/IndexItem';
@@ -10,8 +10,7 @@ import { useTranslation } from 'react-i18next';
 export default function NetworIndex() {
   const { t } = useTranslation();
   const nav = useNavigate();
-  const [summary, setSummary] = useState<any>([]);
-  useEffect(() => {}, []);
+  const { summary, getSummary } = useNetworkStore((state) => state);
   const toDkvsExpansion = () => {};
   const toIpfsExpansion = () => {};
   const toIpfsList = () => {
@@ -20,12 +19,7 @@ export default function NetworIndex() {
   const toDkvsList = () => {
     nav(`${ROUTE_PATH.SPACE_NETWORK_LIST}?type=dkvs`);
   };
-  const getSummary = async () => {
-    const { data, code, msg } = await account.getDataSummary();
-    if (code === '000000') {
-      setSummary(data);
-    }
-  };
+
   const ipfsSummary = useMemo(() => {
     const ipfs = summary.find((item: any) => item.DataType === 'ipfs');
     if (!ipfs) return {};

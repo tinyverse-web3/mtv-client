@@ -1,5 +1,6 @@
 import { calcSize } from '@/lib/utils';
-import { Card, Button, Progress } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
+import { Card, Progress } from '@nextui-org/react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 

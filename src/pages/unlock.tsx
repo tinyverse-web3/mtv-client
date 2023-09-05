@@ -3,14 +3,7 @@ import { Row, Input, Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
-  useGlobalStore,
-  useAccountStore,
-  useChatStore,
-  useNoteStore,
-  useGunStore,
-  usePasswordStore,
-  useRestoreStore,
-  useQuestionStore,
+  useAccountStore, useGlobalStore,
 } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
@@ -26,15 +19,7 @@ export default function Unlock() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const { getLocalAccountInfo, delAccount, accountInfo } = useAccountStore((state) => state);
-  const { reset: resetChat } = useChatStore((state) => state);
-  const { reset: resetNote } = useNoteStore((state) => state);
-  const { reset: resetGun } = useGunStore((state) => state);
-  const { reset: resetpassword } = usePasswordStore((state) => state);
-  const { reset: resetRestore } = useRestoreStore((state) => state);
-  const { reset: resetQuestion } = useQuestionStore((state) => state);
-  const { reset: resetGlobal, setLockStatus } = useGlobalStore(
-    (state) => state,
-  );
+  const { setLockStatus} = useGlobalStore((state) => state)
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
   const unlock = async (password: string) => {
@@ -43,17 +28,20 @@ export default function Unlock() {
     console.log(result);
     if (result) {
       await getLocalAccountInfo();
-      if (redirect) {
-        console.log(redirect);
-        location.replace(decodeURIComponent(redirect));
-        return;
-      }
+      // if (redirect) {
+      //   console.log(redirect);
+      //   location.replace(decodeURIComponent(redirect));
+      //   return;
+      // }
       nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
     } else {
       setErr(true);
     }
     setLockStatus(false);
     setLoading(false);
+  };
+  const deleteUser = async (e: any) => {
+    nav(ROUTE_PATH.INDEX, { replace: true });
   };
   const pressHandler = async () => {
     await unlock(pwd);
@@ -79,20 +67,7 @@ export default function Unlock() {
     setErr(false);
     setPwd(e.target.value?.trim());
   };
-  const deleteUser = async (e: any) => {
-    await Promise.all([
-      resetGlobal(),
-      delAccount(),
-      resetChat(),
-      resetNote(),
-      resetGun(),
-      resetpassword(),
-      resetRestore(),
-      resetQuestion(),
-    ]);
-    localStorage.clear();
-    nav(ROUTE_PATH.INDEX, { replace: true });
-  };
+ 
   const toRetrieve = () => {
     nav(ROUTE_PATH.RETRIEVE);
   };

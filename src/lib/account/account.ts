@@ -802,6 +802,10 @@ export class Account {
     const { data } = await this.dauth.getDataSummary();
     return data;
   }
+  async getDataStatus() {
+    const { data } = await this.dauth.getDataStatus();
+    return data;
+  }
   async getDataList(DataType: string) {
     const { data } = await this.dauth.getDataList({ DataType });
     return data;

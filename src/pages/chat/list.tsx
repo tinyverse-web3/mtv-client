@@ -40,17 +40,17 @@ export default function ChatList() {
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const [friendList, setFriendList] = useState<any[]>([]);
-  const { setRecipient } = useChatStore((state) => state);
+  const { setRecipient,contacts, getContacts } = useChatStore((state) => state);
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [showStatus, setShowStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
-  const getContacts = async () => {
-    const list = await account.getContacts();
-    if (list.length !== friendList.length) {
-      setFriendList(list);
-    }
-  };
+  // const getContacts = async () => {
+  //   const list = await account.getContacts();
+  //   if (list.length !== friendList.length) {
+  //     setFriendList(list);
+  //   }
+  // };
 
   const toSender = async () => {
     if (!searchText) {
@@ -128,7 +128,7 @@ export default function ChatList() {
           onClick={toSender}></div>
       </div>
       <div>
-        {friendList?.filter(Boolean).map((item: any) => (
+        {contacts?.map((item: any) => (
           <div
             className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1 mb-2'
             key={item.MessageKey}

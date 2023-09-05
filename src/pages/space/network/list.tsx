@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ListItem } from './components/ListItem';
 import { Empty } from '@/components/Empty';
+import { useNetworkStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -10,25 +11,11 @@ import { useTranslation } from 'react-i18next';
 const NetworkList: React.FC = () => {
   const { t } = useTranslation();
   const nav = useNavigate();
-  const [searchText, setSearchText] = useState('');
   const [params] = useSearchParams();
   const type = params.get('type');
-  const [networkItems, setNetworkItems] = useState<any[]>([]);
-  const getList = async () => {
-    if (type) {
-      const { data, code } = await account.getDataList(type);
-      if (code === '000000') {
-        if (data?.length) {
-          setNetworkItems(data);
-        }
-      }
-    }
-  };
-  const handleDelete = (index: number) => {
-    const newNetworkItems = [...networkItems];
-    newNetworkItems.splice(index, 1);
-    setNetworkItems(newNetworkItems);
-  };
+  const { ipfsList, dkvsList, getIpfsList, getDkvsList } = useNetworkStore(
+    (state) => state,
+  );
   const toDetail = (e: any) => {
     nav(
       `${ROUTE_PATH.SPACE_NETWORK_DETAIL}?type=${type}&id=${encodeURIComponent(
@@ -36,16 +23,28 @@ const NetworkList: React.FC = () => {
       )}${e.Cid ? '&cid=' + e.Cid : ''}`,
     );
   };
+  const list = useMemo(() => {
+    if (type === 'ipfs') {
+      return ipfsList;
+    } else if (type === 'dkvs') {
+      return dkvsList;
+    }
+    return [];
+  }, [type, ipfsList, dkvsList]);
   useEffect(() => {
-    getList();
+    if (type === 'ipfs') {
+      getIpfsList();
+    } else if (type === 'dkvs') {
+      getDkvsList();
+    }
   }, [type]);
   return (
     <LayoutThird title={t('pages.space.data.title')}>
       <div className='p-4'>
-        {!networkItems.length && networkItems}
-        {networkItems.map((item, index) => (
+        {!list?.length && <Empty />}
+        {list?.map((item, index) => (
           <ListItem
-            key={index}
+            key={index + '_' + item.PinStatus}
             Key={item.Key}
             type={type as string}
             Size={item.Size}
@@ -56,7 +55,6 @@ const NetworkList: React.FC = () => {
             Cid={item.Cid}
             description={item.Description}
             onClick={() => toDetail(item)}
-            onDelete={() => handleDelete(index)}
           />
         ))}
       </div>

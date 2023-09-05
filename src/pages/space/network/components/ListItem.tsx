@@ -14,7 +14,6 @@ interface Props {
   ValidTime: number;
   Cid: string;
   description: string;
-  onDelete: () => void;
   onClick: () => void;
 }
 export function ListItem({
@@ -27,14 +26,10 @@ export function ListItem({
   PinStatus,
   ValidTime,
   description,
-  onDelete,
   onClick,
 }: Props) {
   const { t } = useTranslation();
-  const delHandler = (e: any) => {
-    e.stopPropagation();
-    onDelete?.();
-  };
+
   const pinStatusMap: any = {
     0: t('pages.space.data.status.unknow'),
     1: t('pages.space.data.status.init'),

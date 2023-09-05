@@ -599,6 +599,12 @@ export class Dauth {
       name: 'data/getSummary',
     });
   }
+  async getDataStatus() {
+    return this.invoke({
+      method: 'get',
+      name: 'data/getStatus',
+    });
+  }
   async getDataList({ DataType }: any) {
     return this.invoke({
       method: 'get',

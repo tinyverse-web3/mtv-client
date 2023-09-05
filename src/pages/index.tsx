@@ -6,17 +6,34 @@ import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { LanguageIcon } from '@/components/SettingIcon';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useAccountStore, useGlobalStore } from '@/store';
+import {
+  useGlobalStore,
+  useAccountStore,
+  useChatStore,
+  useNoteStore,
+  useGunStore,
+  usePasswordStore,
+  useRestoreStore,
+  useQuestionStore,
+} from '@/store';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 export default function Index() {
-  const { getLocalAccountInfo } = useAccountStore((state) => state);
-  const { setLockStatus } = useGlobalStore((state) => state);
+  const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
   const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
+  const { reset: resetChat } = useChatStore((state) => state);
+  const { reset: resetNote } = useNoteStore((state) => state);
+  const { reset: resetGun } = useGunStore((state) => state);
+  const { reset: resetpassword } = usePasswordStore((state) => state);
+  const { reset: resetRestore } = useRestoreStore((state) => state);
+  const { reset: resetQuestion } = useQuestionStore((state) => state);
+  const { reset: resetGlobal, setLockStatus } = useGlobalStore(
+    (state) => state,
+  );
   const { t } = useTranslation();
   const nav = useNavigate();
   const toRestore = () => {
@@ -32,17 +49,35 @@ export default function Index() {
       location.href = url;
     }
   };
+
+  const deleteUser = async () => {
+    await Promise.all([
+      resetGlobal(),
+      delAccount(),
+      resetChat(),
+      resetNote(),
+      resetGun(),
+      resetpassword(),
+      resetRestore(),
+      resetQuestion(),
+    ]);
+    localStorage.clear();
+  };
   const toWebsit = () => {
-    openUrl(VITE_TINY_WEB)
-  }
+    openUrl(VITE_TINY_WEB);
+  };
   const create = async () => {
     setLoading(true);
+    await deleteUser();
     console.time('create account');
     const { code, msg } = await account.create();
     if (code !== '000000') {
       toast.error(msg);
       setLoading(false);
       return;
+    }
+    if (window.JsBridge) {
+      window.JsBridge.clearBiometrics();
     }
     setLockStatus(false);
     await getLocalAccountInfo();
