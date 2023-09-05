@@ -14,7 +14,6 @@ interface Props {
 export const VerifyMail = ({ visibly, onChange, onSubmit }: Props) => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const setUserInfo = useGlobalStore((state) => state.setUserInfo);
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag } = useCountDown(60);
 
@@ -63,7 +62,6 @@ export const VerifyMail = ({ visibly, onChange, onSubmit }: Props) => {
       return;
     }
     console.log(email);
-    setUserInfo({ email });
     await verifyBindEmail();
   };
   const emailChange = (e: any) => {
