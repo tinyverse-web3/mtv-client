@@ -36,7 +36,11 @@ export default function Index() {
   );
   const { t } = useTranslation();
   const nav = useNavigate();
-  const toRestore = () => {
+  const toRestore = async () => {
+    await deleteUser();
+    if (window.JsBridge) {
+      window.JsBridge.clearBiometrics();
+    }
     nav(ROUTE_PATH.RESTORE);
   };
   const toCreate = () => {
