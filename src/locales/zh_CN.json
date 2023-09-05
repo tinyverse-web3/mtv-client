@@ -51,6 +51,7 @@
       "title": "密码",
       "rule_text": "密码至少8位，包括数字、大小写字母和符号至少2种。",
       "default_text": "默认密码",
+      "default_modal_text": "您的默认密码是",
       "confirm_text": "确认密码",
       "verify_text": "验证密码",
       "verify_success": "验证成功",

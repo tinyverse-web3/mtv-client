@@ -33,7 +33,7 @@ export const DefaultPasswordModal = () => {
       onClose={closeHandler}>
       <Modal.Header>
         <Text id='modal-title' size={16}>
-          您的默认密码是：
+          {t('common.password.default_modal_text')}：
         </Text>
       </Modal.Header>
       <Modal.Body>
