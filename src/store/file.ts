@@ -37,7 +37,7 @@ export const useFileStore = create<FileState>()(
           const { code, msg, data } = await account.getFileList({
             type: 'public',
           });
-          if (code === '000000') {
+          if (code === '000000' && data) {
             set({ publicList: data });
           }
         },

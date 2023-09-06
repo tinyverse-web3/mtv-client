@@ -37,6 +37,7 @@
     "react-i18next": "^13.1.2",
     "react-idle-timer": "^5.5.3",
     "react-photo-view": "^1.2.3",
+    "react-pull-to-refresh": "^2.0.1",
     "react-router-dom": "^6.8.1",
     "react-use": "^17.4.0",
     "react-use-websocket": "^4.3.1",
