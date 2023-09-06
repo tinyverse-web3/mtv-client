@@ -134,6 +134,7 @@ export const BindMail = () => {
         <Button
           auto
           onPress={loginHandler}
+          className="ml-6"
           disabled={!email || !verifyCode}
           loading={loginLoading}>
           {t('common.confirm')}

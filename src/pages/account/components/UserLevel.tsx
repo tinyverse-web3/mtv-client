@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useAccountStore } from '@/store';
+import { Popover } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -41,7 +42,15 @@ export const UserLevel = ({ className }: Props) => {
   return (
     <div className={`${className}`}>
       <div className='flex items-center mb-1 flex-wrap'>
-        <span>{t('pages.account.level.title')}：</span>
+        <Popover>
+          <Popover.Trigger>
+            <span>{t('pages.account.level.title')}：</span>
+          </Popover.Trigger>
+          <Popover.Content>
+            <div className="p-2">账户安全级别根据恢复路径和恢复时需要验证的因素来计算。</div>
+          </Popover.Content>
+        </Popover>
+
         <div className='flex-1 overflow-hidden'>
           <div className='h-5 bg-gray-100 w-50 max-w-full rounded-full overflow-hidden'>
             <div
@@ -54,9 +63,7 @@ export const UserLevel = ({ className }: Props) => {
       </div>
       <div className='text-gray-6'>
         <p className='text-12px'>{levelItem.text}</p>
-        <p className='text-12px'>
-          {t('pages.account.level.hint')}
-        </p>
+        <p className='text-12px'>{t('pages.account.level.hint')}</p>
       </div>
     </div>
   );

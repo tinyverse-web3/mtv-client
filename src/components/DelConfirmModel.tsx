@@ -41,16 +41,17 @@ export const DelConfirmModel = ({
       {text && (
         <Modal.Body>
           <Text size={16} className='text-center'>
-          {t('common.delete_hint')}{text}？
+            {t('common.delete_hint')}
+            {text}？
           </Text>
         </Modal.Body>
       )}
 
       <Modal.Footer>
-        <Button auto flat color='error' size="sm" onPress={closeHandler}>
-         {t('common.cancel')}
+        <Button auto flat color='error' size='sm' onPress={closeHandler}>
+          {t('common.cancel')}
         </Button>
-        <Button auto onPress={confirmHandler}  size="sm">
+        <Button auto onPress={confirmHandler} size='sm' className='ml-6'>
           {btnText || t('common.confirm')}
         </Button>
       </Modal.Footer>

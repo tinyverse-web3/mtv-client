@@ -64,7 +64,7 @@ export const PublicPasswordModal = ({
         <Button auto flat color='error' onPress={closeHandler}>
           取消
         </Button>
-        <Button auto onPress={confirmHandler}>
+        <Button auto onPress={confirmHandler} className='ml-6'>
           {btnText}
         </Button>
       </Modal.Footer>

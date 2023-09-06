@@ -259,6 +259,7 @@
       "gun": "Global Unique Name(GUN)",
       "level": {
         "title": "Security Level",
+        "hint_one": "The account security level is calculated based on the recovery path and the factors that need to be verified when recovering.",
         "hint": "Only My Profile is exposed externally, all other data is encrypted by the user's private key and stored in personal digital space.",
         "zero": "Temporary account, cannot be recovered, data may be lost at any time, please do account maintenance ASAP.",
         "one": "The account relies on high-risk plaintext mnemonics. Please use a vault to securely store mnemonics and add a recovery method.",

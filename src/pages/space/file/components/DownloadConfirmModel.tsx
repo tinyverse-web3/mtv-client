@@ -40,7 +40,7 @@ export const DownloadConfirmModel = ({ show, onConfirm, onClose }: Props) => {
         <Button auto flat color='error' size='sm' onPress={closeHandler}>
           {t('common.cancel')}
         </Button>
-        <Button auto onPress={confirmHandler} size='sm'>
+        <Button auto onPress={confirmHandler} size='sm' className="ml-6">
           {t('common.download')}
         </Button>
       </Modal.Footer>

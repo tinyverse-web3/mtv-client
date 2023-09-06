@@ -37,9 +37,7 @@ export const useAssetsStore = create<AssetsState>()(
           const { data, code } = await account.getNftList();
           console.log(data);
           if (code === '000000') {
-            if (data?.length) {
-              set({ nftList: data });
-            }
+            set({ nftList: data || [] });
           }
         },
       }),

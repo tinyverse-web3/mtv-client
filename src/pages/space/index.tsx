@@ -26,7 +26,7 @@ const MenuItem = ({ text, icon, onClick }: any) => {
     <div className='flex flex-col h-full items-center  text-14px'>
       <div className='rounded-full bg-gray-100 p-3 mb-1  flex relative'>
         {text === t('pages.space.data.title') && (
-          <DataStatusBadge className='absolute top-5 right-3' />
+          <DataStatusBadge className='absolute top-5 right-3 rotate-[90deg]' />
         )}
         {text === t('pages.space.photo.title') ? (
           <label className='w-full h-full flex items-center justify-center overflow-hidden'>

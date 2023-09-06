@@ -26,18 +26,26 @@ export const useFileStore = create<FileState>()(
         securityList: [],
         publicList: [],
         getSecruityList: async () => {
-          const { code, msg, data } = await account.getFileList({
+          const {
+            code,
+            msg,
+            data = [],
+          } = await account.getFileList({
             type: 'security',
           });
-          if (code === '000000' && data) {
+          if (code === '000000') {
             set({ securityList: data });
           }
         },
         getPublicList: async () => {
-          const { code, msg, data } = await account.getFileList({
+          const {
+            code,
+            msg,
+            data = [],
+          } = await account.getFileList({
             type: 'public',
           });
-          if (code === '000000' && data) {
+          if (code === '000000') {
             set({ publicList: data });
           }
         },

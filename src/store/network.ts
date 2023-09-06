@@ -19,20 +19,20 @@ export const useNetworkStore = create<NetworkState>()(
         ipfsList: [],
         dkvsList: [],
         getSummary: async () => {
-          const { data, code, msg } = await account.getDataSummary();
+          const { data = [], code, msg } = await account.getDataSummary();
           if (code === '000000') {
             set({ summary: data });
           }
         },
         getIpfsList: async () => {
-          const { data, code, msg } = await account.getDataList('ipfs');
-          if (code === '000000' && data) {
+          const { data = [], code, msg } = await account.getDataList('ipfs');
+          if (code === '000000') {
             set({ ipfsList: data });
           }
         },
         getDkvsList: async () => {
-          const { data, code, msg } = await account.getDataList('dkvs');
-          if (code === '000000' && data) {
+          const { data = [], code, msg } = await account.getDataList('dkvs');
+          if (code === '000000') {
             set({ dkvsList: data });
           }
         },

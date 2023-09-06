@@ -46,7 +46,7 @@ export const ConfirmDelModel = ({
         <Button auto flat color='error' onPress={closeHandler}>
           {t('common.cancel')}
         </Button>
-        <Button auto onPress={confirmHandler}>
+        <Button auto onPress={confirmHandler} className="ml-6">
           {t('common.confirm')}
         </Button>
       </Modal.Footer>
