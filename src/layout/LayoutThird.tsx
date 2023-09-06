@@ -32,6 +32,7 @@ export default function Page({
         {loading && (
           <SpinLoading className='absolute top-1/2 left-1/2 -translate-1/2  z-99999' />
         )}
+        <SpinLoading className='absolute top-1/2 left-1/2 -translate-1/2  z-99999' />
       </section>
     </main>
   );
