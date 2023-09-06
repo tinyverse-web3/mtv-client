@@ -99,7 +99,7 @@
   "pages": {
     "index": {
       "btn_create": "创建账户",
-      "create_hint": "一键创建一个web3账户，不需要任何个人隐私数据。",
+      "create_hint": "一键创建web3账户，不需要任何个人隐私数据。",
       "btn_restore": "恢复账户",
       "btn_more": "了解更多"
     },
