@@ -211,7 +211,7 @@
         "redundancy_text": "Redundancy",
         "status": {
           "title": "Data Status",
-          "unknow": "Unpinned",
+          "unknow": "No Synchronized",
           "init": "Initializing",
           "err": "Error",
           "work": "Synchronizing",
