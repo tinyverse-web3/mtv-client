@@ -666,7 +666,7 @@ export class Account {
    */
   async getContacts() {
     const res = await this.dauth.getContacts();
-    return res.data.data;
+    return res.data;
   }
   async createContactByMasterKey(destPubkey: string) {
     const res = await this.dauth.createContactByMasterKey({ destPubkey });

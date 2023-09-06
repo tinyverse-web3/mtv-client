@@ -45,9 +45,9 @@ export const useChatStore = create<ChatState>()(
           set({ contacts: list });
         },
         getContacts: async () => {
-          const list = await account.getContacts();
-          if (get().contacts.length !== list.length) {
-            set({ contacts: list });
+          const { code, data } = await account.getContacts();
+          if (code === '000000') {
+            set({ contacts: data || [] });
           }
         },
         setRecipient: async (n) => {
