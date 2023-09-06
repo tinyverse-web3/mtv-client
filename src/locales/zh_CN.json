@@ -211,7 +211,7 @@
         "redundancy_text": "冗余",
         "status": {
           "title": "数据状态",
-          "unknow": "未知",
+          "unknow": "未同步",
           "init": "初始化",
           "err": "错误",
           "work": "同步中",
