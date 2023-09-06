@@ -9,3 +9,4 @@ export * from './password';
 export * from './gun';
 export * from './assets';
 export * from './network';
+export * from './file';

@@ -6,13 +6,17 @@ import account from '@/lib/account/account';
 import { IndexItem } from './components/IndexItem';
 import { ROUTE_PATH } from '@/router';
 import { useTranslation } from 'react-i18next';
-
+import toast from 'react-hot-toast';
 export default function NetworIndex() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const { summary, getSummary } = useNetworkStore((state) => state);
-  const toDkvsExpansion = () => {};
-  const toIpfsExpansion = () => {};
+  const toDkvsExpansion = () => {
+    toast(t('pages.space.hint.coming_soon'));
+  };
+  const toIpfsExpansion = () => {
+    toast(t('pages.space.hint.coming_soon'));
+  };
   const toIpfsList = () => {
     nav(`${ROUTE_PATH.SPACE_NETWORK_LIST}?type=ipfs`);
   };
@@ -52,6 +56,7 @@ export default function NetworIndex() {
         <div className='mb-4'>
           <IndexItem
             title='IPFS'
+            type='ipfs'
             summary={ipfsSummary}
             toExpansion={toIpfsExpansion}
             toDetail={toIpfsList}
@@ -60,6 +65,7 @@ export default function NetworIndex() {
         <div className='mb-4'>
           <IndexItem
             title='DKVS'
+            type='dkvs'
             summary={dkvsSummary}
             toExpansion={toDkvsExpansion}
             toDetail={toDkvsList}

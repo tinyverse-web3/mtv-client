@@ -7,21 +7,32 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   title: string;
   summary: any;
+  type: string;
   toDetail?: () => void;
   toExpansion?: () => void;
 }
-export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
+export function IndexItem({
+  title,
+  toDetail,
+  toExpansion,
+  summary,
+  type,
+}: Props) {
   const { t } = useTranslation();
   const usedSize = useMemo(() => {
     if (summary.used) {
       return calcSize(summary.used);
     }
+    return 0
   }, [summary.used]);
   const totalSpace = useMemo(() => {
-    if (summary.used) {
+    console.log(summary.totalSpace);
+    if (summary.totalSpace) {
       return calcSize(summary.totalSpace);
     }
+    return 0;
   }, [summary.totalSpace]);
+  console.log(totalSpace);
   const sizePercent = useMemo(() => {
     if (summary.used && summary.totalSpace) {
       return Math.ceil((summary.used / summary.totalSpace) * 100);
@@ -36,7 +47,6 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
       return 0;
     }
   }, [summary.usedItem, summary.total]);
-  console.log(summary.usedItem / summary.total);
   return (
     <div>
       <div className='mb-1'>{title}</div>
@@ -45,11 +55,15 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
           <div className=''>
             <div className='mb-2'>
               <div className='mb-2 text-3 break-keep '>
-                {t('common.space')}：{usedSize}/{totalSpace}({sizePercent}%)
+                {t('common.space')}：{usedSize}
+                {type === 'ipfs' ? `/${totalSpace}(${sizePercent}%)` : ''}
               </div>
-              <div className='mb-2'>
-                <Progress color='primary' size='sm' value={sizePercent} />
-              </div>
+              {type === 'ipfs' && (
+                <div className='mb-2'>
+                  <Progress color='primary' size='sm' value={sizePercent} />
+                </div>
+              )}
+
               <div>
                 <Button
                   size='sm'
@@ -63,12 +77,15 @@ export function IndexItem({ title, toDetail, toExpansion, summary }: Props) {
             </div>
             <div className=''>
               <div className='mb-2 text-3'>
-                {t('common.file')}：{summary.usedItem}/{summary.total}(
-                {numPercent}%)
+                {t('common.file')}：{summary.usedItem}
+                {type === 'dkvs' ? `/${summary.total}(${numPercent}%)` : ''}
               </div>
-              <div className='mb-2'>
-                <Progress color='primary' size='sm' value={numPercent} />
-              </div>
+              {type === 'dkvs' && (
+                <div className='mb-2'>
+                  <Progress color='primary' size='sm' value={numPercent} />
+                </div>
+              )}
+
               <div className='flex'>
                 <Button
                   size='sm'

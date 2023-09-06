@@ -6,6 +6,7 @@ import { useAccountStore } from '@/store';
 import toast from 'react-hot-toast';
 import { useList } from 'react-use';
 import { PublicPasswordModal } from './components/PublicPasswordModal';
+import { useFileStore } from '@/store';
 import account from '@/lib/account/account';
 import { ROUTE_PATH } from '@/router';
 import { Empty } from '@/components/Empty';
@@ -16,12 +17,12 @@ export default function Album() {
   const nav = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File>();
-  const [securityList, { set: setSecurityList }] = useList<any>([]);
-  const [publicList, { set: setPublicList }] = useList<any>([]);
+  // const [securityList, { set: setSecurityList }] = useList<any>([]);
+  // const [publicList, { set: setPublicList }] = useList<any>([]);
   const [fileType, setFileType] = useState('security' as any);
   const [delItem, setDelItem] = useState<any>(null);
   const [passwordType, setPasswordType] = useState('upload');
-
+  const { publicList, securityList, getPublicList, getSecruityList} = useFileStore((state) => state);
   const passwordChange = async (pwd: string) => {
     if (passwordType === 'upload') {
       await upload({ file, type: fileType, password: pwd });
@@ -33,14 +34,8 @@ export default function Album() {
   };
   const fileChange = async (e: any) => {
     const _file = e.target.files[0];
-    // if (fileType === 'security') {
     await upload({ file: _file, type: fileType });
     e.target.value = '';
-    // } else {
-    //   setFile(_file);
-    //   setPasswordType('upload');
-    //   setShowModal(true);
-    // }
   };
   const upload = async ({ file, type, password }: any) => {
     const { code, msg } = await account.uploadFile({ file, type, password });
@@ -61,22 +56,7 @@ export default function Album() {
       await getPublicList();
     }
   };
-  const getSecruityList = async () => {
-    const { code, msg, data } = await account.getFileList({ type: 'security' });
-    if (code === '000000') {
-      setSecurityList(data || []);
-    } else {
-      toast.error(msg);
-    }
-  };
-  const getPublicList = async () => {
-    const { code, msg, data } = await account.getFileList({ type: 'public' });
-    if (code === '000000') {
-      setPublicList(data || []);
-    } else {
-      toast.error(msg);
-    }
-  };
+
   const list = useMemo(() => {
     return fileType === 'security' ? securityList : publicList;
   }, [fileType, securityList, publicList]);

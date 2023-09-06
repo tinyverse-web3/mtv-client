@@ -26,7 +26,7 @@ export const DataStatusBadge = ({ className }: Props) => {
     return status == 2 ? IconSuccess : IconError;
   }, [status]);
   return status > 0 ? (
-    <div className={'w-4 h-4 rounded-full ' + className}>
+    <div className={'w-6 h-6 rounded-full ' + className}>
       <img src={src} />
     </div>
   ) : (
