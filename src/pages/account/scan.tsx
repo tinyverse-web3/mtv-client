@@ -21,6 +21,9 @@ export default function UserScan() {
     console.log(result);
     // console.log(typeof result);
     setText(result.data);
+    if (!result.data) {
+      nav(-1);
+    }
     // alert(JSON.stringify(result));
   };
   const start = async () => {
