@@ -61,10 +61,10 @@ export const PublicPasswordModal = ({
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color='error' onPress={closeHandler}>
+        <Button auto flat color='error' size='sm' onPress={closeHandler}>
           取消
         </Button>
-        <Button auto onPress={confirmHandler} className='ml-6'>
+        <Button auto size='sm' onPress={confirmHandler} className='ml-6'>
           {btnText}
         </Button>
       </Modal.Footer>

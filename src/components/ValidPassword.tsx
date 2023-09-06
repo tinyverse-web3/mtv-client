@@ -108,10 +108,10 @@ export const ValidPassword = ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color='error' onClick={closeHandler}>
+        <Button auto flat size="sm" color='error' onClick={closeHandler}>
           {t('common.cancel')}
         </Button>
-        <Button auto onClick={confirmHandler} className="ml-6">
+        <Button auto size="sm" onClick={confirmHandler} className="ml-6">
           {t('common.confirm')}
         </Button>
       </Modal.Footer>

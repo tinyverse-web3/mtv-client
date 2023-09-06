@@ -57,8 +57,8 @@ export const BindMail = () => {
     setVerifyCode(e.target.value);
   };
   const sendVerify = async () => {
-    console.log(email )
-    console.log(flag )
+    console.log(email);
+    console.log(flag);
     if (email && flag) {
       const { code, msg } = await account.sendVerifyCode({
         type: 'email',
@@ -68,7 +68,6 @@ export const BindMail = () => {
         toast.success(t('common.code_sended'));
         start();
       } else {
-        
         toast.error(msg);
       }
     }
@@ -128,13 +127,14 @@ export const BindMail = () => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color='error' onPress={closeHandler}>
+        <Button auto flat color='error' size='sm' onPress={closeHandler}>
           {t('common.cancel')}
         </Button>
         <Button
           auto
           onPress={loginHandler}
-          className="ml-6"
+          className='ml-6'
+          size='sm'
           disabled={!email || !verifyCode}
           loading={loginLoading}>
           {t('common.confirm')}

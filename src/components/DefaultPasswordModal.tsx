@@ -46,7 +46,7 @@ export const DefaultPasswordModal = () => {
         {/* <Button auto flat color='error' onClick={closeHandler}>
           {t('common.cancel')}
         </Button> */}
-        <Button auto onClick={confirmHandler}>
+        <Button auto size='sm' onClick={confirmHandler}>
           {t('common.confirm')}
         </Button>
       </Modal.Footer>

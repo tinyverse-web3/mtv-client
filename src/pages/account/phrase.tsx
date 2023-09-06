@@ -17,7 +17,9 @@ export default function UserPhrase() {
   const [checked, setChecked] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { getLocalAccountInfo, accountInfo } = useAccountStore((state) => state);
+  const { getLocalAccountInfo, accountInfo } = useAccountStore(
+    (state) => state,
+  );
   const host = useHost();
   const toVerify = () => {
     nav(ROUTE_PATH.ACCOUNT_PHRASE_VERIFY);
@@ -93,10 +95,10 @@ export default function UserPhrase() {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button auto flat color='error' onPress={closeHandler}>
+            <Button auto flat color='error' size='sm' onPress={closeHandler}>
               {t('common.cancel')}
             </Button>
-            <Button auto onPress={confirmHandler} className="ml-6">
+            <Button auto size='sm' onPress={confirmHandler} className='ml-6'>
               {t('common.confirm')}
             </Button>
           </Modal.Footer>

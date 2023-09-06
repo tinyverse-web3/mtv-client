@@ -47,7 +47,7 @@ export const UserLevel = ({ className }: Props) => {
             <span>{t('pages.account.level.title')}：</span>
           </Popover.Trigger>
           <Popover.Content>
-            <div className="p-2">账户安全级别根据恢复路径和恢复时需要验证的因素来计算。</div>
+            <div className="p-2">{t('pages.account.level.hint_one')}</div>
           </Popover.Content>
         </Popover>
 
