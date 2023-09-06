@@ -19,10 +19,12 @@ export default function Album() {
   const [file, setFile] = useState<File>();
   // const [securityList, { set: setSecurityList }] = useList<any>([]);
   // const [publicList, { set: setPublicList }] = useList<any>([]);
+  const [loading, setLoading] = useState(false);
   const [fileType, setFileType] = useState('security' as any);
   const [delItem, setDelItem] = useState<any>(null);
   const [passwordType, setPasswordType] = useState('upload');
-  const { publicList, securityList, getPublicList, getSecruityList} = useFileStore((state) => state);
+  const { publicList, securityList, getPublicList, getSecruityList } =
+    useFileStore((state) => state);
   const passwordChange = async (pwd: string) => {
     if (passwordType === 'upload') {
       await upload({ file, type: fileType, password: pwd });
@@ -49,7 +51,11 @@ export default function Album() {
   };
   const getList = async (all?: boolean) => {
     if (all) {
+      if (!publicList?.length || !securityList.length) {
+        setLoading(true);
+      }
       await Promise.all([getSecruityList(), getPublicList()]);
+      setLoading(false);
     } else if (fileType === 'security') {
       await getSecruityList();
     } else {
@@ -106,6 +112,7 @@ export default function Album() {
   return (
     <LayoutThird
       title={t('pages.space.file.title')}
+      loading={loading}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
@@ -135,7 +142,7 @@ export default function Album() {
           ))}
         </div>
         <div className=''>
-          {list.length ? (
+          {list?.length ? (
             list.map((item: any) => (
               <FileItem
                 key={item.URL}

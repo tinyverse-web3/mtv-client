@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
@@ -15,6 +15,7 @@ export default function Album() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const { list, getList } = useAlbumStore((state) => state);
+  const [loading, setLoading] = useState(false);
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
     const { code, msg } = await account.uploadAlbum({ file: image });
@@ -29,13 +30,21 @@ export default function Album() {
   const delSuccess = () => {
     getList();
   };
+  const getAlbumList = async () => {
+    if (!list?.length) {
+      setLoading(true);
+    }
+    await getList();
+    setLoading(false);
+  };
   useEffect(() => {
-    getList();
+    getAlbumList();
   }, []);
   return (
     <LayoutThird
       title={t('pages.space.album.title')}
       path={ROUTE_PATH.SPACE_INDEX}
+      loading={loading}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
           <div className='i-mdi-plus-circle-outline text-5'></div>

@@ -11,6 +11,7 @@ export default function NetworIndex() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const { summary, getSummary } = useNetworkStore((state) => state);
+  const [loading, setLoading] = useState(false);
   const toDkvsExpansion = () => {
     toast(t('pages.space.hint.coming_soon'));
   };
@@ -47,11 +48,18 @@ export default function NetworIndex() {
       usedItem: dkvs.UsedItem,
     };
   }, [summary]);
+  const getDataSummary = async () => {
+    if (!summary?.length) {
+      setLoading(true);
+    }
+    await getSummary();
+    setLoading(false);
+  };
   useEffect(() => {
-    getSummary();
+    getDataSummary();
   }, []);
   return (
-    <LayoutThird title={t('pages.space.data.title')}>
+    <LayoutThird title={t('pages.space.data.title')} loading={loading}>
       <div className='p-4'>
         <div className='mb-4'>
           <IndexItem

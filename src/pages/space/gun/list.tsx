@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
@@ -12,6 +12,7 @@ export default function GunListShow() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const { list, load: loadGUN, setName } = useGunStore((state) => state);
+  const [loading, setLoading] = useState(false);
   const remove = useGunStore((state) => state.remove);
   //const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
   const toAdd = () => {
@@ -24,18 +25,22 @@ export default function GunListShow() {
       nav(`/space/gun/detail/${key}`);
     }
   };
-  const removeItem = async (e: any, id: string) => {
-    e.stopPropagation();
-    await remove(id);
+  const getGunList = async () => {
+    if (!list?.length) {
+      setLoading(true);
+    }
+    await loadGUN();
+    setLoading(false);
   };
   useEffect(() => {
-    loadGUN();
+    getGunList();
   }, []);
 
   return (
     <LayoutThird
       title={t('pages.space.gun.list_title')}
       path={ROUTE_PATH.SPACE_INDEX}
+      loading={loading}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>

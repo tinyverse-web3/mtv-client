@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { Text, Checkbox, Row, Button, Input } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
+import { Text, Checkbox, Row, Input } from '@nextui-org/react';
 import { STATUS_CODE } from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
@@ -16,6 +17,7 @@ export default function ChangePwd() {
   const [pwd, setPwd] = useState('');
   const [checked, setChecked] = useState(false);
   const [confirmPwd, setConfirmPwd] = useState('');
+  const [loading, setLoading] = useState(false);
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
   const [isBiometricsSatus, setIsBiometricsSatus] = useState(false);
@@ -36,11 +38,13 @@ export default function ChangePwd() {
       setValidStatus(false);
       return;
     }
+    setLoading(true);
     const { code, msg } = await account.changePassword({
       oldPwd,
       newPwd: pwd,
       saveStatus: checked,
     });
+    setLoading(false);
     if (code === '000000') {
       setAccountInfo({ isDefaultPwd: false });
       if (isBiometricsSatus && window.JsBridge) {
@@ -149,21 +153,11 @@ export default function ChangePwd() {
             initialValue=''
           />
         </Row>
-        {/* {accountInfo.bindStatus && (
-          <Checkbox
-            className='mb-3'
-            aria-label='checkbox'
-            // isSelected={checked}
-            onChange={checkboxChange}>
-            <Text className='text-3'>
-              {t('common.password.save_hint')}
-            </Text>
-          </Checkbox>
-        )} */}
 
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}
           className='mx-auto'
+          loading={loading}
           onPress={changePassword}>
           {t('common.password.change')}
         </Button>

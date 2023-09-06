@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH, routes } from '@/router';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +10,11 @@ import account from '@/lib/account/account';
 import { IndexItem } from './components/IndexItem';
 import { useTranslation } from 'react-i18next';
 
-export default function SpaceIndex() {
+export default function AuthenticatorIndex() {
   const nav = useNavigate();
   const { t } = useTranslation();
-  const { list, getList } = useAuthenticatorStore(state => state);
+  const { list, getList } = useAuthenticatorStore((state) => state);
+  const [loading, setLoading] = useState(false);
   const itemClick = ({ path, url }: any) => {};
   const toAdd = () => {
     nav(ROUTE_PATH.SPACE_AUTHENTICATOR_ADD);
@@ -22,13 +23,21 @@ export default function SpaceIndex() {
     nav(ROUTE_PATH.SPACE_AUTHENTICATOR_CREATE);
   };
 
+  const getAuthenticatorList = async () => {
+    if (!list?.length) {
+      setLoading(true);
+    }
+    await getList();
+    setLoading(false);
+  };
   useEffect(() => {
-    getList();
+    getAuthenticatorList();
   }, []);
   console.log(list);
   return (
     <LayoutThird
       title={t('pages.space.authenticator.title')}
+      loading={loading}
       // rightContent={
       //   <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       // }

@@ -10,10 +10,11 @@ import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { useTranslation } from 'react-i18next';
 
 export default function NoteList() {
-  const { t} = useTranslation();
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [showStatus, setShowStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
+  const [loading, setLoading] = useState(false);
   const { list, remove, getList } = useNoteStore((state) => state);
   const toAdd = () => {
     nav('/space/note/add');
@@ -35,13 +36,21 @@ export default function NoteList() {
   const onClose = async () => {
     setShowStatus(false);
   };
+  const getNoteList = async () => {
+    if (!list?.length) {
+      setLoading(true);
+    }
+    await getList();
+    setLoading(false);
+  };
   useEffect(() => {
-    getList();
+    getNoteList();
   }, []);
   return (
     <LayoutThird
       title={t('pages.space.note.title')}
       path={ROUTE_PATH.SPACE_INDEX}
+      loading={loading}
       rightContent={
         <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
       }>
