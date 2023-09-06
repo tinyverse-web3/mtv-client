@@ -39,7 +39,7 @@ export const DefaultPasswordModal = () => {
       <Modal.Body>
         <div className='text-center text-red text-20px mb-2'>123456</div>
         <div className='text-center text-red text-14px'>
-          请尽快修改默认密码，确保数据安全。
+          {t('common.password.hint_one')}
         </div>
       </Modal.Body>
       <Modal.Footer>

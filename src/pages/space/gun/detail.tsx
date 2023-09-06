@@ -106,7 +106,7 @@ export default function detailPage() {
               {isOwner ? (
                 <>
                   <Button
-                    disabled={changeDisabled}
+                    disabled={changeDisabled && false}
                     //loading={modifyLoading}
                     className='mx-auto mb-2 w-full'
                     size='lg'

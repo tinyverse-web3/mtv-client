@@ -67,7 +67,8 @@
       "unanimous_error": "Password not match",
       "old_text": "Old password",
       "save_hint": "Save local password to service node for password retrieval? Note that the local password is only used to encrypt data stored locally.",
-      "confirm_error": "New password cannot be the same as old password"
+      "confirm_error": "New password cannot be the same as old password",
+      "hint_one": "Please change the default password as soon as possible to ensure data security."
     },
     "biometrics": {
       "title": "Biometrics"

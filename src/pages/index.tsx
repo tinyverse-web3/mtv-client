@@ -39,7 +39,7 @@ export default function Index() {
   const toRestore = async () => {
     await deleteUser();
     if (window.JsBridge) {
-      window.JsBridge.clearBiometrics();
+      window.JsBridge?.clearBiometrics();
     }
     nav(ROUTE_PATH.RESTORE);
   };
@@ -48,7 +48,7 @@ export default function Index() {
   };
   const openUrl = (url: string) => {
     if (window.JsBridge) {
-      window.JsBridge.accessLink(url, ({ code }: any) => {});
+      window.JsBridge?.accessLink(url, ({ code }: any) => {});
     } else {
       location.href = url;
     }

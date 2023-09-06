@@ -18,7 +18,12 @@ export default function GunRenew() {
   const [selectedValid, setSelectedValid] = useState('0');
   const [loading, setLoading] = useState(false);
   //const { mutate: modifyuser, loading: modifyLoading };
-  const { apply: applyGUN, load: loadGUN, searchName, setName } = useGunStore((state) => state);
+  const {
+    apply: applyGUN,
+    load: loadGUN,
+    searchName,
+    setName,
+  } = useGunStore((state) => state);
 
   const [nameValid, setnameValid] = useState('gunvalid');
   const validityList = [
@@ -170,8 +175,8 @@ export default function GunRenew() {
               orientation='horizontal'
               onChange={(e) => setSelectedValid(e)}
               value={selectedValid}>
-              {validityList.map((v: any) => (
-                <Radio key={v.value} value={v.value}>
+              {validityList.map((v: any, i: number) => (
+                <Radio key={v.value} value={v.value} isDisabled={i > 0}>
                   {v.label}
                 </Radio>
               ))}
