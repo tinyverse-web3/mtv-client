@@ -7,7 +7,7 @@
   "common": {
     "title": "标题",
     "download": "下载",
-    "account": "账号",
+    "account": "账户",
     "link": "网址",
     "save": "保存",
     "space": "空间",
@@ -97,9 +97,9 @@
   },
   "pages": {
     "index": {
-      "btn_create": "一键创建",
-      "create_hint": "使用默认密码创建，创建之后请及时修改。",
-      "btn_restore": "恢复账号",
+      "btn_create": "创建账户",
+      "create_hint": "一键创建一个web3账户，不需要任何个人隐私数据。",
+      "btn_restore": "恢复账户",
       "btn_more": "了解更多"
     },
     "assets": {
@@ -123,9 +123,9 @@
       },
       "token": {
         "title": "代币",
+        "detail_title": "代币详情",
         "point_name": "TVS",
-        "transfer_successs": "转账成功",
-        "detail_title": "代币详情"
+        "transfer_successs": "转账成功"
       },
       "transfer": {
         "title": "转账",
@@ -205,8 +205,8 @@
         "btn_expansion": "扩容",
         "btn_detail": "详情",
         "size_text": "大小",
-        "cid": "Cid",
-        "hint": "网络数据列出用户所有备份在web3网络上的数据。在这里用户可以看到数据的相关信息和同步状态。",
+        "cid": "CID",
+        "hint": "网络数据列出用户所有备份在web3去中心化存储网络上的数据。在这里用户可以看到数据的相关信息和同步状态。",
         "redundancy_text": "冗余",
         "status": {
           "title": "数据状态",
@@ -230,10 +230,10 @@
       "authenticator": {
         "title": "Google验证器",
         "btn_add": "添加一个验证器",
-        "detail_title": "账号详情",
+        "detail_title": "账户详情",
         "detail_name": "账户名",
         "detail_key": "您的秘钥",
-        "add_title": "添加账号",
+        "add_title": "添加账户",
         "create_title": "创建秘钥"
       },
       "award": {
@@ -303,7 +303,7 @@
       "protector": {
         "title": "守护者",
         "add_title": "添加守护者",
-        "delete_hint": "Do you want to delete the guardian?",
+        "delete_hint": "你是否要删除该守护者账号？",
         "confirm": "添加",
         "hint": "守护者可用于身份验证、社交恢复等。增加多个守护者让你的账户更安全。请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。",
         "hint_two": "我已阅读并同意《隐私政策》及《服务条款》"
@@ -396,7 +396,7 @@
         "title": "多因素验证",
         "private_hint": "使用个人隐私数据设置加密保险箱，用于保存密钥分片数据。",
         "protector_hint": "绑定个人的其他账号，用于获取密钥分片数据时进行身份验证。",
-        "hint": "保险箱和守护者设置完成后，才能进行账号备份。"
+        "hint": "保险箱和守护者设置完成后，才能进行账户备份。"
       },
       "restore": {
         "title": "恢复途径"
@@ -418,7 +418,7 @@
         "btn_4": "官网主页"
       },
       "exit": {
-        "title": "退出"
+        "title": ""
       }
     },
     "unlock": {
@@ -461,7 +461,7 @@
       }
     },
     "restore": {
-      "title": "账号恢复",
+      "title": "账户恢复",
       "btn_restore": "恢复",
       "hint_password": "使用默认密码恢复，之后请及时修改",
       "toast": {

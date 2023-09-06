@@ -97,13 +97,14 @@
   },
   "pages": {
     "index": {
-      "btn_create": "Create with One Click",
-      "create_hint": "Use default password to create your account, please change password after creation.",
+      "btn_create": "Create Account",
+      "create_hint": "Create a web3 account with just one click, without requiring any personal privacy data.",
       "btn_restore": "Restore Account",
       "btn_more": "Learn More"
     },
     "assets": {
       "title": "Assets",
+      "owner": "Owner",
       "nft": {
         "title": "NFT",
         "tab_file": "File",
@@ -116,9 +117,9 @@
         "mint_content_placeholder": "Content",
         "mint_file_hint": "Upload image",
         "mint_text_hint": "Max content 8k bytes",
+        "detail_text": "Token Details",
         "detail_name": "Name",
-        "btn_transfer": "Transfer",
-        "detail_title": "Token Details"
+        "btn_transfer": "Transfer"
       },
       "token": {
         "title": "Token",
@@ -204,8 +205,8 @@
         "btn_expansion": "Expand",
         "btn_detail": "Details",
         "size_text": "Size",
-        "cid": "Cid",
-        "hint": "Network data lists all user data backed up on the web3 network. Here the user can see the relevant information and synchronization status of the data.",
+        "cid": "CID",
+        "hint": "Network data lists all user data backed up on the web3 decentralized storage network. Here user can see the relevant information and synchronization status of the data.",
         "redundancy_text": "Redundancy",
         "status": {
           "title": "Data Status",
@@ -259,9 +260,9 @@
         "title": "Security Level",
         "hint": "Only My Profile is exposed externally, all other data is encrypted by the user's private key and stored in personal digital space.",
         "zero": "Temporary account, cannot be recovered, data may be lost at any time, please do account maintenance ASAP.",
-        "one": "The account relies on high-risk plaintext mnemonics. Please use a vault to securely store mnemonics and add a recovery path.",
-        "two": "The account only has a mnemonic recovery path. Please add a recovery path to avoid a single point of failure ASAP.",
-        "three": "The account only has a guardian recovery path. Please add a recovery path to avoid a single point of failure ASAP.",
+        "one": "The account relies on high-risk plaintext mnemonics. Please use a vault to securely store mnemonics and add a recovery method.",
+        "two": "The account only has a mnemonic recovery method. Please add a recovery method to avoid a single point of failure ASAP.",
+        "three": "The account only has a guardian recovery method. Please add a recovery method to avoid a single point of failure ASAP.",
         "four": "Low standard accounts, please add Authentication factors to improve account security level.",
         "five": "Standard account, your account has been fully protected."
       },
@@ -302,6 +303,7 @@
       "protector": {
         "title": "Guardian",
         "add_title": "Add Guardian",
+        "delete_hint": "Do you want to delete the guardian?",
         "confirm": "Add",
         "hint": "Adopt 2/2 SSS scheme, one shard encrypted and kept in DAuth, the other encrypted and kept in DKVS. Shard data needs to be kept in the vault.",
         "hint_two": "I have read and agree to the Privacy Policy and Terms of Service"
@@ -397,7 +399,7 @@
         "hint": "The account backup can only be performed after the settings of the vault and guardian are completed."
       },
       "restore": {
-        "title": "Recovery Paths"
+        "title": "Recovery Methods"
       },
       "setting": {
         "title": "Settings",
