@@ -34,7 +34,7 @@ export const useFileStore = create<FileState>()(
             type: 'security',
           });
           if (code === '000000') {
-            set({ securityList: data });
+            set({ securityList: data || [] });
           }
         },
         getPublicList: async () => {
@@ -46,7 +46,7 @@ export const useFileStore = create<FileState>()(
             type: 'public',
           });
           if (code === '000000') {
-            set({ publicList: data });
+            set({ publicList: data || [] });
           }
         },
       }),

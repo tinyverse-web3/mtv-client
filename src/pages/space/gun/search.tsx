@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
-import { useGlobalStore } from '@/store';
+import { useGunStore } from '@/store';
 import toast from 'react-hot-toast';
 import LayoutThird from '@/layout/LayoutThird';
 import account from '@/lib/account/account';
@@ -15,16 +15,22 @@ export default function GunSearch() {
   const nav = useNavigate();
   const [changeDisabled, setSearchDisable] = useState(true);
   const [loading, setLoading] = useState(false);
-  const { name } = useParams<{ name: string }>(); // 获取路由参数中的 gunname
-  const [gunname, setGunname] = useState(name);
+  // const { name } = useParams<{ name: string }>(); // 获取路由参数中的 gunname
+  // const [gunname, setGunname] = useState(name);
   const timer = useRef<any>(null);
+  const {
+    apply: applyGUN,
+    load: loadGUN,
+    searchName,
+    setName,
+  } = useGunStore((state) => state);
 
   const SearchGun = async () => {
     console.log('SearchGun...');
-    if (gunname) {
+    if (searchName) {
       setLoading(true);
       const { code, data, msg } = await account.getGun({
-        GunName: gunname,
+        GunName: searchName,
       });
       if (code === '000000') {
         nav(`/space/gun/detail/${data.Gun_Name}`);
@@ -36,13 +42,13 @@ export default function GunSearch() {
   };
 
   const gunnameChange = (e: any) => {
-    setGunname(e);
+    setName(e);
     if (timer.current) {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
       const text = e.trim().replace(/[^A-Za-z0-9_]/g, '');
-      setGunname(text);
+      setName(text);
     }, 100);
   };
   // const gunnameChange = (e: any) => {
@@ -50,12 +56,12 @@ export default function GunSearch() {
   // };
 
   const disabled = useMemo(() => {
-    if (gunname) {
-      return gunname.length < 8;
+    if (searchName) {
+      return searchName.length < 8;
     } else {
       return true;
     }
-  }, [gunname]);
+  }, [searchName]);
   // useEffect(() => {
 
   //   let gunname : string = name ? name : "";
@@ -80,7 +86,7 @@ export default function GunSearch() {
             bordered
             fullWidth
             maxLength={64}
-            value={gunname}
+            value={searchName}
             onChange={gunnameChange}
             placeholder={t('pages.space.gun.search_input')}
           />
