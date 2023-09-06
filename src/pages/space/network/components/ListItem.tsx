@@ -23,7 +23,7 @@ export function ListItem({
   CreateTime,
   type,
   Cid,
-  PinStatus,
+  PinStatus = 0,
   ValidTime,
   description,
   onClick,

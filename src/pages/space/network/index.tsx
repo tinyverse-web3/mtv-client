@@ -29,10 +29,10 @@ export default function NetworIndex() {
     if (!ipfs) return {};
     return {
       type: 'ipfs',
-      totalSpace: 1024 * 1024 * 100,
+      totalSpace: ipfs.TotalSpace,
       used: ipfs.UsedSpace,
       total: 20,
-      usedItem: ipfs.totalItem,
+      usedItem: ipfs.UsedItem || 0,
     };
   }, [summary]);
   const dkvsSummary = useMemo(() => {
@@ -41,10 +41,10 @@ export default function NetworIndex() {
 
     return {
       type: 'dkvs',
-      totalSpace: 1024 * 1024,
+      totalSpace: dkvs.TotalSpace,
       used: dkvs.UsedSpace,
-      total: 20,
-      usedItem: dkvs.totalItem,
+      total: dkvs.TotalItem,
+      usedItem: dkvs.UsedItem,
     };
   }, [summary]);
   useEffect(() => {

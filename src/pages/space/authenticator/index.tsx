@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH, routes } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore } from '@/store';
+import { useAuthenticatorStore } from '@/store';
 import { Button } from '@/components/form/Button';
 import { toast } from 'react-hot-toast';
 import { useList } from 'react-use';
@@ -13,17 +13,7 @@ import { useTranslation } from 'react-i18next';
 export default function SpaceIndex() {
   const nav = useNavigate();
   const { t } = useTranslation();
-  const [list, { set: setList }] = useList<any>([]);
-
-  const getAuthenticatorCodes = async () => {
-    const { code, data = [], msg } = await account.getAuthenticatorCodes();
-    // setList(list);
-    if (code === '000000') {
-      setList(data);
-    } else {
-      toast.error(msg);
-    }
-  };
+  const { list, getList } = useAuthenticatorStore(state => state);
   const itemClick = ({ path, url }: any) => {};
   const toAdd = () => {
     nav(ROUTE_PATH.SPACE_AUTHENTICATOR_ADD);
@@ -33,7 +23,7 @@ export default function SpaceIndex() {
   };
 
   useEffect(() => {
-    getAuthenticatorCodes();
+    getList();
   }, []);
   console.log(list);
   return (

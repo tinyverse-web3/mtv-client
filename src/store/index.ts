@@ -10,3 +10,5 @@ export * from './gun';
 export * from './assets';
 export * from './network';
 export * from './file';
+export * from './authenticator';
+export * from './album';
