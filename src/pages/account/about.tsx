@@ -34,7 +34,7 @@ export default function Account() {
     openUrl(url);
   };
   const toGithub = () => {
-    const url = 'https://github.com/tinyverse-web3/mtv-client';
+    const url = 'https://github.com/tinyverse-web3';
     openUrl(url);
   };
   const toPrivacy = () => {
