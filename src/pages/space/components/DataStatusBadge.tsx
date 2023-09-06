@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useInterval } from 'react-use';
 import account from '@/lib/account/account';
+import IconSuccess from '@/assets/images/space/icon-space-network-success.png';
+import IconError from '@/assets/images/space/icon-space-network-error.png';
 interface Props {
   className?: string;
 }
@@ -12,14 +14,7 @@ export const DataStatusBadge = ({ className }: Props) => {
       setStatus(data);
     }
   };
-  const statusColorMap: any = {
-    0: '#808080',
-    1: '#FFFF00',
-    2: '#FF0000',
-    3: '#00FF00',
-    4: '#00BFFF',
-    5: '#FFA500',
-  };
+
   useEffect(() => {
     getStatus();
   }, []);
@@ -27,10 +22,13 @@ export const DataStatusBadge = ({ className }: Props) => {
   useInterval(() => {
     getStatus();
   }, 10000);
-  return status > -1 ? (
-    <div
-      className={'w-4 h-4 rounded-full ' + className}
-      style={{ backgroundColor: statusColorMap[status] }}></div>
+  const src = useMemo(() => {
+    return status == 2 ? IconSuccess : IconError;
+  }, [status]);
+  return status > 0 ? (
+    <div className={'w-4 h-4 rounded-full ' + className}>
+      <img src={src} />
+    </div>
   ) : (
     <></>
   );
