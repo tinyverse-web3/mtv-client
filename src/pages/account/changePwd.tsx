@@ -45,9 +45,10 @@ export default function ChangePwd() {
       setAccountInfo({ isDefaultPwd: false });
       if (isBiometricsSatus && window.JsBridge) {
         setupBiometrics(pwd);
+      } else {
+        toast.success(t('common.password.change_success'));
+        nav(-1);
       }
-      toast.success(t('common.password.change_success'));
-      nav(-1);
     } else {
       setErr(true);
       toast.error(msg);
@@ -56,6 +57,7 @@ export default function ChangePwd() {
   const setupBiometrics = async (password: string) => {
     window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
       if (code === 0) {
+        nav(-1);
         toast.success(message);
       } else {
         toast.error(message);
