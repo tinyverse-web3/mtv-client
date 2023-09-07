@@ -31,15 +31,15 @@ export default function QuestionFeature() {
       setLoading(false);
       return;
     }
-    if (text && text?.length < 6) {
+    if (text && text?.length < 8) {
       toast.error(t('pages.account.encrypted_safe.toast.error_2'));
       return;
     }
-    if (password && password?.length < 12) {
+    if (password && password?.length < 8) {
       toast.error(t('pages.account.encrypted_safe.toast.error_3'));
       return;
     }
-    if (customText && customText?.length < 12) {
+    if (customText && customText?.length < 8) {
       toast.error(t('pages.account.encrypted_safe.toast.error_4'));
       return;
     }
