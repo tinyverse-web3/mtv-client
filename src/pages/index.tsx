@@ -1,6 +1,4 @@
-import { Text, Link } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
-// import { useRouter } from 'next/navigation';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
 import { LanguageIcon } from '@/components/SettingIcon';
@@ -104,7 +102,7 @@ export default function Index() {
           loading={loading}>
           {t('pages.index.btn_create')}
         </Button>
-        <Text className='text-13px mb-4'>{t('pages.index.create_hint')}</Text>
+        <div className='text-13px mb-4'>{t('pages.index.create_hint')}</div>
         <Button
           color='secondary'
           className='m-auto mb-4 w-full h-50px bg-blue-6'

@@ -107,10 +107,10 @@ export const routes: RouteObject[] = [
         element: <Retrieve />,
       },
 
-      // {
-      //   path: ROUTE_PATH.CHAT_INDEX,
-      //   element: <ChatList />,
-      // },
+      {
+        path: ROUTE_PATH.CHAT_INDEX,
+        element: <ChatList />,
+      },
       {
         path: ROUTE_PATH.CHAT_MESSAGE,
         element: <ChatMessage />,

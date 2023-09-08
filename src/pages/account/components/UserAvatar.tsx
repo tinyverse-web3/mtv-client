@@ -4,6 +4,7 @@ import { Image, Badge } from '@nextui-org/react';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react';
 interface Props {
   className?: string;
 }
@@ -26,7 +27,9 @@ export const UserAvatar = ({ className }: Props) => {
     }
   };
   const imageSrc = useMemo(() => {
-    return accountInfo.avatar ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}` : '/logo.png';
+    return accountInfo.avatar
+      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
+      : '/logo.png';
   }, [accountInfo.avatar]);
   return (
     <div className={`flex justify-center w-full h-full ${className}`}>
@@ -34,7 +37,10 @@ export const UserAvatar = ({ className }: Props) => {
         <div className='rounded-full overflow-hidden w-full h-full'>
           <Image src={imageSrc} className='w-full h-full' />
         </div>
-        <div className='i-mdi-camera absolute  bottom-0 right-0 text-8 text-gray-700'></div>
+        <Icon
+          icon='mdi:camera'
+          className=' absolute  bottom-0 right-0 text-8 text-gray-700'
+        />
         <input
           type='file'
           accept='image/*'

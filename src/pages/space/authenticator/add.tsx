@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
-import { Select } from '@/components/form/Select';
 import LayoutThird from '@/layout/LayoutThird';
-import { Text, Container, Row, Button } from '@nextui-org/react';
-import { ROUTE_PATH } from '@/router';
+import { Button } from '@nextui-org/react';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { Icon } from '@iconify/react'
 import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
@@ -54,15 +53,15 @@ export default function Edit() {
   return (
     <LayoutThird title={t('pages.space.authenticator.add_title')}>
       <div className='p-6'>
-        <Row className='mb-8' justify='center'>
+        <div className='mb-8'>
           <Input
             value={name}
             maxLength={300}
             onChange={nameChange}
             placeholder={t('pages.space.authenticator.detail_name')}
           />
-        </Row>
-        <Row className='mb-8' align='center'>
+        </div>
+        <div className='mb-8'>
           <Input
             value={key}
             maxLength={300}
@@ -70,13 +69,13 @@ export default function Edit() {
             placeholder={t('pages.space.authenticator.detail_key')}
           />
           <div
-            className='i-mdi-plus text-blue-5 w-6 h-6 ml-4'
+            className='mdi:plus text-blue-500 w-6 h-6 ml-4'
             onClick={generateGoogleSecret}></div>
-        </Row>
-        {/* <Row className='mb-8' justify='center'>
+        </div>
+        {/* <div className='mb-8' >
           <Select list={types} placeholder='秘钥类型'></Select>
-        </Row> */}
-        <Row className='' justify='center'>
+        </div> */}
+        <div className=''>
           <Button
             color='secondary'
             disabled={!name}
@@ -85,7 +84,7 @@ export default function Edit() {
             size='md'>
             {t('common.confirm')}
           </Button>
-        </Row>
+        </div>
       </div>
     </LayoutThird>
   );

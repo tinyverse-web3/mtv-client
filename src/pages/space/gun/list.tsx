@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Text, Container, Card, Button, Spacer } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import LayoutThird from '@/layout/LayoutThird';
@@ -7,6 +6,7 @@ import { Empty } from '@/components/Empty';
 import { useGunStore, EMPTY_GUN_NAME } from '@/store';
 import { GunItem } from './components/GunItem';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react';
 
 export default function GunListShow() {
   const { t } = useTranslation();
@@ -42,7 +42,10 @@ export default function GunListShow() {
       path={ROUTE_PATH.SPACE_INDEX}
       loading={loading}
       rightContent={
-        <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
+        <Icon
+          icon='mdi:plus-circle-outline'
+          onClick={toAdd}
+          className=' text-xl'></Icon>
       }>
       <div className='pt-1 px-6'>
         {list.length ? (

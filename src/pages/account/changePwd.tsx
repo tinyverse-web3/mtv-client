@@ -1,7 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Button } from '@/components/form/Button';
-import { Text, Checkbox, Row, Input } from '@nextui-org/react';
-import { STATUS_CODE } from '@/lib/account/account';
+import { Password } from '@/components/form/Password';
 import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
@@ -81,7 +80,7 @@ export default function ChangePwd() {
   }, [err]);
   const oldPwdChange = (e: any) => {
     setErr(false);
-    setOldPwd(e.target.value?.trim());
+    setOldPwd(e?.trim());
   };
   const getBiometricsSetUp = () => {
     if (window?.JsBridge) {
@@ -100,14 +99,9 @@ export default function ChangePwd() {
   return (
     <LayoutThird showBack title={t('common.password.change_text')}>
       <div className='pt-6 px-6'>
-        <Row className='mb-8' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            aria-label='password'
-            fullWidth
+        <div className='mb-8'>
+          <Password
             maxLength={20}
-            type='password'
             value={oldPwd}
             helperColor={helper.color}
             helperText={helper.text}
@@ -116,31 +110,23 @@ export default function ChangePwd() {
             placeholder={t('common.password.old_text')}
             initialValue=''
           />
-        </Row>
+        </div>
         <div className='mb-3'>
-          <Input.Password
-            clearable
-            bordered
-            aria-label='password'
-            fullWidth
+          <Password
             value={pwd}
             disabled={!oldPwd}
             className='mb-1'
             helperColor={validStatus ? 'default' : 'error'}
             status={validStatus ? 'default' : 'error'}
-            onChange={(e) => setPwd(e.target.value?.trim())}
+            onChange={(e: string) => setPwd(e?.trim())}
             placeholder={t('common.password.new_text')}
           />
           <div className='text-12px pl-8px'>
             {t('common.password.rule_text')}
           </div>
         </div>
-        <Row className='mb-4' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            fullWidth
-            aria-label='password'
+        <div className='mb-4'>
+          <Password
             disabled={!pwd}
             value={confirmPwd}
             helperColor={confirmStatus ? 'default' : 'error'}
@@ -148,11 +134,11 @@ export default function ChangePwd() {
             helperText={
               confirmStatus ? '' : t('common.password.unanimous_error')
             }
-            onChange={(e) => setConfirmPwd(e.target.value.trim())}
+            onChange={(e: string) => setConfirmPwd(e.trim())}
             placeholder={t('common.password.confirm_text')}
             initialValue=''
           />
-        </Row>
+        </div>
 
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}

@@ -2,7 +2,6 @@ import { useEffect, useRef, useLayoutEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTE_HASH_PATH, routes } from '@/router/index';
-import { Loading } from '@nextui-org/react';
 import account from '@/lib/account/account';
 import { useIdleTimer } from 'react-idle-timer';
 import { Outlet } from 'react-router-dom';
@@ -101,7 +100,7 @@ export const LaunchCheck = ({ children }: any) => {
     <>
       {checkLoading ? (
         <div className='w-full h-screen absolute top-0 left-0 flex justify-center items-center z-10'>
-          <Loading />
+          {/* <Loading /> */}
         </div>
       ) : (
         <>

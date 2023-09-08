@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   transform: translate3d(0, 0, 0);
   -webkit-text-size-adjust: none !important;

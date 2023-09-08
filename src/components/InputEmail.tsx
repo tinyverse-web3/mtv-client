@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { Input } from '@nextui-org/react';
-import { validEmail } from '@/lib/utils';
+import { Input } from '@/components/form/Input';
+import { Icon } from '@iconify/react'
 
 export const InputEmail = () => {
   const [email, setEmail] = useState('ygz14835187@163.com');
@@ -12,9 +12,6 @@ export const InputEmail = () => {
   const emailBlur = () => {};
   return (
     <Input
-      clearable
-      bordered
-      fullWidth
       type='email'
       className='h-50px'
       aria-label='email'
@@ -27,7 +24,7 @@ export const InputEmail = () => {
       value={email}
       onChange={emailChange}
       placeholder='邮箱'
-      contentLeft={<div className='i-mdi-email color-current' />}
+      contentLeft={<Icon icon="mdi:email" className=' color-current' />}
     />
   );
 };

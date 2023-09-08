@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Text } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { useNavigate } from 'react-router-dom';
@@ -41,10 +40,10 @@ export default function Userinfo() {
   return (
     <LayoutThird showBack title='修改名字'>
       <div className='pt-4 px-4'>
-        <Text className='text-14px mb-6'>
+        <div className='text-14px mb-6'>
           用户的全球唯一名称（Global Unique
           Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。
-        </Text>
+        </div>
         <div className='mb-6'>
           {nickname ? (
             <Input

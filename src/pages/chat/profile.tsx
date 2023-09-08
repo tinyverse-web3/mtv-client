@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Image, Button as NextButton, Card } from '@nextui-org/react';
+import { Image,  Card, CardBody } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
 import { CopyIcon } from '@/components/CopyIcon';
@@ -32,7 +32,7 @@ const Profile: React.FC = () => {
   };
   const showDelModal = async () => {
     setShowStatus(true);
-    console.log(showStatus)
+    console.log(showStatus);
   };
   const claer = async () => {
     if (recipient?.MessageKey) {
@@ -98,31 +98,31 @@ const Profile: React.FC = () => {
         <div>
           <div className='mb-4'>
             <div className='mb-2'>{t('pages.account.gun')}</div>
-            <Card variant='bordered'>
-              <Card.Body className='break-all p-2'>
+            <Card>
+              <CardBody className='break-all p-2'>
                 <div>
                   {recipient?.GUNName || t('pages.account.profile.unset_text')}
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
           <div className='mb-4'>
             <div className='mb-2'>{t('pages.account.public_key')}</div>
-            <Card variant='bordered'>
-              <Card.Body className='p-2'>
+            <Card>
+              <CardBody className='p-2'>
                 <div className='flex items-center'>
                   <div className='break-all flex-1'>{recipient?.DAuthKey}</div>
                   {!!recipient?.DAuthKey && (
                     <CopyIcon text={recipient?.DAuthKey} className='ml-4' />
                   )}
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
           <div className='mb-4'>
             <div className='mb-2'>{t('pages.account.message_key')}</div>
-            <Card variant='bordered'>
-              <Card.Body className='p-2'>
+            <Card>
+              <CardBody className='p-2'>
                 <div className='flex items-center'>
                   <div className='break-all flex-1'>
                     {recipient?.MessageKey}
@@ -131,21 +131,19 @@ const Profile: React.FC = () => {
                     <CopyIcon text={recipient?.MessageKey} className='ml-4' />
                   )}
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
           <div className='mb-4'>
             <div className='mb-2'>{t('pages.chat.profile.alias.title')}</div>
             <div className='flex items-center'>
               <Input value={alias} onChange={(e: string) => setAlias(e)} />
-              <NextButton
-                auto
-                flat
+              <Button
                 size='xs'
                 className='ml-4 h-10'
                 onPress={changeAlias}>
                 {t('pages.chat.profile.btn_change')}
-              </NextButton>
+              </Button>
             </div>
           </div>
         </div>

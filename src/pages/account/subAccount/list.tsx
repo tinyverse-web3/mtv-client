@@ -1,5 +1,6 @@
-import { Card, Text, Button } from '@nextui-org/react';
+import { Card } from '@nextui-org/react';
 6;
+import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
@@ -35,20 +36,24 @@ export default function UserPhrase() {
       title='子账号列表'
       path={ROUTE_PATH.ACCOUNT}
       rightContent={
-        <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
+        <div onClick={toAdd} className='mdi:plus-circle-outline text-5'></div>
       }>
       <div className='p-4'>
         {list.map((item) => (
-          <Card variant="bordered"  key={item.id} className='mb-4'>
+          <Card key={item.id} className='mb-4'>
             <div className='flex justify-between items-center py-2 px-4'>
               <div>
-                <Text h5>{item.label}</Text>
-                <Text className='text-gray-500'>{item.type}</Text>
+                <h5>{item.label}</h5>
+                <div className='text-gray-500'>{item.type}</div>
               </div>
               <div className='flex'>
-                <div className='i-mdi-pencil-outline text-6 mr-4' onClick={() => toDetail(item)}></div>
+                <Icon
+                  icon='mdi:pencil-outline'
+                  className=' text-6 mr-4'
+                  onClick={() => toDetail(item)}
+                />
                 <div
-                  className='i-mdi-delete-outline text-6'
+                  className='mdi:delete-outline text-6'
                   onClick={() => deleteHandler(item)}></div>
               </div>
             </div>

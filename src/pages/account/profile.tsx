@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Image, Button as NextButton, Card } from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useChatStore, useAccountStore } from '@/store';
@@ -62,8 +62,8 @@ const Profile: React.FC = () => {
     <LayoutThird title={t('pages.account.profile.title')}>
       <div className='p-4 h-full overflow-y-auto'>
         <div className='pt-10 mb-4'>
-          <Card variant='bordered' className='overflow-unset'>
-            <Card.Body className='overflow-unset'>
+          <Card className='overflow-unset'>
+            <CardBody className='overflow-unset'>
               <div className='pt-10 relative px-2'>
                 <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-2'>
                   <UserAvatar />
@@ -71,32 +71,32 @@ const Profile: React.FC = () => {
                 <div>
                   <div className='mb-4'>
                     <div className='mb-2'>{t('pages.account.gun')}</div>
-                    <Card variant='bordered'>
-                      <Card.Body className='break-all p-2'>
+                    <Card>
+                      <CardBody className='break-all p-2'>
                         <div>
                           {profile.gunname ||
                             t('pages.account.profile.unset_text')}
                         </div>
-                      </Card.Body>
+                      </CardBody>
                     </Card>
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>{t('pages.account.public_key')}</div>
-                    <Card variant='bordered'>
-                      <Card.Body className='p-2'>
+                    <Card>
+                      <CardBody className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
                             {profile.publickey}
                           </div>
                           <CopyIcon text={profile.publickey} className='ml-4' />
                         </div>
-                      </Card.Body>
+                      </CardBody>
                     </Card>
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>{t('pages.account.message_key')}</div>
-                    <Card variant='bordered'>
-                      <Card.Body className='p-2'>
+                    <Card>
+                      <CardBody className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
                             {profile.messagekey}
@@ -106,41 +106,41 @@ const Profile: React.FC = () => {
                             className='ml-4'
                           />
                         </div>
-                      </Card.Body>
+                      </CardBody>
                     </Card>
                   </div>
                   <div className='mb-4'>
                     <div className='mb-2'>{t('pages.account.wallet_key')}</div>
-                    <Card variant='bordered'>
-                      <Card.Body className='p-2'>
+                    <Card>
+                      <CardBody className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
                             {profile.walletkey}
                           </div>
                           <CopyIcon text={profile.walletkey} className='ml-4' />
                         </div>
-                      </Card.Body>
+                      </CardBody>
                     </Card>
                   </div>
                 </div>
               </div>
-            </Card.Body>
+            </CardBody>
           </Card>
         </div>
-        <Card variant='bordered'>
-          <Card.Body className='break-all'>
+        <Card>
+          <CardBody className='break-all'>
             <div className='text-center' ref={qrBoxRef}>
               <QRCodeCanvas value={qrcodeValue} size={200} />
               <div className='mt-2'>
                 {t('pages.account.profile.qrcode_add')}
               </div>
               <div
-                className='cursor-pointer text-blue-9 underline underline-solid text-center '
+                className=' text-blue-9 underline underline-solid text-center '
                 onClick={loadQrcode}>
                 {t('pages.account.profile.save_qrcode')}
               </div>
             </div>
-          </Card.Body>
+          </CardBody>
         </Card>
       </div>
     </LayoutThird>

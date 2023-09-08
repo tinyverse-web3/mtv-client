@@ -1,9 +1,5 @@
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, Avatar } from '@nextui-org/react';
-import { ThemeSwitch } from '@/components/ThemeSwitch';
-import { LogoutIcon } from '@/components/LogoutIcon';
-import { HeaderUser } from '@/components/header/HeaderUser';
 
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 const MenuItem = ({ text }: any) => {

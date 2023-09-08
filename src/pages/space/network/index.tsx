@@ -79,7 +79,7 @@ export default function NetworIndex() {
             toDetail={toDkvsList}
           />
         </div>
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-lg mb-6 text-sm'>
           {t('pages.space.data.hint')}
         </div>
       </div>

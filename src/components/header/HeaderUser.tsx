@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Image } from '@nextui-org/react';
 import { Address } from '@/components/Address';
 import { PasswordWarnBadge } from '@/components/PasswordWarnBadge';
+import { Icon } from '@iconify/react'
 import { useGlobalStore, useAccountStore } from '@/store';
 import { ROUTE_PATH } from '@/router';
 
@@ -62,12 +63,12 @@ export const HeaderUser = () => {
         <div className='mr-4' onClick={toUserInfo}>
           <Image
             src={imageSrc}
-            className=' cursor-pointer w-14 h-14 rounded-full'
+            className='  w-14 h-14 rounded-full'
           />
         </div>
         <div className='flex-1 h-full pt-6'>
           <div className='flex text-5 items-center'>
-            <div className='font-600 mr-2 cursor-pointer' onClick={toUserInfo}>
+            <div className='font-600 mr-2 ' onClick={toUserInfo}>
               {accountInfo.name ? (
                 accountInfo.name
               ) : (
@@ -75,9 +76,9 @@ export const HeaderUser = () => {
               )}
             </div>
             <div
-              className='i-mdi-cog-outline text-blue-9 cursor-pointer'
+              className='mdi:cog-outline text-blue-9 '
               onClick={toUserInfo}></div>
-            <div className='i-mdi-qrcode ml-2' onClick={toQrcode}></div>
+            <Icon icon='mdi:qrcode' className=' ml-2' onClick={toQrcode}/>
           </div>
           <div className='text-3 break-keep'>
             安全等级：
@@ -87,7 +88,7 @@ export const HeaderUser = () => {
             级({levelItem.text})
           </div>
         </div>
-        <div className='i-mdi-line-scan text-7' onClick={toScan}></div>
+        <Icon icon='mdi:line-scan' className=' text-7' onClick={toScan}/>
       </div>
       <div className='absolute top-0.5 left-24'>
         <PasswordWarnBadge />

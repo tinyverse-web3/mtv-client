@@ -1,5 +1,6 @@
 import { Address } from '@/components/Address';
 import { Button } from '@/components/form/Button';
+import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
 import account from '@/lib/account/account';
@@ -7,16 +8,14 @@ import { ProfileAvatar } from '@/components/ProfileAvatar';
 import { useChatStore, useAccountStore } from '@/store';
 import {
   Card,
-  Text,
-  Input,
-  Image,
-  Button as NextButton,
+  CardBody,
 } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
+import { Icon } from '@iconify/react'
 import { useTranslation } from 'react-i18next';
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
@@ -103,11 +102,11 @@ export default function ChatList() {
   return (
     <div className='p-4 py-3'>
       <div className='flex justify-between mb-3'>
-        <div className='flex items-center  cursor-pointer '>
-          <span className='text-blue-5'>{t('pages.chat.title')}</span>
+        <div className='flex items-center   '>
+          <span className='text-blue-500'>{t('pages.chat.title')}</span>
         </div>
         <div
-          className='i-mdi-line-scan text-6  cursor-pointer text-blue-5'
+          className='mdi:line-scan text-6   text-blue-500'
           onClick={toScan}></div>
       </div>
       <div className='flex items-center mb-4'>
@@ -116,7 +115,7 @@ export default function ChatList() {
             value={searchText}
             aria-label='text'
             bordered
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(e: string) => setSearchText(e)}
             fullWidth
             clearable
             onKeyUp={searchHandler}
@@ -124,13 +123,13 @@ export default function ChatList() {
           />
         </div>
         <div
-          className='i-mdi-account-search-outline ml-4 w-7 h-7 text-blue-5'
+          className='mdi:account-search-outline ml-4 w-7 h-7 text-blue-500'
           onClick={toSender}></div>
       </div>
       <div>
         {contacts?.map((item: any) => (
           <div
-            className='flex h-16 items-center px-6 cursor-pointer rounded-full bg-gray-1 mb-2'
+            className='flex h-16 items-center px-6  rounded-full bg-gray-100 mb-2'
             key={item.MessageKey}
             onClick={() => toDetail(item)}>
             <ProfileAvatar
@@ -151,7 +150,7 @@ export default function ChatList() {
               </div>
             </div>
             {/* <div
-              className='i-mdi-trash-can-outline ml-4 w-6 h-6 text-red'
+              className='mdi:trash-can-outline ml-4 w-6 h-6 text-red'
               onClick={(e) => showDelModal(e, item)}></div> */}
           </div>
         ))}
@@ -164,8 +163,8 @@ export default function ChatList() {
       {showShare && (
         <div>
           <div>
-            <Card variant='bordered' className='w-fit m-auto'>
-              <Card.Body>
+            <Card className='w-fit m-auto'>
+              <CardBody>
                 <QRCodeCanvas
                   size={200}
                   value={
@@ -173,10 +172,10 @@ export default function ChatList() {
                     '/#/chat/imShare?pk='
                   }
                 />
-              </Card.Body>
+              </CardBody>
             </Card>
             <div className='text-center text-5 mb-4'>
-              <Text>有效期：{addMinute(10)}</Text>
+              <div>有效期：{addMinute(10)}</div>
             </div>
             <div className='flex justify-center items-center'>
               <Button

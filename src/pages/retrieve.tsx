@@ -1,17 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { Checkbox, Text, Image, Input } from '@nextui-org/react';
+import { Image } from '@nextui-org/react';
+import { Password } from '@/components/form/Password';
 import { EmailBox } from '@/components/form/EmailBox';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore } from '@/store';
 import { validatePassword } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import account from '@/lib/account/account';
 import imageSuccess from '@/assets/images/icon-success.png';
 import { useTranslation } from 'react-i18next';
-// import { SendEmail } from '@/components/SendEmail';
 
 export default function Retrieve() {
   const { t } = useTranslation();
@@ -34,7 +33,6 @@ export default function Retrieve() {
   };
 
   const changePassword = async () => {
-   
     if (pwd !== confirmPwd) {
       setConfirmStatus(false);
       return;
@@ -43,7 +41,7 @@ export default function Retrieve() {
     if (!validStatus.value) {
       setValidStatus(false);
       return;
-    } 
+    }
     const { code: resultCode, msg } = await account.updatePasswordByGuardian({
       account: email,
       verifyCode: code,
@@ -88,7 +86,7 @@ export default function Retrieve() {
             <div
               key={i}
               onClick={() => stepClick(i)}
-              className={`w-1/3 h-full flex justify-center items-center text-3 cursor-pointer border-b border-b-gray-300 border-b-solid ${
+              className={`w-1/3 h-full flex justify-center items-center text-3  border-b border-b-gray-300 border-b-solid ${
                 i !== 3 ? 'border-r border-gray-300 border-r-solid' : ''
               } ${i < step ? 'bg-blue-7 text-white' : 'bg-gray-3'}`}>
               {v.text}
@@ -114,7 +112,7 @@ export default function Retrieve() {
           {step === 2 && (
             <div>
               <div className='mb-8'>
-                <Input.Password
+                <Password
                   clearable
                   bordered
                   aria-label='password'
@@ -124,22 +122,18 @@ export default function Retrieve() {
                   helperColor={validStatus ? 'default' : 'error'}
                   status={validStatus ? 'default' : 'error'}
                   helperText='密码至少8位，包括数字、大小写字母和符号至少2种'
-                  onChange={(e) => setPwd(e.target.value?.trim())}
+                  onChange={(e: string) => setPwd(e?.trim())}
                   placeholder='新密码'
                 />
               </div>
-              <Input.Password
-                clearable
-                bordered
-                fullWidth
-                aria-label='password'
-                disabled={!pwd}
+              <Password
+                isDisabled={!pwd}
                 className='mb-6 h-50px'
                 value={confirmPwd}
                 helperColor={confirmStatus ? 'default' : 'error'}
                 status={confirmStatus ? 'default' : 'error'}
                 helperText={confirmStatus ? '' : '密码不一致'}
-                onChange={(e) => setConfirmPwd(e.target.value.trim())}
+                onChange={(e: any) => setConfirmPwd(e.trim())}
                 placeholder='确认密码'
                 initialValue=''
               />

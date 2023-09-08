@@ -34,7 +34,7 @@ export const Textarea = ({ value, onChange, ...rest }: Props & any) => {
   return (
     <NextTextarea
       fullWidth
-      bordered
+      variant='bordered'
       aria-label='textarea'
       ref={inputRef}
       initialValue={value}

@@ -1,5 +1,3 @@
-import { Button, Text, Textarea } from '@nextui-org/react';
-
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { Empty } from '@/components/Empty';
 import { ConfirmDelModel } from './components/ConfirmDelModel';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react';
 interface GuardItem {
   type: string;
   account: string;
@@ -26,7 +25,7 @@ const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
       <div className='flex-1 text-end'>{account}</div>
       {showDel && (
         <div className='p-3 -mr-3' onClick={() => onDel?.()}>
-          <div className='i-mdi-trash-can-outline w-5 h-5'></div>
+          <Icon icon='mdi:trash-can-outline' className=' w-5 h-5' />
         </div>
       )}
     </div>
@@ -70,7 +69,10 @@ export default function AccountProtector() {
     <LayoutThird
       title={t('pages.account.protector.title')}
       rightContent={
-        <div onClick={add} className='i-mdi-plus-circle-outline text-5'></div>
+        <Icon
+          onClick={add}
+          icon='mdi:plus-circle-outline '
+          className='text-xl'></Icon>
       }>
       <div className='p-4'>
         <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>

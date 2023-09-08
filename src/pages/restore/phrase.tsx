@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Text, Row, Textarea } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
+import { Textarea } from '@/components/form/Textarea';
 import { useNavigate } from 'react-router-dom';
 import { useRestoreStore, useAccountStore, useGlobalStore } from '@/store';
 import LayoutThird from '@/layout/LayoutThird';
@@ -8,6 +8,7 @@ import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react'
 
 export default function Phrase() {
   const nav = useNavigate();
@@ -65,9 +66,9 @@ export default function Phrase() {
               <div
                 className={`${
                   type === item.value
-                    ? 'border-b-2 border-b-solid text-blue-5'
+                    ? 'border-b-2 border-b-solid text-blue-500'
                     : ''
-                } cursor-pointer`}
+                } `}
                 onClick={() => setType(item.value)}>
                 {item.label}
               </div>
@@ -78,9 +79,9 @@ export default function Phrase() {
         {type === 'file' ? (
           <div>
             <div className='border border-solid border-gray-300 flex justify-center items-center p-8 rounded w-40 h-40 mx-auto mb-2'>
-              <label className='w-full h-full flex flex-col cursor-pointer items-center justify-center text-blue-5'>
+              <label className='w-full h-full flex flex-col  items-center justify-center text-blue-500'>
                 {/* <img src='/upload.png' alt='' /> */}
-                <div className='i-mdi-cloud-upload-outline w-30 h-30'></div>
+                <Icon icon='mdi:cloud-upload-outline' className=' w-30 h-30'/>
                 <div className='text-18px'>
                   {t('common.upload.title')}
                 </div>
@@ -95,7 +96,7 @@ export default function Phrase() {
           </div>
         ) : (
           <>
-            <Row className='mb-6' justify='center'>
+            <div className='mb-6'>
               <Textarea
                 bordered
                 fullWidth
@@ -105,7 +106,7 @@ export default function Phrase() {
                 placeholder={t('pages.restore.phrase.input_placeholder')}
                 initialValue=''
               />
-            </Row>
+            </div>
             <Button
               className='mx-auto w-full'
               disabled={!phrase}

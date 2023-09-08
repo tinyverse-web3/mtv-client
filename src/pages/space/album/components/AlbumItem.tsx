@@ -5,6 +5,7 @@ import { DelConfirmModel } from '@/components/DelConfirmModel';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react'
 interface AlbumItemProps {
   item: {
     FileSize: number;
@@ -68,10 +69,10 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
         <Image src={url} className='w-full h-full' />
       </PhotoView>
       <div
-        className='i-mdi-trash-can-outline absolute right-1 top-1 w-6 h-6 text-red'
+        className='mdi:trash-can-outline absolute right-1 top-1 w-6 h-6 text-red'
         onClick={(e) => showDelModal(e, item?.Filename)}></div>
       <div
-        className='i-mdi-box-download absolute right-1 bottom-1 w-6 h-6 text-blue'
+        className='mdi:box-download absolute right-1 bottom-1 w-6 h-6 text-blue'
         onClick={(e) => downloadItem(e, item?.Filename)}></div>
       <DelConfirmModel
         text={t('common.photo')}

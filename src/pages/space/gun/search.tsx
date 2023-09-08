@@ -1,5 +1,4 @@
 import { useState, useRef, useMemo } from 'react';
-import { Text } from '@nextui-org/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
@@ -75,9 +74,9 @@ export default function GunSearch() {
   return (
     <LayoutThird showBack title={t('pages.space.gun.search_title')}>
       <div className='p-4'>
-        <Text className='text-14px mb-2'>
+        <div className='text-14px mb-2'>
           {t('pages.space.gun.search_hint')}
-        </Text>
+        </div>
 
         <div className='pt-1 mb-2'>
           <Input
@@ -92,9 +91,9 @@ export default function GunSearch() {
           />
         </div>
         <div className='mb-4'>
-          <Text className='text-3 text-gray-400'>
+          <div className='text-3 text-gray-400'>
             {t('pages.space.gun.rule_text')}
-          </Text>
+          </div>
         </div>
         <Button
           disabled={disabled}

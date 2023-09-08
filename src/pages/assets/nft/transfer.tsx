@@ -1,6 +1,6 @@
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
-import { Card } from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useEffect, useState } from 'react';
 import { useMap } from 'react-use';
@@ -43,12 +43,12 @@ export default function Transfer() {
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>{t('pages.assets.transfer.nft_name')}</div>
-          <Card variant="bordered" >
-            <Card.Body>
+          <Card >
+            <CardBody>
               <div className='flex'>
                 <div className='text-4 break-all'>{id}</div>
               </div>
-            </Card.Body>
+            </CardBody>
           </Card>
         </div>
         <div className='flex items-center'>

@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
-import { Card, Text, Input } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useAccountStore } from '@/store';
 import { download } from '@/lib/utils';
@@ -31,7 +30,7 @@ export default function UserQrcode() {
   return (
     <LayoutThird title='我的二维码'>
       <div className='pt-18'>
-        <Text className='mb-24 text-center'>用于他人添加好友</Text>
+        <div className='mb-24 text-center'>用于他人添加好友</div>
         {publicKey && (
           <div className='flex justify-center mb-12'>
             <div className=' rounded-2 overflow-hidden' ref={qrBoxRef}>
@@ -40,7 +39,7 @@ export default function UserQrcode() {
           </div>
         )}
         <div
-          className='cursor-pointer text-blue-9 underline underline-solid text-center '
+          className=' text-blue-9 underline underline-solid text-center '
           onClick={loadQrcode}>
           保存图片
         </div>

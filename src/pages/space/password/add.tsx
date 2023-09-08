@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
-import { Textarea } from '@/components/form/Textarea';
+import { Button } from '@/components/form/Button';
+import { Password } from '@/components/form/Password';
 import LayoutThird from '@/layout/LayoutThird';
-import { Input as NextInput, Row, Button } from '@nextui-org/react';
 import { usePasswordStore, useAccountStore } from '@/store';
-import { ROUTE_PATH } from '@/router';
 import { useSearchParams } from 'react-router-dom';
 import { useMap } from 'react-use';
-import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
@@ -40,7 +38,10 @@ export default function Edit() {
     }
   }, [id]);
   return (
-    <LayoutThird title={`${type === 'add' ? t('common.create') : t('common.edit')}${t('pages.space.password.title')}`}>
+    <LayoutThird
+      title={`${type === 'add' ? t('common.create') : t('common.edit')}${t(
+        'pages.space.password.title',
+      )}`}>
       <div className='p-6'>
         <div className='mb-4'>
           <div className='mb-2'>{t('common.title')}</div>
@@ -62,12 +63,12 @@ export default function Edit() {
         </div>
         <div className='mb-4'>
           <div className='mb-1'>{t('common.password.title')}</div>
-          <NextInput.Password
+          <Password
             value={data.Password}
             fullWidth
             maxLength={300}
             className=''
-            onChange={(e: any) => set('Password', e.target.value?.trim())}
+            onChange={(e: any) => set('Password', e?.trim())}
             placeholder={t('common.password.title')}
           />
         </div>
@@ -80,16 +81,7 @@ export default function Edit() {
             placeholder={t('common.link')}
           />
         </div>
-        {/* <Row className='mb-8' justify='center'>
-          <span className='mb-2'>备注</span>
-          <Textarea
-            value={data.remark}
-            maxLength={300}
-            onChange={(e: string) => set('remark', e?.trim())}
-            placeholder='备注'
-          />
-        </Row> */}
-        <Row className='' justify='center'>
+        <div className=''>
           <Button
             color='secondary'
             disabled={!data.Account || !data.Password || !data.Title}
@@ -98,7 +90,7 @@ export default function Edit() {
             size='md'>
             {t('common.save')}
           </Button>
-        </Row>
+        </div>
       </div>
     </LayoutThird>
   );

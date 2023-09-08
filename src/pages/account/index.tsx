@@ -72,7 +72,7 @@ export default function Account() {
       <div className='flex mb-4'>
         <Image
           src={imageSrc}
-          className='rounded w-20 h-20 mr-4 min-w-20 min-h-20 overflow-hidden'
+          className='rounded-full w-20 h-20 min-w-[5rem] mr-4 overflow-hidden'
         />
         <UserLevel />
       </div>

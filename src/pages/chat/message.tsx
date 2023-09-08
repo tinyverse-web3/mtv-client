@@ -42,7 +42,7 @@ export default function ChatMessage() {
       title={fromName}
       rightContent={
         <div
-          className='i-material-symbols-more-vert h-6 w-6 cursor-pointer'
+          className='i-material-symbols-more-vert h-6 w-6 '
           onClick={toProfile}></div>
       }>
       {<MessageBox recipient={recipient} />}

@@ -4,9 +4,7 @@ import { ROUTE_PATH, routes } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { useAuthenticatorStore } from '@/store';
 import { Button } from '@/components/form/Button';
-import { toast } from 'react-hot-toast';
-import { useList } from 'react-use';
-import account from '@/lib/account/account';
+import { Icon } from '@iconify/react'
 import { IndexItem } from './components/IndexItem';
 import { useTranslation } from 'react-i18next';
 
@@ -39,7 +37,7 @@ export default function AuthenticatorIndex() {
       title={t('pages.space.authenticator.title')}
       loading={loading}
       // rightContent={
-      //   <div onClick={toAdd} className='i-mdi-plus-circle-outline text-5'></div>
+      //   <div onClick={toAdd} className='mdi:plus-circle-outline text-5'></div>
       // }
     >
       <div className='h-full flex flex-col px-4'>

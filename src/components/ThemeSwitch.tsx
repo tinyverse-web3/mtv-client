@@ -1,20 +1,19 @@
 import { useTheme as useNextTheme } from 'next-themes';
-import { Button, useTheme } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 
 export const ThemeSwitch = () => {
   const { setTheme } = useNextTheme();
-  const { isDark } = useTheme();
+  // const { isDark } = useTheme();
   const themeChange = () => {
-    setTheme(isDark ? 'light' : 'dark');
+    // setTheme(isDark ? 'light' : 'dark');
   };
   return (
     <Button
-      light
+      variant='light'
       size='sm'
-      auto
-      className="px-1.5 text-5"
+      className='px-1.5 text-5'
       onPress={themeChange}>
-      {isDark ? '☀️' : '🌛'}
+      {/* {isDark ? '☀️' : '🌛'} */}
     </Button>
   );
 };

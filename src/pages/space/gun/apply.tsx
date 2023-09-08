@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Text, Radio } from '@nextui-org/react';
+import { RadioGroup, Radio } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
@@ -125,9 +125,9 @@ export default function GunRenew() {
     <LayoutThird showBack title={t('pages.space.gun.apply_title')}>
       <div className='p-6'>
         {/* <div className='pt-4 px-4'>
-          <Text className='text-14px mb-4'>
+          <div className='text-14px mb-4'>
             用户的全球唯一名称（Global Unique Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。
-          </Text>
+          </div>
         </div>
         <div className='flex justify-between h-2 mb-1' >
             <span>{label}</span>
@@ -163,32 +163,32 @@ export default function GunRenew() {
           </div>
         </div>
         <div className='mb-4'>
-          <Text className='text-3 text-gray-400'>
+          <div className='text-3 text-gray-400'>
             {t('pages.space.gun.rule_text')}
-          </Text>
+          </div>
         </div>
         <div className='mb-4'>
           <div className='mb-2'>{t('pages.space.gun.expired_text')}</div>
           <div>
-            <Radio.Group
-              size='xs'
+            <RadioGroup
+              size='sm'
               orientation='horizontal'
-              onChange={(e) => setSelectedValid(e)}
+              onValueChange={(e) => setSelectedValid(e)}
               value={selectedValid}>
               {validityList.map((v: any, i: number) => (
                 <Radio key={v.value} value={v.value} isDisabled={i > 0}>
                   {v.label}
                 </Radio>
               ))}
-            </Radio.Group>
+            </RadioGroup>
           </div>
         </div>
         <div className='mb-4 flex items-center text-[14px]'>
-          <Text className=' text-gray-400'>
+          <div className=' text-gray-400'>
             <span>{t('pages.space.gun.price_text')}：</span>
-          </Text>
+          </div>
           {searchName.length > 0 && (
-            <Text className='text-blue-5 ml-4'>
+            <div className='text-blue-500 ml-4'>
               {searchName.length < 8 ? (
                 <span>{t('pages.space.gun.price_soon')}</span>
               ) : (
@@ -197,7 +197,7 @@ export default function GunRenew() {
                   {calcPoint}
                 </span>
               )}
-            </Text>
+            </div>
           )}
         </div>
         <Button

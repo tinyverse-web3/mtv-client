@@ -1,4 +1,4 @@
-import { Text } from '@nextui-org/react';
+import { Icon } from '@iconify/react'
 interface Props {
   label: string;
   value?: string | any;
@@ -7,12 +7,12 @@ interface Props {
 export const ListRow = ({ label, value, onPress }: Props) => {
   return (
     <div
-      className='flex items-center justify-between h-14 rounded-5 bg-gray-100 px-4 cursor-pointer mb-4'
+      className='flex items-center justify-between h-14 rounded-3xl bg-gray-100 px-4  mb-2 text-sm'
       onClick={onPress}>
       <span>{label}</span>
       <div className='flex items-center'>
         <span>{value}</span>
-        <div className='i-mdi-chevron-right ml-2'></div>
+        <Icon icon="mdi:chevron-right" className='ml-2'></Icon>
       </div>
     </div>
   );

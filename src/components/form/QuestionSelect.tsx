@@ -1,6 +1,13 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dropdown, Text, Button } from '@nextui-org/react';
-import toast from 'react-hot-toast';
+import { Button} from '@/components/form/Button';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem
+} from "@nextui-org/react";
+import { Icon } from '@iconify/react'
 import { Textarea } from '@/components/form/Textarea';
 import { Input } from '@/components/form/Input';
 import { useTranslation } from 'react-i18next';
@@ -80,10 +87,10 @@ export const QuestionSelect = ({
     return (
       disabled &&
       num && (
-        <Text className='break-keep text-12px'>
+        <div className='break-keep text-12px'>
           {num}
           {t('pages.account.question.toast.error_3_end')}
-        </Text>
+        </div>
       )
     );
   };
@@ -95,29 +102,28 @@ export const QuestionSelect = ({
         </div>
         <div className='flex-1'>
           <Dropdown isDisabled={disabled}>
-            <Dropdown.Button
-              bordered
+            <DropdownTrigger
               className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
               <div className='text-ellipsis overflow-hidden max-w-200px'>
                 {selectedValue ||
                   t('pages.account.question.input.placeholder_select')}
               </div>
-            </Dropdown.Button>
-            <Dropdown.Menu
+            </DropdownTrigger>
+            <DropdownMenu
               aria-label='Single selection actions'
               disallowEmptySelection
               selectionMode='single'
               selectedKeys={selected}
               onSelectionChange={onSelectionChange}>
               {qList.map((v, i) => (
-                <Dropdown.Item
+                <DropdownItem
                   className='text-11px h-auto py-2'
                   key={v.q}
                   textValue={v.q}>
                   {v.q}
-                </Dropdown.Item>
+                </DropdownItem>
               ))}
-            </Dropdown.Menu>
+            </DropdownMenu>
           </Dropdown>
         </div>
         <Button
@@ -127,7 +133,7 @@ export const QuestionSelect = ({
           disabled={disabled}
           className='px-2 text-4'
           onPress={onRemove}>
-          <div className='i-mdi-close'></div>
+          <Icon icon='mdi:close'/>
         </Button>
       </div>
       {selectedValue && (

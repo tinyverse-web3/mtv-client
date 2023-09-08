@@ -1,4 +1,4 @@
-import { User, Card, Row } from '@nextui-org/react';
+import { User, Card, CardBody } from '@nextui-org/react';
 import { useEffect, useMemo, useRef } from 'react';
 import { unionBy } from 'lodash';
 import { ROUTE_PATH } from '@/router';
@@ -40,8 +40,8 @@ export const ChatList = ({ messages = [] }: Porps) => {
             text={v.name}
             className={`px-0 ${v.isMe ? 'ml-2' : ''}`}
           />
-          <Card variant="bordered"  className='max-w-60% w-fit'>
-            <Card.Body className='py-2'>{v.Content}</Card.Body>
+          <Card className='max-w-60% w-fit'>
+            <CardBody className='py-2'>{v.Content}</CardBody>
           </Card>
         </div>
       ))}

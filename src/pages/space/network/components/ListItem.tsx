@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Button, Progress } from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import { calcSize } from '@/lib/utils';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react'
 interface Props {
   Key: string;
   Size: number;
@@ -70,8 +70,8 @@ export function ListItem({
     return;
   }, [ValidTime]);
   return (
-    <Card variant='bordered' className='mb-4'>
-      <Card.Body className='relative' onClick={onClick}>
+    <Card className='mb-4'>
+      <CardBody className='relative' onClick={onClick}>
         <div className='text-4 break-all'>{Key}</div>
         <div className=''>
           {!!Cid && (
@@ -117,9 +117,9 @@ export function ListItem({
           )}
         </div>
         {/* <div
-          className='i-mdi-trash-can-outline absolute right-1 top-1/2 -translate-1/2 w-6 h-6 text-red'
+          className='mdi:trash-can-outline absolute right-1 top-1/2 -translate-1/2 w-6 h-6 text-red'
           onClick={delHandler}></div> */}
-      </Card.Body>
+      </CardBody>
     </Card>
   );
 }

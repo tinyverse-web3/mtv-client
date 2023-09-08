@@ -34,7 +34,7 @@ export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
   };
   return (
     <div
-      className='flex items-center p-2 px-4 cursor-pointer rounded-4 bg-gray-1 mb-2'
+      className='flex items-center p-2 px-4  rounded-4 bg-gray-100 mb-2'
       key={item.Nftname}
       onClick={toDetail}>
       {item.DataType.indexOf('image') > -1 && (
@@ -46,7 +46,7 @@ export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
       <div className='flex-1'>
         <div className='break-all'>
           {item.DataType === 'GUN' && (
-            <span className='text-blue-5'>
+            <span className='text-blue-500'>
               【{t('pages.space.gun.title')}】
             </span>
           )}

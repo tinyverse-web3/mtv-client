@@ -1,5 +1,5 @@
-import { Button as NextButton, Loading } from '@nextui-org/react';
-
+import { Button as NextButton } from '@nextui-org/react';
+import { Spinner } from '@nextui-org/react';
 interface ButtonProps {
   loading?: boolean;
   onPress?: () => void;
@@ -14,28 +14,28 @@ export const Button = ({
   onClick,
   children,
   disabled,
+  color = 'primary',
   className,
   ...rest
 }: ButtonProps & any) => {
   const pressHandler = (e: any) => {
     if (loading || disabled) return;
     if (onPress) {
-      onPress?.()
+      onPress?.();
     } else if (onClick) {
-      onClick?.(e)
+      onClick?.(e);
     }
   };
   return (
     <NextButton
-      className={`rounded-2 text-4 p-0 ${className}`}
-      disabled={disabled}
+      className={` ${className}`}
+      isDisabled={disabled}
+      color={color}
       {...rest}>
-      <div className='w-full h-full px-2 flex items-center justify-center' onClick={pressHandler}>
-        {loading ? (
-          <Loading type='spinner' size='sm' color='currentColor' />
-        ) : (
-          children
-        )}
+      <div
+        className='w-full h-full px-2 flex items-center justify-center'
+        onClick={pressHandler}>
+        {loading ? <Spinner size='sm' color='white' /> : <>{children}</>}
       </div>
     </NextButton>
   );

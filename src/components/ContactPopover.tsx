@@ -1,5 +1,5 @@
-import { Popover, Image } from '@nextui-org/react';
-import account from '@/lib/account/account';
+import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
+import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useChatStore } from '@/store';
 import { Address } from '@/components/Address';
@@ -30,12 +30,13 @@ export const ContactPopover = ({ onChange }: Props) => {
   }, []);
   return (
     <Popover isOpen={popverOpen} onClose={() => setPopverOpen(false)}>
-      <Popover.Trigger>
-        <div
-          className='i-mdi-account-box ml-4 w-7 h-7 text-blue-5 mt-2'
-          onClick={() => setPopverOpen(true)}></div>
-      </Popover.Trigger>
-      <Popover.Content>
+      <PopoverTrigger>
+        <Icon
+          icon='mdi:account-box'
+          className=' ml-4 w-7 h-7 text-blue-500 mt-2'
+          onClick={() => setPopverOpen(true)}></Icon>
+      </PopoverTrigger>
+      <PopoverContent>
         <div className='p-4 w-50 pb-2'>
           {contacts.map((item) => (
             <div
@@ -51,7 +52,7 @@ export const ContactPopover = ({ onChange }: Props) => {
             </div>
           ))}
         </div>
-      </Popover.Content>
+      </PopoverContent>
     </Popover>
   );
 };

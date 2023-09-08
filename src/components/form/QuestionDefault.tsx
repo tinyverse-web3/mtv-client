@@ -1,5 +1,5 @@
-import { Button, Text } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
+import { Button } from '@/components/form/Button';
 import { useList } from 'react-use';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from '@/api';
@@ -306,10 +306,10 @@ export const QuestionDefault = ({
   };
   const RendText = ({ num }: any) => {
     return disabled && Number(num) ? (
-      <Text className='break-keep text-12px'>
+      <div className='break-keep text-12px'>
         {num}
         {t('pages.account.question.toast.error_3_end')}
-      </Text>
+      </div>
     ) : (
       <></>
     );

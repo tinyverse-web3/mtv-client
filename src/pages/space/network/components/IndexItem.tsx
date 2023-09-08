@@ -1,6 +1,6 @@
 import { calcSize } from '@/lib/utils';
 import { Button } from '@/components/form/Button';
-import { Card, Progress } from '@nextui-org/react';
+import { Card, CardBody, Progress } from '@nextui-org/react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -50,8 +50,8 @@ export function IndexItem({
   return (
     <div>
       <div className='mb-1'>{title}</div>
-      <Card variant='bordered'>
-        <Card.Body>
+      <Card>
+        <CardBody>
           <div className=''>
             <div className='mb-2'>
               <div className='mb-2 text-3 break-keep '>
@@ -97,7 +97,7 @@ export function IndexItem({
               </div>
             </div>
           </div>
-        </Card.Body>
+        </CardBody>
       </Card>
     </div>
   );

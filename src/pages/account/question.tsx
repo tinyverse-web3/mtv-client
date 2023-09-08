@@ -1,4 +1,4 @@
-import { Button, Text } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { QuestionMaintain } from '@/pages/account/components/QuestionMaintain';
 import { useQuestionStore } from '@/store';
@@ -42,23 +42,9 @@ export default function Question() {
             );
           })}
         </div>
-        <Text className='text-14px mb-6'>
+        <div className='text-14px mb-6'>
           {t('pages.account.question.hint')}
-          {/* {type === 1 ? (
-            <>
-              <span>
-                智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。
-                {t('pages.account.question.hint')}
-              </span>
-              <br />
-              <span>
-                用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。
-              </span>
-            </>
-          ) : (
-            '智能隐私问答的目标是帮助用户使用自己印象最深刻的并且是独一无二的事件或记忆作为密码来加密分片数据。这样的记忆不会随着时间的流逝而遗忘或改变，是用户自己生命中独特的体验和记忆。结合我们的技术，用户不用费劲去记忆任何密码，也不用额外保存任何数据，就可以恢复账户。用户唯一要做的就是做最真实的自己。请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。'
-          )} */}
-        </Text>
+        </div>
         <div>
           <QuestionMaintain type={type} />
         </div>

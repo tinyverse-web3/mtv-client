@@ -1,4 +1,4 @@
-import { Loading } from '@nextui-org/react';
+// import { Loading } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { useState } from 'react';
@@ -22,7 +22,6 @@ export const ChatInput = ({ onSend }: Props) => {
     setText(e?.trim());
   };
   const pressHandler = async () => {
-    if (loading) return;
     setLoading(true);
     try {
       await onSend(text);
@@ -37,15 +36,14 @@ export const ChatInput = ({ onSend }: Props) => {
       <div className='flex-1'>
         <Input value={text} onChange={textChange} />
       </div>
-      <div
-        className='cursor-pointer w-16 flex justify-center items-center px-2 rounded-3 bg-blue-5 text-white ml-2'
+      <Button
+        size='xs'
+        className='ml-2'
+        loading={loading}
+        disabled={!text}
         onClick={pressHandler}>
-        {loading ? (
-          <Loading type='spinner' size='sm' color='currentColor' />
-        ) : (
-          t('pages.chat.message.btn_send')
-        )}
-      </div>
+        {t('pages.chat.message.btn_send')}
+      </Button>
     </div>
   );
 };

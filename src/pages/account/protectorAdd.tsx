@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Checkbox, Text, Card } from '@nextui-org/react';
+import { Checkbox, } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
@@ -53,9 +53,9 @@ export default function ProtectorAdd() {
   return (
     <LayoutThird title={t('pages.account.protector.add_title')}>
       <div className='p-4'>
-        <Text className='text-14px mb-6'>
+        <div className='text-14px mb-6'>
           {t('pages.account.protector.hint')}
-        </Text>
+        </div>
         <div>
           <div className='mb-6'>
             <EmailBox onChange={emailChange} />
@@ -64,10 +64,10 @@ export default function ProtectorAdd() {
             className='mb-3'
             aria-label='checkbox'
             // isSelected={checked}
-            onChange={checkboxChange}>
-            <Text className='text-3'>
+            onValueChange={checkboxChange}>
+            <div className='text-3'>
               {t('pages.account.protector.hint_two')}
-            </Text>
+            </div>
           </Checkbox>
           <Button
             disabled={disabled}

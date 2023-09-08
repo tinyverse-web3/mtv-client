@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import {  Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
+import { Icon } from '@iconify/react'
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
@@ -58,7 +59,7 @@ export const EmailBox = ({ onChange }: Props) => {
         onChange={emailChange}
         placeholder={t('common.email')}
         className='mb-6'
-        contentLeft={<div className='i-mdi-email color-current' />}
+        contentLeft={<Icon icon='mdi:email color-current' />}
       />
       <div className='flex'>
         <Input
@@ -74,7 +75,7 @@ export const EmailBox = ({ onChange }: Props) => {
           value={verifyCode}
           onChange={verifyCodeChange}
           placeholder={t('common.code')}
-          contentLeft={<div className='i-mdi-shield-outline color-current' />}
+          contentLeft={<Icon icon='mdi:shield-outline color-current' />}
         />
         <Button
           auto

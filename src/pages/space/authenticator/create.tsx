@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
-import { Row } from '@nextui-org/react';
 import { CopyIcon } from '@/components/CopyIcon';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
@@ -26,10 +25,10 @@ export default function Edit() {
   return (
     <LayoutThird title={t('pages.space.authenticator.create_title')}>
       <div className='p-6'>
-        <Row className='mb-8' justify='center' align='center'>
+        <div className='mb-8'>
           <div className='mr-4'>{key}</div>
           <CopyIcon text={key} />
-        </Row>
+        </div>
       </div>
     </LayoutThird>
   );

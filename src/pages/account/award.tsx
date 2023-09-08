@@ -1,4 +1,3 @@
-import { Text, Link } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 // import { useRouter } from 'next/navigation';
 import LayoutThird from '@/layout/LayoutThird';

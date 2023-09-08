@@ -1,4 +1,12 @@
-import { Card, Text, Checkbox, Modal } from '@nextui-org/react';
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  Checkbox,
+  Card,
+  CardBody,
+} from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -78,30 +86,38 @@ export default function UserPhrase() {
             className='mb-3'
             aria-label='checkbox'
             isSelected={checked}
-            onChange={checkboxChange}>
-            <Text className='text-3'>{t('pages.account.phrase.hint_one')}</Text>
+            onValueChange={checkboxChange}>
+            <div className='text-3'>{t('pages.account.phrase.hint_one')}</div>
           </Checkbox>
         </div>
         <Modal
-          className='max-w-70% mx-auto'
-          autoMargin
           closeButton
-          open={showModal}
+          size='xs'
+          classNames={{
+            wrapper: 'items-center',
+          }}
+          isOpen={showModal}
           onClose={closeHandler}>
-          <Modal.Body>
-            <Text size={16} className='text-center'>
-              {t('pages.account.phrase.hint_two')}
-            </Text>
-          </Modal.Body>
+          <ModalContent>
+            <ModalBody>{t('pages.account.phrase.hint_two')}</ModalBody>
 
-          <Modal.Footer>
-            <Button auto flat color='error' size='sm' onPress={closeHandler}>
-              {t('common.cancel')}
-            </Button>
-            <Button auto size='sm' onPress={confirmHandler} className='ml-6'>
-              {t('common.confirm')}
-            </Button>
-          </Modal.Footer>
+            <ModalFooter>
+              <Button
+                color='danger'
+                variant='light'
+                size='xs'
+                onPress={closeHandler}>
+                {t('common.cancel')}
+              </Button>
+              <Button
+                color='primary'
+                size='xs'
+                onPress={confirmHandler}
+                className='ml-6'>
+                {t('common.confirm')}
+              </Button>
+            </ModalFooter>
+          </ModalContent>
         </Modal>
         {checked ? (
           <>
@@ -115,13 +131,13 @@ export default function UserPhrase() {
           </>
         ) : (
           <>
-            <Text className='text-4 mb-4'>
+            <div className='text-4 mb-4'>
               {t('pages.account.phrase.hint_two')}
-            </Text>
-            <Card variant='bordered' className='mb-4'>
-              <Card.Body>
-                <Text>{mnemonic}</Text>
-              </Card.Body>
+            </div>
+            <Card className='mb-4'>
+              <CardBody>
+                <div>{mnemonic}</div>
+              </CardBody>
             </Card>
             <Button onClick={toVerify} className='w-full' size='lg'>
               {t('common.next_step')}

@@ -5,7 +5,7 @@ import { Textarea } from '@/components/form/Textarea';
 import { Select } from '@/components/form/Select';
 import { v4 as uuidv4 } from 'uuid';
 import LayoutThird from '@/layout/LayoutThird';
-import { Row, Button } from '@nextui-org/react';
+import {  Button } from '@nextui-org/react';
 import { useMap } from 'react-use';
 import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
@@ -86,30 +86,22 @@ export default function Edit() {
   return (
     <LayoutThird title='添加账号'>
       <div className='p-6'>
-        <Row className='mb-4' justify='center'>
+        <div className='mb-4'>
           <Select
             list={types}
             value={data.type}
             placeholder='账号类型'
             onChange={typeChange}></Select>
-        </Row>
-        {/* <Row className='mb-8' justify='center'>
-          <Input
-            value={name}
-            maxLength={300}
-            onChange={nameChange}
-            placeholder='label'
-          />
-        </Row> */}
-        <Row className='mb-8' justify='center'>
+        </div>
+        <div className='mb-8'>
           <Input
             value={data.name}
             maxLength={300}
             onChange={nameChange}
             placeholder='账户名'
           />
-        </Row>
-        <Row className='mb-8' justify='center'>
+        </div>
+        <div className='mb-8'>
           {/* <Input
             value={data.key}
             maxLength={300}
@@ -124,9 +116,9 @@ export default function Edit() {
               placeholder='您的助记词'
             />
           )}
-        </Row>
+        </div>
 
-        <Row className='' justify='center'>
+        <div className=''>
           <Button
             color='secondary'
             className='m-auto mb-6 w-full'
@@ -134,7 +126,7 @@ export default function Edit() {
             size='md'>
             确定
           </Button>
-        </Row>
+        </div>
       </div>
     </LayoutThird>
   );

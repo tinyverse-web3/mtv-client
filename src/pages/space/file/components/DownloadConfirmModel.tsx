@@ -1,5 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useTranslation } from 'react-i18next';
 
@@ -25,25 +31,33 @@ export const DownloadConfirmModel = ({ show, onConfirm, onClose }: Props) => {
   }, [show]);
   return (
     <Modal
-      className='max-w-70% mx-auto'
-      autoMargin
       closeButton
-      open={showModal}
+      size='xs'
+      classNames={{
+        wrapper: 'items-center',
+      }}
+      isOpen={showModal}
       onClose={closeHandler}>
-      <Modal.Body>
-        <Text size={16} className='text-center'>
-          {t('pages.space.file.download_toast')}
-        </Text>
-      </Modal.Body>
+      <ModalContent>
+        <ModalBody>{t('pages.space.file.download_toast')}</ModalBody>
 
-      <Modal.Footer>
-        <Button auto flat color='error' size='sm' onPress={closeHandler}>
-          {t('common.cancel')}
-        </Button>
-        <Button auto onPress={confirmHandler} size='sm' className="ml-6">
-          {t('common.download')}
-        </Button>
-      </Modal.Footer>
+        <ModalFooter>
+          <Button
+            color='danger'
+            variant='light'
+            size='xs'
+            onPress={closeHandler}>
+            {t('common.cancel')}
+          </Button>
+          <Button
+            color='primary'
+            size='xs'
+            onPress={confirmHandler}
+            className='ml-6'>
+            {t('common.download')}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

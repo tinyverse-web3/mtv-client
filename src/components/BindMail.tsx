@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import { Input } from '@/components/form/Input';
+import { Icon } from '@iconify/react';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { useCountDown } from '@/lib/hooks';
@@ -76,70 +84,79 @@ export const BindMail = () => {
   return (
     <Modal
       className='max-w-90% mx-auto'
-      autoMargin
       closeButton
-      open={showLogin}
+      size='xs'
+      classNames={{
+        wrapper: 'items-center',
+      }}
+      isOpen={showLogin}
       onClose={closeHandler}>
-      <Modal.Header>
-        <Text id='modal-title' size={18}>
-          {t('common.bind_email')}
-        </Text>
-      </Modal.Header>
-      <Modal.Body>
-        <Input
-          clearable
-          bordered
-          fullWidth
-          type='email'
-          className='h-50px'
-          aria-label='email'
-          color='primary'
-          size='lg'
-          onBlur={emailBlur}
-          value={email}
-          onChange={emailChange}
-          placeholder={t('common.email')}
-          contentLeft={<div className='i-mdi-email color-current' />}
-        />
-        <div className='flex'>
+      <ModalContent>
+        <ModalHeader>
+          <div className='text-18px'>{t('common.bind_email')}</div>
+        </ModalHeader>
+        <ModalBody>
           <Input
             clearable
             bordered
             fullWidth
-            type='number'
-            maxLength={6}
-            aria-label={t('common.code')}
-            className='flex-1 50px'
+            type='email'
+            className='h-50px'
+            aria-label='email'
             color='primary'
             size='lg'
-            value={verifyCode}
-            onChange={verifyCodeChange}
-            placeholder={t('common.code')}
-            contentLeft={<div className='i-mdi-shield-outline color-current' />}
+            onBlur={emailBlur}
+            value={email}
+            onChange={emailChange}
+            placeholder={t('common.email')}
+            contentLeft={<Icon icon='mdi:email' className='color-current' />}
           />
+          <div className='flex'>
+            <Input
+              clearable
+              bordered
+              fullWidth
+              type='number'
+              maxLength={6}
+              aria-label={t('common.code')}
+              className='flex-1 50px'
+              color='primary'
+              size='lg'
+              value={verifyCode}
+              onChange={verifyCodeChange}
+              placeholder={t('common.code')}
+              contentLeft={
+                <Icon icon='mdi:shield-outline' className=' color-current' />
+              }
+            />
+            <Button
+              auto
+              className='ml-4 min-w-20'
+              color='secondary'
+              onPress={sendVerify}>
+              {text}
+            </Button>
+          </div>
+        </ModalBody>
+        <ModalFooter>
           <Button
-            auto
-            className='ml-4 min-w-20'
-            color='secondary'
-            onPress={sendVerify}>
-            {text}
+            color='danger'
+            variant='light'
+            size='xs'
+            onPress={closeHandler}>
+            {t('common.cancel')}
           </Button>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button auto flat color='error' size='sm' onPress={closeHandler}>
-          {t('common.cancel')}
-        </Button>
-        <Button
-          auto
-          onPress={loginHandler}
-          className='ml-6'
-          size='sm'
-          disabled={!email || !verifyCode}
-          loading={loginLoading}>
-          {t('common.confirm')}
-        </Button>
-      </Modal.Footer>
+          <Button
+            onPress={loginHandler}
+            className='ml-6'
+            size='xs'
+            color='primary'
+            disabled={!email || !verifyCode}
+            loading={loginLoading}>
+            {t('common.confirm')}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

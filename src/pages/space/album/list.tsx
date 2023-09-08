@@ -10,6 +10,7 @@ import { useAlbumStore } from '@/store';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { Empty } from '@/components/Empty';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react'
 
 export default function Album() {
   const { t } = useTranslation();
@@ -47,7 +48,7 @@ export default function Album() {
       loading={loading}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
-          <div className='i-mdi-plus-circle-outline text-5'></div>
+          <Icon icon='mdi:plus-circle-outline' className=' text-xl'/>
           <input
             type='file'
             accept='image/*'

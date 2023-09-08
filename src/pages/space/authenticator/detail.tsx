@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
-import { Text, Container, Row } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
@@ -53,22 +52,22 @@ export default function Detail() {
   return (
     <LayoutThird title={t('pages.space.authenticator.detail_title')}>
       <div className='p-6'>
-        <Row className='mb-8' justify='center'>
+        <div className='mb-8'>
           <Input
             value={name}
             maxLength={300}
             readOnly
             placeholder={t('pages.space.authenticator.detail_name')}
           />
-        </Row>
-        <Row className='mb-8' justify='center'>
+        </div>
+        <div className='mb-8'>
           <Input
             value={key}
             maxLength={300}
             readOnly
             placeholder={t('pages.space.authenticator.detail_key')}
           />
-        </Row>
+        </div>
         <div>
           <Button className='w-full' onClick={showDelModal}>
             {t('common.delete')}

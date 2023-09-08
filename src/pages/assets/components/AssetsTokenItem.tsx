@@ -15,7 +15,7 @@ export const AssetsTokenItem = ({
   onClick
 }: AssetsTokenItemProps) => {
   return (
-    <div className='flex items-center justify-between h-18 border-b-1 border-b-solid border-b-gray-200' onClick={()=> onClick?.()}>
+    <div className='flex items-center justify-between h-20 border-b-1 border-b-solid border-b-gray-200' onClick={()=> onClick?.()}>
       <div className='flex items-center'>
         {icon && (
           <Image

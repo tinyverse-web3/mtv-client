@@ -24,6 +24,7 @@
     "confirm": "Confirm",
     "change": "Change",
     "scan": "Scan",
+    "copy": "Copy ",
     "copy_success": "Copied",
     "init_scan_error": "Init Error",
     "set_text": "Set",

@@ -1,7 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import { Password } from '@/components/form/Password';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@nextui-org/react';
+import { Icon } from '@iconify/react'
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useAccountStore } from '@/store';
 
 interface Props {
   show: boolean;
@@ -35,39 +42,41 @@ export const PublicPasswordModal = ({
   }, [show]);
   return (
     <Modal
-      className='max-w-90% mx-auto'
-      autoMargin
       closeButton
-      open={showModal}
+      size='xs'
+      classNames={{
+        wrapper: 'items-center',
+      }}
+      isOpen={showModal}
       onClose={closeHandler}>
-      <Modal.Header>
-        <Text id='modal-title' size={18}>
-          输入共享文件加密密码
-        </Text>
-      </Modal.Header>
-      <Modal.Body>
-        <Input.Password
-          clearable
-          bordered
-          fullWidth
-          maxLength={6}
-          aria-label='密码'
-          color='primary'
-          size='lg'
-          value={password}
-          onChange={passwordChange}
-          placeholder='密码'
-          contentLeft={<div className='i-mdi-shield-outline color-current' />}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button auto flat color='error' size='sm' onPress={closeHandler}>
-          取消
-        </Button>
-        <Button auto size='sm' onPress={confirmHandler} className='ml-6'>
-          {btnText}
-        </Button>
-      </Modal.Footer>
+      <ModalContent>
+        <ModalHeader>输入共享文件加密密码</ModalHeader>
+        <ModalBody>
+          <Password
+            maxLength={6}
+            value={password}
+            onChange={passwordChange}
+            placeholder='密码'
+            contentLeft={<Icon icon='mdi:shield-outline color-current' />}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color='danger'
+            variant='light'
+            size='xs'
+            onPress={closeHandler}>
+            取消
+          </Button>
+          <Button
+            color='primary'
+            size='xs'
+            onPress={confirmHandler}
+            className='ml-6'>
+            {btnText}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

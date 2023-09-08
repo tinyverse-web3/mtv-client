@@ -1,9 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input, Image } from '@nextui-org/react';
+import { Password } from '@/components/form/Password';
+import {
+  Modal,
+  Image,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react'
 interface Props {
   show: boolean;
   showBiometric?: boolean;
@@ -41,7 +50,7 @@ export const ValidPassword = ({
     }
   };
   const passwordChange = (e: any) => {
-    setPassword(e.target.value);
+    setPassword(e.trim());
   };
   const startBiometric = async () => {
     window?.JsBridge.startBiometric(({ code, message, data }: any) => {
@@ -74,47 +83,53 @@ export const ValidPassword = ({
   }, [show]);
   return (
     <Modal
-      className='max-w-90% mx-auto'
-      autoMargin
       closeButton
-      open={showModal}
+      size='xs'
+      classNames={{
+        wrapper: 'items-center',
+      }}
+      isOpen={showModal}
       onClose={closeHandler}>
-      <Modal.Header>
-        <Text id='modal-title' size={18}>
-          {t('common.password.verify_text')}
-        </Text>
-      </Modal.Header>
-      <Modal.Body>
-        <div className='flex items-center'>
-          <Input.Password
-            clearable
-            bordered
-            fullWidth
-            aria-label={t('common.password.title')}
-            color='primary'
-            size='lg'
-            value={password}
-            onChange={passwordChange}
-            placeholder={t('common.password.title')}
-            contentLeft={<div className='i-mdi-shield-outline color-current' />}
-          />
-          {showBiometric && setupBiometric && (
-            <Image
-              onClick={startBiometric}
-              src='/figer.png'
-              className='w-10 h-10 cursor-pointer ml-4'
+      <ModalContent>
+        <ModalHeader>{t('common.password.verify_text')}</ModalHeader>
+        <ModalBody>
+          <div className='flex items-center'>
+            <Password
+              color='primary'
+              size='lg'
+              value={password}
+              onChange={passwordChange}
+              placeholder={t('common.password.title')}
+              contentLeft={
+                <Icon icon='mdi:shield-outline color-current' />
+              }
             />
-          )}
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button auto flat size="sm" color='error' onClick={closeHandler}>
-          {t('common.cancel')}
-        </Button>
-        <Button auto size="sm" onClick={confirmHandler} className="ml-6">
-          {t('common.confirm')}
-        </Button>
-      </Modal.Footer>
+            {showBiometric && setupBiometric && (
+              <Image
+                onClick={startBiometric}
+                src='/figer.png'
+                className='w-10 h-10  ml-4'
+              />
+            )}
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color='danger'
+            variant='light'
+            size='xs'
+            onClick={closeHandler}>
+            {t('common.cancel')}
+          </Button>
+          <Button
+            color='primary'
+            size='xs'
+            onClick={confirmHandler}
+            className='ml-6'>
+            {t('common.confirm')}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

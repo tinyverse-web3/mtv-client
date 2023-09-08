@@ -1,5 +1,6 @@
-import { Button, Text } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import { QuestionSelect } from '@/components/form/QuestionSelect';
+import { Icon } from '@iconify/react'
 import { useList } from 'react-use';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from '@/api';
@@ -279,18 +280,17 @@ export const Question = ({
         {unSelectList.map((val, i) => (
           <div className='mb-4' key={i}>
             <div className='flex mb-2 items-center justify-between'>
-              <Text>
+              <div>
                 {t('common.question')}-{chineseNumMap[i]}
-              </Text>
+              </div>
               <div className='flex items-center '>
                 {!isFull && type === 'maintain' && (
                   <Button
-                    auto
                     color={'success'}
                     bordered
                     className={list.length > 0 ? 'w-30 ml-4' : 'w-full'}
                     onPress={addQuestion}>
-                    <div className='i-mdi-plus-circle-outline text-5 mr-2'></div>
+                    <Icon icon='mdi:plus-circle-outline' className='text-xl mr-2'/>
                     <span className='ml-2'>{t('common.question')}</span>
                   </Button>
                 )}
@@ -302,7 +302,7 @@ export const Question = ({
                     disabled={disabled}
                     className='px-3 text-4 ml-4'
                     onPress={() => removeQuestion(i)}>
-                    <div className='i-mdi-close'></div>
+                    <Icon icon='mdi:close'/>
                   </Button>
                 )}
               </div>
@@ -326,7 +326,7 @@ export const Question = ({
                   bordered
                   color={'warning'}
                   onPress={() => addQuestionChildren(i)}>
-                  <div className='i-mdi-plus-circle-outline text-5'></div>{' '}
+                  <Icon icon='mdi:plus-circle-outline' className='text-xl'/>{' '}
                   {t('common.sub_question')}
                 </Button>
               </div>

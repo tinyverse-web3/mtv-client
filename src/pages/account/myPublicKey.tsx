@@ -1,7 +1,7 @@
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useAccountStore } from '@/store';
-import { Card } from '@nextui-org/react';
+import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
 import { Button } from '@/components/form/Button';
 import { useCopyToClipboard } from 'react-use';
 import { QRCodeCanvas } from 'qrcode.react';
@@ -41,8 +41,8 @@ export default function UserQrcode() {
             <QRCodeCanvas value={publicKey} size={200} />
           </div>
         )}
-        <Card variant="bordered"  className='w-full m-auto text-12px mb-6'>
-          <Card.Body className='break-all'>{publicKey}</Card.Body>
+        <Card  className='w-full m-auto text-12px mb-6'>
+          <CardBody className='break-all'>{publicKey}</CardBody>
         </Card>
         <Button className='w-full mb-6 bg-cyan-5' size='lg' onPress={copy}>
           复制公钥

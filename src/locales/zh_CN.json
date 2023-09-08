@@ -24,6 +24,7 @@
     "confirm": "确定",
     "change": "修改",
     "scan": "扫一扫",
+    "copy": "复制",
     "copy_success": "复制成功",
     "init_scan_error": "相机初始化失败",
     "set_text": "设置",

@@ -1,6 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Button } from '@/components/form/Button';
-import { Card, Image } from '@nextui-org/react';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Image,
+} from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import account from '@/lib/account/account';
@@ -45,47 +51,47 @@ export default function NftDetail() {
       <div className='p-4'>
         <div className='mb-4'>
           <div className='mb-2'>{t('pages.assets.nft.detail_name')}</div>
-          <Card variant='bordered'>
-            <Card.Body>
+          <Card>
+            <CardBody>
               <div className='flex'>
                 <div className=' break-all'>{detail.Nftname}</div>
               </div>
-            </Card.Body>
+            </CardBody>
           </Card>
         </div>
         {!!detail.Cid && (
           <div className='mb-4'>
             <div className='mb-2'>CID</div>
-            <Card variant='bordered'>
-              <Card.Body>
+            <Card>
+              <CardBody>
                 <div className='flex'>
                   <div className='break-all'>{detail.Cid}</div>
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
         )}
         {!!detail.Owner && (
           <div className='mb-4'>
             <div className='mb-2'>{t('pages.assets.owner')}</div>
-            <Card variant='bordered'>
-              <Card.Body>
+            <Card>
+              <CardBody>
                 <div className='flex'>
                   <div className='break-all'>{detail.Owner}</div>
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
         )}
         {!!detail.Description && (
           <div className='mb-4'>
             <div className='mb-2'>{t('common.description')}</div>
-            <Card variant='bordered'>
-              <Card.Body>
+            <Card>
+              <CardBody>
                 <div className='flex'>
                   <div className=' break-all'>{detail.Description}</div>
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
         )}
@@ -97,18 +103,18 @@ export default function NftDetail() {
                 <PhotoProvider>
                   <div className='w-full'>
                     <PhotoView src={url}>
-                      <Image src={url} className='w-full' objectFit='fill' />
+                      <Image src={url} className='w-full' />
                     </PhotoView>
                   </div>
                 </PhotoProvider>
               )}
               {!!detail.Content && (
-                <Card variant='bordered'>
-                  <Card.Body>
+                <Card>
+                  <CardBody>
                     <div className='flex'>
                       <div className=' break-all'>{detail.Content}</div>
                     </div>
-                  </Card.Body>
+                  </CardBody>
                 </Card>
               )}
             </div>

@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { Text, Radio } from '@nextui-org/react';
+import { Radio, RadioGroup } from '@nextui-org/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/form/Button';
-import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
 import { add, getUnixTime } from 'date-fns';
 import { useGunStore, GunSummy } from '@/store';
@@ -10,10 +9,9 @@ import { toast } from 'react-hot-toast';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 
-
 export default function GunRenew() {
   const nav = useNavigate();
-  const { t} = useTranslation();
+  const { t } = useTranslation();
   const [selectedValid, setSelectedValid] = useState('0');
   const { name } = useParams<{ name: string }>();
   const renewGUN = useGunStore((state) => state.renew);
@@ -86,27 +84,31 @@ export default function GunRenew() {
     <LayoutThird showBack title={t('pages.space.gun.renew')}>
       <div className='p-6'>
         <div className='flex items-center mb-4'>
-          <span className='w-18 min-w-18'>{t('pages.space.gun.apply_name')}</span>
+          <span className='w-18 min-w-18'>
+            {t('pages.space.gun.apply_name')}
+          </span>
           <span>{detail.name}</span>
         </div>
         <div className='flex mb-4'>
           <span className='w-18'>{t('pages.space.gun.expired_text')}</span>
           <div>
-            <Radio.Group
-              size='xs'
+            <RadioGroup
+              size='sm'
               orientation='horizontal'
-              onChange={(e) => setSelectedValid(e)}
+              onValueChange={(e) => setSelectedValid(e)}
               value={selectedValid}>
               {validityList.map((v: any) => (
                 <Radio key={v.value} value={v.value}>
                   {v.label}
                 </Radio>
               ))}
-            </Radio.Group>
+            </RadioGroup>
           </div>
         </div>
         <div className='mb-4 pl-18'>
-          <Text className='text-3 text-gray-400'>{t('pages.space.gun.price_text')}</Text>
+          <div className='text-3 text-gray-400'>
+            {t('pages.space.gun.price_text')}
+          </div>
         </div>
         <Button
           //loading={modifyLoading}

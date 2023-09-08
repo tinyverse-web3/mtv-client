@@ -1,5 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useGlobalStore, useAccountStore } from '@/store';
 import { useTranslation } from 'react-i18next';
@@ -32,24 +38,32 @@ export const ConfirmDelModel = ({
   }, [show]);
   return (
     <Modal
-      className='max-w-90% mx-auto'
-      autoMargin
       closeButton
-      open={showModal}
+      size='xs'
+      classNames={{
+        wrapper: 'items-center',
+      }}
+      isOpen={showModal}
       onClose={closeHandler}>
-      <Modal.Header>
-        <Text id='modal-title' size={18}>
-          {t('pages.account.protector.delete_hint')}
-        </Text>
-      </Modal.Header>
-      <Modal.Footer>
-        <Button auto flat color='error' size='sm' onPress={closeHandler}>
-          {t('common.cancel')}
-        </Button>
-        <Button auto onPress={confirmHandler} size='sm' className='ml-6'>
-          {t('common.confirm')}
-        </Button>
-      </Modal.Footer>
+      <ModalContent>
+        <ModalHeader>{t('pages.account.protector.delete_hint')}</ModalHeader>
+        <ModalFooter>
+          <Button
+            color='danger'
+            variant='light'
+            size='xs'
+            onPress={closeHandler}>
+            {t('common.cancel')}
+          </Button>
+          <Button
+            color='primary'
+            size='xs'
+            onPress={confirmHandler}
+            className='ml-6'>
+            {t('common.confirm')}
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

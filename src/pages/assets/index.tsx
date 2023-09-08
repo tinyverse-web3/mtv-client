@@ -8,7 +8,7 @@ import { HeaderAccount } from './components/HeaderAccount';
 import { Point } from './components/Point';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
 import { NftList } from './components/NftList';
-import account from '@/lib/account/account';
+import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import { useTranslation } from 'react-i18next';
@@ -64,9 +64,9 @@ export default function AssetsIndex() {
                 <div
                   className={`${
                     assetsType === item.value
-                      ? 'border-b-2 border-b-solid text-blue-5'
+                      ? 'border-b-2 border-b-solid text-blue-500'
                       : ''
-                  } cursor-pointer`}
+                  } `}
                   onClick={() => setAssetsType(item.value)}>
                   {item.label}
                 </div>
@@ -76,7 +76,7 @@ export default function AssetsIndex() {
           {assetsType === 'NFT' && (
             <div
               onClick={toAdd}
-              className='i-mdi-plus-circle-outline text-5'></div>
+              className='mdi:plus-circle-outline text-5'></div>
           )}
         </div>
 
@@ -101,7 +101,7 @@ export default function AssetsIndex() {
                   />
                 ))} */}
               </div>
-              <Button onClick={toTransfer} className="mx-auto">{
+              <Button color="primary" onClick={toTransfer} fullWidth className="mx-auto">{
               t('pages.assets.btn_transfer')}</Button>
             </>
           ) : (

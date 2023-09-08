@@ -1,10 +1,9 @@
 import { useState, useMemo } from 'react';
-import { Row, Input, Image } from '@nextui-org/react';
+import { Image } from '@nextui-org/react';
+import { Password } from '@/components/form/Password';
 import { Button } from '@/components/form/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  useAccountStore, useGlobalStore,
-} from '@/store';
+import { useAccountStore, useGlobalStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
@@ -18,8 +17,10 @@ export default function Unlock() {
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const { getLocalAccountInfo, delAccount, accountInfo } = useAccountStore((state) => state);
-  const { setLockStatus} = useGlobalStore((state) => state)
+  const { getLocalAccountInfo, delAccount, accountInfo } = useAccountStore(
+    (state) => state,
+  );
+  const { setLockStatus } = useGlobalStore((state) => state);
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect');
   const unlock = async (password: string) => {
@@ -67,7 +68,7 @@ export default function Unlock() {
     setErr(false);
     setPwd(e.target.value?.trim());
   };
- 
+
   const toRetrieve = () => {
     nav(ROUTE_PATH.RETRIEVE);
   };
@@ -85,25 +86,11 @@ export default function Unlock() {
     <LayoutOne className='relative'>
       <div className='px-6 pt-14 h-full '>
         <HeaderLogo />
-        {/* <div className='flex justify-center'>
-          <Button
-            light
-            color='error'
-            auto
-            className='text-12px mx-auto'
-            onPress={deleteUser}>
-            恢复账号或重新创建
-          </Button>
-        </div> */}
-        <Row className='mb-8 pt-8' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            aria-label='password'
-            fullWidth
+        <div className='mb-8 pt-8'>
+          <Password
             maxLength={20}
-            type='password'
             value={pwd}
+            size="lg"
             className='h-50px'
             helperColor={helper.color}
             helperText={helper.text}
@@ -112,31 +99,33 @@ export default function Unlock() {
             placeholder={t('common.password.input')}
             initialValue=''
           />
-        </Row>
+        </div>
         <Button
           disabled={!pwd}
-          size='lg'
           loading={loading}
-          className='mx-auto mb-6 w-full'
+          fullWidth
+          size="lg"
+          className=' mb-6 '
           onClick={pressHandler}>
           {t('pages.unlock.btn_unlock')}
         </Button>
 
-        <div className='flex justify-end mb-26'>
+        <div className='flex justify-end mb-24'>
           <Button
-            light
-            auto
-            color='success'
-            className='text-14px px-0 text-blue-5'
+            variant='light'
+            size='xs'
+            className='p-0'
             onClick={deleteUser}>
             {t('pages.unlock.forget_password')}
           </Button>
         </div>
-        <Image
-          onClick={startBiometric}
-          src='/figer.png'
-          className='w-10 h-10 cursor-pointer'
-        />
+        <div className='flex justify-center'>
+          <Image
+            onClick={startBiometric}
+            src='/figer.png'
+            className='w-10 h-10 mx-auto'
+          />
+        </div>
       </div>
     </LayoutOne>
   );

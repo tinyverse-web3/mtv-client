@@ -8,7 +8,7 @@ export const LanguageIcon = () => {
   };
   return (
     <div
-      className='i-material-symbols-settings w-6 h-6 text-blue-9 cursor-pointer'
+      className='i-material-symbols-settings w-6 h-6 text-blue-9 '
       onClick={toSetting}></div>
   );
 };

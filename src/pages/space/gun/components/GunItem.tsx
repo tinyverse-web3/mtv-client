@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { GunSummy } from '@/store';
 import { add, getTime } from 'date-fns';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react';
 
 export const GunItem = (item: GunSummy) => {
   const { t } = useTranslation();
@@ -27,11 +28,13 @@ export const GunItem = (item: GunSummy) => {
         <div className='flex items-center text-4 mb-1'>{item.name}</div>
 
         <div className='text-3 text-gray-800'>
-          <span className='font-600'>{t('pages.space.gun.expired_text')}：</span>
+          <span className='font-600'>
+            {t('pages.space.gun.expired_text')}：
+          </span>
           {exporedText}
         </div>
       </div>
-      <div className='i-mdi-chevron-right w-6 h-6'></div>
+      <Icon icon='mdi:chevron-right' className=' w-6 h-6' />
     </div>
   );
 };

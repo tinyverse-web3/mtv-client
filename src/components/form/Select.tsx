@@ -1,5 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dropdown, Text } from '@nextui-org/react';
+import {
+  Select as NextSelect,
+  SelectSection,
+  SelectItem,
+} from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -19,7 +23,7 @@ export const Select = ({
   placeholder,
   keys = { label: 'label', value: 'value' },
 }: Props) => {
-  const { t} = useTranslation()
+  const { t } = useTranslation();
   placeholder = placeholder || t('common.select');
   const [selected, setSelected] = useState(new Set([value]));
 
@@ -37,29 +41,17 @@ export const Select = ({
   }, [selectedValue]);
 
   return (
-    <Dropdown isDisabled={disabled}>
-      <Dropdown.Button
-        color='secondary'
-        className='w-full mb-4 max-w-full min-w-full overflow-hidden dropdown-button'>
-        <div className='text-ellipsis overflow-hidden max-w-200px'>
-          {selectedLabel || placeholder}
-        </div>
-      </Dropdown.Button>
-      <Dropdown.Menu
-        aria-label='Single selection actions'
-        disallowEmptySelection
-        selectionMode='single'
-        selectedKeys={selected}
-        onSelectionChange={onSelectionChange}>
-        {list.map((v, i) => (
-          <Dropdown.Item
-            className='text-11px h-auto py-2'
-            key={v[keys.value]}
-            textValue={v[keys.value]}>
-            {v[keys.label]}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
+    <NextSelect
+      // label='Favorite Animal'
+      value={selectedValue}
+      placeholder={placeholder}
+      className='max-w-xs'
+      isDisabled={disabled}>
+      {list.map((v) => (
+        <SelectItem key={v[keys.value]} value={v[keys.value]}>
+          {v[keys.label]}
+        </SelectItem>
+      ))}
+    </NextSelect>
   );
 };

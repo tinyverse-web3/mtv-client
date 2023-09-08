@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { DownloadConfirmModel } from './DownloadConfirmModel';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react'
 interface FileItemProps {
   item: {
     FileSize: number;
@@ -70,7 +71,7 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2 relative'>
       <div
-        className='i-mdi-trash-can-outline absolute right-1 top-2 w-6 h-6 text-red'
+        className='mdi:trash-can-outline absolute right-1 top-2 w-6 h-6 text-red'
         onClick={(e) => showDelModal(e, item?.Filename)}></div>
       <div className='text-4 font-600 mb-2' onClick={showDownloadModal}>{item.Filename}</div>
       <div className='text-3'>
