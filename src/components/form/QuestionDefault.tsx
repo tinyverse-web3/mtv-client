@@ -306,7 +306,7 @@ export const QuestionDefault = ({
   };
   const RendText = ({ num }: any) => {
     return disabled && Number(num) ? (
-      <div className='break-keep text-12px'>
+      <div className='break-keep text-xs'>
         {num}
         {t('pages.account.question.toast.error_3_end')}
       </div>
@@ -350,7 +350,7 @@ export const QuestionDefault = ({
                 <div className='mb-2'>
                   <div>{v.q}</div>
                   {type !== 'maintain' && !!(v?.len && !isNaN(v?.len)) && (
-                    <div className='text-12px'>
+                    <div className='text-xs'>
                       {t('pages.account.question.toast.error_3_first')}
                       {v?.len}
                       {t('pages.account.question.toast.error_3_end')}

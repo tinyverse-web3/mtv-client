@@ -60,7 +60,7 @@ export default function MultiVerify() {
           }
           onPress={toPharse}
         />
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='hint-text-box'>
           {t('pages.account.phrase.hint')}
         </div>
         <ListRow
@@ -70,7 +70,7 @@ export default function MultiVerify() {
           }
           onPress={toProtector}
         />
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='hint-text-box'>
           {t('pages.account.protector.hint')}
         </div>
         <ListRow
@@ -80,7 +80,7 @@ export default function MultiVerify() {
           }
           onPress={toQuestion}
         />
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 text-[14px]'>
+        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 text-xs'>
           {t('pages.account.question.hint')}
         </div>
       </div>

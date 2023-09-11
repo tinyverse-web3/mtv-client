@@ -33,7 +33,7 @@ export const ContactPopover = ({ onChange }: Props) => {
       <PopoverTrigger>
         <Icon
           icon='mdi:account-box'
-          className=' ml-4 w-7 h-7 text-blue-500 mt-2'
+          className='ml-4 w-7 h-7 text-blue-500'
           onClick={() => setPopverOpen(true)}></Icon>
       </PopoverTrigger>
       <PopoverContent>

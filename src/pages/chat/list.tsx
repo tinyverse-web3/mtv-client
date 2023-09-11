@@ -6,16 +6,13 @@ import { QRCodeCanvas } from 'qrcode.react';
 import account from '@/lib/account/account';
 import { ProfileAvatar } from '@/components/ProfileAvatar';
 import { useChatStore, useAccountStore } from '@/store';
-import {
-  Card,
-  CardBody,
-} from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useInterval } from 'react-use';
 import { toast } from 'react-hot-toast';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
@@ -39,7 +36,9 @@ export default function ChatList() {
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
   const [friendList, setFriendList] = useState<any[]>([]);
-  const { setRecipient,contacts, getContacts } = useChatStore((state) => state);
+  const { setRecipient, contacts, getContacts } = useChatStore(
+    (state) => state,
+  );
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [showStatus, setShowStatus] = useState(false);
@@ -105,9 +104,10 @@ export default function ChatList() {
         <div className='flex items-center   '>
           <span className='text-blue-500'>{t('pages.chat.title')}</span>
         </div>
-        <div
-          className='mdi:line-scan text-6   text-blue-500'
-          onClick={toScan}></div>
+        <Icon
+          icon='mdi:line-scan'
+          className=' text-xl   text-blue-500'
+          onClick={toScan}></Icon>
       </div>
       <div className='flex items-center mb-4'>
         <div className='flex-1'>
@@ -115,16 +115,17 @@ export default function ChatList() {
             value={searchText}
             aria-label='text'
             bordered
-            onChange={(e: string) => setSearchText(e)}
             fullWidth
+            onChange={(e: string) => setSearchText(e)}
             clearable
             onKeyUp={searchHandler}
             placeholder={t('pages.chat.search.placeholder')}
           />
         </div>
-        <div
-          className='mdi:account-search-outline ml-4 w-7 h-7 text-blue-500'
-          onClick={toSender}></div>
+        <Icon
+          icon='mdi:account-search-outline'
+          className=' ml-4 w-7 h-7 text-blue-500'
+          onClick={toSender}></Icon>
       </div>
       <div>
         {contacts?.map((item: any) => (
@@ -141,17 +142,10 @@ export default function ChatList() {
                 <span>{renderName(item)}</span>
               </div>
               <div className='flex justify-between items-center'>
-                <div className='text-12px w-40 truncate'>
-                  {item.LastMessage}
-                </div>
-                <span className='text-12px'>
-                  {formatTime(item.LastMsgTime)}
-                </span>
+                <div className='text-xs w-40 truncate'>{item.LastMessage}</div>
+                <span className='text-xs'>{formatTime(item.LastMsgTime)}</span>
               </div>
             </div>
-            {/* <div
-              className='mdi:trash-can-outline ml-4 w-6 h-6 text-red'
-              onClick={(e) => showDelModal(e, item)}></div> */}
           </div>
         ))}
       </div>
@@ -167,10 +161,7 @@ export default function ChatList() {
               <CardBody>
                 <QRCodeCanvas
                   size={200}
-                  value={
-                    window.location.origin +
-                    '/#/chat/imShare?pk='
-                  }
+                  value={window.location.origin + '/#/chat/imShare?pk='}
                 />
               </CardBody>
             </Card>

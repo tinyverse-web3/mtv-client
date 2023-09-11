@@ -47,7 +47,7 @@ export const DefaultPasswordModal = () => {
         </ModalHeader>
         <ModalBody>
           <div className='text-center text-red-400 text-[20px]'>123456</div>
-          <div className='text-center text-red-400 text-[14px]'>
+          <div className='text-center text-red-400 text-xs'>
             {t('common.password.hint_one')}
           </div>
         </ModalBody>

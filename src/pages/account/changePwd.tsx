@@ -121,7 +121,7 @@ export default function ChangePwd() {
             onChange={(e: string) => setPwd(e?.trim())}
             placeholder={t('common.password.new_text')}
           />
-          <div className='text-12px pl-8px'>
+          <div className='text-xs pl-8px'>
             {t('common.password.rule_text')}
           </div>
         </div>
@@ -142,7 +142,7 @@ export default function ChangePwd() {
 
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}
-          className='mx-auto'
+          fullWidth
           loading={loading}
           onPress={changePassword}>
           {t('common.password.change')}

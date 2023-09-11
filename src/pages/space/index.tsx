@@ -9,7 +9,7 @@ import { DefaultPasswordModal } from '@/components/DefaultPasswordModal';
 import { Image } from '@nextui-org/react';
 import { DataStatusBadge } from './components/DataStatusBadge';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 
 const MenuItem = ({ text, icon, onClick }: any) => {
   const { t } = useTranslation();
@@ -49,7 +49,7 @@ const MenuItem = ({ text, icon, onClick }: any) => {
             src={`/space/${icon}`}></img>
         )}
       </div>
-      <span className='text-center text-[12px]'>{text}</span>
+      <span className='text-center text-xs'>{text}</span>
     </div>
   );
 };
@@ -160,9 +160,10 @@ export default function SpaceIndex() {
           <Image src={imageSrc} className='w-8 h-8 rounded-full mr-4' />
           <span className='text-blue-500'>{t('pages.space.head_title')}</span>
         </div>
-        <div
-          className='mdi:line-scan text-7   text-blue-500'
-          onClick={toScan}></div>
+        <Icon
+          icon='mdi:line-scan'
+          className=' text-3xl   text-blue-500'
+          onClick={toScan}></Icon>
       </div>
 
       <div className='grid grid-cols-3 gap-6 justify-items-center'>

@@ -5,7 +5,7 @@ import LayoutThird from '@/layout/LayoutThird';
 import { Button } from '@nextui-org/react';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 
 export default function Edit() {
@@ -68,9 +68,10 @@ export default function Edit() {
             onChange={keyChange}
             placeholder={t('pages.space.authenticator.detail_key')}
           />
-          <div
-            className='mdi:plus text-blue-500 w-6 h-6 ml-4'
-            onClick={generateGoogleSecret}></div>
+          <Icon
+            icon='mdi:plus'
+            className=' text-blue-500 w-6 h-6 ml-4'
+            onClick={generateGoogleSecret}></Icon>
         </div>
         {/* <div className='mb-8' >
           <Select list={types} placeholder='秘钥类型'></Select>

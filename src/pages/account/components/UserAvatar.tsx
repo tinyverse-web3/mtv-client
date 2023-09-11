@@ -39,13 +39,13 @@ export const UserAvatar = ({ className }: Props) => {
         </div>
         <Icon
           icon='mdi:camera'
-          className=' absolute  bottom-0 right-0 text-8 text-gray-700'
+          className=' absolute  bottom-0 right-0 text-2xl text-gray-700 z-10'
         />
         <input
           type='file'
           accept='image/*'
           onChange={imageChange}
-          className='invisible'
+          className='invisible w-0'
         />
       </label>
     </div>

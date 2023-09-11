@@ -87,7 +87,7 @@ export const QuestionSelect = ({
     return (
       disabled &&
       num && (
-        <div className='break-keep text-12px'>
+        <div className='break-keep text-xs'>
           {num}
           {t('pages.account.question.toast.error_3_end')}
         </div>
@@ -97,7 +97,7 @@ export const QuestionSelect = ({
   return (
     <div className={className}>
       <div className='flex items-center mb-4'>
-        <div className='w-5 min-h-5 rounded-full border border-gray-300 border-solid mr-1 flex items-center justify-center text-12px'>
+        <div className='w-5 min-h-5 rounded-full border border-gray-300 border-solid mr-1 flex items-center justify-center text-xs'>
           {index + 1}
         </div>
         <div className='flex-1'>

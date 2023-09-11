@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { DownloadConfirmModel } from './DownloadConfirmModel';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 interface FileItemProps {
   item: {
     FileSize: number;
@@ -19,7 +19,7 @@ interface FileItemProps {
   delSuccess?: () => void;
 }
 const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const [showStatus, setShowStatus] = useState(false);
   const [showDownloadStatus, setShowDownloadStatus] = useState(false);
@@ -57,8 +57,8 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
     setShowDownloadStatus(true);
   };
   const downloadConfirm = async () => {
-    downloadItem()
-  }
+    downloadItem();
+  };
   const delConfirm = async () => {
     await removeItem(delItem);
   };
@@ -70,10 +70,13 @@ const FileItem = ({ item, onDownload, delSuccess, type }: FileItemProps) => {
   };
   return (
     <div className='border-b-gray-200 border-b-solid border-b py-2 relative'>
-      <div
-        className='mdi:trash-can-outline absolute right-1 top-2 w-6 h-6 text-red'
-        onClick={(e) => showDelModal(e, item?.Filename)}></div>
-      <div className='text-4 font-600 mb-2' onClick={showDownloadModal}>{item.Filename}</div>
+      <Icon
+        icon='mdi:trash-can-outline'
+        className='absolute right-1 top-2 w-6 h-6 text-red-400'
+        onClick={(e) => showDelModal(e, item?.Filename)}></Icon>
+      <div className='text-4 font-600 mb-2' onClick={showDownloadModal}>
+        {item.Filename}
+      </div>
       <div className='text-3'>
         <span className='mr-4'>{formatTime(item.TimeStamp)}</span>
         <span>{calcSize(item.FileSize)}</span>

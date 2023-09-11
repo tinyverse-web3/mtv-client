@@ -5,6 +5,7 @@ import { ROUTE_PATH } from '@/router';
 import { useChatStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
+import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 
 export default function ChatMessage() {
@@ -41,9 +42,11 @@ export default function ChatMessage() {
       className='h-full'
       title={fromName}
       rightContent={
-        <div
-          className='i-material-symbols-more-vert h-6 w-6 '
-          onClick={toProfile}></div>
+        <Icon
+          icon='material-symbols:more-vert'
+          className=' h-6 w-6 '
+          onClick={toProfile}
+        />
       }>
       {<MessageBox recipient={recipient} />}
     </LayoutThird>

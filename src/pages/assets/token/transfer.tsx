@@ -38,11 +38,10 @@ export default function Transfer() {
   return (
     <LayoutThird className='h-full' title={t('pages.assets.btn_transfer')}>
       <div className='p-4'>
-        <div className='flex items-center'>
+        <div className='flex items-center mb-4'>
           <Input
             label={t('pages.assets.transfer.to_address')}
             placeholder={t('pages.assets.transfer.to_placeholder')}
-            className='mb-4'
             value={data.WalletAddr}
             onChange={(e: string) => set('WalletAddr', e.trim())}
           />

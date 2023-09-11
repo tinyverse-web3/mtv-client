@@ -36,7 +36,10 @@ export default function UserPhrase() {
       title='子账号列表'
       path={ROUTE_PATH.ACCOUNT}
       rightContent={
-        <div onClick={toAdd} className='mdi:plus-circle-outline text-5'></div>
+        <Icon
+          icon='mdi:plus-circle-outline'
+          onClick={toAdd}
+          className=' text-5'></Icon>
       }>
       <div className='p-4'>
         {list.map((item) => (

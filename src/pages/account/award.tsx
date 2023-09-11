@@ -36,7 +36,7 @@ export default function Award() {
           onPress={applyDailyReward}>
           {t('pages.space.award.daily')}
         </Button>
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='hint-text-box'>
           {t('pages.space.award.hint_one')}
         </div>
         <Button
@@ -45,10 +45,10 @@ export default function Award() {
           onPress={applyGuardianReward}>
           {t('pages.space.award.guardian')}
         </Button>
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='hint-text-box'>
           {t('pages.space.award.hint_two')}
         </div>
-        <div className='mt-60 border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='mt-60 hint-text-box'>
           {t('pages.space.award.hint')}
         </div>
       </div>

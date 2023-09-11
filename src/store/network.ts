@@ -5,8 +5,10 @@ import account from '@/lib/account/account';
 
 interface NetworkState {
   summary: any;
+  status: 0 | 1 | 2;
   ipfsList: any[];
   dkvsList: any[];
+  setStatus: (s: 0 | 1| 2) => void;
   getSummary: () => void;
   getIpfsList: () => void;
   getDkvsList: () => void;
@@ -15,9 +17,13 @@ export const useNetworkStore = create<NetworkState>()(
   devtools(
     persist(
       (set, get) => ({
+        status: 0,
         summary: [],
         ipfsList: [],
         dkvsList: [],
+        setStatus: (s: 0 | 1 | 2) => {
+          set({ status: s });
+        },
         getSummary: async () => {
           const { data = [], code, msg } = await account.getDataSummary();
           if (code === '000000') {

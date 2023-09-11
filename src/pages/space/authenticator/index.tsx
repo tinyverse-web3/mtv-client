@@ -36,9 +36,6 @@ export default function AuthenticatorIndex() {
     <LayoutThird
       title={t('pages.space.authenticator.title')}
       loading={loading}
-      // rightContent={
-      //   <div onClick={toAdd} className='mdi:plus-circle-outline text-5'></div>
-      // }
     >
       <div className='h-full flex flex-col px-4'>
         <div className='flex-1 overscroll-y-auto'>
@@ -46,7 +43,7 @@ export default function AuthenticatorIndex() {
             <IndexItem key={v.Account} Account={v.Account} Code={v.Code} />
           ))}
         </div>
-        <div className='flex items-center h-18'>
+        <div className='flex items-center h-18 min-h-[4.5rem]'>
           {/* <Button auto onClick={toCreate} className='flex-1'>
             创建一个秘钥
           </Button> */}

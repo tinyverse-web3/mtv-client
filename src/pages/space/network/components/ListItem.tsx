@@ -116,9 +116,6 @@ export function ListItem({
             </div>
           )}
         </div>
-        {/* <div
-          className='mdi:trash-can-outline absolute right-1 top-1/2 -translate-1/2 w-6 h-6 text-red'
-          onClick={delHandler}></div> */}
       </CardBody>
     </Card>
   );

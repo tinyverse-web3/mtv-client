@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { Empty } from '@/components/Empty';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 
 export default function NoteList() {
   const { t } = useTranslation();
@@ -52,7 +52,10 @@ export default function NoteList() {
       path={ROUTE_PATH.SPACE_INDEX}
       loading={loading}
       rightContent={
-        <Icon icon="mdi:plus-circle-outline" onClick={toAdd} className=' text-xl'></Icon>
+        <Icon
+          icon='mdi:plus-circle-outline'
+          onClick={toAdd}
+          className=' text-xl'></Icon>
       }>
       <div className='p-6'>
         {list.length ? (
@@ -62,7 +65,7 @@ export default function NoteList() {
               className='py-2 px-4 relative border-b border-b-solid border-b-gray-300'>
               <div onClick={() => toDetail(item?.Id)}>
                 <div className='flex items-center'>
-                  <div className='text-5 mdi:file-document-outline mr-1'></div>
+                  <Icon icon='mdi:file-document-outline' className='text-xl  mr-1'></Icon>
                   {item.Title}
                 </div>
                 {item.ModifyTIme && (
@@ -73,9 +76,10 @@ export default function NoteList() {
                   </div>
                 )}
               </div>
-              <div
-                className='mdi:trash-can-outline absolute right-2 top-1/2 -translate-1/2 w-6 h-6 text-red'
-                onClick={(e) => removeItem(e, item?.Id)}></div>
+              <Icon
+                icon='mdi:trash-can-outline'
+                className=' absolute right-2 top-1/2 -translate-1/2 w-6 h-6 text-red-400'
+                onClick={(e) => removeItem(e, item?.Id)}></Icon>
             </div>
           ))
         ) : (

@@ -135,7 +135,7 @@ export default function NftAdd() {
           </div>
           {assetsType === 'file' ? (
             <div className='mb-2'>
-              <div className='border border-solid border-gray-300 flex justify-center items-center p-2 rounded w-40 h-40 mx-auto mb-2'>
+              <div className='border border-solid border-gray-300 flex justify-center items-center p-2 rounded-xl w-40 h-40 mx-auto mb-2'>
                 <label className='w-full h-full flex flex-col  items-center justify-center text-blue-500'>
                   {!!previewSrc ? (
                     <img src={previewSrc} className='w-full h-full' />
@@ -143,7 +143,7 @@ export default function NftAdd() {
                     <>
                       <Icon
                         icon='mdi:cloud-upload-outline'
-                        className=' w-30 h-30'
+                        className='text-6xl'
                       />
                       <div className='text-18px'>
                         {t('common.upload.title')}

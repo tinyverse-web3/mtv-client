@@ -62,10 +62,10 @@ const Profile: React.FC = () => {
     <LayoutThird title={t('pages.account.profile.title')}>
       <div className='p-4 h-full overflow-y-auto'>
         <div className='pt-10 mb-4'>
-          <Card className='overflow-unset'>
-            <CardBody className='overflow-unset'>
+          <Card className='overflow-visible'>
+            <CardBody className='overflow-visible'>
               <div className='pt-10 relative px-2'>
-                <div className='flex items-center absolute -top-4 left-1/2 -translate-1/2 rounded-full bg-white w-26 h-26 p-2'>
+                <div className='flex items-center absolute -top-16 left-1/2 transfrom -translate-x-1/2  rounded-full bg-white w-24 h-24 p-2'>
                   <UserAvatar />
                 </div>
                 <div>
@@ -129,7 +129,7 @@ const Profile: React.FC = () => {
         </div>
         <Card>
           <CardBody className='break-all'>
-            <div className='text-center' ref={qrBoxRef}>
+            <div className='flex flex-col items-center' ref={qrBoxRef}>
               <QRCodeCanvas value={qrcodeValue} size={200} />
               <div className='mt-2'>
                 {t('pages.account.profile.qrcode_add')}

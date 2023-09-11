@@ -92,7 +92,7 @@ const Profile: React.FC = () => {
   return (
     <LayoutThird title={fromName} className='h-full'>
       <div className='p-4'>
-        <div className='flex items-center mb-4'>
+        <div className='flex justify-center mb-4'>
           <Image src='/logo.png' className='rounded w-20' />
         </div>
         <div>

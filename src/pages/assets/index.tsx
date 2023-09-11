@@ -8,7 +8,7 @@ import { HeaderAccount } from './components/HeaderAccount';
 import { Point } from './components/Point';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
 import { NftList } from './components/NftList';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import { useTranslation } from 'react-i18next';
@@ -45,12 +45,10 @@ export default function AssetsIndex() {
   const toAdd = () => {
     nav(ROUTE_PATH.ASSETS_NFT_ADD);
   };
-  const toTransfer = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER);
-  };
+
   const toTokenDetail = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
-  }
+  };
   return (
     <div>
       {/* <HeaderAccount /> */}
@@ -74,9 +72,10 @@ export default function AssetsIndex() {
             ))}
           </div>
           {assetsType === 'NFT' && (
-            <div
+            <Icon
+              icon='mdi:plus-circle-outline'
               onClick={toAdd}
-              className='mdi:plus-circle-outline text-5'></div>
+              className=' text-xl'></Icon>
           )}
         </div>
 
@@ -101,8 +100,6 @@ export default function AssetsIndex() {
                   />
                 ))} */}
               </div>
-              <Button color="primary" onClick={toTransfer} fullWidth className="mx-auto">{
-              t('pages.assets.btn_transfer')}</Button>
             </>
           ) : (
             <div>

@@ -41,7 +41,7 @@ export default function UserQrcode() {
             <QRCodeCanvas value={publicKey} size={200} />
           </div>
         )}
-        <Card  className='w-full m-auto text-12px mb-6'>
+        <Card  className='w-full m-auto text-xs mb-6'>
           <CardBody className='break-all'>{publicKey}</CardBody>
         </Card>
         <Button className='w-full mb-6 bg-cyan-5' size='lg' onPress={copy}>

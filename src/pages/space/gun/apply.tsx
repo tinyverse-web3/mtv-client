@@ -183,7 +183,7 @@ export default function GunRenew() {
             </RadioGroup>
           </div>
         </div>
-        <div className='mb-4 flex items-center text-[14px]'>
+        <div className='mb-4 flex items-center text-xs'>
           <div className=' text-gray-400'>
             <span>{t('pages.space.gun.price_text')}：</span>
           </div>

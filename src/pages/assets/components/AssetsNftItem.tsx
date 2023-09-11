@@ -53,7 +53,7 @@ export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
           <span>{item.Name}</span>
         </div>
         {/* <div className='flex justify-between items-center'>
-          <div className='text-12px'>{item.Owner}</div>
+          <div className='text-xs'>{item.Owner}</div>
         </div> */}
       </div>
     </div>

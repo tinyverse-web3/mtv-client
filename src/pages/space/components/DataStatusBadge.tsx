@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useInterval } from 'react-use';
 import account from '@/lib/account/account';
+import { useNetworkStore } from '@/store';
 import IconSuccess from '@/assets/images/space/icon-space-network-success.png';
 import IconError from '@/assets/images/space/icon-space-network-error.png';
 interface Props {
   className?: string;
 }
 export const DataStatusBadge = ({ className }: Props) => {
-  const [status, setStatus] = useState(0); // 0: 未上传 1: 上传中 2: 上传完成 3: 上传失败
+  const { status, setStatus } = useNetworkStore((state) => state);
   const getStatus = async () => {
     const { code, data } = await account.getDataStatus();
     if (code === '000000' && data >= 0) {

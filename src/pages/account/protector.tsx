@@ -75,7 +75,7 @@ export default function AccountProtector() {
           className='text-xl'></Icon>
       }>
       <div className='p-4'>
-        <div className='border-1 border-solid border-gray-2 p-2 rounded-2 mb-6 text-[14px]'>
+        <div className='hint-text-box'>
           {t('pages.account.protector.hint')}
         </div>
         <div>

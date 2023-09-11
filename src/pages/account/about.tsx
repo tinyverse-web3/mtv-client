@@ -48,10 +48,10 @@ export default function Account() {
     <LayoutThird showBack title={t('pages.account.about.title')}>
       <div className='h-full relative'>
         <div className='p-4'>
-          <div className='pt-8 mb-6 text-center'>
+          <div className='pt-8 mb-6 flex flex-col items-center'>
             <Image src='/logo.png' className='w-20 h-20 mb-2' />
             <div className='mb-2'>{t('pages.account.about.version')}</div>
-            <div className='mb-2 text-12px'>
+            <div className='mb-2 text-xs'>
               {t('pages.account.about.description')}
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function Account() {
             />
           </div>
         </div>
-        <div className='absolute text-center w-full text-12px bottom-6'>
+        <div className='absolute text-center w-full text-xs bottom-6'>
           Copyright © 2023 TinyVerse Ltd. All Rights Reserved.
         </div>
       </div>
