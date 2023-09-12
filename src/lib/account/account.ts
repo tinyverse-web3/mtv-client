@@ -798,6 +798,10 @@ export class Account {
     const { data } = await this.dauth.downloadNftFile({ NftName });
     return data;
   }
+  async getTXMore() {
+    const { data } = await this.dauth.getTXMore();
+    return data;
+  }
   async getDataSummary() {
     const { data } = await this.dauth.getDataSummary();
     return data;

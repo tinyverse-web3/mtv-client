@@ -706,6 +706,18 @@ export class Dauth {
       },
     });
   }
+  async getTXDetails() {
+    return this.invoke({
+      name: 'getTXDetails',
+      method: 'get',
+    });
+  }
+  async getTXMore() {
+    return this.invoke({
+      name: 'getTXMore',
+      method: 'get',
+    });
+  }
   /**
    * 上传 IPFS 文件
    * @param file 文件

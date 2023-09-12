@@ -143,9 +143,9 @@ export default function ChatList() {
               </div>
               <div className='flex justify-between items-center'>
                 <div className='text-xs w-40 truncate'>{item.LastMessage}</div>
-                <span className='text-xs'>{formatTime(item.LastMsgTime)}</span>
+                <span className='text-xs'>{formatTime(item. LastMsgTime)}</span>
               </div>
-            </div>
+            </div> 
           </div>
         ))}
       </div>
