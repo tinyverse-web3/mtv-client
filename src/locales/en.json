@@ -417,7 +417,8 @@
         "btn_1": "Terms of Service",
         "btn_2": "Privacy Policy",
         "btn_3": "Source Code",
-        "btn_4": "Official Website"
+        "btn_4": "Official Website",
+        "btn_5": "Blog"
       },
       "exit": {
         "title": "Sign Out"
