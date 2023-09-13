@@ -123,7 +123,7 @@ const Profile: React.FC = () => {
                 {t('pages.account.profile.qrcode_add')}
               </div>
               <div
-                className=' text-blue-600 underline underline-solid text-center '
+                className='text-blue-600 underline underline-solid text-center '
                 onClick={loadQrcode}>
                 {t('pages.account.profile.save_qrcode')}
               </div>
