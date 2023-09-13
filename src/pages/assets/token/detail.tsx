@@ -5,14 +5,22 @@ import { AssetsTokenDetailItem } from '../components/AssetsTokenDetailItem';
 import { ROUTE_PATH } from '@/router';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+import account from '@/lib/account/account';
+import { useEffect } from 'react';
 
 export default function TokenDetail() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { balance: pointBalance } = usePoint();
+  const getTXDetails = async () => {
+    const { code, data} = await account.getTXDetails();
+  }
   const toTransfer = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER);
   };
+  useEffect(() => {
+    getTXDetails();
+  }, [])
   return (
     <LayoutThird title={t('pages.assets.token.detail_title')}>
       <div className='bg-gray-50 h-full'>
