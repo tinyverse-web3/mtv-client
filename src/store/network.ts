@@ -10,6 +10,7 @@ interface NetworkState {
   getSummary: () => void;
   getIpfsList: () => void;
   getDkvsList: () => void;
+  reset: () => void;
 }
 export const useNetworkStore = create<NetworkState>()(
   devtools(
@@ -36,6 +37,9 @@ export const useNetworkStore = create<NetworkState>()(
             set({ dkvsList: data });
           }
         },
+        reset: async () => {
+          set({ summary: [], ipfsList: [], dkvsList: [] });
+        }
       }),
       {
         name: 'network-storage',

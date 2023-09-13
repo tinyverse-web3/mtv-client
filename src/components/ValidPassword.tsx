@@ -77,6 +77,7 @@ export const ValidPassword = ({
       className='max-w-90% mx-auto'
       autoMargin
       closeButton
+      preventClose
       open={showModal}
       onClose={closeHandler}>
       <Modal.Header>

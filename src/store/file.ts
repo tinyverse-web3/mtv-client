@@ -18,6 +18,7 @@ interface FileState {
   publicList: any[];
   getSecruityList: () => void;
   getPublicList: () => void;
+  reset: () => void;
 }
 export const useFileStore = create<FileState>()(
   devtools(
@@ -48,6 +49,9 @@ export const useFileStore = create<FileState>()(
           if (code === '000000') {
             set({ publicList: data || [] });
           }
+        },
+        reset: async () => {
+          set({ securityList: [], publicList: [] });
         },
       }),
       {

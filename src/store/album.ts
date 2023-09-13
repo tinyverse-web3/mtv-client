@@ -6,6 +6,7 @@ import account from '@/lib/account/account';
 interface AlbumState {
   list: any[];
   getList: () => void;
+  reset: () => void;
 }
 export const useAlbumStore = create<AlbumState>()(
   devtools(
@@ -18,6 +19,9 @@ export const useAlbumStore = create<AlbumState>()(
             set({ list: data || [] });
           }
         },
+        reset: async () => {
+          set({ list: [] });
+        }
       }),
       {
         name: 'album-storage',
