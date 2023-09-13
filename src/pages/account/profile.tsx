@@ -17,24 +17,7 @@ const Profile: React.FC = () => {
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
-  const [profile, setProfile] = React.useState<any>({
-    avatar: '',
-    gunname: '',
-    messagekey: '',
-    nickname: '',
-    publickey: '',
-    walletkey: '',
-  });
-  const getProfile = async () => {
-    const { code, data, msg } = await account.getMsgProfile(
-      accountInfo.publicKey,
-    );
-    if (code === '000000') {
-      setProfile(data);
-    } else {
-      toast.error(msg);
-    }
-  };
+
   const qrcodeValue = useMemo(() => {
     if (!accountInfo.publicKey) return '';
     return `type=${QrType.ADD_FRIEND}&value=${accountInfo.publicKey}`;
@@ -48,11 +31,6 @@ const Profile: React.FC = () => {
       }
     }
   };
-  useEffect(() => {
-    if (accountInfo.publicKey) {
-      getProfile();
-    }
-  }, [accountInfo.publicKey]);
   const imageSrc = useMemo(() => {
     return accountInfo.avatar
       ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
@@ -74,7 +52,7 @@ const Profile: React.FC = () => {
                     <Card variant='bordered'>
                       <Card.Body className='break-all p-2'>
                         <div>
-                          {profile.gunname ||
+                          {accountInfo.name||
                             t('pages.account.profile.unset_text')}
                         </div>
                       </Card.Body>
@@ -86,9 +64,9 @@ const Profile: React.FC = () => {
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
-                            {profile.publickey}
+                            {accountInfo.publicKey}
                           </div>
-                          <CopyIcon text={profile.publickey} className='ml-4' />
+                          <CopyIcon text={accountInfo.publicKey} className='ml-4' />
                         </div>
                       </Card.Body>
                     </Card>
@@ -99,10 +77,10 @@ const Profile: React.FC = () => {
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
-                            {profile.messagekey}
+                            {accountInfo.messageKey}
                           </div>
                           <CopyIcon
-                            text={profile.messagekey}
+                            text={accountInfo.messageKey}
                             className='ml-4'
                           />
                         </div>
@@ -115,9 +93,9 @@ const Profile: React.FC = () => {
                       <Card.Body className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
-                            {profile.walletkey}
+                            {accountInfo.address}
                           </div>
-                          <CopyIcon text={profile.walletkey} className='ml-4' />
+                          <CopyIcon text={accountInfo.address} className='ml-4' />
                         </div>
                       </Card.Body>
                     </Card>
