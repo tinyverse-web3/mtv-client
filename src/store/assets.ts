@@ -16,6 +16,7 @@ interface NftItem {
 interface AssetsState {
   nftList: NftItem[];
   getNftList: () => void;
+  reset: () => void;
 }
 export const useAssetsStore = create<AssetsState>()(
   devtools(
@@ -39,6 +40,9 @@ export const useAssetsStore = create<AssetsState>()(
           if (code === '000000') {
             set({ nftList: data || [] });
           }
+        },
+        reset: async () => {
+          set({ nftList: [] });
         },
       }),
       {

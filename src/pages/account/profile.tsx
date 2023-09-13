@@ -17,24 +17,7 @@ const Profile: React.FC = () => {
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
-  const [profile, setProfile] = React.useState<any>({
-    avatar: '',
-    gunname: '',
-    messagekey: '',
-    nickname: '',
-    publickey: '',
-    walletkey: '',
-  });
-  const getProfile = async () => {
-    const { code, data, msg } = await account.getMsgProfile(
-      accountInfo.publicKey,
-    );
-    if (code === '000000') {
-      setProfile(data);
-    } else {
-      toast.error(msg);
-    }
-  };
+
   const qrcodeValue = useMemo(() => {
     if (!accountInfo.publicKey) return '';
     return `type=${QrType.ADD_FRIEND}&value=${accountInfo.publicKey}`;
@@ -48,16 +31,21 @@ const Profile: React.FC = () => {
       }
     }
   };
-  useEffect(() => {
-    if (accountInfo.publicKey) {
-      getProfile();
+  const shortHandler = (str?: string) => {
+    if (str) {
+      return `${str?.substring(0, 10)}*****${str?.substring(str?.length - 10)}`;
     }
+    return ''
+  };
+  const shortAddress = useMemo(() => {
+    return shortHandler(accountInfo.address);
+  }, [accountInfo.address]);
+  const shortMessage = useMemo(() => {
+    return shortHandler(accountInfo.messageKey);
+  }, [accountInfo.messageKey]);
+  const shortKey = useMemo(() => {
+    return shortHandler(accountInfo.publicKey);
   }, [accountInfo.publicKey]);
-  const imageSrc = useMemo(() => {
-    return accountInfo.avatar
-      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
-      : '/logo.png';
-  }, [accountInfo.avatar]);
   return (
     <LayoutThird title={t('pages.account.profile.title')}>
       <div className='p-4 h-full overflow-y-auto'>
@@ -74,7 +62,7 @@ const Profile: React.FC = () => {
                     <Card>
                       <CardBody className='break-all p-2'>
                         <div>
-                          {profile.gunname ||
+                          {accountInfo.name||
                             t('pages.account.profile.unset_text')}
                         </div>
                       </CardBody>
@@ -86,9 +74,9 @@ const Profile: React.FC = () => {
                       <CardBody className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
-                            {profile.publickey}
+                            {shortKey}
                           </div>
-                          <CopyIcon text={profile.publickey} className='ml-4' />
+                          <CopyIcon text={accountInfo.publicKey} className='ml-4' />
                         </div>
                       </CardBody>
                     </Card>
@@ -99,10 +87,10 @@ const Profile: React.FC = () => {
                       <CardBody className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
-                            {profile.messagekey}
+                            {shortMessage}
                           </div>
                           <CopyIcon
-                            text={profile.messagekey}
+                            text={accountInfo.messageKey}
                             className='ml-4'
                           />
                         </div>
@@ -115,9 +103,9 @@ const Profile: React.FC = () => {
                       <CardBody className='p-2'>
                         <div className='flex items-center'>
                           <div className='break-all flex-1'>
-                            {profile.walletkey}
+                            {shortAddress}
                           </div>
-                          <CopyIcon text={profile.walletkey} className='ml-4' />
+                          <CopyIcon text={accountInfo.address} className='ml-4' />
                         </div>
                       </CardBody>
                     </Card>
@@ -135,7 +123,7 @@ const Profile: React.FC = () => {
                 {t('pages.account.profile.qrcode_add')}
               </div>
               <div
-                className=' text-blue-9 underline underline-solid text-center '
+                className=' text-blue-600 underline underline-solid text-center '
                 onClick={loadQrcode}>
                 {t('pages.account.profile.save_qrcode')}
               </div>

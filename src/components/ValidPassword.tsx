@@ -12,7 +12,7 @@ import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 interface Props {
   show: boolean;
   showBiometric?: boolean;
@@ -88,6 +88,7 @@ export const ValidPassword = ({
       classNames={{
         wrapper: 'items-center',
       }}
+      isDismissable={false}
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>
@@ -100,9 +101,7 @@ export const ValidPassword = ({
               value={password}
               onChange={passwordChange}
               placeholder={t('common.password.title')}
-              contentLeft={
-                <Icon icon='mdi:shield-outline color-current' />
-              }
+              contentLeft={<Icon icon='mdi:shield-outline color-current' />}
             />
             {showBiometric && setupBiometric && (
               <Image

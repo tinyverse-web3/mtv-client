@@ -6,6 +6,7 @@ import account from '@/lib/account/account';
 interface AuthenticatorState {
   list: any[];
   getList: () => void;
+  reset: () => void;
 }
 export const useAuthenticatorStore = create<AuthenticatorState>()(
   devtools(
@@ -17,6 +18,9 @@ export const useAuthenticatorStore = create<AuthenticatorState>()(
           if (code === '000000') {
             set({ list: data || [] });
           }
+        },
+        reset: async () => {
+          set({ list: [] });
         },
       }),
       {

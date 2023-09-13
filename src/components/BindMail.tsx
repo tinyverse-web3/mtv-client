@@ -89,6 +89,7 @@ export const BindMail = () => {
       classNames={{
         wrapper: 'items-center',
       }}
+      isDismissable={false}
       isOpen={showLogin}
       onClose={closeHandler}>
       <ModalContent>

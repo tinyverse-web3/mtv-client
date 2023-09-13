@@ -6,6 +6,7 @@ interface AccountInfo {
   avatar: string;
   name: string;
   address: string;
+  messageKey: string;
   passwordPrivateData: string;
   textPrivateData: string;
   customPrivateData: string;
@@ -44,6 +45,7 @@ export const useAccountStore = create<AccountState>()(
           avatar: '',
           name: '',
           address: '',
+          messageKey: '',
           passwordPrivateData: '',
           textPrivateData: '',
           customPrivateData: '',
@@ -71,6 +73,7 @@ export const useAccountStore = create<AccountState>()(
             publicKey: localInfo.PublicKey,
             name: localInfo.Name,
             address: localInfo.Address,
+            messageKey: localInfo.MessageKey,
             passwordPrivateData: localInfo.PasswordPrivateData || '',
             textPrivateData: localInfo.TextPrivateData || '',
             customPrivateData: localInfo.CustomPrivateData || '',
@@ -89,6 +92,7 @@ export const useAccountStore = create<AccountState>()(
           let { accountInfo } = get();
           set({ accountInfo: { ...accountInfo, ...data } });
         },
+        
         delAccount: async () => {
           set({
             accountInfo: {
@@ -96,6 +100,7 @@ export const useAccountStore = create<AccountState>()(
               avatar: '',
               name: '',
               address: '',
+              messageKey: '',
               passwordPrivateData: '',
               textPrivateData: '',
               customPrivateData: '',

@@ -47,6 +47,7 @@ export const PublicPasswordModal = ({
       classNames={{
         wrapper: 'items-center',
       }}
+      isDismissable={false}
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>

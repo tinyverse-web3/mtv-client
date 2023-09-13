@@ -253,11 +253,11 @@
     },
     "account": {
       "title": "我",
-      "public_key": "公钥",
-      "wallet_key": "钱包公钥",
-      "message_key": "消息公钥",
+      "public_key": "账户ID",
+      "wallet_key": "钱包地址",
+      "message_key": "消息ID",
       "my_qrcode": "我的二维码",
-      "gun": "全球唯一名字（GUN）",
+      "gun": "账户名称(GUN)",
       "level": {
         "title": "安全等级",
         "hint_one": "账户安全级别根据恢复路径和恢复时需要验证的因素来计算。",

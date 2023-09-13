@@ -43,6 +43,7 @@ export const ConfirmDelModel = ({
       classNames={{
         wrapper: 'items-center',
       }}
+      isDismissable={false}
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>

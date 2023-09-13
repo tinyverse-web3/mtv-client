@@ -36,6 +36,7 @@ export const DownloadConfirmModel = ({ show, onConfirm, onClose }: Props) => {
       classNames={{
         wrapper: 'items-center',
       }}
+      isDismissable={false}
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>

@@ -37,6 +37,7 @@ export const DefaultPasswordModal = () => {
       classNames={{
         wrapper: 'items-center',
       }}
+      isDismissable={false}
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>

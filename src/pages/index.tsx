@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
   useGlobalStore,
+  useAuthenticatorStore,
+  useAlbumStore,
+  useAssetsStore,
+  useFileStore,
+  useNetworkStore,
   useAccountStore,
   useChatStore,
   useNoteStore,
@@ -22,8 +27,13 @@ import { useTranslation } from 'react-i18next';
 export default function Index() {
   const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
   const [loading, setLoading] = useState(false);
-  const { VITE_DEFAULT_PASSWORD, VITE_TINY_WEB } = import.meta.env;
+  const { VITE_TINY_WEB } = import.meta.env;
   const { reset: resetChat } = useChatStore((state) => state);
+  const { reset: resetAuthenticator } = useAuthenticatorStore((state) => state);
+  const { reset: resetAlbum } = useAlbumStore((state) => state);
+  const { reset: resetAssets } = useAssetsStore((state) => state);
+  const { reset: resetFile } = useFileStore((state) => state);
+  const { reset: resetNetwork } = useNetworkStore((state) => state);
   const { reset: resetNote } = useNoteStore((state) => state);
   const { reset: resetGun } = useGunStore((state) => state);
   const { reset: resetpassword } = usePasswordStore((state) => state);
@@ -55,6 +65,11 @@ export default function Index() {
   const deleteUser = async () => {
     await Promise.all([
       resetGlobal(),
+      resetAuthenticator(),
+      resetAlbum(),
+      resetAssets(),
+      resetFile(),
+      resetNetwork(),
       delAccount(),
       resetChat(),
       resetNote(),

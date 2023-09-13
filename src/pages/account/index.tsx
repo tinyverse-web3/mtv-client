@@ -30,7 +30,6 @@ export default function Account() {
     nav(ROUTE_PATH.ACCOUNT_PROFILE);
   };
   const deleteUser = async () => {
-    await Promise.all([resetGlobal(), resetAccount()]);
     await account.lock();
     setLockStatus(true);
     nav(ROUTE_PATH.UNLOCK);
