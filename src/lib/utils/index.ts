@@ -13,6 +13,18 @@ export function hideHalfString(str: string) {
   return hiddenStr;
 }
 
+export const hideStr = (
+  str: string,
+  num: number = 10,
+  placeholder = '*****',
+) => {
+  if (str) {
+    return `${str?.substring(0, num)}${placeholder}${str?.substring(
+      str?.length - num,
+    )}`;
+  }
+  return '';
+};
 export function delay(num: number) {
   return new Promise((resolve, rejcet) => {
     setTimeout(() => {

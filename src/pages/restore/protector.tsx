@@ -56,7 +56,8 @@ export default function Protector() {
             disabled={disabled}
             size='lg'
             loading={loading}
-            className='mx-auto mb-2 w-full'
+            fullWidth
+            className=' mb-2'
             onPress={submit}>
             {t('common.confirm')}
           </Button>

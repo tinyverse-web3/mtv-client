@@ -111,22 +111,25 @@ export default function Index() {
       <div className='pt-16 px-6'>
         <HeaderLogo />
         <Button
-          size='xl'
-          className='m-auto mb-2 w-full h-50px bg-blue-4'
+          fullWidth
+          size="lg"
           onPress={toCreate}
+          className='mb-2'
           loading={loading}>
           {t('pages.index.btn_create')}
         </Button>
-        <div className='text-13px mb-4'>{t('pages.index.create_hint')}</div>
+        <div className='text-xs mb-4'>{t('pages.index.create_hint')}</div>
         <Button
           color='secondary'
-          className='m-auto mb-4 w-full h-50px bg-blue-6'
+          fullWidth
+          size="lg"
+          className='mb-4'
           onPress={toRestore}
-          size='xl'>
+          >
           {t('pages.index.btn_restore')}
         </Button>
         <div className='flex justify-end'>
-          <div onClick={toWebsit} className='text-blue-9'>
+          <div onClick={toWebsit} className='text-blue-600'>
             {t('pages.index.btn_more')}
           </div>
         </div>

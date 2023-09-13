@@ -15,7 +15,11 @@ interface NftItem {
 
 interface AssetsState {
   nftList: NftItem[];
+  tvs: number;
+  tvsTxList: any[];
   getNftList: () => void;
+  setTvsTxList: (list: any[]) => void;
+  setTvs: (n: number) => void;
   reset: () => void;
 }
 export const useAssetsStore = create<AssetsState>()(
@@ -34,6 +38,14 @@ export const useAssetsStore = create<AssetsState>()(
           //   Description: 'IMG_20230801_175247.PNG',
           // },
         ],
+        tvs: 0,
+        tvsTxList: [],
+        setTvsTxList: (list) => {
+          set({ tvsTxList: list });
+        },
+        setTvs: (n) => {
+          set({ tvs: n });
+        },
         getNftList: async () => {
           const { data, code } = await account.getNftList();
           console.log(data);

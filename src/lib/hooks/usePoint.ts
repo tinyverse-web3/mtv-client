@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useAssetsStore } from '@/store';
 import account from '@/lib/account/account';
 
 export const usePoint = () => {
-  const [balance, setBalance] = useState(0);
+  const { tvs, setTvs } = useAssetsStore((state) => state);
 
   const getBalance = async () => {
     const { code, data } = await account.getBalance();
     if (code === '000000') {
       const { Balance: _balance } = data;
-      setBalance(_balance);
+      setTvs(_balance);
     }
   };
   useEffect(() => {
     getBalance();
   }, []);
 
-  return { balance };
+  return { balance: tvs };
 };

@@ -58,11 +58,11 @@ export const BindMail = () => {
     setLoginLoading(false);
   };
   const emailChange = (e: any) => {
-    setEmail(e.target.value);
+    setEmail(e.trim());
     reset();
   };
   const verifyCodeChange = (e: any) => {
-    setVerifyCode(e.target.value);
+    setVerifyCode(e.trim());
   };
   const sendVerify = async () => {
     console.log(email);
@@ -102,7 +102,6 @@ export const BindMail = () => {
             bordered
             fullWidth
             type='email'
-            className='h-50px'
             aria-label='email'
             color='primary'
             size='lg'
@@ -112,7 +111,7 @@ export const BindMail = () => {
             placeholder={t('common.email')}
             contentLeft={<Icon icon='mdi:email' className='color-current' />}
           />
-          <div className='flex'>
+          <div className='flex items-center'>
             <Input
               clearable
               bordered
@@ -120,7 +119,7 @@ export const BindMail = () => {
               type='number'
               maxLength={6}
               aria-label={t('common.code')}
-              className='flex-1 50px'
+              className='flex-1'
               color='primary'
               size='lg'
               value={verifyCode}

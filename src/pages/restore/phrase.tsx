@@ -81,8 +81,8 @@ export default function Phrase() {
             <div className='border border-solid border-gray-300 flex justify-center items-center p-8 rounded w-40 h-40 mx-auto mb-2'>
               <label className='w-full h-full flex flex-col  items-center justify-center text-blue-500'>
                 {/* <img src='/upload.png' alt='' /> */}
-                <Icon icon='mdi:cloud-upload-outline' className=' w-30 h-30'/>
-                <div className='text-18px'>
+                <Icon icon='mdi:cloud-upload-outline' className='text-5xl'/>
+                <div className='text-md'>
                   {t('common.upload.title')}
                 </div>
                 <input
@@ -92,7 +92,7 @@ export default function Phrase() {
                 />
               </label>
             </div>
-            <div className='text-center  '>{t('pages.restore.phrase.upload_hint')}</div>
+            <div className='text-center text-xs '>{t('pages.restore.phrase.upload_hint')}</div>
           </div>
         ) : (
           <>

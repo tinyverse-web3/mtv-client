@@ -1,4 +1,4 @@
-import { Text, Row, Image } from '@nextui-org/react';
+import { Image } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import LayoutThird from '@/layout/LayoutThird';
@@ -20,23 +20,17 @@ export default function Restore() {
   return (
     <LayoutThird title={t('pages.restore.title')}>
       <div className='pt-7 px-6'>
-        <Image src='/icon-restore.png' className='mb-12 w-40' />
-        <Button
-          className='m-auto mb-4 w-full bg-cyan-700'
-          onPress={toPhrase}
-          size='xl'>
+        <div className='flex justify-center mb-12 '>
+          <Image src='/icon-restore.png' className='w-40 mx-auto' />
+        </div>
+
+        <Button className='mb-4' fullWidth onPress={toPhrase} size='lg'>
           {t('pages.restore.phrase.title')}
         </Button>
-        <Button
-          className='m-auto mb-4 w-full bg-blue-8'
-          size='xl'
-          onPress={toProtector}>
+        <Button className='mb-4' size='lg' fullWidth onPress={toProtector}>
           {t('pages.restore.protector.title')}
         </Button>
-        <Button
-          className='m-auto mb-4 w-full bg-blue-9'
-          size='xl'
-          onPress={toQuestionVerify}>
+        <Button className='mb-4' fullWidth size='lg' onPress={toQuestionVerify}>
           {t('pages.restore.question.title')}
         </Button>
       </div>
