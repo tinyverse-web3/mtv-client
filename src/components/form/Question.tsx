@@ -52,10 +52,8 @@ export const Question = ({
     () => type === 'restore' || type === 'verify',
     [type],
   );
-  console.log(initList);
   const getTmpQuestions = async () => {
     const data = await account.getTmpQuestions(2);
-    console.log(123);
     if (data?.length) {
       setTmpList(data);
     }
@@ -116,7 +114,6 @@ export const Question = ({
           unselectList: [],
         };
       });
-      console.log(_list);
       set(_list);
     }
   }, [userList, tmpList, localList]);
@@ -132,16 +129,11 @@ export const Question = ({
     set(_list);
   };
   const answerChange = (i: number, j: number, { data }: any) => {
-    console.log(data)
     const _list = cloneDeep(list[i]);
     _list.list[j].a = data.a;
     _list.list[j].q = data.q;
     _list.list[j].l = data.l;
-    console.log(_list.list[j].a)
-    console.log(data.a)
-    console.log(_list)
     updateAt(i, _list);
-    console.log(list)
   };
   const questionTemplate = useMemo(
     () =>
@@ -175,7 +167,6 @@ export const Question = ({
   };
   const validList = () => {
     let validStatus = true;
-    console.log(type);
     if (type === 'restore') {
     } else {
       // console.log(list);
@@ -204,7 +195,6 @@ export const Question = ({
   };
   const submitQuestion = async () => {
     const validStatus = validList();
-    console.log(validStatus);
     if (validStatus) {
       await onSubmit(list);
     }
@@ -244,7 +234,6 @@ export const Question = ({
   const removeQuestionChildren = (i: number, j: number) => {
     const _list = cloneDeep(list[i]);
     _list.list.splice(j, 1);
-    console.log(_list.list);
     updateAt(i, _list);
   };
   const saveLocalList = () => {
@@ -296,11 +285,11 @@ export const Question = ({
                 )}
                 {!disabled && (
                   <Button
-                    light
+                  variant='light'
                     size='sm'
                     auto
                     disabled={disabled}
-                    className='px-3 text-4 ml-4'
+                    className='px-3 text-xl ml-4'
                     onPress={() => removeQuestion(i)}>
                     <Icon icon='mdi:close'/>
                   </Button>

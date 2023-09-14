@@ -1,6 +1,7 @@
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
 import { Button } from '@/components/form/Button';
+import { Tabs, Tab } from '@nextui-org/react';
 import { useEffect, useMemo, useState } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +81,7 @@ export default function NftAdd() {
       toast.error(msg);
     }
   };
-  const typeChange = (t: string) => {
+  const typeChange = (t: any) => {
     reset();
     setAssetsType(t);
   };
@@ -98,24 +99,11 @@ export default function NftAdd() {
   return (
     <LayoutThird title={t('pages.assets.nft.mint_title')}>
       <div className='p-4'>
-        <div>
-          <div className='flex mb-4'>
-            {assetsTypes.map((item) => (
-              <div className='w-20 flex justify-center' key={item.value}>
-                <div
-                  className={`${
-                    assetsType === item.value
-                      ? 'border-b-2 border-b-solid text-blue-500'
-                      : ''
-                  } `}
-                  onClick={() => typeChange(item.value)}>
-                  {item.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
+        <Tabs fullWidth size='md' aria-label='Tabs form' onSelectionChange={typeChange}>
+          {assetsTypes.map((item) => (
+            <Tab key={item.value} title={item.label}></Tab>
+          ))}
+        </Tabs>
         <div className='pt-2'>
           <div className='mb-4'>
             <Input

@@ -3,6 +3,7 @@ import AssetsNftAdd from '@/pages/assets/nft/add';
 import AssetsNftDetail from '@/pages/assets/nft/detail';
 import AssetsTokenTransfer from '@/pages/assets/token/transfer';
 import AssetsTokenDetail from '@/pages/assets/token/detail';
+import AssetsTokenReceiver from '@/pages/assets/token/receiver';
 import AssetsNftTransfer from '@/pages/assets/nft/transfer';
 
 export const ROUTE_PATH_ASSETS = {
@@ -11,6 +12,7 @@ export const ROUTE_PATH_ASSETS = {
   ASSETS_NFT_TRANSFER: '/assets/nft/transfer',
   ASSETS_TOKEN_TRANSFER: '/assets/token/transfer',
   ASSETS_TOKEN_DETAIL: '/assets/token/detail',
+  ASSETS_TOKEN_RECEIVER: '/assets/token/receiver',
 };
 
 export const assetsRoutes: RouteObject[] = [
@@ -33,5 +35,9 @@ export const assetsRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_DETAIL,
     element: <AssetsTokenDetail />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_RECEIVER,
+    element: <AssetsTokenReceiver />,
   },
 ];

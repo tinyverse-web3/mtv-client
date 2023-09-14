@@ -19,7 +19,7 @@ export default function Page({
   };
   return (
     <main className='h-full relative'>
-      <header className='h-12 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-10 bg-white z-9999'>
+      <header className='h-12 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200 px-2 flex justify-between items-center z-[99999] bg-white'>
         <div className='w-10'>
           <div className='px-3 text-5' onClick={goBack}>
             <Icon icon='mdi:arrow-left' className=' w-6 h-6 z-2'/>

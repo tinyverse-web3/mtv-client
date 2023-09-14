@@ -23,11 +23,22 @@ export default function TokenDetail() {
   const toTransfer = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER);
   };
+  const toReceiver = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_RECEIVER);
+  };
+  const toScan = () => {};
   useEffect(() => {
     getTXDetails();
   }, []);
   return (
-    <LayoutThird title={`TVS ${t('pages.assets.token.detail_title')}`}>
+    <LayoutThird
+      title={`TVS ${t('pages.assets.token.detail_title')}`}
+      rightContent={
+        <Icon
+          icon='mdi:line-scan'
+          className=' text-xl   text-blue-500'
+          onClick={toScan}></Icon>
+      }>
       <div className='bg-gray-50 h-full'>
         <div className='px-4 pt-8'>
           <div className='mb-6'>
@@ -48,19 +59,18 @@ export default function TokenDetail() {
               />
               <div className='text-xs text-gray-500'>转账</div>
             </div>
-            <div className='flex flex-col justify-between items-center h-full w-1/2 py-3'>
+            <div
+              className='flex flex-col justify-between items-center h-full w-1/2 py-3'
+              onClick={toReceiver}>
               <Icon icon='mingcute:qrcode-2-line' className='text-3xl' />
               <div className='text-xs text-gray-500'>收款</div>
             </div>
           </div>
         </div>
         <div className='py-4'>
-
-          {
-            tvsTxList?.map((item, i) => (
-              <TxItem key={i} item={item} />
-            ))
-          }
+          {tvsTxList?.map((item, i) => (
+            <TxItem key={i} item={item} />
+          ))}
         </div>
       </div>
     </LayoutThird>

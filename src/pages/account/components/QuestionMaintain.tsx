@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   type: Number;
 }
-export const QuestionMaintain = ({ type }: Props) => {
+export const QuestionMaintain = () => {
   const { t } = useTranslation();
   const nav = useNavigate();
-  const { setList: setQuestionList, setType } = useQuestionStore(
+  const { setList: setQuestionList, type } = useQuestionStore(
     (state) => state,
   );
 

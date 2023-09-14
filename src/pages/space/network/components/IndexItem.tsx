@@ -3,7 +3,7 @@ import { Button } from '@/components/form/Button';
 import { Card, CardBody, Progress } from '@nextui-org/react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { DataStatusBadge } from '../../components/DataStatusBadge';
 interface Props {
   title: string;
   summary: any;
@@ -23,7 +23,7 @@ export function IndexItem({
     if (summary.used) {
       return calcSize(summary.used);
     }
-    return 0
+    return 0;
   }, [summary.used]);
   const totalSpace = useMemo(() => {
     console.log(summary.totalSpace);
@@ -52,7 +52,13 @@ export function IndexItem({
       <div className='mb-1'>{title}</div>
       <Card>
         <CardBody>
-          <div className=''>
+          <div className='relative'>
+            {type === 'ipfs' && (
+              <div className='absolute -top-2 -right-2'>
+                <DataStatusBadge />
+              </div>
+            )}
+
             <div className='mb-2'>
               <div className='mb-2 text-3 break-keep '>
                 {t('common.space')}：{usedSize}

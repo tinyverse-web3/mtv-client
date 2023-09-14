@@ -1,13 +1,13 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Button} from '@/components/form/Button';
+import { Button } from '@/components/form/Button';
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownSection,
-  DropdownItem
-} from "@nextui-org/react";
-import { Icon } from '@iconify/react'
+  DropdownItem,
+} from '@nextui-org/react';
+import { Icon } from '@iconify/react';
 import { Textarea } from '@/components/form/Textarea';
 import { Input } from '@/components/form/Input';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +60,7 @@ export const QuestionSelect = ({
     }
   };
   const questionChange = (e: any) => {
-    console.log(e)
+    console.log(e);
     setCustomQuestion(e?.trim());
   };
   const qList = useMemo<any[]>(() => {
@@ -102,8 +102,7 @@ export const QuestionSelect = ({
         </div>
         <div className='flex-1'>
           <Dropdown isDisabled={disabled}>
-            <DropdownTrigger
-              className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
+            <DropdownTrigger className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
               <div className='text-ellipsis overflow-hidden max-w-200px'>
                 {selectedValue ||
                   t('pages.account.question.input.placeholder_select')}
@@ -127,13 +126,12 @@ export const QuestionSelect = ({
           </Dropdown>
         </div>
         <Button
-          light
+          variant='light'
           size='sm'
-          auto
           disabled={disabled}
-          className='px-2 text-4'
+          className='px-2 text-xl'
           onPress={onRemove}>
-          <Icon icon='mdi:close'/>
+          <Icon icon='mdi:close' />
         </Button>
       </div>
       {selectedValue && (

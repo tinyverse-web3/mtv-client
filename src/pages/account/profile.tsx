@@ -3,19 +3,18 @@ import { Card, CardBody } from '@nextui-org/react';
 import { QRCodeCanvas } from 'qrcode.react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useChatStore, useAccountStore } from '@/store';
-import { toast } from 'react-hot-toast';
 import { CopyIcon } from '@/components/CopyIcon';
-import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 import { QrType } from '@/type';
 import { download } from '@/lib/utils';
 import { UserAvatar } from './components/UserAvatar';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATH } from '@/router';
 
 const Profile: React.FC = () => {
+  const nav = useNavigate();
   const { t } = useTranslation();
   const qrBoxRef = useRef<any>();
-  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
-  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const { accountInfo } = useAccountStore((state) => state);
 
   const qrcodeValue = useMemo(() => {
@@ -31,11 +30,14 @@ const Profile: React.FC = () => {
       }
     }
   };
+  const toGun = () => {
+    nav(ROUTE_PATH.SPACE_GUN_LIST);
+  };
   const shortHandler = (str?: string) => {
     if (str) {
       return `${str?.substring(0, 10)}*****${str?.substring(str?.length - 10)}`;
     }
-    return ''
+    return '';
   };
   const shortAddress = useMemo(() => {
     return shortHandler(accountInfo.address);
@@ -61,8 +63,8 @@ const Profile: React.FC = () => {
                     <div className='mb-2'>{t('pages.account.gun')}</div>
                     <Card>
                       <CardBody className='break-all p-2'>
-                        <div>
-                          {accountInfo.name||
+                        <div onClick={toGun}>
+                          {accountInfo.name ||
                             t('pages.account.profile.unset_text')}
                         </div>
                       </CardBody>
@@ -73,10 +75,11 @@ const Profile: React.FC = () => {
                     <Card>
                       <CardBody className='p-2'>
                         <div className='flex items-center'>
-                          <div className='break-all flex-1'>
-                            {shortKey}
-                          </div>
-                          <CopyIcon text={accountInfo.publicKey} className='ml-4' />
+                          <div className='break-all flex-1'>{shortKey}</div>
+                          <CopyIcon
+                            text={accountInfo.publicKey}
+                            className='ml-4'
+                          />
                         </div>
                       </CardBody>
                     </Card>
@@ -86,9 +89,7 @@ const Profile: React.FC = () => {
                     <Card>
                       <CardBody className='p-2'>
                         <div className='flex items-center'>
-                          <div className='break-all flex-1'>
-                            {shortMessage}
-                          </div>
+                          <div className='break-all flex-1'>{shortMessage}</div>
                           <CopyIcon
                             text={accountInfo.messageKey}
                             className='ml-4'
@@ -102,10 +103,11 @@ const Profile: React.FC = () => {
                     <Card>
                       <CardBody className='p-2'>
                         <div className='flex items-center'>
-                          <div className='break-all flex-1'>
-                            {shortAddress}
-                          </div>
-                          <CopyIcon text={accountInfo.address} className='ml-4' />
+                          <div className='break-all flex-1'>{shortAddress}</div>
+                          <CopyIcon
+                            text={accountInfo.address}
+                            className='ml-4'
+                          />
                         </div>
                       </CardBody>
                     </Card>
