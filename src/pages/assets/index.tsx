@@ -4,8 +4,6 @@ import { useMemo, useState } from 'react';
 import { useAccountStore } from '@/store';
 import { useList } from 'react-use';
 import { usePoint } from '@/lib/hooks';
-import { HeaderAccount } from './components/HeaderAccount';
-import { Point } from './components/Point';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
 import { NftList } from './components/NftList';
 import { Icon } from '@iconify/react';

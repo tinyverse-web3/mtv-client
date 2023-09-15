@@ -9,7 +9,7 @@ interface ProfileAvatarProps {
 }
 export const ProfileAvatar = ({
   text,
-  src ,
+  src,
   onClick,
   className,
 }: ProfileAvatarProps) => {
@@ -20,10 +20,11 @@ export const ProfileAvatar = ({
   }, [src]);
   return (
     <User
-      name=''
-      src={imageSrc}
+      name={text}
+      avatarProps={{
+        src: imageSrc,
+      }}
       onClick={onClick}
-      text={text}
       className={className}
     />
   );

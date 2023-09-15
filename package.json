@@ -7,7 +7,7 @@
     "dev:vite": "vite --host",
     "dev": "vite --host",
     "css": "unocss 'src/**/*.tsx' --out-file=public/styles/uno.css",
-    "build": "rm -rf dist .cache && npm run css && tsc && vite build",
+    "build": "rm -rf dist .cache && tsc && vite build",
     "preview": "vite preview",
     "test": "cross-env TS_NODE_PROJECT='test/tsconfig.test.json' mocha test/**/*.test.ts"
   },
