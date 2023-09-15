@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -8,6 +8,7 @@ import { ValidPassword } from '@/components/ValidPassword';
 import { DefaultPasswordModal } from '@/components/DefaultPasswordModal';
 import { Image } from '@nextui-org/react';
 import { DataStatusBadge } from './components/DataStatusBadge';
+import { useNativeScan } from '@/lib/hooks';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 
@@ -133,6 +134,7 @@ export default function SpaceIndex() {
 
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
+  const { result, start } = useNativeScan();
   const { accountInfo } = useAccountStore((state) => state);
   const imageSrc = useMemo(() => {
     return accountInfo.avatar
@@ -145,7 +147,7 @@ export default function SpaceIndex() {
   };
 
   const toScan = () => {
-    nav(ROUTE_PATH.ACCOUNT_SCAN);
+    start();
   };
   const modalClose = () => {
     setShowStatus(false);
@@ -153,6 +155,12 @@ export default function SpaceIndex() {
   const validSuccess = () => {
     nav(ROUTE_PATH.SPACE_PASSWORD);
   };
+  useEffect(() => {
+    console.log(result);
+    if (result) {
+      alert(result);
+    }
+  }, [result]);
   return (
     <div className='p-6'>
       <div className='flex justify-between mb-6'>
