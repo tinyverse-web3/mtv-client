@@ -31,7 +31,7 @@ export default function Phrase() {
   ];
   const importHandler = async () => {
     if (phrase) {
-      setMnemonic(phrase);
+      setLoading(true);
       const result = await account.retrieveAccountByMnemonic({
         mnemonic: phrase?.trim(),
       });
@@ -54,7 +54,7 @@ export default function Phrase() {
     e.target.value = '';
   };
   const phraseChange = (e: any) => {
-    setPhrase(e.target.value);
+    setPhrase(e);
   };
 
   return (

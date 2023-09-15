@@ -3,6 +3,7 @@ import { Image } from '@nextui-org/react';
 interface AssetsTokenItemProps {
   icon?: string;
   symbol: string;
+  chain: string;
   balance?: number | string;
   dollar?: number | string;
   onClick?: () => void;
@@ -11,22 +12,28 @@ export const AssetsTokenItem = ({
   icon,
   symbol,
   balance,
+  chain,
   dollar,
-  onClick
+  onClick,
 }: AssetsTokenItemProps) => {
   return (
-    <div className='flex items-center justify-between h-20 border-b-1 border-b-solid border-b-gray-200' onClick={()=> onClick?.()}>
+    <div
+      className='flex items-center justify-between h-16 bg-gray-100 px-4 rounded-2xl'
+      onClick={() => onClick?.()}>
       <div className='flex items-center'>
         {icon && (
           <Image
             src={icon}
-            className='w-9 h-9 bg-gray-200 rounded-full mr-6'></Image>
+            className='w-6 h-6 bg-gray-200 rounded-full mr-6'></Image>
         )}
-        <span className='text-4 font-600'>{symbol}</span>
+        <div>
+          <p className='text-md mb-2'>{symbol}</p>
+          <p className='text-xs text-gray-500'>{chain}</p>
+        </div>
       </div>
       <div>
         <div className='text-3.5 font-600 text-right'>{balance}</div>
-        {dollar && <div className='  text-right'>${dollar}</div>}
+        <div className='text-right'>{!!dollar && dollar}</div>
       </div>
     </div>
   );

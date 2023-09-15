@@ -35,7 +35,7 @@ export const PublicPasswordModal = ({
     closeHandler();
   };
   const passwordChange = (e: any) => {
-    setPassword(e.target.value);
+    setPassword(e?.trim());
   };
   useEffect(() => {
     setShowModal(show);

@@ -11,7 +11,8 @@ export default function QuestionVerify() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { list: initList, type } = useQuestionStore((state) => state);
-
+  console.log('initList')
+  console.log(initList)
   const verify = (list: any[]) => {
     let status = true;
     for (let i = 0; i < list.length; i++) {

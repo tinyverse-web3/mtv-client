@@ -1,6 +1,5 @@
-import { Input } from '@nextui-org/react';
-import { useAccountStore } from '@/store';
 import { Button } from '@/components/form/Button';
+import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useList } from 'react-use';
@@ -70,7 +69,7 @@ export default function UserPhrase() {
                 aria-label='text'
                 value={v}
                 className='text-center'
-                onChange={(e) => changeHandler(i, e.target.value)}></Input>
+                onChange={(e: string) => changeHandler(i, e?.trim())}></Input>
             </div>
           ))}
         </div>

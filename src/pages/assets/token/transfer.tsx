@@ -72,7 +72,7 @@ export default function Transfer() {
           value={data.Comment}
           onChange={(e: string) => set('Comment', e.trim())}
         />
-        <Button className='w-full' loading={loading} onClick={handleTransfer}>
+        <Button className='w-full' size="md" loading={loading} onClick={handleTransfer}>
           {t('pages.assets.btn_transfer')}
         </Button>
       </div>

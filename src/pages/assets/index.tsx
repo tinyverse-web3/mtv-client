@@ -85,6 +85,7 @@ export default function AssetsIndex() {
               <div className='mb-20'>
                 <AssetsTokenItem
                   icon='/logo.png'
+                  chain='Tinyverse'
                   symbol={t('pages.assets.token.point_name')}
                   key='point'
                   onClick={() => toTokenDetail()}

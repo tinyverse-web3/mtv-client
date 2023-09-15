@@ -30,7 +30,7 @@ export const Button = ({
     <NextButton
       className={` ${className}`}
       isDisabled={disabled}
-      color={color}
+      color={disabled ? 'default' : color}
       {...rest}>
       <div
         className='w-full h-full px-2 flex items-center justify-center'

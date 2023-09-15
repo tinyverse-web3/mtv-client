@@ -1,6 +1,6 @@
 import { Button } from '@/components/form/Button';
 import { QuestionSelect } from '@/components/form/QuestionSelect';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 import { useList } from 'react-use';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from '@/api';
@@ -129,10 +129,13 @@ export const Question = ({
     set(_list);
   };
   const answerChange = (i: number, j: number, { data }: any) => {
+    console.log(list[i])
+    console.log(data)
     const _list = cloneDeep(list[i]);
     _list.list[j].a = data.a;
     _list.list[j].q = data.q;
     _list.list[j].l = data.l;
+    console.log(_list);
     updateAt(i, _list);
   };
   const questionTemplate = useMemo(
@@ -151,8 +154,12 @@ export const Question = ({
   );
   const unSelectList = useMemo(() => {
     return list.map((v) => {
-      let unselList = differenceBy(v.template, v.list, 'q');
-      unselList = unselList.map((v) => ({ ...v, a: '' }));
+      // let unselList = differenceBy(v.template, v.list, 'q');
+      const unselList = cloneDeep(v.template).map((k) => ({
+        ...k,
+        disabled: !!v.list.find((s) => s.q == k.q),
+        a: '',
+      }));
       return {
         ...v,
         unselectList: unselList,
@@ -279,19 +286,22 @@ export const Question = ({
                     bordered
                     className={list.length > 0 ? 'w-30 ml-4' : 'w-full'}
                     onPress={addQuestion}>
-                    <Icon icon='mdi:plus-circle-outline' className='text-xl mr-2'/>
+                    <Icon
+                      icon='mdi:plus-circle-outline'
+                      className='text-xl mr-2'
+                    />
                     <span className='ml-2'>{t('common.question')}</span>
                   </Button>
                 )}
                 {!disabled && (
                   <Button
-                  variant='light'
+                    variant='light'
                     size='sm'
                     auto
                     disabled={disabled}
                     className='px-3 text-xl ml-4'
                     onPress={() => removeQuestion(i)}>
-                    <Icon icon='mdi:close'/>
+                    <Icon icon='mdi:close' />
                   </Button>
                 )}
               </div>
@@ -315,7 +325,7 @@ export const Question = ({
                   bordered
                   color={'warning'}
                   onPress={() => addQuestionChildren(i)}>
-                  <Icon icon='mdi:plus-circle-outline' className='text-xl'/>{' '}
+                  <Icon icon='mdi:plus-circle-outline' className='text-xl' />{' '}
                   {t('common.sub_question')}
                 </Button>
               </div>

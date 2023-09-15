@@ -1,7 +1,10 @@
 import LayoutThird from '@/layout/LayoutThird';
+import { useMemo } from 'react';
+import { Button } from '@/components/form/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePoint } from '@/lib/hooks';
 import { useAssetsStore } from '@/store';
+import { format } from 'date-fns';
 import { AssetsTokenDetailItem } from '../components/AssetsTokenDetailItem';
 import { TxItem } from '../components/TxItem';
 import { ROUTE_PATH } from '@/router';
@@ -9,7 +12,7 @@ import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import account from '@/lib/account/account';
 import { useEffect } from 'react';
-
+import { groupBy } from 'lodash';
 export default function TokenDetail() {
   const nav = useNavigate();
   const { t } = useTranslation();
@@ -27,6 +30,13 @@ export default function TokenDetail() {
     nav(ROUTE_PATH.ASSETS_TOKEN_RECEIVER);
   };
   const toScan = () => {};
+  const list = useMemo(() => {
+    return groupBy(
+      tvsTxList.map((v) => ({ ...v, timeText: format(v.txTime, 'yyyy-MM') })),
+      'timeText',
+    );
+  }, [tvsTxList]);
+  console.log(list);
   useEffect(() => {
     getTXDetails();
   }, []);
@@ -39,8 +49,8 @@ export default function TokenDetail() {
           className=' text-xl   text-blue-500'
           onClick={toScan}></Icon>
       }>
-      <div className='bg-gray-50 h-full'>
-        <div className='px-4 pt-8'>
+      <div className='p-4 h-full'>
+        <div className='pt-8'>
           <div className='mb-6'>
             <AssetsTokenDetailItem
               icon='/logo.png'
@@ -49,27 +59,39 @@ export default function TokenDetail() {
               balance={pointBalance}
             />
           </div>
-          <div className='bg-white h-20 rounded-lg flex '>
-            <div
-              className='flex flex-col justify-between items-center h-full w-1/2 py-3'
+          <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
+            <Button
+              color='primary'
+              radius='full'
+              className='h-12 flex-1'
+              variant='bordered'
               onClick={toTransfer}>
               <Icon
                 icon='mdi:arrow-up-bold-circle-outline'
-                className='text-3xl'
+                className='text-2xl mr-2 '
               />
-              <div className='text-xs text-gray-500'>转账</div>
-            </div>
-            <div
-              className='flex flex-col justify-between items-center h-full w-1/2 py-3'
+              <div className='tex'>转账</div>
+            </Button>
+            <Button
+              color='primary'
+              radius='full'
+              className='h-12 flex-1 ml-8'
               onClick={toReceiver}>
-              <Icon icon='mingcute:qrcode-2-line' className='text-3xl' />
-              <div className='text-xs text-gray-500'>收款</div>
-            </div>
+              <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
+              <div className=''>收款</div>
+            </Button>
           </div>
         </div>
-        <div className='py-4'>
-          {tvsTxList?.map((item, i) => (
-            <TxItem key={i} item={item} />
+        <div className=''>
+          {Object.keys(list).map((key) => (
+            <div className='mb-2' key={key}>
+              <div className='text-blue-500 text-base mb-2'>{key}</div>
+              <div className='rounded-2xl bg-gray-100 px-2'>
+                {list[key].map((item, i) => (
+                  <TxItem key={i} item={item} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>

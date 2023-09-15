@@ -33,7 +33,7 @@ export const Password = ({ value, onChange, ...rest }: Props & any) => {
       // defaultValue={value}
       // initialValue={value}
       onChange={changeHandler}
-      onClearClick={clearHandler}
+      onClear={clearHandler}
     />
   );
 };

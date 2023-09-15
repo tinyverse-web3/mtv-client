@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
 import { useAccountStore } from '@/store';
 import { useDebounce } from 'react-use';
+import { Select } from './Select';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 interface QuestionItem {
@@ -329,14 +330,14 @@ export const QuestionDefault = ({
         `local_privacy_${accountInfo.publicKey}`,
       );
       try {
-        console.log(localListRes)
+        console.log(localListRes);
         if (localListRes) {
           const localList = JSON.parse(localListRes);
           setLocalList(localList);
         }
       } catch (error) {}
     }
-  }, [accountInfo.publicKey])
+  }, [accountInfo.publicKey]);
   return (
     <div className={className}>
       <div className='mb-4'>
@@ -348,7 +349,7 @@ export const QuestionDefault = ({
             {val?.list.map((v, j) => (
               <div className='break-keep mb-2' key={j}>
                 <div className='mb-2'>
-                  <div>{v.q}</div>
+                  <div className='text-sm'>{v.q}</div>
                   {type !== 'maintain' && !!(v?.len && !isNaN(v?.len)) && (
                     <div className='text-xs'>
                       {t('pages.account.question.toast.error_3_first')}

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, ModalContent, ModalBody, ModalFooter } from '@nextui-org/react';
+import { Modal, ModalContent, ModalBody, ModalFooter, ModalHeader } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useTranslation } from 'react-i18next';
 
@@ -42,6 +42,7 @@ export const DelConfirmModel = ({
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>
+        <ModalHeader/>
         {text && (
           <ModalBody>
             {t('common.delete_hint')}

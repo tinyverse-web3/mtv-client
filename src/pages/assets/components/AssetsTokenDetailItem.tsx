@@ -17,12 +17,12 @@ export const AssetsTokenDetailItem = ({
   return (
     <div className='flex flex-col items-center ' onClick={() => onClick?.()}>
       {icon && (
-        <Image
-          src={icon}
-          className='w-16 h-16 mb-4 bg-gray-200 rounded-full '></Image>
+        <div className='flex p-4 bg-gray-100 rounded-full  mb-4'>
+          <Image src={icon} className='w-16 h-16   '></Image>
+        </div>
       )}
 
-      <div className='text-2xl font-500 text-center'>
+      <div className='text-md font-500 text-center'>
         <span>{balance}</span>
         <span className='ml-2'>{symbol}</span>
       </div>

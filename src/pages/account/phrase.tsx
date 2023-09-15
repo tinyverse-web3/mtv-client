@@ -3,6 +3,7 @@ import {
   ModalContent,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Checkbox,
   Card,
   CardBody,
@@ -99,6 +100,7 @@ export default function UserPhrase() {
           isOpen={showModal}
           onClose={closeHandler}>
           <ModalContent>
+            <ModalHeader></ModalHeader>
             <ModalBody>{t('pages.account.phrase.hint_two')}</ModalBody>
 
             <ModalFooter>

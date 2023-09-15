@@ -24,6 +24,7 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
     chanageSuccess(e.target.value);
   };
   const clearHandler = () => {
+    console.log(123);
     chanageSuccess('');
   };
   useEffect(() => {
@@ -35,14 +36,14 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
     <NextInput
       aria-label='text'
       fullWidth
-      variant="bordered"
+      variant='bordered'
       isClearable
       {...rest}
       ref={inputRef}
       // defaultValue={value}
       // initialValue={value}
       onChange={changeHandler}
-      onClearClick={clearHandler}
+      onClear={clearHandler}
       onCompositionStart={start}
       onCompositionEnd={end}
     />

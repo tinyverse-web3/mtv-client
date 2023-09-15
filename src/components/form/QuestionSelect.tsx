@@ -7,6 +7,7 @@ import {
   DropdownSection,
   DropdownItem,
 } from '@nextui-org/react';
+import { Select } from './Select';
 import { Icon } from '@iconify/react';
 import { Textarea } from '@/components/form/Textarea';
 import { Input } from '@/components/form/Input';
@@ -32,16 +33,19 @@ export const QuestionSelect = ({
   onRemove,
 }: Props) => {
   const { t } = useTranslation();
+  console.log(select);
   const CUSTOM_QUESTION = t('common.custom');
-  const [selected, setSelected] = useState(new Set([select.q]));
+  const [selectedValue, setSelected] = useState(select.q);
+  console.log(selectedValue);
+  // const [selected, setSelectedValue] = useState(new Set([select.q]));
   const [answer, setAnswer] = useState(select.a);
   const [answerLen, setAnswerLen] = useState(select.l);
   const [customQuestion, setCustomQuestion] = useState(select.q);
   const [customStatus, setCustomStatus] = useState(false);
-  const selectedValue = useMemo(
-    () => Array.from(selected).join(', ').replaceAll('_', ' '),
-    [selected],
-  );
+  // const selectedValue = useMemo(
+  //   () => Array.from(selected).join(', ').replaceAll('_', ' '),
+  //   [selected],
+  // );
   const onSelectionChange = (data: any) => {
     setAnswer('');
     setSelected(data);
@@ -83,6 +87,19 @@ export const QuestionSelect = ({
     };
     onChange && onChange(data);
   }, [selectedValue, answer, customQuestion]);
+  const onSelectHandler = (value: any) => {
+    console.log(value);
+    setAnswer('');
+    setSelected(value);
+    console.log(CUSTOM_QUESTION);
+    if (value === CUSTOM_QUESTION) {
+      setCustomQuestion('');
+    } else {
+      setCustomQuestion(value);
+    }
+    setCustomStatus(true);
+  };
+  console.log(qList);
   const RendText = ({ num }: any) => {
     return (
       disabled &&
@@ -100,45 +117,53 @@ export const QuestionSelect = ({
         <div className='w-5 min-h-5 rounded-full border border-gray-300 border-solid mr-1 flex items-center justify-center text-xs'>
           {index + 1}
         </div>
-        <div className='flex-1'>
-          <Dropdown isDisabled={disabled}>
-            <DropdownTrigger className='w-full  max-w-full min-w-full overflow-hidden dropdown-button'>
-              <div className='text-ellipsis overflow-hidden max-w-200px'>
-                {selectedValue ||
-                  t('pages.account.question.input.placeholder_select')}
-              </div>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label='Single selection actions'
-              disallowEmptySelection
-              selectionMode='single'
-              selectedKeys={selected}
-              onSelectionChange={onSelectionChange}>
-              {qList.map((v, i) => (
-                <DropdownItem
-                  className='text-11px h-auto py-2'
-                  key={v.q}
-                  textValue={v.q}>
-                  {v.q}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-        <Button
-          variant='light'
-          size='sm'
-          disabled={disabled}
-          className='px-2 text-xl'
-          onPress={onRemove}>
-          <Icon icon='mdi:close' />
-        </Button>
+        {!disabled ? 
+          <>
+            <div className='flex-1'>
+              <Select
+                list={qList}
+                size='sm'
+                disabled={disabled}
+                value={selectedValue}
+                keys={{ label: 'q', value: 'q' }}
+                placeholder={t(
+                  'pages.account.question.input.placeholder_select',
+                )}
+                onChange={onSelectHandler}></Select>
+            </div>
+            <Button
+              variant='light'
+              size='sm'
+              disabled={disabled}
+              className='px-2 text-xl'
+              onPress={onRemove}>
+              <Icon icon='mdi:close' />
+            </Button>
+          </>:<Textarea
+            maxLength={40}
+            minRows={1}
+            disabled={disabled}
+            placeholder={t('pages.account.question.input.placeholder')}
+            helperText={
+              answerLen
+                ? `${t(
+                    'pages.account.question.toast.error_3_first',
+                  )}${answerLen}${t(
+                    'pages.account.question.toast.error_3_end',
+                  )}`
+                : undefined
+            }
+            value={customQuestion}
+            onChange={(e: any) => questionChange(e)}
+          />
+        }
       </div>
-      {selectedValue && (
+      {!disabled && selectedValue && (
         <div className='mb-8'>
           <Textarea
             maxLength={40}
             minRows={1}
+            disabled={disabled}
             placeholder={t('pages.account.question.input.placeholder')}
             helperText={
               answerLen

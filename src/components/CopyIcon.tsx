@@ -20,7 +20,7 @@ export const CopyIcon = ({
   return (
     <Icon
       icon='mdi:content-copy'
-      className={` text-blue-500 text-4xl ${className}`}
+      className={` text-blue-500 text-lg ${className}`}
       onClick={clickHandler}></Icon>
   );
 };

@@ -13,6 +13,7 @@ interface Props {
   value?: any;
   disabled?: boolean;
   placeholder?: string;
+  size?: 'sm' | 'md' | 'lg';
   onChange?: ({ q, a }: any) => void;
 }
 export const Select = ({
@@ -20,30 +21,37 @@ export const Select = ({
   onChange,
   disabled,
   value,
+  size,
   placeholder,
   keys = { label: 'label', value: 'value' },
 }: Props) => {
   const { t } = useTranslation();
   placeholder = placeholder || t('common.select');
-  const [selected, setSelected] = useState(new Set([value]));
-
-  const selectedValue = useMemo(() => Array.from(selected)[0], [selected]);
-  const selectedLabel = useMemo(() => {
-    const item = list.find((v) => v[keys.value] === selectedValue);
-    return item?.[keys.label];
-  }, [selectedValue]);
+  console.log(list);
+  const [selectValue, setValue] = useState<any>(new Set([value]));
+  console.log(selectValue);
   const onSelectionChange = (data: any) => {
-    console.log(data);
-    setSelected(data);
+    const _v = Array.from(data)?.[0];
+    console.log(_v);
+    setValue(data);
+    onChange && onChange(_v);
   };
+  const disabledKeys = useMemo(() => {
+    return list.filter((v) => v.disabled).map((v) => v[keys.value])
+  }, [list]);
+  console.log(disabledKeys)
   useEffect(() => {
-    onChange && onChange(selectedValue);
-  }, [selectedValue]);
+    console.log(value)
+    setValue(new Set([value]));
+  }, [value]);
 
   return (
     <NextSelect
       // label='Favorite Animal'
-      value={selectedValue}
+      selectedKeys={selectValue}
+      size={size}
+      disabledKeys={disabledKeys}
+      onSelectionChange={onSelectionChange}
       placeholder={placeholder}
       className='max-w-xs'
       isDisabled={disabled}>
