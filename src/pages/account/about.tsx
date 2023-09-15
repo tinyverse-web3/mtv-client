@@ -37,6 +37,10 @@ export default function Account() {
     const url = 'https://github.com/tinyverse-web3';
     openUrl(url);
   };
+  const toBlog = () => {
+    const url = 'https://medium.com/@tinyverse_space';
+    openUrl(url);
+  };
   const toPrivacy = () => {
     const url =
       i18n.language === 'en'
@@ -71,6 +75,10 @@ export default function Account() {
             <ListRow
               label={t('pages.account.about.btn_4')}
               onPress={toWebsit}
+            />
+            <ListRow
+              label={t('pages.account.about.btn_5')}
+              onPress={toBlog}
             />
           </div>
         </div>
