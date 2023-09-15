@@ -49,8 +49,8 @@ export default function Edit() {
         <div className='mb-2'>
           <Textarea
             value={note}
-            minRows={20}
-            maxRows={100}
+            minRows={8}
+            maxRows={20}
             onChange={noteChange}
             placeholder={t('pages.space.note.input_placeholder')}
           />
