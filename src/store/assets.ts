@@ -12,14 +12,32 @@ interface NftItem {
   Owner: string;
   Description: string;
 }
-
+export interface ReceiveItem {
+  receiver: string;
+  amount: number;
+}
+export interface TvsTxItem {
+  amount: number;
+  comment: string;
+  gas: number;
+  receivers: ReceiveItem[];
+  sender: string;
+  transferName: 'tvs';
+  txAddr: string;
+  txTime: Date | number;
+  type: 0 | 1;
+}
 interface AssetsState {
   nftList: NftItem[];
   tvs: number;
-  tvsTxList: any[];
+  tvsTxList: TvsTxItem[];
+  currentTx?: TvsTxItem;
+  toAddress: string;
   getNftList: () => void;
   setTvsTxList: (list: any[]) => void;
   setTvs: (n: number) => void;
+  setTvsTx: (n: TvsTxItem) => void;
+  setToAddress: (n: string) => void;
   reset: () => void;
 }
 export const useAssetsStore = create<AssetsState>()(
@@ -38,13 +56,21 @@ export const useAssetsStore = create<AssetsState>()(
           //   Description: 'IMG_20230801_175247.PNG',
           // },
         ],
+        currentTx: undefined,
         tvs: 0,
         tvsTxList: [],
+        toAddress: '',
         setTvsTxList: (list) => {
           set({ tvsTxList: list });
         },
         setTvs: (n) => {
           set({ tvs: n });
+        },
+        setTvsTx: (n) => {
+          set({ currentTx: n });
+        },
+        setToAddress: (n) => {
+          set({ toAddress: n });
         },
         getNftList: async () => {
           const { data, code } = await account.getNftList();
@@ -54,7 +80,13 @@ export const useAssetsStore = create<AssetsState>()(
           }
         },
         reset: async () => {
-          set({ nftList: [] });
+          set({
+            nftList: [],
+            currentTx: undefined,
+            tvs: 0,
+            tvsTxList: [],
+            toAddress: '',
+          });
         },
       }),
       {

@@ -11,7 +11,7 @@ import AccountQuestionVerify from '@/pages/account/questionVerify';
 import AccountQuestionVerifyResult from '@/pages/account/questionVerifyResult';
 import AccountProtector from '@/pages/account/protector';
 import AccountProtectorAdd from '@/pages/account/protectorAdd';
-import AccountAward from '@/pages/account/award';
+
 import PrivateData from '@/pages/account/privateData';
 import PrivateDataVerify from '@/pages/account/privateDataVerify';
 
@@ -33,7 +33,6 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_QRCODE: '/account/qrcode',
   ACCOUNT_PUBLICKEY: '/account/publickey',
   ACCOUNT_SCAN: '/account/scan',
-  ACCOUNT_AWARD: '/account/award',
   ACCOUNT_PROFILE: '/account/profile',
   ACCOUNT_PHRASE: '/account/phrase',
   ACCOUNT_PHRASE_VERIFY: '/account/phrase/verify',
@@ -134,10 +133,6 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_SUBACCOUNT_EDIT,
     element: <SubAccountEdit />,
-  },
-  {
-    path: ROUTE_PATH_ACCOUNT.ACCOUNT_AWARD,
-    element: <AccountAward />,
   },
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_ABOUT,

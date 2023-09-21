@@ -61,7 +61,7 @@ export default function Edit() {
             placeholder={t('pages.space.authenticator.detail_name')}
           />
         </div>
-        <div className='mb-8'>
+        <div className='mb-8 flex items-center'>
           <Input
             value={key}
             maxLength={300}

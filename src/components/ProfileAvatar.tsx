@@ -19,7 +19,7 @@ export const ProfileAvatar = ({
   return (
     <Image
       src={imageSrc}
-      className={`rounded ${className}`}
+      className={`${className}`}
       onError={() => setError(true)}
     />
   );

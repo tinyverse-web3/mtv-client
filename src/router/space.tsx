@@ -21,10 +21,17 @@ import GunDetail from '@/pages/space/gun/detail';
 import GunRenew from '@/pages/space/gun/renew';
 import GunSearch from '@/pages/space/gun/search';
 
+import Award from '@/pages/space/award';
+import AwardDetail from '@/pages/space/award/detail';
+import AwardInvite from '@/pages/space/award/invite';
+
 export const ROUTE_PATH_SPACE = {
   NOTE: '/space/note',
   NOTE_EDIT: '/space/note/:id',
-  
+  SPACE_AWARD: '/space/award',
+  SPACE_AWARD_DETAIL: '/space/award/detail',
+  SPACE_AWARD_INVITE: '/space/award/invite',
+
   SPACE_AUTHENTICATOR: '/space/authenticator',
   SPACE_AUTHENTICATOR_ADD: '/space/authenticator/add',
   SPACE_AUTHENTICATOR_CREATE: '/space/authenticator/create',
@@ -51,6 +58,18 @@ export const spaceRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_SPACE.NOTE_EDIT,
     element: <NoteEdit />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_AWARD,
+    element: <Award />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_AWARD_DETAIL,
+    element: <AwardDetail />,
+  },
+  {
+    path: ROUTE_PATH_SPACE.SPACE_AWARD_INVITE,
+    element: <AwardInvite />,
   },
   
   {

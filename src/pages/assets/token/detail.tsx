@@ -13,11 +13,13 @@ import { useTranslation } from 'react-i18next';
 import account from '@/lib/account/account';
 import { useEffect } from 'react';
 import { groupBy } from 'lodash';
+import { useNativeScan } from '@/lib/hooks';
 export default function TokenDetail() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { balance: pointBalance } = usePoint();
-  const { tvsTxList, setTvsTxList } = useAssetsStore((state) => state);
+  const { tvsTxList, setTvsTxList, setTvsTx } = useAssetsStore((state) => state);
+  const { result, start } = useNativeScan();
   const getTXDetails = async () => {
     const { code, data } = await account.getTXDetails();
     const list = data?.txItems || [];
@@ -29,17 +31,27 @@ export default function TokenDetail() {
   const toReceiver = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_RECEIVER);
   };
-  const toScan = () => {};
+  const toScan = () => {
+    start();
+  };
   const list = useMemo(() => {
     return groupBy(
       tvsTxList.map((v) => ({ ...v, timeText: format(v.txTime, 'yyyy-MM') })),
       'timeText',
     );
   }, [tvsTxList]);
-  console.log(list);
+  const toTx = (item: any) => {
+    setTvsTx(item);
+    nav(ROUTE_PATH.ASSETS_TOKEN_TX);
+  };
   useEffect(() => {
     getTXDetails();
   }, []);
+  useEffect(() => {
+    if (result) {
+      nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER, { state: { address: result } });
+    }
+  }, [result]);
   return (
     <LayoutThird
       title={`TVS ${t('pages.assets.token.detail_title')}`}
@@ -88,7 +100,7 @@ export default function TokenDetail() {
               <div className='text-blue-500 text-base mb-2'>{key}</div>
               <div className='rounded-2xl bg-gray-100 px-2'>
                 {list[key].map((item, i) => (
-                  <TxItem key={i} item={item} />
+                  <TxItem key={i} item={item} onClick={() => toTx(item)} />
                 ))}
               </div>
             </div>

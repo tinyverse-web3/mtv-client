@@ -5,7 +5,14 @@ interface Props {
   value?: string | number | readonly string[] | undefined;
   onChange?: (text: string) => void;
 }
-export const Input = ({ value, onChange, ...rest }: Props & any) => {
+export const Input = ({
+  value,
+  onChange,
+  variant = 'bordered',
+  isClearable = true,
+  fullWidth = true,
+  ...rest
+}: Props & any) => {
   const [flag, setFlag] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const chanageSuccess = (val: string) => {
@@ -35,15 +42,15 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
   return (
     <NextInput
       aria-label='text'
-      fullWidth
-      variant='bordered'
-      isClearable
+      fullWidth={fullWidth}
+      variant={variant}
+      isClearable={isClearable}
       {...rest}
       ref={inputRef}
       // defaultValue={value}
       // initialValue={value}
       onChange={changeHandler}
-      onClear={clearHandler}
+      onClear={isClearable && clearHandler}
       onCompositionStart={start}
       onCompositionEnd={end}
     />

@@ -4,16 +4,19 @@ import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
 import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
+import { useAuthenticatorStore } from '@/store';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 export default function Detail() {
   const { t } = useTranslation();
+  const nav = useNavigate();
   const [name, setName] = useState('');
   const [key, setKey] = useState('');
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
+  const { list, getList } = useAuthenticatorStore((state) => state);
   const [showStatus, setShowStatus] = useState(false);
   const getAccountSecret = async () => {
     const { code, data } = await account.getAuthenticatorSecret({
@@ -33,6 +36,8 @@ export default function Detail() {
 
     if (code === '000000') {
       toast.success(t('common.toast.delete_success'));
+      await getList();
+      nav(-1);
     } else {
       toast.error(msg);
     }

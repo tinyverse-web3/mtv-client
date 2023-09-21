@@ -73,7 +73,7 @@ export const IndexItem = ({ Account, Code }: IndexItemProps) => {
   return (
     <div
       key={Account}
-      className='h-18 border-b-gray-200 border-b-solid border-b flex items-center hover:bg-gray-100  px-2'>
+      className='h-16 border-b-gray-200 border-b-solid border-b flex items-center hover:bg-gray-100  px-2'>
       <div className='flex justify-between items-center w-full'>
         <div className='text-6 w-20' onClick={toDetail}>
           {Account}

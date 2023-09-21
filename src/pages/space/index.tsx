@@ -134,7 +134,7 @@ export default function SpaceIndex() {
 
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
-  const { result, start } = useNativeScan();
+  const {  start } = useNativeScan();
   const { accountInfo } = useAccountStore((state) => state);
   const imageSrc = useMemo(() => {
     return accountInfo.avatar
@@ -155,12 +155,7 @@ export default function SpaceIndex() {
   const validSuccess = () => {
     nav(ROUTE_PATH.SPACE_PASSWORD);
   };
-  useEffect(() => {
-    console.log(result);
-    if (result) {
-      alert(result);
-    }
-  }, [result]);
+  
   return (
     <div className='p-6'>
       <div className='flex justify-between mb-6'>

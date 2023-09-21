@@ -7,7 +7,7 @@ import { useAccountStore } from '@/store';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 
-export default function Transfer() {
+export default function Receiver() {
   const { t } = useTranslation();
   const { accountInfo } = useAccountStore((state) => state);
   const copyHandler = () => {};

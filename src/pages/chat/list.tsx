@@ -11,6 +11,7 @@ import { addMinutes, format } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCopyToClipboard, useInterval } from 'react-use';
+import { useNativeScan } from '@/lib/hooks';
 import { toast } from 'react-hot-toast';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
@@ -41,8 +42,7 @@ export default function ChatList() {
   );
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const [showStatus, setShowStatus] = useState(false);
-  const [delItem, setDelItem] = useState('');
+  const { result, start } = useNativeScan();
   // const getContacts = async () => {
   //   const list = await account.getContacts();
   //   if (list.length !== friendList.length) {
@@ -89,7 +89,7 @@ export default function ChatList() {
     return format(new Date(time), 'HH:mm');
   };
   const toScan = () => {
-    nav(ROUTE_PATH.ACCOUNT_SCAN);
+    start();
   };
   useEffect(() => {
     getContacts();
@@ -143,9 +143,9 @@ export default function ChatList() {
               </div>
               <div className='flex justify-between items-center'>
                 <div className='text-xs w-40 truncate'>{item.LastMessage}</div>
-                <span className='text-xs'>{formatTime(item. LastMsgTime)}</span>
+                <span className='text-xs'>{formatTime(item.LastMsgTime)}</span>
               </div>
-            </div> 
+            </div>
           </div>
         ))}
       </div>
