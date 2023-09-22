@@ -39,14 +39,14 @@ export const DetailItem = ({
           <div className='mb-1 text-sm flex justify-between items-center'>
             <span>{item.type === 0 ? '收到' : '发送'}</span>
             <div className='text-base text-right'>
-              {item.type === 0 ? '+' : '-'}
-              {item.amount}
+              +
+              {item.Score}
             </div>
           </div>
 
           <div className='flex justify-between text-xs text-gray-500'>
             <div className=''>
-              {format(item.InvokeTime * 1000, 'yyyy-MM-dd')}
+              {/* {format(item.InvokeTime * 1000, 'yyyy-MM-dd')} */}
             </div>
             <div className=''>
               {item.invoked == 1 ? (

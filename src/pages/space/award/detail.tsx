@@ -16,8 +16,8 @@ export default function AwardDetail() {
   return (
     <LayoutThird title={t('pages.space.award.detail.title')}>
       <div className='p-4'>
+      {!list.length && <Empty />}
         <div className='rounded-2xl bg-gray-100 px-2'>
-          {!list.length && <Empty />}
           {list?.map((item, i) => (
             <DetailItem key={i} item={item} bordered={i !== list.length - 1} />
           ))}
