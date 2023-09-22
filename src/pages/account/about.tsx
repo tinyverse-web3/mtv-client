@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image } from '@nextui-org/react';
-import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 import { useNavigate } from 'react-router-dom';
 import { ListRow } from './components';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,6 @@ import LayoutThird from '@/layout/LayoutThird';
 export default function Account() {
   const nav = useNavigate();
   const { t, i18n } = useTranslation();
-  const { VITE_TINY_WEB } = import.meta.env;
   const openUrl = (url: string) => {
     if (window.JsBridge) {
       window.JsBridge.accessLink(url, ({ code }: any) => {});
@@ -24,7 +23,10 @@ export default function Account() {
         : 'https://cn.tinyverse.space/service.html';
     openUrl(url);
   };
-
+  const getLatestVersion = async () => {
+    const { code, data, msg } = await account.getLatestVersion();
+    console.log(code);
+  };
   const toWebsit = () => {
     console.log(i18n.language);
     const url =
@@ -41,6 +43,9 @@ export default function Account() {
     const url = 'https://medium.com/@tinyverse_space';
     openUrl(url);
   };
+  useEffect(() => {
+    getLatestVersion();
+  }, []);
   const toPrivacy = () => {
     const url =
       i18n.language === 'en'
@@ -48,13 +53,23 @@ export default function Account() {
         : 'https://cn.tinyverse.space/privacy.html';
     openUrl(url);
   };
+  const toDownload = () => {
+    const url = 'https://download.tinyverse.space/';
+    openUrl(url);
+  };
+
   return (
     <LayoutThird showBack title={t('pages.account.about.title')}>
       <div className='h-full relative'>
         <div className='p-4'>
           <div className='pt-8 mb-6 flex flex-col items-center'>
             <Image src='/logo.png' className='w-20 h-20 mb-2' />
-            <div className='mb-2'>{t('pages.account.about.version')}</div>
+            <div className='mb-2 flex items-center'>
+              {t('pages.account.about.version')}{' '}
+              <span className='ml-2 text-blue-500' onClick={toDownload}>
+                可更新
+              </span>
+            </div>
             <div className='mb-2 text-xs'>
               {t('pages.account.about.description')}
             </div>
@@ -76,10 +91,7 @@ export default function Account() {
               label={t('pages.account.about.btn_4')}
               onPress={toWebsit}
             />
-            <ListRow
-              label={t('pages.account.about.btn_5')}
-              onPress={toBlog}
-            />
+            <ListRow label={t('pages.account.about.btn_5')} onPress={toBlog} />
           </div>
         </div>
         <div className='absolute text-center w-full text-xs bottom-6'>

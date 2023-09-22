@@ -241,11 +241,33 @@
       "award": {
         "title": "Earn Rewards",
         "apply_success": "Application submitted",
-        "daily": "Earn Daily Usage Reward",
-        "guardian": "Earn Binding Guardian Reward",
         "hint": "Complete tasks and get points rewards: We will update the tasks that can get rewards from time to time, so that users can have enough points to use various functions. The basic condition for obtaining bonus points is that the identity verification has been completed and the account has been backed up.",
-        "hint_one": "Available every day.",
-        "hint_two": "You can only obtain it after completing the guardian binding."
+        "index_title": "Earn points by doing tasks",
+        "index_daily": "Daily check-in",
+        "daily_button_one": "Check-in",
+        "daily_button_two": "Received, come back tomorrow",
+        "index_invite": "Invite Friends",
+        "invite_button": "Invite",
+        "invited_button": "Rewards for being invited",
+        "index_invited": "Accept an Invitation",
+        "index_button_one": "To Complete",
+        "index_button_two": "Receive",
+        "index_button_three": "Received",
+        "index_valut": "Create an encrypted safe",
+        "index_guardian": "Bind the Guardian",
+        "detail": {
+          "title": "Reward Details",
+          "yes": "Already accounted for",
+          "no": "Not accounted for"
+        },
+        "contract": {
+          "title": "Smart Contract"
+        },
+        "invite": {
+          "title": "Invite friends to earn points",
+          "code_title": "My Invitation Code",
+          "code_hint": "Each time you successfully invite a friend, the inviter and the invitee will each be rewarded with 50 TVS."
+        }
       },
       "nft": {
         "title": "Issue NFT"
@@ -297,9 +319,9 @@
         "toast": {
           "retry_download": "The mnemonic encrypted file has been modified. Please download it again. Please save it!",
           "error_1": "Please enter at least two types of content",
-          "error_2": "First item minimum 12 characters",
-          "error_3": "Second item minimum 12 characters",
-          "error_4": "Third item minimum 12 characters",
+          "error_2": "First item minimum 8 characters",
+          "error_3": "Second item minimum 8 characters",
+          "error_4": "Third item minimum 8 characters",
           "error_5": "Please enter at least one item"
         }
       },

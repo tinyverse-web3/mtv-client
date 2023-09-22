@@ -236,6 +236,30 @@ export class Account {
     const result = await this.dauth.applyGuardianReward();
     return result.data;
   }
+  async applyVaultReward() {
+    const result = await this.dauth.applyVaultReward();
+    return result.data;
+  }
+  async applyInviterReward() {
+    const result = await this.dauth.applyInviterReward();
+    return result.data;
+  }
+  async getRewardList() {
+    const result = await this.dauth.getRewardList();
+    return result.data;
+  }
+  async invokeReward(RewardId: string) {
+    const result = await this.dauth.invokeReward(RewardId);
+    return result.data;
+  }
+  async getLatestVersion() {
+    const result = await this.dauth.getLatestVersion();
+    return result.data;
+  }
+  async getInvitationCode() {
+    const result = await this.dauth.getInvitationCode();
+    return result.data;
+  }
   async saveMnemonic() {
     const result = await this.dauth.saveMnemonic();
     return result.data;

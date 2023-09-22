@@ -88,6 +88,45 @@ export class Dauth {
       method: 'get',
     });
   }
+  async applyInviterReward() {
+    return this.invoke({
+      name: 'applyInviteReward',
+      method: 'get',
+    });
+  }
+  async applyVaultReward() {
+    return this.invoke({
+      name: 'applyVaultReward',
+      method: 'get',
+    });
+  }
+  async getInvitationCode() {
+    return this.invoke({
+      name: 'getInvitationCode',
+      method: 'get',
+    });
+  }
+  async getRewardList() {
+    return this.invoke({
+      name: 'getRewardList',
+      method: 'get',
+    });
+  }
+  async invokeReward(RewardID: string) {
+    return this.invoke({
+      name: 'invokeReward',
+      method: 'get',
+      data: {
+        RewardID,
+      },
+    });
+  }
+  async getLatestVersion() {
+    return this.invoke({
+      name: 'getLatestVersion',
+      method: 'get',
+    });
+  }
   async getMsgProfile({ destPubkey }: any) {
     return this.invoke({
       name: 'msg/getProfile',

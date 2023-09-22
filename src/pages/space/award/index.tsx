@@ -1,18 +1,41 @@
 import { Button } from '@/components/form/Button';
-// import { useRouter } from 'next/navigation';
+import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-
+import { useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ROUTE_PATH } from '@/router';
+import { useMemo } from 'react';
+import IconDaily from '@/assets/images/reward/icon-daily.png';
+import IconInvite from '@/assets/images/reward/icon-invite.png';
+import IconInvited from '@/assets/images/reward/icon-invited.png';
+import IconValut from '@/assets/images/reward/icon-valut.png';
+import IconGuardian from '@/assets/images/reward/icon-guardian.png';
 export default function AwardIndex() {
   const { t } = useTranslation();
   const nav = useNavigate();
+  const { accountInfo } = useAccountStore((state) => state);
   const applyDailyReward = async () => {
     const { code, data, msg } = await account.applyDailyReward();
+    if (code === '000000') {
+      toast.success(t('pages.space.award.apply_success'));
+    } else {
+      toast.error(msg);
+    }
+  };
+  const applyInviterReward = async () => {
+    const { code, data, msg } = await account.applyInviterReward();
+    if (code === '000000') {
+      toast.success(t('pages.space.award.apply_success'));
+    } else {
+      toast.error(msg);
+    }
+  };
+  const applyVaultReward = async () => {
+    const { code, data, msg } = await account.applyVaultReward();
     if (code === '000000') {
       toast.success(t('pages.space.award.apply_success'));
     } else {
@@ -27,138 +50,177 @@ export default function AwardIndex() {
       toast.error(msg);
     }
   };
+  const dailyStep = useMemo<number>(() => {
+    return accountInfo.hasFeatureData ? 1 : 0;
+  }, [accountInfo.hasFeatureData]);
+  const vaultStep = useMemo<number>(() => {
+    return accountInfo.hasFeatureData ? 1 : 0;
+  }, [accountInfo.hasFeatureData]);
+  const guardianStep = useMemo<number>(() => {
+    return accountInfo.bindStatus ? 1 : 0;
+  }, [accountInfo.bindStatus]);
+
+  const vaultHandler = async () => {
+    console.log(vaultStep);
+    if (vaultStep === 0) {
+      nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
+    } else if (vaultStep === 1) {
+      await applyVaultReward();
+    }
+  };
+  const guardianHandler = async () => {
+    if (guardianStep === 0) {
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
+    } else if (guardianStep === 1) {
+      await applyGuardianReward();
+    }
+  };
   const toDetail = () => {
     nav(ROUTE_PATH.SPACE_AWARD_DETAIL);
+  };
+  const toInvite = () => {
+    nav(ROUTE_PATH.SPACE_AWARD_INVITE);
   };
   return (
     <LayoutThird
       title={t('pages.space.award.title')}
       rightContent={
-        <Icon
-          icon='material-symbols:more-vert'
-          className=' h-6 w-6 '
-          onClick={toDetail}
-        />
+        <Popover>
+          <PopoverTrigger>
+            <Icon icon='material-symbols:more-vert' className=' h-6 w-6 ' />
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className='px-1 py-2'>
+              <div
+                className='text-small py-2 border-b-1 border-gray-100'
+                onClick={toDetail}>
+                {t('pages.space.award.detail.title')}
+              </div>
+              <div className='text-small py-2 '>
+                {t('pages.space.award.contract.title')}
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       }>
       <div className='p-4'>
-        <div className='text-sm mb-2 text-blue-500'>做任务赚积分</div>
-        <div className='rounded-lg bg-gray-100 p-2'>
+        <div className='text-sm mb-2 text-blue-500'>
+          {t('pages.space.award.index_title')}
+        </div>
+        <div className='rounded-lg bg-gray-50 p-2'>
           <div className='flex items-center h-16'>
-            <Icon icon='charm:tick' className='w-10 h-10 mr-2'></Icon>
+            <img src={IconDaily} className='w-10 h-10 mr-4'></img>
             <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
               <div>
-                <p className='mb-2'>{t('pages.space.award.daily')}</p>
+                <p className='mb-2'>{t('pages.space.award.index_daily')}</p>
                 <div className='flex items-center'>
-                  <Icon icon='charm:tick' className='w-5 h-5 mr-2'></Icon>
+                  <Icon
+                    icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
+                    className='w-4 h-4 text-blue-500 mr-2'></Icon>
                   <span>+10</span>
                 </div>
               </div>
               <Button
                 size='xs'
                 radius='full'
-                className=''
+                className='text-xs'
                 onPress={applyDailyReward}>
-                签到
+                {dailyStep == 0 && t('pages.space.award.daily_button_one')}
+                {dailyStep == 1 && t('pages.space.award.daily_button_two')}
               </Button>
             </div>
           </div>
           <div className='flex items-center h-16'>
-            <Icon icon='charm:tick' className='w-10 h-10 mr-2'></Icon>
-            <div className='flex-1 flex justify-between items-center text-sm'>
+            <img src={IconInvite} className='w-10 h-10 mr-4'></img>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
               <div>
-                <p className='mb-2'>{t('pages.space.award.guardian')}</p>
+                <p className='mb-2'>{t('pages.space.award.index_invite')}</p>
                 <div className='flex items-center'>
-                  <Icon icon='charm:tick' className='w-5 h-5 mr-2'></Icon>
+                  <Icon
+                    icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
+                    className='w-4 h-4  text-blue-500 mr-2'></Icon>
                   <span>+50</span>
                 </div>
               </div>
               <Button
                 size='xs'
                 radius='full'
-                className=''
-                onPress={applyGuardianReward}>
-                邀请
+                className='text-xs'
+                onPress={toInvite}>
+                {t('pages.space.award.invite_button')}
               </Button>
             </div>
           </div>
           <div className='flex items-center h-16'>
-            <Icon icon='charm:tick' className='w-10 h-10 mr-2'></Icon>
-            <div className='flex-1 flex justify-between items-center text-sm'>
+            <img src={IconInvited} className='w-10 h-10 mr-4'></img>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
               <div>
-                <p className='mb-2'>接受邀请</p>
+                <p className='mb-2'>{t('pages.space.award.index_invited')}</p>
                 <div className='flex items-center'>
-                  <Icon icon='charm:tick' className='w-5 h-5 mr-2'></Icon>
+                  <Icon
+                    icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
+                    className='w-4 h-4  text-blue-500 mr-2'></Icon>
                   <span>+50</span>
                 </div>
               </div>
               <Button
                 size='xs'
                 radius='full'
-                className=''
-                onPress={applyGuardianReward}>
-                被邀请奖励
+                className='text-xs'
+                onPress={applyInviterReward}>
+                {t('pages.space.award.invited_button')}
               </Button>
             </div>
           </div>
           <div className='flex items-center h-16'>
-            <Icon icon='charm:tick' className='w-10 h-10 mr-2'></Icon>
-            <div className='flex-1 flex justify-between items-center text-sm'>
+            <img src={IconValut} className='w-10 h-10 mr-4'></img>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
               <div>
-                <p className='mb-2'>创建加密保险箱</p>
+                <p className='mb-2'>{t('pages.space.award.index_valut')}</p>
                 <div className='flex items-center'>
-                  <Icon icon='charm:tick' className='w-5 h-5 mr-2'></Icon>
+                  <Icon
+                    icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
+                    className='w-4 h-4  text-blue-500 mr-2'></Icon>
                   <span>+50</span>
                 </div>
               </div>
               <Button
                 size='xs'
                 radius='full'
-                className=''
-                onPress={applyGuardianReward}>
-                签到
+                className='text-xs'
+                onPress={vaultHandler}>
+                {vaultStep === 0 && t('pages.space.award.index_button_one')}
+                {vaultStep === 1 && t('pages.space.award.index_button_two')}
+                {vaultStep === 2 && t('pages.space.award.index_button_three')}
               </Button>
             </div>
           </div>
           <div className='flex items-center h-16'>
-            <Icon icon='charm:tick' className='w-10 h-10 mr-2'></Icon>
-            <div className='flex-1 flex justify-between items-center text-sm'>
+            <img src={IconGuardian} className='w-10 h-10 mr-4'></img>
+            <div className='flex-1 flex justify-between items-center text-sm h-full'>
               <div>
-                <p className='mb-2'>绑定守护者</p>
+                <p className='mb-2'>{t('pages.space.award.index_guardian')}</p>
                 <div className='flex items-center'>
-                  <Icon icon='charm:tick' className='w-5 h-5 mr-2'></Icon>
+                  <Icon
+                    icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
+                    className='w-4 h-4  text-blue-500 mr-2'></Icon>
                   <span>+10</span>
                 </div>
               </div>
               <Button
                 size='xs'
+                className='text-xs'
                 radius='full'
-                className=''
-                onPress={applyGuardianReward}>
-                签到
-              </Button>
-            </div>
-          </div>
-          <div className='flex items-center h-16'>
-            <Icon icon='charm:tick' className='w-10 h-10 mr-2'></Icon>
-            <div className='flex-1 flex justify-between items-center text-sm'>
-              <div>
-                <p className='mb-2'>{t('pages.space.award.guardian')}</p>
-                <div className='flex items-center'>
-                  <Icon icon='charm:tick' className='w-5 h-5 mr-2'></Icon>
-                  <span>+10</span>
-                </div>
-              </div>
-              <Button
-                size='xs'
-                radius='full'
-                className=''
-                onPress={applyGuardianReward}>
-                签到
+                onPress={guardianHandler}>
+                {guardianStep === 0 && t('pages.space.award.index_button_one')}
+                {guardianStep === 1 && t('pages.space.award.index_button_two')}
+                {guardianStep === 2 &&
+                  t('pages.space.award.index_button_three')}
               </Button>
             </div>
           </div>
         </div>
-        <div className='mt-60 hint-text-box'>{t('pages.space.award.hint')}</div>
+        <div className='mt-28 hint-text-box'>{t('pages.space.award.hint')}</div>
       </div>
     </LayoutThird>
   );

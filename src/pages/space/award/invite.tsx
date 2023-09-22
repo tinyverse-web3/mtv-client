@@ -1,46 +1,44 @@
-import { Empty } from '@/components/Empty';
+import { useEffect } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { Icon } from '@iconify/react';
 import { useAwardStore } from '@/store';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { CopyIcon } from '@/components/CopyIcon';
 export default function AwardInvite() {
   const { t } = useTranslation();
-  const { list } = useAwardStore((state) => state);
-  const applyDailyReward = async () => {
-    const { code, data, msg } = await account.applyDailyReward();
-    if (code === '000000') {
-      toast.success(t('pages.space.award.apply_success'));
-    } else {
-      toast.error(msg);
-    }
-  };
-  const toDetail = () => {};
+  const { list, getInvitationCode, inviteCode } = useAwardStore(
+    (state) => state,
+  );
+  const downloadUrl = 'https://download.tinyverse.space/';
+  useEffect(() => {
+    getInvitationCode();
+  }, []);
   return (
-    <LayoutThird title={t('pages.space.award.title')}>
+    <LayoutThird title={t('pages.space.award.invite.title')}>
       <div className='p-4'>
         <div className='rounded-2xl bg-gray-100 px-4 pb-4 mb-4 pt-10 flex flex-col justify-center text-blue-500'>
-          <div className='text-center text-base mb-3'>我的邀请码</div>
+          <div className='text-center text-base mb-3'>{t('pages.space.award.invite.code_title')}</div>
           <div className='relative h-12 flex justify-between items-center rounded-lg bg-gray-200 px-2 mb-3'>
             <div className='w-12'></div>
             <span className='text-orange-400 font-bold text-2xl flex -1'>
-              9Mn6C8
+              {inviteCode}
             </span>
             <div className='w-12 flex justify-end'>
-              <Icon icon='mdi:content-copy' className='text-xl' />
+              <CopyIcon text={inviteCode} />
             </div>
           </div>
           <div className='text-center text-sm mb-2'>
-            每成功邀请一位好友，邀请人和被邀请人各奖励50TVS。
+          {t('pages.space.award.invite.code_hint')}
           </div>
           <div className='bg-gray-200 h-12 rounded-lg flex items-center justify-between px-2 text-blue-500'>
-            <span className='text-xs'> https://download.tinyverse.space/</span>
-            <Icon icon='mdi:content-copy' className='text-xl' />
+            <span className='text-xs'>{downloadUrl}</span>
+            <CopyIcon text={downloadUrl} />
           </div>
         </div>
 
-        <div className='rounded-2xl bg-gray-100 overflow-hidden'>
+        {/* <div className='rounded-2xl bg-gray-100 overflow-hidden'>
           <div className='flex text-center text-blue-500 pb-4 pt-6 text-sm bg-gray-200'>
             <div className='w-1/2  flex flex-col justify-center'>
               <span className='mb-4'>邀请收益</span>
@@ -62,7 +60,7 @@ export default function AwardInvite() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </LayoutThird>
   );

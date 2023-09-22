@@ -1,9 +1,11 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-
+import account from '@/lib/account/account';
 interface AwardState {
   list: any[];
-  getList: () => void;
+  inviteCode: string;
+  getInvitationCode: () => void;
+  getRewardList: () => void;
   reset: () => void;
 }
 export const useAwardStore = create<AwardState>()(
@@ -24,11 +26,19 @@ export const useAwardStore = create<AwardState>()(
             is: true,
           },
         ],
-        getList: async () => {
-          // const { data, code } = await account.getAwardList();
-          // if (code === '000000') {
-          //   set({ list: data || [] });
-          // }
+        inviteCode: '',
+        getInvitationCode: async () => {
+          const { code, data } = await account.getInvitationCode();
+          if (code === '000000') {
+            console.log(data);
+            set({ inviteCode: data?.InvitationCode });
+          }
+        },
+        getRewardList: async () => {
+          const { data, code } = await account.getRewardList();
+          if (code === '000000') {
+            set({ list: data?.rewards || [] });
+          }
         },
         reset: async () => {
           set({ list: [] });

@@ -111,7 +111,7 @@ export default function SpaceIndex() {
     {
       icon: 'icon-point.png',
       label: t('pages.space.award.title'),
-      path: ROUTE_PATH.ACCOUNT_AWARD,
+      path: ROUTE_PATH.SPACE_AWARD,
     },
     {
       icon: 'icon-nft.png',
