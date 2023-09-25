@@ -82,7 +82,7 @@ export default function TokenDetail() {
                 icon='mdi:arrow-up-bold-circle-outline'
                 className='text-2xl mr-2 '
               />
-              <div className='tex'>转账</div>
+              <div className='tex'>{t('pages.assets.transfer.title')}</div>
             </Button>
             <Button
               color='primary'
@@ -90,7 +90,7 @@ export default function TokenDetail() {
               className='h-12 flex-1 ml-8'
               onClick={toReceiver}>
               <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
-              <div className=''>收款</div>
+              <div className=''>{t('pages.assets.btn_receiver')}</div>
             </Button>
           </div>
         </div>

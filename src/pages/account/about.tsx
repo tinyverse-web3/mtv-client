@@ -8,6 +8,8 @@ import LayoutThird from '@/layout/LayoutThird';
 
 export default function Account() {
   const nav = useNavigate();
+  const [version, setVersion] = useState('');
+  const [newVersion, setNewVersion] = useState(false);
   const { t, i18n } = useTranslation();
   const openUrl = (url: string) => {
     if (window.JsBridge) {
@@ -24,8 +26,15 @@ export default function Account() {
     openUrl(url);
   };
   const getLatestVersion = async () => {
-    const { code, data, msg } = await account.getLatestVersion();
-    console.log(code);
+    if (window.JsBridge) {
+      window.JsBridge.getAppVersion(({ data }: any) => {
+        setVersion(data);
+      });
+    }
+  };
+  const checkVersion = async () => {
+    const { code, data, msg } = await account.checkVersion(version);
+    setNewVersion(code === '000000' && data);
   };
   const toWebsit = () => {
     console.log(i18n.language);
@@ -43,6 +52,9 @@ export default function Account() {
     const url = 'https://medium.com/@tinyverse_space';
     openUrl(url);
   };
+  useEffect(() => {
+    checkVersion();
+  }, [version]);
   useEffect(() => {
     getLatestVersion();
   }, []);
@@ -66,15 +78,23 @@ export default function Account() {
             <Image src='/logo.png' className='w-20 h-20 mb-2' />
             <div className='mb-2 flex items-center'>
               {t('pages.account.about.version')}{' '}
-              <span className='ml-2 text-blue-500' onClick={toDownload}>
-                可更新
-              </span>
             </div>
             <div className='mb-2 text-xs'>
               {t('pages.account.about.description')}
             </div>
           </div>
           <div>
+            <ListRow
+              label={t('pages.account.about.btn_0')}
+              onPress={toDownload}
+              value={
+                newVersion && (
+                  <span className='text-red-600'>
+                    {t('pages.account.about.version_new')}
+                  </span>
+                )
+              }
+            />
             <ListRow
               label={t('pages.account.about.btn_1')}
               onPress={toService}
@@ -94,7 +114,7 @@ export default function Account() {
             <ListRow label={t('pages.account.about.btn_5')} onPress={toBlog} />
           </div>
         </div>
-        <div className='absolute text-center w-full text-xs bottom-6'>
+        <div className='text-center w-full text-xs pb-4'>
           Copyright © 2023 TinyVerse Ltd. All Rights Reserved.
         </div>
       </div>

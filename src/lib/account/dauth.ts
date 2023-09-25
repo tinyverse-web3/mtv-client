@@ -88,10 +88,13 @@ export class Dauth {
       method: 'get',
     });
   }
-  async applyInviterReward() {
+  async applyInviterReward(InvitationCode: string) {
     return this.invoke({
       name: 'applyInviteReward',
       method: 'get',
+      data: {
+        InvitationCode,
+      },
     });
   }
   async applyVaultReward() {
@@ -121,10 +124,25 @@ export class Dauth {
       },
     });
   }
+  async getRewardStatusList() {
+    return this.invoke({
+      name: 'getRewardStatusList',
+      method: 'get',
+    });
+  }
   async getLatestVersion() {
     return this.invoke({
       name: 'getLatestVersion',
       method: 'get',
+    });
+  }
+  async checkVersion(CurVersion: string) {
+    return this.invoke({
+      name: 'checkVersion',
+      method: 'get',
+      data: {
+        CurVersion,
+      },
     });
   }
   async getMsgProfile({ destPubkey }: any) {

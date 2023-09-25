@@ -33,11 +33,11 @@ export default function contact() {
   };
   const tabList = [
     {
-      label: '地址本',
+      label: t('pages.assets.contact.address_book'),
       value: 0,
     },
     {
-      label: '我的好友',
+      label: t('pages.assets.contact.frient'),
       value: 1,
     },
   ];
@@ -48,7 +48,7 @@ export default function contact() {
   return (
     <LayoutThird
       className='h-full'
-      title={t('pages.assets.btn_transfer')}
+      title={t('pages.assets.contact.title')}
       rightContent={
         <Icon
           icon='charm:tick'

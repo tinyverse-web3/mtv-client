@@ -240,8 +240,8 @@ export class Account {
     const result = await this.dauth.applyVaultReward();
     return result.data;
   }
-  async applyInviterReward() {
-    const result = await this.dauth.applyInviterReward();
+  async applyInviterReward(InvitationCode: string) {
+    const result = await this.dauth.applyInviterReward(InvitationCode);
     return result.data;
   }
   async getRewardList() {
@@ -252,8 +252,16 @@ export class Account {
     const result = await this.dauth.invokeReward(RewardId);
     return result.data;
   }
+  async getRewardStatusList() {
+    const result = await this.dauth.getRewardStatusList();
+    return result.data;
+  }
   async getLatestVersion() {
     const result = await this.dauth.getLatestVersion();
+    return result.data;
+  }
+  async checkVersion(CurVersion: string) {
+    const result = await this.dauth.checkVersion(CurVersion);
     return result.data;
   }
   async getInvitationCode() {

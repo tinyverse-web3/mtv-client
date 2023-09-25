@@ -89,8 +89,8 @@ export default function PrivateData() {
   ]);
   return (
     <LayoutThird title={t('pages.account.encrypted_safe.set_text')}>
-      <div className='p-6'>
-        <div className='mb-8 text-3'>
+      <div className='p-4'>
+        <div className='mb-8 text-xs'>
           {t('pages.account.encrypted_safe.hint')}
         </div>
         <Input

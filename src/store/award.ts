@@ -3,29 +3,19 @@ import { devtools, persist } from 'zustand/middleware';
 import account from '@/lib/account/account';
 interface AwardState {
   list: any[];
+  statusMap: any;
   inviteCode: string;
   getInvitationCode: () => void;
   getRewardList: () => void;
+  getRewardStatusList: () => void;
   reset: () => void;
 }
 export const useAwardStore = create<AwardState>()(
   devtools(
     persist(
       (set, get) => ({
-        list: [
-          {
-            type: 1,
-            time: 1695178772032,
-            amount: 10,
-            is: false,
-          },
-          {
-            type: 2,
-            time: 1695178772032,
-            amount: 10,
-            is: true,
-          },
-        ],
+        list: [],
+        statusMap: {},
         inviteCode: '',
         getInvitationCode: async () => {
           const { code, data } = await account.getInvitationCode();
@@ -40,8 +30,24 @@ export const useAwardStore = create<AwardState>()(
             set({ list: data?.rewards || [] });
           }
         },
+        getRewardStatusList: async () => {
+          const { data, code } = await account.getRewardStatusList();
+          if (code === '000000') {
+            const list = data?.RewardsStatus?.map((v: any) => ({
+              RewardType: v.RewardType || 0,
+              RewardStatus: v.RewardStatus || 0,
+            }));
+            if (list?.length) {
+              const _map = list.reduce((acc: any, cur: any) => {
+                acc[cur.RewardType] = cur.RewardStatus;
+                return acc;
+              }, {});
+              set({ statusMap: _map });
+            }
+          }
+        },
         reset: async () => {
-          set({ list: [] });
+          set({ list: [], statusMap: [], inviteCode: '' });
         },
       }),
       {

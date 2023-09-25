@@ -1,33 +1,30 @@
+import { useState } from 'react';
 import { Button } from '@/components/form/Button';
 import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { useAccountStore } from '@/store';
+import { useAccountStore, useAwardStore } from '@/store';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ROUTE_PATH } from '@/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import IconDaily from '@/assets/images/reward/icon-daily.png';
 import IconInvite from '@/assets/images/reward/icon-invite.png';
 import IconInvited from '@/assets/images/reward/icon-invited.png';
+import { ValidPassword } from '@/components/ValidPassword';
 import IconValut from '@/assets/images/reward/icon-valut.png';
 import IconGuardian from '@/assets/images/reward/icon-guardian.png';
 export default function AwardIndex() {
   const { t } = useTranslation();
   const nav = useNavigate();
+  const [type, setType] = useState(0);
+  const [showPasswordStatus, setShowPasswordStatus] = useState(false);
+  const { getRewardStatusList, statusMap } = useAwardStore((state) => state);
   const { accountInfo } = useAccountStore((state) => state);
   const applyDailyReward = async () => {
     const { code, data, msg } = await account.applyDailyReward();
-    if (code === '000000') {
-      toast.success(t('pages.space.award.apply_success'));
-    } else {
-      toast.error(msg);
-    }
-  };
-  const applyInviterReward = async () => {
-    const { code, data, msg } = await account.applyInviterReward();
     if (code === '000000') {
       toast.success(t('pages.space.award.apply_success'));
     } else {
@@ -51,28 +48,46 @@ export default function AwardIndex() {
     }
   };
   const dailyStep = useMemo<number>(() => {
-    return accountInfo.hasFeatureData ? 1 : 0;
-  }, [accountInfo.hasFeatureData]);
+    return statusMap[7] ? 1 : 0;
+  }, [statusMap[7]]);
+  const invitedStep = useMemo<number>(() => {
+    return statusMap[2] ? 1 : 0;
+  }, [statusMap[2]]);
   const vaultStep = useMemo<number>(() => {
-    return accountInfo.hasFeatureData ? 1 : 0;
-  }, [accountInfo.hasFeatureData]);
+    return accountInfo.hasFeatureData ? (statusMap[0] ? 2 : 1) : 0;
+  }, [accountInfo.hasFeatureData, statusMap[0]]);
   const guardianStep = useMemo<number>(() => {
-    return accountInfo.bindStatus ? 1 : 0;
-  }, [accountInfo.bindStatus]);
+    return accountInfo.bindStatus ? (statusMap[1] ? 2 : 1) : 0;
+  }, [accountInfo.bindStatus, statusMap[1]]);
 
   const vaultHandler = async () => {
-    console.log(vaultStep);
     if (vaultStep === 0) {
-      nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
+      setType(1);
+      setShowPasswordStatus(true);
     } else if (vaultStep === 1) {
       await applyVaultReward();
     }
   };
   const guardianHandler = async () => {
     if (guardianStep === 0) {
-      nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
+      setType(2);
+      setShowPasswordStatus(true);
     } else if (guardianStep === 1) {
       await applyGuardianReward();
+    }
+  };
+  const invitedHandler = async () => {
+    if (invitedStep === 0) {
+      nav(ROUTE_PATH.SPACE_AWARD_INVITED);
+    }
+  };
+  const validPasswordSuccess = (password: string) => {
+    if (type === 1) {
+      nav(ROUTE_PATH.ACCOUNT_PRIVATEDATA);
+      // toMultiVerify();
+    } else if (type === 2) {
+      // toRestory();
+      nav(ROUTE_PATH.ACCOUNT_PROTECTOR_ADD);
     }
   };
   const toDetail = () => {
@@ -81,6 +96,9 @@ export default function AwardIndex() {
   const toInvite = () => {
     nav(ROUTE_PATH.SPACE_AWARD_INVITE);
   };
+  useEffect(() => {
+    getRewardStatusList();
+  }, []);
   return (
     <LayoutThird
       title={t('pages.space.award.title')}
@@ -96,9 +114,9 @@ export default function AwardIndex() {
                 onClick={toDetail}>
                 {t('pages.space.award.detail.title')}
               </div>
-              <div className='text-small py-2 '>
+              {/* <div className='text-small py-2 '>
                 {t('pages.space.award.contract.title')}
-              </div>
+              </div> */}
             </div>
           </PopoverContent>
         </Popover>
@@ -108,9 +126,9 @@ export default function AwardIndex() {
           {t('pages.space.award.index_title')}
         </div>
         <div className='rounded-lg bg-gray-50 p-2'>
-          <div className='flex items-center h-16'>
+          <div className='flex items-center'>
             <img src={IconDaily} className='w-10 h-10 mr-4'></img>
-            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full  py-2'>
               <div>
                 <p className='mb-2'>{t('pages.space.award.index_daily')}</p>
                 <div className='flex items-center'>
@@ -130,9 +148,9 @@ export default function AwardIndex() {
               </Button>
             </div>
           </div>
-          <div className='flex items-center h-16'>
+          <div className='flex items-center'>
             <img src={IconInvite} className='w-10 h-10 mr-4'></img>
-            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full  py-2'>
               <div>
                 <p className='mb-2'>{t('pages.space.award.index_invite')}</p>
                 <div className='flex items-center'>
@@ -151,9 +169,9 @@ export default function AwardIndex() {
               </Button>
             </div>
           </div>
-          <div className='flex items-center h-16'>
+          <div className='flex items-center'>
             <img src={IconInvited} className='w-10 h-10 mr-4'></img>
-            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full py-2'>
               <div>
                 <p className='mb-2'>{t('pages.space.award.index_invited')}</p>
                 <div className='flex items-center'>
@@ -167,14 +185,14 @@ export default function AwardIndex() {
                 size='xs'
                 radius='full'
                 className='text-xs'
-                onPress={applyInviterReward}>
+                onPress={invitedHandler}>
                 {t('pages.space.award.invited_button')}
               </Button>
             </div>
           </div>
-          <div className='flex items-center h-16'>
+          <div className='flex items-center'>
             <img src={IconValut} className='w-10 h-10 mr-4'></img>
-            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full'>
+            <div className='flex-1 flex justify-between items-center text-sm border-b-1 border-gray-200 h-full py-2'>
               <div>
                 <p className='mb-2'>{t('pages.space.award.index_valut')}</p>
                 <div className='flex items-center'>
@@ -195,9 +213,9 @@ export default function AwardIndex() {
               </Button>
             </div>
           </div>
-          <div className='flex items-center h-16'>
+          <div className='flex items-center'>
             <img src={IconGuardian} className='w-10 h-10 mr-4'></img>
-            <div className='flex-1 flex justify-between items-center text-sm h-full'>
+            <div className='flex-1 flex justify-between items-center text-sm h-full  py-2'>
               <div>
                 <p className='mb-2'>{t('pages.space.award.index_guardian')}</p>
                 <div className='flex items-center'>
@@ -220,6 +238,11 @@ export default function AwardIndex() {
             </div>
           </div>
         </div>
+        <ValidPassword
+          onSuccess={validPasswordSuccess}
+          show={showPasswordStatus}
+          onClose={() => setShowPasswordStatus(false)}
+        />
         <div className='mt-28 hint-text-box'>{t('pages.space.award.hint')}</div>
       </div>
     </LayoutThird>

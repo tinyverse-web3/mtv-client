@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Icon } from '@iconify/react';
 import { format } from 'date-fns';
 import account from '@/lib/account/account';
@@ -15,6 +16,16 @@ export const DetailItem = ({
   bordered = false,
 }: TxItemProps) => {
   const { t } = useTranslation();
+  const typeTextMap: any = {
+    '0': t('pages.space.award.index_valut'),
+    '1': t('pages.space.award.index_guardian'),
+    '2': t('pages.space.award.index_password'),
+    '3': t('pages.space.award.index_backup'),
+    '4': t('pages.space.award.index_invite'),
+    '5': t('pages.space.award.index_subaccount'),
+    '6': t('pages.space.award.index_experience'),
+    '7': t('pages.space.award.index_daily'),
+  };
   const invokeReward = async () => {
     const { code, data, msg } = await account.invokeReward(item.RewardID);
     if (code === '000000') {
@@ -23,6 +34,10 @@ export const DetailItem = ({
       toast.error(msg);
     }
   };
+  const text = useMemo(() => {
+    const t = item.RewardType || 0;
+    return typeTextMap[t];
+  }, [item.RewardType]);
   return (
     <div className='h-16 px-2' onClick={() => onClick?.()}>
       <div className='flex h-full items-center'>
@@ -37,23 +52,25 @@ export const DetailItem = ({
             bordered ? 'border-b-1 border-gray-200' : ''
           }`}>
           <div className='mb-1 text-sm flex justify-between items-center'>
-            <span>{item.type === 0 ? '收到' : '发送'}</span>
-            <div className='text-base text-right'>
-              +
-              {item.Score}
-            </div>
+            <span>{text}</span>
+            <div className='text-base text-right'>+{item.Score}</div>
           </div>
 
           <div className='flex justify-between text-xs text-gray-500'>
-            <div className=''>
-              {/* {format(item.InvokeTime * 1000, 'yyyy-MM-dd')} */}
-            </div>
+            {!!item.InvokeTime && (
+              <div className=''>
+                {format(item.InvokeTime * 1000, 'yyyy-MM-dd')}
+              </div>
+            )}
             <div className=''>
               {item.invoked == 1 ? (
                 t('pages.space.award.detail.yes')
               ) : (
                 <div className='flex items-center' onClick={invokeReward}>
-                  <span className='text-red-500'> {t('pages.space.award.detail.no')}</span>
+                  <span className='text-red-500'>
+                    {' '}
+                    {t('pages.space.award.detail.no')}
+                  </span>
                   <Icon
                     icon='tdesign:refresh'
                     className='text-xl ml-2 text-blue-700'

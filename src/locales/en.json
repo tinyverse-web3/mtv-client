@@ -5,6 +5,7 @@
     "description": ""
   },
   "common": {
+    "share": "Share",
     "title": "Title",
     "download": "Download",
     "account": "Account",
@@ -129,6 +130,14 @@
         "point_name": "TVS",
         "transfer_successs": "Transfer Successful"
       },
+      "receiver": {
+        "title": "Receiver"
+      },
+      "contact": {
+        "title": "Choose Address",
+        "address_book": "Address Book",
+        "frient": "My Frient"
+      },
       "transfer": {
         "title": "Transfer",
         "to_address": "Target Address",
@@ -143,7 +152,8 @@
         "nft_point": "The fee of transferred NFT",
         "nft_point_placeholder": "Please enter the fee of transferred NFT"
       },
-      "btn_transfer": "Transfer"
+      "btn_transfer": "Transfer",
+      "btn_receiver": "Receiver"
     },
     "space": {
       "title": "Space",
@@ -244,6 +254,7 @@
         "hint": "Complete tasks and get points rewards: We will update the tasks that can get rewards from time to time, so that users can have enough points to use various functions. The basic condition for obtaining bonus points is that the identity verification has been completed and the account has been backed up.",
         "index_title": "Earn points by doing tasks",
         "index_daily": "Daily check-in",
+        "invite_code": "Invite Code",
         "daily_button_one": "Check-in",
         "daily_button_two": "Received, come back tomorrow",
         "index_invite": "Invite Friends",
@@ -255,6 +266,10 @@
         "index_button_three": "Received",
         "index_valut": "Create an encrypted safe",
         "index_guardian": "Bind the Guardian",
+        "index_password": "Change Password",
+        "index_backup": "Backup",
+        "index_subaccount": "Add Index_subaccount",
+        "index_experience": "Experience",
         "detail": {
           "title": "Reward Details",
           "yes": "Already accounted for",
@@ -267,6 +282,9 @@
           "title": "Invite friends to earn points",
           "code_title": "My Invitation Code",
           "code_hint": "Each time you successfully invite a friend, the inviter and the invitee will each be rewarded with 50 TVS."
+        },
+        "receive": {
+          "title": "Receive Points"
         }
       },
       "nft": {
@@ -436,7 +454,9 @@
       "about": {
         "title": "About",
         "version": "TinyVerse Space V1.0.0",
+        "version_new": "New Version",
         "description": "An open-source, IPFS-based, decentralized tool for secure storage and management of personal privacy data where users have full control over their data and no third party can access user data.",
+        "btn_0": "Update New Version",
         "btn_1": "Terms of Service",
         "btn_2": "Privacy Policy",
         "btn_3": "Source Code",

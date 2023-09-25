@@ -5,6 +5,7 @@
     "description": ""
   },
   "common": {
+    "share": "分享",
     "title": "标题",
     "download": "下载",
     "account": "账户",
@@ -129,21 +130,31 @@
         "point_name": "TVS",
         "transfer_successs": "转账成功"
       },
+      "receiver": {
+        "title": "收款"
+      },
+      "contact": {
+        "title": "选择地址",
+        "address_book": "地址本",
+        "frient": "我的好友"
+      },
       "transfer": {
+        "sender": "发送",
         "title": "转账",
         "to_address": "目标地址",
         "to_placeholder": "请输入对方钱包公钥",
         "amount": "转账金额",
         "amount_placeholder": "请输入转账金额",
-        "gas": "转账费用",
-        "gas_placeholder": "请输入转账费用",
+        "gas": "矿工费",
+        "gas_placeholder": "请输入矿工费",
         "remark": "转账备注",
         "remark_placeholder": "请输入转账备注",
         "nft_name": "NFT名称",
         "nft_point": "转移的NFT的费用",
         "nft_point_placeholder": "请输入转移的NFT的费用"
       },
-      "btn_transfer": "转账"
+      "btn_transfer": "转账",
+      "btn_receiver": "收款"
     },
     "space": {
       "title": "空间",
@@ -243,6 +254,7 @@
         "index_title": "做任务赚积分",
         "apply_success": "申请已提交",
         "index_daily": "每日签到",
+        "invite_code": "邀请码",
         "daily_button_one": "签到",
         "daily_button_two": "已领取，明天再来",
         "index_invite": "邀请好友",
@@ -254,6 +266,10 @@
         "index_button_three": "已领取",
         "index_valut": "创建加密保险箱",
         "index_guardian": "绑定守护者",
+        "index_password": "修改密码",
+        "index_backup": "备份",
+        "index_subaccount": "添加子账号",
+        "index_experience": "经验",
         "hint": "完成任务，获取积分奖励：我们会不定期更新能获取奖励的任务，让用户能有足够的积分使用各种功能。获取积分奖励的基本条件是已经完成完成身份验证，并且已经备份账户。",
         "detail": {
           "title": "奖励明细",
@@ -267,6 +283,9 @@
           "title": "邀请好友赚积分",
           "code_title": "我的邀请码",
           "code_hint": "每成功邀请一位好友，邀请人和被邀请人各奖励50TVS。"
+        },
+        "receive": {
+          "title": "领取积分"
         }
       },
       "nft": {
@@ -435,8 +454,10 @@
       },
       "about": {
         "title": "关于",
-        "version": "芥子空间 V1.0.0",
+        "version": "芥子空间 V1.1.0",
+        "version_new": "有新版本",
         "description": "一个开源的、基于IPFS的、去中心化的个人隐私数据的安全存储和管理工具，用户自我管理所有数据，任何第三方都无法访问用户数据。",
+        "btn_0": "版本更新",
         "btn_1": "服务条款",
         "btn_2": "隐私政策",
         "btn_3": "开源代码",
