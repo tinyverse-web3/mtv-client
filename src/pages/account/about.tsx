@@ -77,7 +77,7 @@ export default function Account() {
           <div className='pt-8 mb-6 flex flex-col items-center'>
             <Image src='/logo.png' className='w-20 h-20 mb-2' />
             <div className='mb-2 flex items-center'>
-              {t('pages.account.about.version')}{' '}
+              {t('pages.account.about.version')}{version}
             </div>
             <div className='mb-2 text-xs'>
               {t('pages.account.about.description')}
