@@ -64,7 +64,7 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
   };
 
   return (
-    <div className='relative min-h-26 bg-gray-200'>
+    <div className='relative min-h-[60px] bg-gray-200'>
       <PhotoView src={url}>
         <Image src={url} className='w-full h-full' />
       </PhotoView>
