@@ -136,7 +136,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4 text-blue-500 mr-2'></Icon>
-                  <span>+{statusMap[7].score}</span>
+                  <span>+{statusMap[7]?.score}</span>
                 </div>
               </div>
               <Button
@@ -158,7 +158,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+{Math.ceil(statusMap[4].score / 2)}</span>
+                  <span>+{Math.ceil(statusMap[4]?.score / 2)}</span>
                 </div>
               </div>
               <Button
@@ -179,7 +179,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+{Math.ceil(statusMap[4].score / 2)}</span>
+                  <span>+{Math.ceil(statusMap[4]?.score / 2)}</span>
                 </div>
               </div>
               <Button
@@ -201,7 +201,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+{statusMap[0].score}</span>
+                  <span>+{statusMap[0]?.score}</span>
                 </div>
               </div>
               <Button
@@ -224,7 +224,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+{statusMap[1].score}</span>
+                  <span>+{statusMap[1]?.score}</span>
                 </div>
               </div>
               <Button

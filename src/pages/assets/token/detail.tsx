@@ -95,7 +95,7 @@ export default function TokenDetail() {
             </Button>
           </div>
         </div>
-        <div className=''>
+        <div className=' pb-4'>
           {Object.keys(list).map((key) => (
             <div className='mb-2' key={key}>
               <div className='text-blue-500 text-base mb-2'>{key}</div>
