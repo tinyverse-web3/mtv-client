@@ -67,13 +67,19 @@ export default function NetworkDetail() {
         {!!detail.Cid && (
           <div className='mb-4'>
             <div className='mb-2'>{t('pages.space.data.cid')}</div>
-            <Card>
+            <Snippet
+              classNames={{ pre: 'whitespace-break-spaces break-all' }}
+              hideSymbol
+              variant='bordered'>
+              {detail.Cid}
+            </Snippet>
+            {/* <Card>
               <CardBody>
                 <div className='flex'>
                   <div className=''>{detail.Cid}</div>
                 </div>
               </CardBody>
-            </Card>
+            </Card> */}
           </div>
         )}
         {detail.PinStatus !== null &&

@@ -4,6 +4,7 @@ import { Card, CardBody, Progress } from '@nextui-org/react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataStatusBadge } from '../../components/DataStatusBadge';
+import IconSuccess from '@/assets/images/space/icon-space-network-success.png';
 interface Props {
   title: string;
   summary: any;
@@ -53,9 +54,13 @@ export function IndexItem({
       <Card>
         <CardBody>
           <div className='relative'>
-            {type === 'ipfs' && (
+            {type === 'ipfs' ? (
               <div className='absolute -top-2 -right-2'>
                 <DataStatusBadge />
+              </div>
+            ) : (
+              <div className='absolute w-8 h-8 -top-2 -right-2'>
+                <img src={IconSuccess} />
               </div>
             )}
 
