@@ -19,14 +19,6 @@ export default function LayoutOne({
 }: any) {
   const nav = useNavigate();
   const location = useLocation();
-  const goBack = async () => {
-    nav(path || -1);
-  };
-  const hideStatsu = useMemo(() => {
-    return hideLogoutPath.includes(location.pathname);
-  }, [location]);
-
-  const footerMenus = [{ text: '空间' }, { text: '密信' }, { text: '资产' }];
   return (
     <main className={'h-full relative'}>
       <section className={`h-full pb-12 ${className ? className : ''}`}>

@@ -7,7 +7,7 @@ export const InputEmail = () => {
   const [validStatus, setValidStatus] = useState(true);
 
   const emailChange = (e: any) => {
-    setEmail(e?.trim());
+    setEmail(e);
   };
   const emailBlur = () => {};
   return (

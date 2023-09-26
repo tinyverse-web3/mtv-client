@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import { useTranslation } from 'react-i18next';
-import { Tabs, Tab } from '@nextui-org/react';
+import { RefreshLoad } from '@/components/RefreshLoad';
 import { Icon } from '@iconify/react';
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
 
@@ -78,7 +78,7 @@ export default function LayoutTwo({
   return (
     <main className={'h-full relative overflow-x-hidden'}>
       <section className='h-full  pb-16'>
-        <div className='overflow-y-auto h-full'>{children}</div>
+        <div className='h-full'><RefreshLoad >{children}</RefreshLoad></div>
       </section>
       <footer className='w-full h-16 absolute bottom-0 left-0  px-4 border-t-gray-200'>
         <div className='h-14'>

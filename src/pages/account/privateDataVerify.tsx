@@ -70,13 +70,13 @@ export default function PrivateDataVerify() {
     }
   });
   const onChange = (e: any) => {
-    setText(e.trim());
+    setText(e);
   };
   const onPasswordChange = (e: any) => {
-    setPassword(e.trim());
+    setPassword(e);
   };
   const onCustomChange = (e: any) => {
-    setCustomText(e.trim());
+    setCustomText(e);
   };
   const url = useMemo(() => {
     return `${host}/sdk/downloadMnemonic`;

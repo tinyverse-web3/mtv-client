@@ -33,7 +33,7 @@ export default function Phrase() {
     if (phrase) {
       setLoading(true);
       const result = await account.retrieveAccountByMnemonic({
-        mnemonic: phrase?.trim(),
+        mnemonic: phrase,
       });
       if (result.code === '000000') {
         await getLocalAccountInfo();

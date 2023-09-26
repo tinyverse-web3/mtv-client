@@ -109,7 +109,7 @@ export default function NftAdd() {
             <Input
               placeholder={t('pages.assets.nft.mint_name_placeholder')}
               value={data.Name}
-              onChange={(e: string) => set('Name', e.trim()) as any}
+              onChange={(e: string) => set('Name', e) as any}
             />
           </div>
           <div className='mb-4'>
@@ -117,7 +117,7 @@ export default function NftAdd() {
               minRows={3}
               maxRows={4}
               value={data.Description}
-              onChange={(e: string) => set('Description', e.trim()) as any}
+              onChange={(e: string) => set('Description', e) as any}
               placeholder={t('pages.assets.nft.mint_description_placeholder')}
             />
           </div>
@@ -157,7 +157,7 @@ export default function NftAdd() {
                   minRows={18}
                   maxRows={100}
                   value={data.Content}
-                  onChange={(e: string) => set('Content', e.trim()) as any}
+                  onChange={(e: string) => set('Content', e) as any}
                   placeholder={t('pages.assets.nft.mint_content_placeholder')}
                 />
               </div>

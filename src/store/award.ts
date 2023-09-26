@@ -36,10 +36,14 @@ export const useAwardStore = create<AwardState>()(
             const list = data?.RewardsStatus?.map((v: any) => ({
               RewardType: v.RewardType || 0,
               RewardStatus: v.RewardStatus || 0,
+              Score: v.Score || 0,
             }));
             if (list?.length) {
               const _map = list.reduce((acc: any, cur: any) => {
-                acc[cur.RewardType] = cur.RewardStatus;
+                acc[cur.RewardType] = {
+                  status: cur.RewardStatus,
+                  score: cur.Score,
+                };
                 return acc;
               }, {});
               set({ statusMap: _map });

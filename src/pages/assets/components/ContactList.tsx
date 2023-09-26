@@ -32,7 +32,7 @@ export const ContactList = ({ onChange }: Props) => {
   }, []);
   return (
     <div>
-      {!contacts.length ? (
+      {contacts.length ? (
         <div className='bg-gray-50 p-2 rounded-lg'>
           <RadioGroup onValueChange={onValueChange}>
             {contacts.map((item) => (

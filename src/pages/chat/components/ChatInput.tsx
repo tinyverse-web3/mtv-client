@@ -19,7 +19,7 @@ export const ChatInput = ({ onSend }: Props) => {
     }
   });
   const textChange = (e: any) => {
-    setText(e?.trim());
+    setText(e);
   };
   const pressHandler = async () => {
     setLoading(true);

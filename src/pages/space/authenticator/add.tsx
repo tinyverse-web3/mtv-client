@@ -25,10 +25,10 @@ export default function Edit() {
     },
   ];
   const nameChange = (e: any) => {
-    setName(e?.trim());
+    setName(e);
   };
   const keyChange = (e: any) => {
-    setKey(e?.trim());
+    setKey(e);
   };
   const generateGoogleSecret = async () => {
     const { code, msg, data } = await account.generateGoogleSecret();

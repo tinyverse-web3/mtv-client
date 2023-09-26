@@ -16,13 +16,13 @@ export const EmailBox = ({ onChange }: Props) => {
   const [verifyCode, setVerifyCode] = useState('');
   const { start, text, flag, reset } = useCountDown(60, t('common.code_text'));
   const emailChange = (e: any) => {
-    const value = e?.trim();
+    const value = e;
     setEmail(value);
     reset();
     onChange && onChange({ email: value, code: verifyCode });
   };
   const verifyCodeChange = async (e: any) => {
-    const value = e?.trim();
+    const value = e;
     await setVerifyCode(value);
     onChange && onChange({ email, code: value });
   };

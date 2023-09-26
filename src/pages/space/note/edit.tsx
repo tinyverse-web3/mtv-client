@@ -14,7 +14,7 @@ export default function Edit() {
   const { get: getNoteById, add, update } = useNoteStore((state) => state);
 
   const noteChange = (e: any) => {
-    setNote(e?.trim());
+    setNote(e);
   };
   const generateNote = async () => {
     const title = note.substring(0, 10);

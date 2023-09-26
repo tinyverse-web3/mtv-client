@@ -38,9 +38,9 @@ export const ChatList = ({ messages = [] }: Porps) => {
           <ProfileAvatar
             onClick={() => toProfile(v)}
             text={v.name}
-            className={`px-0 ${v.isMe ? 'ml-2' : ''}`}
+            className={`px-0 ${v.isMe ? 'ml-2' : 'mr-2'}`}
           />
-          <Card className='max-w-60% w-fit'>
+          <Card className='max-w-[60%] w-fit'>
             <CardBody className='py-2'>{v.Content}</CardBody>
           </Card>
         </div>

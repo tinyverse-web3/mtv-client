@@ -58,14 +58,14 @@ export const QuestionSelect = ({
     setCustomStatus(true);
   };
   const inputChange = (e: any) => {
-    setAnswer(e?.trim());
+    setAnswer(e);
     if (!disabled) {
       setAnswerLen(e.length);
     }
   };
   const questionChange = (e: any) => {
     console.log(e);
-    setCustomQuestion(e?.trim());
+    setCustomQuestion(e);
   };
   const qList = useMemo<any[]>(() => {
     return [...list, { q: CUSTOM_QUESTION, a: '' }];

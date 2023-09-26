@@ -80,7 +80,7 @@ export default function ChangePwd() {
   }, [err]);
   const oldPwdChange = (e: any) => {
     setErr(false);
-    setOldPwd(e?.trim());
+    setOldPwd(e);
   };
   const getBiometricsSetUp = () => {
     if (window?.JsBridge) {
@@ -118,7 +118,7 @@ export default function ChangePwd() {
             className='mb-1'
             helperColor={validStatus ? 'default' : 'error'}
             status={validStatus ? 'default' : 'error'}
-            onChange={(e: string) => setPwd(e?.trim())}
+            onChange={(e: string) => setPwd(e)}
             placeholder={t('common.password.new_text')}
           />
           <div className='text-xs pl-8px'>
@@ -134,7 +134,7 @@ export default function ChangePwd() {
             helperText={
               confirmStatus ? '' : t('common.password.unanimous_error')
             }
-            onChange={(e: string) => setConfirmPwd(e.trim())}
+            onChange={(e: string) => setConfirmPwd(e)}
             placeholder={t('common.password.confirm_text')}
             initialValue=''
           />

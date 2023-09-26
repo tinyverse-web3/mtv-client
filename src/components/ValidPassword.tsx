@@ -50,7 +50,7 @@ export const ValidPassword = ({
     }
   };
   const passwordChange = (e: any) => {
-    setPassword(e.trim());
+    setPassword(e);
   };
   const startBiometric = async () => {
     window?.JsBridge.startBiometric(({ code, message, data }: any) => {

@@ -48,17 +48,17 @@ export default function AwardIndex() {
     }
   };
   const dailyStep = useMemo<number>(() => {
-    return statusMap[7] ? 1 : 0;
-  }, [statusMap[7]]);
+    return statusMap[7]?.status ? 1 : 0;
+  }, [statusMap[7]?.status]);
   const invitedStep = useMemo<number>(() => {
-    return statusMap[2] ? 1 : 0;
-  }, [statusMap[2]]);
+    return statusMap[4]?.status ? 1 : 0;
+  }, [statusMap[4]?.status]);
   const vaultStep = useMemo<number>(() => {
-    return accountInfo.hasFeatureData ? (statusMap[0] ? 2 : 1) : 0;
-  }, [accountInfo.hasFeatureData, statusMap[0]]);
+    return accountInfo.hasFeatureData ? (statusMap[0]?.status ? 2 : 1) : 0;
+  }, [accountInfo.hasFeatureData, statusMap[0]?.status]);
   const guardianStep = useMemo<number>(() => {
-    return accountInfo.bindStatus ? (statusMap[1] ? 2 : 1) : 0;
-  }, [accountInfo.bindStatus, statusMap[1]]);
+    return accountInfo.bindStatus ? (statusMap[1]?.status ? 2 : 1) : 0;
+  }, [accountInfo.bindStatus, statusMap[1]?.status]);
 
   const vaultHandler = async () => {
     if (vaultStep === 0) {
@@ -99,6 +99,7 @@ export default function AwardIndex() {
   useEffect(() => {
     getRewardStatusList();
   }, []);
+  console.log(statusMap);
   return (
     <LayoutThird
       title={t('pages.space.award.title')}
@@ -135,7 +136,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4 text-blue-500 mr-2'></Icon>
-                  <span>+10</span>
+                  <span>+{statusMap[7].score}</span>
                 </div>
               </div>
               <Button
@@ -157,7 +158,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+50</span>
+                  <span>+{Math.ceil(statusMap[4].score / 2)}</span>
                 </div>
               </div>
               <Button
@@ -178,7 +179,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+50</span>
+                  <span>+{Math.ceil(statusMap[4].score / 2)}</span>
                 </div>
               </div>
               <Button
@@ -186,7 +187,8 @@ export default function AwardIndex() {
                 radius='full'
                 className='text-xs'
                 onPress={invitedHandler}>
-                {t('pages.space.award.invited_button')}
+                {invitedStep === 1 && t('pages.space.award.index_button_three')}
+                {invitedStep === 0 && t('pages.space.award.invited_button')}
               </Button>
             </div>
           </div>
@@ -199,7 +201,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+50</span>
+                  <span>+{statusMap[0].score}</span>
                 </div>
               </div>
               <Button
@@ -222,7 +224,7 @@ export default function AwardIndex() {
                   <Icon
                     icon='streamline:shopping-gift-reward-box-social-present-gift-media-rating-bow'
                     className='w-4 h-4  text-blue-500 mr-2'></Icon>
-                  <span>+10</span>
+                  <span>+{statusMap[1].score}</span>
                 </div>
               </div>
               <Button

@@ -68,13 +68,13 @@ export default function Unlock() {
     }
   });
   const onChange = (e: any) => {
-    setText(e?.trim());
+    setText(e);
   };
   const onPasswordChange = (e: any) => {
-    setPassword(e?.trim());
+    setPassword(e);
   };
   const onCustomChange = (e: any) => {
-    setCustomText(e?.trim());
+    setCustomText(e);
   };
   return (
     <LayoutThird title={t('pages.restore.encrypted_safe.title')}>

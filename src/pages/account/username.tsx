@@ -23,7 +23,7 @@ export default function Userinfo() {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      const text = e.trim().replace(/[^A-Za-z0-9_]/g, '');
+      const text = e.replace(/[^A-Za-z0-9_]/g, '');
       nicknameRef.current = text;
       setNickname(text);
     }, 100);

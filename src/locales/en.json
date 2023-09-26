@@ -128,7 +128,7 @@
         "title": "Token",
         "detail_title": " Details",
         "point_name": "TVS",
-        "transfer_successs": "Transfer Successful"
+        "transfer_success": "Transfer Successful"
       },
       "receiver": {
         "title": "Receiver"

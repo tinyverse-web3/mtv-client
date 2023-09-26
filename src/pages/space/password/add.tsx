@@ -48,7 +48,7 @@ export default function Edit() {
           <Input
             value={data.Title}
             maxLength={300}
-            onChange={(e: string) => set('Title', e?.trim())}
+            onChange={(e: string) => set('Title', e)}
             placeholder={t('common.title')}
           />
         </div>
@@ -57,7 +57,7 @@ export default function Edit() {
           <Input
             value={data.Account}
             maxLength={300}
-            onChange={(e: string) => set('Account', e?.trim())}
+            onChange={(e: string) => set('Account', e)}
             placeholder={t('common.account')}
           />
         </div>
@@ -68,7 +68,7 @@ export default function Edit() {
             fullWidth
             maxLength={300}
             className=''
-            onChange={(e: any) => set('Password', e?.trim())}
+            onChange={(e: any) => set('Password', e)}
             placeholder={t('common.password.title')}
           />
         </div>
@@ -77,7 +77,7 @@ export default function Edit() {
           <Input
             value={data.Url}
             maxLength={300}
-            onChange={(e: string) => set('Url', e?.trim())}
+            onChange={(e: string) => set('Url', e)}
             placeholder={t('common.link')}
           />
         </div>

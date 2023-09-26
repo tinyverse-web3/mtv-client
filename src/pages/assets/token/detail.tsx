@@ -55,6 +55,7 @@ export default function TokenDetail() {
   return (
     <LayoutThird
       title={`TVS ${t('pages.assets.token.detail_title')}`}
+      onRefresh={getTXDetails}
       rightContent={
         <Icon
           icon='mdi:line-scan'

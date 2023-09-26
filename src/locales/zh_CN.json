@@ -128,7 +128,7 @@
         "title": "代币",
         "detail_title": "详情",
         "point_name": "TVS",
-        "transfer_successs": "转账成功"
+        "transfer_success": "转账成功"
       },
       "receiver": {
         "title": "收款"

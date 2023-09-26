@@ -58,10 +58,10 @@ export default function Edit() {
     set('type', e);
   };
   const nameChange = (e: any) => {
-    set('name', e?.trim());
+    set('name', e);
   };
   const keyChange = (e: any) => {
-    set('key', e?.trim());
+    set('key', e);
   };
 
   const addSubAccount = async () => {

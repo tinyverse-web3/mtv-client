@@ -7,7 +7,11 @@ import { ButtonTabs } from '@/components/ButtonTabs';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import toast from 'react-hot-toast';
+import account from '@/lib/account/account';
+import { useChatStore } from '@/store';
 import { useTranslation } from 'react-i18next';
+import { useInterval } from 'react-use';
 
 export default function contact() {
   const { t } = useTranslation();
@@ -17,14 +21,26 @@ export default function contact() {
   const [searchText, setSearchText] = useState('');
 
   const { setToAddress } = useAssetsStore((state) => state);
-  const toSender = async () => {};
-
+  const { getContacts } = useChatStore((state) => state);
   const searchHandler = async (e: any) => {
     if (e.key === 'Enter') {
       toSender();
     }
   };
+  const toSender = async () => {
+    if (!searchText) {
+      toast(t('pages.chat.search.empty'));
+      return;
+    }
+    const { code, msg } = await account.createContactByMasterKey(searchText);
 
+    if (code === '000000') {
+      toast.success(t('pages.chat.search.success'));
+    } else {
+      toast.error(msg || t('pages.chat.search.error'));
+    }
+    setSearchText('');
+  };
   const selectHandler = () => {
     if (address) {
       setToAddress(address);
@@ -44,7 +60,9 @@ export default function contact() {
   const contactChange = (v: string) => {
     setAddress(v);
   };
-
+  useInterval(() => {
+    getContacts();
+  }, 2000);
   return (
     <LayoutThird
       className='h-full'
@@ -75,9 +93,9 @@ export default function contact() {
             onClick={toSender}></Icon>
         </div>
         <div>
-          <div className='mb-4'>
+          {/* <div className='mb-4'>
             <ButtonTabs list={tabList} />
-          </div>
+          </div> */}
           <div>
             <ContactList onChange={contactChange} />
           </div>

@@ -46,7 +46,7 @@ export default function GunSearch() {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      const text = e.trim().replace(/[^A-Za-z0-9_]/g, '');
+      const text = e.replace(/[^A-Za-z0-9_]/g, '');
       setName(text);
     }, 100);
   };

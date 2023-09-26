@@ -69,7 +69,7 @@ export default function UserPhrase() {
                 aria-label='text'
                 value={v}
                 className='text-center'
-                onChange={(e: string) => changeHandler(i, e?.trim())}></Input>
+                onChange={(e: string) => changeHandler(i, e)}></Input>
             </div>
           ))}
         </div>

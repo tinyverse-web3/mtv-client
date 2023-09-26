@@ -58,11 +58,11 @@ export const BindMail = () => {
     setLoginLoading(false);
   };
   const emailChange = (e: any) => {
-    setEmail(e.trim());
+    setEmail(e);
     reset();
   };
   const verifyCodeChange = (e: any) => {
-    setVerifyCode(e.trim());
+    setVerifyCode(e);
   };
   const sendVerify = async () => {
     console.log(email);

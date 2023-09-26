@@ -66,7 +66,7 @@ export default function Unlock() {
   }, [err]);
   const pwdChange = (e: any) => {
     setErr(false);
-    setPwd(e?.trim());
+    setPwd(e);
   };
 
   const toRetrieve = () => {

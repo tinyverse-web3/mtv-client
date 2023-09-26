@@ -1,4 +1,4 @@
-import { User } from '@nextui-org/react';
+import { User, Avatar } from '@nextui-org/react';
 import { useMemo } from 'react';
 
 interface ProfileAvatarProps {
@@ -19,11 +19,9 @@ export const ProfileAvatar = ({
     return src ? `${apiHost}/sdk/msg/getAvatar` : undefined;
   }, [src]);
   return (
-    <User
+    <Avatar
       name={text}
-      avatarProps={{
-        src: imageSrc,
-      }}
+      src={imageSrc}
       onClick={onClick}
       className={className}
     />

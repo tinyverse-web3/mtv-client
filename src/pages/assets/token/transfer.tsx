@@ -23,7 +23,7 @@ export default function Transfer() {
   const { toAddress } = useAssetsStore((state) => state);
   const [data, { set, setAll, remove, reset }] = useMap({
     WalletAddr: address,
-    Amount: '0',
+    Amount: '',
     Gas: '3',
     Comment: '',
   });
@@ -76,7 +76,7 @@ export default function Transfer() {
                 className='text-2xl text-blue-500'></Icon>
             }
             value={data.WalletAddr}
-            onChange={(e: string) => set('WalletAddr', e.trim())}
+            onChange={(e: string) => set('WalletAddr', e)}
           />
           {/* <ContactPopover onChange={selectContact} /> */}
         </div>
@@ -88,14 +88,14 @@ export default function Transfer() {
           <div className='rounded-2xl bg-gray-100 mb-3'>
             <Input
               variant='default'
-              placeholder={t('pages.assets.transfer.amount_placeholder')}
+              placeholder='0'
               classNames={{
                 inputWrapper: 'h-16',
                 input: 'text-lg',
               }}
               typ='number'
               value={data.Amount}
-              onChange={(e: string) => set('Amount', e.trim())}
+              onChange={(e: string) => set('Amount', e)}
             />
             <Input
               variant='default'
@@ -106,7 +106,7 @@ export default function Transfer() {
                 input: '',
               }}
               value={data.Comment}
-              onChange={(e: string) => set('Comment', e.trim())}
+              onChange={(e: string) => set('Comment', e)}
             />
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function Transfer() {
               className='mb-4'
               readOnly
               value={data.Gas}
-              onChange={(e: string) => set('Gas', e.trim())}
+              onChange={(e: string) => set('Gas', e)}
             />
           </div>
         </div>

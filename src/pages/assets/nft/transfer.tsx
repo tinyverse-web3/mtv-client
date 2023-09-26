@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react';
 import { useMap } from 'react-use';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
+import { useAssetsStore } from '@/store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ContactPopover } from '@/components/ContactPopover';
+import { ROUTE_PATH } from '@/router';
+import { Icon } from '@iconify/react';
 
 export default function Transfer() {
   const { t } = useTranslation();
@@ -16,12 +18,13 @@ export default function Transfer() {
   const [loading, setLoading] = useState(false);
   const [params] = useSearchParams();
   const id = params.get('id');
+  const { toAddress } = useAssetsStore((state) => state);
   const [data, { set, setAll, remove, reset }] = useMap({
-    WalletAddr: '',
+    WalletAddr: toAddress,
     Amount: '',
   });
-  const selectContact = (item: any) => {
-    set('WalletAddr', item.Address);
+  const toSelectContact = () => {
+    nav(ROUTE_PATH.ASSETS_CONTACT);
   };
   const handleTransfer = async () => {
     setLoading(true);
@@ -42,34 +45,52 @@ export default function Transfer() {
     <LayoutThird className='h-full' title={t('pages.assets.transfer.title')}>
       <div className='p-4'>
         <div className='mb-4'>
-          <div className='mb-2'>{t('pages.assets.transfer.nft_name')}</div>
-          <Card >
-            <CardBody>
-              <div className='flex'>
-                <div className='text-4 break-all'>{id}</div>
-              </div>
-            </CardBody>
-          </Card>
+          <div className='mb-2 text-blue-500'>
+            {t('pages.assets.transfer.nft_name')}
+          </div>
+          <div className='rounded-2xl bg-gray-100'>
+            <Input
+              typ='number'
+              variant='default'
+              readOnly
+              className=''
+              value={id}
+            />
+          </div>
         </div>
-        <div className='flex items-center'>
+        <div className='mb-4'>
+          <div className='mb-2 text-blue-500'>
+            {t('pages.assets.transfer.to_address')}
+          </div>
           <Input
-            label={t('pages.assets.transfer.to_address')}
+            variant='default'
+            isClearable={false}
             placeholder={t('pages.assets.transfer.to_placeholder')}
-            className='mb-4'
+            endContent={
+              <Icon
+                icon='mdi:account-supervisor-outline'
+                onClick={toSelectContact}
+                className='text-2xl text-blue-500'></Icon>
+            }
             value={data.WalletAddr}
-            onChange={(e: string) => set('WalletAddr', e.trim())}
+            onChange={(e: string) => set('WalletAddr', e)}
           />
-          <ContactPopover onChange={selectContact} />
         </div>
-
-        <Input
-          label={t('pages.assets.transfer.nft_point')}
-          placeholder={t('pages.assets.transfer.nft_point_placeholder')}
-          typ='number'
-          className='mb-4'
-          value={data.Amount}
-          onChange={(e: string) => set('Amount', e.trim())}
-        />
+        <div className='mb-4'>
+          <div className='mb-2 text-blue-500'>
+            {t('pages.assets.transfer.nft_point')}
+          </div>
+          <div className='rounded-2xl bg-gray-100'>
+            <Input
+              placeholder={t('pages.assets.transfer.nft_point_placeholder')}
+              typ='number'
+              variant='default'
+              className=''
+              value={data.Amount}
+              onChange={(e: string) => set('Amount', e)}
+            />
+          </div>
+        </div>
 
         <Button className='w-full' loading={loading} onClick={handleTransfer}>
           {t('pages.assets.btn_transfer')}

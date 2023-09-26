@@ -122,7 +122,7 @@ export default function Retrieve() {
                   helperColor={validStatus ? 'default' : 'error'}
                   status={validStatus ? 'default' : 'error'}
                   helperText='密码至少8位，包括数字、大小写字母和符号至少2种'
-                  onChange={(e: string) => setPwd(e?.trim())}
+                  onChange={(e: string) => setPwd(e)}
                   placeholder='新密码'
                 />
               </div>
@@ -133,7 +133,7 @@ export default function Retrieve() {
                 helperColor={confirmStatus ? 'default' : 'error'}
                 status={confirmStatus ? 'default' : 'error'}
                 helperText={confirmStatus ? '' : '密码不一致'}
-                onChange={(e: any) => setConfirmPwd(e.trim())}
+                onChange={(e: any) => setConfirmPwd(e)}
                 placeholder='确认密码'
                 initialValue=''
               />
