@@ -1,5 +1,5 @@
 import LayoutThird from '@/layout/LayoutThird';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '@/components/form/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePoint } from '@/lib/hooks';
@@ -13,17 +13,29 @@ import { useTranslation } from 'react-i18next';
 import account from '@/lib/account/account';
 import { useEffect } from 'react';
 import { groupBy } from 'lodash';
+import { useList } from 'react-use';
 import { useNativeScan } from '@/lib/hooks';
+
 export default function TokenDetail() {
   const nav = useNavigate();
   const { t } = useTranslation();
+  const [tvsTxList, { set: setTxList }] = useList<any>([]);
+  const [moreAddr, setMoreAddr] = useState('');
   const { balance: pointBalance } = usePoint();
-  const { tvsTxList, setTvsTxList, setTvsTx } = useAssetsStore((state) => state);
+  const { setTvsTx } = useAssetsStore((state) => state);
   const { result, start } = useNativeScan();
   const getTXDetails = async () => {
-    const { code, data } = await account.getTXDetails();
+    const { data } = await account.getTXDetails();
     const list = data?.txItems || [];
-    setTvsTxList(list);
+    setTxList(list);
+    setMoreAddr(data?.more);
+  };
+  const getTXMore = async () => {
+    if (!moreAddr) return;
+    const { code, data } = await account.getTXMore(moreAddr);
+    const list = data?.txItems || [];
+    setTxList(tvsTxList.concat(list));
+    setMoreAddr(data?.more);
   };
   const toTransfer = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER);
@@ -56,6 +68,7 @@ export default function TokenDetail() {
     <LayoutThird
       title={`TVS ${t('pages.assets.token.detail_title')}`}
       onRefresh={getTXDetails}
+      onLoad={getTXMore}
       rightContent={
         <Icon
           icon='mdi:line-scan'

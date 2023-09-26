@@ -769,10 +769,13 @@ export class Dauth {
       method: 'get',
     });
   }
-  async getTXMore() {
+  async getTXMore(Addr: string) {
     return this.invoke({
       name: 'getTXMore',
       method: 'get',
+      data: {
+        Addr,
+      }
     });
   }
   /**

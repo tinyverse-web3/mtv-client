@@ -834,8 +834,8 @@ export class Account {
     const { data } = await this.dauth.getTXDetails();
     return data;
   }
-  async getTXMore() {
-    const { data } = await this.dauth.getTXMore();
+  async getTXMore(Addr: string) {
+    const { data } = await this.dauth.getTXMore(Addr);
     return data;
   }
   async getDataSummary() {

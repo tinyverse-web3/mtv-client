@@ -90,7 +90,10 @@ export default function Album() {
       }
     }
   };
-
+  const tabChange = (e: any) => {
+    console.log(e);
+    setSelected(e);
+  };
   const delSuccess = () => {
     getList();
   };
@@ -101,7 +104,6 @@ export default function Album() {
     <LayoutThird
       title={t('pages.space.file.title')}
       loading={loading}
-      onSelectChange={setSelected}
       path={ROUTE_PATH.SPACE_INDEX}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
@@ -115,7 +117,11 @@ export default function Album() {
         </label>
       }>
       <div className='p-2'>
-        <Tabs fullWidth size='md' aria-label='Tabs form'>
+        <Tabs
+          fullWidth
+          size='md'
+          aria-label='Tabs form'
+          onSelectionChange={tabChange}>
           <Tab key='security' title={t('pages.space.file.tab_security')}>
             {securityList?.length ? (
               securityList.map((item: any) => (
