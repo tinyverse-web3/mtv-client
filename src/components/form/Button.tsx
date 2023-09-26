@@ -28,7 +28,7 @@ export const Button = ({
   };
   return (
     <NextButton
-      className={` ${className}`}
+      className={`px-0 ${className}`}
       isDisabled={disabled}
       color={disabled ? 'default' : color}
       {...rest}>

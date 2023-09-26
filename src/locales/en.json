@@ -140,6 +140,7 @@
       },
       "transfer": {
         "title": "Transfer",
+        "sender": "Sender",
         "to_address": "Target Address",
         "to_placeholder": "Please enter recipient public key",
         "amount": "Transfer Amount",

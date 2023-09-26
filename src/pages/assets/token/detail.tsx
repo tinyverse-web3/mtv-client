@@ -19,22 +19,22 @@ import { useNativeScan } from '@/lib/hooks';
 export default function TokenDetail() {
   const nav = useNavigate();
   const { t } = useTranslation();
-  const [tvsTxList, { set: setTxList }] = useList<any>([]);
+  // const [tvsTxList, { set: setTxList }] = useList<any>([]);
   const [moreAddr, setMoreAddr] = useState('');
   const { balance: pointBalance } = usePoint();
-  const { setTvsTx } = useAssetsStore((state) => state);
+  const { tvsTxList, setTvsTxList, setTvsTx } = useAssetsStore((state) => state);
   const { result, start } = useNativeScan();
   const getTXDetails = async () => {
     const { data } = await account.getTXDetails();
     const list = data?.txItems || [];
-    setTxList(list);
+    setTvsTxList(list);
     setMoreAddr(data?.more);
   };
   const getTXMore = async () => {
     if (!moreAddr) return;
     const { code, data } = await account.getTXMore(moreAddr);
     const list = data?.txItems || [];
-    setTxList(tvsTxList.concat(list));
+    setTvsTxList(tvsTxList.concat(list));
     setMoreAddr(data?.more);
   };
   const toTransfer = () => {
