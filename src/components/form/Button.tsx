@@ -19,6 +19,7 @@ export const Button = ({
   ...rest
 }: ButtonProps & any) => {
   const pressHandler = (e: any) => {
+    e.stopPropagation();
     if (loading || disabled) return;
     if (onPress) {
       onPress?.();

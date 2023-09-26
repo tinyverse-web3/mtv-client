@@ -24,7 +24,6 @@ export const MessageBox = ({ recipient }: any) => {
       msg,
     );
     if (res.code !== '000000') {
-      toast.error(res.msg);
       throw new Error(res.msg);
     }
     await getMsgs();

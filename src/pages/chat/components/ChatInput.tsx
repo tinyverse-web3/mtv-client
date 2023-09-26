@@ -1,4 +1,5 @@
 // import { Loading } from '@nextui-org/react';
+import { Button as NextButton } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
 import { useState } from 'react';
@@ -31,11 +32,22 @@ export const ChatInput = ({ onSend }: Props) => {
     }
     setLoading(false);
   };
+  const touchStartHandler = (e: any) => {
+    e.preventDefault();
+  };
   return (
-    <div className='flex '>
+    <div className='flex items-center'>
       <div className='flex-1'>
         <Input value={text} onChange={textChange} />
       </div>
+      {/* <NextButton
+        size='sm'
+        onTouchStart={touchStartHandler}
+        className='ml-2'
+        isDisabled={!text}
+        style={{ touchAction: 'none' }}>
+        {t('pages.chat.message.btn_send')}
+      </NextButton> */}
       <Button
         size='xs'
         className='ml-2'
