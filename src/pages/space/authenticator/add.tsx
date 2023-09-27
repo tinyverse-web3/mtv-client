@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
-import { Button } from '@nextui-org/react';
+import { Button } from '@/components/form/Button';
 import account from '@/lib/account/account';
 import { toast } from 'react-hot-toast';
 import { Icon } from '@iconify/react';

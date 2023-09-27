@@ -120,7 +120,6 @@ export default function Edit() {
 
         <div className=''>
           <Button
-            color='purple'
             className='m-auto mb-6 w-full'
             onPress={addSubAccount}
             size='md'>
