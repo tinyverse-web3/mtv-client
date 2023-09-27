@@ -78,7 +78,7 @@ export default function LayoutTwo({
   return (
     <main className={'h-full relative overflow-x-hidden'}>
       <section className='h-full  pb-16'>
-        <div className='h-full'><RefreshLoad >{children}</RefreshLoad></div>
+        <div className='h-full overflow-y-auto'>{children}</div>
       </section>
       <footer className='w-full h-16 absolute bottom-0 left-0  px-4 border-t-gray-200'>
         <div className='h-14'>

@@ -106,7 +106,9 @@ export default function AwardIndex() {
       rightContent={
         <Popover>
           <PopoverTrigger>
-            <Icon icon='material-symbols:more-vert' className=' h-6 w-6 ' />
+            <div className='flex justify-end items-center p-2'>
+              <Icon icon='material-symbols:more-vert' className=' h-6 w-6 ' />
+            </div>
           </PopoverTrigger>
           <PopoverContent>
             <div className='px-1 py-2'>
