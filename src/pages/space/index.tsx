@@ -161,7 +161,7 @@ export default function SpaceIndex() {
       <div className='flex justify-between mb-6'>
         <div className='flex items-center   ' onClick={toAccount}>
           <Image src={imageSrc} className='w-8 h-8 rounded-full mr-4' />
-          <span className='text-blue-500'>{t('pages.space.head_title')}</span>
+          <span className='text-blue-500 break-keep'>{t('pages.space.head_title')}</span>
         </div>
         <Icon
           icon='mdi:line-scan'

@@ -12,7 +12,7 @@
     "test": "cross-env TS_NODE_PROJECT='test/tsconfig.test.json' mocha test/**/*.test.ts"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.1.10",
+    "@nextui-org/react": "^2.1.13",
     "@tinyverse.space/web3storage": "^0.0.42",
     "@unocss/reset": "^0.49.4",
     "axios": "^1.3.4",

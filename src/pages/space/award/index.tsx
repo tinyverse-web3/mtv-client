@@ -104,25 +104,28 @@ export default function AwardIndex() {
     <LayoutThird
       title={t('pages.space.award.title')}
       rightContent={
-        <Popover>
-          <PopoverTrigger>
-            <div className='flex justify-end items-center p-2'>
-              <Icon icon='material-symbols:more-vert' className=' h-6 w-6 ' />
-            </div>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className='px-1 py-2'>
-              <div
-                className='text-small py-2 border-b-1 border-gray-100'
-                onClick={toDetail}>
-                {t('pages.space.award.detail.title')}
-              </div>
-              {/* <div className='text-small py-2 '>
-                {t('pages.space.award.contract.title')}
-              </div> */}
-            </div>
-          </PopoverContent>
-        </Popover>
+        <div className='flex justify-end items-center p-2' onClick={toDetail}>
+          <Icon icon='material-symbols:more-vert' className=' h-6 w-6 ' />
+        </div>
+        // <Popover backdrop='transparent'>
+        //   <PopoverTrigger>
+        //     <div className='flex justify-end items-center p-2'>
+        //       <Icon icon='material-symbols:more-vert' className=' h-6 w-6 ' />
+        //     </div>
+        //   </PopoverTrigger>
+        //   <PopoverContent>
+        //     <div className='px-1 py-2'>
+        //       <div
+        //         className='text-small py-2 border-b-1 border-gray-100'
+        //         onClick={toDetail}>
+        //         {t('pages.space.award.detail.title')}
+        //       </div>
+        //       {/* <div className='text-small py-2 '>
+        //         {t('pages.space.award.contract.title')}
+        //       </div> */}
+        //     </div>
+        //   </PopoverContent>
+        // </Popover>
       }>
       <div className='p-4'>
         <div className='text-sm mb-2 text-blue-500'>

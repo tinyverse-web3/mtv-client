@@ -1,5 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, ModalContent, ModalBody, ModalFooter, ModalHeader } from '@nextui-org/react';
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import { useTranslation } from 'react-i18next';
 
@@ -25,8 +31,12 @@ export const DelConfirmModel = ({
     document.body.removeAttribute('style');
   };
   const confirmHandler = async () => {
-    await onConfirm();
-    onClose?.();
+    try {
+      await onConfirm();
+    } catch (error) {
+    } finally {
+      onClose?.();
+    }
   };
   useEffect(() => {
     setShowModal(show);
@@ -42,7 +52,7 @@ export const DelConfirmModel = ({
       isOpen={showModal}
       onClose={closeHandler}>
       <ModalContent>
-        <ModalHeader/>
+        <ModalHeader />
         {text && (
           <ModalBody>
             {t('common.delete_hint')}

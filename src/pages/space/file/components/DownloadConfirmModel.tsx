@@ -23,7 +23,11 @@ export const DownloadConfirmModel = ({ show, onConfirm, onClose }: Props) => {
     document.body.removeAttribute('style');
   };
   const confirmHandler = async () => {
-    await onConfirm();
+    try {
+      await onConfirm();
+    } catch (error) {
+      console.log(error);
+    }
     onClose?.();
   };
   useEffect(() => {
