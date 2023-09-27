@@ -14,7 +14,7 @@ export default function TxDetail() {
   const { currentTx: item } = useAssetsStore((state) => state);
   const copyHandler = () => {};
   return (
-    <LayoutThird className='h-full' title={t('pages.assets.btn_transfer')}>
+    <LayoutThird className='h-full' title={t('pages.assets.tx.title')}>
       <div className='p-4'>
         {!!item && (
           <>
@@ -29,14 +29,14 @@ export default function TxDetail() {
               {format(item.txTime, 'yyyy-MM-dd HH:mm')}
             </div>
             <div className='bg-gray-100 rounded-2xl p-2 mb-4 text-sm text-gray-600'>
-              {!!item.comment && (
+              {/* {!!item.comment && (
                 <div className='flex mb-2'>
                   <span className='mr-4'>明细</span>
                   <span className='break-all flex-1'>{item.comment}</span>
                 </div>
-              )}
+              )} */}
               <div className='flex'>
-                <span className='mr-4'>矿工费</span>
+                <span className='mr-4'>{t('pages.assets.tx.gas')}</span>
                 <div className='flex'>
                   <span className='mr-1'>{item.gas}</span>
                   <span>{item.transferName?.toUpperCase()}</span>
@@ -45,13 +45,13 @@ export default function TxDetail() {
             </div>
             <div className='bg-gray-100 rounded-2xl p-2 text-sm  text-gray-600'>
               <div className='flex  mb-2'>
-                <span className='mr-4'>发起</span>
+                <span className='mr-4'>{t('pages.assets.tx.sender')}</span>
                 <span className='break-all flex-1'>
                   {item.type === 1 ? accountInfo.address : item.sender}
                 </span>
               </div>
               <div className='flex'>
-                <span className='mr-4'>接收</span>
+                <span className='mr-4'>{t('pages.assets.tx.receiver')}</span>
                 <span className='break-all flex-1'>
                   {item.type === 1
                     ? item.receivers[0].receiver

@@ -89,7 +89,7 @@ export default function TokenDetail() {
             <Button
               radius='full'
               className='h-12 flex-1'
-              variant='bordered'
+              variant='outline'
               onClick={toTransfer}>
               <Icon
                 icon='mdi:arrow-up-bold-circle-outline'

@@ -15,7 +15,7 @@ interface AssetsNftItemProps {
     Owner: string;
   };
 }
-export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
+export const NftImagetem = ({ item }: AssetsNftItemProps) => {
   const { t } = useTranslation();
   const nav = useNavigate();
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
@@ -28,18 +28,8 @@ export const AssetsNftItem = ({ item }: AssetsNftItemProps) => {
     nav(`${ROUTE_PATH.ASSETS_NFT_DETAIL}?id=${item.Nftname}`);
   };
   return (
-    <div
-      className='flex items-center p-2 px-4  rounded-md bg-gray-100 mb-2'
-      key={item.Nftname}
-      onClick={toDetail}>
-      <div className='break-all'>
-        {item.DataType === 'GUN' && (
-          <span className='text-blue-500'>
-            【{t('pages.space.gun.title')}】
-          </span>
-        )}
-        <span>{item.Name}</span>
-      </div>
+    <div className=' w-32 h-32' onClick={toDetail}>
+      <Image src={url} className='w-full h-full' />
     </div>
   );
 };

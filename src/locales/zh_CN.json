@@ -138,6 +138,12 @@
         "address_book": "地址本",
         "frient": "我的好友"
       },
+      "tx": {
+        "title": "交易详情",
+        "gas": "矿工费",
+        "sender": "发起",
+        "receiver": "接收"
+      },
       "transfer": {
         "sender": "发送",
         "title": "转账",

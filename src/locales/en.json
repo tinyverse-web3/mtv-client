@@ -138,6 +138,12 @@
         "address_book": "Address Book",
         "frient": "My Frient"
       },
+      "tx": {
+        "title": "Transfer Detail",
+        "gas": "Gas",
+        "sender": "Sender",
+        "receiver": "Receiver"
+      },
       "transfer": {
         "title": "Transfer",
         "sender": "Sender",
