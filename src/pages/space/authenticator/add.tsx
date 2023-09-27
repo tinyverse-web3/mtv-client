@@ -78,7 +78,7 @@ export default function Edit() {
         </div> */}
         <div className=''>
           <Button
-            color='secondary'
+            color='purple'
             disabled={!name}
             className='m-auto mb-6 w-full'
             onPress={add}

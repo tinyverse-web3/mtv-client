@@ -295,9 +295,8 @@ export const Question = ({
                 )}
                 {!disabled && (
                   <Button
-                    variant='light'
+                    variant='ghost'
                     size='sm'
-                    auto
                     disabled={disabled}
                     className='px-3 text-xl ml-4'
                     onPress={() => removeQuestion(i)}>
@@ -321,7 +320,6 @@ export const Question = ({
             {val.list.length < QUESTION_CHILDREN_MAX && type === 'maintain' && (
               <div className='flex justify-end'>
                 <Button
-                  auto
                   bordered
                   color={'warning'}
                   onPress={() => addQuestionChildren(i)}>
@@ -336,7 +334,7 @@ export const Question = ({
       <div className='mb-4'>{children}</div>
       <div className='flex'>
         {list.length > 0 && (
-          <Button className='flex-1' auto onPress={submitQuestion}>
+          <Button className='flex-1' onPress={submitQuestion}>
             {buttonText || t('common.backup')}
           </Button>
         )}

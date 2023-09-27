@@ -82,15 +82,15 @@ export default function PasswordItem({ item, toDetail }: any) {
         </div>
       </div>
       <div className='flex justify-around'>
-        <Button size='xs' className='' onPress={() => copy(item.Account)}>
+        <Button size='sm' className='' onPress={() => copy(item.Account)}>
           {t('common.copy')}
           {t('common.account')}
         </Button>
-        <Button size='xs' onPress={() => copy(item.Password)}>
+        <Button size='sm' onPress={() => copy(item.Password)}>
           {t('common.copy')}
           {t('common.password.title')}
         </Button>
-        <Button size='xs' onPress={() => copy(item.Url)}>
+        <Button size='sm' onPress={() => copy(item.Url)}>
           {t('common.copy')}
           {t('common.link')}
         </Button>

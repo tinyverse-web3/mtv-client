@@ -120,7 +120,7 @@ export default function Index() {
         </Button>
         <div className='text-xs mb-4'>{t('pages.index.create_hint')}</div>
         <Button
-          color='secondary'
+          color='purple'
           fullWidth
           size="lg"
           className='mb-4'

@@ -188,7 +188,7 @@ const Profile: React.FC = () => {
                       onChange={(e: string) => setAlias(e)}
                     />
                     <Button
-                      size='xs'
+                      size='sm'
                       className='ml-4 h-10'
                       onPress={changeAlias}>
                       {t('pages.chat.profile.btn_change')}

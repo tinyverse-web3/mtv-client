@@ -25,7 +25,6 @@ export default function Receiver() {
         </div>
         <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
           <Button
-            color='primary'
             radius='full'
             className='h-12 flex-1'>
             <Icon
@@ -35,7 +34,6 @@ export default function Receiver() {
             <div className='tex'>{t('common.share')}</div>
           </Button>
           <Button
-            color='primary'
             radius='full'
             className='h-12 flex-1 ml-8'
             onClick={copyHandler}>

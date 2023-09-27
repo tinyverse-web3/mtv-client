@@ -114,15 +114,14 @@ export const ValidPassword = ({
         </ModalBody>
         <ModalFooter>
           <Button
-            color='danger'
-            variant='light'
-            size='xs'
+            color='red'
+            variant='ghost'
+            size='sm'
             onClick={closeHandler}>
             {t('common.cancel')}
           </Button>
           <Button
-            color='primary'
-            size='xs'
+            size='sm'
             onClick={confirmHandler}
             className='ml-6'>
             {t('common.confirm')}

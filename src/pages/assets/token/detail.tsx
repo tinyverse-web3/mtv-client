@@ -87,7 +87,6 @@ export default function TokenDetail() {
           </div>
           <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
             <Button
-              color='primary'
               radius='full'
               className='h-12 flex-1'
               variant='bordered'
@@ -99,7 +98,6 @@ export default function TokenDetail() {
               <div className='tex'>{t('pages.assets.transfer.title')}</div>
             </Button>
             <Button
-              color='primary'
               radius='full'
               className='h-12 flex-1 ml-8'
               onClick={toReceiver}>

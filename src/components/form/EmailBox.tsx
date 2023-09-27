@@ -78,9 +78,8 @@ export const EmailBox = ({ onChange }: Props) => {
           contentLeft={<Icon icon='mdi:shield-outline color-current' />}
         />
         <Button
-          auto
           className='ml-4 min-w-20'
-          color='secondary'
+          color='purple'
           loading={codeLoading}
           onPress={sendVerify}>
           {text}

@@ -170,16 +170,14 @@ export default function ChatList() {
             </div>
             <div className='flex justify-center items-center'>
               <Button
-                auto
                 className='ml-4 min-w-20'
-                color='secondary'
+                color='purple'
                 onPress={refreshShareIm}>
                 刷新分享链接
               </Button>
               <Button
-                auto
                 className='ml-4 min-w-20'
-                color='secondary'
+                color='purple'
                 onPress={copyShareImLink}>
                 复制分享链接
               </Button>

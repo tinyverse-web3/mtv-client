@@ -63,15 +63,14 @@ export const PublicPasswordModal = ({
         </ModalBody>
         <ModalFooter>
           <Button
-            color='danger'
-            variant='light'
-            size='xs'
+            color='red'
+            variant='ghost'
+            size='sm'
             onPress={closeHandler}>
             取消
           </Button>
           <Button
-            color='primary'
-            size='xs'
+            size='sm'
             onPress={confirmHandler}
             className='ml-6'>
             {btnText}

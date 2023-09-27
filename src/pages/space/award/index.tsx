@@ -145,7 +145,7 @@ export default function AwardIndex() {
                 </div>
               </div>
               <Button
-                size='xs'
+                size='sm'
                 radius='full'
                 className='text-xs'
                 onPress={applyDailyReward}>
@@ -167,7 +167,7 @@ export default function AwardIndex() {
                 </div>
               </div>
               <Button
-                size='xs'
+                size='sm'
                 radius='full'
                 className='text-xs'
                 onPress={toInvite}>
@@ -188,7 +188,7 @@ export default function AwardIndex() {
                 </div>
               </div>
               <Button
-                size='xs'
+                size='sm'
                 radius='full'
                 className='text-xs'
                 onPress={invitedHandler}>
@@ -210,7 +210,7 @@ export default function AwardIndex() {
                 </div>
               </div>
               <Button
-                size='xs'
+                size='sm'
                 radius='full'
                 className='text-xs'
                 onPress={vaultHandler}>
@@ -233,7 +233,7 @@ export default function AwardIndex() {
                 </div>
               </div>
               <Button
-                size='xs'
+                size='sm'
                 className='text-xs'
                 radius='full'
                 onPress={guardianHandler}>

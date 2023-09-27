@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Button as NextButton } from '@nextui-org/react';
+import { Button as ChakraButton } from '@chakra-ui/react';
 import { Spinner } from '@nextui-org/react';
 interface ButtonProps {
   loading?: boolean;
@@ -15,8 +15,10 @@ export const Button = ({
   onClick,
   children,
   disabled,
-  color = 'primary',
+  color = 'messenger',
   className,
+  fullWidth,
+  radius,
   ...rest
 }: ButtonProps & any) => {
   const btnElement = useRef<any>();
@@ -36,17 +38,17 @@ export const Button = ({
   //   }
   // }, []);
   return (
-    <NextButton
-      className={`px-0 ${className}`}
+    <ChakraButton
+      className={`px-0 ${fullWidth ? 'w-full' : ''} ${className} `}
+      style={{
+        borderRadius: radius === 'full' ? '9999px' : '',
+      }}
       isDisabled={disabled}
-      onPressStart={pressHandler}
-      color={disabled ? 'default' : color}
+      colorScheme={color || 'messenger'}
+      isLoading={loading}
+      onClick={pressHandler}
       {...rest}>
-      <div
-        className='h-full px-2 flex items-center justify-center'
-        ref={btnElement}>
-        {loading ? <Spinner size='sm' color='white' /> : <>{children}</>}
-      </div>
-    </NextButton>
+      {children}
+    </ChakraButton>
   );
 };

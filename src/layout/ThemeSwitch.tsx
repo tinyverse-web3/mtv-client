@@ -9,7 +9,7 @@ export const ThemeSwitch = () => {
   };
   return (
     <Button
-      variant='light'
+      variant='ghost'
       size='sm'
       className='px-1.5 text-5'
       onPress={themeChange}>

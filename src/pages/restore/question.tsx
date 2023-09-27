@@ -75,7 +75,6 @@ export default function Restore() {
                     ? 'bg-primary text-white'
                     : 'bg-gray-200 text-gray-500'
                 }`}
-                auto
                 onClick={() => {
                   tabChange(item.value);
                 }}>

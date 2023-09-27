@@ -132,7 +132,7 @@ export const QuestionSelect = ({
                 onChange={onSelectHandler}></Select>
             </div>
             <Button
-              variant='light'
+              variant='ghost'
               size='sm'
               disabled={disabled}
               className='px-2 text-xl'

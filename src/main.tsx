@@ -7,11 +7,13 @@ import App from './App';
 import '@/styles/index.css';
 import '@/styles/loading.css';
 import 'react-photo-view/dist/react-photo-view.css';
-
-import '@/locales'
+import { ChakraProvider } from '@chakra-ui/react';
+import '@/locales';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
+  <ChakraProvider>
     <App />
+  </ChakraProvider>,
   // </React.StrictMode>,
 );

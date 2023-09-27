@@ -79,7 +79,6 @@ export function IndexItem({
                 <Button
                   size='sm'
                   bordered
-                  auto
                   className='w-full'
                   onClick={() => toExpansion?.()}>
                   {t('pages.space.data.btn_expansion')}
@@ -101,7 +100,6 @@ export function IndexItem({
                 <Button
                   size='sm'
                   className='w-full'
-                  auto
                   onPress={() => toDetail?.()}>
                   {t('pages.space.data.btn_detail')}
                 </Button>

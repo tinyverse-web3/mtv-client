@@ -374,7 +374,7 @@ export const QuestionDefault = ({
         ))}
       </div>
       <div className='flex'>
-        <Button className='flex-1' auto onPress={submitQuestion}>
+        <Button className='flex-1' onPress={submitQuestion}>
           {buttonText}
         </Button>
       </div>

@@ -112,8 +112,8 @@ export default function Unlock() {
 
         <div className='flex justify-end mb-24'>
           <Button
-            variant='light'
-            size='xs'
+            variant='ghost'
+            size='sm'
             className='p-0'
             onClick={deleteUser}>
             {t('pages.unlock.forget_password')}

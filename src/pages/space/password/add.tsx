@@ -83,7 +83,7 @@ export default function Edit() {
         </div>
         <div className=''>
           <Button
-            color='secondary'
+            color='purple'
             disabled={!data.Account || !data.Password || !data.Title}
             className='m-auto w-full'
             onPress={saveHandler}

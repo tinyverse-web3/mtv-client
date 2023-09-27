@@ -153,9 +153,7 @@ export default function GunRenew() {
               placeholder={t('pages.space.gun.apply_name')}
             />
             <Button
-              auto
-              flat
-              size='xs'
+              size='sm'
               className='ml-4 h-10'
               onPress={CheckGun}>
               {t('pages.space.gun.search')}

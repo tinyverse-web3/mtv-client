@@ -130,9 +130,8 @@ export const BindMail = () => {
               }
             />
             <Button
-              auto
               className='ml-4 min-w-20'
-              color='secondary'
+              color='purple'
               onPress={sendVerify}>
               {text}
             </Button>
@@ -140,17 +139,16 @@ export const BindMail = () => {
         </ModalBody>
         <ModalFooter>
           <Button
-            color='danger'
-            variant='light'
-            size='xs'
+            color='red'
+            variant='ghost'
+            size='sm'
             onPress={closeHandler}>
             {t('common.cancel')}
           </Button>
           <Button
             onPress={loginHandler}
             className='ml-6'
-            size='xs'
-            color='primary'
+            size='sm'
             disabled={!email || !verifyCode}
             loading={loginLoading}>
             {t('common.confirm')}
