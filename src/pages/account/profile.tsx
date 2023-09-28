@@ -31,7 +31,7 @@ const Profile: React.FC = () => {
     }
   };
   const toGun = () => {
-    nav(ROUTE_PATH.SPACE_GUN_LIST);
+    nav(`${ROUTE_PATH.ASSETS_INDEX}?type=nft&nft=gun`);
   };
  
   const shortHandler = (str?: string) => {
