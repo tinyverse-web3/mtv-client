@@ -1007,7 +1007,17 @@ export class Dauth {
       name: 'msg/getAllMsgs',
       method: 'post',
       data: {
-        destPubkey,
+        DestPubkey: destPubkey,
+      },
+    });
+  }
+  async getMoreMsgs({ DestPubkey, Content }: any) {
+    return this.invoke({
+      name: 'msg/getMoreMsgs',
+      method: 'post',
+      data: {
+        DestPubkey,
+        Content
       },
     });
   }

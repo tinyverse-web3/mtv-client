@@ -1,5 +1,5 @@
 import { Dauth } from './dauth';
-import i18n from '@/locales'
+import i18n from '@/locales';
 export enum STATUS_CODE {
   EMPTY_PASSWORD,
   EMPTY_INPUT,
@@ -166,7 +166,7 @@ export class Account {
       passwordPrivateData,
       CustomPrivateData,
     });
-    return res?.data
+    return res?.data;
   }
   /**
    * 恢复私有数据
@@ -760,6 +760,13 @@ export class Account {
       destPubkey,
     });
     return res.data.data;
+  }
+  async getMoreMsgs(DestPubkey: string, Content: string) {
+    const res = await this.dauth.getMoreMsgs({
+      DestPubkey,
+      Content,
+    });
+    return res.data;
   }
   /**
    * 发送消息

@@ -72,11 +72,14 @@ export default function Account() {
   const toTwitter = () => {
     const url = 'https://twitter.com/tinyverse_space';
     openUrl(url);
-  }
+  };
   const toTelegram = () => {
-    const url = 'https://twitter.com/tinyverse_space';
+    const url =
+      i18n.language === 'en'
+        ? 'https://t.me/+OLktH1pYFgFmNTM9'
+        : 'https://t.me/+z0wTG0xJeYwwZmQ9';
     openUrl(url);
-  }
+  };
   return (
     <LayoutThird showBack title={t('pages.account.about.title')}>
       <div className='h-full relative'>
@@ -84,7 +87,8 @@ export default function Account() {
           <div className='pt-8 mb-6 flex flex-col items-center'>
             <Image src='/logo.png' className='w-20 h-20 mb-2' />
             <div className='mb-2 flex items-center'>
-              {t('pages.account.about.version')}{version}
+              {t('pages.account.about.version')}
+              {version}
             </div>
             <div className='mb-2 text-xs'>
               {t('pages.account.about.description')}
@@ -119,8 +123,14 @@ export default function Account() {
               onPress={toWebsit}
             />
             <ListRow label={t('pages.account.about.btn_5')} onPress={toBlog} />
-            <ListRow label={t('pages.account.about.btn_6')} onPress={toTwitter} />
-            <ListRow label={t('pages.account.about.btn_7')} onPress={toTelegram} />
+            <ListRow
+              label={t('pages.account.about.btn_6')}
+              onPress={toTwitter}
+            />
+            <ListRow
+              label={t('pages.account.about.btn_7')}
+              onPress={toTelegram}
+            />
           </div>
         </div>
         <div className='text-center w-full text-xs pb-4'>
