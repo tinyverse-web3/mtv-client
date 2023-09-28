@@ -1,6 +1,6 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { Spinner } from '@chakra-ui/react';
 import { ROUTE_HASH_PATH, routes } from '@/router/index';
 import account from '@/lib/account/account';
 import { useIdleTimer } from 'react-idle-timer';
@@ -10,11 +10,13 @@ const stay_path = ['home', 'space', 'note', 'account', 'chat', 'test', 'asset'];
 
 export const LaunchCheck = ({ children }: any) => {
   const routerLocation = useLocation();
-  
+
   const {
     checkLoading,
     setCheckLoading,
     lockStatus,
+    loading,
+    setLoading,
     setLockStatus,
     reset: resetGlobal,
   } = useGlobalStore((state) => state);
@@ -95,6 +97,7 @@ export const LaunchCheck = ({ children }: any) => {
       console.log('router change check');
       checkStatus();
     }
+    setLoading(false);
   }, [routerLocation]);
   return (
     <>
@@ -103,9 +106,14 @@ export const LaunchCheck = ({ children }: any) => {
           {/* <Loading /> */}
         </div>
       ) : (
-        <>
+        <div className='h-full relative'>
           <Outlet />
-        </>
+          {loading && (
+            <div className='absolute z-10000 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
+              <Spinner color='blue.500' size='lg' />
+            </div>
+          )}
+        </div>
       )}
     </>
   );

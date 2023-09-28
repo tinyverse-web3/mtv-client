@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Button as ChakraButton } from '@chakra-ui/react';
-import { Spinner } from '@nextui-org/react';
+import { Spinner } from '@chakra-ui/react';
 interface ButtonProps {
   loading?: boolean;
   onPress?: () => void;

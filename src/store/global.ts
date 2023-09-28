@@ -3,11 +3,13 @@ import { devtools, persist } from 'zustand/middleware';
 
 interface GlobalState {
   showLogin: boolean;
+  loading: boolean;
   checkLoading: boolean;
   lockStatus: boolean;
   defaultPasswordShow: boolean;
   logout: () => void;
   setShowLogin: (visibly: boolean) => void;
+  setLoading: (l: boolean) => void;
   setCheckLoading: (visibly: boolean) => void;
   setDefaultPasswordShow: (show: boolean) => void;
   reset: () => void;
@@ -20,10 +22,14 @@ export const useGlobalStore = create<GlobalState>()(
       (set, get) => ({
         showLogin: false,
         checkLoading: false,
+        loading: false,
         defaultPasswordShow: false,
         lockStatus: true,
         setLockStatus(b) {
           set({ lockStatus: b });
+        },
+        setLoading(b) {
+          set({ loading: b });
         },
         setShowLogin: (v) => set(() => ({ showLogin: v })),
         setDefaultPasswordShow: (v) => set(() => ({ defaultPasswordShow: v })),

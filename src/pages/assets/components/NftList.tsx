@@ -3,12 +3,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { AssetsNftItem } from './AssetsNftItem';
 import { NftImagetem } from './NftImagetem';
 import { Empty } from '@/components/Empty';
+import { useSearchParams } from 'react-router-dom';
 import { TextTabs } from '@/components/TextTabs';
 import { useAssetsStore } from '@/store';
 
 export const NftList = () => {
   const { nftList, getNftList } = useAssetsStore((state) => state);
-  const [type, setType] = useState('image'); // ['image', 'text', 'gun'
+  const [params] = useSearchParams();
+  const nftType = params.get('nft');
+  const [type, setType] = useState(nftType || 'image'); // ['image', 'text', 'gun'
   const tabList = [
     {
       label: '图片',
@@ -51,7 +54,7 @@ export const NftList = () => {
   return (
     <div className=''>
       <div className='mb-4'>
-        <TextTabs list={tabList} onChange={typeChange} />
+        <TextTabs value={type} list={tabList} onChange={typeChange} />
       </div>
       {!list.length && <Empty />}
       {type === 'image' ? (

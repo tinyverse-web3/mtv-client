@@ -54,11 +54,13 @@ export default function NftAdd() {
     }
   };
   const mintNftFile = async () => {
+    setTextLoading(true);
     const { code, msg } = await account.mintNftFile({
       file: data.File,
       Name: data.Name,
       Description: data.Description,
     });
+    setTextLoading(false);
     if (code === '000000') {
       toast.success(t('pages.assets.nft.mint_success'));
       nav(-1);
@@ -99,7 +101,11 @@ export default function NftAdd() {
   return (
     <LayoutThird title={t('pages.assets.nft.mint_title')}>
       <div className='p-4'>
-        <Tabs fullWidth size='md' aria-label='Tabs form' onSelectionChange={typeChange}>
+        <Tabs
+          fullWidth
+          size='md'
+          aria-label='Tabs form'
+          onSelectionChange={typeChange}>
           {assetsTypes.map((item) => (
             <Tab key={item.value} title={item.label}></Tab>
           ))}

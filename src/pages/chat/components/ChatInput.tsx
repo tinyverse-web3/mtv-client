@@ -1,6 +1,5 @@
 // import { Loading } from '@nextui-org/react';
-import { Button as NextButton, Spinner } from '@nextui-org/react';
-import { Button } from '@/components/form/Button';
+import { Spinner } from '@chakra-ui/react';
 import { Input } from '@/components/form/Input';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
@@ -48,7 +47,7 @@ export const ChatInput = ({ onSend, onFocus }: Props) => {
         }`}
         onClick={pressHandler}>
         {loading ? (
-          <Spinner size='sm' color='white' />
+          <Spinner size='sm' color='blue.500' />
         ) : (
           t('pages.chat.message.btn_send')
         )}

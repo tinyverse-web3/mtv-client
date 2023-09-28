@@ -259,6 +259,7 @@
         "title": "Earn Rewards",
         "apply_success": "Application submitted",
         "hint": "Complete tasks and get points rewards: We will update the tasks that can get rewards from time to time, so that users can have enough points to use various functions. The basic condition for obtaining bonus points is that the identity verification has been completed and the account has been backed up.",
+        "hint_one": "Enter the invitation code to get bonus points",
         "index_title": "Earn points by doing tasks",
         "index_daily": "Daily check-in",
         "invite_code": "Invite Code",

@@ -50,15 +50,35 @@ export default function NftDetail() {
   return (
     <LayoutThird title={t('pages.assets.nft.detail_text')}>
       <div className='p-4'>
-        {detail.DataType?.indexOf('image') > -1 && (
-          <PhotoProvider>
-            <div className='w-46 h-46 flex justify-center items-center mb-4'>
+        <PhotoProvider>
+          <div className='flex justify-center items-center mb-4'>
+            <div className='p-4 bg-gray-100 rounded-full '>
               <PhotoView src={url}>
-                <Image src={url} className='h-full' />
+                <img
+                  src={detail.DataType?.indexOf('image') > -1 ? url : '/logo.png'}
+                  className='w-16 h-16 '
+                />
               </PhotoView>
             </div>
-          </PhotoProvider>
-        )}
+          </div>
+        </PhotoProvider>
+        <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
+          <Button
+            radius='full'
+            className='h-12 flex-1'
+            variant='outline'
+            onClick={toTransfer}>
+            <Icon
+              icon='mdi:arrow-up-bold-circle-outline'
+              className='text-2xl mr-2 '
+            />
+            <div className='tex'>{t('pages.assets.transfer.title')}</div>
+          </Button>
+          <Button radius='full' className='h-12 flex-1 ml-8'>
+            <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
+            <div className=''>{t('pages.assets.btn_receiver')}</div>
+          </Button>
+        </div>
         {!!detail.Nftname && (
           <div className='mb-4'>
             <div className='mb-2'>{t('common.title')}</div>
@@ -123,23 +143,6 @@ export default function NftDetail() {
             </div>
           </div>
         )}
-        <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
-          <Button
-            radius='full'
-            className='h-12 flex-1'
-            variant='outline'
-            onClick={toTransfer}>
-            <Icon
-              icon='mdi:arrow-up-bold-circle-outline'
-              className='text-2xl mr-2 '
-            />
-            <div className='tex'>{t('pages.assets.transfer.title')}</div>
-          </Button>
-          <Button radius='full' className='h-12 flex-1 ml-8'>
-            <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
-            <div className=''>{t('pages.assets.btn_receiver')}</div>
-          </Button>
-        </div>
       </div>
     </LayoutThird>
   );

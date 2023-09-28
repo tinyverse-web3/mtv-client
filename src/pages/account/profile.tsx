@@ -33,6 +33,7 @@ const Profile: React.FC = () => {
   const toGun = () => {
     nav(ROUTE_PATH.SPACE_GUN_LIST);
   };
+ 
   const shortHandler = (str?: string) => {
     if (str) {
       return `${str?.substring(0, 10)}*****${str?.substring(str?.length - 10)}`;

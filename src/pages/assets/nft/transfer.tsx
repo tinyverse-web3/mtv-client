@@ -11,6 +11,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTE_PATH } from '@/router';
 import { Icon } from '@iconify/react';
+import { useNativeScan } from '@/lib/hooks';
 
 export default function Transfer() {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ export default function Transfer() {
     WalletAddr: toAddress,
     Amount: '',
   });
+  const { result, start } = useNativeScan();
   const toSelectContact = () => {
     nav(ROUTE_PATH.ASSETS_CONTACT);
   };
@@ -41,6 +43,14 @@ export default function Transfer() {
     }
     setLoading(false);
   };
+  const toScan = () => {
+    start();
+  };
+  useEffect(() => {
+    if (result) {
+      set('WalletAddr', result);
+    }
+  }, [result]);
   return (
     <LayoutThird className='h-full' title={t('pages.assets.transfer.title')}>
       <div className='p-4'>
@@ -66,11 +76,17 @@ export default function Transfer() {
             variant='default'
             isClearable={false}
             placeholder={t('pages.assets.transfer.to_placeholder')}
-            endContent={
+            startContent={
               <Icon
                 icon='mdi:account-supervisor-outline'
                 onClick={toSelectContact}
                 className='text-2xl text-blue-500'></Icon>
+            }
+            endContent={
+              <Icon
+                icon='mdi:line-scan'
+                className=' text-xl   text-blue-500'
+                onClick={toScan}></Icon>
             }
             value={data.WalletAddr}
             onChange={(e: string) => set('WalletAddr', e)}

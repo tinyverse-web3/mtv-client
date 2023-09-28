@@ -1,19 +1,22 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAccountStore } from '@/store';
 import { ButtonTabs } from '@/components/ButtonTabs';
 import { usePoint } from '@/lib/hooks';
 import { AssetsTokenItem } from './components/AssetsTokenItem';
 import { NftList } from './components/NftList';
 import { Icon } from '@iconify/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import { useTranslation } from 'react-i18next';
 
 export default function AssetsIndex() {
   const nav = useNavigate();
   const { t } = useTranslation();
-  const [assetsType, setAssetsType] = useState('token');
+  const [params] = useSearchParams();
+  const type = params.get('type');
+  const [assetsType, setAssetsType] = useState(type || 'token');
   const { balance: pointBalance } = usePoint();
+
   const assetsTypes = [
     {
       label: t('pages.assets.token.title'),
@@ -21,7 +24,7 @@ export default function AssetsIndex() {
     },
     {
       label: t('pages.assets.nft.title'),
-      value: 'NFT',
+      value: 'nft',
     },
   ];
   const toAdd = () => {
@@ -31,12 +34,15 @@ export default function AssetsIndex() {
   const toTokenDetail = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
   };
+  // useEffect(() => {
+  //   setAssetsType(type || 'token');
+  // }, [params]);
   return (
     <div>
       <div className='p-4'>
         <div className='flex justify-between mb-4'>
-          <ButtonTabs list={assetsTypes} onChange={setAssetsType} />
-          {assetsType === 'NFT' && (
+          <ButtonTabs list={assetsTypes} value={assetsType} onChange={setAssetsType} />
+          {assetsType === 'nft' && (
             <Icon
               icon='mdi:plus-circle-outline'
               onClick={toAdd}

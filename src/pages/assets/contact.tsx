@@ -13,6 +13,7 @@ import { useChatStore } from '@/store';
 import { useTranslation } from 'react-i18next';
 import { useInterval } from 'react-use';
 
+
 export default function contact() {
   const { t } = useTranslation();
 
@@ -22,6 +23,7 @@ export default function contact() {
 
   const { setToAddress } = useAssetsStore((state) => state);
   const { getContacts } = useChatStore((state) => state);
+  
   const searchHandler = async (e: any) => {
     if (e.key === 'Enter') {
       toSender();
@@ -57,6 +59,7 @@ export default function contact() {
       value: 1,
     },
   ];
+  
   const contactChange = (v: string) => {
     setAddress(v);
   };
@@ -75,6 +78,7 @@ export default function contact() {
       }>
       <div className='p-4 py-3'>
         <div className='flex items-center mb-4'>
+          
           <div className='flex-1'>
             <Input
               value={searchText}

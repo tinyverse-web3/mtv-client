@@ -23,7 +23,6 @@ export default function TokenDetail() {
   const [moreAddr, setMoreAddr] = useState('');
   const { balance: pointBalance } = usePoint();
   const { tvsTxList, setTvsTxList, setTvsTx } = useAssetsStore((state) => state);
-  const { result, start } = useNativeScan();
   const getTXDetails = async () => {
     const { data } = await account.getTXDetails();
     const list = data?.txItems || [];
@@ -43,9 +42,6 @@ export default function TokenDetail() {
   const toReceiver = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_RECEIVER);
   };
-  const toScan = () => {
-    start();
-  };
   const list = useMemo(() => {
     return groupBy(
       tvsTxList.map((v) => ({ ...v, timeText: format(v.txTime, 'yyyy-MM') })),
@@ -59,11 +55,7 @@ export default function TokenDetail() {
   useEffect(() => {
     getTXDetails();
   }, []);
-  useEffect(() => {
-    if (result) {
-      nav(ROUTE_PATH.ASSETS_TOKEN_TRANSFER, { state: { address: result } });
-    }
-  }, [result]);
+ 
   return (
     <LayoutThird
       title={`TVS ${t('pages.assets.token.detail_title')}`}
@@ -73,7 +65,7 @@ export default function TokenDetail() {
         <Icon
           icon='mdi:line-scan'
           className=' text-xl   text-blue-500'
-          onClick={toScan}></Icon>
+          ></Icon>
       }>
       <div className='p-4 h-full'>
         <div className='pt-8'>

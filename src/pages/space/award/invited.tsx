@@ -35,11 +35,15 @@ export default function AwardInvite() {
               }}
               value={inviteCode}
               onChange={(v: string) => setInviteCode(v)}></Input>
-            <Button className=' w-56' disabled={!inviteCode} onClick={applyInviterReward}>
-            {t('pages.space.award.receive.title')}
+            <Button
+              className=' w-56'
+              disabled={!inviteCode}
+              onClick={applyInviterReward}>
+              {t('pages.space.award.receive.title')}
             </Button>
           </div>
         </div>
+        <div className='mt-28 hint-text-box'>{t('pages.space.award.hint_one')}</div>
       </div>
     </LayoutThird>
   );
