@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "TinyVerse Space",
-    "subtitle": "Building a private safehouse in the digital world.",
+    "subtitle": "Building a private safehouse for you in the digital world.",
     "description": ""
   },
   "common": {
@@ -256,32 +256,32 @@
         "create_title": "Create secret key"
       },
       "award": {
-        "title": "Earn Rewards",
+        "title": "Bonus Tasks",
         "apply_success": "Application submitted",
         "hint": "Complete tasks and get points rewards: We will update the tasks that can get rewards from time to time, so that users can have enough points to use various functions. The basic condition for obtaining bonus points is that the identity verification has been completed and the account has been backed up.",
         "hint_one": "Enter the invitation code to get bonus points",
         "index_title": "Earn points by doing tasks",
-        "index_daily": "Daily check-in",
+        "index_daily": "Daily checkin",
         "invite_code": "Invite Code",
-        "daily_button_one": "Check-in",
+        "daily_button_one": "Checkin",
         "daily_button_two": "Received, come back tomorrow",
-        "index_invite": "Invite Friends",
+        "index_invite": "Invite friends",
         "invite_button": "Invite",
-        "invited_button": "Rewards for being invited",
-        "index_invited": "Accept an Invitation",
+        "invited_button": "Accept",
+        "index_invited": "Accept invitation and get rewards",
         "index_button_one": "To Complete",
         "index_button_two": "Receive",
         "index_button_three": "Received",
-        "index_valut": "Create an encrypted safe",
-        "index_guardian": "Bind the Guardian",
-        "index_password": "Change Password",
+        "index_valut": "Create an encrypted vault",
+        "index_guardian": "Bind guardians",
+        "index_password": "Change password",
         "index_backup": "Backup",
-        "index_subaccount": "Add Index_subaccount",
+        "index_subaccount": "Add subaccount",
         "index_experience": "Experience",
         "detail": {
           "title": "Reward Details",
-          "yes": "Already accounted for",
-          "no": "Not accounted for"
+          "yes": "Received",
+          "no": "Failed"
         },
         "contract": {
           "title": "Smart Contract"
@@ -289,10 +289,11 @@
         "invite": {
           "title": "Invite friends to earn points",
           "code_title": "My Invitation Code",
-          "code_hint": "Each time you successfully invite a friend, the inviter and the invitee will each be rewarded with 50 TVS."
+          "code_hint": "Each time you successfully invite a friend, you and your friend will each be rewarded with 50TVS. Your friend needs to complete the guardian binding first, and then complete the invitation acceptance task. Both parties will automatically receive rewards."
         },
         "receive": {
-          "title": "Receive Points"
+          "title": "Receive Points",
+          "code_hint": "Enter invitation code, and both you and the inviter will receive 50TVS. Please note that the invitation code is unique and cannot be changed."
         }
       },
       "nft": {

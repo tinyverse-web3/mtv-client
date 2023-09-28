@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "芥子空间",
-    "subtitle": "在数字世界中建造一个私人安全屋。",
+    "subtitle": "为您在数字世界中建造一个私人的安全屋。",
     "description": ""
   },
   "common": {
@@ -256,17 +256,18 @@
         "create_title": "创建秘钥"
       },
       "award": {
-        "title": "积分",
-        "index_title": "做任务赚积分",
+        "title": "奖励任务",
         "apply_success": "申请已提交",
+        "hint": "完成任务，获取积分奖励：我们会不定期更新能获取奖励的任务，让用户能有足够的积分使用各种功能。获取积分奖励的基本条件是已经完成完成身份验证，并且已经备份账户。",
+        "index_title": "做任务赚积分",
         "index_daily": "每日签到",
         "invite_code": "邀请码",
         "daily_button_one": "签到",
         "daily_button_two": "已领取，明天再来",
         "index_invite": "邀请好友",
         "invite_button": "邀请",
-        "invited_button": "被邀请奖励",
-        "index_invited": "接受邀请",
+        "invited_button": "接受",
+        "index_invited": "接受邀请并获取奖励",
         "index_button_one": "去完成",
         "index_button_two": "领取",
         "index_button_three": "已领取",
@@ -276,7 +277,6 @@
         "index_backup": "备份",
         "index_subaccount": "添加子账号",
         "index_experience": "经验",
-        "hint": "完成任务，获取积分奖励：我们会不定期更新能获取奖励的任务，让用户能有足够的积分使用各种功能。获取积分奖励的基本条件是已经完成完成身份验证，并且已经备份账户。",
         "hint_one": "输入邀请码获得奖励积分",
         "detail": {
           "title": "奖励明细",
@@ -289,10 +289,11 @@
         "invite": {
           "title": "邀请好友赚积分",
           "code_title": "我的邀请码",
-          "code_hint": "每成功邀请一位好友，邀请人和被邀请人各奖励50TVS。"
+          "code_hint": "每成功邀请一位好友，您和您的朋友各奖励50TVS。需要在您的朋友先完成守护者绑定后，再完成接受邀请任务，双方自动获取奖励。"
         },
         "receive": {
-          "title": "领取积分"
+          "title": "领取积分",
+          "code_hint": "输入邀请码，您和邀请人都获得50TVS。请注意邀请码是唯一的并且不可更改。"
         }
       },
       "nft": {
