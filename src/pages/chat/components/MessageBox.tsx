@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useMemo, useCallback, useRef } from 'react';
 import { useList } from 'react-use';
 import { useAccountStore } from '@/store';
 import { ChatList } from '@/pages/chat/components/ChatList';
@@ -12,6 +12,7 @@ export const MessageBox = ({ recipient }: any) => {
   const { t } = useTranslation();
   const [allList, { set: setAllList, push }] = useList<any>([]);
   // const [lastList, { set: setLastList, push }] = useList<any>([]);
+  const listRef = useRef<any>(null);
   const { accountInfo } = useAccountStore((state) => state);
 
   const sendHandler = async (msg: string) => {
@@ -35,6 +36,10 @@ export const MessageBox = ({ recipient }: any) => {
     if (list?.length) {
       setAllList(list);
     }
+  };
+  const onFocus = () => {
+    console.log('onFocus');
+    listRef.current?.handleScrollToBottom();
   };
   const getMsgs = async () => {
     const list = await account.receiveMsgs(
@@ -85,10 +90,10 @@ export const MessageBox = ({ recipient }: any) => {
   return (
     <div className='h-full relative overflow-hidden p-2'>
       <div className='h-full pb-12'>
-        <ChatList messages={list} />
+        <ChatList messages={list} ref={listRef} />
       </div>
       <div className='px-2 h-12 absolute left-0 w-full bottom-0 bg-blur z-10'>
-        <ChatInput onSend={sendHandler} />
+        <ChatInput onSend={sendHandler} onFocus={onFocus} />
       </div>
     </div>
   );

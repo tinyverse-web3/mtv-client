@@ -9,8 +9,9 @@ import { useTranslation } from 'react-i18next';
 const keys = ['Enter'];
 interface Props {
   onSend: (text: string) => void;
+  onFocus: () => void;
 }
-export const ChatInput = ({ onSend }: Props) => {
+export const ChatInput = ({ onSend, onFocus }: Props) => {
   const { t } = useTranslation();
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ export const ChatInput = ({ onSend }: Props) => {
   return (
     <div className='flex items-center'>
       <div className='flex-1'>
-        <Input value={text} onChange={textChange} />
+        <Input value={text} onChange={textChange} onFocus={onFocus} />
       </div>
       <div
         className={`ml-2 w-16 h-9 flex justify-center items-center text-white text-xs rounded-lg ${

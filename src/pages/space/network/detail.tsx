@@ -35,10 +35,10 @@ export default function NetworkDetail() {
     5: t('pages.space.data.status.timout'),
   };
   const statusColorMap: any = {
-    0: '#808080',
-    1: '#FFFF00',
+    0: '#FF0000',
+    1: '#FF0000',
     2: '#FF0000',
-    3: '#00FF00',
+    3: '#FF0000',
     4: '#00BFFF',
     5: '#FFA500',
   };
