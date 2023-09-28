@@ -20,7 +20,7 @@ export const GunItem = (item: GunSummy) => {
   const style = { color: color };
 
   const exporedText = useMemo(() => {
-    return format(item.expired, 'yyyy-MM-dd');
+    return format(item.expired, 'yyyy-MM-dd HH:mm:ss');
   }, [item.expired]);
   return (
     <div className='px-2 flex justify-between items-center'>

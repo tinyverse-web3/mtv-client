@@ -89,7 +89,7 @@ export default function detailPage() {
         </div>
         {detail.expired && (
           <div className='pt-1 px-4 text-16px mb-2 break-all'>
-             {t('pages.space.gun.expired_text')}：{format(detail.expired, 'yyyy-MM-dd')}
+             {t('pages.space.gun.expired_text')}：{format(detail.expired, 'yyyy-MM-dd HH:mm:ss')}
           </div>
         )}
 

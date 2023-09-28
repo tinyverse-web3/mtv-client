@@ -26,7 +26,7 @@ export default function TxDetail() {
             </div>
             {}
             <div className='text-center text-gray-500 mb-1 text-sm'>
-              {format(item.txTime, 'yyyy-MM-dd HH:mm')}
+              {format(item.txTime, 'yyyy-MM-dd HH:mm:ss')}
             </div>
             <div className='bg-gray-100 rounded-2xl p-2 mb-4 text-sm text-gray-600'>
               {/* {!!item.comment && (

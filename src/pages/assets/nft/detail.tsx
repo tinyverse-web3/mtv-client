@@ -7,6 +7,7 @@ import {
   CardFooter,
   Image,
 } from '@nextui-org/react';
+import { Icon } from '@iconify/react';
 import LayoutThird from '@/layout/LayoutThird';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import account from '@/lib/account/account';
@@ -49,17 +50,28 @@ export default function NftDetail() {
   return (
     <LayoutThird title={t('pages.assets.nft.detail_text')}>
       <div className='p-4'>
-        <div className='mb-4'>
-          <div className='mb-2'>{t('pages.assets.nft.detail_name')}</div>
-          <Card>
-            <CardBody>
-              <div className='flex'>
-                <div className=' break-all'>{detail.Nftname}</div>
-              </div>
-            </CardBody>
-          </Card>
-        </div>
-        {!!detail.Cid && (
+        {detail.DataType?.indexOf('image') > -1 && (
+          <PhotoProvider>
+            <div className='w-46 h-46 flex justify-center items-center mb-4'>
+              <PhotoView src={url}>
+                <Image src={url} className='h-full' />
+              </PhotoView>
+            </div>
+          </PhotoProvider>
+        )}
+        {!!detail.Nftname && (
+          <div className='mb-4'>
+            <div className='mb-2'>{t('common.title')}</div>
+            <Card>
+              <CardBody>
+                <div className='flex'>
+                  <div className=' break-all'>{detail.Nftname}</div>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+        )}
+        {/* {!!detail.Cid && (
           <div className='mb-4'>
             <div className='mb-2'>CID</div>
             <Card>
@@ -82,7 +94,7 @@ export default function NftDetail() {
               </CardBody>
             </Card>
           </div>
-        )}
+        )} */}
         {!!detail.Description && (
           <div className='mb-4'>
             <div className='mb-2'>{t('common.description')}</div>
@@ -95,19 +107,10 @@ export default function NftDetail() {
             </Card>
           </div>
         )}
-        {!!detail.DataType && (
+        {!!detail.Content && (
           <div className='mb-4'>
             <div className='mb-2'>{t('common.content')}</div>
             <div className='p-4'>
-              {detail.DataType?.indexOf('image') > -1 && (
-                <PhotoProvider>
-                  <div className='w-full'>
-                    <PhotoView src={url}>
-                      <Image src={url} className='w-full' />
-                    </PhotoView>
-                  </div>
-                </PhotoProvider>
-              )}
               {!!detail.Content && (
                 <Card>
                   <CardBody>
@@ -120,9 +123,23 @@ export default function NftDetail() {
             </div>
           </div>
         )}
-        <Button className='w-full' onClick={toTransfer}>
-          {t('pages.assets.nft.btn_transfer')}
-        </Button>
+        <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
+          <Button
+            radius='full'
+            className='h-12 flex-1'
+            variant='outline'
+            onClick={toTransfer}>
+            <Icon
+              icon='mdi:arrow-up-bold-circle-outline'
+              className='text-2xl mr-2 '
+            />
+            <div className='tex'>{t('pages.assets.transfer.title')}</div>
+          </Button>
+          <Button radius='full' className='h-12 flex-1 ml-8'>
+            <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
+            <div className=''>{t('pages.assets.btn_receiver')}</div>
+          </Button>
+        </div>
       </div>
     </LayoutThird>
   );

@@ -42,7 +42,7 @@ export const TxItem = ({ item, onClick }: TxItemProps) => {
 
           <div className='flex justify-between'>
             <div className='text-xs text-gray-500'>
-              {format(item.txTime, 'MM-dd HH:mm')}
+              {format(item.txTime, 'MM-dd HH:mm:ss')}
             </div>
           </div>
         </div>

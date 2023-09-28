@@ -59,7 +59,7 @@ export const DetailItem = ({
           <div className='flex justify-between text-xs text-gray-500'>
             {!!item.InvokeTime && (
               <div className=''>
-                {format(item.InvokeTime * 1000, 'yyyy-MM-dd')}
+                {format(item.InvokeTime * 1000, 'yyyy-MM-dd HH:mm:ss')}
               </div>
             )}
             <div className=''>

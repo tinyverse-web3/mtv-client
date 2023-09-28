@@ -71,7 +71,7 @@ export default function NoteList() {
                 {item.ModifyTIme && (
                   <div>
                     <div className='text-3'>
-                      {format(new Date(item.ModifyTIme), 'yyyy-MM-dd')}
+                      {format(new Date(item.ModifyTIme), 'yyyy-MM-dd HH:mm:ss')}
                     </div>
                   </div>
                 )}
