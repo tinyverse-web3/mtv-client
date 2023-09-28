@@ -64,7 +64,7 @@ export default function NftDetail() {
   }, [detail.DataType]);
 
   const showSetButton = useMemo(() => {
-    return gunType || gunType;
+    return imageType || gunType;
   }, [imageType, gunType]);
   const url = useMemo(() => {
     return `${apiHost}/sdk/nft/getPicture?Cid=${detail.Cid}`;
