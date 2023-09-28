@@ -45,8 +45,10 @@ export const ChatList = forwardRef(
               text={v.name}
               className={`px-0 ${v.isMe ? 'ml-2' : 'mr-2'}`}
             />
-            <Card className='max-w-[60%] w-fit'>
-              <CardBody className='py-2'>{v.Content}</CardBody>
+            <Card className='max-w-[80%] w-fit'>
+              <CardBody className={`py-2 ${v.isMe ? 'bg-blue-200' : ''}`}>
+                {v.Content}
+              </CardBody>
             </Card>
           </div>
         ))}

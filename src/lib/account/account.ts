@@ -614,6 +614,10 @@ export class Account {
     });
     return res.data;
   }
+  async setAvatar(NftName: string) {
+    const res = await this.dauth.setAvatar(NftName);
+    return res.data;
+  }
   async uploadFile({
     file,
     type,

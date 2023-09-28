@@ -66,7 +66,7 @@ export default function Account() {
     openUrl(url);
   };
   const toDownload = () => {
-    const url = 'https://download.tinyverse.space/';
+    const url = import.meta.env.VITE_DOWONLOAD;
     openUrl(url);
   };
 

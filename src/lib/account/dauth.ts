@@ -775,7 +775,7 @@ export class Dauth {
       method: 'get',
       data: {
         Addr,
-      }
+      },
     });
   }
   /**
@@ -798,6 +798,15 @@ export class Dauth {
       name: 'uploadAvatar',
       method: 'post',
       formData: formData,
+    });
+  }
+  async setAvatar(NftName: string) {
+    return this.invoke({
+      name: 'setAvatar',
+      method: 'post',
+      data: {
+        NftName,
+      },
     });
   }
   async uploadAlbum({ file }: { file: File }) {

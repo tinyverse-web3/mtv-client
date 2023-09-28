@@ -63,7 +63,7 @@ export default function TokenDetail() {
       onLoad={getTXMore}
       rightContent={
         <Icon
-          icon='mdi:line-scan'
+          icon='material-symbols:more-vert'
           className=' text-xl   text-blue-500'
           ></Icon>
       }>

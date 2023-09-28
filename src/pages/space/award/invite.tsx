@@ -13,7 +13,7 @@ const { VITE_DOWONLOAD } = import.meta.env;
   const { list, getInvitationCode, inviteCode } = useAwardStore(
     (state) => state,
   );
-  const downloadUrl = 'https://download.tinyverse.space/';
+  const downloadUrl = import.meta.env.VITE_DOWONLOAD;
   useEffect(() => {
     getInvitationCode();
   }, []);
