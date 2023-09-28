@@ -473,7 +473,9 @@
         "btn_2": "Privacy Policy",
         "btn_3": "Source Code",
         "btn_4": "Official Website",
-        "btn_5": "Blog"
+        "btn_5": "Blog",
+        "btn_6": "Twitter",
+        "btn_7": "Telegram"
       },
       "exit": {
         "title": "Sign Out"

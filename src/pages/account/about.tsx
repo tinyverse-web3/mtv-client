@@ -73,6 +73,10 @@ export default function Account() {
     const url = 'https://twitter.com/tinyverse_space';
     openUrl(url);
   }
+  const toTelegram = () => {
+    const url = 'https://twitter.com/tinyverse_space';
+    openUrl(url);
+  }
   return (
     <LayoutThird showBack title={t('pages.account.about.title')}>
       <div className='h-full relative'>
@@ -115,7 +119,8 @@ export default function Account() {
               onPress={toWebsit}
             />
             <ListRow label={t('pages.account.about.btn_5')} onPress={toBlog} />
-            <ListRow label={t('pages.account.about.btn_5')} onPress={toTwitter} />
+            <ListRow label={t('pages.account.about.btn_6')} onPress={toTwitter} />
+            <ListRow label={t('pages.account.about.btn_7')} onPress={toTelegram} />
           </div>
         </div>
         <div className='text-center w-full text-xs pb-4'>

@@ -473,7 +473,9 @@
         "btn_2": "隐私政策",
         "btn_3": "开源代码",
         "btn_4": "官网主页",
-        "btn_5": "博客"
+        "btn_5": "博客",
+        "btn_6": "Twitter",
+        "btn_7": "Telegram"
       },
       "exit": {
         "title": "退出"
