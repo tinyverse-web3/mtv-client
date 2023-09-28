@@ -1,33 +1,53 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import LayoutThird from '@/layout/LayoutThird';
 import { Icon } from '@iconify/react';
-import { useAwardStore } from '@/store';
+import { useAwardStore, useAccountStore } from '@/store';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { CopyIcon } from '@/components/CopyIcon';
 import { QRCodeCanvas } from 'qrcode.react';
+import { UserAvatar } from '@/pages/account/components';
 export default function AwardInvite() {
-const { VITE_DOWONLOAD } = import.meta.env;
+  const { VITE_DOWONLOAD } = import.meta.env;
   const { t } = useTranslation();
+  const { accountInfo } = useAccountStore((state) => state);
   const { list, getInvitationCode, inviteCode } = useAwardStore(
     (state) => state,
   );
+  const shortHandler = (str?: string) => {
+    if (str) {
+      return `${str?.substring(0, 10)}*****${str?.substring(str?.length - 10)}`;
+    }
+    return '';
+  };
   const downloadUrl = import.meta.env.VITE_DOWONLOAD;
+  const shortKey = useMemo(() => {
+    return shortHandler(accountInfo.publicKey);
+  }, [accountInfo.publicKey]);
   useEffect(() => {
     getInvitationCode();
   }, []);
   return (
     <LayoutThird title={t('pages.space.award.invite.title')}>
-      <div className='p-4 pt-16'>
-        <div className='rounded-2xl bg-gray-100 px-4 pb-4 mb-4 pt-16 flex flex-col justify-center text-blue-500 relative'>
-          <div className='absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 bg-gray-100 p-4 rounded-full'>
-            <img src='/logo.png' className=' w-16 h-16' />
+      <div className='p-4 pt-14'>
+        <div className='rounded-2xl bg-gray-100 px-4 pb-4 mb-4 pt-14 flex flex-col justify-center text-blue-500 relative'>
+          <div className='w-24 h-24 p-2 absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 bg-gray-100  rounded-full'>
+            <UserAvatar />
           </div>
-          <div className="mb-4 text-center text-sm">{t('pages.space.award.invite.hint')}</div>
-          <QRCodeCanvas value={VITE_DOWONLOAD} size={160} className='mb-4 mx-auto'/>
-          <div className="mb-4 text-center text-sm">{t('pages.space.award.invite.hint_one')}</div>
-          <div className='text-center text-base mb-3'>
+          <div className="mb-2 text-center text-lg">
+            {accountInfo.name || shortKey}
+          </div>
+          <div className='mb-2 text-center text-sm'>
+            {t('pages.space.award.invite.hint')}
+          </div>
+          <div className="flex mb-2 justify-center">
+            <img src='/download_qrcode.png' className='w-40 h-40'/>
+          </div>
+          <div className='mb-2 text-center text-sm'>
+            {t('pages.space.award.invite.hint_one')}
+          </div>
+          <div className='text-center text-base mb-2'>
             {t('pages.space.award.invite.code_title')}
           </div>
           <div className='relative w-48 mx-auto h-12 flex justify-between items-center rounded-lg bg-gray-200 px-2 mb-3'>
