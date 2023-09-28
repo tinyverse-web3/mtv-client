@@ -43,6 +43,7 @@ export const ChatList = forwardRef(
             <ProfileAvatar
               onClick={() => toProfile(v)}
               text={v.name}
+              src={v.isMe ? v.publicKey : ''}
               className={`px-0 ${v.isMe ? 'ml-2' : 'mr-2'}`}
             />
             <Card className='max-w-[80%] w-fit'>

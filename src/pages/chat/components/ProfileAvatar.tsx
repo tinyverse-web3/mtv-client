@@ -1,5 +1,5 @@
 import { User, Avatar } from '@nextui-org/react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 interface ProfileAvatarProps {
   text?: string;
@@ -16,7 +16,7 @@ export const ProfileAvatar = ({
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const imageSrc = useMemo(() => {
-    return src ? `${apiHost}/sdk/msg/getAvatar` : undefined;
+    return src ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${src}` : '/logo.png';
   }, [src]);
   return (
     <Avatar

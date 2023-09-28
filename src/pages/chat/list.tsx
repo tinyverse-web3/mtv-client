@@ -149,42 +149,6 @@ export default function ChatList() {
           </div>
         ))}
       </div>
-      {/* <Button
-          className='mx-auto w-full mt-6'
-          onPress={() => setShowShare(true)}>
-          开启聊天
-        </Button> */}
-      {showShare && (
-        <div>
-          <div>
-            <Card className='w-fit m-auto'>
-              <CardBody>
-                <QRCodeCanvas
-                  size={200}
-                  value={window.location.origin + '/#/chat/imShare?pk='}
-                />
-              </CardBody>
-            </Card>
-            <div className='text-center text-5 mb-4'>
-              <div>有效期：{addMinute(10)}</div>
-            </div>
-            <div className='flex justify-center items-center'>
-              <Button
-                className='ml-4 min-w-20'
-                color='purple'
-                onPress={refreshShareIm}>
-                刷新分享链接
-              </Button>
-              <Button
-                className='ml-4 min-w-20'
-                color='purple'
-                onPress={copyShareImLink}>
-                复制分享链接
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
