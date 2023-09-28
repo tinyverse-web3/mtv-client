@@ -122,7 +122,8 @@
         "mint_text_hint": "Max content 8k bytes",
         "detail_text": "Token Details",
         "detail_name": "Name",
-        "btn_transfer": "Transfer"
+        "btn_transfer": "Transfer",
+        "btn_set_avatar": "Set Avatar"
       },
       "token": {
         "title": "Token",
@@ -289,7 +290,9 @@
         "invite": {
           "title": "Invite friends to earn points",
           "code_title": "My Invitation Code",
-          "code_hint": "Each time you successfully invite a friend, you and your friend will each be rewarded with 50TVS. Your friend needs to complete the guardian binding first, and then complete the invitation acceptance task. Both parties will automatically receive rewards."
+          "code_hint": "Each time you successfully invite a friend, the inviter and the invitee will each be rewarded with 50 TVS.",
+          "hint": "Invite you to learn about TinyVerse",
+          "hint_one": "Scan the QR code to download TinyVerse"
         },
         "receive": {
           "title": "Receive Points",

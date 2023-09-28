@@ -6,7 +6,9 @@ import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { CopyIcon } from '@/components/CopyIcon';
+import { QRCodeCanvas } from 'qrcode.react';
 export default function AwardInvite() {
+const { VITE_DOWONLOAD } = import.meta.env;
   const { t } = useTranslation();
   const { list, getInvitationCode, inviteCode } = useAwardStore(
     (state) => state,
@@ -17,10 +19,18 @@ export default function AwardInvite() {
   }, []);
   return (
     <LayoutThird title={t('pages.space.award.invite.title')}>
-      <div className='p-4'>
-        <div className='rounded-2xl bg-gray-100 px-4 pb-4 mb-4 pt-10 flex flex-col justify-center text-blue-500'>
-          <div className='text-center text-base mb-3'>{t('pages.space.award.invite.code_title')}</div>
-          <div className='relative h-12 flex justify-between items-center rounded-lg bg-gray-200 px-2 mb-3'>
+      <div className='p-4 pt-16'>
+        <div className='rounded-2xl bg-gray-100 px-4 pb-4 mb-4 pt-16 flex flex-col justify-center text-blue-500 relative'>
+          <div className='absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 bg-gray-100 p-4 rounded-full'>
+            <img src='/logo.png' className=' w-16 h-16' />
+          </div>
+          <div className="mb-4 text-center text-sm">{t('pages.space.award.invite.hint')}</div>
+          <QRCodeCanvas value={VITE_DOWONLOAD} size={160} className='mb-4 mx-auto'/>
+          <div className="mb-4 text-center text-sm">{t('pages.space.award.invite.hint_one')}</div>
+          <div className='text-center text-base mb-3'>
+            {t('pages.space.award.invite.code_title')}
+          </div>
+          <div className='relative w-48 mx-auto h-12 flex justify-between items-center rounded-lg bg-gray-200 px-2 mb-3'>
             <div className='w-12'></div>
             <span className='text-orange-400 font-bold text-2xl flex -1'>
               {inviteCode}
@@ -29,8 +39,8 @@ export default function AwardInvite() {
               <CopyIcon text={inviteCode} />
             </div>
           </div>
-          <div className='text-center text-sm mb-2'>
-          {t('pages.space.award.invite.code_hint')}
+          <div className='text-center text-sm mb-2 w-60 mx-auto'>
+            {t('pages.space.award.invite.code_hint')}
           </div>
           <div className='bg-gray-200 h-12 rounded-lg flex items-center justify-between px-2 text-blue-500'>
             <span className='text-xs'>{downloadUrl}</span>

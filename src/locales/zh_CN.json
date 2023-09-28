@@ -122,7 +122,8 @@
         "mint_text_hint": "最大内容8k字节",
         "detail_text": "NFT详情",
         "detail_name": "名称",
-        "btn_transfer": "转移"
+        "btn_transfer": "转移",
+        "btn_set_avatar": "设置为头像"
       },
       "token": {
         "title": "代币",
@@ -288,8 +289,10 @@
         },
         "invite": {
           "title": "邀请好友赚积分",
-          "code_title": "我的邀请码",
-          "code_hint": "每成功邀请一位好友，您和您的朋友各奖励50TVS。需要在您的朋友先完成守护者绑定后，再完成接受邀请任务，双方自动获取奖励。"
+          "code_title": "邀请码",
+          "code_hint": "每成功邀请一位好友，邀请人和被邀请人各奖励50TVS。",
+          "hint": "邀请你了解TinyVerse",
+          "hint_one": "扫码下载TinyVerse"
         },
         "receive": {
           "title": "领取积分",

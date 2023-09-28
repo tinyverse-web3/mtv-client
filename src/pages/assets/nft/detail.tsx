@@ -55,7 +55,9 @@ export default function NftDetail() {
             <div className='p-4 bg-gray-100 rounded-full '>
               <PhotoView src={url}>
                 <img
-                  src={detail.DataType?.indexOf('image') > -1 ? url : '/logo.png'}
+                  src={
+                    detail.DataType?.indexOf('image') > -1 ? url : '/logo.png'
+                  }
                   className='w-16 h-16 '
                 />
               </PhotoView>
@@ -72,11 +74,11 @@ export default function NftDetail() {
               icon='mdi:arrow-up-bold-circle-outline'
               className='text-2xl mr-2 '
             />
-            <div className='tex'>{t('pages.assets.transfer.title')}</div>
+            <div className='tex'>{t('pages.assets.nft.btn_transfer')}</div>
           </Button>
           <Button radius='full' className='h-12 flex-1 ml-8'>
             <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
-            <div className=''>{t('pages.assets.btn_receiver')}</div>
+            <div className=''>{t('pages.assets.nft.btn_set_avatar')}</div>
           </Button>
         </div>
         {!!detail.Nftname && (
