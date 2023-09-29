@@ -22,6 +22,7 @@ export default function AwardInvite() {
     return '';
   };
   const downloadUrl = import.meta.env.VITE_DOWONLOAD;
+  console.log(downloadUrl)
   const shortKey = useMemo(() => {
     return shortHandler(accountInfo.publicKey);
   }, [accountInfo.publicKey]);
