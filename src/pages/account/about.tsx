@@ -33,8 +33,10 @@ export default function Account() {
     }
   };
   const checkVersion = async () => {
-    const { code, data, msg } = await account.checkVersion(version);
-    setNewVersion(code === '000000' && data);
+    if (version) {
+      const { code, data, msg } = await account.checkVersion(version);
+      setNewVersion(code === '000000' && data);
+    }
   };
   const toWebsit = () => {
     console.log(i18n.language);
