@@ -144,14 +144,21 @@ export default function AwardIndex() {
                   <span>+{statusMap[7]?.score}</span>
                 </div>
               </div>
-              <Button
-                size='sm'
-                radius='full'
-                className='text-xs'
-                onPress={applyDailyReward}>
-                {dailyStep == 0 && t('pages.space.award.daily_button_one')}
-                {dailyStep == 1 && t('pages.space.award.daily_button_two')}
-              </Button>
+              <div>
+                <Button
+                  size='sm'
+                  radius='full'
+                  className='text-xs'
+                  onPress={applyDailyReward}>
+                  {dailyStep == 0 && t('pages.space.award.daily_button_one')}
+                  {dailyStep == 1 && t('pages.space.award.index_button_three')}
+                </Button>
+                {dailyStep == 1 && (
+                  <p className='text-xs text-center mt-1 text-gray-600'>
+                    {t('pages.space.award.daily_button_two')}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           <div className='flex items-center'>
