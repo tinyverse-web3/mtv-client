@@ -44,7 +44,6 @@ export const LaunchCheck = ({ children }: any) => {
     throttle: 2000,
   });
   const checkStatus = async () => {
-    return false;
     const { pathname } = routerLocation;
     if (pathname.indexOf('test') > -1 || pathname.indexOf('app') > -1) {
       setCheckLoading(false);
