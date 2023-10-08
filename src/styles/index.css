@@ -37,7 +37,6 @@ div[data-overlay-container='true'] {
   height: 100%;
 }
 .nextui-c-iWjDFM-fbAdQA-size-lg {
-  
 }
 @keyframes circular-progress {
   0% {
@@ -56,6 +55,15 @@ div[data-overlay-container='true'] {
   @apply border-b-1 border-solid border-gray-200 p-2;
 }
 
-input[type="password" i]::-ms-reveal {
+input[type='password' i]::-ms-reveal {
   display: none !important;
+}
+
+.tree-dashed {
+  background: linear-gradient(to left, #1296DB 76%, transparent 0);
+  background-size: 10px 100%;
+}
+.tree-dashed-vertical {
+  background: linear-gradient(to top, #1296DB 76%, transparent 0);
+  background-size: 100% 10px;
 }

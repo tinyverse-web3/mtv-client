@@ -23,6 +23,7 @@ import Profile from '@/pages/account/profile';
 import SubAccountList from '@/pages/account/subAccount/list';
 import SubAccountEdit from '@/pages/account/subAccount/edit';
 import About from '@/pages/account/about';
+import AccountTree from '@/pages/account/tree';
 
 export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_NAME: '/account/name',
@@ -48,6 +49,7 @@ export const ROUTE_PATH_ACCOUNT = {
   ACCOUNT_SUBACCOUNT_LIST: '/account/subAccount/list',
   ACCOUNT_SUBACCOUNT_EDIT: '/account/subAccount/edit',
   ACCOUNT_ABOUT: '/account/about',
+  ACCOUNT_TREE: '/account/tree',
 };
 export const accountRoutes: RouteObject[] = [
   {
@@ -137,5 +139,9 @@ export const accountRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ACCOUNT.ACCOUNT_ABOUT,
     element: <About />,
+  },
+  {
+    path: ROUTE_PATH_ACCOUNT.ACCOUNT_TREE,
+    element: <AccountTree />,
   },
 ];
