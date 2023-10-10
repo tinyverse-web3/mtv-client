@@ -44,6 +44,7 @@ export default function NftDetail() {
   const setAccountName = async () => {
     const { code, msg } = await account.updateName({ name: detail.Nftname });
     if (code === '000000') {
+      await getLocalAccountInfo();
       toast.success(t('common.toast.set_success'));
     } else {
       toast.error(msg);
