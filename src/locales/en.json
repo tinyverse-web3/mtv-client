@@ -176,6 +176,7 @@
       "album": {
         "title": "Album",
         "upload_success": "Uploaded successfully",
+        "upload_error": "Uploaded failed",
         "download_text": "Download link"
       },
       "photo": {
@@ -479,6 +480,15 @@
       },
       "exit": {
         "title": "Sign Out"
+      },
+      "tree": {
+        "title": "Account Management",
+        "box": "Safe Box",
+        "node_1": "Privacy Backup",
+        "node_2": "Mnemonic",
+        "node_3": "Protector",
+        "node_4": "Smart Inheritance",
+        "hint": "Our account is a self-managed web3 account, which is the core basis for users to fully control their own data and control data ownership. Here we provide tools to allow users to quickly and easily back up their accounts to ensure the security of their accounts. Important note: If you do not back up your account, user data will be permanently lost."
       }
     },
     "unlock": {

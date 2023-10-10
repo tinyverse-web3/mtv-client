@@ -1,8 +1,8 @@
-import { Image } from '@nextui-org/react';
 import { useMemo, useState } from 'react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { DelConfirmModel } from '@/components/DelConfirmModel';
 import account from '@/lib/account/account';
+import { Image } from '@chakra-ui/react'
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
@@ -18,6 +18,7 @@ interface AlbumItemProps {
 
 const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
   const { t } = useTranslation();
+  
   const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
   const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
   const [showStatus, setShowStatus] = useState(false);
@@ -64,9 +65,9 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
   };
 
   return (
-    <div className='relative min-h-[60px] bg-gray-200'>
+    <div className='relative bg-gray-200'>
       <PhotoView src={url}>
-        <Image src={url} className='w-full h-full' />
+        <Image src={url} fit="contain" className='w-full h-full min-h-[100px]' />
       </PhotoView>
       <Icon
         icon='mdi:trash-can-outline'

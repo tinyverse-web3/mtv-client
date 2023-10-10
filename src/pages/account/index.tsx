@@ -22,8 +22,8 @@ export default function Account() {
 
   const [type, setType] = useState(0);
   const [showPasswordStatus, setShowPasswordStatus] = useState(false);
-  const toPublicKey = () => {
-    nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);
+  const toTree = () => {
+    nav(ROUTE_PATH.ACCOUNT_TREE);
   };
 
   const toProfile = async () => {
@@ -55,7 +55,7 @@ export default function Account() {
   };
   const validPasswordSuccess = (password: string) => {
     if (type === 1) {
-      toMultiVerify();
+      toTree();
     } else if (type === 2) {
       toRestory();
     }
@@ -81,12 +81,8 @@ export default function Account() {
         onPress={toLocalSafe}
       />
       <ListRow
-        label={t('pages.account.multi_verify.title')}
+        label={t('pages.account.tree.title')}
         onPress={() => showVerifyPassword(1)}
-      />
-      <ListRow
-        label={t('pages.account.restore.title')}
-        onPress={() => showVerifyPassword(2)}
       />
       <ListRow label={t('pages.account.setting.title')} onPress={toSetting} />
       <ListRow label={t('pages.account.about.title')} onPress={toAbout} />

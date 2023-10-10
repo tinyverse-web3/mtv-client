@@ -816,6 +816,7 @@ export class Dauth {
       name: 'album/upload',
       method: 'post',
       formData: formData,
+      timeout: 1000 * 20,
     });
   }
   async getAlbumList() {
@@ -1017,7 +1018,7 @@ export class Dauth {
       method: 'post',
       data: {
         DestPubkey,
-        Content
+        Content,
       },
     });
   }
@@ -1141,12 +1142,15 @@ export class Dauth {
     data = {},
     method = 'post',
     formData,
+    timeout,
   }: {
     name: string;
     data?: Record<string, any>;
     method?: string;
     formData?: any;
+    timeout?: number;
   }) {
+    console.log(timeout);
     const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
     const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
     const url = `${apiHost}/sdk/${name}`;
@@ -1154,16 +1158,17 @@ export class Dauth {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-      return this.request({ url, method, data: formData, headers });
+      return this.request({ url, method, data: formData, headers, timeout });
     } else {
       if (method === 'get') {
         return this.request({
           url,
           method,
           params: { ...data, timestamp: +new Date() },
+          timeout,
         });
       } else {
-        return this.request({ url, method, data });
+        return this.request({ url, method, data, timeout });
       }
     }
   }
@@ -1176,7 +1181,7 @@ export class Dauth {
    * @param params 参数
    * @param headers 请求头
    */
-  async request({ url, method, data, params, headers }: any) {
+  async request({ url, method, data, params, headers, timeout = 300000 }: any) {
     try {
       const res = await axios({
         url,
@@ -1184,8 +1189,9 @@ export class Dauth {
         data,
         params,
         headers,
-        timeout: 300000,
+        timeout: timeout,
       });
+      console.log(timeout);
       return res;
     } catch (error) {
       console.error(error);

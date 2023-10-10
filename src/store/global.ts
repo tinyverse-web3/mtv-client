@@ -40,6 +40,7 @@ export const useGlobalStore = create<GlobalState>()(
           set({
             showLogin: false,
             checkLoading: false,
+            loading: false,
             defaultPasswordShow: false,
             lockStatus: true,
           });

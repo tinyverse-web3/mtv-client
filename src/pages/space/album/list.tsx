@@ -6,27 +6,33 @@ import AlbumItem from './components/AlbumItem';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useList } from 'react-use';
-import { useAlbumStore } from '@/store';
+import { useAlbumStore, useGlobalStore } from '@/store';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { Empty } from '@/components/Empty';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@iconify/react'
+import { Icon } from '@iconify/react';
 
 export default function Album() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const { list, getList } = useAlbumStore((state) => state);
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useGlobalStore((state) => state);
   const imageChange = async (e: any) => {
     const image = e.target.files[0];
-    const { code, msg } = await account.uploadAlbum({ file: image });
-    e.target.value = '';
-    if (code === '000000') {
-      toast.success(t('pages.space.album.upload_success'));
-      getList();
-    } else {
-      toast.error(msg);
+    setLoading(true);
+    try {
+      const { code, msg } = await account.uploadAlbum({ file: image });
+      e.target.value = '';
+      if (code === '000000') {
+        toast.success(t('pages.space.album.upload_success'));
+        getList();
+      } else {
+        toast.error(msg);
+      }
+    } catch (error) {
+      toast.success(t('pages.space.album.upload_error'));
     }
+    setLoading(false);
   };
   const delSuccess = () => {
     getList();
@@ -45,10 +51,9 @@ export default function Album() {
     <LayoutThird
       title={t('pages.space.album.title')}
       path={ROUTE_PATH.SPACE_INDEX}
-      loading={loading}
       rightContent={
         <label className='w-full h-full flex items-center justify-center'>
-          <Icon icon='mdi:plus-circle-outline' className=' text-xl'/>
+          <Icon icon='mdi:plus-circle-outline' className=' text-xl' />
           <input
             type='file'
             accept='image/*'
