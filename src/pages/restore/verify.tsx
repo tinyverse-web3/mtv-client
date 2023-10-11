@@ -5,7 +5,7 @@ import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import { useRequest } from '@/api';
 import { useNavigate } from 'react-router-dom';
-import { useQuestionStore } from '@/store';
+import { useRestoreStore } from '@/store';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,7 @@ export default function RestoreVerifyEmail() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const { setPublicKey, setList, setSssData, setType } = useQuestionStore(
+  const { setVaultStatus } = useRestoreStore(
     (state) => state,
   );
   const emailChange = ({ email, code }: any) => {
@@ -32,6 +32,7 @@ export default function RestoreVerifyEmail() {
       verifyCode: code,
     });
     if (resCode === '000000') {
+      setVaultStatus(data)
       nav(ROUTE_PATH.RESTORE_QUESTION_FEATURE);
     }
     setLoading(false);

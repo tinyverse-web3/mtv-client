@@ -130,7 +130,7 @@ export const BindMail = () => {
               }
             />
             <Button
-              className='ml-4 min-w-20'
+              className='ml-4 min-w-20 h-full text-xs'
               color='purple'
               onPress={sendVerify}>
               {text}

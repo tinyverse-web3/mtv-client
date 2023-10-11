@@ -29,12 +29,16 @@ export default function Protector() {
   const submit = async () => {
     setLoading(true);
     try {
-      const { code: resCode, msg } = await account.verifyEmail({
+      const {
+        code: resCode,
+        msg,
+        data,
+      } = await account.verifyEmail({
         account: email,
         verifyCode: code,
       });
       if (resCode === '000000') {
-        nav(ROUTE_PATH.RESTORE_PRIVATEDATA);
+        nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}`);
       } else {
         toast.error(msg);
       }

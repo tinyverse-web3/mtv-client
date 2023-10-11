@@ -59,15 +59,19 @@ export default function Tree() {
 
         {/* <div className='w-[50vw] h-[1px] absolute bottom-[80vh] left-[18vw]  tree-dashed'></div> */}
         <div className='absolute bottom-[82vh] left-[19vw] z-10'>
-          <BranchNode text={t('pages.account.tree.node_1')} status={3} />
+          <BranchNode
+            text={t('pages.account.tree.node_1')}
+            status={accountInfo.hasPrivacyByVault ? 2 : 3}
+            lock
+          />
         </div>
         <div className='absolute bottom-[62vh] left-1/2 -translate-x-[34vw]'>
-          <BranchLock isLock={accountInfo.isBackupQuestion} />
+          <BranchLock isLock={accountInfo.hasPrivacyByVault} />
         </div>
         <div className='absolute bottom-[62vh]  -translate-x-1/2 left-[19vw] z-10'>
           <BranchNode
             text={t('pages.account.tree.node_1')}
-            status={2}
+            status={accountInfo.hasPrivacy ? 2 : 3}
             onClick={toQuestion}
           />
         </div>
@@ -83,7 +87,9 @@ export default function Tree() {
                 {t('common.backup')}
               </>
             }
-            status={3}
+            lock
+            onClick={toPharse}
+            status={accountInfo.isBackupMnemonic ? 2 : 3}
           />
         </div>
         <div className='absolute bottom-[30vh] left-1/2 -translate-x-[34vw]'>
@@ -98,8 +104,7 @@ export default function Tree() {
                 {t('common.backup')}
               </>
             }
-            onClick={toPharse}
-            status={3}
+            status={2}
           />
         </div>
         <div className='w-[32vw] h-[3px] absolute bottom-[27vh] left-1/2 -translate-x-[97%] rotate-[20deg]  bg-[#1296DB]'></div>
@@ -116,11 +121,12 @@ export default function Tree() {
                 {t('common.backup')}
               </>
             }
-            status={3}
+            lock
+            status={accountInfo.hasGuardianByVault ? 2 : 3}
           />
         </div>
         <div className='absolute bottom-[44vh] left-1/2 translate-x-[27vw]'>
-          <BranchLock isLock={accountInfo.bindStatus} />
+          <BranchLock isLock={accountInfo.hasGuardianByVault} />
         </div>
         <div className='absolute bottom-[44vh] right-[20vw]  z-10'>
           <BranchNode
@@ -132,7 +138,7 @@ export default function Tree() {
               </>
             }
             onClick={toProtector}
-            status={2}
+            status={accountInfo.hasGuardian ? 2 : 3}
           />
         </div>
         <div className='w-[32vw] h-[3px] absolute bottom-[41vh] left-1/2 -translate-x-[3%] -rotate-[20deg]  bg-[#1296DB]'></div>

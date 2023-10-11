@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
@@ -12,11 +12,13 @@ import { useTranslation } from 'react-i18next';
 
 export default function Unlock() {
   const nav = useNavigate();
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const vault = searchParams.get('vault');
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const { setLockStatus } = useGlobalStore((state) => state);
   const add = async () => {
@@ -40,6 +42,14 @@ export default function Unlock() {
       toast.error(t('pages.account.encrypted_safe.toast.error_4'));
       return;
     }
+    await restore(text, password, customText);
+  };
+  const restore = async (
+    text?: string,
+    password?: string,
+    customText?: string,
+  ) => {
+    setLoading(true);
     try {
       const { code, msg } = await account.restoreByGuardian({
         textPrivateData: text,
@@ -76,6 +86,11 @@ export default function Unlock() {
   const onCustomChange = (e: any) => {
     setCustomText(e);
   };
+  useEffect(() => {
+    if (!vault) {
+      restore();
+    }
+  }, [vault]);
   return (
     <LayoutThird title={t('pages.restore.encrypted_safe.title')}>
       <div className='pt-8 px-6'>
@@ -119,7 +134,7 @@ export default function Unlock() {
           loading={loading}
           className='mx-auto mb-6 w-full'
           onPress={add}>
-           {t('common.fingerprint.title')}
+          {t('common.fingerprint.title')}
         </Button>
         <Button
           disabled={!text && !password && !customText}

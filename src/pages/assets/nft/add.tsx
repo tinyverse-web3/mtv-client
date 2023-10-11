@@ -26,6 +26,10 @@ export default function NftAdd() {
       label: t('pages.assets.nft.tab_text'),
       value: 'text',
     },
+    // {
+    //   label: t('pages.assets.nft.tab_text'),
+    //   value: 'gun',
+    // },
   ];
   const [data, { set, reset }] = useMap({
     File: null,

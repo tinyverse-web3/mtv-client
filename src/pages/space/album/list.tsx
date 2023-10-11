@@ -66,6 +66,7 @@ export default function Album() {
         <PhotoProvider>
           {list.length ? (
             <div className='grid grid-cols-3 gap-4 ustify-items-center'>
+            
               {list.map((item) => (
                 <AlbumItem key={item.URL} item={item} delSuccess={delSuccess} />
               ))}

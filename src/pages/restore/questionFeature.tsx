@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
@@ -17,19 +17,16 @@ export default function QuestionFeature() {
   const [password, setPassword] = useState('');
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
-  // const { setList, setType, type = 1 } = useRestoreStore(
-  //   (state) => state,
-  // );
   const {
     setPasswordPrivateData,
     setTextPrivateData,
     setCustomPrivateData,
     setCustomQuestionList,
     setDefaultQuestionList,
+    hasVault,
   } = useRestoreStore((state) => state);
 
-  const add = async () => {
-    setLoading(true);
+  const verfyPrivate = async () => {
     const privateArr = [text, password, customText];
     const privateFilter = privateArr.filter((v) => !!v);
     if (privateFilter.length < 1) {
@@ -49,6 +46,11 @@ export default function QuestionFeature() {
       toast.error(t('pages.account.encrypted_safe.toast.error_4'));
       return;
     }
+    await restore();
+  };
+  const restore = async () => {
+    setLoading(true);
+
     try {
       const {
         code,
@@ -84,7 +86,6 @@ export default function QuestionFeature() {
           };
         }) || [];
 
-      console.log(result[1]);
       const customList =
         result[1]?.map((v: any, i: number) => {
           return {
@@ -104,7 +105,7 @@ export default function QuestionFeature() {
       setDefaultQuestionList(defaultList);
       setCustomQuestionList(customList);
       // await setList(_list);
-      nav(ROUTE_PATH.RESTORE_QUESTION);
+      nav(ROUTE_PATH.RESTORE_QUESTION, { replace: hasVault });
     } catch (error) {
       console.error(error);
       toast.error(t('pages.account.encrypted_safe.feature_error'));
@@ -112,7 +113,7 @@ export default function QuestionFeature() {
     setLoading(false);
   };
   const pressHandler = async () => {
-    await add();
+    await restore();
   };
   useKeyPressEvent('Enter', () => {
     if (text) {
@@ -128,6 +129,11 @@ export default function QuestionFeature() {
   const onCustomChange = (e: any) => {
     setCustomText(e);
   };
+  useEffect(() => {
+    if (!hasVault) {
+      restore();
+    }
+  }, [hasVault]);
   return (
     <LayoutThird title={t('pages.restore.encrypted_safe.title')}>
       <div className='pt-8 px-6'>
@@ -165,12 +171,7 @@ export default function QuestionFeature() {
           placeholder={t('pages.account.encrypted_safe.custom')}
           initialValue=''
         />
-        <Button
-          disabled={true}
-          size='lg'
-          loading={loading}
-          className='mx-auto mb-6 w-full'
-          onPress={add}>
+        <Button disabled={true} size='lg' className='mx-auto mb-6 w-full'>
           {t('common.fingerprint.title')}
         </Button>
         <Button
@@ -178,7 +179,7 @@ export default function QuestionFeature() {
           size='lg'
           loading={loading}
           className='mx-auto w-full'
-          onPress={add}>
+          onPress={verfyPrivate}>
           {t('common.confirm')}
         </Button>
       </div>

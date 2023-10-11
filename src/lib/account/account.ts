@@ -352,9 +352,9 @@ export class Account {
     CustomPrivateData,
   }: {
     // account: string;
-    textPrivateData: string;
-    passwordPrivateData: string;
-    CustomPrivateData: string;
+    textPrivateData?: string;
+    passwordPrivateData?: string;
+    CustomPrivateData?: string;
   }) {
     const res = await this.dauth.retrieveAccountByGuardian({
       account: this.account,

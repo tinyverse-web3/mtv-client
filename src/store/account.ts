@@ -18,6 +18,10 @@ interface AccountInfo {
   maintainQuestion: boolean;
   hasFeatureData: boolean;
   isBackupMnemonic: boolean;
+  hasGuardian: boolean;
+  hasPrivacy: boolean;
+  hasPrivacyByVault: boolean;
+  hasGuardianByVault: boolean;
   isBackupQuestion: boolean;
   privacyInfo: any;
   note_ipfs: string;
@@ -57,6 +61,10 @@ export const useAccountStore = create<AccountState>()(
           maintainQuestion: false,
           hasFeatureData: false,
           isBackupMnemonic: false,
+          hasGuardian: false,
+          hasPrivacy: false,
+          hasPrivacyByVault: false,
+          hasGuardianByVault: false,
           isBackupQuestion: false,
           privacyInfo: {},
           note_ipfs: '',
@@ -79,7 +87,14 @@ export const useAccountStore = create<AccountState>()(
             customPrivateData: localInfo.CustomPrivateData || '',
             hasFeatureData: localInfo.IsSetVault || false,
             isBackupMnemonic: !!localInfo?.IsGenerateMnemonic || false,
-            isBackupQuestion: !!localInfo?.CustomQuestionSets?.length || !!localInfo?.StandardQuestionSets?.length  || false,
+            isBackupQuestion:
+              !!localInfo?.CustomQuestionSets?.length ||
+              !!localInfo?.StandardQuestionSets?.length ||
+              false,
+            hasGuardian: !!localInfo.HasGuardian || false,
+            hasGuardianByVault: !!localInfo.HasGuardianByVault || false,
+            hasPrivacy: !!localInfo.HasPrivacy || false,
+            hasPrivacyByVault: !!localInfo.HasPrivacyByVault || false,
             guardians: localInfo.Guardians || [],
             bindStatus: !!localInfo.Guardians?.length,
             avatar: localInfo.Avatar,
@@ -92,7 +107,7 @@ export const useAccountStore = create<AccountState>()(
           let { accountInfo } = get();
           set({ accountInfo: { ...accountInfo, ...data } });
         },
-        
+
         delAccount: async () => {
           set({
             accountInfo: {
@@ -113,6 +128,10 @@ export const useAccountStore = create<AccountState>()(
               hasFeatureData: false,
               isBackupMnemonic: false,
               isBackupQuestion: false,
+              hasGuardian: false,
+              hasPrivacy: false,
+              hasPrivacyByVault: false,
+              hasGuardianByVault: false,
               privacyInfo: {},
               note_ipfs: '',
               subAccount: [],

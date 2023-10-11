@@ -39,7 +39,7 @@ export default function Restore() {
   const { passwordPrivateData, textPrivateData, customPrivateData } =
     useRestoreStore((state) => state);
   const questionSubmit = async (list: any[]) => {
-    const { code, msg } = await account.restoreByQuestions({
+    const { code, msg, data } = await account.restoreByQuestions({
       list,
       type,
       passwordPrivateData,
