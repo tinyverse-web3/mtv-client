@@ -13,13 +13,11 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 
 const MenuItem = ({ text, icon, onClick, border, status }: any) => {
-  const { t } = useTranslation();
-  console.log(border);
   return (
     <div className='flex items-center h-12' onClick={onClick}>
       <div className='mr-2'>
         <img
-          className={`h-6 w-6 text-gray-600 overflow-hidden`}
+          className={`h-4 w-4 text-gray-600 overflow-hidden`}
           src={`/space/${icon}`}></img>
       </div>
       <div
@@ -101,6 +99,11 @@ export default function SpaceIndex() {
       icon: 'icon-file.png',
       label: t('pages.space.file.title'),
       path: ROUTE_PATH.SPACE_FILE,
+    },
+    {
+      icon: 'icon-gun.png',
+      label: t('pages.space.gun.title'),
+      path: ROUTE_PATH.SPACE_GUN_LIST,
     },
   ];
   const toolMenuList = [
@@ -202,7 +205,7 @@ export default function SpaceIndex() {
           src={`/space/banner-one.jpg`}
           onClick={toAward}></img>
       </div>
-      <div className='bg-gray-100 rounded-lg overflow-hidden mb-4'>
+      <div className='bg-gray-100 rounded-xl overflow-hidden mb-4'>
         <div className='text-md h-8 w-full bg-gray-200 flex items-center px-4 text-blue-500'>
           我的数据
         </div>
@@ -218,7 +221,7 @@ export default function SpaceIndex() {
           ))}
         </div>
       </div>
-      <div className='bg-gray-100 rounded-lg overflow-hidden'>
+      <div className='bg-gray-100 rounded-xl overflow-hidden'>
         <div className='text-md h-8 w-full bg-gray-200 flex items-center px-4 text-blue-500'>
           我的工具
         </div>

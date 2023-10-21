@@ -1150,7 +1150,6 @@ export class Dauth {
     formData?: any;
     timeout?: number;
   }) {
-    console.log(timeout);
     const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
     const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
     const url = `${apiHost}/sdk/${name}`;
@@ -1191,7 +1190,6 @@ export class Dauth {
         headers,
         timeout: timeout,
       });
-      console.log(timeout);
       return res;
     } catch (error) {
       console.error(error);
