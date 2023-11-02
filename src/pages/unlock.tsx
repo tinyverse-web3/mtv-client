@@ -29,11 +29,10 @@ export default function Unlock() {
     console.log(result);
     if (result) {
       await getLocalAccountInfo();
-      // if (redirect) {
-      //   console.log(redirect);
-      //   location.replace(decodeURIComponent(redirect));
-      //   return;
-      // }
+      if (redirect) {
+        location.replace(decodeURIComponent(redirect));
+        return;
+      }
       nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
     } else {
       setErr(true);

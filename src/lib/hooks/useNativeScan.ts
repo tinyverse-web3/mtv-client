@@ -16,6 +16,8 @@ export const useNativeScan = () => {
       if (Number(type) === QrType.ADD_FRIEND && value) {
         await account.createContactByMasterKey(value);
         toast.success(t('pages.chat.search.success'));
+      } else if (type === 'url' && value) {
+        location.href = value;
       } else {
         setResult(result.data);
       }
