@@ -117,11 +117,19 @@ export default function SpaceIndex() {
       label: t('pages.space.data.title'),
       path: ROUTE_PATH.SPACE_NETWORK,
     },
+    {
+      icon: 'icon-read.png',
+      label: t('pages.space.read.title'),
+      type: 'url',
+      url: 'https://paytoview.tinyverse.space/'
+    },
   ];
   const [showStatus, setShowStatus] = useState(false);
   const menuClick = ({ path, url, label, type, handler }: any) => {
     if (type === 'function') {
       handler();
+    } else if (type === 'url') {
+      location.href = url;
     } else if (path) {
       nav(path);
     } else if (label === t('pages.space.photo.title')) {
