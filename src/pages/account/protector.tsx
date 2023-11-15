@@ -71,7 +71,7 @@ export default function AccountProtector() {
       rightContent={
         <Icon
           onClick={add}
-          icon='mdi:plus-circle-outline '
+          icon='mdi:plus-circle-outline'
           className='text-xl'></Icon>
       }>
       <div className='p-4'>
