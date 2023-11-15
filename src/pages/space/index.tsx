@@ -121,7 +121,7 @@ export default function SpaceIndex() {
       icon: 'icon-read.png',
       label: t('pages.space.read.title'),
       type: 'url',
-      url: 'https://paytoview.tinyverse.space/'
+      url: 'https://p2v.tinyverse.space/'
     },
   ];
   const [showStatus, setShowStatus] = useState(false);
