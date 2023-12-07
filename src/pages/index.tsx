@@ -25,6 +25,7 @@ import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { GoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
+import { TelegramLogin } from '@/components/TelegramLogin';
 
 export default function Index() {
   const { getLocalAccountInfo, delAccount } = useAccountStore((state) => state);
@@ -131,7 +132,7 @@ export default function Index() {
           onPress={toRestore}>
           {t('pages.index.btn_restore')}
         </Button>
-        
+        <TelegramLogin />
         <div className='flex justify-end'>
           <div onClick={toWebsit} className='text-blue-600'>
             {t('pages.index.btn_more')}

@@ -10,13 +10,15 @@ import account from '@/lib/account/account';
 import { useAccountStore, useGlobalStore } from '@/store';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
-
+import { TelegramLogin } from '@/components/TelegramLogin';
 export default function ProtectorAdd() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { getLocalAccountInfo, accountInfo } = useAccountStore((state) => state);
+  const { getLocalAccountInfo, accountInfo } = useAccountStore(
+    (state) => state,
+  );
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
 
@@ -94,9 +96,14 @@ export default function ProtectorAdd() {
             onPress={submit}>
             {t('pages.account.protector.confirm')}
           </Button>
-          <Button size='lg' disabled={accountInfo.hasGoogleAccount} className='mx-auto mb-2 w-full' onPress={login}>
+          <Button
+            size='lg'
+            disabled={accountInfo.hasGoogleAccount}
+            className='mx-auto mb-2 w-full'
+            onPress={login}>
             {t('pages.account.protector.google')}
           </Button>
+          <TelegramLogin />
         </div>
       </div>
     </LayoutThird>

@@ -17,6 +17,7 @@ builtinsPlugin.name = 'builtins';
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
+    port: 5174,
     // https: true,
     // proxy: {
     //   '/api': {

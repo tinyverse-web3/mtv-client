@@ -5,7 +5,7 @@
   "scripts": {
     "dev:css": "unocss 'src/**/*.tsx' --out-file=public/styles/uno.css --watch",
     "dev:vite": "vite --host",
-    "dev": "vite --host",
+    "dev": "vite --host ",
     "css": "unocss 'src/**/*.tsx' --out-file=public/styles/uno.css",
     "build": "rm -rf dist .cache && tsc && vite build",
     "preview": "vite preview",
@@ -44,9 +44,11 @@
     "react-photo-view": "^1.2.3",
     "react-pull-to-refresh": "^2.0.1",
     "react-router-dom": "^6.8.1",
+    "react-telegram-login": "^1.1.2",
     "react-use": "^17.4.0",
     "react-use-websocket": "^4.3.1",
     "swr": "^2.0.3",
+    "telegram-login-button": "^0.1.0",
     "tslog": "^4.7.5",
     "uuid": "^9.0.0",
     "zustand": "^4.3.3"

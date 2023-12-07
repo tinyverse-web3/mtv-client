@@ -4,9 +4,11 @@ declare global {
     mtvStorage: any;
     JsBridge: any;
     VConsole: any;
+    onTelegramAuth: any;
   }
   interface globalThis {
     mtvStorage: any;
     JsBridge: any;
+    onTelegramAuth: any;
   }
 }
