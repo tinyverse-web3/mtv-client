@@ -18,6 +18,7 @@ interface GuardItem {
 const ProtectorItem = ({ type, account, onDel, showDel }: GuardItem) => {
   const typeMap: any = {
     email: 'Email',
+    google: 'Google',
   };
   return (
     <div className='flex items-center h-14'>
@@ -75,9 +76,7 @@ export default function AccountProtector() {
           className='text-xl'></Icon>
       }>
       <div className='p-4'>
-        <div className='hint-text-box'>
-          {t('pages.account.protector.hint')}
-        </div>
+        <div className='hint-text-box'>{t('pages.account.protector.hint')}</div>
         <div>
           {!list?.length && <Empty />}
           {!!list?.length &&
@@ -85,7 +84,7 @@ export default function AccountProtector() {
               <ProtectorItem
                 key={v.Account}
                 showDel={list.length !== 1}
-                type='email'
+                type={v.IsGoogleAccount ? 'google' : 'email'}
                 account={v.AccountMask}
                 onDel={() => delHandler(v.Account)}
               />

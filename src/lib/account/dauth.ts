@@ -1130,6 +1130,24 @@ export class Dauth {
       method: 'get',
     });
   }
+  async oauthGoogle({ Code }: any) {
+    return this.invoke({
+      name: 'oauth/google',
+      method: 'post',
+      data: {
+        Code
+      }
+    });
+  }
+  async verifyByGoogle({ Code }: any) {
+    return this.invoke({
+      name: 'verifyByGoogle',
+      method: 'post',
+      data: {
+        Code
+      }
+    });
+  }
   /**
    * 调用接口
    * @param name 接口名称

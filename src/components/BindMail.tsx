@@ -14,6 +14,7 @@ import { useCountDown } from '@/lib/hooks';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { useGoogleLogin } from '@react-oauth/google';
 
 export const BindMail = () => {
   const { t } = useTranslation();
@@ -61,6 +62,25 @@ export const BindMail = () => {
     setEmail(e);
     reset();
   };
+  const oauthGoogle = async (Code: string) => {
+    const { code, msg } = await account.oauthGoogle(Code);
+    console.log(code);
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      toast.success(t('common.toast.bind_success'));
+      closeHandler();
+    } else {
+      toast.error(msg || t('common.toast.bind_error'));
+    }
+  };
+  const login = useGoogleLogin({
+    onSuccess: ({ code }) => {
+      if (code) {
+        oauthGoogle(code);
+      }
+    },
+    flow: 'auth-code',
+  });
   const verifyCodeChange = (e: any) => {
     setVerifyCode(e);
   };
@@ -136,13 +156,12 @@ export const BindMail = () => {
               {text}
             </Button>
           </div>
+          <Button size='lg' className='mx-auto w-full' onPress={login}>
+            {t('pages.account.protector.google')}
+          </Button>
         </ModalBody>
         <ModalFooter>
-          <Button
-            color='red'
-            variant='ghost'
-            size='sm'
-            onPress={closeHandler}>
+          <Button color='red' variant='ghost' size='sm' onPress={closeHandler}>
             {t('common.cancel')}
           </Button>
           <Button

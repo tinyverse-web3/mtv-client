@@ -48,6 +48,12 @@ export const useGlobalStore = create<GlobalState>()(
       }),
       {
         name: 'global-store',
+        partialize: (state) =>
+          Object.fromEntries(
+            Object.entries(state).filter(([key]) =>
+              ['showLogin'].includes(key),
+            ),
+          ),
       },
     ),
   ),

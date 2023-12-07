@@ -95,7 +95,7 @@ export const LaunchCheck = ({ children }: any) => {
       lockStatus
     ) {
       console.log('router change check');
-      checkStatus();
+      // checkStatus();
     }
     setLoading(false);
   }, [routerLocation]);

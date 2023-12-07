@@ -13,6 +13,7 @@ interface AccountInfo {
   safeLevel: number;
   isDefaultPwd: boolean;
   bindStatus: boolean;
+  hasGoogleAccount: boolean;
   maintainPhrase: boolean;
   maintainProtector: boolean;
   maintainQuestion: boolean;
@@ -43,7 +44,7 @@ export const useAccountStore = create<AccountState>()(
   devtools(
     persist(
       (set, get) => ({
-        // account,
+        
         accountInfo: {
           publicKey: '',
           avatar: '',
@@ -56,6 +57,7 @@ export const useAccountStore = create<AccountState>()(
           safeLevel: 0,
           isDefaultPwd: true,
           bindStatus: false,
+          hasGoogleAccount: false,
           maintainPhrase: false,
           maintainProtector: false,
           maintainQuestion: false,
@@ -92,6 +94,7 @@ export const useAccountStore = create<AccountState>()(
               !!localInfo?.StandardQuestionSets?.length ||
               false,
             hasGuardian: !!localInfo.HasGuardian || false,
+            hasGoogleAccount: !!localInfo.HasGoogleAccount || false,
             hasGuardianByVault: !!localInfo.HasGuardianByVault || false,
             hasPrivacy: !!localInfo.HasPrivacy || false,
             hasPrivacyByVault: !!localInfo.HasPrivacyByVault || false,
@@ -107,7 +110,6 @@ export const useAccountStore = create<AccountState>()(
           let { accountInfo } = get();
           set({ accountInfo: { ...accountInfo, ...data } });
         },
-
         delAccount: async () => {
           set({
             accountInfo: {
@@ -122,6 +124,7 @@ export const useAccountStore = create<AccountState>()(
               safeLevel: 0,
               isDefaultPwd: true,
               bindStatus: false,
+              hasGoogleAccount: false,
               maintainPhrase: false,
               maintainProtector: false,
               maintainQuestion: false,

@@ -23,6 +23,7 @@ import {
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 
 export default function Index() {
@@ -43,9 +44,7 @@ export default function Index() {
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
-  const { reset: resetAward } = useAwardStore(
-    (state) => state,
-  );
+  const { reset: resetAward } = useAwardStore((state) => state);
   const { t } = useTranslation();
   const nav = useNavigate();
   const toRestore = async () => {
@@ -117,7 +116,7 @@ export default function Index() {
         <HeaderLogo />
         <Button
           fullWidth
-          size="lg"
+          size='lg'
           onPress={toCreate}
           className='mb-2'
           loading={loading}>
@@ -127,12 +126,12 @@ export default function Index() {
         <Button
           color='purple'
           fullWidth
-          size="lg"
+          size='lg'
           className='mb-4'
-          onPress={toRestore}
-          >
+          onPress={toRestore}>
           {t('pages.index.btn_restore')}
         </Button>
+        
         <div className='flex justify-end'>
           <div onClick={toWebsit} className='text-blue-600'>
             {t('pages.index.btn_more')}

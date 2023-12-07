@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Checkbox, } from '@nextui-org/react';
+import { Checkbox } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import account from '@/lib/account/account';
 import { useAccountStore, useGlobalStore } from '@/store';
-
+import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 
 export default function ProtectorAdd() {
@@ -16,7 +16,7 @@ export default function ProtectorAdd() {
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { getLocalAccountInfo, accountInfo } = useAccountStore((state) => state);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
 
@@ -27,6 +27,23 @@ export default function ProtectorAdd() {
   const checkboxChange = (e: boolean) => {
     setChecked(e);
   };
+  const oauthGoogle = async (Code: string) => {
+    const { code } = await account.oauthGoogle(Code);
+    console.log(code);
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      toast.success(t('common.toast.bind_success'));
+    }
+  };
+  console.log(1231231);
+  const login = useGoogleLogin({
+    onSuccess: ({ code }) => {
+      if (code) {
+        oauthGoogle(code);
+      }
+    },
+    flow: 'auth-code',
+  });
   const submit = async () => {
     try {
       const { code: resCode, msg } = await account.addGuardian({
@@ -76,6 +93,9 @@ export default function ProtectorAdd() {
             className='mx-auto mb-2 w-full'
             onPress={submit}>
             {t('pages.account.protector.confirm')}
+          </Button>
+          <Button size='lg' disabled={accountInfo.hasGoogleAccount} className='mx-auto mb-2 w-full' onPress={login}>
+            {t('pages.account.protector.google')}
           </Button>
         </div>
       </div>

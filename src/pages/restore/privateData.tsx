@@ -19,6 +19,7 @@ export default function Unlock() {
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const vault = searchParams.get('vault');
+  const accountParams = searchParams.get('account');
   const { getLocalAccountInfo } = useAccountStore((state) => state);
   const { setLockStatus } = useGlobalStore((state) => state);
   const add = async () => {
@@ -52,6 +53,7 @@ export default function Unlock() {
     setLoading(true);
     try {
       const { code, msg } = await account.restoreByGuardian({
+        account: accountParams,
         textPrivateData: text,
         passwordPrivateData: password,
         CustomPrivateData: customText,

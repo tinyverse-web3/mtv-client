@@ -346,18 +346,18 @@ export class Account {
    * @returns {Promise<Object>} - 返回包含状态码和数据的对象
    */
   async restoreByGuardian({
-    // account,
+    account,
     textPrivateData,
     passwordPrivateData,
     CustomPrivateData,
   }: {
-    // account: string;
+    account?: string | null;
     textPrivateData?: string;
     passwordPrivateData?: string;
     CustomPrivateData?: string;
   }) {
     const res = await this.dauth.retrieveAccountByGuardian({
-      account: this.account,
+      account: account || this.account,
       textPrivateData,
       passwordPrivateData,
       CustomPrivateData,
@@ -668,6 +668,14 @@ export class Account {
   }
   async getAlbumList() {
     const res = await this.dauth.getAlbumList();
+    return res.data;
+  }
+  async oauthGoogle(Code: string) {
+    const res = await this.dauth.oauthGoogle({ Code });
+    return res.data;
+  }
+  async verifyByGoogle(Code: string) {
+    const res = await this.dauth.verifyByGoogle({ Code });
     return res.data;
   }
   /**

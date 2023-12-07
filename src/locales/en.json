@@ -361,6 +361,7 @@
         "add_title": "Add Guardian",
         "delete_hint": "Do you want to delete the guardian?",
         "confirm": "Add",
+        "google": "Bind Google",
         "hint": "Adopt 2/2 SSS scheme, one shard encrypted and kept in DAuth, the other encrypted and kept in DKVS. Shard data needs to be kept in the vault.",
         "hint_two": "I have read and agree to the Privacy Policy and Terms of Service"
       },
