@@ -1135,8 +1135,36 @@ export class Dauth {
       name: 'oauth/google',
       method: 'post',
       data: {
-        Code
-      }
+        Code,
+      },
+    });
+  }
+  async oauthTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl }: any) {
+    return this.invoke({
+      name: 'oauth/telegram',
+      method: 'post',
+      data: {
+        Id,
+        FirstName,
+        UserName,
+        Hash,
+        AuthDate,
+        PhotoUrl,
+      },
+    });
+  }
+  async verifyByTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl }: any) {
+    return this.invoke({
+      name: 'verifyByTelegram',
+      method: 'post',
+      data: {
+        Id,
+        FirstName,
+        UserName,
+        Hash,
+        AuthDate,
+        PhotoUrl,
+      },
     });
   }
   async verifyByGoogle({ Code }: any) {
@@ -1144,8 +1172,8 @@ export class Dauth {
       name: 'verifyByGoogle',
       method: 'post',
       data: {
-        Code
-      }
+        Code,
+      },
     });
   }
   /**

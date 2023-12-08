@@ -31,7 +31,9 @@ export default function Protector() {
     const { code, msg, data } = await account.verifyByGoogle(Code);
     console.log(data);
     if (code === '000000' && data.HasVault) {
-      nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data.HasVault}&account=${data.Account}`);
+      nav(
+        `${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data.HasVault}&account=${data.Account}`,
+      );
     } else {
       toast.error(msg);
     }
@@ -66,6 +68,31 @@ export default function Protector() {
     },
     flow: 'auth-code',
   });
+  const verifyByTelegram = async () => {
+    const testData = {
+      id: 5536129150,
+      first_name: '子曰',
+      username: 'Web3Follow',
+      photo_url:
+        'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
+      auth_date: 1702025683,
+      hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
+    };
+    const { code, msg, data } = await account.verifyByTelegram({
+      Id: testData.id,
+      FirstName: testData.first_name,
+      UserName: testData.username,
+      Hash: testData.hash,
+      AuthDate: testData.auth_date,
+      PhotoUrl: testData.photo_url,
+    });
+    console.log(code, msg);
+    if (code === '000000') {
+      nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}`);
+    } else {
+      toast.error(msg);
+    }
+  };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
     <LayoutThird title={t('pages.restore.title')}>
@@ -87,6 +114,12 @@ export default function Protector() {
             size='lg'
             className='mx-auto mb-2 w-full'
             onPress={verifyGoogle}>
+            {t('pages.account.protector.google')}
+          </Button>
+          <Button
+            size='lg'
+            className='mx-auto mb-2 w-full'
+            onPress={verifyByTelegram}>
             {t('pages.account.protector.google')}
           </Button>
         </div>

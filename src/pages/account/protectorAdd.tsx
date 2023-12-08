@@ -37,7 +37,6 @@ export default function ProtectorAdd() {
       toast.success(t('common.toast.bind_success'));
     }
   };
-  console.log(1231231);
   const login = useGoogleLogin({
     onSuccess: ({ code }) => {
       if (code) {
@@ -46,6 +45,26 @@ export default function ProtectorAdd() {
     },
     flow: 'auth-code',
   });
+  const telegramOauth = async () => {
+    const testData = {
+      id: 5536129150,
+      first_name: '子曰',
+      username: 'Web3Follow',
+      photo_url:
+        'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
+      auth_date: 1702025683,
+      hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
+    };
+    const { code, msg } = await account.oauthTelegram({
+      Id: testData.id,
+      FirstName: testData.first_name,
+      UserName: testData.username,
+      Hash: testData.hash,
+      AuthDate: testData.auth_date,
+      PhotoUrl: testData.photo_url,
+    });
+    console.log(code, msg);
+  };
   const submit = async () => {
     try {
       const { code: resCode, msg } = await account.addGuardian({
@@ -98,11 +117,19 @@ export default function ProtectorAdd() {
           </Button>
           <Button
             size='lg'
-            disabled={accountInfo.hasGoogleAccount}
             className='mx-auto mb-2 w-full'
-            onPress={login}>
-            {t('pages.account.protector.google')}
+            onPress={telegramOauth}>
+            test telegram
           </Button>
+          {!accountInfo.hasGoogleAccount && (
+            <Button
+              size='lg'
+              disabled={accountInfo.hasGoogleAccount}
+              className='mx-auto mb-2 w-full'
+              onPress={login}>
+              {t('pages.account.protector.google')}
+            </Button>
+          )}
           <TelegramLogin />
         </div>
       </div>

@@ -674,6 +674,14 @@ export class Account {
     const res = await this.dauth.oauthGoogle({ Code });
     return res.data;
   }
+  async oauthTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl }: any) {
+    const res = await this.dauth.oauthTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl });
+    return res.data;
+  }
+  async verifyByTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl }: any) {
+    const res = await this.dauth.verifyByTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl });
+    return res.data;
+  }
   async verifyByGoogle(Code: string) {
     const res = await this.dauth.verifyByGoogle({ Code });
     return res.data;
