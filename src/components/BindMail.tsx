@@ -129,7 +129,7 @@ export const BindMail = () => {
         wrapper: 'items-center',
       }}
       isDismissable={false}
-      isOpen={true}
+      isOpen={showLogin}
       onClose={closeHandler}>
       <ModalContent>
         <ModalHeader>

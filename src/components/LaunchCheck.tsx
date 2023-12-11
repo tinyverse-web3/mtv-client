@@ -85,7 +85,7 @@ export const LaunchCheck = ({ children }: any) => {
     setCheckLoading(false);
   };
   useEffect(() => {
-    // checkStatus();
+    checkStatus();
   }, []);
   useEffect(() => {
     const { pathname } = routerLocation;
@@ -95,7 +95,7 @@ export const LaunchCheck = ({ children }: any) => {
       lockStatus
     ) {
       console.log('router change check');
-      // checkStatus();
+      checkStatus();
     }
     setLoading(false);
   }, [routerLocation]);

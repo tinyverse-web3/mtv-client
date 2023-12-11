@@ -51,7 +51,7 @@ export const useGlobalStore = create<GlobalState>()(
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(([key]) =>
-              ['showLogin'].includes(key),
+              !['showLogin'].includes(key),
             ),
           ),
       },
