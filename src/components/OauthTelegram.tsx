@@ -11,11 +11,9 @@ export const OauthTelegram = ({ onChange }: OauthTelegramProps) => {
     onChange?.(user);
   };
   return (
-    <div className='flex justify-center w-10 h-10 relative overflow-hidden'>
-      <Image src='/icon-telegram.png' className='w-10 h-10' alt='google' />
-      <div className='absolute top-0'>
-        <TelegramLoginButton botName='ItToolBot' dataOnauth={onTelegramAuth} />
-      </div>
+    <div className='flex justify-center relative overflow-hidden'>
+      {/* <Image src='/icon-telegram.png' className='w-10 h-10' alt='google' /> */}
+      <TelegramLoginButton botName='ItToolBot' dataOnauth={onTelegramAuth} buttonSize='small'/>
     </div>
   );
 };
