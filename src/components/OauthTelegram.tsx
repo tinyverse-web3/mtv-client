@@ -7,12 +7,13 @@ interface OauthTelegramProps {
 }
 export const OauthTelegram = ({ onChange }: OauthTelegramProps) => {
   const onTelegramAuth = (user: TelegramUser) => {
+    console.log(user);
     onChange?.(user);
   };
   return (
     <div className='flex justify-center w-10 h-10 relative overflow-hidden'>
       <Image src='/icon-telegram.png' className='w-10 h-10' alt='google' />
-      <div className='absolute top-0 opacity-0'>
+      <div className='absolute top-0'>
         <TelegramLoginButton botName='ItToolBot' dataOnauth={onTelegramAuth} />
       </div>
     </div>
