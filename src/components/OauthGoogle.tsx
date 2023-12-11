@@ -14,6 +14,6 @@ export const OauthGoogle = ({ onChange }: OauthGoogleProps) => {
     flow: 'auth-code',
   });
   return <div className='flex justify-center' onClick={oauthGoogle}>
-    <Image src='/icon-google.png' className='w-10 h-10' alt='google' />
+    <Image src='/icon-google.png' className='w-8 h-8' alt='google' />
   </div>;
 };
