@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
-import { useGoogleLogin } from '@react-oauth/google';
+import { OauthThird } from '@/components/OauthThird';
 
 export default function Protector() {
   const { t } = useTranslation();
@@ -60,33 +60,25 @@ export default function Protector() {
     }
     setLoading(false);
   };
-  const verifyGoogle = useGoogleLogin({
-    onSuccess: ({ code }) => {
-      if (code) {
-        oauthGoogle(code);
-      }
-    },
-    flow: 'auth-code',
-  });
-  const verifyByTelegram = async () => {
-    const testData = {
-      id: 5536129150,
-      first_name: '子曰',
-      username: 'Web3Follow',
-      photo_url:
-        'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
-      auth_date: 1702025683,
-      hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
-    };
+
+  const verifyByTelegram = async (user: any) => {
+    // const testData = {
+    //   id: 5536129150,
+    //   first_name: '子曰',
+    //   username: 'Web3Follow',
+    //   photo_url:
+    //     'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
+    //   auth_date: 1702025683,
+    //   hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
+    // };
     const { code, msg, data } = await account.verifyByTelegram({
-      Id: testData.id,
-      FirstName: testData.first_name,
-      UserName: testData.username,
-      Hash: testData.hash,
-      AuthDate: testData.auth_date,
-      PhotoUrl: testData.photo_url,
+      Id: user.id,
+      FirstName: user.first_name,
+      UserName: user.username,
+      Hash: user.hash,
+      AuthDate: user.auth_date,
+      PhotoUrl: user.photo_url,
     });
-    console.log(code, msg);
     if (code === '000000') {
       nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}`);
     } else {
@@ -110,18 +102,7 @@ export default function Protector() {
             onPress={submit}>
             {t('common.confirm')}
           </Button>
-          <Button
-            size='lg'
-            className='mx-auto mb-2 w-full'
-            onPress={verifyGoogle}>
-            {t('pages.account.protector.google')}
-          </Button>
-          <Button
-            size='lg'
-            className='mx-auto mb-2 w-full'
-            onPress={verifyByTelegram}>
-            {t('pages.account.protector.google')}
-          </Button>
+          <OauthThird onGoogleChange={oauthGoogle} onTelegramChange={verifyByTelegram}/>
         </div>
       </div>
     </LayoutThird>

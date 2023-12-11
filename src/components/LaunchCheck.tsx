@@ -85,7 +85,7 @@ export const LaunchCheck = ({ children }: any) => {
     setCheckLoading(false);
   };
   useEffect(() => {
-    checkStatus();
+    // checkStatus();
   }, []);
   useEffect(() => {
     const { pathname } = routerLocation;

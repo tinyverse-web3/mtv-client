@@ -15,6 +15,7 @@ import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useGoogleLogin } from '@react-oauth/google';
+import { OauthThird } from '@/components/OauthThird';
 
 export const BindMail = () => {
   const { t } = useTranslation();
@@ -73,14 +74,32 @@ export const BindMail = () => {
       toast.error(msg || t('common.toast.bind_error'));
     }
   };
-  const login = useGoogleLogin({
-    onSuccess: ({ code }) => {
-      if (code) {
-        oauthGoogle(code);
-      }
-    },
-    flow: 'auth-code',
-  });
+  const verifyByTelegram = async (user: any) => {
+    // const testData = {
+    //   id: 5536129150,
+    //   first_name: '子曰',
+    //   username: 'Web3Follow',
+    //   photo_url:
+    //     'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
+    //   auth_date: 1702025683,
+    //   hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
+    // };
+    const { code, msg } = await account.oauthTelegram({
+      Id: user.id,
+      FirstName: user.first_name,
+      UserName: user.username,
+      Hash: user.hash,
+      AuthDate: user.auth_date,
+      PhotoUrl: user.photo_url,
+    });
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      toast.success(t('common.toast.bind_success'));
+      closeHandler();
+    } else {
+      toast.error(msg || t('common.toast.bind_error'));
+    }
+  };
   const verifyCodeChange = (e: any) => {
     setVerifyCode(e);
   };
@@ -110,7 +129,7 @@ export const BindMail = () => {
         wrapper: 'items-center',
       }}
       isDismissable={false}
-      isOpen={showLogin}
+      isOpen={true}
       onClose={closeHandler}>
       <ModalContent>
         <ModalHeader>
@@ -156,9 +175,7 @@ export const BindMail = () => {
               {text}
             </Button>
           </div>
-          <Button size='lg' className='mx-auto w-full' onPress={login}>
-            {t('pages.account.protector.google')}
-          </Button>
+          <OauthThird onGoogleChange={oauthGoogle} onTelegramChange={verifyByTelegram}/>
         </ModalBody>
         <ModalFooter>
           <Button color='red' variant='ghost' size='sm' onPress={closeHandler}>
