@@ -8,13 +8,11 @@ import { ROUTE_PATH } from '@/router';
 interface IndexItemProps {
   Account: string;
   Code: string;
+  percent: number;
 }
-export const IndexItem = ({ Account, Code }: IndexItemProps) => {
+export const IndexItem = ({ Account, Code, percent }: IndexItemProps) => {
   const nav = useNavigate();
   const [code, setCode] = useState(Code);
-  const timer = useRef<number>(0);
-  const intervalTimer = useRef<number>(0);
-  // const initTime = useRef<number>(30);
   const [initTime, setInitTime] = useState<number>(30);
   const getCode = async () => {
     const { code, msg, data } = await account.getAuthenticatorCode({
@@ -24,52 +22,15 @@ export const IndexItem = ({ Account, Code }: IndexItemProps) => {
       setCode(data);
     }
   };
-  const getRefreshTime = async () => {
-    const { code, msg, data } = await account.refreshAuthenticatorTime({
-      AccountName: Account,
-    });
-    if (code === '000000') {
-      setInitTime(data);
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-      timer.current = window.setTimeout(() => {
-        getCode();
-      }, 1000 * data);
-    }
-  };
-  const percent = useMemo(() => {
-    return ((30 - initTime) / 30) * 100;
-  }, [initTime]);
   const toDetail = () => {
     nav(ROUTE_PATH.SPACE_AUTHENTICATOR_DETAIL + `?id=${Account}`);
   };
   useEffect(() => {
-    window.clearInterval(intervalTimer.current);
-  }, []);
-  useEffect(() => {
-    intervalTimer.current = window.setInterval(() => {
-      setInitTime((pre) => {
-        if (pre === 0) {
-          return 30;
-        } else {
-          return pre - 1;
-        }
-      });
-    }, 1000);
-    return () => {
-      window.clearInterval(intervalTimer.current);
-    };
-  }, [Account]);
-  useEffect(() => {
-    if (initTime === 0) {
+    if (percent === 0) {
       getCode();
     }
-  }, [initTime]);
+  }, [percent]);
 
-  useEffect(() => {
-    getRefreshTime();
-  }, []);
   return (
     <div
       key={Account}
