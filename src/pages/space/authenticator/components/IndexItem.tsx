@@ -36,13 +36,15 @@ export const IndexItem = ({ Account, Code, percent }: IndexItemProps) => {
       key={Account}
       className='h-16 border-b-gray-200 border-b-solid border-b flex items-center hover:bg-gray-100  px-2'>
       <div className='flex justify-between items-center w-full'>
-        <div className='text-6 w-20' onClick={toDetail}>
+        <div className='text-6 w-1/3' onClick={toDetail}>
           {Account}
         </div>
-        <div className='flex items-center'>
+        <div className='w-1/3 flex items-center justify-center'>
           <span className='mr-4'>{code}</span> <CopyIcon text='code' />{' '}
         </div>
-        <CircleProgress percent={percent} />
+        <div className='w-1/3 flex justify-end'>
+          <CircleProgress percent={percent} />
+        </div>
       </div>
     </div>
   );

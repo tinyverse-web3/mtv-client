@@ -89,7 +89,8 @@ export default function Unlock() {
     setCustomText(e);
   };
   useEffect(() => {
-    if (!vault) {
+    console.log(vault)
+    if (vault === 'false') {
       restore();
     }
   }, [vault]);
