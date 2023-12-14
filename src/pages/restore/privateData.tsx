@@ -89,65 +89,67 @@ export default function Unlock() {
     setCustomText(e);
   };
   useEffect(() => {
-    console.log(vault)
+    console.log(vault);
     if (vault === 'false') {
       restore();
     }
   }, [vault]);
   return (
     <LayoutThird title={t('pages.restore.encrypted_safe.title')}>
-      <div className='pt-8 px-6'>
-        {/* <div className='text-center mb-8'>请先恢复加密保险箱，在恢复账号</div> */}
-        <Input
-          clearable
-          bordered
-          fullWidth
-          maxLength={20}
-          value={text}
-          className='h-50px mb-6'
-          onChange={onChange}
-          placeholder={t('pages.account.encrypted_safe.text')}
-          initialValue=''
-        />
-        <Input
-          clearable
-          bordered
-          fullWidth
-          maxLength={20}
-          value={password}
-          className='h-50px mb-6'
-          onChange={onPasswordChange}
-          placeholder={t('pages.account.encrypted_safe.password')}
-          initialValue=''
-        />
-        <Input
-          clearable
-          bordered
-          fullWidth
-          maxLength={20}
-          value={customText}
-          className='h-50px mb-6'
-          onChange={onCustomChange}
-          placeholder={t('pages.account.encrypted_safe.custom')}
-          initialValue=''
-        />
-        <Button
-          disabled={true}
-          size='lg'
-          loading={loading}
-          className='mx-auto mb-6 w-full'
-          onPress={add}>
-          {t('common.fingerprint.title')}
-        </Button>
-        <Button
-          disabled={!text && !password && !customText}
-          size='lg'
-          loading={loading}
-          className='mx-auto w-full'
-          onPress={add}>
-          {t('common.confirm')}
-        </Button>
-      </div>
+      {vault !== 'false' && (
+        <div className='pt-8 px-6'>
+          {/* <div className='text-center mb-8'>请先恢复加密保险箱，在恢复账号</div> */}
+          <Input
+            clearable
+            bordered
+            fullWidth
+            maxLength={20}
+            value={text}
+            className='h-50px mb-6'
+            onChange={onChange}
+            placeholder={t('pages.account.encrypted_safe.text')}
+            initialValue=''
+          />
+          <Input
+            clearable
+            bordered
+            fullWidth
+            maxLength={20}
+            value={password}
+            className='h-50px mb-6'
+            onChange={onPasswordChange}
+            placeholder={t('pages.account.encrypted_safe.password')}
+            initialValue=''
+          />
+          <Input
+            clearable
+            bordered
+            fullWidth
+            maxLength={20}
+            value={customText}
+            className='h-50px mb-6'
+            onChange={onCustomChange}
+            placeholder={t('pages.account.encrypted_safe.custom')}
+            initialValue=''
+          />
+          <Button
+            disabled={true}
+            size='lg'
+            loading={loading}
+            className='mx-auto mb-6 w-full'
+            onPress={add}>
+            {t('common.fingerprint.title')}
+          </Button>
+          <Button
+            disabled={!text && !password && !customText}
+            size='lg'
+            loading={loading}
+            className='mx-auto w-full'
+            onPress={add}>
+            {t('common.confirm')}
+          </Button>
+        </div>
+      )}
     </LayoutThird>
   );
 }
