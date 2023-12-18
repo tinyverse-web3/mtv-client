@@ -38,9 +38,9 @@ export const ContactList = ({ onChange }: Props) => {
             {contacts.map((item) => (
               <Radio
                 className='h-16 w-full'
-                value={item.MessageKey}
+                value={item.Address}
                 classNames={{ base: 'h-16 w-full', labelWrapper: 'flex-1' }}
-                key={item.MessageKey}>
+                key={item.Address}>
                 <div className='flex items-center flex-1'>
                   <ProfileAvatar
                     DestPubkey={item.DAuthKey}
