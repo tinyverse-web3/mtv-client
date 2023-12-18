@@ -117,12 +117,12 @@ export default function SpaceIndex() {
       label: t('pages.space.data.title'),
       path: ROUTE_PATH.SPACE_NETWORK,
     },
-    {
-      icon: 'icon-read.png',
-      label: t('pages.space.read.title'),
-      type: 'url',
-      url: 'https://p2v.tinyverse.space/'
-    },
+    // {
+    //   icon: 'icon-read.png',
+    //   label: t('pages.space.read.title'),
+    //   type: 'url',
+    //   url: 'https://p2v.tinyverse.space/'
+    // },
   ];
   const [showStatus, setShowStatus] = useState(false);
   const menuClick = ({ path, url, label, type, handler }: any) => {
