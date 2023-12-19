@@ -35,13 +35,17 @@ export const UserAvatar = ({ className }: Props) => {
   };
   const imageSrc = useMemo(() => {
     return accountInfo.avatar
-      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
+      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${
+          accountInfo.publicKey
+        }&timestamp=${+new Date()}`
       : '/logo.png';
   }, [accountInfo.avatar]);
   return (
     <div className={`flex justify-center w-full h-full ${className}`}>
       <label className='relative w-full h-full'>
-        <div className='rounded-full overflow-hidden w-full h-full' onClick={toNftImage}>
+        <div
+          className='rounded-full overflow-hidden w-full h-full'
+          onClick={toNftImage}>
           <Image src={imageSrc} className='w-full h-full' />
         </div>
         {/* <Icon

@@ -24,7 +24,7 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
   const [showStatus, setShowStatus] = useState(false);
   const [delItem, setDelItem] = useState('');
   const url = useMemo(() => {
-    return `${apiHost}/sdk/album/get?Url=${item.URL}&Filename=${item.Filename}`;
+    return `${apiHost}/sdk/album/get?Url=${item.URL}&Filename=${item.Filename}&timestamp=${+new Date()}`;
   }, [item.URL]);
   const removeItem = async (Filename?: string) => {
     if (Filename) {
