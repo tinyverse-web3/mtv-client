@@ -63,7 +63,8 @@ const AlbumItem = ({ item, delSuccess }: AlbumItemProps) => {
       }
     }
   };
-
+  console.log(123);
+  console.log(url);
   return (
     <div className='relative bg-gray-200'>
       <PhotoView src={url}>
