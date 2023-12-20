@@ -19,6 +19,7 @@ export default function ProtectorAdd() {
     (state) => state,
   );
   const [email, setEmail] = useState('');
+  const [tgStatus, setTgStatus] = useState(false);
   const [code, setCode] = useState('');
 
   const emailChange = ({ email, code }: any) => {
@@ -30,7 +31,7 @@ export default function ProtectorAdd() {
   };
   const oauthGoogle = async (Code: string) => {
     const { code, msg } = await account.oauthGoogle(Code);
-    console.log(code);
+
     if (code === '000000') {
       await getLocalAccountInfo();
       toast.success(t('common.toast.bind_success'));
@@ -48,12 +49,16 @@ export default function ProtectorAdd() {
     //   auth_date: 1702025683,
     //   hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
     // };
+    if (tgStatus) {
+      return;
+    }
     const { code, msg } = await account.oauthTelegram({
       Id: user.id,
       Params: JSON.stringify(user),
     });
     if (code === '000000') {
       await getLocalAccountInfo();
+      setTgStatus(true);
       toast.success(t('common.toast.bind_success'));
     } else {
       toast.error(msg || t('common.toast.bind_error'));
