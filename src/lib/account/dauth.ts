@@ -1139,32 +1139,18 @@ export class Dauth {
       },
     });
   }
-  async oauthTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl }: any) {
+  async oauthTelegram({ Id, Params }: any) {
     return this.invoke({
       name: 'oauth/telegram',
       method: 'post',
-      data: {
-        Id,
-        FirstName,
-        UserName,
-        Hash,
-        AuthDate,
-        PhotoUrl,
-      },
+      data: { Id, Params },
     });
   }
-  async verifyByTelegram({ Id, FirstName, UserName, Hash, AuthDate, PhotoUrl }: any) {
+  async verifyByTelegram({ Id, Params }: any) {
     return this.invoke({
       name: 'verifyByTelegram',
       method: 'post',
-      data: {
-        Id,
-        FirstName,
-        UserName,
-        Hash,
-        AuthDate,
-        PhotoUrl,
-      },
+      data: { Id, Params },
     });
   }
   async verifyByGoogle({ Code }: any) {

@@ -50,11 +50,7 @@ export default function ProtectorAdd() {
     // };
     const { code, msg } = await account.oauthTelegram({
       Id: user.id,
-      FirstName: user.first_name,
-      UserName: user.username,
-      Hash: user.hash,
-      AuthDate: user.auth_date,
-      PhotoUrl: user.photo_url,
+      Params: JSON.stringify(user),
     });
     if (code === '000000') {
       await getLocalAccountInfo();
@@ -114,7 +110,10 @@ export default function ProtectorAdd() {
             onPress={submit}>
             {t('pages.account.protector.confirm')}
           </Button>
-          <OauthThird onGoogleChange={oauthGoogle} onTelegramChange={verifyByTelegram}/>
+          <OauthThird
+            onGoogleChange={oauthGoogle}
+            onTelegramChange={verifyByTelegram}
+          />
         </div>
       </div>
     </LayoutThird>

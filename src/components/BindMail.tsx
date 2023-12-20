@@ -86,11 +86,7 @@ export const BindMail = () => {
     // };
     const { code, msg } = await account.oauthTelegram({
       Id: user.id,
-      FirstName: user.first_name,
-      UserName: user.username,
-      Hash: user.hash,
-      AuthDate: user.auth_date,
-      PhotoUrl: user.photo_url,
+      Params: JSON.stringify(user),
     });
     if (code === '000000') {
       await getLocalAccountInfo();
@@ -175,7 +171,10 @@ export const BindMail = () => {
               {text}
             </Button>
           </div>
-          <OauthThird onGoogleChange={oauthGoogle} onTelegramChange={verifyByTelegram}/>
+          <OauthThird
+            onGoogleChange={oauthGoogle}
+            onTelegramChange={verifyByTelegram}
+          />
         </ModalBody>
         <ModalFooter>
           <Button color='red' variant='ghost' size='sm' onPress={closeHandler}>
