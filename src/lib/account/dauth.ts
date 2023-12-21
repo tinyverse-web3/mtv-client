@@ -1130,13 +1130,11 @@ export class Dauth {
       method: 'get',
     });
   }
-  async oauthGoogle({ Code }: any) {
+  async oauthGoogle(data: any) {
     return this.invoke({
       name: 'oauth/google',
       method: 'post',
-      data: {
-        Code,
-      },
+      data,
     });
   }
   async oauthTelegram({ Id, Params }: any) {
@@ -1153,13 +1151,11 @@ export class Dauth {
       data: { Id, Params },
     });
   }
-  async verifyByGoogle({ Code }: any) {
+  async verifyByGoogle(data: any) {
     return this.invoke({
       name: 'verifyByGoogle',
       method: 'post',
-      data: {
-        Code,
-      },
+      data,
     });
   }
   /**

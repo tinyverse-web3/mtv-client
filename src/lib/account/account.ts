@@ -670,8 +670,8 @@ export class Account {
     const res = await this.dauth.getAlbumList();
     return res.data;
   }
-  async oauthGoogle(Code: string) {
-    const res = await this.dauth.oauthGoogle({ Code });
+  async oauthGoogle(data: any) {
+    const res = await this.dauth.oauthGoogle(data);
     return res.data;
   }
   async oauthTelegram({ Id, Params }: any) {
@@ -682,8 +682,8 @@ export class Account {
     const res = await this.dauth.verifyByTelegram({ Id, Params });
     return res.data;
   }
-  async verifyByGoogle(Code: string) {
-    const res = await this.dauth.verifyByGoogle({ Code });
+  async verifyByGoogle(data: any) {
+    const res = await this.dauth.verifyByGoogle(data);
     return res.data;
   }
   /**

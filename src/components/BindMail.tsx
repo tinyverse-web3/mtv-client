@@ -63,8 +63,8 @@ export const BindMail = () => {
     setEmail(e);
     reset();
   };
-  const oauthGoogle = async (Code: string) => {
-    const { code, msg } = await account.oauthGoogle(Code);
+  const oauthGoogle = async (data: any) => {
+    const { code, msg } = await account.oauthGoogle(data);
     console.log(code);
     if (code === '000000') {
       await getLocalAccountInfo();

@@ -27,8 +27,8 @@ export default function Protector() {
     setEmail(email);
     setCode(code);
   };
-  const oauthGoogle = async (Code: string) => {
-    const { code, msg, data } = await account.verifyByGoogle(Code);
+  const oauthGoogle = async (res: any) => {
+    const { code, msg, data } = await account.verifyByGoogle(res);
     console.log(data);
     if (code === '000000' && data.HasVault) {
       nav(
@@ -102,7 +102,10 @@ export default function Protector() {
             onPress={submit}>
             {t('common.confirm')}
           </Button>
-          <OauthThird onGoogleChange={oauthGoogle} onTelegramChange={verifyByTelegram}/>
+          <OauthThird
+            onGoogleChange={oauthGoogle}
+            onTelegramChange={verifyByTelegram}
+          />
         </div>
       </div>
     </LayoutThird>

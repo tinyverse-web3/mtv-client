@@ -1,19 +1,28 @@
 import { Image } from '@chakra-ui/react';
 import { useGoogleLogin } from '@react-oauth/google';
-
+import { toast } from 'react-hot-toast';
 interface OauthGoogleProps {
   onChange?: (code: string) => void;
 }
 export const OauthGoogle = ({ onChange }: OauthGoogleProps) => {
-  const oauthGoogle = useGoogleLogin({
-    onSuccess: ({ code }) => {
-      if (code) {
-        onChange?.(code);
+  const auth = async () => {
+    window?.JsBridge.startGoogleLogin(({ code, message,data }: any) => {
+      if (code === 0) {
+        try {
+          const res = JSON.parse(data);
+          onChange?.(res);
+        } catch (error) {
+          console.error(error);
+        }
+        // toast.success(message);
+      } else {
+        toast.error(message);
       }
-    },
-    flow: 'auth-code',
-  });
-  return <div className='flex justify-center' onClick={oauthGoogle}>
-    <Image src='/icon-google.png' className='w-8 h-8' alt='google' />
-  </div>;
+    });
+  };
+  return (
+    <div className='flex justify-center' onClick={auth}>
+      <Image src='/icon-google.png' className='w-8 h-8' alt='google' />
+    </div>
+  );
 };

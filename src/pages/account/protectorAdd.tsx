@@ -29,8 +29,8 @@ export default function ProtectorAdd() {
   const checkboxChange = (e: boolean) => {
     setChecked(e);
   };
-  const oauthGoogle = async (Code: string) => {
-    const { code, msg } = await account.oauthGoogle(Code);
+  const oauthGoogle = async (googleRes: any) => {
+    const { code, msg } = await account.oauthGoogle(googleRes);
 
     if (code === '000000') {
       await getLocalAccountInfo();
