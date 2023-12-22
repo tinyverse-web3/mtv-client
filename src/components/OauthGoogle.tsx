@@ -9,8 +9,7 @@ export const OauthGoogle = ({ onChange }: OauthGoogleProps) => {
     window?.JsBridge.startGoogleLogin(({ code, message,data }: any) => {
       if (code === 0) {
         try {
-          const res = JSON.parse(data);
-          onChange?.(res);
+          onChange?.(data);
         } catch (error) {
           console.error(error);
         }
