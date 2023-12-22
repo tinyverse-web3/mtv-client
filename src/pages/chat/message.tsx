@@ -1,67 +1,54 @@
 import { useRequest } from '@/api';
-import { MessageBox } from '@/components/MessageBox';
+import { MessageBox } from '@/pages/chat/components/MessageBox';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
-import { useGlobalStore, useMtvStorageStore, useNostrStore } from '@/store';
-import { NostrProvider } from 'nostr-react';
-import { useEffect } from 'react';
+import { useChatStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 
-const NOSTR_KEY = 'nostr_sk';
 export default function ChatMessage() {
   const nav = useNavigate();
-  const relayUrls = useNostrStore((state) => state.relayList);
-  const recipient = useNostrStore((state) => state.recipient);
-  const initRelayList = useNostrStore((state) => state.initRelayList);
-  const setNostr = useGlobalStore((state) => state.setNostr);
-  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
-  const nostr = useGlobalStore((state) => state.nostr);
-  const { data, mutate } = useRequest<any[]>(
-    {
-      url: '/im/relays',
-      arg: {
-        method: 'get',
-        auth: true,
-      },
-    },
-    {
-      onSuccess(res) {
-        const list = res.data?.map((val: any) => ({ wss: val.wsServer }));
-        console.log(list);
-        initRelayList(list);
-      },
-    },
-  );
-  const getLocalNostr = async () => {
-    if (mtvStorage) {
-      const localSk = await mtvStorage.get(NOSTR_KEY);
-      console.log('message local nostr sk: ', localSk);
-      // if (localSk) {
-      //   const pk = getPublicKey(localSk);
-      //   await setNostr({ pk, sk: localSk });
-      // } else {
-      //   nav(ROUTE_PATH.CHAT_LIST);
-      // }
+  const { recipient } = useChatStore((state) => state);
+  const { t } = useTranslation();
+  const fromName = useMemo(() => {
+    if (!recipient) {
+      return t('pages.chat.recipient.unknow');
+    } else if (recipient?.Alias) {
+      return recipient.Alias;
+    } else if (recipient?.DAuthKey) {
+      return `${recipient.DAuthKey?.substring(
+        0,
+        5,
+      )}*****${recipient.DAuthKey?.substring(recipient.DAuthKey?.length - 5)}`;
+    } else if (recipient.MessageKey) {
+      return `${recipient.MessageKey?.substring(
+        0,
+        5,
+      )}*****${recipient.MessageKey?.substring(
+        recipient.MessageKey?.length - 5,
+      )}`;
+    } else {
+      return t('pages.chat.recipient.unknow');
     }
+  }, [recipient]);
+  const toProfile = () => {
+    nav(ROUTE_PATH.CHAT_PROFILE);
   };
-  useEffect(() => {
-    getLocalNostr();
-  }, [mtvStorage]);
-  useEffect(() => {
-    mutate();
-  }, []);
-  useEffect(() => {
-    if (!nostr?.sk) {
-      nav(ROUTE_PATH.CHAT_LIST);
-    }
-  }, [nostr]);
+  console.log('recipient', recipient);
   return (
-    <LayoutThird className='h-full' title='聊天' path={ROUTE_PATH.CHAT_LIST}>
-      {!!relayUrls.length && (
-        <NostrProvider relayUrls={relayUrls.map((val) => val.wss)}>
-          <MessageBox recipient={recipient} />
-        </NostrProvider>
-      )}
+    <LayoutThird
+      className='h-full'
+      title={fromName}
+      rightContent={
+        <Icon
+          icon='material-symbols:more-vert'
+          className=' h-6 w-6 '
+          onClick={toProfile}
+        />
+      }>
+      {<MessageBox recipient={recipient} />}
     </LayoutThird>
   );
 }

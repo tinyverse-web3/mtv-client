@@ -1,49 +1,50 @@
 import { useState, useMemo } from 'react';
-import { Text, Row, Input } from '@nextui-org/react';
+import { Image } from '@nextui-org/react';
+import { Password } from '@/components/form/Password';
 import { Button } from '@/components/form/Button';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
-import { useNavigate } from 'react-router-dom';
-import {
-  useWalletStore,
-  useMtvStorageStore,
-  useGlobalStore,
-  useNostrStore,
-} from '@/store';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAccountStore, useGlobalStore } from '@/store';
 import { useKeyPressEvent } from 'react-use';
 import LayoutOne from '@/layout/LayoutOne';
 import { HeaderLogo } from '@/components/header/HeaderLogo';
-import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
-
+import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
+import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 export default function Unlock() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
-  const setWallet = useWalletStore((state) => state.setWallet);
-  const resetWallet = useWalletStore((state) => state.reset);
-  const { init: initMtvStorage, destory: destoryStorage } = useMtvStorageStore(
+  const { getLocalAccountInfo, delAccount, accountInfo } = useAccountStore(
     (state) => state,
   );
-  const resetGlobal = useGlobalStore((state) => state.reset);
-  const resetNostr = useNostrStore((state) => state.reset);
-  const unlock = async () => {
+  const { setLockStatus } = useGlobalStore((state) => state);
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect');
+  const unlock = async (password: string) => {
     setLoading(true);
-    const status = await wallet?.verify(pwd);
-    console.log(status);
-    if (status === STATUS_CODE.INVALID_PASSWORD) {
-      setErr(true);
-    } else {
-      setWallet(wallet);
-      const { publicKey, privateKey } = wallet || {};
-      if (privateKey) {
-        await initMtvStorage(privateKey);
+    const result = await account.unlock(password);
+    console.log(result);
+    if (result) {
+      await getLocalAccountInfo();
+      if (redirect) {
+        location.replace(decodeURIComponent(redirect));
+        return;
       }
-      nav(ROUTE_PATH.SPACE_INDEX);
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+    } else {
+      setErr(true);
     }
+    setLockStatus(false);
     setLoading(false);
   };
+  const deleteUser = async (e: any) => {
+    nav(ROUTE_PATH.INDEX, { replace: true });
+  };
   const pressHandler = async () => {
-    await unlock();
+    await unlock(pwd);
   };
   useKeyPressEvent('Enter', () => {
     if (pwd) {
@@ -58,76 +59,72 @@ export default function Unlock() {
         color: 'default',
       };
     return {
-      text: '密码错误',
+      text: t('common.password.error'),
       color: 'error',
     };
   }, [err]);
   const pwdChange = (e: any) => {
     setErr(false);
-    setPwd(e.target.value?.trim());
+    setPwd(e);
   };
-  const deleteUser = async (e: any) => {
-    await Promise.all([
-      resetNostr(),
-      resetWallet(),
-      resetGlobal(),
-      destoryStorage(),
-      wallet?.delete(),
-    ]);
-    nav(ROUTE_PATH.INDEX, { replace: true });
-  };
+
   const toRetrieve = () => {
     nav(ROUTE_PATH.RETRIEVE);
   };
+  const startBiometric = async () => {
+    window?.JsBridge.startBiometric(({ code, message, data }: any) => {
+      if (code === 0) {
+        toast.success(t('pages.unlock.success'));
+        unlock(data);
+      } else {
+        toast.error(message);
+      }
+    });
+  };
   return (
-    <LayoutOne className='px-6 pt-14'>
-      <HeaderLogo />
-      {/* <Text h4 className='mb-9 text-center text-6'>
-        解锁
-      </Text> */}
-      <Row className='mb-6 pt-8' justify='center'>
-        <Input.Password
-          clearable
-          bordered
-          aria-label='password'
-          fullWidth
-          maxLength={20}
-          type='password'
-          value={pwd}
-          className='h-50px'
-          helperColor={helper.color}
-          helperText={helper.text}
-          onChange={pwdChange}
-          status={err ? 'error' : 'default'}
-          placeholder='输入密码'
-          initialValue=''
-        />
-      </Row>
-      <Button
-        disabled={!pwd}
-        size='lg'
-        loading={loading}
-        className='mx-auto mb-2 w-full'
-        onPress={unlock}>
-        解锁
-      </Button>
-      <Button
-        light
-        color='error'
-        auto
-        className='text-12px mx-auto'
-        onPress={deleteUser}>
-        忘记密码，恢复账号或重新创建
-      </Button>
-      <div className='flex justify-end'>
+    <LayoutOne className='relative'>
+      <div className='px-6 pt-14 h-full '>
+        <HeaderLogo />
+        <div className='mb-8 pt-8'>
+          <Password
+            maxLength={20}
+            value={pwd}
+            size="lg"
+            className='h-50px'
+            helperColor={helper.color}
+            helperText={helper.text}
+            onChange={pwdChange}
+            status={err ? 'error' : 'default'}
+            placeholder={t('common.password.input')}
+            initialValue=''
+          />
+        </div>
         <Button
-          light
-          auto
-          color='success'
-          className='text-14px px-0 text-blue-5'
-          onPress={toRetrieve}>
-          忘记密码
+          disabled={!pwd}
+          loading={loading}
+          fullWidth
+          size="lg"
+          className=' mb-6 '
+          onClick={pressHandler}>
+          {t('pages.unlock.btn_unlock')}
         </Button>
+
+        <div className='flex justify-end mb-24'>
+          <Button
+            variant='ghost'
+            size='sm'
+            className='p-0'
+            onClick={deleteUser}>
+            {t('pages.unlock.forget_password')}
+          </Button>
+        </div>
+        <div className='flex justify-center'>
+          <Image
+            onClick={startBiometric}
+            src='/figer.png'
+            className='w-10 h-10 mx-auto'
+          />
+        </div>
       </div>
       <div className='text-3 text-center mt-20'>
         测试数据库已于2023年6月16日清除，旧账号无法通过守护者和智能隐私恢复。

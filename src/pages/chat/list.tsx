@@ -1,298 +1,154 @@
-import { useRequest } from '@/api';
 import { Address } from '@/components/Address';
-import { useCheckLogin } from '@/components/BindMail';
 import { Button } from '@/components/form/Button';
-import LayoutTwo from '@/layout/LayoutTwo';
+import { Input } from '@/components/form/Input';
 import { ROUTE_PATH } from '@/router';
 import { QRCodeCanvas } from 'qrcode.react';
-import {
-  useGlobalStore,
-  useMtvStorageStore,
-  useNostrStore,
-  useWalletStore,
-} from '@/store';
-import { Card, Text, Input, Image } from '@nextui-org/react';
+import account from '@/lib/account/account';
+import { ProfileAvatar } from '@/components/ProfileAvatar';
+import { useChatStore, useAccountStore } from '@/store';
+import { Card, CardBody } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
-import { getPublicKey } from 'nostr-tools';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCopyToClipboard } from 'react-use';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useCopyToClipboard, useInterval } from 'react-use';
+import { useNativeScan } from '@/lib/hooks';
 import { toast } from 'react-hot-toast';
-
+import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 function addMinute(minute: number) {
   const currentTime = new Date(); // 获取当前时间
   const newTime = addMinutes(currentTime, 10);
   const formatDate = format(newTime, 'yyyy-MM-dd HH:mm:ss');
   return formatDate;
 }
-const NOSTR_KEY = 'nostr_sk';
+
 export default function ChatList() {
-  const { VITE_WSS_URL } = import.meta.env;
+  const { t } = useTranslation();
+  const renderName = (item: any) => {
+    if (item.Alias) {
+      return item.Alias;
+    } else if (item.DAuthKey) {
+      return <Address address={item.DAuthKey}></Address>;
+    } else {
+      return t('pages.chat.contact.unknow');
+    }
+  };
+
   const [_, copyToClipboard] = useCopyToClipboard();
   const nav = useNavigate();
-  const { createNostr, setNostr, userInfo, nostr } = useGlobalStore(
+  const [friendList, setFriendList] = useState<any[]>([]);
+  const { setRecipient, contacts, getContacts } = useChatStore(
     (state) => state,
   );
-  const { wallet } = useWalletStore((state) => state);
-  const mtvStorage = useMtvStorageStore((state) => state.mtvStorage);
-  const setRecipient = useNostrStore((state) => state.setRecipient);
-  const removeFrient = useNostrStore((state) => state.remove);
   const [showShare, setShowShare] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const [friendPk, setFrientPk] = useState('');
+  const { result, start } = useNativeScan();
+  // const getContacts = async () => {
+  //   const list = await account.getContacts();
+  //   if (list.length !== friendList.length) {
+  //     setFriendList(list);
+  //   }
+  // };
 
-  const [messageHistory, setMessageHistory] = useState([]);
-  const socketUrl = useMemo(() => {
-    return `${VITE_WSS_URL}/socket?publicKey=${wallet?.publicKey}`;
-  }, [wallet]);
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-
-  useEffect(() => {
-    console.log('readyState', readyState);
-  }, [readyState]);
-  const { mutate: searchuser } = useRequest<any[]>({
-    url: '/im/searchuser',
-    arg: {
-      method: 'get',
-      auth: true,
-      query: {
-        param: searchText,
-      },
-    },
-  });
-  const { mutate: addFriend } = useRequest<any[]>(
-    {
-      url: '/im/addfriend',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: {
-          toPublicKey: friendPk,
-        },
-      },
-    },
-    {
-      onSuccess() {
-        getFriends();
-        setFrientPk('');
-        setSearchText('');
-        toast.success('添加成功');
-      },
-    },
-  );
-  const { data: friends, mutate: getFriends } = useRequest<any[]>({
-    url: '/im/friends',
-    arg: {
-      method: 'get',
-      auth: true,
-    },
-  });
-
-  const filterFriends = useMemo(() => {
-    return friends?.filter((item) => item.nostrPublicKey);
-  }, [friends]);
-  const { mutate: sendPk } = useRequest({
-    url: '/user/updateimpkey',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: {
-        nostrPublicKey: nostr?.pk,
-      },
-    },
-  });
-
-  const { mutate: requestImNotify } = useRequest<any[]>({
-    url: '/im/notify',
-    arg: {
-      method: 'get',
-      auth: true,
-    },
-  });
-
-  const getLocalNostr = async () => {
-    if (mtvStorage) {
-      const localSk = await mtvStorage.get(NOSTR_KEY);
-      console.log('nostr local key', localSk);
-      if (localSk) {
-        const pk = getPublicKey(localSk);
-        await setNostr({ pk, sk: localSk });
-      } else {
-        const { sk, pk } = await createNostr();
-        await mtvStorage.put(NOSTR_KEY, sk);
-        await setNostr({ pk, sk });
-      }
-      // if (bindStatus) {
-      await sendPk();
-      // }
+  const toSender = async () => {
+    if (!searchText) {
+      toast(t('pages.chat.search.empty'));
+      return;
     }
-  };
+    const { code, msg } = await account.createContactByMasterKey(searchText);
 
-  const toDetail = async ({ nostrPublicKey, Id, name, imgCid }: any) => {
-    if (nostr?.sk) {
-      console.log(nostrPublicKey, Id, name, imgCid);
-      await setRecipient({ pk: nostrPublicKey, Id, name, avatar: imgCid });
-      nav(ROUTE_PATH.CHAT_MESSAGE);
+    if (code === '000000') {
+      toast.success(t('pages.chat.search.success'));
+    } else {
+      toast.error(msg || t('pages.chat.search.error'));
     }
+    setSearchText('');
+  };
+  const toDetail = async (item: any) => {
+    await setRecipient(item);
+    nav(ROUTE_PATH.CHAT_MESSAGE);
   };
 
-  const checkImNotifyTick = async () => {
-    const res = await requestImNotify();
-    const _list = res.data || [];
-    for (let i = 0; i < _list.length; i++) {
-      const { toPublicKey } = _list[i];
-      addFriend({ pk: toPublicKey });
-    }
-    setTimeout(checkImNotifyTick, 2000);
-  };
-
-  const refreshShareIm = async () => {
-    const data = await createShareIm();
-  };
+  const refreshShareIm = async () => {};
 
   const copyShareImLink = async () => {
-    let link =
-      window.location.origin + '/#/chat/imShare?pk=' + wallet?.publicKey;
+    let link = '';
     copyToClipboard(link);
-  };
-
-  const { mutate: createShareIm, loading: refreshImConnecting } = useRequest({
-    url: '/im/createshareim',
-    arg: {
-      method: 'post',
-      auth: true,
-      query: {
-        fromPublicKey: nostr?.pk,
-      },
-    },
-  });
-  const removeItem = async (e: any, pk: string) => {
-    e.stopPropagation();
-    await removeFrient(pk);
   };
 
   const searchHandler = async (e: any) => {
     if (e.key === 'Enter') {
-      const data = await searchuser();
-      if (data.code === '000000') {
-        await setFrientPk(data.data.PublicKey);
-      } else {
-        toast.error(data.msg);
-      }
+      toSender();
     }
   };
-  useEffect(() => {
-    if (userInfo.bindStatus) {
-      sendPk();
+  const formatTime = (time: number) => {
+    if (!time) return;
+    if (time.toString().length === 10) {
+      time = time * 1000;
     }
-  }, [userInfo.bindStatus]);
+    return format(new Date(time), 'HH:mm');
+  };
+  const toScan = () => {
+    start();
+  };
   useEffect(() => {
-    getFriends();
+    getContacts();
   }, []);
-  useEffect(() => {
-    console.log('lastMessage', lastMessage);
-    getFriends();
-  }, [lastMessage]);
-  useEffect(() => {
-    if (friendPk) {
-      addFriend();
-    }
-  }, [friendPk]);
-  useEffect(() => {
-    if (mtvStorage) {
-      getLocalNostr();
-    }
-  }, [mtvStorage]);
+
+  useInterval(() => {
+    getContacts();
+  }, 2000);
   return (
-    <LayoutTwo title='私密聊天' path={ROUTE_PATH.SPACE_INDEX}>
-      <div className='p-6'>
-        <div className='flex'>
-          <div className='flex-1 mb-2'>
-            <Input
-              value={searchText}
-              aria-label='text'
-              bordered
-              onChange={(e) => setSearchText(e.target.value)}
-              fullWidth
-              clearable
-              onKeyUp={searchHandler}
-              placeholder='搜索'
-            />
-          </div>
+    <div className='p-4 py-3'>
+      <div className='flex justify-between mb-3'>
+        <div className='flex items-center   '>
+          <span className='text-blue-500'>{t('pages.chat.title')}</span>
         </div>
-        <div>
-          {filterFriends?.map((item: any) => (
-            <div
-              className='flex h-22 items-center px-4 border-b border-b-solid border-b-gray-200 cursor-pointer'
-              key={item.name}
-              onClick={() => toDetail(item)}>
-              <Image
-                src={item.imgCid || '/logo.png'}
-                className='mr-6 w-12 h-12'
-              />
-              <div className='flex-1'>
-                <div className='flex justify-between items-center mb-2'>
-                  <span>
-                    {item.name || <Address address={item.PublicKey}></Address>}
-                  </span>
-                  {/* <span className='text-12px'>14:00</span> */}
-                </div>
-                {/* <div className='text-12px'>[3条]今天天气不错</div> */}
+        <Icon
+          icon='mdi:line-scan'
+          className=' text-xl   text-blue-500'
+          onClick={toScan}></Icon>
+      </div>
+      <div className='flex items-center mb-4'>
+        <div className='flex-1'>
+          <Input
+            value={searchText}
+            aria-label='text'
+            bordered
+            fullWidth
+            onChange={(e: string) => setSearchText(e)}
+            clearable
+            onKeyUp={searchHandler}
+            placeholder={t('pages.chat.search.placeholder')}
+          />
+        </div>
+        <Icon
+          icon='mdi:account-search-outline'
+          className=' ml-4 w-7 h-7 text-blue-500'
+          onClick={toSender}></Icon>
+      </div>
+      <div>
+        {contacts?.map((item: any) => (
+          <div
+            className='flex h-16 items-center px-6  rounded-full bg-gray-100 mb-2'
+            key={item.MessageKey}
+            onClick={() => toDetail(item)}>
+            <ProfileAvatar
+              DestPubkey={item.DAuthKey}
+              className='w-10 h-10 mr-4'
+            />
+            <div className='flex-1'>
+              <div className='flex justify-between items-center mb-2 truncate'>
+                <span>{renderName(item)}</span>
+              </div>
+              <div className='flex justify-between items-center'>
+                <div className='text-xs w-40 truncate'>{item.LastMessage}</div>
+                <span className='text-xs'>{formatTime(item.LastMsgTime)}</span>
               </div>
             </div>
-          ))}
-        </div>
-        <Button
-          className='mx-auto w-full mt-6'
-          onPress={() => setShowShare(true)}>
-          开启聊天
-        </Button>
-        {showShare && (
-          <div>
-            {nostr?.pk ? (
-              <div>
-                <Card className='w-fit m-auto'>
-                  <Card.Body>
-                    <QRCodeCanvas
-                      size={200}
-                      value={
-                        window.location.origin +
-                        '/#/chat/imShare?pk=' +
-                        wallet?.publicKey
-                      }
-                    />
-                  </Card.Body>
-                </Card>
-                <div className='text-center text-5 mb-4'>
-                  <Text>有效期：{addMinute(10)}</Text>
-                </div>
-                <div className='flex justify-center items-center'>
-                  <Button
-                    auto
-                    className='ml-4 min-w-20'
-                    color='secondary'
-                    loading={refreshImConnecting}
-                    onPress={refreshShareIm}>
-                    刷新分享链接
-                  </Button>
-                  <Button
-                    auto
-                    className='ml-4 min-w-20'
-                    color='secondary'
-                    onPress={copyShareImLink}>
-                    复制分享链接
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className='mb-2 flex justify-center'>
-                <Text>私聊共享缺少nostr公钥</Text>
-              </div>
-            )}
           </div>
-        )}
+        ))}
       </div>
-    </LayoutTwo>
+    </div>
   );
 }

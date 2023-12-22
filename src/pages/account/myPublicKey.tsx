@@ -1,22 +1,26 @@
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
-import { useWalletStore } from '@/store';
-import { Card } from '@nextui-org/react';
+import { useAccountStore } from '@/store';
+import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
 import { Button } from '@/components/form/Button';
 import { useCopyToClipboard } from 'react-use';
 import { QRCodeCanvas } from 'qrcode.react';
 import { toast } from 'react-hot-toast';
 import { download } from '@/lib/utils';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 export default function UserQrcode() {
+  const { t } = useTranslation();
   const qrBoxRef = useRef<any>();
-  const { wallet } = useWalletStore((state) => state);
+  const { accountInfo } = useAccountStore((state) => state);
+  const { publicKey } = accountInfo;
   const [_, copyToClipboard] = useCopyToClipboard();
   const copy = () => {
-    if (!wallet?.publicKey) return;
-    copyToClipboard(wallet?.publicKey);
-    toast.success('复制成功');
+    if (!publicKey) return;
+    copyToClipboard(publicKey);
+    toast.success(t('common.copy_success'));
   };
   const loadQrcode = () => {
     if (qrBoxRef.current) {
@@ -24,21 +28,21 @@ export default function UserQrcode() {
       const url = canvas?.toDataURL();
       console.log(url);
       if (url) {
-        download(url, `qrcode_${wallet?.publicKey}.png`);
+        download(url, `qrcode_${publicKey}.png`);
       }
     }
   };
 
   return (
-    <LayoutThird title='我的公钥' path={ROUTE_PATH.ACCOUNT}>
+    <LayoutThird title='我的公钥'>
       <div className='pt-16 px-6'>
-        {wallet?.publicKey && (
+        {publicKey && (
           <div className='w-fit m-auto mb-16'>
-            <QRCodeCanvas value={wallet?.publicKey} size={200} />
+            <QRCodeCanvas value={publicKey} size={200} />
           </div>
         )}
-        <Card className='w-full m-auto text-12px mb-6'>
-          <Card.Body>{wallet?.publicKey}</Card.Body>
+        <Card  className='w-full m-auto text-xs mb-6'>
+          <CardBody className='break-all'>{publicKey}</CardBody>
         </Card>
         <Button className='w-full mb-6 bg-cyan-5' size='lg' onPress={copy}>
           复制公钥

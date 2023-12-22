@@ -1,0 +1,570 @@
+{
+  "app": {
+    "title": "TinyVerse Space",
+    "subtitle": "Building a private safehouse for you in the digital world.",
+    "description": ""
+  },
+  "common": {
+    "share": "Share",
+    "title": "Title",
+    "download": "Download",
+    "account": "Account",
+    "link": "Link",
+    "save": "Save",
+    "space": "Space",
+    "description": "Description",
+    "content": "Content",
+    "code_sended": "Verification code sent",
+    "bind_email": "Bind email",
+    "verify_text": "Verify password",
+    "email": "Email",
+    "code": "Code",
+    "code_text": "Get Code",
+    "send_code_success": "Code Sent",
+    "next_step": "Next Step",
+    "confirm": "Confirm",
+    "change": "Change",
+    "scan": "Scan",
+    "copy": "Copy ",
+    "copy_success": "Copied",
+    "init_scan_error": "Init Error",
+    "set_text": "Set",
+    "cancel": "Cancel",
+    "default": "Default",
+    "custom": "Custom",
+    "backup": "Backup",
+    "add": "Add",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "delete_hint": "Delete ",
+    "question": "Question",
+    "file": "File",
+    "select": "Please Choose",
+    "sub_question": "Sub Question",
+    "empty_data": "No data",
+    "no_result": "No result",
+    "request_error": "Request failed",
+    "fingerprint": {
+      "title": "Fingerprint"
+    },
+    "photo": "Photo",
+    "password": {
+      "title": "Password",
+      "rule_text": "At least 8 characters, including digits, uppercase and lowercase letters and symbols.",
+      "default_text": "Default Password",
+      "default_modal_text": "Your default password is",
+      "confirm_text": "Confirm Password",
+      "verify_text": "Verify password",
+      "verify_success": "Verification succeeded",
+      "verify_error": "Verification failed",
+      "change_text": "Default Password",
+      "new_text": "New Password",
+      "input": "Input Password",
+      "error": "Wrong Password",
+      "change": "Change Password",
+      "change_success": "Changed Successfully",
+      "change_default_hint": "Please change the default password",
+      "old_error": "Wrong old password",
+      "unanimous_error": "Password not match",
+      "old_text": "Old password",
+      "save_hint": "Save local password to service node for password retrieval? Note that the local password is only used to encrypt data stored locally.",
+      "confirm_error": "New password cannot be the same as old password",
+      "hint_one": "Please change the default password as soon as possible to ensure data security."
+    },
+    "biometrics": {
+      "title": "Biometrics"
+    },
+    "upload": {
+      "title": "Upload",
+      "success": "Upload succeeded",
+      "error": "Upload failed",
+      "avatar_success": "Avatar uploaded successfully"
+    },
+    "toast": {
+      "delete_success": "Delete successful",
+      "delete_error": "Delete failed",
+      "backup_error": "Backup failed",
+      "backup_success": "Backup successful",
+      "bind_success": "Bingding successful",
+      "bind_error": "Binding failed",
+      "add_success": "Add successful",
+      "add_error": "Add failed",
+      "edit_success": "Edit successful",
+      "edit_error": "Edit failed",
+      "set_success": "Setting successful",
+      "set_error": "Setting failed"
+    },
+    "turn_on": "On",
+    "turn_off": "Off"
+  },
+  "pages": {
+    "index": {
+      "btn_create": "Create Account",
+      "create_hint": "Create a web3 account with just one click, without requiring any personal privacy data.",
+      "btn_restore": "Restore Account",
+      "btn_more": "Learn More"
+    },
+    "assets": {
+      "title": "Assets",
+      "owner": "Owner",
+      "nft": {
+        "title": "NFT",
+        "tab_file": "File",
+        "tab_text": "Content",
+        "btn_mint": "Issue",
+        "mint_title": "Issue NFT",
+        "mint_success": "Issue successful",
+        "mint_name_placeholder": "Title",
+        "mint_description_placeholder": "Description",
+        "mint_content_placeholder": "Content",
+        "mint_file_hint": "Upload image",
+        "mint_text_hint": "Max content 8k bytes",
+        "detail_text": "Token Details",
+        "detail_name": "Name",
+        "btn_transfer": "Transfer",
+        "btn_set_avatar": "Set Avatar"
+      },
+      "token": {
+        "title": "Token",
+        "detail_title": " Details",
+        "point_name": "TVS",
+        "transfer_success": "Transfer Successful"
+      },
+      "receiver": {
+        "title": "Receiver"
+      },
+      "contact": {
+        "title": "Choose Address",
+        "address_book": "Address Book",
+        "frient": "My Frient"
+      },
+      "tx": {
+        "title": "Transfer Detail",
+        "gas": "Gas",
+        "sender": "Sender",
+        "receiver": "Receiver"
+      },
+      "transfer": {
+        "title": "Transfer",
+        "sender": "Sender",
+        "to_address": "Target Address",
+        "to_placeholder": "Please enter recipient public key",
+        "amount": "Transfer Amount",
+        "amount_placeholder": "Please enter transfer amount",
+        "gas": "Transfer gas",
+        "gas_placeholder": "Please enter transfer gas",
+        "remark": "Transfer Memo",
+        "remark_placeholder": "Please enter transfer memo",
+        "nft_name": "NFT Name",
+        "nft_point": "The fee of transferred NFT",
+        "nft_point_placeholder": "Please enter the fee of transferred NFT"
+      },
+      "btn_transfer": "Transfer",
+      "btn_receiver": "Receiver"
+    },
+    "space": {
+      "title": "Space",
+      "head_title": "My TinyVerse Space",
+      "hint": {
+        "coming_soon": "Coming Soon"
+      },
+      "note": {
+        "title": "Diary",
+        "input_placeholder": "Diary Content"
+      },
+      "album": {
+        "title": "Album",
+        "upload_success": "Uploaded successfully",
+        "upload_error": "Uploaded failed",
+        "download_text": "Download link"
+      },
+      "photo": {
+        "title": "Take Photo",
+        "upload_success": "Photo Taken"
+      },
+      "file": {
+        "title": "File",
+        "tab_security": "Personal File",
+        "tab_public": "Public File",
+        "download_toast": "Do you want to download the file?"
+      },
+      "password": {
+        "title": "Password Box"
+      },
+      "gun": {
+        "title": "GUN",
+        "list_title": "Your GUN list",
+        "apply_name": "Name",
+        "apply": "Apply",
+        "apply_title": "Apply for your GUN",
+        "apply_success": "Application succeeded",
+        "search": "Search",
+        "search_title": "Search GUN",
+        "search_input": "Enter the GUN you want to search",
+        "search_hint": "User's global unique name (GUN) can be used anywhere. For example, friends can find you by name, and the name will also show in other apps supporting GUN protocol.",
+        "rule_text": "Name is case insensitive, can only use letters a-z and numbers 0-9, at least 8 characters.",
+        "expired_text": "Valid Period",
+        "price_text": "Pricing",
+        "price_soon": "This is not yet open, so stay tuned",
+        "price_hint": "Need ",
+        "one_year": "1 year",
+        "two_year": "2 years",
+        "three_year": "3 years",
+        "renew": "Renew",
+        "renew_success": "Renewal succeeded",
+        "detail_title": "View GUN Info",
+        "detail_name": "GUN Name",
+        "detail_key": "Key",
+        "owner": "Owner",
+        "set_name": "Set as username",
+        "add_frient": "Add owner as friend",
+        "detail_error": "Failed to get GUN info"
+      },
+      "data": {
+        "title": "Network Data",
+        "btn_expansion": "Expand",
+        "btn_detail": "Details",
+        "size_text": "Size",
+        "cid": "CID",
+        "hint": "Network data lists all user data backed up on the web3 decentralized storage network. Here user can see the relevant information and synchronization status of the data.",
+        "redundancy_text": "Redundancy",
+        "status": {
+          "title": "Data Status",
+          "unknow": "No Synchronized",
+          "init": "Initializing",
+          "err": "Error",
+          "work": "Synchronizing",
+          "pinned": "Synchronized",
+          "timout": "Timeout"
+        },
+        "save_time": "Save time",
+        "expired_time": "Expired time",
+        "description": "Description"
+      },
+      "read": {
+        "title": "PayToView"
+      },
+      "ledger": {
+        "title": "Ledger"
+      },
+      "authenticator": {
+        "title": "Google Authenticator",
+        "btn_add": "Add an authenticator",
+        "detail_title": "Details",
+        "detail_name": "Account name",
+        "detail_key": "Secret key",
+        "add_title": "Add account",
+        "create_title": "Create secret key"
+      },
+      "award": {
+        "title": "Bonus Tasks",
+        "apply_success": "Application submitted",
+        "hint": "Complete tasks and get points rewards: We will update the tasks that can get rewards from time to time, so that users can have enough points to use various functions. The basic condition for obtaining bonus points is that the identity verification has been completed and the account has been backed up.",
+        "hint_one": "Enter the invitation code to get bonus points",
+        "index_title": "Earn points by doing tasks",
+        "index_daily": "Daily checkin",
+        "invite_code": "Invite Code",
+        "daily_button_one": "Checkin",
+        "daily_button_two": "Come back tomorrow",
+        "index_invite": "Invite friends",
+        "invite_button": "Invite",
+        "invited_button": "Accept",
+        "index_invited": "Accept invitation and get rewards",
+        "index_button_one": "To Complete",
+        "index_button_two": "Receive",
+        "index_button_three": "Received",
+        "index_valut": "Create an encrypted vault",
+        "index_guardian": "Bind guardians",
+        "index_password": "Change password",
+        "index_backup": "Backup",
+        "index_subaccount": "Add subaccount",
+        "index_experience": "Experience",
+        "detail": {
+          "title": "Reward Details",
+          "yes": "Received",
+          "no": "Failed"
+        },
+        "contract": {
+          "title": "Smart Contract"
+        },
+        "invite": {
+          "title": "Invite friends to earn points",
+          "code_title": "My Invitation Code",
+          "code_hint": "Each time you successfully invite a friend, the inviter and the invitee will each be rewarded with 50 TVS.",
+          "hint": "Invite you to learn about TinyVerse",
+          "hint_one": "Scan the QR code to download TinyVerse"
+        },
+        "receive": {
+          "title": "Receive Points",
+          "code_hint": "Enter invitation code, and both you and the inviter will receive 50TVS. Please note that the invitation code is unique and cannot be changed."
+        }
+      },
+      "nft": {
+        "title": "Issue NFT"
+      }
+    },
+    "account": {
+      "title": "Me",
+      "public_key": "Account ID",
+      "wallet_key": "Wallet Address",
+      "message_key": "Message ID",
+      "my_qrcode": "My QR Code",
+      "gun": "Account Name(GUN)",
+      "level": {
+        "title": "Security Level",
+        "hint_one": "The account security level is calculated based on the recovery path and the factors that need to be verified when recovering.",
+        "hint": "Only My Profile is exposed externally, all other data is encrypted by the user's private key and stored in personal digital space.",
+        "zero": "Temporary account, cannot be recovered, data may be lost at any time, please do account maintenance ASAP.",
+        "one": "The account relies on high-risk plaintext mnemonics. Please use a vault to securely store mnemonics and add a recovery method.",
+        "two": "The account only has a mnemonic recovery method. Please add a recovery method to avoid a single point of failure ASAP.",
+        "three": "The account only has a guardian recovery method. Please add a recovery method to avoid a single point of failure ASAP.",
+        "four": "Low standard accounts, please add Authentication factors to improve account security level.",
+        "five": "Standard account, your account has been fully protected."
+      },
+      "toast": {
+        "no_private": "Please set a vault first"
+      },
+      "profile": {
+        "title": "My Profile",
+        "save_qrcode": "Save QRcode",
+        "unset_text": "Unset",
+        "qrcode_add": "Scan QR code to add me as friend."
+      },
+      "local_safe": {
+        "title": "Local Security Policy",
+        "hint": "The local security policy is used to verify the user's identity when unlocking the APP and using some sensitive functions, and it is only saved locally. Users must change the default password before activating biometrics. If the user forgets the password and cannot use biometrics such as fingerprint recognition or face recognition to verify the user's identity, he can reset the password by recovering the account."
+      },
+      "encrypted_safe": {
+        "hint": "The vault is used to protect data that cannot be encrypted with private key but must be kept on the network, such as account recovery information. The vault works by using feature data to protect secrets. Feature data is unique to each individual, can be used to identify a person, has certain privacy, but does not rely on user memory. Biometrics like fingerprints and iris are best sources. Other options are digits that won't change for life, like ID number, or even commonly used memorable passwords. To recover data, any set of feature data can be used. More feature data means easier account recovery. Please provide at least 2 different sets of feature data for dual insurance. Feature data is kept in user account, inaccessible to anyone.",
+        "title": "Encrypted Vault",
+        "set_text": "Set Encrypted Vault",
+        "verify_text": "Verify Encrypted Vault",
+        "verify_error": "Verification Failed",
+        "set_success": "Set Vault Successfully",
+        "set_error": "Set Vault Failed",
+        "text": "ID Number/Social Security Number/Phone Number",
+        "password": "Frequently used passwords",
+        "custom": "Custom Feature Data",
+        "feature_error": "Incorrect feature data",
+        "toast": {
+          "retry_download": "The mnemonic encrypted file has been modified. Please download it again. Please save it!",
+          "error_1": "Please enter at least two types of content",
+          "error_2": "First item minimum 8 characters",
+          "error_3": "Second item minimum 8 characters",
+          "error_4": "Third item minimum 8 characters",
+          "error_5": "Please enter at least one item"
+        }
+      },
+      "protector": {
+        "title": "Guardian",
+        "add_title": "Add Guardian",
+        "delete_hint": "Do you want to delete the guardian?",
+        "confirm": "Add",
+        "google": "Bind Google",
+        "hint": "Adopt 2/2 SSS scheme, one shard encrypted and kept in DAuth, the other encrypted and kept in DKVS. Shard data needs to be kept in the vault.",
+        "hint_two": "I have read and agree to the Privacy Policy and Terms of Service"
+      },
+      "backup": {
+        "on": "Backed Up"
+      },
+      "phrase": {
+        "title": "Mnemonic Phrase",
+        "backup": "Mnemonic Phrase",
+        "verify_title": "Mnemonic Phrase Recovery Test",
+        "verify_text": "Mnemonic Phrase Test",
+        "toast_error": "Wrong Mnemonic Phrase",
+        "hint": "Mnemonic phrase is very important, please keep it safe and do not backup online.",
+        "hint_one": "Encrypt mnemonic phrase with encrypted vault?",
+        "hint_two": "Displaying and writing down mnemonic phrase directly is dangerous, you need to put in more effort to keep it safe",
+        "download_text": "Download Encrypted File",
+        "download_success": "Download Success",
+        "download_error": "Download Error"
+      },
+      "question": {
+        "title": "Intelligent Privacy",
+        "backup": "Intelligent Privacy",
+        "test_title": "Intelligent Privacy Recovery Test",
+        "test_text": "Recovery Test",
+        "retry_text": "Reset",
+        "hint": "Intelligent Privacy Backup is a self-custodial private key backup solution. User's personal privacy information is used to generate shards via MPC-SSS, which are kept in distributed storage network. All computation happens locally, all data is kept in user's own digital space, ensuring data security. Please fill out the form correctly, can leave blank (synced with personal info). If personal info changes, account maintenance is needed to prevent loss.",
+        "input": {
+          "placeholder": "please enter a question",
+          "placeholder_select": "Please select a question",
+          "placeholder_answer": "Please enter the answer"
+        },
+        "toast": {
+          "error_1": "The answer is at least 16 digits, please enter more content",
+          "error_2": "Please fill in at least two categories of question answers",
+          "error_3_first": "The answer has ",
+          "error_3_end": " characters in total",
+          "error_4": "Fill in at least one question",
+          "error_5_1": "of ",
+          "error_5_2": "some subquestions not entered"
+        },
+        "default": {
+          "one": {
+            "title": "Basic Information",
+            "name": "Name",
+            "gender": "Gender",
+            "birth_date": "Date of Birth (yyyymmdd)",
+            "birth_city": "Place of Birth (City Name)",
+            "id": "ID Number",
+            "social_number": "Social Security Number",
+            "blood": "Blood Type",
+            "university": "University Name",
+            "enrollment": "Enrollment Time"
+          },
+          "two": {
+            "title": "Online Identity",
+            "phone": "Phone Number",
+            "email": "Email",
+            "apple": "Apple ID",
+            "google": "Google Account",
+            "tw": "Twitter Account",
+            "fb": "Facebook Account",
+            "wx": "WeChat Account",
+            "qq": "QQ Account",
+            "tb": "Taobao Account",
+            "wb": "Weibo Account"
+          },
+          "three": {
+            "title": "Financial Information",
+            "card_one_bank": "Deposit Card 1 Issuing Bank",
+            "card_one_num": "Deposit Card 1 Number",
+            "card_two_bank": "Deposit Card 2 Issuing Bank",
+            "card_two_num": "Deposit Card 2 Number",
+            "credit_card_bank": "Credit Card Issuing Bank",
+            "credit_card_num": "Credit Card Number"
+          },
+          "four": {
+            "title": "Additional Information",
+            "contact": "Emergency Contact",
+            "contact_phone": "Emergency Contact Phone",
+            "first_car_brand": "First Car Brand",
+            "first_car_plate": "First Car License Plate Number",
+            "elementary_school": "Primary School Name",
+            "middle_school": "Middle School Name",
+            "high_school": "High School Name"
+          }
+        }
+      },
+      "multi_verify": {
+        "title": "Multi-factor Authentication",
+        "private_hint": "Using personal private data to set up a encrypted vault for storing key shards.",
+        "protector_hint": "Binding personal additional accounts for identity verification when retrieving key shards.",
+        "hint": "The account backup can only be performed after the settings of the vault and guardian are completed."
+      },
+      "restore": {
+        "title": "Recovery Methods"
+      },
+      "setting": {
+        "title": "Settings",
+        "language": {
+          "title": "Language",
+          "change_success": "Language Switched Successfully"
+        }
+      },
+      "about": {
+        "title": "About",
+        "version": "TinyVerse Space V",
+        "version_new": "New Version",
+        "description": "An open-source, IPFS-based, decentralized tool for secure storage and management of personal privacy data where users have full control over their data and no third party can access user data.",
+        "btn_0": "Update New Version",
+        "btn_1": "Terms of Service",
+        "btn_2": "Privacy Policy",
+        "btn_3": "Source Code",
+        "btn_4": "Official Website",
+        "btn_5": "Blog",
+        "btn_6": "Twitter",
+        "btn_7": "Telegram"
+      },
+      "exit": {
+        "title": "Sign Out"
+      },
+      "tree": {
+        "title": "Account Management",
+        "box": "Safe Box",
+        "node_1": "Privacy Backup",
+        "node_2": "Mnemonic",
+        "node_3": "Protector",
+        "node_4": "Smart Inheritance",
+        "hint": "Our account is a self-managed web3 account, which is the core basis for users to fully control their own data and control data ownership. Here we provide tools to allow users to quickly and easily back up their accounts to ensure the security of their accounts. Important note: If you do not back up your account, user data will be permanently lost."
+      }
+    },
+    "unlock": {
+      "btn_unlock": "Unlock",
+      "success": "Unlocked successfully",
+      "forget_password": "Forgot Password"
+    },
+    "chat": {
+      "title": "Message",
+      "search": {
+        "placeholder": "Public Key/GUN",
+        "empty": "Please enter recipient public key or GUN name",
+        "success": "Friend added successfully",
+        "error": "Failed to add friend"
+      },
+      "contact": {
+        "title": "Contact",
+        "unknow": "Anonymous",
+        "delete_success": "Deleted successfully",
+        "delete_error": "Deleted failed"
+      },
+      "recipient": {
+        "unknow": "Recipient"
+      },
+      "message": {
+        "me_name": "Me",
+        "btn_send": "Send",
+        "send_error": "Send failed"
+      },
+      "profile": {
+        "btn_change": "Modify",
+        "btn_clear": "Clear History",
+        "btn_delete": "Delete Contact",
+        "clear_success": "Cleared successfully",
+        "clear_error": "Cleared failed",
+        "alias": {
+          "title": "Alias",
+          "change_success": "Changed successfully"
+        }
+      }
+    },
+    "restore": {
+      "title": "Account Recovery",
+      "btn_restore": "Restore",
+      "hint_password": "Restore with default password, please change password later",
+      "toast": {
+        "restore_error": "Restore failed",
+        "restore_success": "Restore successfully"
+      },
+      "phrase": {
+        "title": "Mnemonic Phrase Recovery",
+        "tab_file": "Encrypted File",
+        "tab_text": "Mnemonic Phrase",
+        "input_placeholder": "Please enter mnemonic phrase",
+        "upload_hint": "Upload encrypted mnemonic phrase file"
+      },
+      "protector": {
+        "title": "Guardian Recovery"
+      },
+      "encrypted_safe": {
+        "title": "Recover Encrypted Vault"
+      },
+      "question": {
+        "title": "Intelligent Privacy Recovery",
+        "verify": "Intelligent Privacy Identity Verification",
+        "toast": {
+          "error_1": "Answer at least one full question!"
+        }
+      }
+    },
+    "retrieve": {
+      "title": "Retrieve Password",
+      "one_step": "Verify Identity",
+      "two_step": "Set New Password",
+      "three_step": "Done"
+    }
+  }
+}

@@ -1,18 +1,22 @@
-import { Button, Text } from '@nextui-org/react';
 import { Input } from '@/components/form/Input';
+import { Button } from '@/components/form/Button';
 import { useList } from 'react-use';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
 import { cloneDeep, divide, map } from 'lodash';
-import { useMtvStorageStore } from '@/store';
+import { useAccountStore } from '@/store';
 import { useDebounce } from 'react-use';
+import { Select } from './Select';
+import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 interface QuestionItem {
   q: string;
   a?: string;
   p?: string;
   Id?: string;
   l?: number;
+  len?: number;
   error?: boolean;
 }
 interface QuestionList {
@@ -34,81 +38,171 @@ export const QuestionDefault = ({
   type,
   className,
   initList = [],
-  buttonText = '备份',
+  buttonText,
   children,
 }: Props) => {
-  const [list, { set, push, updateAt, remove }] = useList<QuestionList>([]);
-  const [localList, setLocalList] = useState([]);
-  const { mtvStorage } = useMtvStorageStore((state) => state);
+  const { t } = useTranslation();
+  buttonText = buttonText || t('common.backup');
+  const [list, { set, updateAt }] = useList<QuestionList>([]);
+  const [tmpList, { set: setTmpList }] = useList<any>([]);
+  const [userList, { set: setUserList }] = useList<any>([]);
+  const [localList, { set: setLocalList }] = useList<any>([]);
+  const { accountInfo } = useAccountStore((state) => state);
   const disabled = useMemo(
     () => type === 'restore' || type === 'verify',
     [type],
   );
-  // const data = [
-  //   {
-  //     Id: 0,
-  //     title: '基本信息',
-  //     content:
-  //       '[{"content":"姓名","characters":0},{"content":"性别","characters":0},{"content":"出生时间(yyyymmdd)","characters":0},{"content":"出生地点(城市名称)","characters":0},{"content":"身份证","characters":0},{"content":"社保号码","characters":0},{"content":"血型","characters":0},{"content":"大学名称","characters":0},{"content":"入学时间","characters":0}]',
-  //     type: 0,
-  //     CreateTime: '0001-01-01T00:00:00Z',
-  //     UpdateTime: '0001-01-01T00:00:00Z',
-  //   },
-  //   {
-  //     Id: 0,
-  //     title: '网络身份',
-  //     content:
-  //       '[{"content":"手机号码","characters":0},{"content":"邮箱","characters":0},{"content":"Apple ID","characters":0},{"content":"Google账号","characters":0},{"content":"Twitter账号","characters":0},{"content":"Facebook账号","characters":0},{"content":"微信账号","characters":0},{"content":"QQ账号","characters":0},{"content":"淘宝账号","characters":0},{"content":"微博账号","characters":0}]',
-  //     type: 0,
-  //     CreateTime: '0001-01-01T00:00:00Z',
-  //     UpdateTime: '0001-01-01T00:00:00Z',
-  //   },
-  //   {
-  //     Id: 0,
-  //     title: '金融信息',
-  //     content:
-  //       '[{"content":"储蓄卡1开户行","characters":"0"},{"content":"储蓄卡1卡号","characters":0},{"content":"储蓄卡2开户行","characters":0},{"content":"储蓄卡2卡号","characters":0},{"content":"信用卡开户行","characters":0},{"content":"信用卡卡号","characters":0}]',
-  //     type: 0,
-  //     CreateTime: '0001-01-01T00:00:00Z',
-  //     UpdateTime: '0001-01-01T00:00:00Z',
-  //   },
-  //   {
-  //     Id: 0,
-  //     title: '额外信息',
-  //     content:
-  //       '[{"content":"紧急联系人","characters":"0"},{"content":"紧急联系人电话","characters":0},{"content":"第一辆汽车品牌","characters":0},{"content":"第一辆汽车车牌","characters":0},{"content":"小学名称","characters":0},{"content":"初中名称","characters":0},{"content":"高中名称","characters":0}]',
-  //     type: 0,
-  //     CreateTime: '0001-01-01T00:00:00Z',
-  //     UpdateTime: '0001-01-01T00:00:00Z',
-  //   },
-  // ];
-  const { data, mutate } = useRequest<any[]>({
-    url: '/question/tmplist',
-    arg: {
-      method: 'get',
-      auth: true,
-      query: {
-        type: 1,
-      },
-    },
-  });
-  const { data: userList, mutate: questionList } = useRequest<any[]>({
-    url: '/question/list',
-    arg: {
-      method: 'get',
-      auth: true,
-    },
-  });
 
+  const getTmpQuestions = async () => {
+    // const data = await account.getTmpQuestions(1);
+    // if (data?.length) {
+    setTmpList([
+      {
+        Title: t('pages.account.question.default.one.title'),
+        Content: [
+          {
+            Content: t('pages.account.question.default.one.name'),
+          },
+          {
+            Content: t('pages.account.question.default.one.gender'),
+          },
+
+          {
+            Content: t('pages.account.question.default.one.birth_date'),
+          },
+          {
+            Content: t('pages.account.question.default.one.birth_city'),
+          },
+          {
+            Content: t('pages.account.question.default.one.id'),
+          },
+          {
+            Content: t('pages.account.question.default.one.social_number'),
+          },
+          {
+            Content: t('pages.account.question.default.one.blood'),
+          },
+          {
+            Content: t('pages.account.question.default.one.university'),
+          },
+          {
+            Content: t('pages.account.question.default.one.enrollment'),
+          },
+        ],
+        Type: 1,
+      },
+      {
+        Title: t('pages.account.question.default.two.title'),
+        Content: [
+          {
+            Content: t('pages.account.question.default.two.phone'),
+          },
+          {
+            Content: t('pages.account.question.default.two.email'),
+          },
+          {
+            Content: t('pages.account.question.default.two.apple'),
+          },
+          {
+            Content: t('pages.account.question.default.two.google'),
+          },
+          {
+            Content: t('pages.account.question.default.two.tw'),
+          },
+          {
+            Content: t('pages.account.question.default.two.fb'),
+          },
+          {
+            Content: t('pages.account.question.default.two.wx'),
+          },
+          {
+            Content: t('pages.account.question.default.two.qq'),
+          },
+          {
+            Content: t('pages.account.question.default.two.tb'),
+          },
+          {
+            Content: t('pages.account.question.default.two.wx'),
+          },
+        ],
+        Type: 1,
+      },
+      {
+        Title: t('pages.account.question.default.three.title'),
+        Content: [
+          {
+            Content: t('pages.account.question.default.three.card_one_bank'),
+          },
+          {
+            Content: t('pages.account.question.default.three.card_one_num'),
+          },
+          {
+            Content: t('pages.account.question.default.three.card_two_bank'),
+          },
+          {
+            Content: t('pages.account.question.default.three.card_two_num'),
+          },
+          {
+            Content: t('pages.account.question.default.three.credit_card_bank'),
+          },
+          {
+            Content: t('pages.account.question.default.three.credit_card_num'),
+          },
+        ],
+        Type: 1,
+      },
+      {
+        Title: t('pages.account.question.default.four.title'),
+        Content: [
+          {
+            Content: t('pages.account.question.default.four.contact'),
+          },
+          {
+            Content: t('pages.account.question.default.four.contact_phone'),
+          },
+          {
+            Content: t('pages.account.question.default.four.first_car_brand'),
+          },
+          {
+            Content: t('pages.account.question.default.four.first_car_plate'),
+          },
+          {
+            Content: t('pages.account.question.default.four.elementary_school'),
+          },
+          {
+            Content: t('pages.account.question.default.four.middle_school'),
+          },
+          {
+            Content: t('pages.account.question.default.four.high_school'),
+          },
+        ],
+        Type: 1,
+      },
+    ]);
+    // }
+  };
+  const getUserQuestions = async () => {
+    const data = await account.getQuestions(1);
+    if (data?.length) {
+      setUserList(data);
+      console.log(data);
+    }
+  };
   const generateInitList = () => {
-    console.log(initList);
     let _list = initList.map((v, i) => {
       return {
         id: i,
-        list: v.list.map((s: any) => ({ q: s.q, a: '', l: s.l, p: s.p })),
+        list: v.list.map((s: any) => ({
+          q: s.q,
+          a: '',
+          l: s.l,
+          p: s.p,
+          len: s.l,
+        })),
         title: v.title,
       };
     });
+    console.log(_list);
     _list = _list.filter((v) => v.list.length);
     set(_list);
   };
@@ -116,47 +210,66 @@ export const QuestionDefault = ({
     const _list = cloneDeep(list[i]);
     _list.list[j].a = e;
     _list.list[j].l = e.length;
-    console.log(e);
     updateAt(i, _list);
   };
   const saveLocalList = () => {
     if (type === 'maintain') {
       console.log('maintain save');
-      mtvStorage?.put(LOCAL_QUESTION, list);
+      localStorage.setItem(
+        `local_privacy_${accountInfo.publicKey}`,
+        JSON.stringify(list),
+      );
     }
   };
   useDebounce(saveLocalList, 300, [list]);
+
   useEffect(() => {
-    if (mtvStorage) {
-      mtvStorage.get(LOCAL_QUESTION).then((res) => {
-        console.log('res');
-        console.log(res);
-        if (res) {
-          setLocalList(res);
-        }
-      });
-    }
-  }, [mtvStorage]);
-  useEffect(() => {
-    if (localList?.length && type === 'maintain') {
+    console.log(localList);
+    console.log(userList);
+    if (localList.length) {
       set(localList);
-    } else if (data) {
-      const _list = data.map((v, i) => {
-        const childrenList = JSON.parse(v.content);
+    } else if (userList.length && userList[0].Type == 1) {
+      const _list = cloneDeep(userList).map((v, i) => {
+        const childrenList = v.Content;
         return {
           id: i,
-          title: v.title,
-          list: childrenList.map((s: any) => ({
-            q: s.content.replace(/\([\S\s]*\)/g, ''),
-            a: '',
-            p: /\(([\S\s]*)\)/.exec(s.content)?.[1],
-            l: s.character,
-          })),
+          title: v.Title,
+          list: childrenList.map((s: any) => {
+            const q: string = s.Content.replace(/\([\S\s]*\)/g, '');
+            const a = s.Answer || '';
+            return {
+              q: q,
+              a: a || '',
+              p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
+              l: s.Characters,
+              len: s.Characters,
+            };
+          }),
+        };
+      });
+      console.log(_list);
+      set(_list);
+    } else if (tmpList.length) {
+      const _list = cloneDeep(tmpList).map((v, i) => {
+        const childrenList = v.Content;
+        return {
+          id: i,
+          title: v.Title,
+          list: childrenList.map((s: any) => {
+            const q: string = s.Content.replace(/\([\S\s]*\)/g, '');
+            const a = accountInfo.privacyInfo[q] || '';
+            return {
+              q: q,
+              a: a,
+              p: /\(([\S\s]*)\)/.exec(s.Content)?.[1],
+              l: s.Characters,
+            };
+          }),
         };
       });
       set(_list);
     }
-  }, [data, localList]);
+  }, [tmpList, userList, localList]);
 
   const validList = () => {
     let validStatus = true;
@@ -172,14 +285,14 @@ export const QuestionDefault = ({
           0,
         );
         if (keyLen < 16) {
-          toast.error(`答案长度不足,请在多输入一些内容`);
+          toast.error(t('pages.account.question.toast.error_1'));
           validStatus = false;
           break;
         }
       }
     }
     if (answerLen < 2 && validStatus) {
-      toast.error('请至少填写两个分类的问题答案');
+      toast.error(t('pages.account.question.toast.error_2'));
       validStatus = false;
     }
     return validStatus;
@@ -187,37 +300,70 @@ export const QuestionDefault = ({
   const submitQuestion = async () => {
     const validStatus = validList();
     console.log(validStatus);
+    console.log(list);
     if (validStatus) {
       await onSubmit(list);
     }
   };
+  const RendText = ({ num }: any) => {
+    return disabled && Number(num) ? (
+      <div className='break-keep text-xs'>
+        {num}
+        {t('pages.account.question.toast.error_3_end')}
+      </div>
+    ) : (
+      <></>
+    );
+  };
+  console.log(list);
   useEffect(() => {
     if (!initList?.length) {
-      mutate();
-      questionList();
+      getTmpQuestions();
+      getUserQuestions();
     } else {
       generateInitList();
     }
   }, []);
+  useEffect(() => {
+    if (!initList?.length && accountInfo.publicKey) {
+      const localListRes = localStorage.getItem(
+        `local_privacy_${accountInfo.publicKey}`,
+      );
+      try {
+        console.log(localListRes);
+        if (localListRes) {
+          const localList = JSON.parse(localListRes);
+          setLocalList(localList);
+        }
+      } catch (error) {}
+    }
+  }, [accountInfo.publicKey]);
   return (
     <div className={className}>
       <div className='mb-4'>
-        {list.map((val, i) => (
+        {list?.map((val, i) => (
           <div className='mb-4' key={i}>
             <div className='h-14 flex mb-2 items-center border-b-gray-200 border-b-solid border-b text-5 font-600'>
               {val.title}
             </div>
             {val?.list.map((v, j) => (
-              <div className='flex break-keep items-center  mb-2' key={v.q}>
-                <div className='w-30'>
-                  <div>{v.q}</div>
-                  {type !== 'maintain' && !!(v.l && !isNaN(v.l)) && <div  className='text-12px'>答案共{v.l}个字符</div>}
+              <div className='break-keep mb-2' key={j}>
+                <div className='mb-2'>
+                  <div className='text-sm'>{v.q}</div>
+                  {type !== 'maintain' && !!(v?.len && !isNaN(v?.len)) && (
+                    <div className='text-xs'>
+                      {t('pages.account.question.toast.error_3_first')}
+                      {v?.len}
+                      {t('pages.account.question.toast.error_3_end')}
+                    </div>
+                  )}
                 </div>
                 <div className='flex-1'>
                   <Input
                     value={v.a}
                     size='md'
                     placeholder={v.p}
+                    labelRight={<RendText num={v.a?.length} />}
                     rounded={false}
                     onChange={(e: any) => answerChange(i, j, e)}
                   />
@@ -228,7 +374,7 @@ export const QuestionDefault = ({
         ))}
       </div>
       <div className='flex'>
-        <Button className='flex-1' auto onPress={submitQuestion}>
+        <Button className='flex-1' onPress={submitQuestion}>
           {buttonText}
         </Button>
       </div>

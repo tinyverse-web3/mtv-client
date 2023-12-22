@@ -1,25 +1,61 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, Avatar } from '@nextui-org/react';
-import { ThemeSwitch } from '@/components/ThemeSwitch';
-import { LogoutIcon } from '@/components/LogoutIcon';
-import { HeaderUser } from '@/components/header/HeaderUser';
 import { ROUTE_PATH } from '@/router';
-
+import { useTranslation } from 'react-i18next';
+import { RefreshLoad } from '@/components/RefreshLoad';
+import { Icon } from '@iconify/react';
 const hideLogoutPath = ['/', '/restore', '/create', '/unlock'];
-const MenuItem = ({ text, path, icon, className }: any) => {
+
+const FooterTabs = () => {
+  const { t } = useTranslation();
+  const routerLocation = useLocation();
+  const { pathname } = routerLocation;
   const nav = useNavigate();
-  const menuClick = () => {
-    path && nav(path);
+  const list = [
+    {
+      text: t('pages.space.title'),
+      path: ROUTE_PATH.SPACE_INDEX,
+      icon: 'mdi:cube',
+      value: 0,
+    },
+    {
+      text: t('pages.chat.title'),
+      path: ROUTE_PATH.CHAT_INDEX,
+      icon: 'mdi:message-reply-text',
+    },
+    {
+      text: t('pages.assets.title'),
+      path: ROUTE_PATH.ASSETS_INDEX,
+      icon: 'mdi:database-settings-outline',
+    },
+    {
+      text: t('pages.account.title'),
+      path: ROUTE_PATH.ACCOUNT,
+      icon: 'mdi:card-account-details-outline',
+    },
+  ];
+  const menuClick = (path: any) => {
+    path && nav(path, { replace: true });
   };
+  const active = useMemo(() => {
+    return list.findIndex((v) => v.path === pathname);
+  }, [pathname]);
   return (
-    <div
-      className={`cursor-pointer flex flex-col h-full items-center justify-center text-3 ${
-        className ? className : ''
-      }`}
-      onClick={menuClick}>
-      <div className={`${icon} w-6 h-6 mb-1`}></div>
-      <span>{text}</span>
+    <div className='w-full rounded-full relative h-full flex bg-gray-200 overflow-hidden'>
+      {list.map(({ icon, path, text }, i) => (
+        <div
+          className={`w-[25%] flex flex-col justify-center items-center relative z-20 ${
+            active === i ? 'text-blue-500' : ''
+          }`}
+          key={path}
+          onClick={() => menuClick(path)}>
+          <Icon icon={icon} className='w-5 h-5' />
+          <div className='text-[10px]'>{text}</div>
+        </div>
+      ))}
+      <div
+        className='w-[25%] absolute h-full bg-blue-200 rounded-full z-10 transition-transform'
+        style={{ transform: `translateX(${100 * active}%)` }}></div>
     </div>
   );
 };
@@ -36,36 +72,17 @@ export default function LayoutTwo({
     return hideLogoutPath.includes(pathname);
   }, [pathname]);
 
-  const footerMenus = [
-    { text: '空间', path: ROUTE_PATH.SPACE_INDEX, icon: 'i-mdi-cube' },
-    {
-      text: '密信',
-      path: ROUTE_PATH.CHAT_LIST,
-      icon: 'i-mdi-message-reply-text',
-    },
-    {
-      text: '资产',
-      path: ROUTE_PATH.ASSETS_INDEX,
-      icon: 'i-mdi-database-settings-outline',
-    },
-  ];
+  if (!window.JsBridge) {
+    // footerMenus.splice(1, 1);
+  }
   return (
-    <main className={'h-full relative'}>
-      <header className='w-full h-24 absolute top-0 left-0 w-full border-b border-b-solid border-b-gray-200'>
-        <HeaderUser />
-      </header>
-      <section className='h-full pb-15 pt-24'>{children}</section>
-      <footer className='w-full h-15 absolute bottom-0 left-0 w-full border-t border-t-solid border-t-gray-200'>
-        <div className='h-full flex items-center justify-around'>
-          {footerMenus.map((v) => (
-            <MenuItem
-              key={v.text}
-              text={v.text}
-              path={v.path}
-              icon={v.icon}
-              className={pathname === v.path ? 'text-blue-6' : ''}
-            />
-          ))}
+    <main className={'h-full relative overflow-x-hidden'}>
+      <section className='h-full  pb-16'>
+        <div className='h-full overflow-y-auto'>{children}</div>
+      </section>
+      <footer className='w-full h-16 absolute bottom-0 left-0  px-4 border-t-gray-200'>
+        <div className='h-14'>
+          <FooterTabs />
         </div>
       </footer>
     </main>

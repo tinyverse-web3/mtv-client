@@ -1,30 +1,20 @@
 import { useState, useMemo } from 'react';
-import { Checkbox, Text, Card } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
-import { useWalletStore, useGlobalStore, useMtvStorageStore } from '@/store';
-import { useRequest } from '@/api';
-import { KeySha } from '@/lib/account';
+import account from '@/lib/account/account';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+import { OauthThird } from '@/components/OauthThird';
 
 export default function Protector() {
-  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const {
-    resume: resumeMtvStorage,
-    mtvStorage,
-    init: initMtvStorage,
-  } = useMtvStorageStore((state) => state);
-  const [resumeStatus, setResumeStatus] = useState(false);
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const setWallet = useWalletStore((state) => state.setWallet);
-  const { getLocalUserInfo } = useGlobalStore((state) => state);
 
   const query = useMemo(() => {
     return {
@@ -33,70 +23,71 @@ export default function Protector() {
     };
   }, [email, code]);
 
-  const restoreData = async (privateKey: string) => {
-    if (privateKey) {
-      if (!resumeStatus) {
-        await initMtvStorage(privateKey);
-      }
-      await resumeMtvStorage();
-      await getLocalUserInfo();
-    }
-  };
-
-  const { mutate: getSssData } = useRequest({
-    url: '/user/getsssdata4guardian',
-    arg: {
-      method: 'post',
-      auth: true,
-      query,
-    },
-  });
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
     setCode(code);
   };
+  const oauthGoogle = async (res: any) => {
+    const { code, msg, data } = await account.verifyByGoogle(res);
+    console.log(data);
+    if (code === '000000' && data.HasVault) {
+      nav(
+        `${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data.HasVault}&account=${data.Account}`,
+      );
+    } else {
+      toast.error(msg);
+    }
+  };
   const submit = async () => {
     setLoading(true);
     try {
-      const data = await getSssData();
-      if (data.code === '000000') {
-        const { sssData, guardians } = data.data;
-        const keySha = new KeySha();
-        const { account } = guardians[0];
-        const shareB = await keySha.get(account, '', '');
-        const shares: string[] = [sssData, shareB];
-        const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
-        if (status === STATUS_CODE.SUCCESS && wallet?.privateKey) {
-          try {
-            await restoreData(wallet?.privateKey);
-            await setWallet(wallet);
-            nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-          } catch (error: any) {
-            console.log(error);
-            if (error.toString().indexOf('resolve name') > -1) {
-              toast.error('您未备份过数据，数据无法恢复！');
-              nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-            } else {
-              setResumeStatus(true);
-              await wallet?.delete();
-              toast.error('恢复数据失败，请重试！');
-            }
-          }
-        } else if (status === STATUS_CODE.SHARES_ERROR) {
-          toast.error('分片数据错误');
-        }
+      const {
+        code: resCode,
+        msg,
+        data,
+      } = await account.verifyEmail({
+        account: email,
+        verifyCode: code,
+      });
+      if (resCode === '000000') {
+        nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}`);
       } else {
-        toast.error(data.msg);
+        toast.error(msg);
       }
-      setLoading(false);
     } catch (error) {
       setLoading(false);
-      await toast.error('恢复失败');
+      toast.error(t('pages.restore.toast.restore_error'));
+    }
+    setLoading(false);
+  };
+
+  const verifyByTelegram = async (user: any) => {
+    // const testData = {
+    //   id: 5536129150,
+    //   first_name: '子曰',
+    //   username: 'Web3Follow',
+    //   photo_url:
+    //     'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
+    //   auth_date: 1702025683,
+    //   hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
+    // };
+    const { code, msg, data } = await account.verifyByTelegram({
+      Id: user.id,
+      FirstName: user.first_name,
+      UserName: user.username,
+      Hash: user.hash,
+      AuthDate: user.auth_date,
+      PhotoUrl: user.photo_url,
+    });
+    if (code === '000000') {
+      nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}`);
+    } else {
+      toast.error(msg);
     }
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title='守护者恢复' path={ROUTE_PATH.INDEX}>
+    <LayoutThird title={t('pages.restore.title')}>
       <div className='p-4'>
         <div>
           <div className='mb-6'>
@@ -106,10 +97,15 @@ export default function Protector() {
             disabled={disabled}
             size='lg'
             loading={loading}
-            className='mx-auto mb-2 w-full'
+            fullWidth
+            className=' mb-2'
             onPress={submit}>
-            确定
+            {t('common.confirm')}
           </Button>
+          <OauthThird
+            onGoogleChange={oauthGoogle}
+            onTelegramChange={verifyByTelegram}
+          />
         </div>
       </div>
     </LayoutThird>

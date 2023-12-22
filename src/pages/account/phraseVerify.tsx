@@ -1,5 +1,5 @@
-import { Input, Button } from '@nextui-org/react';
-import { useWalletStore } from '@/store';
+import { Button } from '@/components/form/Button';
+import { Input } from '@/components/form/Input';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import { useList } from 'react-use';
@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useEffect, useMemo, useState } from 'react';
 import { cloneDeep } from 'lodash';
+import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
 
 export default function UserPhrase() {
   const nav = useNavigate();
-  const wallet = useWalletStore((state) => state.wallet);
+  const { t } = useTranslation();
   const [emptyList, setEmptyList] = useState<number[]>([]);
   const [list, { updateAt, set }] = useList<string>(
     Array.from<string>({ length: 12 }).fill(''),
@@ -18,40 +20,46 @@ export default function UserPhrase() {
   const changeHandler = (i: number, value: string) => {
     updateAt(i, value);
   };
+  const [mnemonic, setMnemonic] = useState<string>('');
+  const getMnemonic = async () => {
+    const _mnemonic = await account.getMnemonic();
+    setMnemonic(_mnemonic);
+  };
+  useEffect(() => {
+    getMnemonic();
+  }, []);
   const verify = () => {
     const _phrase = list.join(' ');
-    if (_phrase === wallet?.getMnemonic()) {
+    if (_phrase === mnemonic) {
       nav(ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS);
     } else {
-      toast.error('助记词错误');
+      toast.error(t('pages.account.phrase.toast_error'));
     }
   };
-  const phrase = useMemo(
-    () => wallet?.getMnemonic()?.split(' ') || [],
-    [wallet],
-  );
+  const phrase = useMemo(() => mnemonic?.split(' ') || [], [mnemonic]);
   const getFourUniqueNumbers = (range: number, arr: string[]) => {
     const len = arr.length;
     const numbers: number[] = [];
-    const list = cloneDeep(arr);
-    console.log(list);
+    const _list = cloneDeep(arr);
     while (numbers.length < range) {
       let num = Math.floor(Math.random() * len);
       if (!numbers.includes(num)) {
         numbers.push(num);
-        list[num] = '';
+        _list[num] = '';
       }
     }
     setEmptyList(numbers);
-    return list;
+    return _list;
   };
   useEffect(() => {
-    const _phrase = getFourUniqueNumbers(4, phrase);
-    set(_phrase);
+    if (phrase.length > 1) {
+      const _phrase = getFourUniqueNumbers(4, phrase);
+      set(_phrase);
+    }
   }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
-    <LayoutThird title='助记词恢复测试' path={ROUTE_PATH.ACCOUNT_PHRASE}>
+    <LayoutThird title={t('pages.account.phrase.verify_title')}>
       <div className='p-4'>
         <div className='grid grid-cols-4 gap-4 mb-4'>
           {list.map((v, i) => (
@@ -61,7 +69,7 @@ export default function UserPhrase() {
                 aria-label='text'
                 value={v}
                 className='text-center'
-                onChange={(e) => changeHandler(i, e.target.value)}></Input>
+                onChange={(e: string) => changeHandler(i, e)}></Input>
             </div>
           ))}
         </div>
@@ -70,7 +78,7 @@ export default function UserPhrase() {
           className='w-full'
           size='lg'
           onPress={verify}>
-          恢复测试
+          {t('pages.account.phrase.verify_text')}
         </Button>
       </div>
     </LayoutThird>

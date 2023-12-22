@@ -1,114 +1,97 @@
-import LayoutThird from '@/layout/LayoutThird';
-import { useEffect } from 'react';
-import { ROUTE_HASH_PATH, ROUTE_PATH } from '@/router';
+import { useState, useMemo } from 'react';
+import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import {
-  useGlobalStore,
-  useWalletStore,
-  useNostrStore,
-  useMtvStorageStore,
-} from '@/store';
-import { useCheckLogin } from '@/components/BindMail';
-import { Address } from '@/components/Address';
+import { Image } from '@nextui-org/react';
+import { useGlobalStore, useAccountStore } from '@/store';
 import { UserAvatar, ListRow, UserLevel } from './components';
-import { Password } from '@/lib/account/wallet';
+import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
+import { ValidPassword } from '@/components/ValidPassword';
+import { PasswordWarnBadge } from '@/components/PasswordWarnBadge';
 
 export default function Account() {
   const nav = useNavigate();
-  const {
-    userInfo,
-    setUserInfo,
-    // maintainPhrase,
-    // maintainProtector,
-    // maintainQuestion,
-    reset: resetGlobal,
-  } = useGlobalStore((state) => state);
-  const resetNostr = useNostrStore((state) => state.reset);
-  const { destory: destoryStorage } = useMtvStorageStore((state) => state);
-  const { wallet, reset: resetWallet } = useWalletStore((state) => state);
+  const { t } = useTranslation();
+  const { VITE_SDK_HOST, VITE_SDK_LOCAL_HOST } = import.meta.env;
+  const apiHost = window.JsBridge ? VITE_SDK_LOCAL_HOST : VITE_SDK_HOST;
+  const { accountInfo } = useAccountStore((state) => state);
+  const { reset: resetGlobal, setLockStatus } = useGlobalStore(
+    (state) => state,
+  );
+  const { delAccount: resetAccount } = useAccountStore((state) => state);
 
-  const toChangePwd = () => {
-    nav(ROUTE_PATH.CHANGE_PWD);
+  const [type, setType] = useState(0);
+  const [showPasswordStatus, setShowPasswordStatus] = useState(false);
+  const toTree = () => {
+    nav(ROUTE_PATH.ACCOUNT_TREE);
   };
-  const toPublicKey = () => {
-    nav(ROUTE_PATH.ACCOUNT_PUBLICKEY);
-  };
-  const toChangeNickname = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_NAME);
-    }
-  };
-  const toPharse = async () => {
-    nav(ROUTE_PATH.ACCOUNT_PHRASE);
-  };
-  const toQuestion = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_QUESTION);
-    }
-  };
-  const toProtector = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
-    }
+
+  const toProfile = async () => {
+    nav(ROUTE_PATH.ACCOUNT_PROFILE);
   };
   const deleteUser = async () => {
-    await Promise.all([
-      resetNostr(),
-      resetWallet(),
-      resetGlobal(),
-      destoryStorage(),
-      wallet?.delete(),
-    ]);
-    localStorage.clear();
-    location.reload();
-    // nav(ROUTE_PATH.INDEX, { replace: true });
+    await account.lock();
+    setLockStatus(true);
+    nav(ROUTE_PATH.UNLOCK);
   };
-  const logout = async () => {
-    const password = new Password();
-    await Promise.all([resetWallet()]);
-    await password.remove();
-    location.replace('/unlock');
+  const toLocalSafe = () => {
+    nav(ROUTE_PATH.ACCOUNT_LOCAL_SAFE);
   };
+  const toMultiVerify = () => {
+    nav(ROUTE_PATH.ACCOUNT_MULTI_VERIFY);
+  };
+  const toRestory = () => {
+    nav(ROUTE_PATH.ACCOUNT_RESTORY);
+  };
+  const toAbout = () => {
+    nav(ROUTE_PATH.ACCOUNT_ABOUT);
+  };
+  const toSetting = () => {
+    nav(ROUTE_PATH.SETTING_INDEX);
+  };
+  const showVerifyPassword = (type: 1 | 2) => {
+    setShowPasswordStatus(true);
+    setType(type);
+  };
+  const validPasswordSuccess = (password: string) => {
+    if (type === 1) {
+      toTree();
+    } else if (type === 2) {
+      toRestory();
+    }
+  };
+  const imageSrc = useMemo(() => {
+    return accountInfo.avatar
+      ? `${apiHost}/sdk/msg/getAvatar?DestPubkey=${accountInfo.publicKey}`
+      : '/logo.png';
+  }, [accountInfo.avatar]);
   return (
-    <LayoutThird title='我的资料' path={ROUTE_PATH.SPACE_INDEX}>
-      <div className='pt-4 px-4 text-14px'>
-        <div className='flex'>
-          <UserAvatar className='mr-4' />
-          <UserLevel />
-        </div>
-        <ListRow
-          label='名字'
-          value={userInfo.nickname}
-          onPress={toChangeNickname}
+    <div className='p-4 pt-4 text-14px'>
+      <PasswordWarnBadge />
+      <div className='flex mb-4'>
+        <Image
+          src={imageSrc}
+          className='rounded-full w-20 h-20 min-w-[5rem] mr-4 overflow-hidden'
         />
-        <ListRow
-          label='我的公钥'
-          value={<Address address={wallet?.publicKey} />}
-          onPress={toPublicKey}
-        />
-        <ListRow label='修改密码' onPress={toChangePwd} />
-        {/* <ListRow label='指纹识别' value='未开启' onPress={toChangeNickname} />
-        <ListRow label='人脸识别' value='已开启' onPress={toChangeNickname} /> */}
-        <ListRow
-          label='备份助记词'
-          value={userInfo.maintainPhrase ? '已备份' : ''}
-          onPress={toPharse}
-        />
-        <ListRow
-          label='守护者备份'
-          value={userInfo.maintainProtector ? '已备份' : ''}
-          onPress={toProtector}
-        />
-        <ListRow
-          label='智能隐私备份'
-          value={userInfo.maintainQuestion ? '已备份' : ''}
-          onPress={toQuestion}
-        />
-        <ListRow label='退出' onPress={deleteUser} />
+        <UserLevel />
       </div>
-    </LayoutThird>
+      <ListRow label={t('pages.account.profile.title')} onPress={toProfile} />
+      <ListRow
+        label={t('pages.account.local_safe.title')}
+        onPress={toLocalSafe}
+      />
+      <ListRow
+        label={t('pages.account.tree.title')}
+        onPress={() => showVerifyPassword(1)}
+      />
+      <ListRow label={t('pages.account.setting.title')} onPress={toSetting} />
+      <ListRow label={t('pages.account.about.title')} onPress={toAbout} />
+      <ListRow label={t('pages.account.exit.title')} onPress={deleteUser} />
+      <ValidPassword
+        onSuccess={validPasswordSuccess}
+        show={showPasswordStatus}
+        onClose={() => setShowPasswordStatus(false)}
+      />
+    </div>
   );
 }

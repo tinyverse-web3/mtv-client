@@ -5,11 +5,14 @@ import { QuestionDefault } from '@/components/form/QuestionDefault';
 import { ROUTE_PATH } from '@/router';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function QuestionVerify() {
   const nav = useNavigate();
+  const { t } = useTranslation();
   const { list: initList, type } = useQuestionStore((state) => state);
-
+  console.log('initList')
+  console.log(initList)
   const verify = (list: any[]) => {
     let status = true;
     for (let i = 0; i < list.length; i++) {
@@ -28,6 +31,7 @@ export default function QuestionVerify() {
     return status;
   };
   const onSubmit = async (_list: any[]) => {
+    console.log(initList);
     const status = verify(_list);
     nav(ROUTE_PATH.ACCOUNT_QUESTION_RESULT, { state: status });
   };
@@ -37,19 +41,19 @@ export default function QuestionVerify() {
     }
   }, []);
   return (
-    <LayoutThird title='智能隐私恢复测试' path={ROUTE_PATH.ACCOUNT_QUESTION}>
+    <LayoutThird title={t('pages.account.question.test_title')}>
       <div className='p-4'>
         {type == 1 ? (
           <QuestionDefault
             type='verify'
-            buttonText='恢复测试'
+            buttonText={t('pages.account.question.test_text')}
             initList={initList}
             onSubmit={onSubmit}></QuestionDefault>
         ) : (
           <Question
             initList={initList}
             type='verify'
-            buttonText='恢复测试'
+            buttonText={t('pages.account.question.test_text')}
             onSubmit={onSubmit}></Question>
         )}
       </div>

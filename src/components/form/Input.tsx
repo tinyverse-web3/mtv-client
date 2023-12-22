@@ -1,11 +1,18 @@
-import { Text, Input as NextInput, Button } from '@nextui-org/react';
+import { Input as NextInput } from '@nextui-org/react';
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   value?: string | number | readonly string[] | undefined;
   onChange?: (text: string) => void;
 }
-export const Input = ({ value, onChange, ...rest }: Props & any) => {
+export const Input = ({
+  value,
+  onChange,
+  variant = 'bordered',
+  isClearable = true,
+  fullWidth = true,
+  ...rest
+}: Props & any) => {
   const [flag, setFlag] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const chanageSuccess = (val: string) => {
@@ -24,6 +31,7 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
     chanageSuccess(e.target.value);
   };
   const clearHandler = () => {
+    console.log(123);
     chanageSuccess('');
   };
   useEffect(() => {
@@ -34,15 +42,15 @@ export const Input = ({ value, onChange, ...rest }: Props & any) => {
   return (
     <NextInput
       aria-label='text'
-      fullWidth
-      bordered
-      clearable
+      fullWidth={fullWidth}
+      variant={variant}
+      isClearable={isClearable}
       {...rest}
       ref={inputRef}
       // defaultValue={value}
       // initialValue={value}
       onChange={changeHandler}
-      onClearClick={clearHandler}
+      onClear={isClearable && clearHandler}
       onCompositionStart={start}
       onCompositionEnd={end}
     />

@@ -13,17 +13,14 @@ export const Textarea = ({ value, onChange, ...rest }: Props & any) => {
   };
   const changeHandler = (e: any) => {
     if (!flag) {
-      console.log('change');
       chanageSuccess(e.target.value);
     }
   };
   const start = () => {
-    console.log('start');
     setFlag(true);
   };
   const end = (e: any) => {
     setFlag(false);
-    console.log(e.target.value);
     chanageSuccess(e.target.value);
   };
   const clearHandler = () => {
@@ -33,11 +30,11 @@ export const Textarea = ({ value, onChange, ...rest }: Props & any) => {
     if (inputRef.current) {
       inputRef.current.value = value || '';
     }
-  }, [value]);
+  });
   return (
     <NextTextarea
       fullWidth
-      bordered
+      variant='bordered'
       aria-label='textarea'
       ref={inputRef}
       initialValue={value}

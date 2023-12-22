@@ -4,39 +4,27 @@ import {
   RouteObject,
 } from 'react-router-dom';
 import Root from '@/Root';
-import Account from '@/pages/account/';
-import ChangePwd from '@/pages/account/changePwd';
+
 import ChatImChare from '@/pages/chat/imshare';
 import ChatList from '@/pages/chat/list';
 import ChatMessage from '@/pages/chat/message';
-import Create from '@/pages/create';
+import ChatProfile from '@/pages/chat/profile';
 import Home from '@/pages/home';
 import Index from '@/pages/index';
-import NoteEdit from '@/pages/note/edit';
-import Note from '@/pages/note/list';
-import Restore from '@/pages/restore';
-import RestorePhrase from '@/pages/restore/phrase';
-import RestoreProtector from '@/pages/restore/protector';
-import RestoreVerify from '@/pages/restore/verify';
-import RestoreQuestion from '@/pages/restore/question';
-import Test from '@/pages/test';
-import Unlock from '@/pages/unlock';
-import Retrieve from '@/pages/retrieve';
-import AccountName from '@/pages/account/username';
-import AccountQrcode from '@/pages/account/qrcode';
-import AccountMyPublicKey from '@/pages/account/myPublicKey';
-import AccountScan from '@/pages/account/scan';
-import AccountPhrase from '@/pages/account/phrase';
-import AccountPhraseVerify from '@/pages/account/phraseVerify';
-import AccountPhraseSuccess from '@/pages/account/phraseVerifySuccess';
-import AccountQuestion from '@/pages/account/question';
-import AccountQuestionVerify from '@/pages/account/questionVerify';
-import AccountQuestionVerifyResult from '@/pages/account/questionVerifyResult';
-import AccountProtector from '@/pages/account/protector';
-import AccountProtectorVerify from '@/pages/account/protectorVerify';
-import AccountProtectorAdd from '@/pages/account/protectorAdd';
-import SpaceIndex from '@/pages/space';
 import AssetsIndex from '@/pages/assets';
+import SpaceIndex from '@/pages/space';
+
+import Test from '@/pages/test';
+import AppTest from '@/pages/app';
+import Unlock from '@/pages/unlock';
+import Account from '@/pages/account/';
+import Retrieve from '@/pages/retrieve';
+
+import { spaceRoutes, ROUTE_PATH_SPACE } from './space';
+import { accountRoutes, ROUTE_PATH_ACCOUNT } from './account';
+import { assetsRoutes, ROUTE_PATH_ASSETS } from './assets';
+import { restoreRoutes, ROUTE_PATH_RESOTRE } from './restore';
+import { settingRoutes, ROUTE_PATH_SETTING } from './setting';
 
 const resolveHashPath = (path: string) => {
   return `/#${path}`;
@@ -45,39 +33,27 @@ const resolveHashPath = (path: string) => {
 export const ROUTE_PATH = {
   INDEX: '/index',
   HOME: '/home',
+  SPACE_INDEX: '/home/space',
+  CHAT_INDEX: '/home/chat',
+  ASSETS_INDEX: '/home/assets',
+  ACCOUNT: '/home/account',
+
   CREATE: '/create',
-  CHANGE_PWD: '/changePwd',
-  RESTORE: '/restore',
-  RESTORE_PHRASE: '/restore/phrase',
-  RESTORE_PROTECTOR: '/restore/protector',
-  RESTORE_VERIFY: '/restore/verify',
-  RESTORE_QUESTION: '/restore/question',
-  ACCOUNT: '/account',
-  ACCOUNT_NAME: '/account/name',
-  ACCOUNT_QRCODE: '/account/qrcode',
-  ACCOUNT_PUBLICKEY: '/account/publickey',
-  ACCOUNT_SCAN: '/account/scan',
-  ACCOUNT_PHRASE: '/account/phrase',
-  ACCOUNT_PHRASE_VERIFY: '/account/phrase/verify',
-  ACCOUNT_VERIFY_SUCCESS: '/account/phrase/success',
-  ACCOUNT_QUESTION: '/account/question',
-  ACCOUNT_QUESTION_VERIFY: '/account/question/verify',
-  ACCOUNT_QUESTION_RESULT: '/account/question/result',
-  ACCOUNT_PROTECTOR: '/account/protector',
-  ACCOUNT_PROTECTOR_ADD: '/account/protector/add',
-  ACCOUNT_PROTECTOR_VERIFY: '/account/protector/verify',
-  SPACE_INDEX: '/space',
-  ASSETS_INDEX: '/assets',
+
   UNLOCK: '/unlock',
   RETRIEVE: '/retrieve',
-  NOTE: '/note',
-  TEST: '/test',
-  NOTE_EDIT: '/note/:id',
-  CHAT_LIST: '/chat/list',
-  CHAT_MESSAGE: '/chat/message',
-  CHAT_SHARE: '/chat/imShare',
-};
 
+  TEST: '/test',
+  APP_TEST: '/app',
+  CHAT_MESSAGE: '/chat/message',
+  CHAT_PROFILE: '/chat/profile',
+  CHAT_SHARE: '/chat/imShare',
+  ...ROUTE_PATH_SPACE,
+  ...ROUTE_PATH_ACCOUNT,
+  ...ROUTE_PATH_ASSETS,
+  ...ROUTE_PATH_RESOTRE,
+  ...ROUTE_PATH_SETTING,
+};
 const hashPath: any = {};
 Object.keys(ROUTE_PATH).forEach((k: any) => {
   hashPath[k] = resolveHashPath((ROUTE_PATH as any)[k]);
@@ -98,32 +74,30 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATH.HOME,
         element: <Home />,
+        children: [
+          {
+            path: ROUTE_PATH.CHAT_INDEX,
+            element: <ChatList />,
+          },
+          {
+            path: ROUTE_PATH.SPACE_INDEX,
+            element: <SpaceIndex />,
+          },
+          {
+            path: ROUTE_PATH.ASSETS_INDEX,
+            element: <AssetsIndex />,
+          },
+          {
+            path: ROUTE_PATH.ACCOUNT,
+            element: <Account />,
+          },
+        ],
+      },
+      {
+        path: ROUTE_PATH.APP_TEST,
+        element: <AppTest />,
       },
 
-      {
-        path: ROUTE_PATH.CREATE,
-        element: <Create />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE,
-        element: <Restore />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_PHRASE,
-        element: <RestorePhrase />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_PROTECTOR,
-        element: <RestoreProtector />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_VERIFY,
-        element: <RestoreVerify />,
-      },
-      {
-        path: ROUTE_PATH.RESTORE_QUESTION,
-        element: <RestoreQuestion />,
-      },
       {
         path: ROUTE_PATH.UNLOCK,
         element: <Unlock />,
@@ -132,89 +106,18 @@ export const routes: RouteObject[] = [
         path: ROUTE_PATH.RETRIEVE,
         element: <Retrieve />,
       },
+
       {
-        path: ROUTE_PATH.ACCOUNT,
-        element: <Account />,
-      },
-      {
-        path: ROUTE_PATH.CHANGE_PWD,
-        element: <ChangePwd />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_NAME,
-        element: <AccountName />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_QRCODE,
-        element: <AccountQrcode />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_PUBLICKEY,
-        element: <AccountMyPublicKey />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_SCAN,
-        element: <AccountScan />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_PHRASE,
-        element: <AccountPhrase />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_PHRASE_VERIFY,
-        element: <AccountPhraseVerify />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_VERIFY_SUCCESS,
-        element: <AccountPhraseSuccess />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_QUESTION,
-        element: <AccountQuestion />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_QUESTION_VERIFY,
-        element: <AccountQuestionVerify />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_QUESTION_RESULT,
-        element: <AccountQuestionVerifyResult />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_PROTECTOR,
-        element: <AccountProtector />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_PROTECTOR_ADD,
-        element: <AccountProtectorAdd />,
-      },
-      {
-        path: ROUTE_PATH.ACCOUNT_PROTECTOR_VERIFY,
-        element: <AccountProtectorVerify />,
-      },
-      {
-        path: ROUTE_PATH.SPACE_INDEX,
-        element: <SpaceIndex />,
-      },
-      {
-        path: ROUTE_PATH.ASSETS_INDEX,
-        element: <AssetsIndex />,
-      },
-      {
-        path: ROUTE_PATH.NOTE,
-        element: <Note />,
-      },
-      {
-        path: ROUTE_PATH.NOTE_EDIT,
-        element: <NoteEdit />,
-      },
-      {
-        path: ROUTE_PATH.CHAT_LIST,
+        path: ROUTE_PATH.CHAT_INDEX,
         element: <ChatList />,
       },
       {
         path: ROUTE_PATH.CHAT_MESSAGE,
         element: <ChatMessage />,
+      },
+      {
+        path: ROUTE_PATH.CHAT_PROFILE,
+        element: <ChatProfile />,
       },
       {
         path: ROUTE_PATH.CHAT_SHARE,
@@ -224,6 +127,11 @@ export const routes: RouteObject[] = [
         path: ROUTE_PATH.TEST,
         element: <Test />,
       },
+      ...spaceRoutes,
+      ...accountRoutes,
+      ...restoreRoutes,
+      ...assetsRoutes,
+      ...settingRoutes,
     ],
   },
 ];

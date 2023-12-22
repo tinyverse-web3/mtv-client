@@ -1,53 +1,31 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { Text, Checkbox, Row, Button, Input } from '@nextui-org/react';
-import { STATUS_CODE, Password } from '@/lib/account/wallet';
+import { Button } from '@/components/form/Button';
+import { Password } from '@/components/form/Password';
 import { toast } from 'react-hot-toast';
 import { validatePassword } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalStore, useWalletStore } from '@/store';
-import { useRequest } from '@/api';
+import { useAccountStore } from '@/store';
+import account from '@/lib/account/account';
 import LayoutThird from '@/layout/LayoutThird';
+import { useTranslation } from 'react-i18next';
 
 export default function ChangePwd() {
+  const { t } = useTranslation();
   const nav = useNavigate();
-  const passwordManager = new Password();
   const [oldPwd, setOldPwd] = useState('');
   const [pwd, setPwd] = useState('');
   const [checked, setChecked] = useState(false);
   const [confirmPwd, setConfirmPwd] = useState('');
+  const [loading, setLoading] = useState(false);
   const [validStatus, setValidStatus] = useState(true);
   const [confirmStatus, setConfirmStatus] = useState(true);
+  const [isBiometricsSatus, setIsBiometricsSatus] = useState(false);
   const [err, setErr] = useState(false);
-  const { userInfo } = useGlobalStore((state) => state);
-  const wallet = useWalletStore((state) => state.wallet);
-  const query = useRef({ password: '' });
-  const generateQuery = async () => {
-    console.log('保存的密码', pwd);
-    const encryptPwd = await passwordManager.encrypt(pwd);
-    console.log('保存的密码hash', encryptPwd);
-    query.current.password = encryptPwd;
-  };
-
-  // useEffect(() => {
-  //   generateQuery();
-  // }, [pwd]);
-  const { mutate: savePassword } = useRequest(
-    {
-      url: '/user/savepassword',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: query.current,
-      },
-    },
-    {
-      onSuccess(res) {},
-    },
-  );
+  const { accountInfo, setAccountInfo } = useAccountStore((state) => state);
 
   const changePassword = async () => {
     if (oldPwd === pwd) {
-      toast.error('新密码不能与旧密码相同');
+      toast.error('common.password.confirm_error');
       return;
     }
     if (pwd !== confirmPwd) {
@@ -59,111 +37,115 @@ export default function ChangePwd() {
       setValidStatus(false);
       return;
     }
-    const status = await wallet?.verify(oldPwd);
-    if (status === STATUS_CODE.INVALID_PASSWORD) {
-      setErr(true);
-    } else {
-      await wallet?.changePwd(oldPwd, pwd);
-      await generateQuery();
-      if (checked) {
-        const res = await savePassword();
-        if (res.code === '000000') {
-          toast.success('密码保存成功');
-        } else {
-          toast.error(res.msg);
-          return;
-        }
+    setLoading(true);
+    const { code, msg } = await account.changePassword({
+      oldPwd,
+      newPwd: pwd,
+      saveStatus: checked,
+    });
+    setLoading(false);
+    if (code === '000000') {
+      setAccountInfo({ isDefaultPwd: false });
+      if (isBiometricsSatus && window.JsBridge) {
+        setupBiometrics(pwd);
+      } else {
+        toast.success(t('common.password.change_success'));
+        nav(-1);
       }
-
-      nav(-1);
+    } else {
+      setErr(true);
+      toast.error(msg);
     }
+  };
+  const setupBiometrics = async (password: string) => {
+    window?.JsBridge.setupBiometrics(password, ({ code, message }: any) => {
+      if (code === 0) {
+        nav(-1);
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+    });
   };
   const helper = useMemo<{ text: string; color: 'default' | 'error' }>(() => {
     if (!err)
       return {
-        text: '默认密码：123456',
+        text: `${t('common.password.default_text')}：123456`,
         color: 'default',
       };
     return {
-      text: '旧密码错误',
+      text: t('common.password.old_error'),
       color: 'error',
     };
   }, [err]);
   const oldPwdChange = (e: any) => {
     setErr(false);
-    setOldPwd(e.target.value?.trim());
+    setOldPwd(e);
   };
-  const checkboxChange = (e: boolean) => {
-    setChecked(e);
+  const getBiometricsSetUp = () => {
+    if (window?.JsBridge) {
+      window?.JsBridge.isBiometricsSetUp(({ code, message }: any) => {
+        if (code === 0) {
+          setIsBiometricsSatus(true);
+        } else {
+          setIsBiometricsSatus(false);
+        }
+      });
+    }
   };
+  useEffect(() => {
+    getBiometricsSetUp();
+  }, []);
   return (
-    <LayoutThird showBack title='修改密码'>
+    <LayoutThird showBack title={t('common.password.change_text')}>
       <div className='pt-6 px-6'>
-        <Row className='mb-8' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            aria-label='password'
-            fullWidth
+        <div className='mb-8'>
+          <Password
             maxLength={20}
-            type='password'
             value={oldPwd}
             helperColor={helper.color}
             helperText={helper.text}
             onChange={oldPwdChange}
             status={err ? 'error' : 'default'}
-            placeholder='旧密码'
+            placeholder={t('common.password.old_text')}
             initialValue=''
           />
-        </Row>
-        <Row className='mb-8' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            aria-label='password'
-            fullWidth
+        </div>
+        <div className='mb-3'>
+          <Password
             value={pwd}
             disabled={!oldPwd}
+            className='mb-1'
             helperColor={validStatus ? 'default' : 'error'}
             status={validStatus ? 'default' : 'error'}
-            helperText='密码至少8位，包括数字、大小写字母和符号至少2种'
-            onChange={(e) => setPwd(e.target.value?.trim())}
-            placeholder='新密码'
+            onChange={(e: string) => setPwd(e)}
+            placeholder={t('common.password.new_text')}
           />
-        </Row>
-        <Row className='mb-4' justify='center'>
-          <Input.Password
-            clearable
-            bordered
-            fullWidth
-            aria-label='password'
+          <div className='text-xs pl-8px'>
+            {t('common.password.rule_text')}
+          </div>
+        </div>
+        <div className='mb-4'>
+          <Password
             disabled={!pwd}
             value={confirmPwd}
             helperColor={confirmStatus ? 'default' : 'error'}
             status={confirmStatus ? 'default' : 'error'}
-            helperText={confirmStatus ? '' : '密码不一致'}
-            onChange={(e) => setConfirmPwd(e.target.value.trim())}
-            placeholder='确认密码'
+            helperText={
+              confirmStatus ? '' : t('common.password.unanimous_error')
+            }
+            onChange={(e: string) => setConfirmPwd(e)}
+            placeholder={t('common.password.confirm_text')}
             initialValue=''
           />
-        </Row>
-        {userInfo.bindStatus && (
-          <Checkbox
-            className='mb-3'
-            aria-label='checkbox'
-            // isSelected={checked}
-            onChange={checkboxChange}>
-            <Text className='text-3'>
-              是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。
-            </Text>
-          </Checkbox>
-        )}
+        </div>
 
         <Button
           disabled={!(pwd && oldPwd && confirmPwd)}
-          className='mx-auto'
+          fullWidth
+          loading={loading}
           onPress={changePassword}>
-          修改
+          {t('common.password.change')}
         </Button>
       </div>
     </LayoutThird>

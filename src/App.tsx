@@ -1,33 +1,29 @@
+import { useEffect } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { RouterProvider, BrowserRouter as Router } from 'react-router-dom';
 // import '@chatui/core/dist/index.css';
 import { Toaster } from 'react-hot-toast';
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { router } from '@/router';
-import { lightTheme, darkTheme } from '@/layout';
 import { BindMail } from '@/components/BindMail';
 
 import Container from '@/layout/container';
-import { useNostrStore, useGlobalStore } from '@/store';
-import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function App() {
-  const loading = useGlobalStore((state) => state.checkLoading);
+  const { t } = useTranslation();
+  const { VITE_GOOGLE_CLIENT } = import.meta.env;
+  useEffect(() => {
+    document.title = t('app.title');
+  }, []);
   return (
-    <main className='sm:pt-20 h-full'>
-      <NextThemesProvider
-        defaultTheme='light'
-        attribute='class'
-        value={{
-          light: lightTheme.className,
-          dark: darkTheme.className,
-        }}>
+    <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENT}>
+      <main className='sm:pt-20 h-full'>
         <NextUIProvider>
           <Container>
             <BindMail />
             <Toaster
-              containerStyle={{ zIndex: 9999999 }}
+              containerStyle={{ zIndex: 9999999, wordBreak: 'break-all' }}
               position='top-center'
               reverseOrder={false}
               toastOptions={{
@@ -37,7 +33,7 @@ export default function App() {
             <RouterProvider router={router}></RouterProvider>
           </Container>
         </NextUIProvider>
-      </NextThemesProvider>
-    </main>
+      </main>
+    </GoogleOAuthProvider>
   );
 }

@@ -1,36 +1,26 @@
 import { useState, useMemo } from 'react';
-import { Checkbox, Text, Card } from '@nextui-org/react';
+import { Checkbox } from '@nextui-org/react';
 import { Button } from '@/components/form/Button';
 import LayoutThird from '@/layout/LayoutThird';
 import { EmailBox } from '@/components/form/EmailBox';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
-import { useRequest } from '@/api';
 import toast from 'react-hot-toast';
-import { useGlobalStore, useAccountStore } from '@/store';
+import account from '@/lib/account/account';
+import { useAccountStore, useGlobalStore } from '@/store';
+import { OauthThird } from '@/components/OauthThird';
+import { useTranslation } from 'react-i18next';
 export default function ProtectorAdd() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-  const { changeProtectorStatus } = useGlobalStore((state) => state);
-  const { setAccount, account } = useAccountStore((state) => state);
-  const { mutate } = useRequest(
-    {
-      url: '/guardian/add',
-      arg: {
-        auth: true,
-        method: 'post',
-        query: { account: email, verifyCode: code, type: 'email' },
-      },
-    },
-    {
-      onError() {
-        setLoading(false);
-      },
-    },
+  const { getLocalAccountInfo, accountInfo } = useAccountStore(
+    (state) => state,
   );
+  const [email, setEmail] = useState('');
+  const [tgStatus, setTgStatus] = useState(false);
+  const [code, setCode] = useState('');
 
   const emailChange = ({ email, code }: any) => {
     setEmail(email);
@@ -39,17 +29,59 @@ export default function ProtectorAdd() {
   const checkboxChange = (e: boolean) => {
     setChecked(e);
   };
+  const oauthGoogle = async (googleRes: any) => {
+    const { code, msg } = await account.oauthGoogle(googleRes);
+
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      toast.success(t('common.toast.bind_success'));
+    } else {
+      toast.error(msg || t('common.toast.bind_error'));
+    }
+  };
+  const verifyByTelegram = async (user: any) => {
+    // const testData = {
+    //   id: 5536129150,
+    //   first_name: '子曰',
+    //   username: 'Web3Follow',
+    //   photo_url:
+    //     'https://t.me/i/userpic/320/rZKOa2AjixP36NGHGFD9HEJBYyfehf-aLMrF7NL1INfMTQvWXCteIQJw158PFMR2.jpg',
+    //   auth_date: 1702025683,
+    //   hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
+    // };
+    if (tgStatus) {
+      return;
+    }
+    const { code, msg } = await account.oauthTelegram({
+      Id: user.id,
+      Params: JSON.stringify(user),
+    });
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      setTgStatus(true);
+      toast.success(t('common.toast.bind_success'));
+    } else {
+      toast.error(msg || t('common.toast.bind_error'));
+    }
+    console.log(code, msg);
+  };
   const submit = async () => {
     try {
-      const { guardians } = account;
-      const newGuardians = [...guardians, { type: 'email', name: email }];
-      await setAccount({ guardians: newGuardians });
-      await toast.success('添加成功');
-      await mutate();
-      await changeProtectorStatus(true);
-      nav(ROUTE_PATH.ACCOUNT_PROTECTOR);
+      const { code: resCode, msg } = await account.addGuardian({
+        account: email,
+        verifyCode: code,
+        type: 'email',
+      });
+      if (resCode === '000000') {
+        await getLocalAccountInfo();
+        toast.success(t('common.toast.bind_success'));
+      } else {
+        toast.error(msg || t('common.toast.bind_error'));
+      }
+
+      nav(-1);
     } catch (error) {
-      await toast.error('添加失败');
+      await toast.error(t('common.toast.bind_error'));
     }
   };
   const disabled = useMemo(
@@ -57,13 +89,11 @@ export default function ProtectorAdd() {
     [checked, email, code],
   );
   return (
-    <LayoutThird title='添加守护者' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title={t('pages.account.protector.add_title')}>
       <div className='p-4'>
-        <Text className='text-14px mb-6'>
-          守护者可用于身份验证、社交恢复等。
-          <br />
-          请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。
-        </Text>
+        <div className='text-14px mb-6'>
+          {t('pages.account.protector.hint')}
+        </div>
         <div>
           <div className='mb-6'>
             <EmailBox onChange={emailChange} />
@@ -72,10 +102,10 @@ export default function ProtectorAdd() {
             className='mb-3'
             aria-label='checkbox'
             // isSelected={checked}
-            onChange={checkboxChange}>
-            <Text className='text-3'>
-              我已阅读并同意《隐私政策》及《用户服务协议》
-            </Text>
+            onValueChange={checkboxChange}>
+            <div className='text-3'>
+              {t('pages.account.protector.hint_two')}
+            </div>
           </Checkbox>
           <Button
             disabled={disabled}
@@ -83,8 +113,12 @@ export default function ProtectorAdd() {
             loading={loading}
             className='mx-auto mb-2 w-full'
             onPress={submit}>
-            确定
+            {t('pages.account.protector.confirm')}
           </Button>
+          <OauthThird
+            onGoogleChange={oauthGoogle}
+            onTelegramChange={verifyByTelegram}
+          />
         </div>
       </div>
     </LayoutThird>

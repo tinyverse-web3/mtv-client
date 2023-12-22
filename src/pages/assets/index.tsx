@@ -1,105 +1,85 @@
-import { Button } from '@/components/form/Button';
-import { Image } from '@nextui-org/react';
-import LayoutTwo from '@/layout/LayoutTwo';
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { useWalletStore } from '@/store';
-import { useList } from 'react-use';
-import { useWalletBalance } from '@/lib/hooks';
-interface AssetsTokenItemProps {
-  icon?: string;
-  symbol: string;
-  balance?: number | string;
-  dollar?: number | string;
-}
-const AssetsTokenItem = ({
-  icon,
-  symbol,
-  balance,
-  dollar,
-}: AssetsTokenItemProps) => {
-  return (
-    <div className='flex items-center justify-between h-18 border-b-1 border-b-solid border-b-gray-200'>
-      <div className='flex items-center'>
-        {icon && (
-          <Image
-            src={icon}
-            className='w-9 h-9 bg-gray-200 rounded-full mr-6'></Image>
-        )}
-        <span className='text-4 font-600'>{symbol}</span>
-      </div>
-      <div>
-        <div className='text-3.5 font-600 text-right'>{balance}</div>
-        {dollar && <div className='text-2  text-right'>${dollar}</div>}
-      </div>
-    </div>
-  );
-};
-interface AssetsNftItemProps {
-  icon: string;
-}
-const AssetsNftItem = ({ icon }: AssetsNftItemProps) => {
-  return (
-    <div className='p-2 border border-solid border-gray-200'>
-      <Image src={icon} className='w-20 h-20' />
-    </div>
-  );
-};
-export default function AssetsIndex() {
-  const [assetsType, setAssetsType] = useState('token');
+import { useEffect, useMemo, useState } from 'react';
+import { useAccountStore } from '@/store';
+import { ButtonTabs } from '@/components/ButtonTabs';
+import { usePoint } from '@/lib/hooks';
+import { AssetsTokenItem } from './components/AssetsTokenItem';
+import { NftList } from './components/NftList';
+import { Icon } from '@iconify/react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ROUTE_PATH } from '@/router';
+import { useTranslation } from 'react-i18next';
 
-  const { wallet } = useWalletStore((state) => state);
-  const [list] = useWalletBalance();
+export default function AssetsIndex() {
+  const nav = useNavigate();
+  const { t } = useTranslation();
+  const [params] = useSearchParams();
+  const type = params.get('type');
+  const [assetsType, setAssetsType] = useState(type || 'token');
+  const { balance: pointBalance } = usePoint();
+
   const assetsTypes = [
     {
-      label: '代币',
+      label: t('pages.assets.token.title'),
       value: 'token',
     },
     {
-      label: 'NFT',
-      value: 'NFT',
+      label: t('pages.assets.nft.title'),
+      value: 'nft',
     },
   ];
+  const toAdd = () => {
+    nav(ROUTE_PATH.ASSETS_NFT_ADD);
+  };
+
+  const toTokenDetail = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+  };
+  // useEffect(() => {
+  //   setAssetsType(type || 'token');
+  // }, [params]);
   return (
-    <LayoutTwo title='私密聊天'>
-      <div className='p-6'>
-        <div className='flex mb-6'>
-          {assetsTypes.map((item) => (
-            <div className='w-20 flex justify-center' key={item.value}>
-              <div
-                className={`${
-                  assetsType === item.value
-                    ? 'border-b-2 border-b-solid text-blue-5'
-                    : ''
-                } cursor-pointer`}
-                onClick={() => setAssetsType(item.value)}>
-                {item.label}
-              </div>
-            </div>
-          ))}
+    <div>
+      <div className='p-4'>
+        <div className='flex justify-between mb-4'>
+          <ButtonTabs list={assetsTypes} value={assetsType} onChange={setAssetsType} />
+          {assetsType === 'nft' && (
+            <Icon
+              icon='mdi:plus-circle-outline'
+              onClick={toAdd}
+              className=' text-xl'></Icon>
+          )}
         </div>
+
         <div>
           {assetsType === 'token' ? (
-            <div>
-              {list.map((item) => (
+            <>
+              <div className='mb-20'>
                 <AssetsTokenItem
-                  icon={item.icon}
-                  symbol={item.symbol}
-                  key={item.symbol}
-                  balance={item.balance}
-                  dollar={item.dollar}
+                  icon='/logo.png'
+                  chain='Tinyverse'
+                  symbol={t('pages.assets.token.point_name')}
+                  key='point'
+                  onClick={() => toTokenDetail()}
+                  balance={pointBalance}
                 />
-              ))}
-            </div>
+                {/* {list.map((item) => (
+                  <AssetsTokenItem
+                    icon={item.icon}
+                    symbol={item.symbol}
+                    key={item.symbol}
+                    balance={item.balance}
+                    dollar={item.dollar}
+                  />
+                ))} */}
+              </div>
+            </>
           ) : (
             <div>
-              <div className='grid grid-cols-3 grid-gap-6'>
-                <AssetsNftItem icon='/logo.png' />
-              </div>
+              <NftList />
             </div>
           )}
         </div>
       </div>
-    </LayoutTwo>
+    </div>
   );
 }

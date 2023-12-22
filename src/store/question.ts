@@ -20,6 +20,7 @@ interface QuestionState {
   setPublicKey: (e: string) => void;
   setType: (e: number) => void;
   setSssData: (e: string) => void;
+  reset: () => void;
 }
 
 export const useQuestionStore = create<QuestionState>()(
@@ -40,5 +41,8 @@ export const useQuestionStore = create<QuestionState>()(
     setSssData: (sssData) => {
       set({ sssData });
     },
+    reset: () => {
+      set({ list: [], type: 1, publicKey: '', sssData: '' });
+    }
   })),
 );

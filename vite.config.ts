@@ -17,7 +17,8 @@ builtinsPlugin.name = 'builtins';
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    https: true,
+    port: 5174,
+    // https: true,
     // proxy: {
     //   '/api': {
     //     target: 'http://172.20.10.6:6060/',
@@ -27,7 +28,7 @@ export default defineConfig({
     // },
   },
   plugins: [
-    basicSsl(),
+    // basicSsl(),
     react(),
     // viteCommonjs(),
     // rollupInputOptions({

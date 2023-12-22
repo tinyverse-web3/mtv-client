@@ -1,71 +1,90 @@
-import { useState } from 'react';
-import { Text, Row, Button, Textarea } from '@nextui-org/react';
-import wallet, { STATUS_CODE } from '@/lib/account/wallet';
+import { useMemo, useState } from 'react';
+import { Button } from '@/components/form/Button';
 import { useNavigate } from 'react-router-dom';
 import {
-  useWalletStore,
-  useGlobalStore,
-  useMtvStorageStore,
   useQuestionStore,
+  useAccountStore,
+  useGlobalStore,
+  useRestoreStore,
 } from '@/store';
-import { useRequest } from '@/api';
-import toast from 'react-hot-toast';
 import { QuestionRestore } from '@/pages/restore/components/QuestionRestore';
-import { VerifyMail } from '@/components/VerifyMail';
 import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
+import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+
 export default function Restore() {
-  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
+  const { t } = useTranslation();
   const nav = useNavigate();
-  const [resumeStatus, setResumeStatus] = useState(false);
-  const {
-    resume: resumeMtvStorage,
-    mtvStorage,
-    init: initMtvStorage,
-  } = useMtvStorageStore((state) => state);
-  const {
-    list: questionList,
-    sssData: serverShare,
-    type,
-  } = useQuestionStore((state) => state);
-  const setWallet = useWalletStore((state) => state.setWallet);
-  const { getLocalUserInfo } = useGlobalStore((state) => state);
-  const restoreData = async (privateKey: string) => {
-    if (privateKey) {
-      if (!resumeStatus) {
-        await initMtvStorage(privateKey);
-      }
-      await resumeMtvStorage();
-      await getLocalUserInfo();
-    }
+  const { getLocalAccountInfo } = useAccountStore((state) => state);
+  const { setLockStatus } = useGlobalStore((state) => state);
+  const [type, setType] = useState(1); // 1 默认 2 自定义
+  const { defaultQuestionList, customQuestionList } = useRestoreStore(
+    (state) => state,
+  );
+  const tabs = [
+    {
+      label: t('common.default'),
+      value: 1,
+    },
+    {
+      label: t('common.custom'),
+      value: 2,
+    },
+  ];
+  const tabChange = (value: number) => {
+    setType(value);
   };
-  const questionSubmit = async (shares: string[]) => {
-    const status = await wallet.sssResotre(shares, VITE_DEFAULT_PASSWORD);
-    if (status === STATUS_CODE.SUCCESS && wallet?.privateKey) {
-      try {
-        await restoreData(wallet?.privateKey);
-        await setWallet(wallet);
-        nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-      } catch (error: any) {
-        if (error.toString().indexOf('resolve name') > -1) {
-          toast.error('您未备份过数据，数据无法恢复！');
-          nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
-        } else {
-          setResumeStatus(true);
-          await wallet?.delete();
-          toast.error('恢复数据失败，请重试！');
-        }
-      }
-    } else if (status === STATUS_CODE.SHARES_ERROR) {
-      toast.error('分片数据错误');
+  const { passwordPrivateData, textPrivateData, customPrivateData } =
+    useRestoreStore((state) => state);
+  const questionSubmit = async (list: any[]) => {
+    const { code, msg, data } = await account.restoreByQuestions({
+      list,
+      type,
+      passwordPrivateData,
+      textPrivateData,
+      CustomPrivateData: customPrivateData,
+    });
+    if (code === '000000') {
+      await getLocalAccountInfo();
+      nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
+      toast.success(t('pages.restore.toast.restore_success'));
+    } else {
+      toast.error(msg);
     }
+    setLockStatus(false);
   };
+  const questionList = useMemo(() => {
+    if (type === 1) {
+      return defaultQuestionList;
+    } else {
+      return customQuestionList;
+    }
+  }, [type, customQuestionList, defaultQuestionList]);
   return (
-    <LayoutThird title='智能隐私恢复'>
+    <LayoutThird title={t('pages.restore.question.title')}>
       <div className='p-6'>
+        <div className='flex mb-4'>
+          {tabs.map((item, index) => {
+            return (
+              <Button
+                key={index}
+                className={`w-20 mr-2 text-14px ${
+                  type === item.value
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-200 text-gray-500'
+                }`}
+                onClick={() => {
+                  tabChange(item.value);
+                }}>
+                {item.label}
+              </Button>
+            );
+          })}
+        </div>
         <QuestionRestore
           type={type}
-          serverShare={serverShare}
           questionList={questionList}
           onSubmit={questionSubmit}></QuestionRestore>
       </div>

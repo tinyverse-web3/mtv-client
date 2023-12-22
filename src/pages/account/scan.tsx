@@ -3,36 +3,36 @@ import { ROUTE_PATH } from '@/router';
 import { Html5Qrcode } from 'html5-qrcode';
 import { QrType } from '@/type';
 import { useRequest } from '@/api';
+import { useAccountStore } from '@/store';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useMount } from 'react-use';
 import { useNavigate } from 'react-router-dom';
-export default function UserQrcode() {
+import account from '@/lib/account/account';
+import { useTranslation } from 'react-i18next';
+
+export default function UserScan() {
+  const { t } = useTranslation();
   const nav = useNavigate();
   const html5Qrcode = useRef<any>();
   const [text, setText] = useState('');
   const cameraId = useRef('');
-  const [friendPk, setFrientPk] = useState('');
-
-  const { mutate: addFriend } = useRequest<any[]>(
-    {
-      url: '/im/addfriend',
-      arg: {
-        method: 'post',
-        auth: true,
-        query: {
-          toPublicKey: friendPk,
-        },
-      },
-    },
-    {
-      onSuccess() {
-        toast.success('添加成功');
-        nav(ROUTE_PATH.CHAT_LIST);
-      },
-    },
-  );
+  const nativeScan = (result: any) => {
+    console.log(result);
+    // console.log(typeof result);
+    setText(result.data);
+    if (!result.data) {
+      nav(-1);
+    }
+    // alert(JSON.stringify(result));
+  };
   const start = async () => {
     try {
+      console.log('start');
+      const constraints = { audio: false, video: { facingMode: 'user' } };
+      console.log(navigator.mediaDevices.getUserMedia);
+      const deviceAr = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log(deviceAr);
       const devices = await Html5Qrcode.getCameras();
       console.log('devices', devices);
       
@@ -65,43 +65,43 @@ export default function UserQrcode() {
         .catch((err: any) => {
           // Start failed, handle it.
         });
-    } catch (error) {}
+    } catch (error) {
+      console.log(t('common.init_scan_error'));
+      console.log(error);
+    }
   };
-  useEffect(() => {
-    if (!html5Qrcode.current) {
+  useMount(() => {
+    if (window.JsBridge) {
+      console.log('native scan');
+      window.JsBridge.startQrcodeScanActivity(nativeScan);
+    } else if (!html5Qrcode.current) {
       start();
     }
-    return () => {
-      if (html5Qrcode.current) {
-        html5Qrcode.current.stop();
-        html5Qrcode.current = null;
-      }
-    }
-  }, []);
-  const parseText = () => {
+  });
+  const parseText = async () => {
     if (text) {
-      const obj = JSON.parse(text);
-      if (obj.type === QrType.ADD_FRIEND && obj.value) {
-        setFrientPk(obj.value);
+      const searchParams = new URLSearchParams(text);
+      const type = searchParams.get('type') as any;
+      const value = searchParams.get('value');
+      if (Number(type) === QrType.ADD_FRIEND && value) {
+        await account.createContactByMasterKey(value);
+        toast.success(t('pages.chat.search.success'));
+      } else {
+        toast.success(t('common.no_result'));
       }
+      nav(-1);
     }
   };
   useEffect(() => {
     parseText();
   }, [text]);
-  useEffect(() => {
-    if (friendPk) {
-      toast('正在添加好友');
-      addFriend();
-    }
-  }, [friendPk]);
   return (
-    <LayoutThird title='我的二维码' path={ROUTE_PATH.SPACE_INDEX}>
+    <LayoutThird title={t('common.scan')}>
       <div className='pt-30'>
         <div className='r w-60 h-60 mb-20 mx-auto overflow-hidden'>
           <div id='reader'></div>
         </div>
-        <div className='text-center'>扫一扫</div>
+        <div className='text-center'>{t('common.scan')}</div>
         {/* <div>扫描结果：{text}</div> */}
       </div>
     </LayoutThird>

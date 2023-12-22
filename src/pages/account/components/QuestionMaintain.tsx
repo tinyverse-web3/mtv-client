@@ -1,22 +1,17 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Card, Text } from '@nextui-org/react';
-import { Button } from '@/components/form/Button';
-import { KeySha } from '@/lib/account';
-import { useRequest } from '@/api';
-import { useWalletStore, useGlobalStore, useQuestionStore } from '@/store';
-import { useCopyToClipboard } from 'react-use';
-import toast from 'react-hot-toast';
+import { useQuestionStore } from '@/store';
 import { Question } from '@/components/form/Question';
 import { QuestionDefault } from '@/components/form/QuestionDefault';
 import { ROUTE_PATH } from '@/router';
 import { useNavigate } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
+import { useTranslation } from 'react-i18next';
 interface Props {
   type: Number;
 }
-export const QuestionMaintain = ({ type }: Props) => {
+export const QuestionMaintain = () => {
+  const { t } = useTranslation();
   const nav = useNavigate();
-  const { setList: setQuestionList, setType } = useQuestionStore(
+  const { setList: setQuestionList, type } = useQuestionStore(
     (state) => state,
   );
 
@@ -39,13 +34,13 @@ export const QuestionMaintain = ({ type }: Props) => {
       {type == 1 ? (
         <QuestionDefault
           type='maintain'
-          buttonText='恢复测试'
+          buttonText={t('pages.account.question.test_text')}
           onSubmit={onSubmit}
         />
       ) : (
         <Question
           type='maintain'
-          buttonText='恢复测试'
+          buttonText={t('pages.account.question.test_text')}
           onSubmit={onSubmit}></Question>
       )}
     </>

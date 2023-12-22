@@ -1,8 +1,10 @@
-import { Button as NextButton, Loading } from '@nextui-org/react';
-
+import { useRef, useEffect } from 'react';
+import { Button as ChakraButton } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 interface ButtonProps {
   loading?: boolean;
   onPress?: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   children?: React.ReactNode;
 }
@@ -10,26 +12,43 @@ interface ButtonProps {
 export const Button = ({
   loading,
   onPress,
+  onClick,
   children,
   disabled,
+  color = 'messenger',
   className,
+  fullWidth,
+  radius,
   ...rest
 }: ButtonProps & any) => {
+  const btnElement = useRef<any>();
   const pressHandler = (e: any) => {
     if (loading || disabled) return;
-    onPress?.();
+    if (onPress) {
+      onPress?.();
+    } else if (onClick) {
+      onClick?.(e);
+    }
+    return false;
   };
+  // useEffect(() => {
+  //   document.addEventListener('click', pressHandler);
+  //   if (btnElement.current) {
+  //     btnElement.current.addEventListener('click', pressHandler);
+  //   }
+  // }, []);
   return (
-    <NextButton
-      className={`h-50px rounded-2 text-4 ${className}`}
-      disabled={disabled}
-      {...rest}
-      onPressEnd={pressHandler}>
-      {loading ? (
-        <Loading type='spinner' size='sm' color='currentColor' />
-      ) : (
-        children
-      )}
-    </NextButton>
+    <ChakraButton
+      className={`px-0 ${fullWidth ? 'w-full' : ''} ${className} `}
+      style={{
+        borderRadius: radius === 'full' ? '9999px' : '',
+      }}
+      isDisabled={disabled}
+      colorScheme={color || 'messenger'}
+      isLoading={loading}
+      onClick={pressHandler}
+      {...rest}>
+      {children}
+    </ChakraButton>
   );
 };

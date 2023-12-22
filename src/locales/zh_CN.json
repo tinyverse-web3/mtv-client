@@ -1,0 +1,570 @@
+{
+  "app": {
+    "title": "芥子空间",
+    "subtitle": "为您在数字世界中建造一个私人的安全屋。",
+    "description": ""
+  },
+  "common": {
+    "share": "分享",
+    "title": "标题",
+    "download": "下载",
+    "account": "账户",
+    "link": "网址",
+    "save": "保存",
+    "space": "空间",
+    "description": "描述",
+    "content": "内容",
+    "code_sended": "验证码已发送",
+    "bind_email": "绑定邮箱",
+    "verify_text": "验证密码",
+    "email": "邮箱",
+    "code": "验证码",
+    "code_text": "获取验证码",
+    "send_code_success": "验证码已发送",
+    "next_step": "下一步",
+    "confirm": "确定",
+    "change": "修改",
+    "scan": "扫一扫",
+    "copy": "复制",
+    "copy_success": "复制成功",
+    "init_scan_error": "相机初始化失败",
+    "set_text": "设置",
+    "cancel": "取消",
+    "default": "默认",
+    "custom": "自定义",
+    "backup": "备份",
+    "add": "增加",
+    "create": "新增",
+    "edit": "编辑",
+    "delete": "删除",
+    "delete_hint": "是否删除 ",
+    "question": "问题",
+    "file": "文件",
+    "select": "请选择",
+    "sub_question": "子问题",
+    "empty_data": "暂无数据",
+    "no_result": "没有得到任何结果",
+    "request_error": "请求失败",
+    "fingerprint": {
+      "title": "指纹"
+    },
+    "photo": "照片",
+    "password": {
+      "title": "密码",
+      "rule_text": "密码至少8位，包括数字、大小写字母和符号至少2种。",
+      "default_text": "默认密码",
+      "default_modal_text": "您的默认密码是",
+      "confirm_text": "确认密码",
+      "verify_text": "验证密码",
+      "verify_success": "验证成功",
+      "verify_error": "验证失败",
+      "change_text": "默认密码",
+      "new_text": "新密码",
+      "input": "输入密码",
+      "error": "密码错误",
+      "change": "修改密码",
+      "change_success": "修改成功",
+      "change_default_hint": "请尽快修改本地默认密码",
+      "old_error": "旧密码错误",
+      "unanimous_error": "密码不一致",
+      "old_text": "旧密码",
+      "save_hint": "是否保存本地密码到服务节点，以便忘记密码时可以通过绑定的邮箱取回本地密码？请注意，本地密码仅用于加密保存在本地的数据。",
+      "confirm_error": "新密码不能与旧密码相同",
+      "hint_one": "请尽快修改默认密码，确保数据安全。"
+    },
+    "biometrics": {
+      "title": "生物识别"
+    },
+    "upload": {
+      "title": "上 传",
+      "success": "上传成功",
+      "error": "上传失败",
+      "avatar_success": "头像上传成功"
+    },
+    "toast": {
+      "delete_success": "删除成功",
+      "delete_error": "删除失败",
+      "backup_error": "备份失败",
+      "backup_success": "备份成功",
+      "bind_success": "绑定成功",
+      "bind_error": "绑定失败",
+      "add_success": "新增成功",
+      "add_error": "新增失败",
+      "edit_success": "新增成功",
+      "edit_error": "新增失败",
+      "set_success": "设置成功",
+      "set_error": "设置失败"
+    },
+    "turn_on": "已开启",
+    "turn_off": "未开启"
+  },
+  "pages": {
+    "index": {
+      "btn_create": "创建账户",
+      "create_hint": "一键创建web3账户，不需要任何个人隐私数据。",
+      "btn_restore": "恢复账户",
+      "btn_more": "了解更多"
+    },
+    "assets": {
+      "title": "资产",
+      "owner": "拥有者",
+      "nft": {
+        "title": "NFT",
+        "tab_file": "文件",
+        "tab_text": "内容",
+        "btn_mint": "发行",
+        "mint_title": "发行NFT",
+        "mint_success": "发行成功",
+        "mint_name_placeholder": "标题",
+        "mint_description_placeholder": "描述",
+        "mint_content_placeholder": "内容",
+        "mint_file_hint": "上传图片",
+        "mint_text_hint": "最大内容8k字节",
+        "detail_text": "NFT详情",
+        "detail_name": "名称",
+        "btn_transfer": "转移",
+        "btn_set_avatar": "设置为头像"
+      },
+      "token": {
+        "title": "代币",
+        "detail_title": "详情",
+        "point_name": "TVS",
+        "transfer_success": "转账成功"
+      },
+      "receiver": {
+        "title": "收款"
+      },
+      "contact": {
+        "title": "选择地址",
+        "address_book": "地址本",
+        "frient": "我的好友"
+      },
+      "tx": {
+        "title": "交易详情",
+        "gas": "矿工费",
+        "sender": "发起",
+        "receiver": "接收"
+      },
+      "transfer": {
+        "sender": "发送",
+        "title": "转账",
+        "to_address": "目标地址",
+        "to_placeholder": "请输入对方钱包公钥",
+        "amount": "转账金额",
+        "amount_placeholder": "请输入转账金额",
+        "gas": "矿工费",
+        "gas_placeholder": "请输入矿工费",
+        "remark": "转账备注",
+        "remark_placeholder": "请输入转账备注",
+        "nft_name": "NFT名称",
+        "nft_point": "转移的NFT的费用",
+        "nft_point_placeholder": "请输入转移的NFT的费用"
+      },
+      "btn_transfer": "转账",
+      "btn_receiver": "收款"
+    },
+    "space": {
+      "title": "空间",
+      "head_title": "我的芥子空间",
+      "hint": {
+        "coming_soon": "即将发布"
+      },
+      "note": {
+        "title": "日记本",
+        "input_placeholder": "日记本内容"
+      },
+      "album": {
+        "title": "相册",
+        "upload_success": "上传成功",
+        "upload_error": "上传失败",
+        "download_text": "下载地址"
+      },
+      "photo": {
+        "title": "拍照",
+        "upload_success": "拍照完成"
+      },
+      "file": {
+        "title": "文件",
+        "tab_security": "个人文件",
+        "tab_public": "共享文件",
+        "download_toast": "是否下载该文件"
+      },
+      "password": {
+        "title": "密码箱"
+      },
+      "gun": {
+        "title": "GUN",
+        "list_title": "你拥有的GUN域名",
+        "apply_name": "名字",
+        "apply": "申请",
+        "apply_title": "申请你的GUN域名",
+        "apply_success": "申请成功",
+        "search": "查找",
+        "search_title": "查找GUN域名",
+        "search_input": "输入你要查询的GUN名字",
+        "search_hint": "用户的全球唯一名称（Global Unique Name，GUN），可用于任何地方。例如，朋友可以通过名字找到你，这个名字也会在其他支持GUN协议的APP上显示等。",
+        "rule_text": "名字不区分大小写，只能使用字母a-z和数字0-9，最少8位。",
+        "expired_text": "有效期",
+        "price_text": "费用说明",
+        "price_soon": "未开放申请，敬请期待",
+        "price_hint": "需要",
+        "one_year": "1年",
+        "two_year": "2年",
+        "three_year": "3年",
+        "renew": "续期",
+        "renew_success": "续期成功",
+        "detail_title": "查看GUN域名信息",
+        "detail_name": "GUN名称",
+        "detail_key": "Key",
+        "owner": "拥有者",
+        "set_name": "设置为用户名",
+        "add_frient": "加所有者为好友",
+        "detail_error": "获取GUN信息失败"
+      },
+      "data": {
+        "title": "网络数据",
+        "btn_expansion": "扩容",
+        "btn_detail": "详情",
+        "size_text": "大小",
+        "cid": "CID",
+        "hint": "网络数据列出用户所有备份在web3去中心化存储网络上的数据。在这里用户可以看到数据的相关信息和同步状态。",
+        "redundancy_text": "冗余",
+        "status": {
+          "title": "数据状态",
+          "unknow": "未同步",
+          "init": "初始化",
+          "err": "错误",
+          "work": "同步中",
+          "pinned": "已同步",
+          "timout": "超时"
+        },
+        "save_time": "保存时间",
+        "expired_time": "过期时间",
+        "description": "说明"
+      },
+      "read": {
+        "title": "付费阅读"
+      },
+      "ledger": {
+        "title": "账本"
+      },
+      "authenticator": {
+        "title": "Google验证器",
+        "btn_add": "添加一个验证器",
+        "detail_title": "账户详情",
+        "detail_name": "账户名",
+        "detail_key": "您的秘钥",
+        "add_title": "添加账户",
+        "create_title": "创建秘钥"
+      },
+      "award": {
+        "title": "奖励任务",
+        "apply_success": "申请已提交",
+        "hint": "完成任务，获取积分奖励：我们会不定期更新能获取奖励的任务，让用户能有足够的积分使用各种功能。获取积分奖励的基本条件是已经完成完成身份验证，并且已经备份账户。",
+        "index_title": "做任务赚积分",
+        "index_daily": "每日签到",
+        "invite_code": "邀请码",
+        "daily_button_one": "签到",
+        "daily_button_two": "明天再来",
+        "index_invite": "邀请好友",
+        "invite_button": "邀请",
+        "invited_button": "接受",
+        "index_invited": "接受邀请并获取奖励",
+        "index_button_one": "去完成",
+        "index_button_two": "领取",
+        "index_button_three": "已领取",
+        "index_valut": "创建加密保险箱",
+        "index_guardian": "绑定守护者",
+        "index_password": "修改密码",
+        "index_backup": "备份",
+        "index_subaccount": "添加子账号",
+        "index_experience": "经验",
+        "hint_one": "输入邀请码获得奖励积分",
+        "detail": {
+          "title": "奖励明细",
+          "yes": "已入账",
+          "no": "未入账"
+        },
+        "contract": {
+          "title": "智能合约"
+        },
+        "invite": {
+          "title": "邀请好友赚积分",
+          "code_title": "邀请码",
+          "code_hint": "每成功邀请一位好友，邀请人和被邀请人各奖励50TVS。",
+          "hint": "邀请你了解TinyVerse",
+          "hint_one": "扫码下载TinyVerse"
+        },
+        "receive": {
+          "title": "领取积分",
+          "code_hint": "输入邀请码，您和邀请人都获得50TVS。请注意邀请码是唯一的并且不可更改。"
+        }
+      },
+      "nft": {
+        "title": "发行NFT"
+      }
+    },
+    "account": {
+      "title": "我",
+      "public_key": "账户ID",
+      "wallet_key": "钱包地址",
+      "message_key": "消息ID",
+      "my_qrcode": "我的二维码",
+      "gun": "账户名称(GUN)",
+      "level": {
+        "title": "安全等级",
+        "hint_one": "账户安全级别根据恢复路径和恢复时需要验证的因素来计算。",
+        "hint": "只有我的名片暴露在外，其他所有数据由用户私钥加密，保存在个人数字空间。",
+        "zero": "临时账户，无法恢复，数据随时会丢失，请尽快做账户维护。",
+        "one": "账户依赖高风险的明文助记词，请使用保险箱安全存储助记词，并增加恢复路径。",
+        "two": "账户只有助记词恢复路径，请尽快增加恢复路径，避免单点故障。",
+        "three": "账户只有守护者恢复路径，请尽快增加恢复路径，避免单点故障。",
+        "four": "低标准账户，请增加验证因素，提升账户安全等级。",
+        "five": "标准账户，您的账户已经得到完全的保护。"
+      },
+      "toast": {
+        "no_private": "请先设置加密保险箱"
+      },
+      "profile": {
+        "title": "我的名片",
+        "save_qrcode": "保存二维码",
+        "unset_text": "未设置",
+        "qrcode_add": "扫描二维码，加我为好友。"
+      },
+      "local_safe": {
+        "title": "本地安全策略",
+        "hint": "本地安全策略用于解锁APP和使用某些敏感功能时对用户身份进行验证，只保存在本地。用户在激活生物识别前，必须先修改默认密码。用户如果忘记密码，并且无法用指纹识别或者人脸识别等生物识别来验证用户身份，可以采用恢复账户的方式来重新设置密码。"
+      },
+      "encrypted_safe": {
+        "hint": "保险箱用来保护无法用私钥加密，但是又必须保存在网络上的数据，比如账户的恢复信息。保险箱的原理是使用特征数据来保护秘密，特征数据是用户个人特有的，可以用来识别个人身份的，具备一定隐私性又不用依赖用户记忆的数据，其最佳来源是用户的生物特征，比如指纹和虹膜；另外是一辈子不会改变的数字，比如身份号码，甚至是个人常用的不容易忘记口令。恢复数据时，采集任意一组特征数据就可以正常恢复数据。提供更多的特征数据，账户越容易恢复，请至少提供两组不同的特征数据，形成双保险。特征数据保存在用户账户中，任何人都无法拿到数据。",
+        "title": "加密保险箱",
+        "set_text": "设置加密保险箱",
+        "verify_text": "验证加密保险箱",
+        "verify_error": "验证失败",
+        "set_success": "设置成功",
+        "set_error": "设置失败",
+        "text": "身份证/社会保险号码/手机号码",
+        "password": "常用口令",
+        "custom": "自定义特征数据",
+        "feature_error": "特征数据错误",
+        "toast": {
+          "retry_download": "助记词加密文件发生修改，重新下载，请注意保存！",
+          "error_1": "请至少输入两种内容",
+          "error_2": "第一项最少8个字符",
+          "error_3": "第二项最少8个字符",
+          "error_4": "第三项最少8个字符",
+          "error_5": "请至少输入一项"
+        }
+      },
+      "protector": {
+        "title": "守护者",
+        "add_title": "添加守护者",
+        "delete_hint": "你是否要删除该守护者账号？",
+        "confirm": "添加",
+        "google": "绑定Google",
+        "hint": "守护者可用于身份验证、社交恢复等。增加多个守护者让你的账户更安全。请放心，我们采用零知识证明（zkp）技术，不保存任何用户隐私。",
+        "hint_two": "我已阅读并同意《隐私政策》及《服务条款》"
+      },
+      "backup": {
+        "on": "已备份"
+      },
+      "phrase": {
+        "title": "助记词",
+        "backup": "助记词备份",
+        "verify_title": "助记词恢复测试",
+        "verify_text": "恢复测试",
+        "toast_error": "助记词错误",
+        "hint": "助记词非常重要，请妥善保管，注意不使用联网工具备份。",
+        "hint_one": "是否使用加密保险箱加密助记词",
+        "hint_two": "直接显示和抄写助记词很危险，需要您投入更多的精力去保管助记词",
+        "download_text": "下载加密文件",
+        "download_success": "下载成功",
+        "download_error": "下载失败"
+      },
+      "question": {
+        "title": "智能隐私",
+        "backup": "智能隐私备份",
+        "test_title": "智能隐私恢复测试",
+        "test_text": "恢复测试",
+        "retry_text": "重新设置",
+        "hint": "智能隐私备份是一种自托管的私钥备份管理，由用户的个人隐私信息，通过MPC-SSS计算生成多个分片，保存在分布式存储网络上，所有计算都在本地完成，所有数据保存在用户自己的数字空间，确保用户数据安全。用户务必正确填写以下表格，可以留空不填（数据跟个人信息同步）。如果个人信息有变更，需要重新做账户维护，防止账户丢失。",
+        "input": {
+          "placeholder": "请输入问题",
+          "placeholder_select": "请选择一个问题",
+          "placeholder_answer": "请输入答案"
+        },
+        "toast": {
+          "error_1": "答案最少16位,请在多输入一些内容",
+          "error_2": "请至少填写两个分类的问题答案",
+          "error_3_first": "答案共",
+          "error_3_end": "个字符",
+          "error_4": "最少填写一个问题",
+          "error_5_1": "的第",
+          "error_5_2": "个子问题答案未输入"
+        },
+        "default": {
+          "one": {
+            "title": "基本信息",
+            "name": "姓名",
+            "gender": "性别",
+            "birth_date": "出生时间(yyyymmdd)",
+            "birth_city": "出生地点(城市名称)",
+            "id": "身份证",
+            "social_number": "社保号码",
+            "blood": "血型",
+            "university": "大学名称",
+            "enrollment": "入学时间"
+          },
+          "two": {
+            "title": "网络身份",
+            "phone": "手机号码",
+            "email": "邮箱",
+            "apple": "Apple ID",
+            "google": "Google账号",
+            "tw": "Twitter账号",
+            "fb": "Facebook账号",
+            "wx": "微信账号",
+            "qq": "QQ账号",
+            "tb": "淘宝账号",
+            "wb": "微博账号"
+          },
+          "three": {
+            "title": "金融信息",
+            "card_one_bank": "储蓄卡1开户行",
+            "card_one_num": "储蓄卡1卡号",
+            "card_two_bank": "储蓄卡2开户行",
+            "card_two_num": "储蓄卡2卡号",
+            "credit_card_bank": "信用卡开户行",
+            "credit_card_num": "信用卡卡号"
+          },
+          "four": {
+            "title": "额外信息",
+            "contact": "紧急联系人",
+            "contact_phone": "紧急联系人电话",
+            "first_car_brand": "第一辆汽车品牌",
+            "first_car_plate": "第一辆汽车车牌号码",
+            "elementary_school": "小学名称",
+            "middle_school": "初中名称",
+            "high_school": "高中名称"
+          }
+        }
+      },
+      "multi_verify": {
+        "title": "多因素验证",
+        "private_hint": "使用个人隐私数据设置加密保险箱，用于保存密钥分片数据。",
+        "protector_hint": "绑定个人的其他账号，用于获取密钥分片数据时进行身份验证。",
+        "hint": "保险箱和守护者设置完成后，才能进行账户备份。"
+      },
+      "restore": {
+        "title": "恢复途径"
+      },
+      "setting": {
+        "title": "系统设置",
+        "language": {
+          "title": "语言",
+          "change_success": "语言切换成功"
+        }
+      },
+      "about": {
+        "title": "关于",
+        "version": "芥子空间 V",
+        "version_new": "有新版本",
+        "description": "一个开源的、基于IPFS的、去中心化的个人隐私数据的安全存储和管理工具，用户自我管理所有数据，任何第三方都无法访问用户数据。",
+        "btn_0": "版本更新",
+        "btn_1": "服务条款",
+        "btn_2": "隐私政策",
+        "btn_3": "开源代码",
+        "btn_4": "官网主页",
+        "btn_5": "博客",
+        "btn_6": "Twitter",
+        "btn_7": "Telegram"
+      },
+      "exit": {
+        "title": "退出"
+      },
+      "tree": {
+        "title": "账户管理",
+        "box": "保险箱",
+        "node_1": "隐私备份",
+        "node_2": "助记词",
+        "node_3": "守护者",
+        "node_4": "智能继承",
+        "hint": "我们的账户是自我管理的web3账户，这是用户完全控制自己数据，掌控数据所有权的核心基础。在这里我们提供工具让用户能方便快捷做好账户的备份，保证账户的安全。重要提示：没有做好账户备份，用户数据会永久丢失。"
+      }
+    },
+    "unlock": {
+      "btn_unlock": "解锁",
+      "success": "解锁成功",
+      "forget_password": "忘记密码"
+    },
+    "chat": {
+      "title": "消息",
+      "search": {
+        "placeholder": "公钥/GUN",
+        "empty": "请输入对方公钥或者GUN名称",
+        "success": "添加好友成功",
+        "error": "添加好友失败"
+      },
+      "contact": {
+        "title": "联系人",
+        "unknow": "匿名",
+        "delete_success": "删除成功",
+        "delete_error": "删除失败"
+      },
+      "recipient": {
+        "unknow": "对方"
+      },
+      "message": {
+        "me_name": "我",
+        "btn_send": "发送",
+        "send_error": "发送失败"
+      },
+      "profile": {
+        "btn_change": "修改",
+        "btn_clear": "清除历史消息",
+        "btn_delete": "删除联系人",
+        "clear_success": "清除成功",
+        "clear_error": "清除失败",
+        "alias": {
+          "title": "别名",
+          "change_success": "修改成功"
+        }
+      }
+    },
+    "restore": {
+      "title": "账户恢复",
+      "btn_restore": "恢复",
+      "hint_password": "使用默认密码恢复，之后请及时修改",
+      "toast": {
+        "restore_error": "恢复失败",
+        "restore_success": "恢复成功"
+      },
+      "phrase": {
+        "title": "助记词恢复",
+        "tab_file": "加密文件",
+        "tab_text": "助记词",
+        "input_placeholder": "请输入助记词",
+        "upload_hint": "上传助记词加密文件"
+      },
+      "protector": {
+        "title": "守护者恢复"
+      },
+      "encrypted_safe": {
+        "title": "恢复加密保险箱"
+      },
+      "question": {
+        "title": "智能隐私恢复",
+        "verify": "智能隐私身份验证",
+        "toast": {
+          "error_1": "最少回答一个完整问题!"
+        }
+      }
+    },
+    "retrieve": {
+      "title": "找回密码",
+      "one_step": "验证身份",
+      "two_step": "设置新密码",
+      "three_step": "完成"
+    }
+  }
+}

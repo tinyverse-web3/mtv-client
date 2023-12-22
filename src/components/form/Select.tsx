@@ -1,5 +1,10 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dropdown, Text } from '@nextui-org/react';
+import {
+  Select as NextSelect,
+  SelectSection,
+  SelectItem,
+} from '@nextui-org/react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   list: any[];
@@ -8,6 +13,7 @@ interface Props {
   value?: any;
   disabled?: boolean;
   placeholder?: string;
+  size?: 'sm' | 'md' | 'lg';
   onChange?: ({ q, a }: any) => void;
 }
 export const Select = ({
@@ -15,50 +21,45 @@ export const Select = ({
   onChange,
   disabled,
   value,
-  placeholder = '请选择',
+  size,
+  placeholder,
   keys = { label: 'label', value: 'value' },
 }: Props) => {
+  const { t } = useTranslation();
+  placeholder = placeholder || t('common.select');
   console.log(list);
-
-  const [selected, setSelected] = useState(new Set([value]));
-
-  const selectedValue = useMemo(() => Array.from(selected)[0], [selected]);
-  const selectedLabel = useMemo(() => {
-    const item = list.find((v) => v[keys.value] === selectedValue);
-    return item?.[keys.label];
-  }, [selectedValue]);
+  const [selectValue, setValue] = useState<any>(new Set([value]));
+  console.log(selectValue);
   const onSelectionChange = (data: any) => {
-    console.log(data);
-    setSelected(data);
+    const _v = Array.from(data)?.[0];
+    console.log(_v);
+    setValue(data);
+    onChange && onChange(_v);
   };
+  const disabledKeys = useMemo(() => {
+    return list.filter((v) => v.disabled).map((v) => v[keys.value])
+  }, [list]);
+  console.log(disabledKeys)
   useEffect(() => {
-    onChange && onChange(selectedValue);
-  }, [selectedValue]);
+    console.log(value)
+    setValue(new Set([value]));
+  }, [value]);
 
   return (
-    <Dropdown isDisabled={disabled}>
-      <Dropdown.Button
-        color='secondary'
-        className='w-full mb-4 max-w-full min-w-full overflow-hidden dropdown-button'>
-        <div className='text-ellipsis overflow-hidden max-w-200px'>
-          {selectedLabel || placeholder}
-        </div>
-      </Dropdown.Button>
-      <Dropdown.Menu
-        aria-label='Single selection actions'
-        disallowEmptySelection
-        selectionMode='single'
-        selectedKeys={selected}
-        onSelectionChange={onSelectionChange}>
-        {list.map((v, i) => (
-          <Dropdown.Item
-            className='text-11px h-auto py-2'
-            key={v[keys.value]}
-            textValue={v[keys.value]}>
-            {v[keys.label]}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
+    <NextSelect
+      // label='Favorite Animal'
+      selectedKeys={selectValue}
+      size={size}
+      disabledKeys={disabledKeys}
+      onSelectionChange={onSelectionChange}
+      placeholder={placeholder}
+      className='max-w-xs'
+      isDisabled={disabled}>
+      {list.map((v) => (
+        <SelectItem key={v[keys.value]} value={v[keys.value]}>
+          {v[keys.label]}
+        </SelectItem>
+      ))}
+    </NextSelect>
   );
 };

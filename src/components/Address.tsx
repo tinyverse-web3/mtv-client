@@ -1,13 +1,15 @@
 import { useCopyToClipboard } from 'react-use';
-import toast from 'react-hot-toast';
+import { useMemo } from 'react';
 interface Props {
   address?: string;
 }
 export const Address = ({ address }: Props) => {
   const [_, copyToClipboard] = useCopyToClipboard();
-  const shortAddress = `${address?.substring(0, 5)}*****${address?.substring(
-    address?.length - 5,
-  )}`;
+  const shortAddress = useMemo(() => {
+    return `${address?.substring(0, 5)}*****${address?.substring(
+      address?.length - 5,
+    )}`;
+  }, [address]);
   const clickHandler = () => {
     if (address) {
       // copyToClipboard(address);
@@ -16,8 +18,8 @@ export const Address = ({ address }: Props) => {
   };
   return (
     <div
-      className='cursor-pointer h-6 flex justify-center items-center text-4'
-      onClick={clickHandler}>
+      className=' h-6 flex items-center text-4'
+      onClick={() => clickHandler()}>
       {shortAddress}
     </div>
   );

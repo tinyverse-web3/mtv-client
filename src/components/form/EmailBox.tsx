@@ -1,48 +1,46 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Text, Input } from '@nextui-org/react';
+import {  Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
-import { useGlobalStore, useWalletStore } from '@/store';
-import { useRequest } from '@/api';
+import account from '@/lib/account/account';
+import { Icon } from '@iconify/react'
 import { useCountDown } from '@/lib/hooks';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 interface Props {
   onChange: (data: { email: string; code: string }) => void;
 }
 export const EmailBox = ({ onChange }: Props) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
+  const [codeLoading, setCodeLoading] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
-  const { start, text, flag } = useCountDown(60);
-
-  const { mutate: sendCode, loading: codeLoading } = useRequest(
-    {
-      url: '/user/sendmail4verifycode',
-      arg: {
-        method: 'post',
-        query: { email },
-      },
-    },
-    {
-      onSuccess(res) {
-        if (res.code === '000000') {
-          toast.success('验证码已发送');
-          start();
-        } else {
-          toast.error(res.msg);
-        }
-      },
-    },
-  );
+  const { start, text, flag, reset } = useCountDown(60, t('common.code_text'));
   const emailChange = (e: any) => {
-    setEmail(e.target.value);
+    const value = e;
+    setEmail(value);
+    reset();
+    onChange && onChange({ email: value, code: verifyCode });
   };
   const verifyCodeChange = async (e: any) => {
-    const { value } = e.target;
+    const value = e;
     await setVerifyCode(value);
     onChange && onChange({ email, code: value });
   };
   const sendVerify = async () => {
     if (email && flag) {
-      await sendCode();
+      setCodeLoading(true);
+      const { code, msg } = await account.sendVerifyCode({
+        type: 'email',
+        account: email,
+      });
+      if (code !== '000000') {
+        toast.error(msg);
+        setCodeLoading(false);
+        return;
+      }
+      start();
+      toast.success(t('common.send_code_success'));
+      setCodeLoading(false);
     }
   };
   const emailBlur = () => {};
@@ -59,11 +57,11 @@ export const EmailBox = ({ onChange }: Props) => {
         onBlur={emailBlur}
         value={email}
         onChange={emailChange}
-        placeholder='邮箱'
+        placeholder={t('common.email')}
         className='mb-6'
-        contentLeft={<div className='i-mdi-email color-current' />}
+        contentLeft={<Icon icon='mdi:email color-current' />}
       />
-      <div className='flex'>
+      <div className='flex items-center'>
         <Input
           clearable
           bordered
@@ -76,13 +74,12 @@ export const EmailBox = ({ onChange }: Props) => {
           size='lg'
           value={verifyCode}
           onChange={verifyCodeChange}
-          placeholder='验证码'
-          contentLeft={<div className='i-mdi-shield-outline color-current' />}
+          placeholder={t('common.code')}
+          contentLeft={<Icon icon='mdi:shield-outline color-current' />}
         />
         <Button
-          auto
           className='ml-4 min-w-20'
-          color='secondary'
+          color='purple'
           loading={codeLoading}
           onPress={sendVerify}>
           {text}

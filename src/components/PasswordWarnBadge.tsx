@@ -1,38 +1,22 @@
 import { Badge } from '@nextui-org/react';
-import { useEffect, useMemo, useState } from 'react';
-import { Password } from '@/lib/account/wallet';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
+import { useAccountStore } from '@/store';
+import { useTranslation } from 'react-i18next';
 
-const LOCAL_PASSWORD_KEY = '_keypassword';
 export const PasswordWarnBadge = () => {
-  const passwordManager = new Password();
+  const { accountInfo } = useAccountStore((state) => state);
   const nav = useNavigate();
-  const { VITE_DEFAULT_PASSWORD } = import.meta.env;
-  const [passwrod, setPwd] = useState<string | null>(null);
-  const [defaultPwd, setDefaultPwd] = useState<string | undefined>();
-  const password = sessionStorage.getItem(LOCAL_PASSWORD_KEY);
-  const getLocalPwd = async () => {
-    const localPwd = await passwordManager.get();
-    const defaultEntryPwd = await passwordManager.encrypt(
-      VITE_DEFAULT_PASSWORD,
-    );
-    setPwd(localPwd);
-    setDefaultPwd(defaultEntryPwd);
-  };
-  const isDefault = useMemo(() => {
-    return passwrod === defaultPwd;
-  }, [passwrod, defaultPwd]);
+  const { t } = useTranslation();
   const clickHandler = async () => {
-    nav(ROUTE_PATH.CHANGE_PWD);
+    nav(ROUTE_PATH.ACCOUNT_CHANGE_PWD);
   };
-  useEffect(() => {
-    getLocalPwd();
-  }, []);
-  return isDefault ? (
-    <Badge color='error' className='cursor-pointer' onClick={clickHandler}>
-      请尽快修改本地默认密码
-    </Badge>
+  return !!accountInfo.isDefaultPwd ? (
+    <div className='flex justify-center items-center mb-1'>
+      <div className='py-1 px-3 text-white text-xs rounded-full bg-red-500' onClick={clickHandler}>
+        {t('common.password.change_default_hint')}
+      </div>
+    </div>
   ) : (
     <></>
   );

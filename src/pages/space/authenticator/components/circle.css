@@ -1,0 +1,12 @@
+.circle {
+  fill: none;
+  stroke: #7c83fd;
+  stroke-width: 14;
+  stroke-dasharray: 189;
+  
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: circle 3s infinite;
+}
