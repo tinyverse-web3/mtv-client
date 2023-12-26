@@ -29,10 +29,10 @@ export default function Tree() {
     nav(ROUTE_PATH.ACCOUNT_PHRASE);
   };
   const toQuestion = async () => {
-    const loginStatus = await useCheckLogin();
-    if (loginStatus) {
-      nav(ROUTE_PATH.ACCOUNT_QUESTION);
-    }
+    // const loginStatus = await useCheckLogin();
+    // if (loginStatus) {
+    //   nav(ROUTE_PATH.ACCOUNT_QUESTION);
+    // }
   };
   return (
     <LayoutThird showBack title={t('pages.account.tree.title')}>
