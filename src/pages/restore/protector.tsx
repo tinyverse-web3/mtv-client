@@ -30,7 +30,7 @@ export default function Protector() {
   const oauthGoogle = async (res: any) => {
     const { code, msg, data } = await account.verifyByGoogle(res);
     console.log(data);
-    if (code === '000000' && data.HasVault) {
+    if (code === '000000') {
       nav(
         `${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data.HasVault}&account=${data.Account}`,
       );
