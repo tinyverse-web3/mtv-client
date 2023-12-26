@@ -30,9 +30,9 @@ export default function Restore() {
         <Button className='mb-4' size='lg' fullWidth onPress={toProtector}>
           {t('pages.restore.protector.title')}
         </Button>
-        <Button className='mb-4' fullWidth size='lg' onPress={toQuestionVerify}>
+        {/* <Button className='mb-4' fullWidth size='lg' onPress={toQuestionVerify}>
           {t('pages.restore.question.title')}
-        </Button>
+        </Button> */}
       </div>
     </LayoutThird>
   );
