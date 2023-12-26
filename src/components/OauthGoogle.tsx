@@ -6,7 +6,8 @@ interface OauthGoogleProps {
 }
 export const OauthGoogle = ({ onChange }: OauthGoogleProps) => {
   const auth = async () => {
-    window?.JsBridge.startGoogleLogin(({ code, message,data }: any) => {
+    window?.JsBridge.startGoogleLogin(({ code, message, data }: any) => {
+      console.log('jsbridge google login', code, message, data);
       if (code === 0) {
         try {
           onChange?.(data);
