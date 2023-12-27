@@ -45,6 +45,7 @@ export const LaunchCheck = ({ children }: any) => {
   });
   const checkStatus = async () => {
     const { pathname } = routerLocation;
+    console.log('pathname', pathname);
     if (pathname.indexOf('test') > -1 || pathname.indexOf('app') > -1) {
       setCheckLoading(false);
       return;
@@ -87,18 +88,18 @@ export const LaunchCheck = ({ children }: any) => {
   useEffect(() => {
     checkStatus();
   }, []);
-  useEffect(() => {
-    const { pathname } = routerLocation;
-    if (
-      !checkLoading &&
-      stay_path.some((p) => pathname?.indexOf(p) > -1) &&
-      lockStatus
-    ) {
-      console.log('router change check');
-      checkStatus();
-    }
-    setLoading(false);
-  }, [routerLocation]);
+  // useEffect(() => {
+  //   const { pathname } = routerLocation;
+  //   if (
+  //     !checkLoading &&
+  //     stay_path.some((p) => pathname?.indexOf(p) > -1) &&
+  //     lockStatus
+  //   ) {
+  //     console.log('router change check');
+  //     checkStatus();
+  //   }
+  //   setLoading(false);
+  // }, [routerLocation]);
   return (
     <>
       {checkLoading ? (
