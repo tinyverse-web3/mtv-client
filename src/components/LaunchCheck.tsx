@@ -6,7 +6,7 @@ import account from '@/lib/account/account';
 import { useIdleTimer } from 'react-idle-timer';
 import { Outlet } from 'react-router-dom';
 import { useAccountStore, useGlobalStore } from '@/store';
-const stay_path = ['home', 'space', 'note', 'account', 'chat', 'test', 'asset'];
+const stay_path = ['home', 'space', 'note', 'account', 'chat', 'test', 'asset', 'restore'];
 
 export const LaunchCheck = ({ children }: any) => {
   const routerLocation = useLocation();
