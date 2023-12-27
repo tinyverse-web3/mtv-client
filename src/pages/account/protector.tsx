@@ -74,7 +74,7 @@ export default function AccountProtector() {
           onClick={add}
           icon='mdi:plus-circle-outline'
           className='text-xl'></Icon>
-      }>
+      } >
       <div className='p-4'>
         <div className='hint-text-box'>{t('pages.account.protector.hint')}</div>
         <div>

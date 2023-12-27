@@ -35,7 +35,7 @@ export default function Tree() {
     // }
   };
   return (
-    <LayoutThird showBack title={t('pages.account.tree.title')}>
+    <LayoutThird showBack title={t('pages.account.tree.title')} path={ROUTE_PATH.ACCOUNT}>
       <div className='w-screen h-screen relative scale-90 -mt-[10%] -mb-[10%]'>
         <img
           src={TreeAi}

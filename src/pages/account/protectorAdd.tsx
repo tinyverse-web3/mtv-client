@@ -92,7 +92,7 @@ export default function ProtectorAdd() {
     [checked, email, code],
   );
   return (
-    <LayoutThird title={t('pages.account.protector.add_title')}>
+    <LayoutThird title={t('pages.account.protector.add_title')} path={ROUTE_PATH.ACCOUNT_PROTECTOR}>
       <div className='p-4'>
         <div className='text-14px mb-6'>
           {t('pages.account.protector.hint')}

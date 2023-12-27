@@ -83,12 +83,11 @@ export default function Protector() {
       nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}`);
     } else {
       toast.error(msg);
-      nav(-2)
     }
   };
   const disabled = useMemo(() => !(email && code), [email, code]);
   return (
-    <LayoutThird title={t('pages.restore.title')}>
+    <LayoutThird title={t('pages.restore.title')} path={ROUTE_PATH.RESTORE}>
       <div className='p-4'>
         <div>
           <div className='mb-6'>

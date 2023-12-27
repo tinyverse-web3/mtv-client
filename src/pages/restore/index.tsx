@@ -18,7 +18,7 @@ export default function Restore() {
     nav(ROUTE_PATH.RESTORE_VERIFY);
   };
   return (
-    <LayoutThird title={t('pages.restore.title')}>
+    <LayoutThird title={t('pages.restore.title')} path={ROUTE_PATH.INDEX}>
       <div className='pt-7 px-6'>
         <div className='flex justify-center mb-12 '>
           <Image src='/icon-restore.png' className='w-40 mx-auto' />
