@@ -16,8 +16,10 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useGoogleLogin } from '@react-oauth/google';
 import { OauthThird } from '@/components/OauthThird';
+import { useNavigate } from 'react-router-dom';
 
 export const BindMail = () => {
+  const nav = useNavigate();
   const { t } = useTranslation();
   const [loginLoading, setLoginLoading] = useState(false);
   const { showLogin, setShowLogin } = useGlobalStore((state) => state);
@@ -92,9 +94,11 @@ export const BindMail = () => {
       await getLocalAccountInfo();
       toast.success(t('common.toast.bind_success'));
       closeHandler();
+      nav(-2)
     } else {
       toast.error(msg || t('common.toast.bind_error'));
     }
+    
   };
   const verifyCodeChange = (e: any) => {
     setVerifyCode(e);

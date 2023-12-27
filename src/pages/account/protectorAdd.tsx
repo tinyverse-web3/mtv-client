@@ -49,6 +49,8 @@ export default function ProtectorAdd() {
     //   auth_date: 1702025683,
     //   hash: '0d694da3df3b10d7ee6d9d65bee7ff288b4cb21c0212c735125449b0163ec43c',
     // };
+    console.log('tgStatus', tgStatus);
+    console.log(user);
     if (tgStatus) {
       return;
     }
@@ -63,6 +65,7 @@ export default function ProtectorAdd() {
     } else {
       toast.error(msg || t('common.toast.bind_error'));
     }
+    nav(-2)
     console.log(code, msg);
   };
   const submit = async () => {
