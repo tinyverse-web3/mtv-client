@@ -46,6 +46,9 @@ export const LaunchCheck = ({ children }: any) => {
   const checkStatus = async () => {
     const { pathname } = routerLocation;
     console.log('pathname', pathname);
+    if (location.href.indexOf('tgAuthResult') > -1) {
+      return;
+    }
     if (pathname.indexOf('test') > -1 || pathname.indexOf('app') > -1) {
       setCheckLoading(false);
       return;
