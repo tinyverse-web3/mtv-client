@@ -73,11 +73,7 @@ export default function Protector() {
     // };
     const { code, msg, data } = await account.verifyByTelegram({
       Id: user.id,
-      FirstName: user.first_name,
-      UserName: user.username,
-      Hash: user.hash,
-      AuthDate: user.auth_date,
-      PhotoUrl: user.photo_url,
+      Params: JSON.stringify(user),
     });
     if (code === '000000') {
       nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data.HasVault}&account=${data.Account}`);
