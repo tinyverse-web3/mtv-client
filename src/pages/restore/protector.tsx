@@ -80,7 +80,7 @@ export default function Protector() {
       PhotoUrl: user.photo_url,
     });
     if (code === '000000') {
-      nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data}&account=${data.Account}`);
+      nav(`${ROUTE_PATH.RESTORE_PRIVATEDATA}?vault=${data.HasVault}&account=${data.Account}`);
     } else {
       toast.error(msg);
     }
