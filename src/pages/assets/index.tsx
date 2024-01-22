@@ -7,7 +7,9 @@ import { NftList } from './components/NftList';
 import { Icon } from '@iconify/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
+import BottomDrawerMenu from './components/BottomDrawerMenu';
 import { useTranslation } from 'react-i18next';
+
 
 export default function AssetsIndex() {
   const nav = useNavigate();
@@ -16,6 +18,7 @@ export default function AssetsIndex() {
   const type = params.get('type');
   const [assetsType, setAssetsType] = useState(type || 'token');
   const { balance: pointBalance } = usePoint();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const assetsTypes = [
     {
@@ -34,9 +37,17 @@ export default function AssetsIndex() {
   const toTokenDetail = () => {
     nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
   };
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
   // useEffect(() => {
   //   setAssetsType(type || 'token');
   // }, [params]);
+  
   return (
     <div>
       <div className='p-4'>
@@ -48,11 +59,18 @@ export default function AssetsIndex() {
               onClick={toAdd}
               className=' text-xl'></Icon>
           )}
+          {assetsType === 'token' && (
+            <Icon
+              icon='mdi:cog-outline'
+              onClick={openDrawer}
+              className=' text-xl'></Icon>
+          )}
         </div>
 
         <div>
           {assetsType === 'token' ? (
             <>
+              <BottomDrawerMenu isOpen={isDrawerOpen} onClose={closeDrawer} /> 
               <div className='mb-20'>
                 <AssetsTokenItem
                   icon='/logo.png'

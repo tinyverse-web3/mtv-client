@@ -129,7 +129,18 @@
         "title": "代币",
         "detail_title": "详情",
         "point_name": "TVS",
-        "transfer_success": "转账成功"
+        "transfer_success": "转账成功",
+        "add_wallet": "添加钱包",
+        "manage_wallet": "管理钱包",
+        "create_wallet": "创建钱包",
+        "import_wallet": "导入钱包",
+        "create_wallet_chain": "请自行妥善备份和保管助记词",
+        "import_wallet_chain": "使用助记词导入",
+        "wallet_name": "钱包名称",
+        "phrase_length_toast_error": "助记词长度至少为12/18/24位",
+        "phrase_title": "助记词",
+        "select_net": "选择网络",
+        "add_wallet_method_error": "选择钱包创建方式错误"
       },
       "receiver": {
         "title": "收款"
