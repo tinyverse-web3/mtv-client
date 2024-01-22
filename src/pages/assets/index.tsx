@@ -9,6 +9,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
 import BottomDrawerMenu from './components/BottomDrawerMenu';
 import { useTranslation } from 'react-i18next';
+import { useWalletStore } from '@/store';
+import IconBtc from "@/assets/images/wallet/icon-btc.png";
+import IconEth from "@/assets/images/wallet/icon-eth.png";
 
 
 export default function AssetsIndex() {
@@ -19,10 +22,13 @@ export default function AssetsIndex() {
   const [assetsType, setAssetsType] = useState(type || 'token');
   const { balance: pointBalance } = usePoint();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { list, remove, getList } = useWalletStore((state) => state);
+
 
   const assetsTypes = [
     {
-      label: t('pages.assets.token.title'),
+      label: t('pages.assets.token.wallet_title'),
       value: 'token',
     },
     {
@@ -34,8 +40,16 @@ export default function AssetsIndex() {
     nav(ROUTE_PATH.ASSETS_NFT_ADD);
   };
 
-  const toTokenDetail = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+  const toTokenDetail = (type: string) => {
+    switch (type) {
+      case 'Tinyverse':
+        nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+      case 'BTC':
+        //nav();
+      case 'ETH':
+        //nav();
+    }
+   
   };
   const openDrawer = () => {
     setIsDrawerOpen(true);
@@ -47,6 +61,28 @@ export default function AssetsIndex() {
   // useEffect(() => {
   //   setAssetsType(type || 'token');
   // }, [params]);
+
+  const getWalletList = async () => {
+    if (!list?.length) {
+      setLoading(true);
+    }
+    await getList();
+    setLoading(false);
+  };
+  useEffect(() => {
+    getWalletList();
+  }, []);
+
+  const getIconByType = (type: string) => {
+   switch (type) {
+     case 'tvs':
+       return '/logo.png';
+     case 'btc':
+       return IconBtc;
+     case 'eth':
+       return IconEth;
+   }
+  }
   
   return (
     <div>
@@ -72,23 +108,25 @@ export default function AssetsIndex() {
             <>
               <BottomDrawerMenu isOpen={isDrawerOpen} onClose={closeDrawer} /> 
               <div className='mb-20'>
-                <AssetsTokenItem
+                {/* <AssetsTokenItem
                   icon='/logo.png'
                   chain='Tinyverse'
                   symbol={t('pages.assets.token.point_name')}
                   key='point'
                   onClick={() => toTokenDetail()}
                   balance={pointBalance}
-                />
-                {/* {list.map((item) => (
+                /> */}
+                 {list.map((item) => (
                   <AssetsTokenItem
-                    icon={item.icon}
-                    symbol={item.symbol}
-                    key={item.symbol}
-                    balance={item.balance}
-                    dollar={item.dollar}
+                    icon={getIconByType(item.Type)}
+                    chain={item.Type}
+                    symbol={item.Name}
+                    key={item.Address}
+                    balance={item.Balance}
+                    dollar={item.BalanceDollar}
+                    onClick={() => toTokenDetail(item.Type)}
                   />
-                ))} */}
+                ))}
               </div>
             </>
           ) : (

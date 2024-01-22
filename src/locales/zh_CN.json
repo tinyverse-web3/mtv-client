@@ -130,6 +130,7 @@
         "detail_title": "详情",
         "point_name": "TVS",
         "transfer_success": "转账成功",
+        "wallet_title": "钱包",
         "add_wallet": "添加钱包",
         "manage_wallet": "管理钱包",
         "create_wallet": "创建钱包",

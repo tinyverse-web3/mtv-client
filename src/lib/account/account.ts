@@ -913,6 +913,17 @@ export class Account {
     const { data } = await this.dauth.refreshAuthenticatorTime({ AccountName });
     return data;
   }
+
+
+  //wallet
+  async getWallets() {
+    const result = await this.dauth.getWallets();
+    return result.data;
+  }
+
 }
+
+
+
 
 export default new Account();

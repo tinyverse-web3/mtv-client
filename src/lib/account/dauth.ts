@@ -1224,4 +1224,13 @@ export class Dauth {
       return { data: { code: '500000', msg: i18n.t('common.request_error') } };
     }
   }
+
+
+  //wallet
+  async getWallets() {
+    return this.invoke({
+      name: 'getWallets',
+    });
+  }
+
 }
