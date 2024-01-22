@@ -58,9 +58,20 @@ export default function AssetsIndex() {
   const closeDrawer = () => {
     setIsDrawerOpen(false);
   };
+
+  const toAddWalletMethod = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_ADD_WALLET_METHOD);
+  };
+
+  const toManageWallet = () => {
+    //nav(ROUTE_PATH.MANAGE_WALLET);
+  };
+
   // useEffect(() => {
   //   setAssetsType(type || 'token');
   // }, [params]);
+
+
 
   const getWalletList = async () => {
     if (!list?.length) {
@@ -96,17 +107,24 @@ export default function AssetsIndex() {
               className=' text-xl'></Icon>
           )}
           {assetsType === 'token' && (
+            <div className='flex' >
+             <Icon
+             icon='mdi:plus-circle-outline'
+             //onClick={openDrawer}
+             onClick={toAddWalletMethod}
+             className='text-xl mr-4'></Icon>
             <Icon
               icon='mdi:cog-outline'
-              onClick={openDrawer}
-              className=' text-xl'></Icon>
+              onClick={toManageWallet}
+              className='text-xl'></Icon>
+            </div>
           )}
         </div>
 
         <div>
           {assetsType === 'token' ? (
             <>
-              <BottomDrawerMenu isOpen={isDrawerOpen} onClose={closeDrawer} /> 
+              {/* <BottomDrawerMenu isOpen={isDrawerOpen} onClose={closeDrawer} />  */}
               <div className='mb-20'>
                 {/* <AssetsTokenItem
                   icon='/logo.png'
