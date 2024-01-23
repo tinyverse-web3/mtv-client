@@ -12,7 +12,8 @@ export default function SelectNet() {
     const { t } = useTranslation();
     const nav = useNavigate();
     const [searchParams] = useSearchParams();
-    
+    const opType = searchParams.get('opType');
+    console.log("SelectNet ----- opType = " + opType);
 
      // 定义默认的 walletNet 数据
      const defaultWalletNets = {
@@ -38,11 +39,11 @@ export default function SelectNet() {
    
 
     const toAddWalletDetails = (net: string) => {
-        nav(ROUTE_PATH.ASSETS_TOKEN_ADD_WALLET_DETAILS + '?walletNet=' + net);
+        nav(ROUTE_PATH.ASSETS_TOKEN_ADD_WALLET_DETAILS + '?walletNet=' + net + '&opType=' + opType);
       };
 
     const toImportWalletDetails = (net: string) => {
-      nav(ROUTE_PATH.ASSETS_TOKEN_IMPORT_WALLET_DETAILS + '?walletNet=' + net);
+      nav(ROUTE_PATH.ASSETS_TOKEN_IMPORT_WALLET_DETAILS + '?walletNet=' + net + '&opType=' + opType);
     };
 
     return (

@@ -7,13 +7,15 @@ import { usePasswordStore } from '@/store';
 import { useSearchParams } from 'react-router-dom';
 import { useMap } from 'react-use';
 import { useTranslation } from 'react-i18next';
+import account, { Account } from '@/lib/account/account';
+import { ROUTE_PATH } from '@/router';
 
 export default function AddWalletDetails() {
   const nav = useNavigate();
   const { t } = useTranslation();
   const { add, getById, update } = usePasswordStore((state) => state);
   const [searchParams] = useSearchParams();
-  const type = searchParams.get('type');
+  const opType = searchParams.get('opType');
   const id = searchParams.get('id') as string;
   const walletNet = searchParams.get('walletNet');
   const [data, { set, setAll, remove, reset }] = useMap({
@@ -24,12 +26,13 @@ export default function AddWalletDetails() {
 
   
   const saveHandler = async (e: any) => {
-    if (type === 'add') {
-      //await add(data);
-    } else {
+    if (opType === 'add') {
+      console.log(data.WalletNet)
+      await account.addEthWallet(data.Name);
+    } else if (opType === 'edit') {
       //await update(data);
     }
-    nav(-1);
+    nav(ROUTE_PATH.ASSETS_INDEX);
   };
   useEffect(() => {
     if (id) {

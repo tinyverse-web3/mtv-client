@@ -1234,4 +1234,14 @@ export class Dauth {
     });
   }
 
+  async addEthWallet(walletName:string) {
+    return this.invoke({
+      name: 'eth/createWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
 }

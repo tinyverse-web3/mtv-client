@@ -1,6 +1,6 @@
 import LayoutThird from "@/layout/LayoutThird";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { AddWalletItem } from "../components/AddWalletItem"; 
 import IconCreate from "@/assets/images/wallet/icon-create.png";
 import IconImport from "@/assets/images/wallet/icon-import.png";
@@ -9,10 +9,12 @@ import { ROUTE_PATH } from "@/router";
 export default function AddWalletMethod() {
     const { t } = useTranslation();
     const nav = useNavigate();
-
+    const [searchParams] = useSearchParams();
+    const opType = searchParams.get('opType');
+    console.log("AddWalletMethod ----- opType = " + opType);
 
     const toSelectWalletNet = (method: string) => {
-      nav(ROUTE_PATH.ASSETS_TOKEN_SELECT_WALLET_NET + '?walletMethod=' + method);
+      nav(ROUTE_PATH.ASSETS_TOKEN_SELECT_WALLET_NET + '?walletMethod=' + method + '&opType=' + opType);
     };
 
     return (  

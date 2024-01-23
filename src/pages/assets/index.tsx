@@ -60,7 +60,7 @@ export default function AssetsIndex() {
   };
 
   const toAddWalletMethod = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_ADD_WALLET_METHOD);
+    nav(ROUTE_PATH.ASSETS_TOKEN_ADD_WALLET_METHOD + '?opType=add');
   };
 
   const toManageWallet = () => {

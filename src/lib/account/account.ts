@@ -921,6 +921,10 @@ export class Account {
     return result.data;
   }
 
+  async addEthWallet(walletName: string) {
+    const result = await this.dauth.addEthWallet(walletName);
+    return result.data;
+  }
 }
 
 
