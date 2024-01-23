@@ -44,9 +44,9 @@ export default function AssetsIndex() {
     switch (type) {
       case 'Tinyverse':
         nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
-      case 'BTC':
+      case 'Bitcoin':
         //nav();
-      case 'ETH':
+      case 'Ethereum':
         //nav();
     }
    
@@ -64,7 +64,7 @@ export default function AssetsIndex() {
   };
 
   const toManageWallet = () => {
-    //nav(ROUTE_PATH.MANAGE_WALLET);
+    nav(ROUTE_PATH.ASSETS_TOKEN_MANAGE_WALLET);
   };
 
   // useEffect(() => {
@@ -86,11 +86,11 @@ export default function AssetsIndex() {
 
   const getIconByType = (type: string) => {
    switch (type) {
-     case 'tvs':
+     case 'Tinyverse':
        return '/logo.png';
-     case 'btc':
+     case 'Bitcoin':
        return IconBtc;
-     case 'eth':
+     case 'Ethereum':
        return IconEth;
    }
   }

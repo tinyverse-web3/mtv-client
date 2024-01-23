@@ -11,6 +11,7 @@ import AddWalletMethod from '@/pages/assets/token/addWalletMethod';
 import AddWalletDetails from '@/pages/assets/token/addWalletDetails';
 import ImportWalletDetails from '@/pages/assets/token/importWalletDetails';
 import SelectNet from '@/pages/assets/token/selectNetMethod';
+import ManageWallet from '@/pages/assets/token/ManageWallet';
 
 export const ROUTE_PATH_ASSETS = {
   ASSETS_NFT_ADD: '/assets/nft/add',
@@ -25,6 +26,7 @@ export const ROUTE_PATH_ASSETS = {
   ASSETS_TOKEN_SELECT_WALLET_NET: '/assets/token/selectNetMethod',
   ASSETS_TOKEN_ADD_WALLET_DETAILS: '/assets/token/addWalletDetails',
   ASSETS_TOKEN_IMPORT_WALLET_DETAILS: '/assets/token/importWalletDetails',
+  ASSETS_TOKEN_MANAGE_WALLET: '/assets/token/manageWallet',
 };
 
 export const assetsRoutes: RouteObject[] = [
@@ -76,5 +78,9 @@ export const assetsRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_IMPORT_WALLET_DETAILS,
     element: <ImportWalletDetails />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_MANAGE_WALLET,
+    element: <ManageWallet />,
   }
 ];

@@ -141,7 +141,8 @@
         "phrase_length_toast_error": "助记词长度至少为12/18/24位",
         "phrase_title": "助记词",
         "select_net": "选择网络",
-        "add_wallet_method_error": "选择钱包创建方式错误"
+        "add_wallet_method_error": "选择钱包创建方式错误",
+        "edit_wallet_name": "编辑名称"
       },
       "receiver": {
         "title": "收款"
