@@ -13,7 +13,6 @@ export default function SelectNet() {
     const nav = useNavigate();
     const [searchParams] = useSearchParams();
     const opType = searchParams.get('opType');
-    console.log("SelectNet ----- opType = " + opType);
 
      // 定义默认的 walletNet 数据
      const defaultWalletNets = {

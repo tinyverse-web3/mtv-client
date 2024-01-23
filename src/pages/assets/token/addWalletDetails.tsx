@@ -27,8 +27,13 @@ export default function AddWalletDetails() {
   
   const saveHandler = async (e: any) => {
     if (opType === 'add') {
-      console.log(data.WalletNet)
-      await account.addEthWallet(data.Name);
+      console.log('walletNet = ' + walletNet)
+      if (walletNet === 'ETH') {
+        await account.addEthWallet(data.Name);
+      } else if (walletNet === 'BTC') {
+        await account.addBtcWallet(data.Name);
+      }
+      
     } else if (opType === 'edit') {
       //await update(data);
     }

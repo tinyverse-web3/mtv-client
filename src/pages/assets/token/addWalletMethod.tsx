@@ -11,7 +11,6 @@ export default function AddWalletMethod() {
     const nav = useNavigate();
     const [searchParams] = useSearchParams();
     const opType = searchParams.get('opType');
-    console.log("AddWalletMethod ----- opType = " + opType);
 
     const toSelectWalletNet = (method: string) => {
       nav(ROUTE_PATH.ASSETS_TOKEN_SELECT_WALLET_NET + '?walletMethod=' + method + '&opType=' + opType);

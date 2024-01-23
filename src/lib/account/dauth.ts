@@ -1244,4 +1244,14 @@ export class Dauth {
     });
   }
 
+  async addBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/createWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
 }
