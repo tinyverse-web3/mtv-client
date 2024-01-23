@@ -142,7 +142,9 @@
         "phrase_title": "助记词",
         "select_net": "选择网络",
         "add_wallet_method_error": "选择钱包创建方式错误",
-        "edit_wallet_name": "编辑名称"
+        "edit_wallet_name": "编辑名称",
+        "del_wallet_success": "删除钱包成功",
+        "edit_wallet_name_error": "新的名称与原名称相同!"
       },
       "receiver": {
         "title": "收款"

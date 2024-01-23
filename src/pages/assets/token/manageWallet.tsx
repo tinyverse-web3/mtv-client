@@ -42,10 +42,10 @@ export default function ManageWallet() {
 
     const deleteWallet = (name: string) => {
       //remove(address);
-      toast.success("删除成功: " + name);
+      toast.success(t('pages.assets.token.del_wallet_success') +  ": " + name);
     }
     const editWallet = (name: string) => {
-      //edit(address);
+      nav(ROUTE_PATH.ASSETS_TOKEN_EDIT_WALLET_NAME + '?walletName=' + name);
     }
 
     const toTokenDetail = (type: string) => {
