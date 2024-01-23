@@ -1229,7 +1229,8 @@ export class Dauth {
   //wallet
   async getWallets() {
     return this.invoke({
-      name: 'getWallets',
+      name: 'wallet/getWallets',
+      method: 'get',
     });
   }
 
