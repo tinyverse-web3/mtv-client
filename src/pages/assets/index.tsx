@@ -20,7 +20,7 @@ export default function AssetsIndex() {
   const [params] = useSearchParams();
   const type = params.get('type');
   const [assetsType, setAssetsType] = useState(type || 'token');
-  const { balance: pointBalance } = usePoint();
+  // const { balance: pointBalance } = usePoint();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { list, remove, getList } = useWalletStore((state) => state);

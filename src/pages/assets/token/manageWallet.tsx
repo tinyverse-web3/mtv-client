@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useWalletStore } from "@/store";
 import { ManageWalletItem } from "../components/ManageWalletItem";
 import toast from "react-hot-toast";
-
+import account, { Account } from '@/lib/account/account';
 
 export default function ManageWallet() {
     const { t } = useTranslation();
@@ -40,9 +40,17 @@ export default function ManageWallet() {
      }
     }
 
-    const deleteWallet = (name: string) => {
-      //remove(address);
+    const deleteWallet = async (name: string, type: string) => {
+      console.log('name = ' + name)
+      console.log('type = ' + type)
+      if (type === 'Ethereum') {
+        await account.deleteEthWallet(name);
+      } else if (type === 'Bitcoin') {
+        await account.deleteBtcWallet(name);
+      }
+
       toast.success(t('pages.assets.token.del_wallet_success') +  ": " + name);
+      nav(ROUTE_PATH.ASSETS_INDEX);
     }
     const editWallet = (name: string) => {
       nav(ROUTE_PATH.ASSETS_TOKEN_EDIT_WALLET_NAME + '?walletName=' + name);
@@ -70,7 +78,7 @@ export default function ManageWallet() {
                     name={item.Name}
                     address={item.Address}
                     onClick={() => toTokenDetail(item.Type)}
-                    onClickDel={() => deleteWallet(item.Name)}
+                    onClickDel={() => deleteWallet(item.Name, item.Type)}
                     onClickEdit={() => editWallet(item.Name)}
                   />
                 ))}

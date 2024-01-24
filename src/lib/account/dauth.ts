@@ -1254,4 +1254,24 @@ export class Dauth {
     });
   }
 
+  async deleteEthWallet(walletName:string) {
+    return this.invoke({
+      name: 'eth/deleteWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
+  async deleteBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/deleteWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
 }

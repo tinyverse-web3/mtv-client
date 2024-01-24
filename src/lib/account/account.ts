@@ -930,6 +930,17 @@ export class Account {
     const result = await this.dauth.addBtcWallet(walletName);
     return result.data;
   }
+
+
+  async deleteEthWallet(walletName: string) {
+    const result = await this.dauth.deleteEthWallet(walletName);
+    return result.data;
+  }
+
+  async deleteBtcWallet(walletName: string) {
+    const result = await this.dauth.deleteBtcWallet(walletName);
+    return result.data;
+  }
 }
 
 
