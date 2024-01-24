@@ -1244,9 +1244,9 @@ export class Dauth {
     });
   }
 
-  async addBtcWallet(walletName:string) {
+  async deleteEthWallet(walletName:string) {
     return this.invoke({
-      name: 'btc/createWallet',
+      name: 'eth/deleteWallet',
       method: 'post',
       data: {
         name: walletName,
@@ -1254,9 +1254,30 @@ export class Dauth {
     });
   }
 
-  async deleteEthWallet(walletName:string) {
+  async importEthWallet(walletName:string, mnemonic:string) {
     return this.invoke({
-      name: 'eth/deleteWallet',
+      name: 'eth/importWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+        mnemonic: mnemonic,
+      },
+    });
+  }
+
+  async getEthWalletMnemonic(walletName:string) {
+    return this.invoke({
+      name: 'eth/getMnemonic',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async addBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/createWallet',
       method: 'post',
       data: {
         name: walletName,
@@ -1270,6 +1291,27 @@ export class Dauth {
       method: 'post',
       data: {
         name: walletName,
+      },
+    });
+  }
+
+  async importBtcWallet(walletName:string, mnemonic:string) {
+    return this.invoke({
+      name: 'btc/importWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+        mnemonic: mnemonic,
+      },
+    });
+  }
+
+  async getBtcWalletMnemonic(walletName:string) {
+    return this.invoke({
+      name: 'btc/getMnemonic',
+      method: 'get',
+      data: {
+        Name: walletName,
       },
     });
   }

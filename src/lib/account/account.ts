@@ -926,14 +926,23 @@ export class Account {
     return result.data;
   }
 
-  async addBtcWallet(walletName: string) {
-    const result = await this.dauth.addBtcWallet(walletName);
+  async deleteEthWallet(walletName: string) {
+    const result = await this.dauth.deleteEthWallet(walletName);
     return result.data;
   }
 
+  async importEthWallet(walletName: string, mnemonic: string) {
+    const data = await this.dauth.importEthWallet(walletName, mnemonic);
+    return data;
+  }
 
-  async deleteEthWallet(walletName: string) {
-    const result = await this.dauth.deleteEthWallet(walletName);
+  async getEthWalletMnemonic(walletName: string) {
+    const data = await this.dauth.getEthWalletMnemonic(walletName);
+    return data;
+  }
+
+  async addBtcWallet(walletName: string) {
+    const result = await this.dauth.addBtcWallet(walletName);
     return result.data;
   }
 
@@ -941,9 +950,16 @@ export class Account {
     const result = await this.dauth.deleteBtcWallet(walletName);
     return result.data;
   }
+
+  async importBtcWallet(walletName: string, mnemonic: string) {
+    const data = await this.dauth.importBtcWallet(walletName, mnemonic);
+    return data;
+  }
+
+  async getBtcWalletMnemonic(walletName: string) {
+    const data = await this.dauth.getBtcWalletMnemonic(walletName);
+    return data;
+  }
 }
-
-
-
 
 export default new Account();
