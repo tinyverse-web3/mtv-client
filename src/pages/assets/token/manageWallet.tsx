@@ -17,7 +17,6 @@ export default function ManageWallet() {
     const [loading, setLoading] = useState(false);
     const { list, remove, getList } = useWalletStore((state) => state);
 
-
     const getWalletList = async () => {
       if (!list?.length) {
         setLoading(true);
@@ -30,27 +29,35 @@ export default function ManageWallet() {
     }, []);
   
     const getIconByType = (type: string) => {
-     switch (type) {
-       case 'Tinyverse':
-         return '/logo.png';
-       case 'Bitcoin':
-         return IconBtc;
-       case 'Ethereum':
-         return IconEth;
-     }
+      switch (type) {
+        case 'Tinyverse':
+          return '/logo.png';
+        case 'Bitcoin':
+          return IconBtc;
+        case 'Ethereum':
+          return IconEth;
+      }
     }
 
     const deleteWallet = async (name: string, type: string) => {
       console.log('name = ' + name)
       console.log('type = ' + type)
+
+      let code:string = ''
+      let msg:string = ''
+
       if (type === 'Ethereum') {
-        await account.deleteEthWallet(name);
+        ({ code, msg } = await account.deleteEthWallet(name));
       } else if (type === 'Bitcoin') {
-        await account.deleteBtcWallet(name);
+        ({ code, msg } = await account.deleteBtcWallet(name));
       }
 
-      toast.success(t('pages.assets.token.del_wallet_success') +  ": " + name);
-      nav(ROUTE_PATH.ASSETS_INDEX);
+      if (code === '000000') {
+        toast.success(t('pages.assets.token.del_wallet_success') +  ": " + name);
+        nav(ROUTE_PATH.ASSETS_INDEX);
+      } else {
+        toast.error(msg);
+      }
     }
     const editWallet = (name: string) => {
       nav(ROUTE_PATH.ASSETS_TOKEN_EDIT_WALLET_NAME + '?walletName=' + name);

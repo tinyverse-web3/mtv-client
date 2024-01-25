@@ -922,8 +922,8 @@ export class Account {
   }
 
   async addEthWallet(walletName: string) {
-    const result = await this.dauth.addEthWallet(walletName);
-    return result.data;
+    const {data} = await this.dauth.addEthWallet(walletName);
+    return data;
   }
 
   async deleteEthWallet(walletName: string) {
@@ -942,8 +942,8 @@ export class Account {
   }
 
   async addBtcWallet(walletName: string) {
-    const result = await this.dauth.addBtcWallet(walletName);
-    return result.data;
+    const { data } = await this.dauth.addBtcWallet(walletName);
+    return data;
   }
 
   async deleteBtcWallet(walletName: string) {

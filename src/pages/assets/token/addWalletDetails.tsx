@@ -9,6 +9,7 @@ import { useMap } from 'react-use';
 import { useTranslation } from 'react-i18next';
 import account, { Account } from '@/lib/account/account';
 import { ROUTE_PATH } from '@/router';
+import toast from 'react-hot-toast';
 
 export default function AddWalletDetails() {
   const nav = useNavigate();
@@ -26,12 +27,19 @@ export default function AddWalletDetails() {
 
   
   const saveHandler = async (e: any) => {
+    let code:string = ''
+    let msg:string = ''
     if (opType === 'add') {
       console.log('walletNet = ' + walletNet)
       if (walletNet === 'ETH') {
-        await account.addEthWallet(data.Name);
+        ({ code, msg } = await account.addEthWallet(data.Name))
       } else if (walletNet === 'BTC') {
-        await account.addBtcWallet(data.Name);
+        ({ code, msg } = await account.addBtcWallet(data.Name));
+      }
+
+      if (code !== '000000') {
+        toast.error(msg);
+        return
       }
       
     } else if (opType === 'edit') {
