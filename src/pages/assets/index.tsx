@@ -21,7 +21,7 @@ export default function AssetsIndex() {
   const [params] = useSearchParams();
   const type = params.get('type');
   const [assetsType, setAssetsType] = useState(type || 'token');
-  const { balance: pointBalance } = usePoint();
+  // const { balance: pointBalance } = usePoint();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { list, remove, getList } = useWalletStore((state) => state);
@@ -46,9 +46,9 @@ export default function AssetsIndex() {
       case 'Tinyverse':
         nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
       case 'Bitcoin':
-        nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}`);
+        nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}` + `&type=${item.Type}`);
       case 'Ethereum':
-        //nav();
+        nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}` + `&type=${item.Type}`);
     }
    
   };

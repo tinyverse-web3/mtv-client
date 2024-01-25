@@ -1234,6 +1234,16 @@ export class Dauth {
     });
   }
 
+  async getEthWallet(walletName:string) {
+    return this.invoke({
+      name: 'eth/getWalletDetails',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
   async addEthWallet(walletName:string) {
     return this.invoke({
       name: 'eth/createWallet',
@@ -1275,6 +1285,28 @@ export class Dauth {
     });
   }
 
+  async getEthTxList(walletName:string) {
+    return this.invoke({
+      name: 'eth/getTxList',
+      method: 'get',
+      data: {
+        Name: walletName,
+        Page: 1,
+        Offset: 1000,
+      },
+    });
+  }
+
+  async getBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/getWalletDetails',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
   async addBtcWallet(walletName:string) {
     return this.invoke({
       name: 'btc/createWallet',
@@ -1309,6 +1341,26 @@ export class Dauth {
   async getBtcWalletMnemonic(walletName:string) {
     return this.invoke({
       name: 'btc/getMnemonic',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getBtcTxList(address:string) {
+    return this.invoke({
+      name: 'btc/getTxList',
+      method: 'get',
+      data: {
+        Address: address,
+      },
+    });
+  }
+
+  async getBtcDefaultAddress(walletName:string) {
+    return this.invoke({
+      name: 'btc/getDefaultAddress',
       method: 'get',
       data: {
         Name: walletName,

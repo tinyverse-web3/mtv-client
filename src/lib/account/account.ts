@@ -921,9 +921,14 @@ export class Account {
     return result.data;
   }
 
+  async getEthWallet(walletName: string) {
+    const result = await this.dauth.getEthWallet(walletName);
+    return result.data;
+  }
+
   async addEthWallet(walletName: string) {
-    const {data} = await this.dauth.addEthWallet(walletName);
-    return data;
+    const result = await this.dauth.addEthWallet(walletName);
+    return result.data;
   }
 
   async deleteEthWallet(walletName: string) {
@@ -932,18 +937,28 @@ export class Account {
   }
 
   async importEthWallet(walletName: string, mnemonic: string) {
-    const data = await this.dauth.importEthWallet(walletName, mnemonic);
-    return data;
+    const result = await this.dauth.importEthWallet(walletName, mnemonic);
+    return result.data;
   }
 
   async getEthWalletMnemonic(walletName: string) {
-    const data = await this.dauth.getEthWalletMnemonic(walletName);
-    return data;
+    const result = await this.dauth.getEthWalletMnemonic(walletName);
+    return result.data;
+  }
+
+  async getEthTxList(walletName: string) {
+    const result = await this.dauth.getEthTxList(walletName);
+    return result.data;
+  }
+
+  async getBtcWallet(walletName: string) {
+    const result = await this.dauth.getBtcWallet(walletName);
+    return result.data;
   }
 
   async addBtcWallet(walletName: string) {
-    const { data } = await this.dauth.addBtcWallet(walletName);
-    return data;
+    const result = await this.dauth.addBtcWallet(walletName);
+    return result.data;
   }
 
   async deleteBtcWallet(walletName: string) {
@@ -952,15 +967,25 @@ export class Account {
   }
 
   async importBtcWallet(walletName: string, mnemonic: string) {
-    const data = await this.dauth.importBtcWallet(walletName, mnemonic);
-    return data;
+    const result = await this.dauth.importBtcWallet(walletName, mnemonic);
+    return result.data;
   }
 
   async getBtcWalletMnemonic(walletName: string) {
-    const data = await this.dauth.getBtcWalletMnemonic(walletName);
-    return data;
+    const result = await this.dauth.getBtcWalletMnemonic(walletName);
+    return result.data;
   }
 
+  async getBtcTxList(address: string) {
+    const result = await this.dauth.getBtcTxList(address);
+    return result.data;
+  }
+
+  async getBtcDefaultAddress(walletName: string) {
+    const result = await this.dauth.getBtcDefaultAddress(walletName);
+    return result.data;
+  }
+  
   async getBtcAddressType(walletName: string) {
     // TODO
     return [];

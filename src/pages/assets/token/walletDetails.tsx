@@ -20,14 +20,21 @@ import account from '@/lib/account/account';
 import { groupBy } from 'lodash';
 import { format } from 'date-fns';
 import { Empty } from '@/components/Empty';
+import toast from "react-hot-toast";
+
+interface WalletTxItem {
+  txTime: Date | number;
+}
 
 export default function WalletDetails() {
     const { t } = useTranslation();
     const nav = useNavigate();
-    const [searchParams] = useSearchParams();
+    const [params] = useSearchParams();
+    const type = params.get('type') as string;
     const [moreAddr, setMoreAddr] = useState('');
-    const { walletTxList, setWalletTxList, setWalletTx } = useWalletAssetsStore((state) => state);
-    const walletName = searchParams.get('name') as string;
+    const [walletTxList, setWalletTxList] = useState<WalletTxItem[]>([]);
+
+    const walletName = params.get('name') as string;
     const {  getByName } = useWalletStore((state) => state);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [data, { set, setAll, remove, reset, get }] = useMap({
@@ -38,28 +45,48 @@ export default function WalletDetails() {
       Balance: '',
       Transfer: [],
     });
-
+    
 
     const feachDetails = async () => {
-      const detail = await getByName(walletName);
-      console.log("feachDetails detail = " + detail);
+      const detail = await getByName(walletName, type);
       setAll(detail as any);
     }
 
-    const getTXDetails = async () => {
-      const { data } = await account.getTXDetails();
-      const list = data?.txItems || [];
+    const getTxList = async () => {
+      let result: any = {};
+      if (type === 'Bitcoin') {
+        result = await account.getBtcDefaultAddress(walletName);
+        if (result.code !== '000000') {
+          toast.error(result.msg);
+          return
+        }
+        result = await account.getBtcTxList(result.data);
+      } else if (type === 'Ethereum') {
+        result = await account.getEthTxList(walletName);
+      }
+
+      if (result.code !== '000000') {
+        toast.error(result.msg);
+        return
+      }
+
+      const list = result?.data || [];
       setWalletTxList(list);
-      setMoreAddr(data?.more);
+      // setMoreAddr(data?.more);
+
+      // const { data } = await account.getTXDetails();
+      // const list = data?.txItems || [];
+      // setWalletTxList(list);
+      // setMoreAddr(data?.more);
     };
 
-    const getTXMore = async () => {
-      if (!moreAddr) return;
-      const { code, data } = await account.getTXMore(moreAddr);
-      const list = data?.txItems || [];
-      setWalletTxList(walletTxList.concat(list));
-      setMoreAddr(data?.more);
-    };
+    // const getTXMore = async () => {
+    //   if (!moreAddr) return;
+    //   const { code, data } = await account.getTXMore(moreAddr);
+    //   const list = data?.txItems || [];
+    //   setWalletTxList(walletTxList.concat(list));
+    //   setMoreAddr(data?.more);
+    // };
     
     const list = useMemo(() => {
       return groupBy(
@@ -68,15 +95,15 @@ export default function WalletDetails() {
       );
     }, [walletTxList]);
     const toWalletTx = (item: any) => {
-      setWalletTx(item);
-      nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_TX);
+      // setWalletTx(item);
+      // nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_TX);
     };
 
     useEffect(() => {
       if (walletName) {
         feachDetails();
+        // getTxList();
       }
-      getTXDetails();
     }, [walletName]);
 
     const openDrawer = () => {
@@ -122,8 +149,8 @@ export default function WalletDetails() {
             icon='mdi:cog-outline'
             className='text-xl'></Icon>
         }
-        onRefresh={getTXDetails}
-        onLoad={getTXMore}
+        onRefresh={getTxList}
+        //onLoad={getTXMore}
         >
          <WalletDrawerMenu 
           isOpen={isDrawerOpen} 
@@ -135,35 +162,35 @@ export default function WalletDetails() {
         /> 
          <div className='p-4'>
           <div className='mb-5'>
-                  <WalletHeader
-                    icon={getIconByType(data.Type)}
-                    address={hideStr(data.Address, 4)}
-                    dollar={data.Balance}
-                    key='balance'
-                    //onClick={() => toSelectWalletNet("create")}
-                  />
+            <WalletHeader
+              icon={getIconByType(data.Type)}
+              address={hideStr(data.Address, 4)}
+              dollar={data.Balance}
+              key='balance'
+              //onClick={() => toSelectWalletNet("create")}
+            />
           </div>
           <div className='flex mb-20 gap-3'>
-                  <WalletFilterItem
-                    icon={IconReceive}
-                    title={t('pages.assets.token.transfer_receive')}
-                    key='receive'
-                    //onClick={() => toSelectWalletNet("import")}
-                  />
-                    <WalletFilterItem
-                    icon={IconSend}
-                    title={t('pages.assets.token.transfer_send')}
-                    key='send'
-                    //onClick={() => toSelectWalletNet("import")}
-                  />
-                    <WalletFilterItem
-                    icon={IconBuy}
-                    title={t('pages.assets.token.transfer_buy')}
-                    key='buy'
-                    //onClick={() => toSelectWalletNet("import")}
-                  />
+            <WalletFilterItem
+              icon={IconReceive}
+              title={t('pages.assets.token.transfer_receive')}
+              key='receive'
+              //onClick={() => toSelectWalletNet("import")}
+            />
+              <WalletFilterItem
+              icon={IconSend}
+              title={t('pages.assets.token.transfer_send')}
+              key='send'
+              //onClick={() => toSelectWalletNet("import")}
+            />
+              <WalletFilterItem
+              icon={IconBuy}
+              title={t('pages.assets.token.transfer_buy')}
+              key='buy'
+              //onClick={() => toSelectWalletNet("import")}
+            />
           </div>
-          <div className=' pb-4'>
+          {/* <div className=' pb-4'>
             {!list.length && <Empty />}
             {Object.keys(list).map((key) => (
               <div className='mb-2' key={key}>
@@ -175,7 +202,7 @@ export default function WalletDetails() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
         </LayoutThird> 
     );

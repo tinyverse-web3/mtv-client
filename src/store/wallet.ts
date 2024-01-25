@@ -19,7 +19,7 @@ interface WalletState {
   remove: (name: string) => void;
   update: (note: Wallet) => void;
   get: (name: string) => Promise<Wallet | undefined>;
-  getByName: (name: string) => Promise<Wallet | undefined>;
+  getByName: (name: string, type: string) => Promise<Wallet | undefined>;
   reset: () => void;
 }
 
@@ -82,13 +82,22 @@ export const useWalletStore = create<WalletState>()(
         const list = get().list;
         return list.find((i) => i.Address === address);
       },
-      getByName: async (name: string) => {
+      getByName: async (name: string, type: string) => {
         console.log('getByName', name);
-        const list = get().list;
-        console.log('getByName', list);
-        return list.find((i) => i.Name === name); 
-        //TODO
-        //暂时从cache中返回详情，待杜娟补充接口从后台获取
+        console.log('getByName', type);
+        let result: any = {};
+        if (type === 'Bitcoin') {
+          result = await account.getBtcWallet(name);
+        } else if (type === 'Ethereum') {
+          result = await account.getEthWallet(name);
+        }
+        
+        if (result.code !== '000000') {
+          toast.error(result.msg);
+          throw new Error(result.msg);
+        }
+
+        return result.data; 
       },
       reset: () => {
         set({ list: [] });
