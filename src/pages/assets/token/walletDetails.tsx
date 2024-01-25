@@ -91,6 +91,15 @@ export default function WalletDetails() {
       nav(ROUTE_PATH.ASSETS_TOKEN_EDIT_WALLET_NAME + '?walletName=' + data.Name);
     }
 
+   const toSwitchAddressType = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_SWITCH_ADDRESS_TYPE + '?walletName=' + data.Name);
+   }
+
+   const toExportWallet = () => {
+    //Todo
+
+   }
+
     const getIconByType = (type: string) => {
       switch (type) {
         case 'Tinyverse':
@@ -113,10 +122,17 @@ export default function WalletDetails() {
             icon='mdi:cog-outline'
             className='text-xl'></Icon>
         }
-        onRefresh={feachDetails}
+        onRefresh={getTXDetails}
         onLoad={getTXMore}
         >
-         <WalletDrawerMenu isOpen={isDrawerOpen} onClose={closeDrawer} onEditWalletName={toEditWalletName}/> 
+         <WalletDrawerMenu 
+          isOpen={isDrawerOpen} 
+          onClose={closeDrawer} 
+          onEditWalletName={toEditWalletName}
+          onSelectAddressType={toSwitchAddressType}
+          onExportWallet={toExportWallet}
+          
+        /> 
          <div className='p-4'>
           <div className='mb-5'>
                   <WalletHeader

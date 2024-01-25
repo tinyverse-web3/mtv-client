@@ -960,6 +960,11 @@ export class Account {
     const data = await this.dauth.getBtcWalletMnemonic(walletName);
     return data;
   }
+
+  async getBtcAddressType(walletName: string) {
+    // TODO
+    return [];
+  }
 }
 
 export default new Account();

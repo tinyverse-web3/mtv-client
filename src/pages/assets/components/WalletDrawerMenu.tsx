@@ -11,9 +11,11 @@ interface WalletDrawerMenuProps {
   isOpen: boolean;
   onClose: () => void;
   onEditWalletName: () => void;
+  onSelectAddressType: () => void;
+  onExportWallet: () => void;
 }
 
-const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, onEditWalletName }) => {
+const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, onEditWalletName, onSelectAddressType, onExportWallet }) => {
   const { t } = useTranslation();
   const nav = useNavigate();
   
@@ -31,7 +33,7 @@ const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, on
                       </Flex>
                     </Box>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={onSelectAddressType}>
                     <Box className='items-center ml-2 bg-blue-500 text-white w-full rounded-full p-2'>
                       <Flex className='justify-center'>
                         <img src={IconAddressType} className="w-6 h-6 mr-2" />
@@ -39,7 +41,7 @@ const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, on
                       </Flex>
                     </Box>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem onClick={onExportWallet}>
                     <Box className='items-center ml-2 bg-blue-500 text-white w-full rounded-full p-2'>
                       <Flex className='justify-center'>
                         <img src={IconExport} className="w-6 h-6 mr-2" />
