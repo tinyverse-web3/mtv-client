@@ -11,8 +11,10 @@ import AddWalletMethod from '@/pages/assets/token/addWalletMethod';
 import AddWalletDetails from '@/pages/assets/token/addWalletDetails';
 import ImportWalletDetails from '@/pages/assets/token/importWalletDetails';
 import SelectNet from '@/pages/assets/token/selectNetMethod';
-import ManageWallet from '@/pages/assets/token/ManageWallet';
+import ManageWallet from '@/pages/assets/token/manageWallet';
 import EditWalletName from '@/pages/assets/token/editWalletName';
+import WalletDetails from '@/pages/assets/token/walletDetails';
+import WalletTxDetail from '@/pages/assets/token/walletTx';
 
 export const ROUTE_PATH_ASSETS = {
   ASSETS_NFT_ADD: '/assets/nft/add',
@@ -29,6 +31,8 @@ export const ROUTE_PATH_ASSETS = {
   ASSETS_TOKEN_IMPORT_WALLET_DETAILS: '/assets/token/importWalletDetails',
   ASSETS_TOKEN_MANAGE_WALLET: '/assets/token/manageWallet',
   ASSETS_TOKEN_EDIT_WALLET_NAME: '/assets/token/editWalletName',
+  ASSETS_TOKEN_WALLET_DETAILS: '/assets/token/walletDetails',
+  ASSETS_TOKEN_WALLET_TX: '/assets/token/walletTx',
 };
 
 export const assetsRoutes: RouteObject[] = [
@@ -88,5 +92,13 @@ export const assetsRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_EDIT_WALLET_NAME,
     element: <EditWalletName />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_DETAILS,
+    element: <WalletDetails />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_TX,
+    element: <WalletTxDetail />,
   }
 ];

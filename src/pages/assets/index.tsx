@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useWalletStore } from '@/store';
 import IconBtc from "@/assets/images/wallet/icon-btc.png";
 import IconEth from "@/assets/images/wallet/icon-eth.png";
+import { Wallet } from "@/store/wallet";
 
 
 export default function AssetsIndex() {
@@ -20,7 +21,7 @@ export default function AssetsIndex() {
   const [params] = useSearchParams();
   const type = params.get('type');
   const [assetsType, setAssetsType] = useState(type || 'token');
-  // const { balance: pointBalance } = usePoint();
+  const { balance: pointBalance } = usePoint();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { list, remove, getList } = useWalletStore((state) => state);
@@ -40,12 +41,12 @@ export default function AssetsIndex() {
     nav(ROUTE_PATH.ASSETS_NFT_ADD);
   };
 
-  const toTokenDetail = (type: string) => {
-    switch (type) {
+  const toTokenDetail = (item: Wallet) => {
+    switch (item.Type) {
       case 'Tinyverse':
         nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
       case 'Bitcoin':
-        //nav();
+        nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}`);
       case 'Ethereum':
         //nav();
     }
@@ -142,7 +143,7 @@ export default function AssetsIndex() {
                     key={item.Address}
                     balance={item.Balance}
                     dollar={item.BalanceDollar}
-                    onClick={() => toTokenDetail(item.Type)}
+                    onClick={() => toTokenDetail(item)}
                   />
                 ))}
               </div>

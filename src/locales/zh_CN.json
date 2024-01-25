@@ -135,6 +135,7 @@
         "manage_wallet": "管理钱包",
         "create_wallet": "创建钱包",
         "import_wallet": "导入钱包",
+        "export_wallet": "导出钱包",
         "create_wallet_chain": "请自行妥善备份和保管助记词",
         "import_wallet_chain": "使用助记词导入",
         "wallet_name": "钱包名称",
@@ -144,7 +145,11 @@
         "add_wallet_method_error": "选择钱包创建方式错误",
         "edit_wallet_name": "编辑名称",
         "del_wallet_success": "删除钱包成功",
-        "edit_wallet_name_error": "新的名称与原名称相同!"
+        "edit_wallet_name_error": "新的名称与原名称相同!",
+        "wallet_select_addr_type": "地址类型",
+        "transfer_receive": "接收",
+        "transfer_send": "发送",
+        "transfer_buy": "买入"
       },
       "receiver": {
         "title": "收款"

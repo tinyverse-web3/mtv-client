@@ -4,7 +4,7 @@ import { remove, cloneDeep } from 'lodash';
 import account, { Account } from '@/lib/account/account';
 import toast from 'react-hot-toast';
 
-interface Wallet {
+export interface Wallet {
   Name: string;
   Type: string;
   Address: string;
@@ -19,6 +19,7 @@ interface WalletState {
   remove: (name: string) => void;
   update: (note: Wallet) => void;
   get: (name: string) => Promise<Wallet | undefined>;
+  getByName: (name: string) => Promise<Wallet | undefined>;
   reset: () => void;
 }
 
@@ -80,6 +81,14 @@ export const useWalletStore = create<WalletState>()(
       get: async (address) => {
         const list = get().list;
         return list.find((i) => i.Address === address);
+      },
+      getByName: async (name: string) => {
+        console.log('getByName', name);
+        const list = get().list;
+        console.log('getByName', list);
+        return list.find((i) => i.Name === name); 
+        //TODO
+        //暂时从cache中返回详情，待杜娟补充接口从后台获取
       },
       reset: () => {
         set({ list: [] });
