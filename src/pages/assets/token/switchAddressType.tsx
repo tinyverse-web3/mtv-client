@@ -9,10 +9,10 @@ import { hideStr } from "@/lib/utils";
 import toast from "react-hot-toast";
 
 interface ListItem {
-  type: string;
-  address: string;
-  isDefault: boolean;
-  path: string;
+  Type: string;
+  Address: string;
+  IsDefault: boolean;
+  Path: string;
 }
 
 export default function SwitchAddressType() {
@@ -28,7 +28,7 @@ export default function SwitchAddressType() {
     }
 
     const toDetails = async (item: ListItem) => {
-      const result = await account.setBtcDefaultAddress(walletName, item.address)
+      const result = await account.setBtcDefaultAddress(walletName, item.Address)
       if (result.code !== '000000') {
         toast.error(result.msg);
         return
@@ -45,9 +45,9 @@ export default function SwitchAddressType() {
         <div className='p-4'>
           {list.map((item) => (
             <AddressTypeItem
-              type={item.type + '(' + item.path + ')'}
-              address={hideStr(item.address, 4)}
-              isDefault={item.isDefault}
+              type={item.Type + '(' + item.Path + ')'}
+              address={hideStr(item.Address, 4)}
+              isDefault={item.IsDefault}
               onClick={() => toDetails(item)}
             />
           ))}

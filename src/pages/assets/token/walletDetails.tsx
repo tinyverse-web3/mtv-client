@@ -48,7 +48,7 @@ export default function WalletDetails() {
     const [walletTxList, setWalletTxList] = useState<WalletTxItem[]>([]);
 
     const walletName = params.get('name') as string;
-    const {  getByName } = useWalletStore((state) => state);
+    const { getByName } = useWalletStore((state) => state);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [data, { set, setAll, remove, reset, get }] = useMap({
       Name: walletName || '',
