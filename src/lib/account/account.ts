@@ -940,6 +940,11 @@ export class Account {
     return result.data;
   }
 
+  async getEthBalance() {
+    const result = await this.dauth.getEthBalance();
+    return result.data;
+  }
+
   async getBtcWallet(walletName: string) {
     const result = await this.dauth.getBtcWallet(walletName);
     return result.data;
@@ -974,12 +979,21 @@ export class Account {
     const result = await this.dauth.getBtcDefaultAddress(walletName);
     return result.data;
   }
+
+  async getBtcAddressList(walletName: string) {
+    const result = await this.dauth.getBtcAddressList(walletName);
+    return result.data;
+  }
   
-  async getBtcAddressType(walletName: string) {
-    // TODO
-    return [];
+  async setBtcDefaultAddress(walletName: string, address: string) {
+    const result = await this.dauth.setBtcDefaultAddress(walletName, address);
+    return result.data;
   }
 
+  async getBtcBalance() {
+    const result = await this.dauth.getBtcBalance();
+    return result.data;
+  }
 
   async getTvsWallet(walletName: string) {
     const result = await this.dauth.getTvsWallet(walletName);

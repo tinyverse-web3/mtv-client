@@ -1278,6 +1278,13 @@ export class Dauth {
     });
   }
 
+  async getEthBalance() {
+    return this.invoke({
+      name: 'eth/getBalance',
+      method: 'get',
+    });
+  }
+
   async getBtcWallet(walletName:string) {
     return this.invoke({
       name: 'btc/getWalletDetails',
@@ -1349,6 +1356,33 @@ export class Dauth {
     });
   }
 
+  async getBtcAddressList(walletName:string) {
+    return this.invoke({
+      name: 'btc/getAddressListByWallet',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async setBtcDefaultAddress(walletName:string, address:string) {
+    return this.invoke({
+      name: 'btc/setDefaultAddress',
+      method: 'post',
+      data: {
+        name: walletName,
+        address: address,
+      },
+    });
+  }
+
+  async getBtcBalance() {
+    return this.invoke({
+      name: 'btc/getBalance',
+      method: 'get',
+    });
+  }
 
   async getTvsWallet(walletName:string) {
     return this.invoke({
