@@ -16,6 +16,8 @@ import EditWalletName from '@/pages/assets/token/editWalletName';
 import WalletDetails from '@/pages/assets/token/walletDetails';
 import WalletTxDetail from '@/pages/assets/token/walletTx';
 import SwitchAddressType from '@/pages/assets/token/switchAddressType';
+import WalletReceiver from '@/pages/assets/token/walletReceiver';
+import WalletSend from '@/pages/assets/token/walletSend';
 
 export const ROUTE_PATH_ASSETS = {
   ASSETS_NFT_ADD: '/assets/nft/add',
@@ -35,6 +37,8 @@ export const ROUTE_PATH_ASSETS = {
   ASSETS_TOKEN_WALLET_DETAILS: '/assets/token/walletDetails',
   ASSETS_TOKEN_WALLET_TX: '/assets/token/walletTx',
   ASSETS_TOKEN_SWITCH_ADDRESS_TYPE: '/assets/token/switchAddressType',
+  ASSETS_TOKEN_WALLET_RECEIVER: '/assets/token/walletReceiver',
+  ASSETS_TOKEN_WALLET_SEND: '/assets/token/walletSend',
 };
 
 export const assetsRoutes: RouteObject[] = [
@@ -106,5 +110,13 @@ export const assetsRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_SWITCH_ADDRESS_TYPE,
     element: <SwitchAddressType />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_RECEIVER,
+    element: <WalletReceiver />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_SEND,
+    element: <WalletSend />,
   }
 ];

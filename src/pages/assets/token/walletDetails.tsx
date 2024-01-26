@@ -14,7 +14,7 @@ import { Icon } from '@iconify/react';
 import WalletDrawerMenu from "../components/WalletDrawerMenu";
 import { WalletHeader } from "../components/WalletHeader";
 import { hideStr } from "@/lib/utils";
-import { WalletFilterItem } from "../components/WalletFilterItem";
+import { WalletOperateItem } from "../components/WalletOperateItem";
 import { TxItem } from "../components/TxItem";
 import account from '@/lib/account/account';
 import { groupBy } from 'lodash';
@@ -130,7 +130,14 @@ export default function WalletDetails() {
 
    const toExportWallet = () => {
     //Todo
+   }
 
+   const toWalletReceiver = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_RECEIVER + '?walletName=' + data.Name + '&walletType=' + data.Type);
+   }
+
+   const toWalletSend = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + data.Type);
    }
 
     const getIconByType = (type: string) => {
@@ -176,24 +183,24 @@ export default function WalletDetails() {
             />
           </div>
           <div className='flex mb-20 gap-3'>
-            <WalletFilterItem
-              icon={IconReceive}
-              title={t('pages.assets.token.transfer_receive')}
-              key='receive'
-              //onClick={() => toSelectWalletNet("import")}
-            />
-            <WalletFilterItem
-              icon={IconSend}
-              title={t('pages.assets.token.transfer_send')}
-              key='send'
-              //onClick={() => toSelectWalletNet("import")}
-            />
-            <WalletFilterItem
-              icon={IconBuy}
-              title={t('pages.assets.token.transfer_buy')}
-              key='buy'
-              //onClick={() => toSelectWalletNet("import")}
-            />
+                  <WalletOperateItem
+                    icon={IconReceive}
+                    title={t('pages.assets.token.transfer_receive')}
+                    key='receive'
+                    onClick={toWalletReceiver}
+                  />
+                    <WalletOperateItem
+                    icon={IconSend}
+                    title={t('pages.assets.token.transfer_send')}
+                    key='send'
+                    onClick={toWalletSend}
+                  />
+                    <WalletOperateItem
+                    icon={IconBuy}
+                    title={t('pages.assets.token.transfer_buy')}
+                    key='buy'
+                    //onClick={() => toSelectWalletNet("import")}
+                  />
           </div>
           <div className=' pb-4'>
             {!list.length && <Empty />}

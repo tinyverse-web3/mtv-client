@@ -149,7 +149,8 @@
         "wallet_select_addr_type": "地址类型",
         "transfer_receive": "接收",
         "transfer_send": "发送",
-        "transfer_buy": "买入"
+        "transfer_buy": "买入",
+        "address_copy_toast": "地复成功复制到剪贴板"
       },
       "receiver": {
         "title": "收款"

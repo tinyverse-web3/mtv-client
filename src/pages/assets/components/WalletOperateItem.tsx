@@ -1,15 +1,15 @@
 import { Image } from '@nextui-org/react';
 
-interface WalletFilterItemProps {
+interface WalletOperateItemProps {
   icon?: string;
   title: string;
   onClick?: () => void;
 }
-export const WalletFilterItem = ({
+export const WalletOperateItem = ({
   icon,
   title,
   onClick,
-}: WalletFilterItemProps) => {
+}: WalletOperateItemProps) => {
   return (
       <div
         className='flex items-center justify-center h-16 w-full mb-4 bg-gray-50 px-4 rounded-2xl border border-gray-100'
