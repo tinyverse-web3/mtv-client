@@ -58,7 +58,6 @@ export default function WalletDetails() {
       Balance: '',
       Transfer: [],
     });
-    
 
     const feachDetails = async () => {
       const detail = await getByName(walletName, type);
@@ -109,7 +108,7 @@ export default function WalletDetails() {
     useEffect(() => {
       if (walletName) {
         feachDetails();
-        // getTxList();
+        getTxList();
       }
     }, [walletName]);
 
@@ -143,8 +142,7 @@ export default function WalletDetails() {
         case 'Ethereum':
           return IconEth;
       }
-     }
-
+    }
    
     return (  
         <LayoutThird 
@@ -159,15 +157,15 @@ export default function WalletDetails() {
         onRefresh={getTxList}
         //onLoad={getTXMore}
         >
-         <WalletDrawerMenu 
+        <WalletDrawerMenu
+          diableAddressType={type === 'Bitcoin'} 
           isOpen={isDrawerOpen} 
           onClose={closeDrawer} 
           onEditWalletName={toEditWalletName}
           onSelectAddressType={toSwitchAddressType}
           onExportWallet={toExportWallet}
-          
         /> 
-         <div className='p-4'>
+        <div className='p-4'>
           <div className='mb-5'>
             <WalletHeader
               icon={getIconByType(data.Type)}
@@ -184,13 +182,13 @@ export default function WalletDetails() {
               key='receive'
               //onClick={() => toSelectWalletNet("import")}
             />
-              <WalletFilterItem
+            <WalletFilterItem
               icon={IconSend}
               title={t('pages.assets.token.transfer_send')}
               key='send'
               //onClick={() => toSelectWalletNet("import")}
             />
-              <WalletFilterItem
+            <WalletFilterItem
               icon={IconBuy}
               title={t('pages.assets.token.transfer_buy')}
               key='buy'

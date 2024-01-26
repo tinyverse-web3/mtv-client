@@ -8,6 +8,7 @@ import IconExport from '@/assets/images/wallet/icon-white-export.png';
 import IconAddressType from '@/assets/images/wallet/icon-white-address-type.png';
 
 interface WalletDrawerMenuProps {
+  diableAddressType?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onEditWalletName: () => void;
@@ -15,7 +16,7 @@ interface WalletDrawerMenuProps {
   onExportWallet: () => void;
 }
 
-const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, onEditWalletName, onSelectAddressType, onExportWallet }) => {
+const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, onEditWalletName, onSelectAddressType, onExportWallet, diableAddressType }) => {
   const { t } = useTranslation();
   const nav = useNavigate();
   
@@ -33,14 +34,15 @@ const WalletDrawerMenu: React.FC<WalletDrawerMenuProps> = ({ isOpen, onClose, on
                       </Flex>
                     </Box>
                 </MenuItem>
-                <MenuItem onClick={onSelectAddressType}>
+                {diableAddressType && <MenuItem onClick={onSelectAddressType}>
                     <Box className='items-center ml-2 bg-blue-500 text-white w-full rounded-full p-2'>
                       <Flex className='justify-center'>
                         <img src={IconAddressType} className="w-6 h-6 mr-2" />
                         {t('pages.assets.token.wallet_select_addr_type')}
                       </Flex>
                     </Box>
-                </MenuItem>
+                </MenuItem>}
+
                 <MenuItem onClick={onExportWallet}>
                     <Box className='items-center ml-2 bg-blue-500 text-white w-full rounded-full p-2'>
                       <Flex className='justify-center'>
