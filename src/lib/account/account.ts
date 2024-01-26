@@ -224,10 +224,6 @@ export class Account {
     return result.data;
   }
 
-  async getBalance() {
-    const result = await this.dauth.getBalance();
-    return result.data;
-  }
   async applyDailyReward() {
     const result = await this.dauth.applyDailyReward();
     return result.data;
@@ -857,14 +853,7 @@ export class Account {
     const { data } = await this.dauth.downloadNftFile({ NftName });
     return data;
   }
-  async getTXDetails() {
-    const { data } = await this.dauth.getTXDetails();
-    return data;
-  }
-  async getTXMore(Addr: string) {
-    const { data } = await this.dauth.getTXMore(Addr);
-    return data;
-  }
+
   async getDataSummary() {
     const { data } = await this.dauth.getDataSummary();
     return data;
@@ -989,6 +978,27 @@ export class Account {
   async getBtcAddressType(walletName: string) {
     // TODO
     return [];
+  }
+
+
+  async getTvsWallet(walletName: string) {
+    const result = await this.dauth.getTvsWallet(walletName);
+    return result.data;
+  }
+
+  async getTvsTxList() {
+    const result = await this.dauth.getTvsTxList();
+    return result.data;
+  }
+
+  async getTvsTxListMore(Addr: string) {
+    const { data } = await this.dauth.getTvsTxListMore(Addr);
+    return data;
+  }
+
+  async getTvsBalance() {
+    const result = await this.dauth.getTvsBalance();
+    return result.data;
   }
 }
 

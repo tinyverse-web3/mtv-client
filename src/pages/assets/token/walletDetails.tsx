@@ -22,8 +22,21 @@ import { format } from 'date-fns';
 import { Empty } from '@/components/Empty';
 import toast from "react-hot-toast";
 
-interface WalletTxItem {
+export interface ReceiveTxItem {
+  receiver: string;
+  amount: number;
+}
+
+export interface WalletTxItem {
+  amount: number;
+  comment: string;
+  gas: number;
+  receivers: ReceiveTxItem[];
+  sender: string;
+  transferName: 'tvs';
+  txAddr: string;
   txTime: Date | number;
+  type: 0 | 1;
 }
 
 export default function WalletDetails() {
@@ -72,12 +85,6 @@ export default function WalletDetails() {
 
       const list = result?.data || [];
       setWalletTxList(list);
-      // setMoreAddr(data?.more);
-
-      // const { data } = await account.getTXDetails();
-      // const list = data?.txItems || [];
-      // setWalletTxList(list);
-      // setMoreAddr(data?.more);
     };
 
     // const getTXMore = async () => {
@@ -190,7 +197,7 @@ export default function WalletDetails() {
               //onClick={() => toSelectWalletNet("import")}
             />
           </div>
-          {/* <div className=' pb-4'>
+          <div className=' pb-4'>
             {!list.length && <Empty />}
             {Object.keys(list).map((key) => (
               <div className='mb-2' key={key}>
@@ -202,7 +209,7 @@ export default function WalletDetails() {
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
         </LayoutThird> 
     );

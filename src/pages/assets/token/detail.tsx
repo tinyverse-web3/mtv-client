@@ -13,8 +13,6 @@ import { useTranslation } from 'react-i18next';
 import account from '@/lib/account/account';
 import { useEffect } from 'react';
 import { groupBy } from 'lodash';
-import { useList } from 'react-use';
-import { useNativeScan } from '@/lib/hooks';
 
 export default function TokenDetail() {
   const nav = useNavigate();
@@ -23,15 +21,15 @@ export default function TokenDetail() {
   const [moreAddr, setMoreAddr] = useState('');
   const { balance: pointBalance } = usePoint();
   const { tvsTxList, setTvsTxList, setTvsTx } = useAssetsStore((state) => state);
-  const getTXDetails = async () => {
-    const { data } = await account.getTXDetails();
+  const getTvsTxList = async () => {
+    const { data } = await account.getTvsTxList();
     const list = data?.txItems || [];
     setTvsTxList(list);
     setMoreAddr(data?.more);
   };
-  const getTXMore = async () => {
+  const getTvsTxListMore = async () => {
     if (!moreAddr) return;
-    const { code, data } = await account.getTXMore(moreAddr);
+    const { code, data } = await account.getTvsTxListMore(moreAddr);
     const list = data?.txItems || [];
     setTvsTxList(tvsTxList.concat(list));
     setMoreAddr(data?.more);
@@ -53,18 +51,18 @@ export default function TokenDetail() {
     nav(ROUTE_PATH.ASSETS_TOKEN_TX);
   };
   useEffect(() => {
-    getTXDetails();
+    getTvsTxList();
   }, []);
  
   return (
     <LayoutThird
       title={`TVS ${t('pages.assets.token.detail_title')}`}
-      onRefresh={getTXDetails}
-      onLoad={getTXMore}
+      onRefresh={getTvsTxList}
+      onLoad={getTvsTxListMore}
       rightContent={
         <Icon
           icon='material-symbols:more-vert'
-          className=' text-xl   text-blue-500'
+          className='text-xl text-blue-500'
           ></Icon>
       }>
       <div className='p-4 h-full'>

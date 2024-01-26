@@ -70,12 +70,7 @@ export class Dauth {
       formData: formData,
     });
   }
-  async getBalance() {
-    return this.invoke({
-      name: 'getBalance',
-      method: 'get',
-    });
-  }
+
   async applyDailyReward() {
     return this.invoke({
       name: 'applyDailyReward',
@@ -763,21 +758,7 @@ export class Dauth {
       },
     });
   }
-  async getTXDetails() {
-    return this.invoke({
-      name: 'getTXDetails',
-      method: 'get',
-    });
-  }
-  async getTXMore(Addr: string) {
-    return this.invoke({
-      name: 'getTXMore',
-      method: 'get',
-      data: {
-        Addr,
-      },
-    });
-  }
+
   /**
    * 上传 IPFS 文件
    * @param file 文件
@@ -1365,6 +1346,41 @@ export class Dauth {
       data: {
         Name: walletName,
       },
+    });
+  }
+
+
+  async getTvsWallet(walletName:string) {
+    return this.invoke({
+      name: 'tvs/getWallet',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getTvsTxList() {
+    return this.invoke({
+      name: 'tvs/getTxList',
+      method: 'get',
+    });
+  }
+
+  async getTvsTxListMore(Addr: string) {
+    return this.invoke({
+      name: 'tvs/getTXMore',
+      method: 'get',
+      data: {
+        Addr,
+      },
+    });
+  }
+
+  async getTvsBalance() {
+    return this.invoke({
+      name: 'tvs/getBalance',
+      method: 'get',
     });
   }
 

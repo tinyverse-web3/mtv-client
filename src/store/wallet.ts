@@ -90,6 +90,8 @@ export const useWalletStore = create<WalletState>()(
           result = await account.getBtcWallet(name);
         } else if (type === 'Ethereum') {
           result = await account.getEthWallet(name);
+        } else if (type === 'Tinyverse') {
+          result = await account.getTvsWallet(name);
         }
         
         if (result.code !== '000000') {

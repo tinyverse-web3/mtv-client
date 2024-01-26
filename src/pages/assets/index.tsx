@@ -45,12 +45,14 @@ export default function AssetsIndex() {
     switch (item.Type) {
       case 'Tinyverse':
         nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+        break;
       case 'Bitcoin':
         nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}` + `&type=${item.Type}`);
+        break;
       case 'Ethereum':
         nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}` + `&type=${item.Type}`);
+        break;
     }
-   
   };
   const openDrawer = () => {
     setIsDrawerOpen(true);
