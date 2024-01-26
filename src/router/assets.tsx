@@ -18,6 +18,9 @@ import WalletTxDetail from '@/pages/assets/token/walletTx';
 import SwitchAddressType from '@/pages/assets/token/switchAddressType';
 import WalletReceiver from '@/pages/assets/token/walletReceiver';
 import WalletSend from '@/pages/assets/token/walletSend';
+import WalletPhrase from '@/pages/assets/token/walletPhrase';
+import WalletPhraseVerify from '@/pages/assets/token/walletPhraseVerify';
+import WalletPhraseVerifySuccess from '@/pages/assets/token/walletPhraseVerifySuccess';
 
 export const ROUTE_PATH_ASSETS = {
   ASSETS_NFT_ADD: '/assets/nft/add',
@@ -39,6 +42,9 @@ export const ROUTE_PATH_ASSETS = {
   ASSETS_TOKEN_SWITCH_ADDRESS_TYPE: '/assets/token/switchAddressType',
   ASSETS_TOKEN_WALLET_RECEIVER: '/assets/token/walletReceiver',
   ASSETS_TOKEN_WALLET_SEND: '/assets/token/walletSend',
+  ASSETS_TOKEN_WALLET_PHRASE: '/assets/token/walletPhrase',
+  ASSETS_TOKEN_WALLET_PHRASE_VERIFY: '/assets/token/walletPhraseVerify',
+  ASSETS_TOKEN_WALLET_PHRASE_VERIFY_SUCCESS: '/assets/token/walletPhraseVerifySuccess',
 };
 
 export const assetsRoutes: RouteObject[] = [
@@ -118,5 +124,17 @@ export const assetsRoutes: RouteObject[] = [
   {
     path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_SEND,
     element: <WalletSend />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_PHRASE,
+    element: <WalletPhrase />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_PHRASE_VERIFY,
+    element: <WalletPhraseVerify />,
+  },
+  {
+    path: ROUTE_PATH_ASSETS.ASSETS_TOKEN_WALLET_PHRASE_VERIFY_SUCCESS,
+    element: <WalletPhraseVerifySuccess />,
   }
 ];

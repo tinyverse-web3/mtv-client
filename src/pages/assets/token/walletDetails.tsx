@@ -129,16 +129,17 @@ export default function WalletDetails() {
    }
 
    const toExportWallet = () => {
-    //Todo
+    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_PHRASE + '?walletName=' + data.Name + '&walletType=' + type);
    }
 
    const toWalletReceiver = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_RECEIVER + '?walletName=' + data.Name + '&walletType=' + data.Type);
+    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_RECEIVER + '?walletName=' + data.Name + '&walletType=' + type);
    }
 
    const toWalletSend = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + data.Type);
+    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + type);
    }
+
 
     const getIconByType = (type: string) => {
       switch (type) {
