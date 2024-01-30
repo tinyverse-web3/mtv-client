@@ -930,6 +930,11 @@ export class Account {
     return result.data;
   }
 
+  async transferUseEthWallet(walletName:string, targetAddress:string, amount:Number) {
+    const result = await this.dauth.transferUseEthWallet(walletName, targetAddress, amount);
+    return result.data;
+  }
+
   async getEthWalletMnemonic(walletName: string) {
     const result = await this.dauth.getEthWalletMnemonic(walletName);
     return result.data;
@@ -940,8 +945,8 @@ export class Account {
     return result.data;
   }
 
-  async getEthBalance() {
-    const result = await this.dauth.getEthBalance();
+  async getEthBalance(walletName: string) {
+    const result = await this.dauth.getEthBalance(walletName);
     return result.data;
   }
 
@@ -969,6 +974,11 @@ export class Account {
     const result = await this.dauth.getBtcWalletMnemonic(walletName);
     return result.data;
   }
+  
+  async transferUseBtcWallet(walletName:string, srcAddress:string, targetAddress:string, amount:Number, feeRate:Number) {
+    const result = await this.dauth.transferUseBtcWallet(walletName, srcAddress, targetAddress, amount, feeRate);
+    return result.data;
+  }
 
   async getBtcTxList(address: string) {
     const result = await this.dauth.getBtcTxList(address);
@@ -990,8 +1000,8 @@ export class Account {
     return result.data;
   }
 
-  async getBtcBalance() {
-    const result = await this.dauth.getBtcBalance();
+  async getBtcBalance(walletName: string, address: string) {
+    const result = await this.dauth.getBtcBalance(walletName, address);
     return result.data;
   }
 

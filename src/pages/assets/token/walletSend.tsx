@@ -28,6 +28,7 @@ export default function WalletSend() {
   const [searchParams] = useSearchParams();
   const walletName = searchParams.get('walletName') as string;
   const walletType = searchParams.get('walletType') as string;
+  const srcAddress = searchParams.get('address') as string;
   const { result, start } = useNativeScan();
   const { getByName } = useWalletStore((state) => state);
   
@@ -56,9 +57,18 @@ export default function WalletSend() {
   }
 
   const feachBalance = async () => {
-   console.log('feachBalance')
-   //Todo 调用接口获取余额
-   return 0
+    let result: any = {};
+    if (walletType === 'Bitcoin') {
+      result = await account.getBtcBalance(walletName, srcAddress);
+    } else if (walletType === 'Ethereum') {
+      result = await account.getEthBalance(walletName);
+    }
+    
+    if (result.code !== '000000') {
+      toast.error(result.msg);
+      return
+    }
+   return result.data
   }
 
   useEffect(() => {
@@ -73,18 +83,21 @@ export default function WalletSend() {
   };
   const handleTransfer = async () => {
     setLoading(true);
-    const { code, msg } = await account.transferPoint({
-      WalletAddr: data.WalletAddr,
-      Amount: Number(data.Amount),
-      Gas: Number(data.Gas),
-      Comment: data.Comment,
-    });
-    if (code === '000000') {
+    
+    let result: any = {};
+    if (walletType === 'Bitcoin') {
+      result = await account.transferUseBtcWallet(walletName, srcAddress, data.WalletAddr, Number(data.Amount), Number(data.Gas));
+    } else if (walletType === 'Ethereum') {
+      result = await account.transferUseEthWallet(walletName, data.WalletAddr, Number(data.Amount));
+    }
+
+    if (result.code === '000000') {
       toast.success(t('pages.assets.token.transfer_success'));
     } else {
-      toast.error(msg);
+      toast.error(result.msg);
     }
     setLoading(false);
+    nav(-1);
   };
   const disabled = useMemo(
     () =>
@@ -114,16 +127,10 @@ export default function WalletSend() {
             isClearable={false}
             placeholder={t('pages.assets.transfer.to_placeholder')}
             startContent={
-              <Icon
-                icon='mdi:account-supervisor-outline'
-                onClick={toSelectContact}
-                className='text-2xl text-blue-500'></Icon>
+              <Icon icon='mdi:account-supervisor-outline' onClick={toSelectContact} className='text-2xl text-blue-500'></Icon>
             }
             endContent={
-              <Icon
-                icon='mdi:line-scan'
-                className=' text-xl   text-blue-500'
-                onClick={toScan}></Icon>
+              <Icon icon='mdi:line-scan' className=' text-xl text-blue-500' onClick={toScan}></Icon>
             }
             value={data.WalletAddr}
             onChange={(e: string) => set('WalletAddr', e)}

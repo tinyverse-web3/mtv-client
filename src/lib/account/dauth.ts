@@ -1256,6 +1256,18 @@ export class Dauth {
     });
   }
 
+  async transferUseEthWallet(walletName:string, targetAddress:string, amount:Number) {
+    return this.invoke({
+      name: 'eth/transfer',
+      method: 'post',
+      data: {
+        name: walletName,
+        targetAddress: targetAddress,
+        amount: amount,
+      },
+    });
+  }
+
   async getEthWalletMnemonic(walletName:string) {
     return this.invoke({
       name: 'eth/getMnemonic',
@@ -1278,10 +1290,13 @@ export class Dauth {
     });
   }
 
-  async getEthBalance() {
+  async getEthBalance(walletName:string) {
     return this.invoke({
       name: 'eth/getBalance',
       method: 'get',
+      data: {
+        Name: walletName,
+      },
     });
   }
 
@@ -1322,6 +1337,20 @@ export class Dauth {
       data: {
         name: walletName,
         mnemonic: mnemonic,
+      },
+    });
+  }
+
+  async transferUseBtcWallet(walletName:string, srcAddress:string, targetAddress:string, amount:Number, feeRate:Number) {
+    return this.invoke({
+      name: 'btc/transfer',
+      method: 'post',
+      data: {
+        name: walletName,
+        srcAddress: srcAddress,
+        targetAddress: targetAddress,
+        amount: amount,
+        feeRate: feeRate,
       },
     });
   }
@@ -1377,10 +1406,14 @@ export class Dauth {
     });
   }
 
-  async getBtcBalance() {
+  async getBtcBalance(walletName:string, address:string) {
     return this.invoke({
       name: 'btc/getBalance',
       method: 'get',
+      data: {
+        Name: walletName,
+        Address: address,
+      },
     });
   }
 

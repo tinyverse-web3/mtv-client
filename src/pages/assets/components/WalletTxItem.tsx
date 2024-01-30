@@ -7,7 +7,7 @@ interface WalletTxItemProps {
   item: WalletTxItem;
   onClick?: () => void;
 }
-export const WalletItem = ({ item, onClick }: WalletTxItemProps) => {
+export const WalletTransferItem = ({ item, onClick }: WalletTxItemProps) => {
   const { t } = useTranslation()
   return (
     <div
@@ -29,14 +29,13 @@ export const WalletItem = ({ item, onClick }: WalletTxItemProps) => {
           <div className='mb-1 text-sm flex justify-between items-center'>
             <span>{item.type === 0 ? t('pages.assets.receiver.title') : t('pages.assets.transfer.sender')}</span>
             <div className='text-base text-right'>
-              {item.type === 0 ? '+' : '-'}
               {item.amount}
             </div>
           </div>
-          {!!item.gas && (
+          {!!item.fee && (
             <div className='flex justify-between mb-1 text-xs text-gray-500'>
               <span>{t('pages.assets.transfer.gas')}</span>
-              <span>{item.gas}</span>
+              <span>{item.fee}</span>
             </div>
           )}
 

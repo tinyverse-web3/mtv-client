@@ -15,7 +15,7 @@ import WalletDrawerMenu from "../components/WalletDrawerMenu";
 import { WalletHeader } from "../components/WalletHeader";
 import { hideStr } from "@/lib/utils";
 import { WalletOperateItem } from "../components/WalletOperateItem";
-import { TxItem } from "../components/TxItem";
+import { WalletTransferItem } from "../components/WalletTxItem";
 import account from '@/lib/account/account';
 import { groupBy } from 'lodash';
 import { format } from 'date-fns';
@@ -27,10 +27,10 @@ export interface ReceiveTxItem {
   amount: number;
 }
 
-export interface WalletTxItem {
+export interface WalletTransferItem {
   amount: number;
   comment: string;
-  gas: number;
+  fee: number;
   receivers: ReceiveTxItem[];
   sender: string;
   transferName: 'tvs';
@@ -45,7 +45,7 @@ export default function WalletDetails() {
     const [params] = useSearchParams();
     const type = params.get('type') as string;
     const [moreAddr, setMoreAddr] = useState('');
-    const [walletTxList, setWalletTxList] = useState<WalletTxItem[]>([]);
+    const [walletTxList, setWalletTxList] = useState<WalletTransferItem[]>([]);
 
     const walletName = params.get('name') as string;
     const { getByName } = useWalletStore((state) => state);
@@ -137,7 +137,7 @@ export default function WalletDetails() {
    }
 
    const toWalletSend = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + type);
+    nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + type + '&address=' + data.Address); 
    }
 
     const getIconByType = (type: string) => {
@@ -210,7 +210,7 @@ export default function WalletDetails() {
                 <div className='text-blue-500 text-base mb-2'>{key}</div>
                 <div className='rounded-2xl bg-gray-100 px-2'>
                   {list[key].map((item, i) => (
-                    <TxItem key={i} item={item} onClick={() => toWalletTx(item)} />
+                    <WalletTransferItem key={i} item={item} onClick={() => toWalletTx(item)} />
                   ))}
                 </div>
               </div>
