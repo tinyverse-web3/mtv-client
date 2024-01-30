@@ -23,7 +23,7 @@ export default function TokenDetail() {
   const { tvsTxList, setTvsTxList, setTvsTx } = useAssetsStore((state) => state);
   const getTvsTxList = async () => {
     const { data } = await account.getTvsTxList();
-    const list = data?.txItems || [];
+    const list = data?.data || [];
     setTvsTxList(list);
     setMoreAddr(data?.more);
   };

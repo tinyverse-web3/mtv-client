@@ -9,6 +9,7 @@ import LayoutThird from '@/layout/LayoutThird';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 export default function WalletPhrase() {
   const nav = useNavigate();
@@ -23,7 +24,17 @@ export default function WalletPhrase() {
   };
   const [mnemonic, setMnemonic] = useState<string>('');
   const getMnemonic = async () => {
-    const result = await account.getBtcWalletMnemonic(walletName);
+    let result: any = {};
+    if (walletType === 'Bitcoin') {
+      result = await account.getBtcWalletMnemonic(walletName);
+    } else if (walletType === 'Ethereum') {
+      result = await account.getEthWalletMnemonic(walletName);
+    }
+    
+    if (result.code !== '000000') {
+      toast.error(result.msg);
+      return
+    }
     const _mnemonic = result.data;
     setMnemonic(_mnemonic);
   };

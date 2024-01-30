@@ -140,7 +140,6 @@ export default function WalletDetails() {
     nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + type);
    }
 
-
     const getIconByType = (type: string) => {
       switch (type) {
         case 'Tinyverse':
@@ -160,7 +159,8 @@ export default function WalletDetails() {
           <Icon
             onClick={openDrawer}
             icon='mdi:cog-outline'
-            className='text-xl'></Icon>
+            className='text-xl'>
+          </Icon>
         }
         onRefresh={getTxList}
         //onLoad={getTXMore}
@@ -184,24 +184,24 @@ export default function WalletDetails() {
             />
           </div>
           <div className='flex mb-20 gap-3'>
-                  <WalletOperateItem
-                    icon={IconReceive}
-                    title={t('pages.assets.token.transfer_receive')}
-                    key='receive'
-                    onClick={toWalletReceiver}
-                  />
-                    <WalletOperateItem
-                    icon={IconSend}
-                    title={t('pages.assets.token.transfer_send')}
-                    key='send'
-                    onClick={toWalletSend}
-                  />
-                    <WalletOperateItem
-                    icon={IconBuy}
-                    title={t('pages.assets.token.transfer_buy')}
-                    key='buy'
-                    //onClick={() => toSelectWalletNet("import")}
-                  />
+            <WalletOperateItem
+              icon={IconReceive}
+              title={t('pages.assets.token.transfer_receive')}
+              key='receive'
+              onClick={toWalletReceiver}
+            />
+            <WalletOperateItem
+              icon={IconSend}
+              title={t('pages.assets.token.transfer_send')}
+              key='send'
+              onClick={toWalletSend}
+            />
+            <WalletOperateItem
+              icon={IconBuy}
+              title={t('pages.assets.token.transfer_buy')}
+              key='buy'
+              //onClick={() => toSelectWalletNet("import")}
+            />
           </div>
           <div className=' pb-4'>
             {!list.length && <Empty />}

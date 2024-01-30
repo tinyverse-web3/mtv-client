@@ -25,7 +25,17 @@ export default function WalletPhraseVerify() {
   };
   const [mnemonic, setMnemonic] = useState<string>('');
   const getMnemonic = async () => {
-    const result = await account.getBtcWalletMnemonic(walletName);
+    let result: any = {};
+    if (walletType === 'Bitcoin') {
+      result = await account.getBtcWalletMnemonic(walletName);
+    } else if (walletType === 'Ethereum') {
+      result = await account.getEthWalletMnemonic(walletName);
+    }
+    
+    if (result.code !== '000000') {
+      toast.error(result.msg);
+      return
+    }
     const _mnemonic = result.data;
     setMnemonic(_mnemonic);
   };
