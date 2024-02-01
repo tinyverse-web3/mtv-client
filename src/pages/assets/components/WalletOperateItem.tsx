@@ -19,7 +19,7 @@ export const WalletOperateItem = ({
               src={icon}
               className='w-8 h-8 mr-2'></Image>
           )}
-          <div>
+          <div className='flex-1'>
             <p className='text-md text-blue-500'>{title}</p>
           </div>
       </div>
