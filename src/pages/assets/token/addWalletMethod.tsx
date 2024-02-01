@@ -20,22 +20,22 @@ export default function AddWalletMethod() {
         <LayoutThird className='h-full' title={t('pages.assets.token.add_wallet')}> 
          <div className='p-4'>
           <div className='mb-5'>
-                  <AddWalletItem
-                    icon={IconCreate}
-                    symbol={t('pages.assets.token.create_wallet')}
-                    chain={t('pages.assets.token.create_wallet_chain')}
-                    key='point'
-                    onClick={() => toSelectWalletNet("create")}
-                  />
+            <AddWalletItem
+              icon={IconCreate}
+              symbol={t('pages.assets.token.create_wallet')}
+              chain={t('pages.assets.token.create_wallet_chain')}
+              key='point'
+              onClick={() => toSelectWalletNet("create")}
+            />
           </div>
           <div className='mb-20'>
-                  <AddWalletItem
-                    icon={IconImport}
-                    symbol={t('pages.assets.token.import_wallet')}
-                    chain={t('pages.assets.token.import_wallet_chain')}
-                    key='point'
-                    onClick={() => toSelectWalletNet("import")}
-                  />
+            <AddWalletItem
+              icon={IconImport}
+              symbol={t('pages.assets.token.import_wallet')}
+              chain={t('pages.assets.token.import_wallet_chain')}
+              key='point'
+              onClick={() => toSelectWalletNet("import")}
+            />
           </div>
         </div>
         </LayoutThird> 

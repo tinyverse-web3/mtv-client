@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
 import { Button } from '@/components/form/Button';
@@ -24,12 +24,13 @@ export default function AddWalletDetails() {
     Name: '',
     WalletNet: walletNet || '',
   });
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
-  
   const saveHandler = async (e: any) => {
     let code:string = ''
     let msg:string = ''
     if (opType === 'add') {
+      setBtnDisabled(true)
       console.log('walletNet = ' + walletNet)
       if (walletNet === 'ETH') {
         ({ code, msg } = await account.addEthWallet(data.Name))
@@ -67,11 +68,11 @@ export default function AddWalletDetails() {
         <div className=''>
           <Button
             color='purple'
-            disabled={!data.Name}
+            disabled={!data.Name || btnDisabled}
             className='m-auto w-full'
             onPress={saveHandler}
             size='md'>
-            {t('common.save')}
+            {t('common.confirm')}
           </Button>
         </div>
       </div>
