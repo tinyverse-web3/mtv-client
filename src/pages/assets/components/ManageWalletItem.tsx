@@ -22,18 +22,13 @@ export const ManageWalletItem = ({
 }: ManageWalletItemProps) => {
   return (
     <div className='flex items-center mb-4'>
-        <Image
-          src={IconDel}
-          className='w-8 h-8 mr-1'
-          onClick={onClickDel}></Image>
+      <Image src={IconDel} className='w-8 h-8 mr-1' onClick={onClickDel}></Image>
       <div
         className='flex items-center justify-between h-16 w-4/5 bg-gray-100 px-4 rounded-2xl '
         onClick={() => onClick?.()}>
         <div className='flex items-center'>
           {icon && (
-            <Image
-              src={icon}
-              className='w-6 h-6 mr-6'></Image>
+            <Image src={icon} className='w-6 h-6 mr-6'></Image>
           )}
           <div>
             <p className='text-md mb-2'>{name}</p>
@@ -41,10 +36,7 @@ export const ManageWalletItem = ({
           </div>
         </div>
       </div>
-        <Image
-          src={IconEdit}
-          className='w-8 h-8 ml-1'
-          onClick={onClickEdit}></Image>
+      <Image src={IconEdit} className='w-8 h-8 ml-1' onClick={onClickEdit}></Image>
      </div>
   );
   

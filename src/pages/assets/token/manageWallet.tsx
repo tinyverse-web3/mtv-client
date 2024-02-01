@@ -76,19 +76,19 @@ export default function ManageWallet() {
 
     return (  
         <LayoutThird className='h-full' title={t('pages.assets.token.manage_wallet')}> 
-         <div className='p-4'>
-         {list.map((item) => (
-                  <ManageWalletItem
-                    icon={getIconByType(item.Type)}
-                    type={item.Type}
-                    key={item.Address}
-                    name={item.Name}
-                    address={item.Address}
-                    onClick={() => toTokenDetail(item.Type)}
-                    onClickDel={() => deleteWallet(item.Name, item.Type)}
-                    onClickEdit={() => editWallet(item.Name)}
-                  />
-                ))}
+          <div className='p-4'>
+          {list.filter(item => item.Type !== 'Tinyverse').map(item => (
+            <ManageWalletItem
+              icon={getIconByType(item.Type)}
+              type={item.Type}
+              key={item.Address}
+              name={item.Name}
+              address={item.Address}
+              onClick={() => toTokenDetail(item.Type)}
+              onClickDel={() => deleteWallet(item.Name, item.Type)}
+              onClickEdit={() => editWallet(item.Name)}
+            />
+          ))}
         </div>
         </LayoutThird> 
     );
