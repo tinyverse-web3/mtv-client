@@ -188,6 +188,8 @@
     "space": {
       "title": "空间",
       "head_title": "我的芥子空间",
+      "my_datas": "我的数据",
+      "my_tools": "我的工具",
       "hint": {
         "coming_soon": "即将发布"
       },

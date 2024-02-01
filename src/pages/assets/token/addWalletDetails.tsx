@@ -40,6 +40,7 @@ export default function AddWalletDetails() {
 
       if (code !== '000000') {
         toast.error(msg);
+        setBtnDisabled(false)
         return
       }
       

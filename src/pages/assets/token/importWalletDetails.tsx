@@ -8,6 +8,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useList, useMap } from 'react-use';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { ROUTE_PATH } from '@/router';
+import account from '@/lib/account/account';
 
 export default function ImportWalletDetails() {
   const nav = useNavigate();
@@ -24,19 +26,34 @@ export default function ImportWalletDetails() {
   const [list, { updateAt }] = useList<string>(
     Array.from<string>({ length: 24 }).fill(''),
   );
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const changeHandler = (i: number, value: string) => {
     updateAt(i, value);
   };
   
   const saveHandler = async (e: any) => {
-    //verify phrase count
     if (!verify()) {
       toast.error(t('pages.assets.token.phrase_length_toast_error'));
     } else {
-      //await add(data, list);
+      let result: any = {};
+      setBtnDisabled(true)
+      let mnemonic = list.join(' ').trim()
+      console.log('walletNet = ' + walletNet)
+      if (walletNet === 'ETH') {
+        result = await account.importEthWallet(data.Name, mnemonic);
+      } else if (walletNet === 'BTC') {
+        result = await account.importBtcWallet(data.Name, mnemonic);
+      }
+
+      if (result.code !== '000000') {
+        toast.error(result.msg);
+        setBtnDisabled(false)
+        return
+      }
+
+      nav(ROUTE_PATH.ASSETS_INDEX);
     }
-    nav(-1);
   };
 
   const isNotEmpty = (arr: string[], count: number): boolean => {
@@ -86,7 +103,7 @@ export default function ImportWalletDetails() {
         <div className=''>
           <Button
             color='purple'
-            disabled={!data.Name || !verify()}
+            disabled={!data.Name || !verify() || btnDisabled}
             className='m-auto w-full'
             onPress={saveHandler}
             size='md'>

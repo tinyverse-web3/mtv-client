@@ -166,6 +166,8 @@
     "space": {
       "title": "Space",
       "head_title": "My TinyVerse Space",
+      "my_datas": "My Datas",
+      "my_tools": "My Tools",
       "hint": {
         "coming_soon": "Coming Soon"
       },
