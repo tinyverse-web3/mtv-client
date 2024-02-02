@@ -24,13 +24,13 @@ export const ManageWalletItem = ({
     <div className='flex items-center mb-4'>
       <Image src={IconDel} className='w-8 h-8 mr-1' onClick={onClickDel}></Image>
       <div
-        className='flex items-center justify-between h-16 w-4/5 bg-gray-100 px-4 rounded-2xl '
+        className='flex items-center justify-between h-16 w-full bg-gray-100 px-4 rounded-2xl '
         onClick={() => onClick?.()}>
         <div className='flex items-center'>
           {icon && (
             <Image src={icon} className='w-6 h-6 mr-6'></Image>
           )}
-          <div>
+           <div className='ml-2'>
             <p className='text-md mb-2'>{name}</p>
             <p className='text-xs text-gray-500'>{type}</p>
           </div>

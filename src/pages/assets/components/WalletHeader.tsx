@@ -21,9 +21,9 @@ export const WalletHeader = ({
         {icon && (
           <Image
             src={icon}
-            className='w-8 h-8 mr-6'></Image>
+            className='w-8 h-8 mr-8'></Image>
         )}
-        <div>
+        <div className='ml-2'>
           <p className='text-md mb-2'>{address}</p>
           <p className='text-base font-bold'>{dollar}</p>
         </div>

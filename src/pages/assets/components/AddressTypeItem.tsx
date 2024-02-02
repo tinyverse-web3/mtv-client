@@ -1,5 +1,5 @@
 import { Image } from '@nextui-org/react';
-import Check from '@/assets/images/wallet/icon-check.png';
+import IconCheck from '@/assets/images/wallet/icon-check.png';
 
 interface AddressItemProps {
   type: string;
@@ -23,10 +23,10 @@ export const AddressTypeItem = ({
           <p className='text-xs text-gray-500'>{address}</p>
         </div>
         {isDefault && (
-          <div className='ml-10'>
+          <div className='ml-12'>
           <Image
-            src={Check}
-            className='w-6 h-6'></Image>
+            src={IconCheck}
+            className='w-6 h-6 mr-6'></Image>
           </div>
         )}
       </div>

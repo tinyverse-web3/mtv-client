@@ -26,7 +26,7 @@ export const AssetsTokenItem = ({
             src={icon}
             className='w-6 h-6 bg-gray-200 rounded-full mr-6'></Image>
         )}
-        <div>
+        <div className='ml-2'>
           <p className='text-md mb-2'>{symbol}</p>
           <p className='text-xs text-gray-500'>{chain}</p>
         </div>
