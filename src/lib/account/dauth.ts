@@ -70,12 +70,7 @@ export class Dauth {
       formData: formData,
     });
   }
-  async getBalance() {
-    return this.invoke({
-      name: 'getBalance',
-      method: 'get',
-    });
-  }
+
   async applyDailyReward() {
     return this.invoke({
       name: 'applyDailyReward',
@@ -763,21 +758,7 @@ export class Dauth {
       },
     });
   }
-  async getTXDetails() {
-    return this.invoke({
-      name: 'getTXDetails',
-      method: 'get',
-    });
-  }
-  async getTXMore(Addr: string) {
-    return this.invoke({
-      name: 'getTXMore',
-      method: 'get',
-      data: {
-        Addr,
-      },
-    });
-  }
+
   /**
    * 上传 IPFS 文件
    * @param file 文件
@@ -1224,4 +1205,250 @@ export class Dauth {
       return { data: { code: '500000', msg: i18n.t('common.request_error') } };
     }
   }
+
+
+  //wallet
+  async getWallets() {
+    return this.invoke({
+      name: 'wallet/getWallets',
+      method: 'get',
+    });
+  }
+
+  async getEthWallet(walletName:string) {
+    return this.invoke({
+      name: 'eth/getWalletDetails',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async addEthWallet(walletName:string) {
+    return this.invoke({
+      name: 'eth/createWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
+  async deleteEthWallet(walletName:string) {
+    return this.invoke({
+      name: 'eth/deleteWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
+  async importEthWallet(walletName:string, mnemonic:string) {
+    return this.invoke({
+      name: 'eth/importWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+        mnemonic: mnemonic,
+      },
+    });
+  }
+
+  async transferUseEthWallet(walletName:string, targetAddress:string, amount:Number) {
+    return this.invoke({
+      name: 'eth/transfer',
+      method: 'post',
+      data: {
+        name: walletName,
+        targetAddress: targetAddress,
+        amount: amount,
+      },
+    });
+  }
+
+  async getEthWalletMnemonic(walletName:string) {
+    return this.invoke({
+      name: 'eth/getMnemonic',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getEthTxList(walletName:string) {
+    return this.invoke({
+      name: 'eth/getTxList',
+      method: 'get',
+      data: {
+        Name: walletName,
+        Page: 1,
+        Offset: 1000,
+      },
+    });
+  }
+
+  async getEthBalance(walletName:string) {
+    return this.invoke({
+      name: 'eth/getBalance',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/getWalletDetails',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async addBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/createWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
+  async deleteBtcWallet(walletName:string) {
+    return this.invoke({
+      name: 'btc/deleteWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+      },
+    });
+  }
+
+  async importBtcWallet(walletName:string, mnemonic:string) {
+    return this.invoke({
+      name: 'btc/importWallet',
+      method: 'post',
+      data: {
+        name: walletName,
+        mnemonic: mnemonic,
+      },
+    });
+  }
+
+  async transferUseBtcWallet(walletName:string, srcAddress:string, targetAddress:string, amount:Number, feeRate:Number) {
+    return this.invoke({
+      name: 'btc/transfer',
+      method: 'post',
+      data: {
+        name: walletName,
+        srcAddress: srcAddress,
+        targetAddress: targetAddress,
+        amount: amount,
+        feeRate: feeRate,
+      },
+    });
+  }
+
+  async getBtcWalletMnemonic(walletName:string) {
+    return this.invoke({
+      name: 'btc/getMnemonic',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getBtcTxList(address:string) {
+    return this.invoke({
+      name: 'btc/getTxList',
+      method: 'get',
+      data: {
+        Address: address,
+      },
+    });
+  }
+
+  async getBtcDefaultAddress(walletName:string) {
+    return this.invoke({
+      name: 'btc/getDefaultAddress',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getBtcAddressList(walletName:string) {
+    return this.invoke({
+      name: 'btc/getAddressListByWallet',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async setBtcDefaultAddress(walletName:string, address:string) {
+    return this.invoke({
+      name: 'btc/setDefaultAddress',
+      method: 'post',
+      data: {
+        name: walletName,
+        address: address,
+      },
+    });
+  }
+
+  async getBtcBalance(walletName:string, address:string) {
+    return this.invoke({
+      name: 'btc/getBalance',
+      method: 'get',
+      data: {
+        Name: walletName,
+        Address: address,
+      },
+    });
+  }
+
+  async getTvsWallet(walletName:string) {
+    return this.invoke({
+      name: 'tvs/getWallet',
+      method: 'get',
+      data: {
+        Name: walletName,
+      },
+    });
+  }
+
+  async getTvsTxList() {
+    return this.invoke({
+      name: 'tvs/getTxList',
+      method: 'get',
+    });
+  }
+
+  async getTvsTxListMore(Addr: string) {
+    return this.invoke({
+      name: 'tvs/getTXMore',
+      method: 'get',
+      data: {
+        Addr,
+      },
+    });
+  }
+
+  async getTvsBalance() {
+    return this.invoke({
+      name: 'tvs/getBalance',
+      method: 'get',
+    });
+  }
+
 }

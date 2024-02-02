@@ -224,10 +224,6 @@ export class Account {
     return result.data;
   }
 
-  async getBalance() {
-    const result = await this.dauth.getBalance();
-    return result.data;
-  }
   async applyDailyReward() {
     const result = await this.dauth.applyDailyReward();
     return result.data;
@@ -857,14 +853,7 @@ export class Account {
     const { data } = await this.dauth.downloadNftFile({ NftName });
     return data;
   }
-  async getTXDetails() {
-    const { data } = await this.dauth.getTXDetails();
-    return data;
-  }
-  async getTXMore(Addr: string) {
-    const { data } = await this.dauth.getTXMore(Addr);
-    return data;
-  }
+
   async getDataSummary() {
     const { data } = await this.dauth.getDataSummary();
     return data;
@@ -912,6 +901,128 @@ export class Account {
   async refreshAuthenticatorTime({ AccountName }: any) {
     const { data } = await this.dauth.refreshAuthenticatorTime({ AccountName });
     return data;
+  }
+
+
+  //wallet
+  async getWallets() {
+    const result = await this.dauth.getWallets();
+    return result.data;
+  }
+
+  async getEthWallet(walletName: string) {
+    const result = await this.dauth.getEthWallet(walletName);
+    return result.data;
+  }
+
+  async addEthWallet(walletName: string) {
+    const result = await this.dauth.addEthWallet(walletName);
+    return result.data;
+  }
+
+  async deleteEthWallet(walletName: string) {
+    const result = await this.dauth.deleteEthWallet(walletName);
+    return result.data;
+  }
+
+  async importEthWallet(walletName: string, mnemonic: string) {
+    const result = await this.dauth.importEthWallet(walletName, mnemonic);
+    return result.data;
+  }
+
+  async transferUseEthWallet(walletName:string, targetAddress:string, amount:Number) {
+    const result = await this.dauth.transferUseEthWallet(walletName, targetAddress, amount);
+    return result.data;
+  }
+
+  async getEthWalletMnemonic(walletName: string) {
+    const result = await this.dauth.getEthWalletMnemonic(walletName);
+    return result.data;
+  }
+
+  async getEthTxList(walletName: string) {
+    const result = await this.dauth.getEthTxList(walletName);
+    return result.data;
+  }
+
+  async getEthBalance(walletName: string) {
+    const result = await this.dauth.getEthBalance(walletName);
+    return result.data;
+  }
+
+  async getBtcWallet(walletName: string) {
+    const result = await this.dauth.getBtcWallet(walletName);
+    return result.data;
+  }
+
+  async addBtcWallet(walletName: string) {
+    const result = await this.dauth.addBtcWallet(walletName);
+    return result.data;
+  }
+
+  async deleteBtcWallet(walletName: string) {
+    const result = await this.dauth.deleteBtcWallet(walletName);
+    return result.data;
+  }
+
+  async importBtcWallet(walletName: string, mnemonic: string) {
+    const result = await this.dauth.importBtcWallet(walletName, mnemonic);
+    return result.data;
+  }
+
+  async getBtcWalletMnemonic(walletName: string) {
+    const result = await this.dauth.getBtcWalletMnemonic(walletName);
+    return result.data;
+  }
+  
+  async transferUseBtcWallet(walletName:string, srcAddress:string, targetAddress:string, amount:Number, feeRate:Number) {
+    const result = await this.dauth.transferUseBtcWallet(walletName, srcAddress, targetAddress, amount, feeRate);
+    return result.data;
+  }
+
+  async getBtcTxList(address: string) {
+    const result = await this.dauth.getBtcTxList(address);
+    return result.data;
+  }
+
+  async getBtcDefaultAddress(walletName: string) {
+    const result = await this.dauth.getBtcDefaultAddress(walletName);
+    return result.data;
+  }
+
+  async getBtcAddressList(walletName: string) {
+    const result = await this.dauth.getBtcAddressList(walletName);
+    return result.data;
+  }
+  
+  async setBtcDefaultAddress(walletName: string, address: string) {
+    const result = await this.dauth.setBtcDefaultAddress(walletName, address);
+    return result.data;
+  }
+
+  async getBtcBalance(walletName: string, address: string) {
+    const result = await this.dauth.getBtcBalance(walletName, address);
+    return result.data;
+  }
+
+  async getTvsWallet(walletName: string) {
+    const result = await this.dauth.getTvsWallet(walletName);
+    return result.data;
+  }
+
+  async getTvsTxList() {
+    const result = await this.dauth.getTvsTxList();
+    return result.data;
+  }
+
+  async getTvsTxListMore(Addr: string) {
+    const { data } = await this.dauth.getTvsTxListMore(Addr);
+    return data;
+  }
+
+  async getTvsBalance() {
+    const result = await this.dauth.getTvsBalance();
+    return result.data;
   }
 }
 

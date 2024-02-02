@@ -129,7 +129,33 @@
         "title": "Token",
         "detail_title": " Details",
         "point_name": "TVS",
-        "transfer_success": "Transfer Successful"
+        "transfer_success": "Transfer Successful",
+        "wallet_title": "Wallet",
+        "add_wallet": "Add Wallet",
+        "manage_wallet": "Manage Wallet",
+        "create_wallet": "Create",
+        "import_wallet": "Import",
+        "export_wallet": "Export Wallet",
+        "create_wallet_chain": "Please back up your mnemonic phrase properly",
+        "import_wallet_chain": "Import using mnemonics",
+        "wallet_name": "Wallet Name",
+        "phrase_length_toast_error": "Nnemonic length:12/18/24",
+        "phrase_title": "Mnemonic Phrase",
+        "export_verify_title": "Mnemonic Phrase Test",
+        "select_net": "Select Network",
+        "add_wallet_method_error": "Wrong choice of wallet creation method.",
+        "edit_wallet_name": "Edit Name",
+        "del_wallet_success": "Successfully deleted",
+        "edit_wallet_name_error": "The new name is the same as the original name!",
+        "wallet_select_addr_type": "Address Type",
+        "transfer_receive": "Receive",
+        "transfer_receive_title": "Address",
+        "transfer_send": "Send",
+        "transfer_buy": "Buy",
+        "address_copy_toast": "Address copied successfully",
+        "backup_phrase_hint": "Please keep the following information in mind \n If I reveal my mnemonic phrase to anyone, my assets may be stolen. \nThe responsibility for protecting the mnemonic phrase lies entirely with me.",
+        "transfer_to_placeholder": "Please enter the target address",
+        "buy_toast": "Not yet implemented"
       },
       "receiver": {
         "title": "Receiver"
@@ -158,7 +184,9 @@
         "remark_placeholder": "Please enter transfer memo",
         "nft_name": "NFT Name",
         "nft_point": "The fee of transferred NFT",
-        "nft_point_placeholder": "Please enter the fee of transferred NFT"
+        "nft_point_placeholder": "Please enter the fee of transferred NFT",
+        "send_address": "Send address",
+        "receive_address": "Receive address"
       },
       "btn_transfer": "Transfer",
       "btn_receiver": "Receiver"
@@ -166,6 +194,8 @@
     "space": {
       "title": "Space",
       "head_title": "My TinyVerse Space",
+      "my_datas": "My Datas",
+      "my_tools": "My Tools",
       "hint": {
         "coming_soon": "Coming Soon"
       },

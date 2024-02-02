@@ -214,8 +214,8 @@ export default function SpaceIndex() {
           onClick={toAward}></img>
       </div>
       <div className='bg-gray-100 rounded-xl overflow-hidden mb-4'>
-        <div className='text-md h-8 w-full bg-gray-200 flex items-center px-4 text-blue-500'>
-          我的数据
+        <div className='text-sm h-8 w-full bg-gray-200 flex items-center px-4 text-blue-500'>
+          {t('pages.space.my_datas')}
         </div>
         <div className='pl-4'>
           {dataMenuList.map((v, i) => (
@@ -230,8 +230,8 @@ export default function SpaceIndex() {
         </div>
       </div>
       <div className='bg-gray-100 rounded-xl overflow-hidden'>
-        <div className='text-md h-8 w-full bg-gray-200 flex items-center px-4 text-blue-500'>
-          我的工具
+        <div className='text-sm h-8 w-full bg-gray-200 flex items-center px-4 text-blue-500'>
+          {t('pages.space.my_tools')}
         </div>
         <div className='pl-4'>
           {toolMenuList.map((v, i) => (

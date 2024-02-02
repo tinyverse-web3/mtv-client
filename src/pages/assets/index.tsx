@@ -7,7 +7,13 @@ import { NftList } from './components/NftList';
 import { Icon } from '@iconify/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTE_PATH } from '@/router';
+import BottomDrawerMenu from './components/BottomDrawerMenu';
 import { useTranslation } from 'react-i18next';
+import { useWalletStore } from '@/store';
+import IconBtc from "@/assets/images/wallet/icon-btc.png";
+import IconEth from "@/assets/images/wallet/icon-eth.png";
+import { Wallet } from "@/store/wallet";
+
 
 export default function AssetsIndex() {
   const nav = useNavigate();
@@ -15,11 +21,15 @@ export default function AssetsIndex() {
   const [params] = useSearchParams();
   const type = params.get('type');
   const [assetsType, setAssetsType] = useState(type || 'token');
-  const { balance: pointBalance } = usePoint();
+  // const { balance: pointBalance } = usePoint();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { list, remove, getList } = useWalletStore((state) => state);
+
 
   const assetsTypes = [
     {
-      label: t('pages.assets.token.title'),
+      label: t('pages.assets.token.wallet_title'),
       value: 'token',
     },
     {
@@ -31,12 +41,63 @@ export default function AssetsIndex() {
     nav(ROUTE_PATH.ASSETS_NFT_ADD);
   };
 
-  const toTokenDetail = () => {
-    nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+  const toTokenDetail = (item: Wallet) => {
+    switch (item.Type) {
+      case 'Tinyverse':
+        nav(ROUTE_PATH.ASSETS_TOKEN_DETAIL);
+        break;
+      case 'Bitcoin':
+        nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}` + `&type=${item.Type}`);
+        break;
+      case 'Ethereum':
+        nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_DETAILS + `?name=${item.Name}` + `&type=${item.Type}`);
+        break;
+    }
   };
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const toAddWalletMethod = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_ADD_WALLET_METHOD + '?opType=add');
+  };
+
+  const toManageWallet = () => {
+    nav(ROUTE_PATH.ASSETS_TOKEN_MANAGE_WALLET);
+  };
+
   // useEffect(() => {
   //   setAssetsType(type || 'token');
   // }, [params]);
+
+
+
+  const getWalletList = async () => {
+    if (!list?.length) {
+      setLoading(true);
+    }
+    await getList();
+    setLoading(false);
+  };
+  useEffect(() => {
+    getWalletList();
+  }, []);
+
+  const getIconByType = (type: string) => {
+   switch (type) {
+     case 'Tinyverse':
+       return '/logo.png';
+     case 'Bitcoin':
+       return IconBtc;
+     case 'Ethereum':
+       return IconEth;
+   }
+  }
+  
   return (
     <div>
       <div className='p-4'>
@@ -48,29 +109,45 @@ export default function AssetsIndex() {
               onClick={toAdd}
               className=' text-xl'></Icon>
           )}
+          {assetsType === 'token' && (
+            <div className='flex' >
+             <Icon
+             icon='mdi:plus-circle-outline'
+             //onClick={openDrawer}
+             onClick={toAddWalletMethod}
+             className='text-xl mr-4'></Icon>
+            <Icon
+              icon='mdi:cog-outline'
+              onClick={toManageWallet}
+              className='text-xl'></Icon>
+            </div>
+          )}
         </div>
 
         <div>
           {assetsType === 'token' ? (
             <>
+              {/* <BottomDrawerMenu isOpen={isDrawerOpen} onClose={closeDrawer} />  */}
               <div className='mb-20'>
-                <AssetsTokenItem
+                {/* <AssetsTokenItem
                   icon='/logo.png'
                   chain='Tinyverse'
                   symbol={t('pages.assets.token.point_name')}
                   key='point'
                   onClick={() => toTokenDetail()}
                   balance={pointBalance}
-                />
-                {/* {list.map((item) => (
+                /> */}
+                 {list.map((item) => (
                   <AssetsTokenItem
-                    icon={item.icon}
-                    symbol={item.symbol}
-                    key={item.symbol}
-                    balance={item.balance}
-                    dollar={item.dollar}
+                    icon={getIconByType(item.Type)}
+                    chain={item.Type}
+                    symbol={item.Name}
+                    key={item.Address}
+                    balance={item.Balance}
+                    dollar={item.BalanceDollar}
+                    onClick={() => toTokenDetail(item)}
                   />
-                ))} */}
+                ))}
               </div>
             </>
           ) : (

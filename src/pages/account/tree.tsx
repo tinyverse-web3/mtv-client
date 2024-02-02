@@ -57,7 +57,8 @@ export default function Tree() {
         </div>
         <div className='h-[90vh] w-[3px] absolute bottom-0 left-1/2 -translate-x-1/2 bg-[#1296DB]'></div>
 
-        {/* <div className='absolute bottom-[82vh] left-[19vw] z-10'>
+        {/* <div className='w-[50vw] h-[1px] absolute bottom-[80vh] left-[18vw]  tree-dashed'></div> */}
+        <div className='absolute bottom-[82vh] left-[19vw] z-10'>
           <BranchNode
             text={t('pages.account.tree.node_1')}
             status={accountInfo.hasPrivacyByVault ? 2 : 3}
@@ -74,7 +75,7 @@ export default function Tree() {
             onClick={toQuestion}
           />
         </div>
-        <div className='w-[32vw] h-[3px] absolute bottom-[59vh] left-1/2 -translate-x-[97%] rotate-[20deg]  bg-[#1296DB]'></div> */}
+        <div className='w-[32vw] h-[3px] absolute bottom-[59vh] left-1/2 -translate-x-[97%] rotate-[20deg]  bg-[#1296DB]'></div>
 
         {/* <div className='w-[50vw] h-[1px] absolute bottom-[50vh] left-[19vw]  tree-dashed'></div> */}
         <div className='absolute bottom-[50vh]  left-[19vw] z-10'>
