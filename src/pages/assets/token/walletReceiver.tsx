@@ -43,23 +43,18 @@ export default function WalletReceiver() {
   return (
     <LayoutThird className='h-full' title={t('pages.assets.receiver.title')}>
       <div className='p-4'>
-        <div className='bg-gray-100  rounded-3xl p-4 py-10  mb-4'>
+        <div className='bg-gray-100 rounded-3xl p-4 py-10 mb-4'>
           <div className='flex justify-center mb-6 '>
             <QRCodeCanvas value={data.Address} size={180} />
           </div>
-          <div className=' break-all text-center '>
+          <div className='break-all text-center '>
             <p className='mb-2 text-sm text-gray-500'>{t('pages.account.wallet_key')}</p>
             <span className='text-sm'>{data.Address}</span>
           </div>
         </div>
-        <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
-          <Button
-            radius='full'
-            className='h-12 flex-1'>
-            <Icon
-              icon='mdi:share'
-              className='text-2xl mr-2'
-            />
+        <div className='rounded-3xl flex items-center justify-between mb-2'>
+          <Button radius='full' className='h-12 flex-1'>
+            <Icon icon='mdi:share' className='text-2xl mr-2'/>
             <div className='tex'>{t('common.share')}</div>
           </Button>
           <Button
