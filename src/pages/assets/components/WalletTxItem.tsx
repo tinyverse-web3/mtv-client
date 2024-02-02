@@ -34,15 +34,15 @@ export const WalletTransferItem = ({ item, onClick }: WalletTxItemProps) => {
           )} */}
           
           <div className='flex justify-between mb-1 text-xs text-gray-500'>
-            <span>{item.type === 0 ? t('pages.assets.transfer.receive_address') : t('pages.assets.transfer.send_address')}</span>
-            <span>{hideStr(item.address)}</span>
+            <span>{item.type === 0 ? t('pages.assets.transfer.receive_address') : t('pages.assets.transfer.send_address')}{hideStr(item.address, 4)}</span>
+            <span>{format(item.txTime, 'HH:mm:ss')}</span>
           </div>
 
-          <div className='flex justify-between'>
+          {/* <div className='flex justify-between'>
             <div className='text-xs text-gray-500'>
               {format(item.txTime, 'MM-dd HH:mm:ss')}
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <div>
           <div className='text-sm text-gray-400'>

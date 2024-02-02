@@ -30,6 +30,7 @@ export interface ReceiveTxItem {
 export interface WalletTransferItem {
   amount: number;
   comment: string;
+  address: string;
   fee: number;
   receivers: ReceiveTxItem[];
   sender: string;
