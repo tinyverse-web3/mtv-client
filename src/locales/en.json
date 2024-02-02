@@ -184,7 +184,9 @@
         "remark_placeholder": "Please enter transfer memo",
         "nft_name": "NFT Name",
         "nft_point": "The fee of transferred NFT",
-        "nft_point_placeholder": "Please enter the fee of transferred NFT"
+        "nft_point_placeholder": "Please enter the fee of transferred NFT",
+        "send_address": "Send address",
+        "receive_address": "Receive address"
       },
       "btn_transfer": "Transfer",
       "btn_receiver": "Receiver"

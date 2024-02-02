@@ -96,7 +96,7 @@ export default function WalletDetails() {
     
     const list = useMemo(() => {
       return groupBy(
-        walletTxList.map((v) => ({ ...v, timeText: format(v.txTime, 'yyyy-MM') })),
+        walletTxList.map((v) => ({ ...v, timeText: format(v.txTime, 'yyyy-MM-dd') })),
         'timeText',
       );
     }, [walletTxList]);

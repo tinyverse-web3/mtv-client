@@ -15,15 +15,9 @@ export const WalletTransferItem = ({ item, onClick }: WalletTxItemProps) => {
       onClick={() => onClick?.()}>
       <div className='flex h-full items-center'>
         {item.type === 0 ? (
-          <Icon
-            icon='mdi:arrow-down-bold-circle-outline'
-            className='text-3xl mr-4 text-green-500'
-          />
+          <Icon icon='mdi:arrow-down-bold-circle-outline' className='text-3xl mr-4 text-green-500'/>
         ) : (
-          <Icon
-            icon='mdi:arrow-up-bold-circle-outline'
-            className='text-3xl mr-4 text-blue-500'
-          />
+          <Icon icon='mdi:arrow-up-bold-circle-outline' className='text-3xl mr-4 text-blue-500'/>
         )}
         <div className='flex-1'>
           <div className='mb-1 text-sm flex justify-between items-center'>
@@ -32,12 +26,17 @@ export const WalletTransferItem = ({ item, onClick }: WalletTxItemProps) => {
               {item.amount}
             </div>
           </div>
-          {!!item.fee && (
+          {/* {!!item.fee && (
             <div className='flex justify-between mb-1 text-xs text-gray-500'>
               <span>{t('pages.assets.transfer.gas')}</span>
               <span>{item.fee}</span>
             </div>
-          )}
+          )} */}
+          
+          <div className='flex justify-between mb-1 text-xs text-gray-500'>
+            <span>{item.type === 0 ? t('pages.assets.transfer.receive_address') : t('pages.assets.transfer.send_address')}</span>
+            <span>{hideStr(item.address)}</span>
+          </div>
 
           <div className='flex justify-between'>
             <div className='text-xs text-gray-500'>

@@ -183,7 +183,9 @@
         "remark_placeholder": "请输入转账备注",
         "nft_name": "NFT名称",
         "nft_point": "转移的NFT的费用",
-        "nft_point_placeholder": "请输入转移的NFT的费用"
+        "nft_point_placeholder": "请输入转移的NFT的费用",
+        "send_address": "发送地址",
+        "receive_address": "接收地址"
       },
       "btn_transfer": "转账",
       "btn_receiver": "收款"
