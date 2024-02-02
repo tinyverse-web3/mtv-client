@@ -148,10 +148,13 @@
         "edit_wallet_name_error": "新的名称与原名称相同!",
         "wallet_select_addr_type": "地址类型",
         "transfer_receive": "接收",
+        "transfer_receive_title": "地址",
         "transfer_send": "发送",
         "transfer_buy": "买入",
-        "address_copy_toast": "地复成功复制到剪贴板",
-        "backup_phrase_hint": "请牢记以下信息 \n 如果我给任何人泄露助记词，我的资产可能会被盗。\n 保护助记词的责任完全在我。"
+        "address_copy_toast": "地址成功复制到剪贴板",
+        "backup_phrase_hint": "请牢记以下信息 \n 如果我给任何人泄露助记词，我的资产可能会被盗。\n 保护助记词的责任完全在我。",
+        "transfer_to_placeholder": "请输入对方钱包地址",
+        "buy_toast": "暂未实现"
       },
       "receiver": {
         "title": "收款"

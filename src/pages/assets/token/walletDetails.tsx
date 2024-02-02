@@ -140,6 +140,10 @@ export default function WalletDetails() {
     nav(ROUTE_PATH.ASSETS_TOKEN_WALLET_SEND + '?walletName=' + data.Name + '&walletType=' + type + '&address=' + data.Address); 
    }
 
+   const toBuy = () => {
+     toast.success(t('pages.assets.token.buy_toast'));
+   }
+
     const getIconByType = (type: string) => {
       switch (type) {
         case 'Tinyverse':
@@ -183,7 +187,7 @@ export default function WalletDetails() {
               //onClick={() => toSelectWalletNet("create")}
             />
           </div>
-          <div className='flex mb-20 gap-3'>
+          <div className='flex mb-10 gap-3'>
             <WalletOperateItem
               icon={IconReceive}
               title={t('pages.assets.token.transfer_receive')}
@@ -200,7 +204,7 @@ export default function WalletDetails() {
               icon={IconBuy}
               title={t('pages.assets.token.transfer_buy')}
               key='buy'
-              //onClick={() => toSelectWalletNet("import")}
+              onClick={toBuy}
             />
           </div>
           <div className=' pb-4'>

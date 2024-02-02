@@ -14,9 +14,9 @@ export const AddWalletItem = ({
 }: AddWalletItemProps) => {
   return (
     <div
-      className='flex items-center justify-between h-16 bg-gray-100 px-4 rounded-2xl'
+      className='flex items-center justify-between h-20 bg-gray-100 px-4 rounded-2xl'
       onClick={() => onClick?.()}>
-      <div className='flex items-center'>
+      <div className='flex items-center w-full'>
         {icon && (
           <Image
             src={icon}

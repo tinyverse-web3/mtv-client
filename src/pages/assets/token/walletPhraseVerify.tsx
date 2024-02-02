@@ -75,7 +75,7 @@ export default function WalletPhraseVerify() {
   }, [phrase]);
   const disbaled = useMemo(() => !list.every((v) => !!v), [list]);
   return (
-    <LayoutThird title={t('pages.account.phrase.verify_title')}>
+    <LayoutThird title={t('pages.assets.token.export_verify_title')}>
       <div className='p-4'>
          <div className='grid grid-cols-3 gap-4 mb-4'>
           {list.map((v, i) => (

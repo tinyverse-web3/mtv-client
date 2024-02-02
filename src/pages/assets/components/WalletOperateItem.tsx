@@ -12,7 +12,7 @@ export const WalletOperateItem = ({
 }: WalletOperateItemProps) => {
   return (
       <div
-        className='flex items-center justify-center h-16 w-full mb-4 bg-gray-50 px-4 rounded-2xl border border-gray-100'
+        className='flex items-center justify-center h-14 w-full mb-4 bg-gray-50 px-2 rounded-2xl border border-gray-100'
         onClick={() => onClick?.()}>
           {icon && (
             <Image
@@ -20,7 +20,7 @@ export const WalletOperateItem = ({
               className='w-8 h-8 mr-2'></Image>
           )}
           <div className='flex-1'>
-            <p className='text-md text-blue-500'>{title}</p>
+            <p className='text-md text-[#1296db]'>{title}</p>
           </div>
       </div>
   );

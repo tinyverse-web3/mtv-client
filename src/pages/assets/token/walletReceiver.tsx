@@ -41,7 +41,7 @@ export default function WalletReceiver() {
     toast.success(t('pages.assets.token.address_copy_toast'));
   };
   return (
-    <LayoutThird className='h-full' title={t('pages.assets.receiver.title')}>
+    <LayoutThird className='h-full' title={t('pages.assets.token.transfer_receive_title')}>
       <div className='p-4'>
         <div className='bg-gray-100 rounded-3xl p-4 py-10 mb-4'>
           <div className='flex justify-center mb-6 '>

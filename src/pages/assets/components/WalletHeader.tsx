@@ -17,13 +17,13 @@ export const WalletHeader = ({
   return (
     <div
       className='flex items-center justify-between h-20 mb-4 px-4'>
-      <div className='flex items-center'>
+      <div className='flex items-center w-4/5'>
         {icon && (
           <Image
             src={icon}
-            className='w-8 h-8 mr-8'></Image>
+            className='w-8 h-8 mr-4'></Image>
         )}
-        <div className='ml-2'>
+        <div>
           <p className='text-md mb-2'>{address}</p>
           <p className='text-base font-bold'>{dollar}</p>
         </div>

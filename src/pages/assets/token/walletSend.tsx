@@ -125,7 +125,7 @@ export default function WalletSend() {
           <Input
             variant='default'
             isClearable={false}
-            placeholder={t('pages.assets.transfer.to_placeholder')}
+            placeholder={t('pages.assets.token.transfer_to_placeholder')}
             startContent={
               <Icon icon='mdi:account-supervisor-outline' onClick={toSelectContact} className='text-2xl text-blue-500'></Icon>
             }
