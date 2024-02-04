@@ -21,7 +21,7 @@ export const TxItem = ({ item, onClick }: TxItemProps) => {
         )}
         <div className='flex-1'>
           <div className='mb-1 text-sm flex justify-between items-center'>
-            <span>{item.type === 0 ? t('pages.assets.receiver.title') : t('pages.assets.transfer.sender')}</span>
+            <span>{item.type === 0 ? t('pages.assets.transfer.receiver') : t('pages.assets.transfer.sender')}</span>
             <div className='text-base text-right'>
               {item.type === 0 ? '+' : '-'}
               {item.amount}
