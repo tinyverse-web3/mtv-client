@@ -171,8 +171,9 @@
         "receiver": "接收"
       },
       "transfer": {
-        "sender": "发送",
         "title": "转账",
+        "sender": "发送",
+        "receiver": "接收",
         "to_address": "目标地址",
         "to_placeholder": "请输入对方钱包公钥",
         "amount": "转账金额",
