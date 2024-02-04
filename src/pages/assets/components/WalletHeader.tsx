@@ -5,6 +5,7 @@ interface WalletHeaderProps {
   icon?: string;
   address: string;
   dollar?: number | string;
+  type: string;
   onClick?: () => void;
   onManage?: () => void;
 }
@@ -12,6 +13,7 @@ export const WalletHeader = ({
   icon,
   address,
   dollar,
+  type,
   onManage
 }: WalletHeaderProps) => {
   return (
@@ -25,7 +27,12 @@ export const WalletHeader = ({
         )}
         <div>
           <p className='text-md mb-2'>{address}</p>
+          {type === 'Tinyverse' && (
+          <p className='text-base font-bold'>{dollar} TVS</p>
+          )}
+          {(type === 'Ethereum' || type === 'Bitcoin') && (
           <p className='text-base font-bold'>{dollar}</p>
+          )}
         </div>
       </div>
     </div>

@@ -295,7 +295,8 @@ export class Account {
    */
   async unlock(password: string) {
     const result = await this.dauth.unlock(password);
-    return result.data.code === '000000';
+    // return result.data.code === '000000';
+    return result.data
   }
   /**
    * 删除账户信息，包括密码和密钥管理器
