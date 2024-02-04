@@ -13,6 +13,9 @@ import { useTranslation } from 'react-i18next';
 import account from '@/lib/account/account';
 import { useEffect } from 'react';
 import { groupBy } from 'lodash';
+import { WalletOperateItem } from '../components/WalletOperateItem';
+import IconReceive from "@/assets/images/wallet/icon-receive.png";
+import IconSend from "@/assets/images/wallet/icon-send.png";
 
 export default function TokenDetail() {
   const nav = useNavigate();
@@ -60,40 +63,26 @@ export default function TokenDetail() {
       onRefresh={getTvsTxList}
       onLoad={getTvsTxListMore}
       rightContent={
-        <Icon
-          icon='material-symbols:more-vert'
-          className='text-xl text-blue-500'
-          ></Icon>
+        <Icon icon='material-symbols:more-vert' className='text-xl text-blue-500'></Icon>
       }>
       <div className='p-4 h-full'>
         <div className='pt-8'>
           <div className='mb-6'>
-            <AssetsTokenDetailItem
-              icon='/logo.png'
-              symbol={t('pages.assets.token.point_name')}
-              key='point'
-              balance={pointBalance}
-            />
+            <AssetsTokenDetailItem icon='/logo.png' symbol={t('pages.assets.token.point_name')} key='point' balance={pointBalance}/>
           </div>
-          <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
-            <Button
-              radius='full'
-              className='h-12 flex-1'
-              variant='outline'
-              onClick={toTransfer}>
-              <Icon
-                icon='mdi:arrow-up-bold-circle-outline'
-                className='text-2xl mr-2 '
-              />
+          {/* <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
+            <Button radius='full' className='h-12 flex-1' variant='outline' onClick={toTransfer}>
+              <Icon icon='mdi:arrow-up-bold-circle-outline' className='text-2xl mr-2 '/>
               <div className='tex'>{t('pages.assets.transfer.title')}</div>
             </Button>
-            <Button
-              radius='full'
-              className='h-12 flex-1 ml-8'
-              onClick={toReceiver}>
+            <Button radius='full' className='h-12 flex-1 ml-8' onClick={toReceiver}>
               <Icon icon='mingcute:qrcode-2-line' className='text-2xl mr-2' />
               <div className=''>{t('pages.assets.btn_receiver')}</div>
             </Button>
+          </div> */}
+          <div className='flex mb-10 gap-3'>
+            <WalletOperateItem icon={IconReceive} title={t('pages.assets.token.transfer_receive')} key='receive' onClick={toReceiver}/>
+            <WalletOperateItem icon={IconSend} title={t('pages.assets.token.transfer_send')} key='send' onClick={toTransfer}/>
           </div>
         </div>
         <div className=' pb-4'>

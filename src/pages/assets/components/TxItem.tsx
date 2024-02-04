@@ -15,15 +15,9 @@ export const TxItem = ({ item, onClick }: TxItemProps) => {
       onClick={() => onClick?.()}>
       <div className='flex h-full items-center'>
         {item.type === 0 ? (
-          <Icon
-            icon='mdi:arrow-down-bold-circle-outline'
-            className='text-3xl mr-4 text-green-500'
-          />
+          <Icon icon='mdi:arrow-down-bold-circle-outline' className='text-3xl mr-4 text-green-500'/>
         ) : (
-          <Icon
-            icon='mdi:arrow-up-bold-circle-outline'
-            className='text-3xl mr-4 text-blue-500'
-          />
+          <Icon icon='mdi:arrow-up-bold-circle-outline' className='text-3xl mr-4 text-blue-500'/>
         )}
         <div className='flex-1'>
           <div className='mb-1 text-sm flex justify-between items-center'>
