@@ -21,7 +21,7 @@ export const WalletTransferItem = ({ item, onClick }: WalletTxItemProps) => {
         )}
         <div className='flex-1'>
           <div className='mb-1 text-sm flex justify-between items-center'>
-            <span>{item.type === 0 ? t('pages.assets.receiver.title') : t('pages.assets.transfer.sender')}</span>
+            <span>{item.type === 0 ? t('pages.assets.transfer.receiver') : t('pages.assets.transfer.sender')}</span>
             <div className='text-base text-right'>
               {item.amount}
             </div>

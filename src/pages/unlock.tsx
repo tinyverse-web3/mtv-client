@@ -27,7 +27,7 @@ export default function Unlock() {
     setLoading(true);
     const result = await account.unlock(password);
     console.log(result);
-    if (result) {
+    if (result.code === '000000') {
       await getLocalAccountInfo();
       if (redirect) {
         location.replace(decodeURIComponent(redirect));
@@ -36,6 +36,7 @@ export default function Unlock() {
       nav(ROUTE_PATH.SPACE_INDEX, { replace: true });
     } else {
       setErr(true);
+      toast.error(result.msg);
     }
     setLockStatus(false);
     setLoading(false);

@@ -1419,7 +1419,7 @@ export class Dauth {
 
   async getTvsWallet(walletName:string) {
     return this.invoke({
-      name: 'tvs/getWallet',
+      name: 'tvs/getWalletDetails',
       method: 'get',
       data: {
         Name: walletName,

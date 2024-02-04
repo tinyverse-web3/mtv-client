@@ -159,15 +159,8 @@ export default function WalletDetails() {
     }
    
     return (  
-        <LayoutThird 
-        className='h-full'
-        title={walletName}
-        rightContent={
-          <Icon
-            onClick={openDrawer}
-            icon='mdi:cog-outline'
-            className='text-xl'>
-          </Icon>
+        <LayoutThird className='h-full' title={walletName} rightContent={
+          <Icon onClick={openDrawer} icon='mdi:cog-outline' className='text-xl'></Icon>
         }
         onRefresh={getTxList}
         //onLoad={getTXMore}
@@ -182,18 +175,18 @@ export default function WalletDetails() {
         /> 
         <div className='p-4'>
           <div className='mb-5'>
-            <WalletHeader icon={getIconByType(data.Type)} address={hideStr(data.Address, 4)} dollar={data.Balance} key='balance'/>
+            <WalletHeader icon={getIconByType(data.Type)} address={hideStr(data.Address, 4)} dollar={data.Balance} key='balance' type={data.Type}/>
           </div>
-          <div className='flex mb-10 gap-3'>
+          <div className='flex mb-5 gap-3'>
             <WalletOperateItem icon={IconReceive} title={t('pages.assets.token.transfer_receive')} key='receive' onClick={toWalletReceiver}/>
             <WalletOperateItem icon={IconSend} title={t('pages.assets.token.transfer_send')} key='send' onClick={toWalletSend}/>
             <WalletOperateItem icon={IconBuy} title={t('pages.assets.token.transfer_buy')} key='buy' onClick={toBuy}/>
           </div>
-          <div className=' pb-4'>
+          <div className='pb-4'>
             {!walletTxList.length && <Empty />}
             {Object.keys(list).map((key) => (
               <div className='mb-2' key={key}>
-                <div className='text-blue-500 text-base mb-2'>{key}</div>
+                <div className='text-[#1296db] text-base mb-2'>{key}</div>
                 <div className='rounded-2xl bg-gray-100 px-2'>
                   {list[key].map((item, i) => (
                     <WalletTransferItem key={i} item={item} onClick={() => toWalletTx(item)} />
