@@ -19,6 +19,7 @@ import {
   useRestoreStore,
   useQuestionStore,
   useAwardStore,
+  useWalletStore,
 } from '@/store';
 import { ROUTE_PATH } from '@/router';
 import account from '@/lib/account/account';
@@ -41,6 +42,7 @@ export default function Index() {
   const { reset: resetpassword } = usePasswordStore((state) => state);
   const { reset: resetRestore } = useRestoreStore((state) => state);
   const { reset: resetQuestion } = useQuestionStore((state) => state);
+  const { reset: resetWallet } = useWalletStore((state) => state);
   const { reset: resetGlobal, setLockStatus } = useGlobalStore(
     (state) => state,
   );
@@ -81,6 +83,7 @@ export default function Index() {
       resetRestore(),
       resetQuestion(),
       resetAward(),
+      resetWallet(),
     ]);
     localStorage.clear();
   };
