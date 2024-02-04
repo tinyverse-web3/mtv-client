@@ -180,7 +180,7 @@ export default function WalletDetails() {
           <div className='flex mb-5 gap-3'>
             <WalletOperateItem icon={IconReceive} title={t('pages.assets.token.transfer_receive')} key='receive' onClick={toWalletReceiver}/>
             <WalletOperateItem icon={IconSend} title={t('pages.assets.token.transfer_send')} key='send' onClick={toWalletSend}/>
-            <WalletOperateItem icon={IconBuy} title={t('pages.assets.token.transfer_buy')} key='buy' onClick={toBuy}/>
+            {/* <WalletOperateItem icon={IconBuy} title={t('pages.assets.token.transfer_buy')} key='buy' onClick={toBuy}/> */}
           </div>
           <div className='pb-4'>
             {!walletTxList.length && <Empty />}

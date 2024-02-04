@@ -46,7 +46,7 @@ export default function TokenDetail() {
 
   const getTvsTxList = async () => {
     const { data } = await account.getTvsTxList();
-    const list = data?.data || [];
+    const list = data || [];
     setTvsTxList(list);
     setMoreAddr(data?.more);
   };
@@ -74,7 +74,6 @@ export default function TokenDetail() {
     nav(ROUTE_PATH.ASSETS_TOKEN_TX);
   };
   useEffect(() => {
-    // feachDetails();
     getTvsTxList();
   }, []);
  
