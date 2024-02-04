@@ -23,20 +23,12 @@ export default function Receiver() {
             <span className='text-sm'>{accountInfo.address}</span>
           </div>
         </div>
-        <div className='bg-gray-100  rounded-3xl p-2 flex  items-center justify-between mb-2'>
-          <Button
-            radius='full'
-            className='h-12 flex-1'>
-            <Icon
-              icon='mdi:share'
-              className='text-2xl mr-2'
-            />
+        <div className='rounded-3xl flex items-center justify-between mb-2'>
+          <Button radius='full' className='h-12 flex-1'>
+            <Icon icon='mdi:share' className='text-2xl mr-2'/>
             <div className='tex'>{t('common.share')}</div>
           </Button>
-          <Button
-            radius='full'
-            className='h-12 flex-1 ml-8'
-            onClick={copyHandler}>
+          <Button radius='full' className='h-12 flex-1 ml-8' onClick={copyHandler}>
             <Icon icon='mdi:content-copy' className='text-xl mr-2' />
             <div className=''>{t('common.copy')}</div>
           </Button>

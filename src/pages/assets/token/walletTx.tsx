@@ -53,9 +53,7 @@ export default function WalletTxDetail() {
               <div className='flex'>
                 <span className='mr-4'>{t('pages.assets.tx.receiver')}</span>
                 <span className='break-all flex-1'>
-                  {item.type === 1
-                    ? item.receivers[0]?.receiver
-                    : accountInfo.address}
+                  {item.type === 1 ? item.receivers[0]?.receiver : accountInfo.address}
                 </span>
               </div>
             </div>

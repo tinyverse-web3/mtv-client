@@ -122,7 +122,9 @@ export default function WalletDetails() {
     };
 
     const toEditWalletName = () => {
-      nav(ROUTE_PATH.ASSETS_TOKEN_EDIT_WALLET_NAME + '?walletName=' + data.Name);
+      // nav(ROUTE_PATH.ASSETS_TOKEN_EDIT_WALLET_NAME + '?walletName=' + data.Name);
+      setIsDrawerOpen(false);
+      toast.success(t('pages.assets.token.buy_toast'));
     }
 
    const toSwitchAddressType = () => {
@@ -180,33 +182,12 @@ export default function WalletDetails() {
         /> 
         <div className='p-4'>
           <div className='mb-5'>
-            <WalletHeader
-              icon={getIconByType(data.Type)}
-              address={hideStr(data.Address, 4)}
-              dollar={data.Balance}
-              key='balance'
-              //onClick={() => toSelectWalletNet("create")}
-            />
+            <WalletHeader icon={getIconByType(data.Type)} address={hideStr(data.Address, 4)} dollar={data.Balance} key='balance'/>
           </div>
           <div className='flex mb-10 gap-3'>
-            <WalletOperateItem
-              icon={IconReceive}
-              title={t('pages.assets.token.transfer_receive')}
-              key='receive'
-              onClick={toWalletReceiver}
-            />
-            <WalletOperateItem
-              icon={IconSend}
-              title={t('pages.assets.token.transfer_send')}
-              key='send'
-              onClick={toWalletSend}
-            />
-            <WalletOperateItem
-              icon={IconBuy}
-              title={t('pages.assets.token.transfer_buy')}
-              key='buy'
-              onClick={toBuy}
-            />
+            <WalletOperateItem icon={IconReceive} title={t('pages.assets.token.transfer_receive')} key='receive' onClick={toWalletReceiver}/>
+            <WalletOperateItem icon={IconSend} title={t('pages.assets.token.transfer_send')} key='send' onClick={toWalletSend}/>
+            <WalletOperateItem icon={IconBuy} title={t('pages.assets.token.transfer_buy')} key='buy' onClick={toBuy}/>
           </div>
           <div className=' pb-4'>
             {!walletTxList.length && <Empty />}

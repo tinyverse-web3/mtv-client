@@ -57,10 +57,7 @@ export default function WalletReceiver() {
             <Icon icon='mdi:share' className='text-2xl mr-2'/>
             <div className='tex'>{t('common.share')}</div>
           </Button>
-          <Button
-            radius='full'
-            className='h-12 flex-1 ml-8'
-            onClick={copyHandler}>
+          <Button radius='full' className='h-12 flex-1 ml-8' onClick={copyHandler}>
             <Icon icon='mdi:content-copy' className='text-xl mr-2' />
             <div className=''>{t('common.copy')}</div>
           </Button>
